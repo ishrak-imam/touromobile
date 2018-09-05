@@ -1,41 +1,40 @@
 
 /* eslint-disable */
 
-// const SERVER_URL = 'https://some_backend.com';
+const SERVER_URL = 'https://touro.scandorama.se/api/v1/';
 
-// const responseHandler = response => {
-//   if (response.status === 200 || response.status === 201) {
-//     return response.json();
-//   }
-//   return response.json().then(e => {
-//     const {code, message, name} = e;
-//     return Promise.reject({code, message, name});
-//   });
-// };
+const responseHandler = response => {
+  if (response.status === 200 || response.status === 201) {
+    return response.json();
+  }
+  return response.json().then(e => {
+    const {code, message, name} = e;
+    return Promise.reject({code, message, name});
+  });
+};
 
 export const postRequest = (endPoint, data, headers = {}) => {
-  // return fetch(`${SERVER_URL}${endPoint}`, {
-  //   method: 'POST',
-  //   headers: {
-  //     ...headers,
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(data)
-  // }).then(responseHandler);
-  return Promise.resolve({jwt: 'demo_jwt_token'})
+  return fetch(`${SERVER_URL}${endPoint}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(responseHandler);
 }
 
-// export const getRequest = (url, headers = {}) => {
-//   return fetch(`${SERVER_URL}${url}`, {
-//     method: 'GET',
-//     headers: {
-//       ...headers,
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json'
-//     }
-//   }).then(responseHandler);
-// }
+export const getRequest = (url, headers = {}) => {
+  return fetch(`${SERVER_URL}${url}`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }).then(responseHandler);
+}
 
 // function buildUrl (endPoint, obj) {
 //   let url = `${SERVER_URL}${endPoint}`;

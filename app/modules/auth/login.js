@@ -23,7 +23,7 @@ class Login extends Component {
     this.kbrdHide = Keyboard.addListener('keyboardDidHide', this._onKbrdHide)
 
     this.state = {
-      username: '',
+      user: '',
       password: ''
     }
   }
@@ -64,11 +64,11 @@ class Login extends Component {
 
   _login = () => {
     Keyboard.dismiss()
-    const { username, password } = this.state
+    const { user, password } = this.state
     const { dispatch, connection } = this.props
     networkActionDispatcher(
       dispatch,
-      loginReq({ username, password }),
+      loginReq({ user, password }),
       connection
     )
   }
@@ -102,7 +102,7 @@ class Login extends Component {
                   // returnKeyType="next"
                   autoCapitalize='none'
                   autoCorrect={false}
-                  onChangeText={this._handleChange('username')}
+                  onChangeText={this._handleChange('user')}
                   underlineColorAndroid='transparent'
                 />
               </Item>

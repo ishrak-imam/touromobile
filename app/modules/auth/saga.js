@@ -1,5 +1,4 @@
 
-// import {delay} from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 import {
@@ -17,10 +16,9 @@ export function * watchInit () {
 
 function * workerInit () {
   try {
-    const jwt = yield call(localStore.get, JWT_TOKEN)
-    if (jwt) {
-      // yield call(delay, 5000)
-      yield put(loginSucs({ jwt }))
+    const token = yield call(localStore.get, JWT_TOKEN)
+    if (token) {
+      yield put(loginSucs({ access_token: token }))
       yield put(navigateToScene({ routeName: 'App' }))
     } else {
       yield put(navigateToScene({ routeName: 'Auth' }))
@@ -36,8 +34,9 @@ export function * watchLogin () {
 
 function * workerLogin (action) {
   try {
-    const { jwt } = yield call(loginRequest, action.payload)
-    yield call(localStore.set, JWT_TOKEN, jwt)
+    const user = yield call(loginRequest, action.payload)
+    yield call(localStore.set, JWT_TOKEN, user.access_token)
+    yield put(loginSucs(user))
     yield put(init())
   } catch (e) {
     yield put(loginFail())
