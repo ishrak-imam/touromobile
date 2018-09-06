@@ -7,7 +7,7 @@ import {
   createDrawerNavigator
 } from 'react-navigation'
 
-import TabBarComponent from '../components/tabBarComponent'
+import TabBarComponent from '../components/tabBar'
 import DrawerComponent from '../components/drawer'
 
 import LoadingScreen from '../modules/auth/loadingScreen'
