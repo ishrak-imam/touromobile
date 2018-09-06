@@ -1,12 +1,10 @@
 
 import { combineReducers } from 'redux-immutable'
 import { getInitialState } from '../utils/initialState'
-import {
-  LOGOUT_SUCS
-} from '../modules/auth/action'
+import { LOGOUT_SUCS } from '../modules/auth/action'
 
 import * as authReducers from '../modules/auth/reducer'
-import * as connectionReducer from '../modules/connection/reducer'
+import * as connectionReducer from '../connection/reducer'
 
 const appReducer = combineReducers({
   ...connectionReducer,

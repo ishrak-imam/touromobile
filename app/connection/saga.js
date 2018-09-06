@@ -1,7 +1,7 @@
 
 import { NetInfo } from 'react-native'
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { takeFirst, eventEmitterChannel } from '../../utils/sagaHelpers'
+import { takeFirst, eventEmitterChannel } from '../utils/sagaHelpers'
 
 import {
   checkConnection,

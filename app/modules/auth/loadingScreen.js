@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import { View, ActivityIndicator, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { init } from '../auth/action'
-import { startConnectionMonitor, checkConnection } from '../connection/action'
+import { Colors } from '../../theme'
+import { startConnectionMonitor, checkConnection } from '../../connection/action'
 
 class LoadingScreen extends Component {
   componentDidMount () {
@@ -14,7 +15,7 @@ class LoadingScreen extends Component {
   render () {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size='large' color='#0000ff' />
+        <ActivityIndicator size='large' color={Colors.headerBg} />
       </View>
     )
   }

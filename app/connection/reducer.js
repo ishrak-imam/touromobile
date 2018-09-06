@@ -1,6 +1,6 @@
 
-import { createReducer } from '../../utils/reduxHelpers'
-import { mergeMapDeep, getMap } from '../../utils/immutable'
+import { createReducer } from '../utils/reduxHelpers'
+import { mergeMapDeep, getMap } from '../utils/immutable'
 
 import {
   CONNECTION_STATUS,

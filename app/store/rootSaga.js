@@ -1,8 +1,8 @@
 
 import { fork, all } from 'redux-saga/effects'
 
-import * as toastSaga from '../modules/toast/toast'
-import * as connectionSaga from '../modules/connection/saga'
+import * as toastSaga from '../toast/toast'
+import * as connectionSaga from '../connection/saga'
 import * as navSaga from '../navigation/saga'
 import * as authSaga from '../modules/auth/saga'
 

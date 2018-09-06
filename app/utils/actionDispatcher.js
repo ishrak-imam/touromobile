@@ -1,5 +1,5 @@
 
-import { showToast } from '../modules/toast/action'
+import { showToast } from '../toast/action'
 import { readValue } from '../utils/immutable'
 
 const notOnline = showToast({ message: 'No Internet' })

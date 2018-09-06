@@ -1,6 +1,6 @@
 
 import { call } from 'redux-saga/effects'
-import { takeFirst } from '../../utils/sagaHelpers'
+import { takeFirst } from '../utils/sagaHelpers'
 import { Toast } from 'native-base'
 import { showToast } from './action'
 

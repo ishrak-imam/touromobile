@@ -1,5 +1,5 @@
 
-import { createAction } from '../../utils/reduxHelpers'
+import { createAction } from '../utils/reduxHelpers'
 
 export const CHECK_CONNECTION = 'CHECK_CONNECTION'
 export const CONNECTION_STATUS = 'CONNECTION_STATUS'
