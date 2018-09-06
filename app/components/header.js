@@ -64,7 +64,7 @@ const ss = StyleSheet.create({
   header: {
     height: 90,
     paddingTop: isIphoneX ? 20 : 30,
-    paddingLeft: isIphoneX ? 10 : 0,
+    paddingLeft: isIphoneX ? 15 : 10,
     backgroundColor: Colors.headerBg
   }
 })
