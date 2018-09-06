@@ -3,5 +3,8 @@ import { getMap } from '../../utils/immutable'
 
 export const LOGIN_INITIAL_STATE = getMap({
   isLoading: false,
-  user: null
+  user: getMap({
+    firstName: '',
+    lastName: ''
+  })
 })

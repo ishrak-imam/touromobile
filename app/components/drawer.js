@@ -9,6 +9,7 @@ import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { logoutReq } from '../modules/auth/action'
+import { getLogin } from '../modules/auth/selector'
 
 class TMDrawer extends Component {
   _logOut = () => {
@@ -16,6 +17,8 @@ class TMDrawer extends Component {
   }
 
   _renderHeader = () => {
+    const { user } = this.props
+    const userName = `${user.get('firstName')} ${user.get('lastName')}`
     return (
       <View style={ss.header}>
         <View style={ss.headerContent}>
@@ -27,7 +30,7 @@ class TMDrawer extends Component {
             }}
             source={Images.logo}
           />
-          <Text>User name</Text>
+          <Text>{userName}</Text>
         </View>
       </View>
     )
@@ -55,7 +58,11 @@ class TMDrawer extends Component {
   }
 }
 
-export default connect(null, dispatch => ({ dispatch }))(TMDrawer)
+const stateToProps = state => ({
+  user: getLogin(state).get('user')
+})
+
+export default connect(stateToProps, dispatch => ({ dispatch }))(TMDrawer)
 
 const ss = StyleSheet.create({
   header: {

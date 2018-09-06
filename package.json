@@ -8,14 +8,13 @@
     "ios": "expo start --ios",
     "eject": "expo eject"
   },
-
   "standard": {
     "parser": "babel-eslint"
   },
-
   "dependencies": {
     "expo": "^29.0.0",
     "immutable": "^3.8.2",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
     "native-base": "^2.8.0",
     "react": "16.3.1",

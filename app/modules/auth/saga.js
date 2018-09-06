@@ -8,7 +8,10 @@ import {
 } from './action'
 import { navigateToScene } from '../../navigation/action'
 import localStore, { JWT_TOKEN } from '../../utils/persist'
-import { loginRequest } from './api'
+import { login, getUser } from './api'
+import { getPayloadFromJwt } from '../../utils/jwt'
+
+const USER_ID_KEY = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'
 
 export function * watchInit () {
   yield takeFirst(init.getType(), workerInit)
@@ -18,7 +21,10 @@ function * workerInit () {
   try {
     const token = yield call(localStore.get, JWT_TOKEN)
     if (token) {
-      yield put(loginSucs({ access_token: token }))
+      const payload = getPayloadFromJwt(token)
+      const userId = payload[USER_ID_KEY]
+      const user = yield call(getUser, userId, token)
+      yield put(loginSucs(user))
       yield put(navigateToScene({ routeName: 'App' }))
     } else {
       yield put(navigateToScene({ routeName: 'Auth' }))
@@ -34,9 +40,8 @@ export function * watchLogin () {
 
 function * workerLogin (action) {
   try {
-    const user = yield call(loginRequest, action.payload)
+    const user = yield call(login, action.payload)
     yield call(localStore.set, JWT_TOKEN, user.access_token)
-    yield put(loginSucs(user))
     yield put(init())
   } catch (e) {
     console.log(e)
