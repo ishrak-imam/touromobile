@@ -1,11 +1,10 @@
-import { Dimensions, Platform } from 'react-native'
+import { Dimensions } from 'react-native'
+import isIOS from '../utils/isIOS'
 
 const isIphoneX = () => {
-  let d = Dimensions.get('window')
-  const { height, width } = d
+  const { height, width } = Dimensions.get('window')
   return (
-    Platform.OS === 'ios' &&
-    (height === 812 || width === 812)
+    isIOS && (height === 812 || width === 812)
   )
 }
 

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Platform } from 'react-native'
+import isIOS from '../utils/isIOS'
 import { Ionicons } from '@expo/vector-icons'
 import { get, first, last } from 'lodash'
 
 const getIconName = (name) => {
-  const isIOS = Platform.OS === 'ios'
   const icons = {
     menu: ['ios-menu', 'md-menu'],
     home: ['ios-home', 'md-home'],

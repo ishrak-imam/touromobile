@@ -1,12 +1,11 @@
 
 import React from 'react'
-import { Platform } from 'react-native'
-import { TabBarBottom, TabBarTop } from 'react-navigation'
+import isIOS from '../utils/isIOS'
+import { BottomTabBar, MaterialTopTabBar  } from 'react-navigation-tabs'
 
 const TabBarComponent = (props) => {
   const { navigation, ...options } = props
-  const isIOS = Platform.OS === 'ios'
-  const TabBar = isIOS ? TabBarBottom : TabBarTop
+  const TabBar = isIOS ? BottomTabBar : MaterialTopTabBar
   return (
     <TabBar
       navigation={navigation} {...options}
