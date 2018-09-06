@@ -3,10 +3,12 @@ import React from 'react'
 import {
   createStackNavigator,
   createSwitchNavigator,
-  createTabNavigator
+  createTabNavigator,
+  createDrawerNavigator
 } from 'react-navigation'
 
 import TabBarComponent from '../components/tabBarComponent'
+import DrawerComponent from '../components/drawer'
 
 import LoadingScreen from '../modules/auth/loadingScreen'
 import Login from '../modules/auth/login'
@@ -19,9 +21,7 @@ import Home from '../modules/home/home'
 
 const authStack = createStackNavigator(
   {
-    Signin: {
-      screen: Login
-    }
+    Signin: { screen: Login }
   },
   {
     initialRouteName: 'Signin',
@@ -31,18 +31,10 @@ const authStack = createStackNavigator(
 
 const currentTripTabNav = createTabNavigator(
   {
-    CurrentTripHome: {
-      screen: CurrentTripHomeScreen
-    },
-    Passengers: {
-      screen: PassengersScreen
-    },
-    Excursions: {
-      screen: ExcursionsScreen
-    },
-    Report: {
-      screen: ReportScreen
-    }
+    CurrentTripHome: { screen: CurrentTripHomeScreen },
+    Passengers: { screen: PassengersScreen },
+    Excursions: { screen: ExcursionsScreen },
+    Report: { screen: ReportScreen }
   },
   {
     initialRouteName: 'CurrentTripHome',
@@ -55,24 +47,28 @@ const currentTripTabNav = createTabNavigator(
 
 const appStack = createStackNavigator(
   {
-    CurrentTrip: {
-      screen: currentTripTabNav
-    },
-    Home: {
-      screen: Home
-    }
+    CurrentTrip: { screen: currentTripTabNav },
+    Home: { screen: Home }
   },
   {
     initialRouteName: 'CurrentTrip',
-    // initialRouteName: 'Home',
     headerMode: 'none'
+  }
+)
+
+const drawerNav = createDrawerNavigator(
+  {
+    App: { screen: appStack }
+  },
+  {
+    contentComponent: props => <DrawerComponent {...props} />
   }
 )
 
 const Navigator = createSwitchNavigator(
   {
     AuthLoading: LoadingScreen,
-    App: appStack,
+    App: drawerNav,
     Auth: authStack
   },
   {

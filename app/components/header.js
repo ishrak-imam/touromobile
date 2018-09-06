@@ -5,6 +5,7 @@ import {
   Header, Left, Button, Body, Title, Right
 } from 'native-base'
 import { StyleSheet } from 'react-native'
+import isIphoneX from '../utils/isIphoneX'
 
 export default class TMHeader extends Component {
   _navigate = type => {
@@ -12,7 +13,7 @@ export default class TMHeader extends Component {
     return () => {
       switch (type) {
         case 'menu':
-          console.log('drawer open')
+          navigation.openDrawer()
           break
         case 'back':
           navigation.goBack()
@@ -62,6 +63,8 @@ export default class TMHeader extends Component {
 const ss = StyleSheet.create({
   header: {
     height: 90,
-    paddingTop: 30
+    paddingTop: isIphoneX ? 20 : 30,
+    paddingLeft: isIphoneX ? 10 : 0,
+    backgroundColor: Colors.headerBg
   }
 })

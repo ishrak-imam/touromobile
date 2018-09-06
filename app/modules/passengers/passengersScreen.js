@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import {
-  Container, Content, Text
+  Container, Content
 } from 'native-base'
 import Header from '../../components/header'
-import { TouchableOpacity } from 'react-native'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
-import { logoutReq } from '../auth/action'
 
 class PassengersScreen extends Component {
   static navigationOptions = {
@@ -15,19 +13,12 @@ class PassengersScreen extends Component {
     }
   }
 
-  _logOut = () => {
-    this.props.dispatch(logoutReq())
-  }
-
   render () {
+    const { navigation } = this.props
     return (
       <Container>
-        <Header left='menu' title='Passengers' />
-        <Content>
-          <TouchableOpacity onPress={this._logOut} style={{ marginTop: 20 }}>
-            <Text>Logout</Text>
-          </TouchableOpacity>
-        </Content>
+        <Header left='menu' title='Passengers' navigation={navigation} />
+        <Content />
       </Container>
     )
   }

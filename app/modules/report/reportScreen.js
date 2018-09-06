@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import {
+  Container, Content
+} from 'native-base'
 import { IonIcon } from '../../theme/'
+import Header from '../../components/header'
 
 export default class ReportScreen extends Component {
   static navigationOptions = {
@@ -11,10 +14,12 @@ export default class ReportScreen extends Component {
   }
 
   render () {
+    const { navigation } = this.props
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>ReportScreen</Text>
-      </View>
+      <Container>
+        <Header left='menu' title='Reports' navigation={navigation} />
+        <Content />
+      </Container>
     )
   }
 }
