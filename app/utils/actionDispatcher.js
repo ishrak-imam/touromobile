@@ -5,8 +5,7 @@ import { readValue } from '../utils/immutable'
 const notOnline = showToast({ message: 'No Internet' })
 
 export const networkActionDispatcher = (dispatch, action, connection) => {
-  // readValue('online', connection) ? dispatch(action) : dispatch(notOnline)
-  dispatch(action)
+  readValue('online', connection) ? dispatch(action) : dispatch(notOnline)
 }
 
 export const genericActionDispatcher = (dispatch, action) => {

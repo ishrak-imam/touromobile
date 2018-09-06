@@ -1,12 +1,13 @@
 
 import React, { Component } from 'react'
-import { View, ActivityIndicator } from 'react-native'
+import { View, ActivityIndicator, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { init } from '../auth/action'
-import { startConnectionMonitor } from '../connection/action'
+import { startConnectionMonitor, checkConnection } from '../connection/action'
 
 class LoadingScreen extends Component {
   componentDidMount () {
+    if (Platform.OS === 'android') this.props.dispatch(checkConnection())
     this.props.dispatch(startConnectionMonitor())
     this.props.dispatch(init())
   }

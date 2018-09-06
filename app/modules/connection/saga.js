@@ -4,27 +4,33 @@ import { call, put, takeEvery } from 'redux-saga/effects'
 import { takeFirst, eventEmitterChannel } from '../../utils/sagaHelpers'
 
 import {
-  // checkConnection,
+  checkConnection,
   connectionStatus,
   connectionType,
   startConnectionMonitor
 } from './action'
 
-// function checkIfConnected () {
-//   return NetInfo.isConnected.fetch();
-// }
+function checkIfConnected () {
+  return NetInfo.isConnected.fetch()
+}
 
-// export function * watchCheckConnection () {
-//   yield takeFirst(checkConnection.getType(), workerCheckConnection);
-// }
+function getConnectionInfo () {
+  return NetInfo.getConnectionInfo()
+}
 
-// function * workerCheckConnection () {
-//   const connected = yield call(checkIfConnected);
-//   yield put(connectionStatus(connected));
-// yield put(showToast({
-//   message: `Network ${connected ? 'connected' : 'disconnected'}`
-// }));
-// }
+export function * watchCheckConnection () {
+  yield takeFirst(checkConnection.getType(), workerCheckConnection)
+}
+
+function * workerCheckConnection () {
+  const connected = yield call(checkIfConnected)
+  let connection = { type: 'none' }
+  if (connected) {
+    connection = yield call(getConnectionInfo)
+  }
+  yield put(connectionStatus(connected))
+  yield put(connectionType(connection.type))
+}
 
 export function * watchConnection () {
   yield takeFirst(startConnectionMonitor.getType(), createConnectionSubscription)
@@ -33,7 +39,7 @@ export function * watchConnection () {
 function * createConnectionSubscription (action) {
   const connectionChannel = yield call(
     eventEmitterChannel,
-    NetInfo.isConnected,
+    NetInfo,
     { on: 'addEventListener', off: 'removeEventListener' },
     'connectionChange'
   )
