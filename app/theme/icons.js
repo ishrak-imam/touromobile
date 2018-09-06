@@ -6,7 +6,7 @@ import { get, first, last } from 'lodash'
 const getIconName = (name) => {
   const isIOS = Platform.OS === 'ios'
   const icons = {
-    hamburger: ['ios-menu', 'md-menu'],
+    menu: ['ios-menu', 'md-menu'],
     home: ['ios-home', 'md-home'],
     people: ['ios-people', 'md-people'],
     excursion: ['ios-pin', 'md-pin'],
@@ -27,7 +27,8 @@ const getIconName = (name) => {
     search: ['ios-search', 'md-search'],
     map: ['ios-map', 'md-map'],
     web: ['ios-globe', 'md-globe'],
-    x: ['ios-close', 'md-close']
+    x: ['ios-close', 'md-close'],
+    back: ['ios-arrow-back', 'md-arrow-back']
   }
   const result = get(icons, name, [])
   return isIOS ? first(result) : last(result)

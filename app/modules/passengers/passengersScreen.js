@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import {
+  Container, Content, Text
+} from 'native-base'
+import Header from '../../components/header'
+import { TouchableOpacity } from 'react-native'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
 import { logoutReq } from '../auth/action'
@@ -17,14 +21,14 @@ class PassengersScreen extends Component {
 
   render () {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>PassengersScreen</Text>
-
-        <TouchableOpacity onPress={this._logOut} style={{ marginTop: 20 }}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
-
-      </View>
+      <Container>
+        <Header left='menu' title='Passengers' />
+        <Content>
+          <TouchableOpacity onPress={this._logOut} style={{ marginTop: 20 }}>
+            <Text>Logout</Text>
+          </TouchableOpacity>
+        </Content>
+      </Container>
     )
   }
 }

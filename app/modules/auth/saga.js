@@ -39,6 +39,7 @@ function * workerLogin (action) {
     yield put(loginSucs(user))
     yield put(init())
   } catch (e) {
+    console.log(e)
     yield put(loginFail())
   }
 }

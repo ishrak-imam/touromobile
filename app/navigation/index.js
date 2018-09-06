@@ -6,7 +6,7 @@ import {
   createTabNavigator
 } from 'react-navigation'
 
-import TabBarComponent from '../modules/tabBar/tabBarComponent'
+import TabBarComponent from '../components/tabBarComponent'
 
 import LoadingScreen from '../modules/auth/loadingScreen'
 import Login from '../modules/auth/login'
