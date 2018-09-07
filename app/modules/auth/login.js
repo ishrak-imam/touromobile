@@ -123,7 +123,7 @@ class Login extends Component {
               </Item>
               <View style={ss.submitContainer}>
                 <Button full onPress={this._login} disabled={isLoading}>
-                  {isLoading ? <Spinner /> : <Text>Login</Text>}
+                  {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>Login</Text>}
                 </Button>
               </View>
             </Form>

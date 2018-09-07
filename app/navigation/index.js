@@ -5,7 +5,7 @@ import {
   createSwitchNavigator,
   createBottomTabNavigator,
   createMaterialTopTabNavigator,
-  createDrawerNavigator,
+  createDrawerNavigator
 } from 'react-navigation'
 
 import isIOS from '../utils/isIOS'

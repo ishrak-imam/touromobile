@@ -43,7 +43,7 @@ export default class TMHeader extends Component {
   }
 
   _renderRight = () => {
-    const { right } = this.props
+    // const { right } = this.props
     return (
       <Right />
     )
