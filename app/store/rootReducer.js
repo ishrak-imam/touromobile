@@ -5,10 +5,12 @@ import { LOGOUT_SUCS } from '../modules/auth/action'
 
 import * as authReducers from '../modules/auth/reducer'
 import * as connectionReducer from '../connection/reducer'
+import * as tripReducer from '../modules/currentTrip/reducer'
 
 const appReducer = combineReducers({
   ...connectionReducer,
-  ...authReducers
+  ...authReducers,
+  ...tripReducer
 })
 
 const rootReduces = (state, action) => {

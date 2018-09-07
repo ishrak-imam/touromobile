@@ -7,6 +7,11 @@ const responseHandler = response => {
   if (response.status === 200 || response.status === 201) {
     return response.json();
   }
+  if(response.status === 401) {
+    return response.text().then(e => {
+      return Promise.reject({message: e})
+    })
+  }
   return response.json().then(e => {
     const {code, message, name} = e;
     return Promise.reject({code, message, name});

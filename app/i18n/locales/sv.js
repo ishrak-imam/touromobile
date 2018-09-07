@@ -10,7 +10,15 @@ export default {
     logout: 'Logga ut'
   },
   CurrentTripScreen: {
-    title: 'Nuvarande resa'
+    title: 'Nuvarande resa',
+    departureTime: 'Avgångstid',
+    bus: 'Buss',
+    platform: 'Plattform',
+    drivers: 'Chaufförer',
+    lunchRestaurants: 'Lunchrestauranger',
+    textMessageAllPax: 'Textmeddelande alla passagerare',
+    home: 'Hem',
+    out: 'Ut'
   },
   PassengersScreen: {
     title: 'Passagerare'

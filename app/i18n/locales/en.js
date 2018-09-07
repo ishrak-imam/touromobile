@@ -10,7 +10,15 @@ export default {
     logout: 'Log out'
   },
   CurrentTripScreen: {
-    title: 'Current trip'
+    title: 'Current trip',
+    departureTime: 'Departure time',
+    bus: 'Bus',
+    platform: 'Platform',
+    drivers: 'Drivers',
+    lunchRestaurants: 'Lunch restaurants',
+    textMessageAllPax: 'Text message all passengers',
+    home: 'Home',
+    out: 'Out'
   },
   PassengersScreen: {
     title: 'Passengers'

@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 import { Colors, Images } from '../../theme'
 import { getLogin } from './selector'
-import { getConnection } from '../../utils/selector'
 import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { loginReq } from './action'
@@ -67,12 +66,10 @@ class Login extends Component {
   _login = () => {
     Keyboard.dismiss()
     const { user, password } = this.state
-    const { dispatch, connection } = this.props
-    networkActionDispatcher(
-      dispatch,
-      loginReq({ user, password }),
-      connection
-    )
+    networkActionDispatcher(loginReq({
+      user,
+      password
+    }))
   }
 
   render () {
@@ -137,11 +134,10 @@ class Login extends Component {
 }
 
 const stateToProps = state => ({
-  login: getLogin(state),
-  connection: getConnection(state)
+  login: getLogin(state)
 })
 
-export default connect(stateToProps, dispatch => ({ dispatch }))(Login)
+export default connect(stateToProps, null)(Login)
 
 const ss = StyleSheet.create({
   container: {

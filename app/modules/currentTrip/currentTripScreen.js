@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import {
   Container, Content
 } from 'native-base'
+import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
+import { currentTripReq } from './action'
+import { networkActionDispatcher } from '../../utils/actionDispatcher'
+import TripCard from '../../components/tripCard'
+import { getCurrentTrip } from './selector'
 const _T = Translator('CurrentTripScreen')
 
 class CurrenTripScreen extends Component {
@@ -15,16 +20,32 @@ class CurrenTripScreen extends Component {
     }
   }
 
+  componentDidMount () {
+    networkActionDispatcher(currentTripReq())
+  }
+
   render () {
-    const { navigation } = this.props
+    const { navigation, currentTrip } = this.props
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
-        <Content />
+        <Content style={ss.content}>
+          <TripCard trip={currentTrip.get('data')} />
+        </Content>
       </Container>
 
     )
   }
 }
 
-export default connect(null, dispatch => ({ dispatch }))(CurrenTripScreen)
+const stateToProps = state => ({
+  currentTrip: getCurrentTrip(state)
+})
+
+export default connect(stateToProps, null)(CurrenTripScreen)
+
+const ss = StyleSheet.create({
+  content: {
+    padding: 5
+  }
+})
