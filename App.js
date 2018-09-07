@@ -7,6 +7,7 @@ import store from './app/store'
 import { setNavigator } from './app/navigation/service'
 import { AppLoading } from 'expo'
 import cacheAssestsAsync from './app/utils/cacheAssetsAsync'
+import I18n from './app/i18n'
 console.disableYellowBox = true
 
 export default class TouroMobile extends Component {
@@ -18,6 +19,7 @@ export default class TouroMobile extends Component {
   }
 
   componentWillMount () {
+    I18n.initAsync() // initialization form picking device locale and configure accordingly
     this._loadAssetsAsync()
   }
 

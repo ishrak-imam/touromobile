@@ -4,8 +4,10 @@ import {
 } from 'native-base'
 import { IonIcon } from '../../theme/'
 import Header from '../../components/header'
+import Translator from '../../utils/translator'
+const _T = Translator('ReportsScreen')
 
-export default class ReportScreen extends Component {
+export default class ReportsScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
       return <IonIcon name='report' size={25} color={tintColor} />
@@ -17,7 +19,7 @@ export default class ReportScreen extends Component {
     const { navigation } = this.props
     return (
       <Container>
-        <Header left='menu' title='Reports' navigation={navigation} />
+        <Header left='menu' title={_T('title')} navigation={navigation} />
         <Content />
       </Container>
     )

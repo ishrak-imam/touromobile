@@ -18,7 +18,7 @@ import Login from '../modules/auth/login'
 import CurrentTripHomeScreen from '../modules/currentTrip/currentTripScreen'
 import PassengersScreen from '../modules/passengers/passengersScreen'
 import ExcursionsScreen from '../modules/excursions/excursionsScreen'
-import ReportScreen from '../modules/report/reportScreen'
+import ReportsScreen from '../modules/reports/reportsScreen'
 
 import Home from '../modules/home/home'
 
@@ -39,7 +39,7 @@ const currentTripTabNav = createTabNavigator(
     CurrentTripHome: { screen: CurrentTripHomeScreen },
     Passengers: { screen: PassengersScreen },
     Excursions: { screen: ExcursionsScreen },
-    Report: { screen: ReportScreen }
+    Reports: { screen: ReportsScreen }
   },
   {
     initialRouteName: 'CurrentTripHome',

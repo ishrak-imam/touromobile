@@ -5,6 +5,8 @@ import {
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
+import Translator from '../../utils/translator'
+const _T = Translator('PassengersScreen')
 
 class PassengersScreen extends Component {
   static navigationOptions = {
@@ -17,7 +19,7 @@ class PassengersScreen extends Component {
     const { navigation } = this.props
     return (
       <Container>
-        <Header left='menu' title='Passengers' navigation={navigation} />
+        <Header left='menu' title={_T('title')} navigation={navigation} />
         <Content />
       </Container>
     )

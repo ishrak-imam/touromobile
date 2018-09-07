@@ -13,6 +13,8 @@ import { getConnection } from '../../utils/selector'
 import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { loginReq } from './action'
+import Translator from '../../utils/translator'
+const _T = Translator('LoginScreen')
 
 class Login extends Component {
   constructor (props) {
@@ -93,7 +95,7 @@ class Login extends Component {
           <View style={ss.formContainer}>
             <Form style={ss.form}>
               <Item stackedLabel style={ss.item}>
-                <Label>Username</Label>
+                <Label>{_T('username')}</Label>
                 <Input
                   ref='username'
                   value={username}
@@ -107,7 +109,7 @@ class Login extends Component {
                 />
               </Item>
               <Item stackedLabel style={ss.item}>
-                <Label>Password</Label>
+                <Label>{_T('password')}</Label>
                 <Input
                   ref={ref => (this.password = ref)}
                   value={password}
@@ -123,7 +125,7 @@ class Login extends Component {
               </Item>
               <View style={ss.submitContainer}>
                 <Button full onPress={this._login} disabled={isLoading}>
-                  {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>Login</Text>}
+                  {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}
                 </Button>
               </View>
             </Form>

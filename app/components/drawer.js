@@ -10,6 +10,8 @@ import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { logoutReq } from '../modules/auth/action'
 import { getLogin } from '../modules/auth/selector'
+import Translator from '../utils/translator'
+const _T = Translator('DrawerScreen')
 
 class TMDrawer extends Component {
   _logOut = () => {
@@ -41,7 +43,7 @@ class TMDrawer extends Component {
       <Footer style={ss.footer}>
         <TouchableOpacity style={ss.footerContainer} onPress={this._logOut}>
           <IonIcon name='logout' size={25} style={ss.icon} />
-          <Text>Log out</Text>
+          <Text>{_T('logout')}</Text>
         </TouchableOpacity>
       </Footer>
     )

@@ -6,6 +6,7 @@ import {
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import isIphoneX from '../utils/isIphoneX'
+import isIOS from '../utils/isIOS'
 
 export default class TMHeader extends Component {
   _navigate = type => {
@@ -36,7 +37,7 @@ export default class TMHeader extends Component {
   _renderBody = () => {
     const { title } = this.props
     return (
-      <Body>
+      <Body style={ss.body}>
         <Title>{title}</Title>
       </Body>
     )
@@ -66,5 +67,8 @@ const ss = StyleSheet.create({
     paddingTop: isIphoneX ? 20 : 30,
     paddingLeft: isIphoneX ? 15 : 10,
     backgroundColor: Colors.headerBg
+  },
+  body: {
+    flex: isIOS ? 3 : 0
   }
 })
