@@ -3,9 +3,12 @@ import React from 'react'
 import {
   createStackNavigator,
   createSwitchNavigator,
-  createTabNavigator,
-  createDrawerNavigator
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator,
+  createDrawerNavigator,
 } from 'react-navigation'
+
+import isIOS from '../utils/isIOS'
 
 import TabBarComponent from '../components/tabBar'
 import DrawerComponent from '../components/drawer'
@@ -28,6 +31,8 @@ const authStack = createStackNavigator(
     headerMode: 'none'
   }
 )
+
+const createTabNavigator = isIOS ? createBottomTabNavigator : createMaterialTopTabNavigator
 
 const currentTripTabNav = createTabNavigator(
   {

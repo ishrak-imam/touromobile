@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
-import { View, ActivityIndicator, Platform } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
+import isIOS from '../../utils/isIOS'
 import { connect } from 'react-redux'
 import { init } from '../auth/action'
 import { Colors } from '../../theme'
@@ -8,7 +9,7 @@ import { startConnectionMonitor, checkConnection } from '../../connection/action
 
 class LoadingScreen extends Component {
   componentDidMount () {
-    if (Platform.OS === 'android') this.props.dispatch(checkConnection())
+    if (!isIOS) this.props.dispatch(checkConnection())
     this.props.dispatch(startConnectionMonitor())
     this.props.dispatch(init())
   }
