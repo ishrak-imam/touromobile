@@ -8,8 +8,8 @@ const responseHandler = response => {
     return response.json();
   }
   if(response.status === 401) {
-    return response.text().then(e => {
-      return Promise.reject({message: e})
+    return response.text().then(errMsg => {
+      return Promise.reject(errMsg)
     })
   }
   return response.json().then(e => {

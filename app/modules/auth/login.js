@@ -72,9 +72,21 @@ class Login extends Component {
     }))
   }
 
+  _renderError = e => {
+    return (
+      <Item style={ss.errorItem}>
+        <View style={ss.errorContainer}>
+          <Text style={ss.errorText}>{e.get('msg')}</Text>
+        </View>
+      </Item>
+    )
+  }
+
   render () {
     const { username, password } = this.state
-    const isLoading = this.props.login.get('isLoading')
+    const { login } = this.props
+    const isLoading = login.get('isLoading')
+    const error = login.get('error')
     return (
       <ImageBackground source={Images.background} style={{ flex: 1 }}>
         <KeyboardAvoidingView style={ss.container} behavior='padding'>
@@ -120,6 +132,7 @@ class Login extends Component {
                   underlineColorAndroid='transparent'
                 />
               </Item>
+              {error && this._renderError(error)}
               <View style={ss.submitContainer}>
                 <Button full onPress={this._login} disabled={isLoading}>
                   {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}
@@ -149,7 +162,7 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   formContainer: {
-    flex: 1.5,
+    flex: 2,
     justifyContent: 'flex-start',
     marginTop: 40
   },
@@ -159,6 +172,23 @@ const ss = StyleSheet.create({
   },
   item: {
     marginRight: 15
+  },
+  errorItem: {
+    marginTop: 15,
+    marginRight: 15,
+    borderBottomWidth: 0
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: Colors.error
+  },
+  errorText: {
+    color: Colors.error
   },
   submitContainer: {
     marginHorizontal: 10,

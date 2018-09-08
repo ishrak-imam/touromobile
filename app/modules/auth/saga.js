@@ -44,7 +44,7 @@ function * workerLogin (action) {
     yield call(localStore.set, JWT_TOKEN, user.access_token)
     yield put(init())
   } catch (e) {
-    yield put(loginFail())
+    yield put(loginFail({ msg: e }))
   }
 }
 
