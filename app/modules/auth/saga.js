@@ -6,7 +6,7 @@ import {
   loginReq, loginSucs, loginFail,
   logoutReq, logoutSucs
 } from './action'
-import { navigateToScene } from '../../navigation/action'
+import { navigate } from '../../navigation/action'
 import localStore, { JWT_TOKEN } from '../../utils/persist'
 import { login, getUser } from './api'
 import { getPayloadFromJwt } from '../../utils/jwt'
@@ -25,12 +25,12 @@ function * workerInit () {
       const userId = payload[USER_ID_KEY]
       const user = yield call(getUser, userId, token)
       yield put(loginSucs(user))
-      yield put(navigateToScene({ routeName: 'App' }))
+      yield put(navigate({ routeName: 'App' }))
     } else {
-      yield put(navigateToScene({ routeName: 'Auth' }))
+      yield put(navigate({ routeName: 'Auth' }))
     }
   } catch (e) {
-    yield put(navigateToScene({ routeName: 'Auth' }))
+    yield put(navigate({ routeName: 'Auth' }))
   }
 }
 
