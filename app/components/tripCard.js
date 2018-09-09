@@ -9,17 +9,19 @@ import RoundIconButton from '../components/roundedIconButton'
 import { IonIcon } from '../theme'
 import Translator from '../utils/translator'
 import moment from 'moment'
+import { getPax } from '../modules/currentTrip/selector'
+import { Call, Text as Sms } from 'react-native-openanything'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'YY MM DD'
 
 export default class TripCard extends Component {
-  _renderPhone = (phone) => (
-    <RoundIconButton name='phone' color='green' onPress={() => {}} />
+  _renderPhone = phone => (
+    <RoundIconButton name='phone' color='green' onPress={() => Call(phone)} />
   )
 
-  _renderSMS = (phone) => (
-    <RoundIconButton name='sms' color='blue' onPress={() => {}} />
+  _renderSMS = phone => (
+    <RoundIconButton name='sms' color='blue' onPress={() => Sms(phone)} />
   )
 
   _renderHeader = trip => {
@@ -113,10 +115,19 @@ export default class TripCard extends Component {
     )
   }
 
-  _renderFooter = () => {
+  _smsAll = trip => {
+    const pax = getPax(trip.get('bookings'))
+    const numbers = pax
+      .filter(p => !!p.get('phone'))
+      .map(p => p.get('phone'))
+      .join(',')
+    Sms(numbers)
+  }
+
+  _renderFooter =trip => {
     return (
       <CardItem footer>
-        <Button iconLeft style={ss.footerButton} onPress={() => {}}>
+        <Button iconLeft style={ss.footerButton} onPress={() => this._smsAll(trip)}>
           <IonIcon name='sms' color='white' />
           <Text>{_T('textMessageAllPax')}</Text>
         </Button>
@@ -135,7 +146,7 @@ export default class TripCard extends Component {
         {transport && this._renderSchedule(transport)}
         {transport && this._renderDrivers(transport.get('drivers'))}
         {launches && this._renderRestaurants(launches)}
-        {this._renderFooter()}
+        {this._renderFooter(trip)}
       </Card>
     )
   }

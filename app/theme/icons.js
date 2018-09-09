@@ -1,7 +1,6 @@
 import React from 'react'
 import isIOS from '../utils/isIOS'
 import { Ionicons } from '@expo/vector-icons'
-import { get, first, last } from 'lodash'
 
 const getIconName = (name) => {
   const icons = {
@@ -29,8 +28,8 @@ const getIconName = (name) => {
     x: ['ios-close', 'md-close'],
     back: ['ios-arrow-back', 'md-arrow-back']
   }
-  const result = get(icons, name, [])
-  return isIOS ? first(result) : last(result)
+  const result = icons[name]
+  return isIOS ? result[0] : result[1]
 }
 
 const IonIcon = (props) => {
