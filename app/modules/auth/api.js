@@ -1,13 +1,15 @@
 
+import config from '../../utils/loadConfig'
+import { mockToken, mockUser } from '../../mockData'
 import { postRequest, getRequest } from '../../utils/request'
 
 export const login = data => {
-  return postRequest('token', data)
+  return config.isDebugEnabled ? mockToken() : postRequest('token', data)
 }
 
 export const getUser = (userId, jwt) => {
   const headers = {
     'Authorization': `Bearer ${jwt}`
   }
-  return getRequest(`resources/user/${userId}`, headers)
+  return config.isDebugEnabled ? mockUser() : getRequest(`resources/user/${userId}`, headers)
 }

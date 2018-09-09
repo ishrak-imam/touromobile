@@ -1,4 +1,5 @@
 
+import { delay } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 import {
@@ -9,9 +10,6 @@ import {
 import { navigate } from '../../navigation/action'
 import localStore, { JWT_TOKEN } from '../../utils/persist'
 import { login, getUser } from './api'
-import { getPayloadFromJwt } from '../../utils/jwt'
-
-const USER_ID_KEY = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'
 
 export function * watchInit () {
   yield takeFirst(init.getType(), workerInit)
@@ -19,11 +17,11 @@ export function * watchInit () {
 
 function * workerInit () {
   try {
-    const token = yield call(localStore.get, JWT_TOKEN)
-    if (token) {
-      const payload = getPayloadFromJwt(token)
-      const userId = payload[USER_ID_KEY]
-      const user = yield call(getUser, userId, token)
+    const { access_token, id } = yield call(localStore.get, JWT_TOKEN)
+    if (access_token) {
+      let user = yield call(getUser, id, access_token)
+      user.token = access_token
+      yield call(delay, 1000) // need only api data are mocked, as they are served from json files
       yield put(loginSucs(user))
       yield put(navigate({ routeName: 'App' }))
     } else {
@@ -40,8 +38,8 @@ export function * watchLogin () {
 
 function * workerLogin (action) {
   try {
-    const user = yield call(login, action.payload)
-    yield call(localStore.set, JWT_TOKEN, user.access_token)
+    const { access_token, id } = yield call(login, action.payload)
+    yield call(localStore.set, JWT_TOKEN, { access_token, id })
     yield put(init())
   } catch (e) {
     yield put(loginFail({ msg: e }))
