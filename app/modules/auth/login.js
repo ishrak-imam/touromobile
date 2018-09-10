@@ -8,7 +8,7 @@ import {
   Keyboard, KeyboardAvoidingView, StyleSheet
 } from 'react-native'
 import { Colors, Images } from '../../theme'
-import { getLogin } from './selector'
+import { getLogin } from '../../selectors'
 import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { loginReq } from './action'

@@ -4,13 +4,14 @@ import rootReducer from './rootReducer'
 import { getInitialState } from '../utils/initialState'
 
 import Logger from '../middlewares/logger'
+import AttachJwt from '../middlewares/attachJwt'
 
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './rootSaga'
 
-const sagaMiddleware = createSagaMiddleware()
+const SagaMiddleware = createSagaMiddleware()
 
-const middlewares = [sagaMiddleware]
+const middlewares = [SagaMiddleware, AttachJwt]
 
 /* eslint-disable */
 if (__DEV__) {
@@ -24,5 +25,5 @@ const store = createStore(
   applyMiddleware(...middlewares)
 )
 
-sagaMiddleware.run(rootSaga)
+SagaMiddleware.run(rootSaga)
 export default store

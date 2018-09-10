@@ -26,7 +26,7 @@ export default class TMHeader extends Component {
   _renderLeft = () => {
     const { left } = this.props
     return (
-      <Left>
+      <Left style={{ flex: 0.5 }}>
         <Button transparent onPress={this._navigate(left)}>
           <IonIcon name={left} size={25} color={Colors.silver} />
         </Button>
@@ -38,15 +38,17 @@ export default class TMHeader extends Component {
     const { title } = this.props
     return (
       <Body style={ss.body}>
-        <Title>{title}</Title>
+        <Title style={{ paddingBottom: 4 }}>{title}</Title>
       </Body>
     )
   }
 
   _renderRight = () => {
-    // const { right } = this.props
+    const { right } = this.props
     return (
-      <Right />
+      <Right style={{ flex: 2 }}>
+        {right && right()}
+      </Right>
     )
   }
 

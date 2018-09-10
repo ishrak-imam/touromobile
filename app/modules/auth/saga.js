@@ -20,7 +20,7 @@ function * workerInit () {
     const { access_token, id } = yield call(localStore.get, JWT_TOKEN)
     if (access_token) {
       let user = yield call(getUser, id, access_token)
-      user.token = access_token
+      user.jwt = access_token
       yield call(delay, 1000) // need only api data are mocked, as they are served from json files
       yield put(loginSucs(user))
       yield put(navigate({ routeName: 'App' }))

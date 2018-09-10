@@ -10,7 +10,7 @@ import Translator from '../../utils/translator'
 import { currentTripReq } from './action'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import TripCard from '../../components/tripCard'
-import { getCurrentTrip } from './selector'
+import { getCurrentTrip } from '../../selectors'
 const _T = Translator('CurrentTripScreen')
 
 class CurrenTripScreen extends Component {
@@ -21,7 +21,9 @@ class CurrenTripScreen extends Component {
   }
 
   componentDidMount () {
-    networkActionDispatcher(currentTripReq())
+    networkActionDispatcher(currentTripReq({
+      isNeedjwt: true
+    }))
   }
 
   render () {
@@ -46,6 +48,6 @@ export default connect(stateToProps, null)(CurrenTripScreen)
 
 const ss = StyleSheet.create({
   content: {
-    padding: 5
+    // padding: 3
   }
 })

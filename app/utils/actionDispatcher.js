@@ -2,7 +2,7 @@
 import { showToast } from '../toast/action'
 import { readValue } from '../utils/immutable'
 import Store from '../store'
-import { getConnection } from '../utils/selector'
+import { getConnection } from '../selectors'
 
 const { dispatch } = Store
 

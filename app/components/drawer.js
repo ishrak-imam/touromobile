@@ -9,7 +9,7 @@ import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { logoutReq } from '../modules/auth/action'
-import { getLogin } from '../modules/auth/selector'
+import { getLogin } from '../selectors'
 import Translator from '../utils/translator'
 const _T = Translator('DrawerScreen')
 

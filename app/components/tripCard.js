@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  Card, CardItem, Body, Right, Text,
+  CardItem, Body, Right, Text,
   Content, Button
 } from 'native-base'
 import { StyleSheet, Image, View } from 'react-native'
@@ -9,7 +9,7 @@ import RoundIconButton from '../components/roundedIconButton'
 import { IonIcon } from '../theme'
 import Translator from '../utils/translator'
 import moment from 'moment'
-import { getPax } from '../modules/currentTrip/selector'
+import { getPax } from '../selectors'
 import { Call, Text as Sms } from 'react-native-openanything'
 
 const _T = Translator('CurrentTripScreen')
@@ -92,6 +92,8 @@ export default class TripCard extends Component {
   _renderRestaurants = launches => {
     const out = launches.get('out')
     const home = launches.get('home')
+    const outPhone = out.get('phone')
+    const homePhone = home.get('phone')
     return (
       <CardItem>
         <Content>
@@ -99,15 +101,15 @@ export default class TripCard extends Component {
           <Body style={ss.body}>
             <Text>{`${_T('out')}: ${out.get('name')}`}</Text>
             <Right style={ss.right}>
-              {this._renderPhone('asdjalsjd')}
-              {this._renderSMS('asdklas;kd')}
+              {this._renderPhone(outPhone)}
+              {this._renderSMS(outPhone)}
             </Right>
           </Body>
           <Body style={ss.body}>
             <Text>{`${_T('home')}: ${home.get('name')}`}</Text>
             <Right style={ss.right}>
-              {this._renderPhone('asdjalsjd')}
-              {this._renderSMS('asdklas;kd')}
+              {this._renderPhone(homePhone)}
+              {this._renderSMS(homePhone)}
             </Right>
           </Body>
         </Content>
@@ -140,14 +142,14 @@ export default class TripCard extends Component {
     const transport = trip.get('transport')
     const launches = trip.get('lunches')
     return (
-      <Card>
+      <View>
         {this._renderHeader(trip)}
         {this._renderImage()}
         {transport && this._renderSchedule(transport)}
         {transport && this._renderDrivers(transport.get('drivers'))}
         {launches && this._renderRestaurants(launches)}
         {this._renderFooter(trip)}
-      </Card>
+      </View>
     )
   }
 }
