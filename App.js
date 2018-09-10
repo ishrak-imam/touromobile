@@ -50,7 +50,9 @@ export default class TouroMobile extends Component {
       this.state.isAppReady
         ? <Provider store={store}>
           <Root>
-            <RootNav ref={navigatorRef => setNavigator(navigatorRef)} />
+            <RootNav
+              ref={navigatorRef => setNavigator(navigatorRef)}
+            />
           </Root>
         </Provider>
         : <AppLoading />

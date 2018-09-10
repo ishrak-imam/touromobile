@@ -20,7 +20,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.scandorama.touroguide"
+    },
+    "android": {
+      "package": "com.scandorama.touroguide"
     }
   }
 }

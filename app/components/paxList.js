@@ -21,7 +21,7 @@ export default class PaxList extends Component {
 
   _sortByName = (pax) => {
     let initial = null
-    return pax.sortBy(p => p.get('firstName')).map(p => {
+    return pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`).map(p => {
       const paxInitial = toLower(head(p.get('firstName')))
       if (initial !== paxInitial) {
         initial = paxInitial
@@ -87,7 +87,7 @@ export default class PaxList extends Component {
     const id = booking.get('id')
     const pax = booking.get('pax')
 
-    const sortedPax = pax.sortBy(p => p.get('firstname'))
+    const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
 
     const phones = sortedPax
