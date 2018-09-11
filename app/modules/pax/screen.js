@@ -11,7 +11,7 @@ import { getCurrentTrip } from '../../selectors'
 import PaxList from '../../components/paxList'
 const _T = Translator('PassengersScreen')
 
-class PassengersScreen extends Component {
+class PaxScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
       return <IonIcon name='people' size={25} color={tintColor} />
@@ -66,7 +66,7 @@ const stateToProps = state => ({
   currentTrip: getCurrentTrip(state)
 })
 
-export default connect(stateToProps, dispatch => ({ dispatch }))(PassengersScreen)
+export default connect(stateToProps, dispatch => ({ dispatch }))(PaxScreen)
 
 const ss = StyleSheet.create({
   headerRight: {

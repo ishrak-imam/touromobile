@@ -15,34 +15,32 @@ import DrawerComponent from '../components/drawer'
 
 import LoadingScreen from '../modules/auth/loadingScreen'
 import Login from '../modules/auth/login'
-import CurrentTripHomeScreen from '../modules/currentTrip/currentTripScreen'
-import PaxScreen from '../modules/pax/paxScreen'
-import ExcursionsScreen from '../modules/excursions/excursionsScreen'
-import ReportsScreen from '../modules/reports/reportsScreen'
-
-import Home from '../modules/home/home'
+import TripScreen from '../modules/trip/screen'
+import PaxScreen from '../modules/pax/screen'
+import ExcursionsScreen from '../modules/excursions/screen'
+import ReportsScreen from '../modules/reports/screen'
 
 const authStack = createStackNavigator(
   {
-    Signin: { screen: Login }
+    Login: { screen: Login }
   },
   {
-    initialRouteName: 'Signin',
+    initialRouteName: 'Login',
     headerMode: 'none'
   }
 )
 
 const createTabNavigator = isIOS ? createBottomTabNavigator : createMaterialTopTabNavigator
 
-const currentTripTabNav = createTabNavigator(
+const TripTabs = createTabNavigator(
   {
-    CurrentTripHome: { screen: CurrentTripHomeScreen },
+    Trip: { screen: TripScreen },
     Pax: { screen: PaxScreen },
     Excursions: { screen: ExcursionsScreen },
     Reports: { screen: ReportsScreen }
   },
   {
-    initialRouteName: 'CurrentTripHome',
+    initialRouteName: 'Trip',
     headerMode: 'none',
     tabBarPosition: 'bottom',
     lazy: false,
@@ -52,11 +50,11 @@ const currentTripTabNav = createTabNavigator(
 
 const appStack = createStackNavigator(
   {
-    CurrentTrip: { screen: currentTripTabNav },
-    Home: { screen: Home }
+    Home: { screen: TripTabs }
   },
   {
-    initialRouteName: 'CurrentTrip',
+    initialRouteName: 'Home',
+    mode: 'modal',
     headerMode: 'none'
   }
 )
