@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Container, Content
+  Container, Content, Text
 } from 'native-base'
 import { IonIcon } from '../../theme/'
 import Header from '../../components/header'
@@ -20,7 +20,9 @@ export default class ReportsScreen extends Component {
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
-        <Content />
+        <Content contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>Reports</Text>
+        </Content>
       </Container>
     )
   }

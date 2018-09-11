@@ -5,9 +5,12 @@ import {
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import Translator from '../../utils/translator'
+import { connect } from 'react-redux'
+import { getCurrentTrip } from '../../selectors'
+import Excursions from '../../components/excursions'
 const _T = Translator('ExcursionsScreen')
 
-export default class ExcursionsScreen extends Component {
+class ExcursionsScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
       return <IonIcon name='excursion' size={25} color={tintColor} />
@@ -15,12 +18,23 @@ export default class ExcursionsScreen extends Component {
   }
 
   render () {
-    const { navigation } = this.props
+    const { currentTrip, navigation } = this.props
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
-        <Content />
+        <Content>
+          <Excursions
+            trip={currentTrip.get('data')}
+            navigation={navigation}
+          />
+        </Content>
       </Container>
     )
   }
 }
+
+const stateToProps = state => ({
+  currentTrip: getCurrentTrip(state)
+})
+
+export default connect(stateToProps, dispatch => ({ dispatch }))(ExcursionsScreen)

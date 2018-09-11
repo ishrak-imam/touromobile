@@ -32,7 +32,10 @@ class CurrenTripScreen extends Component {
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
         <Content style={ss.content}>
-          <TripCard trip={currentTrip.get('data')} />
+          <TripCard
+            trip={currentTrip.get('data')}
+            navigation={navigation}
+          />
         </Content>
       </Container>
 

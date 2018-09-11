@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  CardItem, Body, Right, Text,
+  Card, CardItem, Body, Right, Text,
   Content, Button
 } from 'native-base'
 import { StyleSheet, Image, View } from 'react-native'
@@ -131,7 +131,7 @@ export default class TripCard extends Component {
       <CardItem footer>
         <Button iconLeft style={ss.footerButton} onPress={() => this._smsAll(trip)}>
           <IonIcon name='sms' color='white' />
-          <Text>{_T('textMessageAllPax')}</Text>
+          <Text>{_T('textAllPax')}</Text>
         </Button>
       </CardItem>
     )
@@ -142,14 +142,14 @@ export default class TripCard extends Component {
     const transport = trip.get('transport')
     const launches = trip.get('lunches')
     return (
-      <View>
+      <Card>
         {this._renderHeader(trip)}
         {this._renderImage()}
         {transport && this._renderSchedule(transport)}
         {transport && this._renderDrivers(transport.get('drivers'))}
         {launches && this._renderRestaurants(launches)}
         {this._renderFooter(trip)}
-      </View>
+      </Card>
     )
   }
 }

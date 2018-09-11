@@ -4,12 +4,11 @@ import {
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
-import { IonIcon } from '../../theme/'
+import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
 import { getCurrentTrip } from '../../selectors'
 import PaxList from '../../components/paxList'
-import { Colors } from '../../theme'
 const _T = Translator('PassengersScreen')
 
 class PassengersScreen extends Component {

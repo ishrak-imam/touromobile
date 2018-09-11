@@ -16,7 +16,7 @@ export default {
     platform: 'Plattform',
     drivers: 'Chaufförer',
     lunchRestaurants: 'Lunchrestauranger',
-    textMessageAllPax: 'Textmeddelande alla passagerare',
+    textAllPax: 'Textmeddelande alla passagerare',
     home: 'Hem',
     out: 'Ut'
   },
@@ -24,7 +24,8 @@ export default {
     title: 'Passagerare'
   },
   ExcursionsScreen: {
-    title: 'Utflykter'
+    title: 'Utflykter',
+    textAllParticipants: 'Textmeddelande alla deltagare'
   },
   ReportsScreen: {
     title: 'Rapporter'

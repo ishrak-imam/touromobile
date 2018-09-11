@@ -16,7 +16,7 @@ export default {
     platform: 'Platform',
     drivers: 'Drivers',
     lunchRestaurants: 'Lunch restaurants',
-    textMessageAllPax: 'Text message all passengers',
+    textAllPax: 'Text message all passengers',
     home: 'Home',
     out: 'Out'
   },
@@ -24,7 +24,8 @@ export default {
     title: 'Passengers'
   },
   ExcursionsScreen: {
-    title: 'Excursions'
+    title: 'Excursions',
+    textAllParticipants: 'Text message all participants'
   },
   ReportsScreen: {
     title: 'Reports'

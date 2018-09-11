@@ -16,7 +16,7 @@ import DrawerComponent from '../components/drawer'
 import LoadingScreen from '../modules/auth/loadingScreen'
 import Login from '../modules/auth/login'
 import CurrentTripHomeScreen from '../modules/currentTrip/currentTripScreen'
-import PassengersScreen from '../modules/passengers/passengersScreen'
+import PaxScreen from '../modules/pax/paxScreen'
 import ExcursionsScreen from '../modules/excursions/excursionsScreen'
 import ReportsScreen from '../modules/reports/reportsScreen'
 
@@ -37,7 +37,7 @@ const createTabNavigator = isIOS ? createBottomTabNavigator : createMaterialTopT
 const currentTripTabNav = createTabNavigator(
   {
     CurrentTripHome: { screen: CurrentTripHomeScreen },
-    Passengers: { screen: PassengersScreen },
+    Pax: { screen: PaxScreen },
     Excursions: { screen: ExcursionsScreen },
     Reports: { screen: ReportsScreen }
   },
