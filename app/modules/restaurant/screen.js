@@ -7,7 +7,7 @@ import Header from '../../components/header'
 import RoundIconButton from '../../components/roundedIconButton'
 import moment from 'moment'
 import { StyleSheet } from 'react-native'
-import { Call, Text as Sms, Web } from 'react-native-openanything'
+import { Call, Text as Sms, Web, Map } from 'react-native-openanything'
 import { IonIcon } from '../../theme'
 import { get, set, keys, keyBy } from 'lodash'
 import isEmpty from '../../utils/isEmpty'
@@ -21,6 +21,7 @@ export default class RestaurantScreen extends Component {
     const country = restaurant.get('country')
     const directions = restaurant.get('directions')
     const time = restaurant.get('time')
+    const location = `${address}, ${zip}, ${city}, ${country}`
     return (
       <CardItem>
         <Body style={ss.restaurantBody}>
@@ -35,7 +36,7 @@ export default class RestaurantScreen extends Component {
             <Text>{moment(time).format(DATE_FORMAT)}</Text>
           </View>
           <Right style={{ alignSelf: 'flex-start' }}>
-            <RoundIconButton name='map' color='blue' onPress={() => {}} />
+            <RoundIconButton name='map' color='blue' onPress={() => Map(location)} />
           </Right>
         </Body>
       </CardItem>
@@ -164,7 +165,7 @@ export default class RestaurantScreen extends Component {
             {this._renderRestaurant(restaurant)}
             {this._renderComs(restaurant)}
             {this._renderMeals(meals)}
-            {orders.size && this._renderOrders(orders, restaurant)}
+            {!!orders.size && this._renderOrders(orders, restaurant)}
           </Card>
         </Content>
       </Container>
