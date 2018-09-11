@@ -6,7 +6,6 @@ import {
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import isIphoneX from '../utils/isIphoneX'
-import isIOS from '../utils/isIOS'
 
 export default class TMHeader extends Component {
   _navigate = type => {
@@ -26,7 +25,7 @@ export default class TMHeader extends Component {
   _renderLeft = () => {
     const { left } = this.props
     return (
-      <Left style={{ flex: 0.5 }}>
+      <Left style={ss.left}>
         <Button transparent onPress={this._navigate(left)}>
           <IonIcon name={left} size={25} color={Colors.silver} />
         </Button>
@@ -38,7 +37,7 @@ export default class TMHeader extends Component {
     const { title } = this.props
     return (
       <Body style={ss.body}>
-        <Title style={{ paddingBottom: 4 }}>{title}</Title>
+        <Title style={ss.title}>{title}</Title>
       </Body>
     )
   }
@@ -46,7 +45,7 @@ export default class TMHeader extends Component {
   _renderRight = () => {
     const { right } = this.props
     return (
-      <Right style={{ flex: 2 }}>
+      <Right style={ss.right}>
         {right && right()}
       </Right>
     )
@@ -70,7 +69,16 @@ const ss = StyleSheet.create({
     paddingLeft: isIphoneX ? 15 : 10,
     backgroundColor: Colors.headerBg
   },
+  left: {
+    flex: 1
+  },
   body: {
-    flex: isIOS ? 3 : 0
+    flex: 3
+  },
+  title: {
+    color: Colors.silver
+  },
+  right: {
+    flex: 2
   }
 })
