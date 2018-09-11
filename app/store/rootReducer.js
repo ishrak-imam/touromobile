@@ -6,7 +6,7 @@ import { LOGOUT_SUCS } from '../modules/auth/action'
 import * as navReducers from '../navigation/reducer'
 import * as authReducers from '../modules/auth/reducer'
 import * as connectionReducer from '../connection/reducer'
-import * as tripReducer from '../modules/currentTrip/reducer'
+import * as tripReducer from '../modules/trip/reducer'
 
 const appReducer = combineReducers({
   ...navReducers,

@@ -13,7 +13,7 @@ import TripCard from '../../components/tripCard'
 import { getCurrentTrip } from '../../selectors'
 const _T = Translator('CurrentTripScreen')
 
-class CurrenTripScreen extends Component {
+class TripScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
       return <IonIcon name='home' size={25} color={tintColor} />
@@ -47,7 +47,7 @@ const stateToProps = state => ({
   currentTrip: getCurrentTrip(state)
 })
 
-export default connect(stateToProps, null)(CurrenTripScreen)
+export default connect(stateToProps, null)(TripScreen)
 
 const ss = StyleSheet.create({
   content: {
