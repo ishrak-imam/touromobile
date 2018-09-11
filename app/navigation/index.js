@@ -20,6 +20,8 @@ import PaxScreen from '../modules/pax/screen'
 import ExcursionsScreen from '../modules/excursions/screen'
 import ReportsScreen from '../modules/reports/screen'
 
+import RestaurantScreen from '../modules/restaurant/screen'
+
 const authStack = createStackNavigator(
   {
     Login: { screen: Login }
@@ -50,7 +52,8 @@ const TripTabs = createTabNavigator(
 
 const appStack = createStackNavigator(
   {
-    Home: { screen: TripTabs }
+    Home: { screen: TripTabs },
+    Restaurant: { screen: RestaurantScreen }
   },
   {
     initialRouteName: 'Home',

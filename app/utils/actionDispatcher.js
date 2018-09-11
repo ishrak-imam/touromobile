@@ -14,7 +14,7 @@ export const networkActionDispatcher = action => {
   isOnline ? dispatch(action) : dispatch(notOnline)
 }
 
-export const genericActionDispatcher = action => {
+export const actionDispatcher = action => {
   dispatch(action)
 }
 

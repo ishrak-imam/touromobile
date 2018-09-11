@@ -4,13 +4,15 @@ import {
   Card, CardItem, Body, Right, Text,
   Content, Button
 } from 'native-base'
-import { StyleSheet, Image, View } from 'react-native'
+import { StyleSheet, Image, View, TouchableOpacity } from 'react-native'
 import RoundIconButton from '../components/roundedIconButton'
 import { IonIcon } from '../theme'
 import Translator from '../utils/translator'
 import moment from 'moment'
 import { getPax } from '../selectors'
 import { Call, Text as Sms } from 'react-native-openanything'
+import { actionDispatcher } from '../utils/actionDispatcher'
+import { navigate } from '../navigation/action'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'YY MM DD'
@@ -89,6 +91,16 @@ export default class TripCard extends Component {
     )
   }
 
+  _toRestaurant = (direction, restaurant) => {
+    const { trip } = this.props
+    return () => {
+      actionDispatcher(navigate({
+        routeName: 'Restaurant',
+        params: { direction, restaurant, trip }
+      }))
+    }
+  }
+
   _renderRestaurants = launches => {
     const out = launches.get('out')
     const home = launches.get('home')
@@ -98,20 +110,24 @@ export default class TripCard extends Component {
       <CardItem>
         <Content>
           <Text style={ss.boldText}>{_T('lunchRestaurants')}</Text>
-          <Body style={ss.body}>
-            <Text>{`${_T('out')}: ${out.get('name')}`}</Text>
-            <Right style={ss.right}>
-              {this._renderPhone(outPhone)}
-              {this._renderSMS(outPhone)}
-            </Right>
-          </Body>
-          <Body style={ss.body}>
-            <Text>{`${_T('home')}: ${home.get('name')}`}</Text>
-            <Right style={ss.right}>
-              {this._renderPhone(homePhone)}
-              {this._renderSMS(homePhone)}
-            </Right>
-          </Body>
+          <TouchableOpacity onPress={this._toRestaurant('out', out)}>
+            <Body style={ss.body}>
+              <Text>{`${_T('out')}: ${out.get('name')}`}</Text>
+              <Right style={ss.right}>
+                {this._renderPhone(outPhone)}
+                {this._renderSMS(outPhone)}
+              </Right>
+            </Body>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this._toRestaurant('home', home)}>
+            <Body style={ss.body}>
+              <Text>{`${_T('home')}: ${home.get('name')}`}</Text>
+              <Right style={ss.right}>
+                {this._renderPhone(homePhone)}
+                {this._renderSMS(homePhone)}
+              </Right>
+            </Body>
+          </TouchableOpacity>
         </Content>
       </CardItem>
     )

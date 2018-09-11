@@ -32,7 +32,7 @@
       "city": "Hammoor",
       "country": "Tyskland",
       "phone": "123123321",
-      "time": "20180401T12:30",
+      "time": "2018-04-01T12:30",
       "acceptsCard": true,
       "url": "http://www.restaurant-klassenzimmer.de",
       "directions": "Turn off the A1 on exit 27, Bargteheide. Aim for Hammoor. The restaurant is on the right side in the village.",
@@ -110,7 +110,7 @@
       "city": "Potsdam",
       "country": "Tyskland",
       "phone": "423423432",
-      "time": "20180403T13:30",
+      "time": "2018-04-03T13:30",
       "meals": [
         {
           "id": 201,
