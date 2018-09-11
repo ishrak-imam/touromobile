@@ -5,7 +5,7 @@ import {
 } from 'native-base'
 import { getPax } from '../selectors'
 import { head, toLower, toUpper } from 'lodash'
-import { List as ImList, Map } from 'immutable'
+import { getList, getMap } from '../utils/immutable'
 import RoundIconButton from '../components/roundedIconButton'
 import { Call, Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
@@ -25,9 +25,9 @@ export default class PaxList extends Component {
       const paxInitial = toLower(head(p.get('firstName')))
       if (initial !== paxInitial) {
         initial = paxInitial
-        return new ImList([new Map({ first: true, initial: toUpper(paxInitial) }), p])
+        return getList([getMap({ first: true, initial: toUpper(paxInitial) }), p])
       }
-      return new ImList([p])
+      return getList([p])
     }).flatten(1)
   }
 
