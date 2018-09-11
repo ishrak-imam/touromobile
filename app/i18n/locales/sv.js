@@ -29,5 +29,19 @@ export default {
   },
   ReportsScreen: {
     title: 'Rapporter'
+  },
+  RestaurantScreen: {
+    address: 'Adress',
+    routeDirections: 'Vägbeskrivning',
+    bookedTime: 'Bokad tid',
+    meals: 'Måltider',
+    meal: 'Måltid',
+    adult: 'Vuxen',
+    adults: 'Vuxna',
+    child: 'Barn',
+    children: 'Barn',
+    orders: 'Order',
+    amount: 'Belopp',
+    beverages: 'Drycker'
   }
 }

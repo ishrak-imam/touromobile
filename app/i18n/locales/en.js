@@ -29,5 +29,19 @@ export default {
   },
   ReportsScreen: {
     title: 'Reports'
+  },
+  RestaurantScreen: {
+    address: 'Address',
+    routeDirections: 'Route Directions',
+    bookedTime: 'Booked time',
+    meals: 'Meals',
+    meal: 'Meal',
+    adult: 'Adult',
+    adults: 'Adults',
+    child: 'Child',
+    children: 'Children',
+    orders: 'Orders',
+    amount: 'Amount',
+    beverages: 'Beverages'
   }
 }

@@ -11,7 +11,10 @@ import { Call, Text as Sms, Web, Map } from 'react-native-openanything'
 import { IonIcon } from '../../theme'
 import { get, set, keys, keyBy } from 'lodash'
 import isEmpty from '../../utils/isEmpty'
+import Translator from '../../utils/translator'
+
 const DATE_FORMAT = 'YY MM DD, h:mm'
+const _T = Translator('RestaurantScreen')
 
 export default class RestaurantScreen extends Component {
   _renderRestaurant = restaurant => {
@@ -26,13 +29,13 @@ export default class RestaurantScreen extends Component {
       <CardItem>
         <Body style={ss.restaurantBody}>
           <View>
-            <Text style={ss.boldText}>Address</Text>
+            <Text style={ss.boldText}>{_T('address')}</Text>
             <Text>{address}</Text>
             <Text>{`${zip} ${city}`}</Text>
             <Text>{country}</Text>
-            <Text style={ss.sectionHeader}>Route directions</Text>
+            <Text style={ss.sectionHeader}>{_T('routeDirections')}</Text>
             <Text note>{directions}</Text>
-            <Text style={ss.sectionHeader}>Booked time</Text>
+            <Text style={ss.sectionHeader}>{_T('bookedTime')}</Text>
             <Text>{moment(time).format(DATE_FORMAT)}</Text>
           </View>
           <Right style={{ alignSelf: 'flex-start' }}>
@@ -62,8 +65,8 @@ export default class RestaurantScreen extends Component {
       <CardItem>
         <Body>
           <Item style={ss.item}>
-            <Text style={ss.boldText}>Meals</Text>
-            <Right><Text>Adult/Child</Text></Right>
+            <Text style={ss.boldText}>{_T('meals')}</Text>
+            <Right><Text>{`${_T('adult')}/${_T('child')}`}</Text></Right>
           </Item>
           {meals.map(m => {
             const id = m.get('id')
@@ -131,18 +134,18 @@ export default class RestaurantScreen extends Component {
       <CardItem>
         <Body>
           <Item style={ss.item}>
-            <Text style={ss.boldText}>Orders</Text>
-            <Right><Text>Amount</Text></Right>
+            <Text style={ss.boldText}>{_T('orders')}</Text>
+            <Right><Text>{_T('amount')}</Text></Right>
           </Item>
 
           <Text note>Meal</Text>
-          {showAge && <Text note>Adults</Text>}
+          {showAge && <Text note>{_T('adults')}</Text>}
           {renderOrderSummary(adultMealOrders, meals)}
 
-          {showAge && <Text note>Children</Text>}
+          {showAge && <Text note>{_T('children')}</Text>}
           {renderOrderSummary(childMealOrders, meals)}
 
-          <Text note>Beverages</Text>
+          <Text note>{_T('beverages')}</Text>
           {renderOrderSummary(beverageOrders, beverages)}
         </Body>
       </CardItem>
