@@ -11,8 +11,6 @@ import Translator from '../utils/translator'
 import moment from 'moment'
 import { getPax } from '../selectors'
 import { Call, Text as Sms } from 'react-native-openanything'
-import { actionDispatcher } from '../utils/actionDispatcher'
-import { navigate } from '../navigation/action'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'YY MM DD'
@@ -92,12 +90,9 @@ export default class TripCard extends Component {
   }
 
   _toRestaurant = (direction, restaurant) => {
-    const { trip } = this.props
+    const { trip, navigation } = this.props
     return () => {
-      actionDispatcher(navigate({
-        routeName: 'Restaurant',
-        params: { direction, restaurant, trip }
-      }))
+      navigation.navigate('Restaurant', { trip, direction, restaurant })
     }
   }
 

@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { Component } from 'react'
 import {
   createStackNavigator,
   createSwitchNavigator,
@@ -7,6 +7,10 @@ import {
   createMaterialTopTabNavigator,
   createDrawerNavigator
 } from 'react-navigation'
+
+import { connect } from 'react-redux'
+import { setNavigator } from './service'
+import { setCurrentScreen } from './action'
 
 import isIOS from '../utils/isIOS'
 
@@ -71,7 +75,7 @@ const drawerNav = createDrawerNavigator(
   }
 )
 
-const Navigator = createSwitchNavigator(
+const RootNavigator = createSwitchNavigator(
   {
     AuthLoading: LoadingScreen,
     App: drawerNav,
@@ -82,4 +86,22 @@ const Navigator = createSwitchNavigator(
   }
 )
 
-export default Navigator
+/**
+ * Application root
+ */
+class App extends Component {
+  _handleNavigationStateChange = (prevState, currentState, action) => {
+    this.props.dispatch(setCurrentScreen(currentState.routes[currentState.index]))
+  }
+
+  render () {
+    return (
+      <RootNavigator
+        ref={navigatorRef => setNavigator(navigatorRef)}
+        onNavigationStateChange={this._handleNavigationStateChange}
+      />
+    )
+  }
+}
+
+export default connect(null, dispatch => ({ dispatch }))(App)

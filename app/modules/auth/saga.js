@@ -7,7 +7,7 @@ import {
   loginReq, loginSucs, loginFail,
   logoutReq, logoutSucs
 } from './action'
-import { navigate } from '../../navigation/action'
+import { navigateToScene } from '../../navigation/action'
 import localStore, { JWT_TOKEN } from '../../utils/persist'
 import { login, getUser } from './api'
 
@@ -23,12 +23,12 @@ function * workerInit () {
       user.jwt = access_token
       yield call(delay, 1000) // need only when api data are mocked, as they are served from json files
       yield put(loginSucs(user))
-      yield put(navigate({ routeName: 'App' }))
+      yield put(navigateToScene({ routeName: 'App' }))
     } else {
-      yield put(navigate({ routeName: 'Auth' }))
+      yield put(navigateToScene({ routeName: 'Auth' }))
     }
   } catch (e) {
-    yield put(navigate({ routeName: 'Auth' }))
+    yield put(navigateToScene({ routeName: 'Auth' }))
   }
 }
 

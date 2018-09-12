@@ -2,9 +2,9 @@
 import React, { Component } from 'react'
 import { Root } from 'native-base'
 import { Provider } from 'react-redux'
-import RootNav from './app/navigation'
+import App from './app/navigation'
 import store from './app/store'
-import { setNavigator } from './app/navigation/service'
+// import { setNavigator } from './app/navigation/service'
 import { AppLoading } from 'expo'
 import cacheAssestsAsync from './app/utils/cacheAssetsAsync'
 import I18n from './app/i18n'
@@ -50,9 +50,7 @@ export default class TouroMobile extends Component {
       this.state.isAppReady
         ? <Provider store={store}>
           <Root>
-            <RootNav
-              ref={navigatorRef => setNavigator(navigatorRef)}
-            />
+            <App />
           </Root>
         </Provider>
         : <AppLoading />

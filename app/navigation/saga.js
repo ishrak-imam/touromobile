@@ -1,9 +1,8 @@
 
-import { call, put } from 'redux-saga/effects'
+import { call } from 'redux-saga/effects'
 import { takeFirst } from '../utils/sagaHelpers'
 import { navigate } from '../navigation/service'
-
-import { navigate as navigateToScene, setCurrentScreen } from './action'
+import { navigateToScene } from './action'
 
 const navActions = [
   navigateToScene.getType()
@@ -16,8 +15,7 @@ export function * watchNavActions () {
 function * navigationWorker (action) {
   const { routeName, params } = action.payload
   switch (action.type) {
-    case 'NAVIGATE':
+    case 'NAVIGATE_TO_SCENE':
       yield call(navigate, routeName, params)
   }
-  yield put(setCurrentScreen({ screen: routeName }))
 }
