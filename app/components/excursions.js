@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
-  View, Text, Card, CardItem, Left, Body,
-  Right, Button
+  View, Text, Card,
+  CardItem, Left, Body, Right
 } from 'native-base'
 import { IonIcon } from '../theme'
 import { getPax } from '../selectors'
@@ -9,6 +9,7 @@ import Translator from '../utils/translator'
 import moment from 'moment'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Text as Sms } from 'react-native-openanything'
+import Button from '../components/button'
 
 const _T = Translator('ExcursionsScreen')
 const DATE_FORMAT = 'YY MM DD, h:mm'

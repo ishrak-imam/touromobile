@@ -1,8 +1,8 @@
 
 import React, { Component } from 'react'
 import {
-  Card, CardItem, Body, Right, Text,
-  Content, Button
+  Card, CardItem,
+  Body, Right, Text, Content
 } from 'native-base'
 import { StyleSheet, Image, View, TouchableOpacity } from 'react-native'
 import RoundIconButton from '../components/roundedIconButton'
@@ -11,6 +11,7 @@ import Translator from '../utils/translator'
 import moment from 'moment'
 import { getPax } from '../selectors'
 import { Call, Text as Sms } from 'react-native-openanything'
+import Button from '../components/button'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'YY MM DD'

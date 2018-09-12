@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import {
-  View, Form, Item, Label, Input,
-  Button, Text, Spinner
+  View, Form, Item, Label,
+  Text, Spinner, Input
 } from 'native-base'
 import {
-  ImageBackground, Animated,
+  ImageBackground, Animated, TouchableOpacity,
   Keyboard, KeyboardAvoidingView, StyleSheet
 } from 'react-native'
 import { Colors, Images } from '../../theme'
@@ -13,19 +13,22 @@ import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { loginReq } from './action'
 import Translator from '../../utils/translator'
+import Button from '../../components/button'
+
 const _T = Translator('LoginScreen')
 
 class Login extends Component {
   constructor (props) {
     super(props)
-    this.logoDim = new Animated.Value(200)
-    this.radius = new Animated.Value(100)
+    this.logoDim = new Animated.Value(100)
+    this.radius = new Animated.Value(50)
     this.kbrdShow = Keyboard.addListener('keyboardDidShow', this._onKbrdShow)
     this.kbrdHide = Keyboard.addListener('keyboardDidHide', this._onKbrdHide)
 
     this.state = {
       user: '',
-      password: ''
+      password: '',
+      isReady: false
     }
   }
 
@@ -38,14 +41,14 @@ class Login extends Component {
     Animated.timing(
       this.logoDim,
       {
-        toValue: isKbrdOpen ? 100 : 200,
+        toValue: isKbrdOpen ? 50 : 100,
         duration: 300
       }
     ).start()
     Animated.timing(
       this.radius,
       {
-        toValue: isKbrdOpen ? 50 : 100,
+        toValue: isKbrdOpen ? 25 : 50,
         duration: 300
       }
     ).start()
@@ -60,7 +63,12 @@ class Login extends Component {
   }
 
   _handleChange = field => text => {
-    this.setState({ [field]: text })
+    this.setState({ [field]: text }, this._checkIsReady)
+  }
+
+  _checkIsReady = () => {
+    const { user, password } = this.state
+    this.setState({ isReady: !!user && !!password })
   }
 
   _login = () => {
@@ -76,17 +84,18 @@ class Login extends Component {
     return (
       <Item style={ss.errorItem}>
         <View style={ss.errorContainer}>
-          <Text style={ss.errorText}>{e.get('msg')}</Text>
+          {<Text style={ss.errorText}>{e ? e.get('msg') : ' '}</Text>}
         </View>
       </Item>
     )
   }
 
   render () {
-    const { username, password } = this.state
+    const { username, password, isReady } = this.state
     const { login } = this.props
     const isLoading = login.get('isLoading')
     const error = login.get('error')
+    const isDisabled = (isLoading || !isReady)
     return (
       <ImageBackground source={Images.background} style={ss.background}>
         <KeyboardAvoidingView style={ss.container} behavior='padding'>
@@ -132,11 +141,14 @@ class Login extends Component {
                   underlineColorAndroid='transparent'
                 />
               </Item>
-              {!!error && this._renderError(error)}
+              {this._renderError(error)}
               <View style={ss.submitContainer}>
-                <Button full onPress={this._login} disabled={isLoading}>
+                <Button full onPress={this._login} disabled={isDisabled}>
                   {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}
                 </Button>
+                <TouchableOpacity style={ss.forgotPass} disabled={isDisabled}>
+                  <Text style={{ color: isDisabled ? 'black' : Colors.headerBg }}>I forgot my password</Text>
+                </TouchableOpacity>
               </View>
             </Form>
           </View>
@@ -162,12 +174,13 @@ const ss = StyleSheet.create({
   logo: {
     flex: 1,
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: 20
   },
   formContainer: {
     flex: 2,
-    justifyContent: 'flex-start',
-    marginTop: 40
+    justifyContent: 'center'
+    // marginTop: 30
   },
   form: {
     backgroundColor: Colors.snow,
@@ -185,16 +198,21 @@ const ss = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderRadius: 3,
+    paddingVertical: 5,
+    // borderWidth: 1,
+    // borderRadius: 3,
     borderColor: Colors.error
   },
   errorText: {
+    textAlign: 'center',
     color: Colors.error
   },
   submitContainer: {
     marginHorizontal: 10,
-    marginVertical: 15
+    marginVertical: 15,
+    alignItems: 'center'
+  },
+  forgotPass: {
+    marginTop: 10
   }
 })

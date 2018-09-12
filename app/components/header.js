@@ -2,8 +2,9 @@
 import React, { Component } from 'react'
 import { IonIcon, Colors } from '../theme'
 import {
-  Header, Left, Button, Body, Title, Right
+  Header, Left, Body, Title, Right
 } from 'native-base'
+import Button from '../components/button'
 import { StyleSheet } from 'react-native'
 import isIphoneX from '../utils/isIphoneX'
 
