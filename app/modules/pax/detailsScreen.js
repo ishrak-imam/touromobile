@@ -13,7 +13,7 @@ export default class PaxDetailsScreen extends Component {
     return (
       <Container>
         <Header left='back' title={name} navigation={navigation} />
-        <Content scrollEnabled={false}>
+        <Content>
           <PaxCard pax={pax} />
         </Content>
       </Container>

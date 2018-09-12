@@ -43,5 +43,12 @@ export default {
     orders: 'Orders',
     amount: 'Amount',
     beverages: 'Beverages'
+  },
+  PaxDetailsScreen: {
+    phone: 'Phone',
+    booking: 'Booking',
+    excursionPack: 'Excursion pack',
+    travelsWith: 'Travels with',
+    comment: 'Comment'
   }
 }

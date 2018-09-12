@@ -7,6 +7,8 @@ import { IonIcon, Colors } from '../theme'
 import RoundIconButton from '../components/roundedIconButton'
 import { TouchableOpacity, StyleSheet } from 'react-native'
 import { Call, Text as Sms } from 'react-native-openanything'
+import Translator from '../utils/translator'
+const _T = Translator('PaxDetailsScreen')
 
 export default class PaxCard extends Component {
   _renderPxName = pax => {
@@ -32,7 +34,7 @@ export default class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>Phone</Text>
+          <Text>{_T('phone')}</Text>
           <Text note>{phone}</Text>
         </Body>
       </CardItem>
@@ -43,7 +45,7 @@ export default class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>Booking</Text>
+          <Text>{_T('booking')}</Text>
           <TouchableOpacity onPress={() => {}} style={ss.booking}>
             <Text style={ss.bookingText}>{booking.get('id')}</Text>
           </TouchableOpacity>
@@ -56,7 +58,7 @@ export default class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>Excursion pack</Text>
+          <Text>{_T('excursionPack')}</Text>
           <IonIcon name='check' color='green' />
         </Body>
       </CardItem>
@@ -67,7 +69,7 @@ export default class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>Travels with</Text>
+          <Text>{_T('travelsWith')}</Text>
           {coPax.filter(p => p.get('id') !== pax.get('id')).map(p => {
             const name = `${p.get('firstName')} ${p.get('lastName')}`
             return (<Text key={p.get('id')} note>{name}</Text>)
@@ -81,7 +83,7 @@ export default class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>Comment</Text>
+          <Text>{_T('comment')}</Text>
           <Text note>{comment}</Text>
         </Body>
       </CardItem>
