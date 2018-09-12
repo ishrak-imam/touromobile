@@ -7,12 +7,28 @@ import { IonIcon } from '../theme'
 import { getPax } from '../selectors'
 import Translator from '../utils/translator'
 import moment from 'moment'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
+import { Text as Sms } from 'react-native-openanything'
 
 const _T = Translator('ExcursionsScreen')
 const DATE_FORMAT = 'YY MM DD, h:mm'
 
 export default class Excursions extends Component {
+  _toDetails = (trip, excursion) => {
+    const { navigation } = this.props
+    return () => {
+      navigation.navigate('ExcursionDetails', { trip, excursion })
+    }
+  }
+
+  _smsAll = pax => {
+    const numbers = pax
+      .filter(p => !!p.get('phone'))
+      .map(p => p.get('phone'))
+      .join(',')
+    Sms(numbers)
+  }
+
   _renderExcursionCard = excursion => {
     const { trip } = this.props
     const id = excursion.get('id')
@@ -25,31 +41,33 @@ export default class Excursions extends Component {
     const count = pax.size
 
     return (
-      <Card key={id}>
-        <CardItem>
-          <Left>
-            <IonIcon name='excursion' />
+      <TouchableOpacity onPress={this._toDetails(trip, excursion)} key={id}>
+        <Card>
+          <CardItem>
+            <Left style={ss.left}>
+              <IonIcon name='excursion' />
+              <Body>
+                <Text>{name}</Text>
+                <Text note>{moment(start).format(DATE_FORMAT)}</Text>
+              </Body>
+            </Left>
+            <Right>
+              <Text style={ss.boldText}>{count}/{allPax.size}</Text>
+            </Right>
+          </CardItem>
+          <CardItem>
             <Body>
-              <Text>{name}</Text>
-              <Text note>{moment(start).format(DATE_FORMAT)}</Text>
+              <Text note>{description}</Text>
             </Body>
-          </Left>
-          <Right>
-            <Text style={ss.boldText}>{count}/{allPax.size}</Text>
-          </Right>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <Text note>{description}</Text>
-          </Body>
-        </CardItem>
-        <CardItem footer>
-          <Button iconLeft style={ss.button} onPress={() => {}}>
-            <IonIcon name='sms' color='white' />
-            <Text>{_T('textAllParticipants')}</Text>
-          </Button>
-        </CardItem>
-      </Card>
+          </CardItem>
+          <CardItem footer>
+            <Button iconLeft style={ss.button} onPress={() => this._smsAll(allPax)}>
+              <IonIcon name='sms' color='white' />
+              <Text>{_T('textAllParticipants')}</Text>
+            </Button>
+          </CardItem>
+        </Card>
+      </TouchableOpacity>
     )
   }
 
@@ -78,5 +96,8 @@ const ss = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'center'
+  },
+  left: {
+    alignItems: 'flex-start'
   }
 })

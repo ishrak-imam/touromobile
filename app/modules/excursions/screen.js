@@ -25,6 +25,7 @@ class ExcursionsScreen extends Component {
         <Content>
           <Excursions
             trip={currentTrip.get('data')}
+            navigation={navigation}
           />
         </Content>
       </Container>

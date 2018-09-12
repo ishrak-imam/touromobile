@@ -25,6 +25,7 @@ import ExcursionsScreen from '../modules/excursions/screen'
 import ReportsScreen from '../modules/reports/screen'
 
 import RestaurantScreen from '../modules/restaurant/screen'
+import ExcursionDetailsScreen from '../modules/excursions/detailsScreen'
 
 const authStack = createStackNavigator(
   {
@@ -57,7 +58,8 @@ const TripTabs = createTabNavigator(
 const appStack = createStackNavigator(
   {
     Home: { screen: TripTabs },
-    Restaurant: { screen: RestaurantScreen }
+    Restaurant: { screen: RestaurantScreen },
+    ExcursionDetails: { screen: ExcursionDetailsScreen }
   },
   {
     initialRouteName: 'Home',
