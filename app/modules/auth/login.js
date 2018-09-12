@@ -132,7 +132,7 @@ class Login extends Component {
                   underlineColorAndroid='transparent'
                 />
               </Item>
-              {error && this._renderError(error)}
+              {!!error && this._renderError(error)}
               <View style={ss.submitContainer}>
                 <Button full onPress={this._login} disabled={isLoading}>
                   {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}

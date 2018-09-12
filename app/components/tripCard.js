@@ -156,9 +156,9 @@ export default class TripCard extends Component {
       <Card>
         {this._renderHeader(trip)}
         {this._renderImage()}
-        {transport && this._renderSchedule(transport)}
-        {transport && this._renderDrivers(transport.get('drivers'))}
-        {launches && this._renderRestaurants(launches)}
+        {!!transport && this._renderSchedule(transport)}
+        {!!transport && this._renderDrivers(transport.get('drivers'))}
+        {!!launches && this._renderRestaurants(launches)}
         {this._renderFooter(trip)}
       </Card>
     )

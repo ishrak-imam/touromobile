@@ -46,7 +46,7 @@ export default class TMHeader extends Component {
     const { right } = this.props
     return (
       <Right style={ss.right}>
-        {right && right()}
+        {!!right && right()}
       </Right>
     )
   }

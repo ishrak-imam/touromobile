@@ -76,8 +76,8 @@ export default class PaxList extends Component {
           </Body>
           <Right style={ss.itemRight}>
             {!!paxComment && renderComment()}
-            {phone && renderPhone(phone)}
-            {phone && renderSMS(phone)}
+            {!!phone && renderPhone(phone)}
+            {!!phone && renderSMS(phone)}
           </Right>
         </ListItem>
       )
@@ -109,7 +109,7 @@ export default class PaxList extends Component {
           {paxNames}
         </Body>
         <Right>
-          {phones && <RoundIconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
+          {!!phones && <RoundIconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
         </Right>
       </ListItem>
     )
@@ -136,7 +136,7 @@ export default class PaxList extends Component {
     const bookings = trip.get('bookings')
     return (
       <View>
-        {bookings && this._renderList(bookings)}
+        {!!bookings && this._renderList(bookings)}
       </View>
     )
   }

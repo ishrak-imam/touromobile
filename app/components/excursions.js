@@ -83,7 +83,7 @@ export default class Excursions extends Component {
     const excursions = trip.get('excursions')
     return (
       <View>
-        {excursions && this._renderExcursions(excursions)}
+        {!!excursions && this._renderExcursions(excursions)}
       </View>
     )
   }
