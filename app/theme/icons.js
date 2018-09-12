@@ -7,6 +7,7 @@ const getIconName = (name) => {
     menu: ['ios-menu', 'md-menu'],
     home: ['ios-home', 'md-home'],
     people: ['ios-people', 'md-people'],
+    person: ['ios-person', 'md-person'],
     excursion: ['ios-pin', 'md-pin'],
     phone: ['ios-call', 'md-call'],
     sms: ['ios-text', 'md-text'],

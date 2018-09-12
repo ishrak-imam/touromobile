@@ -31,6 +31,13 @@ export default class PaxList extends Component {
     }).flatten(1)
   }
 
+  _toPaxDetails = pax => {
+    const { navigation } = this.props
+    return () => {
+      navigation.navigate('PaxDetails', { pax })
+    }
+  }
+
   _renderPerson = (item, index) => {
     const first = item.get('first')
     const paxComment = item.get('comment')
@@ -61,7 +68,7 @@ export default class PaxList extends Component {
       }
 
       return (
-        <ListItem onPress={() => {}} key={index}>
+        <ListItem onPress={this._toPaxDetails(item)} key={index}>
           <Body>
             <Text>{name}</Text>
             <Text note>{item.get('booking').get('id')}</Text>

@@ -38,7 +38,7 @@ export default class RestaurantScreen extends Component {
             <Text style={ss.sectionHeader}>{_T('bookedTime')}</Text>
             <Text>{moment(time).format(DATE_FORMAT)}</Text>
           </View>
-          <Right style={{ alignSelf: 'flex-start' }}>
+          <Right style={ss.mapIcon}>
             <RoundIconButton name='map' color='blue' onPress={() => Map(location)} />
           </Right>
         </Body>
@@ -201,5 +201,8 @@ const ss = StyleSheet.create({
   },
   comms: {
     flexDirection: 'row'
+  },
+  mapIcon: {
+    alignSelf: 'flex-start'
   }
 })

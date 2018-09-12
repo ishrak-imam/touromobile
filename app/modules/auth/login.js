@@ -88,7 +88,7 @@ class Login extends Component {
     const isLoading = login.get('isLoading')
     const error = login.get('error')
     return (
-      <ImageBackground source={Images.background} style={{ flex: 1 }}>
+      <ImageBackground source={Images.background} style={ss.background}>
         <KeyboardAvoidingView style={ss.container} behavior='padding'>
           <View style={ss.logo}>
             <Animated.Image
@@ -153,6 +153,9 @@ const stateToProps = state => ({
 export default connect(stateToProps, null)(Login)
 
 const ss = StyleSheet.create({
+  background: {
+    flex: 1
+  },
   container: {
     flex: 1
   },

@@ -25,11 +25,7 @@ class TMDrawer extends Component {
       <View style={ss.header}>
         <View style={ss.headerContent}>
           <Image
-            style={{
-              alignSelf: 'center',
-              height: 70,
-              width: 70
-            }}
+            style={ss.drawerImage}
             source={Images.logo}
           />
           <Text>{userName}</Text>
@@ -90,5 +86,10 @@ const ss = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 20
+  },
+  drawerImage: {
+    alignSelf: 'center',
+    height: 70,
+    width: 70
   }
 })

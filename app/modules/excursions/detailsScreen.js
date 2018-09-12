@@ -6,6 +6,7 @@ import {
 } from 'native-base'
 import Header from '../../components/header'
 import { getPax } from '../../selectors'
+import { StyleSheet } from 'react-native'
 
 export default class ExcursionDetailsScreen extends Component {
   _sortByIdAndName = pax => {
@@ -24,9 +25,9 @@ export default class ExcursionDetailsScreen extends Component {
             <ListItem key={`${id}${bookingId}`}>
               <Left>
                 <CheckBox checked={checked} />
-                <Body style={{ flexDirection: 'row' }}>
-                  <Text style={{ marginLeft: 16 }}>{bookingId}</Text>
-                  <Text style={{ marginLeft: 16 }}>{name}</Text>
+                <Body style={ss.itemBody}>
+                  <Text style={ss.itemText}>{bookingId}</Text>
+                  <Text style={ss.itemText}>{name}</Text>
                 </Body>
               </Left>
             </ListItem>
@@ -52,3 +53,12 @@ export default class ExcursionDetailsScreen extends Component {
     )
   }
 }
+
+const ss = StyleSheet.create({
+  itemText: {
+    marginLeft: 16
+  },
+  itemBody: {
+    flexDirection: 'row'
+  }
+})

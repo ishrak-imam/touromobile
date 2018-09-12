@@ -44,7 +44,7 @@ export default class Excursions extends Component {
       <TouchableOpacity onPress={this._toDetails(trip, excursion)} key={id}>
         <Card>
           <CardItem>
-            <Left style={ss.left}>
+            <Left>
               <IonIcon name='excursion' />
               <Body>
                 <Text>{name}</Text>
@@ -96,8 +96,5 @@ const ss = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'center'
-  },
-  left: {
-    alignItems: 'flex-start'
   }
 })
