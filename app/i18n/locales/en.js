@@ -4,7 +4,7 @@ export default {
     username: 'Username',
     password: 'Password',
     login: 'Log in',
-    cancel: 'Cancel'
+    forgotPass: 'I forgot my password'
   },
   DrawerScreen: {
     logout: 'Log out'

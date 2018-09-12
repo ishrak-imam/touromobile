@@ -147,7 +147,7 @@ class Login extends Component {
                   {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}
                 </Button>
                 <TouchableOpacity style={ss.forgotPass} disabled={isDisabled}>
-                  <Text style={{ color: isDisabled ? 'black' : Colors.headerBg }}>I forgot my password</Text>
+                  <Text style={{ color: isDisabled ? 'black' : Colors.headerBg }}>{_T('forgotPass')}</Text>
                 </TouchableOpacity>
               </View>
             </Form>
