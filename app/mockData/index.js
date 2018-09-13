@@ -34,6 +34,10 @@ export const mockUser = () => Promise.resolve({
   'resourceName': 'user'
 })
 
+export const mockForgetPass = () => Promise.resolve({
+  msg: 'Check your email for a new password'
+})
+
 export const mockCurrentTrip = () => Promise.resolve({
   data: require('./currentTrip.json')
 })

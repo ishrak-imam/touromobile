@@ -68,7 +68,7 @@ const ss = StyleSheet.create({
   header: {
     height: isIOS ? 70 : 80,
     paddingTop: isIOS ? 20 : 25,
-    paddingLeft: isIOS ? 15 : 0,
+    paddingLeft: isIOS ? 15 : 10,
     backgroundColor: Colors.headerBg
   },
   left: {

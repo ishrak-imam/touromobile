@@ -11,7 +11,7 @@ import { Colors, Images } from '../../theme'
 import { getLogin } from '../../selectors'
 import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
-import { loginReq } from './action'
+import { loginReq, forgotPassReq } from './action'
 import Translator from '../../utils/translator'
 import Button from '../../components/button'
 
@@ -80,7 +80,19 @@ class Login extends Component {
     }))
   }
 
-  _renderError = e => {
+  _forgotPass = () => {
+    Keyboard.dismiss()
+    const { user } = this.state
+    networkActionDispatcher(forgotPassReq({
+      user
+    }))
+  }
+
+  _renderMessage = () => {
+    const { login } = this.props
+    const forgotPass = login.get('forgotPass')
+    const error = login.get('error')
+    const e = forgotPass || error
     return (
       <Item style={ss.errorItem}>
         <View style={ss.errorContainer}>
@@ -94,7 +106,6 @@ class Login extends Component {
     const { username, password, isReady } = this.state
     const { login } = this.props
     const isLoading = login.get('isLoading')
-    const error = login.get('error')
     const isDisabled = (isLoading || !isReady)
     return (
       <ImageBackground source={Images.background} style={ss.background}>
@@ -141,12 +152,14 @@ class Login extends Component {
                   underlineColorAndroid='transparent'
                 />
               </Item>
-              {this._renderError(error)}
+
+              {this._renderMessage()}
+
               <View style={ss.submitContainer}>
                 <Button full onPress={this._login} disabled={isDisabled}>
                   {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}
                 </Button>
-                <TouchableOpacity style={ss.forgotPass} disabled={isDisabled}>
+                <TouchableOpacity style={ss.forgotPass} disabled={isDisabled} onPress={this._forgotPass}>
                   <Text style={{ color: isDisabled ? 'black' : Colors.headerBg }}>{_T('forgotPass')}</Text>
                 </TouchableOpacity>
               </View>
