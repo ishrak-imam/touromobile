@@ -7,6 +7,7 @@ import {
 import Button from '../components/button'
 import { StyleSheet } from 'react-native'
 import isIphoneX from '../utils/isIphoneX'
+import isIOS from '../utils/isIOS'
 
 export default class TMHeader extends Component {
   _navigate = type => {
@@ -65,16 +66,17 @@ export default class TMHeader extends Component {
 
 const ss = StyleSheet.create({
   header: {
-    height: 90,
-    paddingTop: isIphoneX ? 20 : 30,
-    paddingLeft: isIphoneX ? 15 : 10,
+    height: isIOS ? 70 : 80,
+    paddingTop: isIOS ? 20 : 25,
+    paddingLeft: isIOS ? 15 : 0,
     backgroundColor: Colors.headerBg
   },
   left: {
     flex: 1
   },
   body: {
-    flex: 3
+    flex: 3,
+    paddingBottom: 3
   },
   title: {
     color: Colors.silver
