@@ -25,6 +25,10 @@ export const updateMap = (map, key, updater) => {
   return map.update(key, updater)
 }
 
+export const setIntoMap = (map, key, val) => {
+  return map.set(key, val)
+}
+
 /**
  * List methods
  */

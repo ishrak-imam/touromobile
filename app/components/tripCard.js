@@ -12,6 +12,7 @@ import moment from 'moment'
 import { getPax } from '../selectors'
 import { Call, Text as Sms } from 'react-native-openanything'
 import Button from '../components/button'
+import CacheImage from '../modules/cahedImages'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'YY MM DD'
@@ -42,7 +43,7 @@ export default class TripCard extends Component {
   _renderImage = () => {
     return (
       <CardItem cardBody>
-        <Image source={{ uri: 'https://picsum.photos/700/500/?image=182' }} style={ss.tripImage} />
+        <CacheImage uri='https://picsum.photos/700/500/?image=182' style={ss.tripImage} />
       </CardItem>
     )
   }

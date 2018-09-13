@@ -57,7 +57,7 @@ function * workerForgotPass (action) {
     yield call(delay, 2000)
     yield put(forgotPassSucs(response))
   } catch (e) {
-    yield put(loginFail({ msg: e }))
+    yield put(forgotPassFail({ msg: e }))
   }
 }
 

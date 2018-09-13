@@ -4,6 +4,7 @@ import {
   Content, Container, View, Text,
   Footer
 } from 'native-base'
+
 import { StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
