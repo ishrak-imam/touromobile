@@ -4,11 +4,11 @@ import {
   Card, CardItem,
   Body, Right, Text, Content
 } from 'native-base'
-import { StyleSheet, Image, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import RoundIconButton from '../components/roundedIconButton'
 import { IonIcon } from '../theme'
 import Translator from '../utils/translator'
-import moment from 'moment'
+import { format } from 'date-fns'
 import { getPax } from '../selectors'
 import { Call, Text as Sms } from 'react-native-openanything'
 import Button from '../components/button'
@@ -28,8 +28,8 @@ export default class TripCard extends Component {
 
   _renderHeader = trip => {
     const name = trip.get('name')
-    const outDate = moment(trip.get('outDate')).format(DATE_FORMAT)
-    const homeDate = moment(trip.get('homeDate')).format(DATE_FORMAT)
+    const outDate = format(trip.get('outDate'), DATE_FORMAT)
+    const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     return (
       <CardItem>
         <Body><Text style={ss.boldText}>{name}</Text></Body>

@@ -5,7 +5,7 @@ import {
 } from 'native-base'
 import Header from '../../components/header'
 import RoundIconButton from '../../components/roundedIconButton'
-import moment from 'moment'
+import { format } from 'date-fns'
 import { StyleSheet } from 'react-native'
 import { Call, Text as Sms, Web, Map } from 'react-native-openanything'
 import { IonIcon } from '../../theme'
@@ -36,7 +36,7 @@ export default class RestaurantScreen extends Component {
             <Text style={ss.sectionHeader}>{_T('routeDirections')}</Text>
             <Text note>{directions}</Text>
             <Text style={ss.sectionHeader}>{_T('bookedTime')}</Text>
-            <Text>{moment(time).format(DATE_FORMAT)}</Text>
+            <Text>{format(time, DATE_FORMAT)}</Text>
           </View>
           <Right style={ss.mapIcon}>
             <RoundIconButton name='map' color='blue' onPress={() => Map(location)} />

@@ -6,7 +6,7 @@ import {
 import { IonIcon } from '../theme'
 import { getPax } from '../selectors'
 import Translator from '../utils/translator'
-import moment from 'moment'
+import { format } from 'date-fns'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Text as Sms } from 'react-native-openanything'
 import Button from '../components/button'
@@ -49,7 +49,7 @@ export default class Excursions extends Component {
               <IonIcon name='excursion' />
               <Body>
                 <Text>{name}</Text>
-                <Text note>{moment(start).format(DATE_FORMAT)}</Text>
+                <Text note>{format(start, DATE_FORMAT)}</Text>
               </Body>
             </Left>
             <Right>
