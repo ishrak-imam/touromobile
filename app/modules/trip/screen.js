@@ -21,9 +21,13 @@ class TripScreen extends Component {
   }
 
   componentDidMount () {
-    networkActionDispatcher(currentTripReq({
-      isNeedjwt: true
-    }))
+    const { currentTrip } = this.props
+    const isLocalData = currentTrip.get('data').size
+    if (!isLocalData) {
+      networkActionDispatcher(currentTripReq({
+        isNeedjwt: true
+      }))
+    }
   }
 
   render () {

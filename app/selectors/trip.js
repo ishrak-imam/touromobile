@@ -1,7 +1,7 @@
 
 import { getMap } from '../utils/immutable'
 
-export const getCurrentTrip = state => state.get('currentTrip')
+export const getCurrentTrip = state => state.currentTrip // state.get('currentTrip')
 
 export const getPax = bookings => {
   return bookings.map(b => {

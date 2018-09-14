@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { Root } from 'native-base'
 import { Provider } from 'react-redux'
 import App from './app/navigation'
-import store from './app/store'
-// import { setNavigator } from './app/navigation/service'
+import { store, persistor } from './app/store'
+import { PersistGate } from 'redux-persist/integration/react'
 import { AppLoading } from 'expo'
 import cacheAssestsAsync from './app/utils/cacheAssetsAsync'
 import I18n from './app/i18n'
@@ -49,9 +49,11 @@ export default class TouroMobile extends Component {
     return (
       this.state.isAppReady
         ? <Provider store={store}>
-          <Root>
-            <App />
-          </Root>
+          <PersistGate loading={null} persistor={persistor}>
+            <Root>
+              <App />
+            </Root>
+          </PersistGate>
         </Provider>
         : <AppLoading />
     )

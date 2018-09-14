@@ -12,7 +12,7 @@ import { format } from 'date-fns'
 import { getPax } from '../selectors'
 import { Call, Text as Sms } from 'react-native-openanything'
 import Button from '../components/button'
-import CacheImage from '../modules/cahedImages'
+import CacheImage from '../modules/cachedImages'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'YY MM DD'

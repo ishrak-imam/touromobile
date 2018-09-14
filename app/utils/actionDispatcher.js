@@ -1,15 +1,14 @@
 
 import { showToast } from '../toast/action'
 import { readValue } from '../utils/immutable'
-import Store from '../store'
+import { store } from '../store'
 import { getConnection } from '../selectors'
 
-const { dispatch } = Store
-
+const { dispatch } = store
 const notOnline = showToast({ message: 'No Internet' })
 
 export const networkActionDispatcher = action => {
-  const connection = getConnection(Store.getState())
+  const connection = getConnection(store.getState())
   const isOnline = readValue('online', connection)
   isOnline ? dispatch(action) : dispatch(notOnline)
 }
