@@ -39,7 +39,6 @@ export default class TouroMobile extends Component {
         'There was an error caching assets (see: main.js), perhaps due to a ' +
           'network timeout, so we skipped caching. Reload the app to try again.'
       )
-      console.log(e.message)
     } finally {
       this.setState({ isAppReady: true })
     }

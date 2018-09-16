@@ -4,7 +4,7 @@ import { getInitialState } from '../utils/initialState'
 import { LOGOUT_SUCS } from '../modules/auth/action'
 
 import * as navReducers from '../navigation/reducer'
-import * as cacheImageReducers from '../modules/cachedImages/reducer'
+import * as cacheImageReducers from '../modules/imageCache/reducer'
 import * as authReducers from '../modules/auth/reducer'
 import * as connectionReducer from '../connection/reducer'
 import * as tripReducer from '../modules/trip/reducer'

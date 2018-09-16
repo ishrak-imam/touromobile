@@ -8,6 +8,7 @@ import {
   logoutReq, logoutSucs,
   forgotPassReq, forgotPassSucs, forgotPassFail
 } from './action'
+import { clearImageCache } from '../imageCache/action'
 import { navigateToScene } from '../../navigation/action'
 import localStore, { JWT_TOKEN } from '../../utils/persist'
 import { login, getUser, forgotPass } from './api'
@@ -67,6 +68,7 @@ export function * watchLogout () {
 
 function * workerLogout () {
   yield call(localStore.delete, JWT_TOKEN)
+  yield put(clearImageCache())
   yield put(logoutSucs())
   yield put(init())
 }

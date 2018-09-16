@@ -1,5 +1,5 @@
 
-import { Map, List, fromJS } from 'immutable'
+import { Map, List, Set, fromJS } from 'immutable'
 
 export const getImmutableObject = plainObject => {
   return fromJS(plainObject)
@@ -27,6 +27,26 @@ export const updateMap = (map, key, updater) => {
 
 export const setIntoMap = (map, key, val) => {
   return map.set(key, val)
+}
+
+/**
+ * Set methods
+ */
+
+export const getSet = plainArray => {
+  return Set(plainArray)
+}
+
+export const addToSet = (set, item) => {
+  return set.add(item)
+}
+
+export const deleteFromSet = (set, item) => {
+  return set.delete(item)
+}
+
+export const setHas = (set, item) => {
+  return set.has(item)
 }
 
 /**
