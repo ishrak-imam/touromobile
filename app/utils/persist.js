@@ -7,7 +7,7 @@ const localStore = {
   get: async key => {
     const value = await SecureStore.getItemAsync(key)
     // https://stackoverflow.com/questions/2647867/how-to-determine-if-variable-is-undefined-or-null
-    // abstrach equality check for catching both null and undefined
+    // abstract equality check to detect both null and undefined
     return (value == null) ? value : JSON.parse(value)
   },
   delete: async key => SecureStore.deleteItemAsync(key)

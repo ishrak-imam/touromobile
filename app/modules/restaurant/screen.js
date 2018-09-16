@@ -4,7 +4,7 @@ import {
   View, Body, Right, Item
 } from 'native-base'
 import Header from '../../components/header'
-import RoundIconButton from '../../components/roundedIconButton'
+import IconButton from '../../components/iconButton'
 import { format } from 'date-fns'
 import { StyleSheet } from 'react-native'
 import { Call, Text as Sms, Web, Map } from 'react-native-openanything'
@@ -39,7 +39,7 @@ export default class RestaurantScreen extends Component {
             <Text>{format(time, DATE_FORMAT)}</Text>
           </View>
           <Right style={ss.mapIcon}>
-            <RoundIconButton name='map' color='blue' onPress={() => Map(location)} />
+            <IconButton name='map' color='blue' onPress={() => Map(location)} />
           </Right>
         </Body>
       </CardItem>
@@ -52,9 +52,9 @@ export default class RestaurantScreen extends Component {
     return (
       <CardItem>
         <Body style={ss.comms}>
-          {!!url && <RoundIconButton name='web' color='blue' onPress={() => Web(url)} />}
-          <RoundIconButton name='phone' color='green' onPress={() => Call(phone)} />
-          <RoundIconButton name='sms' color='blue' onPress={() => Sms(phone)} />
+          {!!url && <IconButton name='web' color='blue' onPress={() => Web(url)} />}
+          <IconButton name='phone' color='green' onPress={() => Call(phone)} />
+          <IconButton name='sms' color='blue' onPress={() => Sms(phone)} />
         </Body>
       </CardItem>
     )

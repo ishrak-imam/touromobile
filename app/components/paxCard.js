@@ -4,7 +4,7 @@ import {
   Text, Right
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
-import RoundIconButton from '../components/roundedIconButton'
+import IconButton from '../components/iconButton'
 import { TouchableOpacity, StyleSheet } from 'react-native'
 import { Call, Text as Sms } from 'react-native-openanything'
 import Translator from '../utils/translator'
@@ -24,7 +24,7 @@ export default class PaxCard extends Component {
           </Body>
         </Left>
         <Right>
-          <RoundIconButton name='edit' />
+          <IconButton name='edit' />
         </Right>
       </CardItem>
     )
@@ -94,8 +94,8 @@ export default class PaxCard extends Component {
     return (
       <CardItem>
         <Body style={ss.commsBody}>
-          <RoundIconButton name='phone' color='green' onPress={() => Call(phone)} />
-          <RoundIconButton name='sms' color='blue' onPress={() => Sms(phone)} />
+          <IconButton name='phone' color='green' onPress={() => Call(phone)} />
+          <IconButton name='sms' color='blue' onPress={() => Sms(phone)} />
         </Body>
       </CardItem>
     )

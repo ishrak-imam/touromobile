@@ -6,7 +6,7 @@ import {
 import { getPax } from '../selectors'
 import { head, toLower, toUpper } from 'lodash'
 import { getList, getMap } from '../utils/immutable'
-import RoundIconButton from '../components/roundedIconButton'
+import IconButton from '../components/iconButton'
 import { Call, Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
 
@@ -55,12 +55,12 @@ export default class PaxList extends Component {
     const renderData = () => {
       const name = `${item.get('firstName')} ${item.get('lastName')}`
       const { comment } = this.state
-      const renderPhone = number => <RoundIconButton name='phone' color='green' onPress={() => Call(number)} />
-      const renderSMS = number => <RoundIconButton name='sms' color='blue' onPress={() => Sms(number)} />
+      const renderPhone = number => <IconButton name='phone' color='green' onPress={() => Call(number)} />
+      const renderSMS = number => <IconButton name='sms' color='blue' onPress={() => Sms(number)} />
       const renderComment = () => {
         const name = comment === id ? 'up' : 'information'
         return (
-          <RoundIconButton
+          <IconButton
             name={name} color='black'
             onPress={() => this.setState({ comment: comment === id ? null : id })}
           />
@@ -109,7 +109,7 @@ export default class PaxList extends Component {
           {paxNames}
         </Body>
         <Right>
-          {!!phones && <RoundIconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
+          {!!phones && <IconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
         </Right>
       </ListItem>
     )

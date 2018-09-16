@@ -5,7 +5,7 @@ import {
   Body, Right, Text, Content
 } from 'native-base'
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
-import RoundIconButton from '../components/roundedIconButton'
+import IconButton from '../components/iconButton'
 import { IonIcon } from '../theme'
 import Translator from '../utils/translator'
 import { format } from 'date-fns'
@@ -19,11 +19,11 @@ const DATE_FORMAT = 'YY MM DD'
 
 export default class TripCard extends Component {
   _renderPhone = phone => (
-    <RoundIconButton name='phone' color='green' onPress={() => Call(phone)} />
+    <IconButton name='phone' color='green' onPress={() => Call(phone)} />
   )
 
   _renderSMS = phone => (
-    <RoundIconButton name='sms' color='blue' onPress={() => Sms(phone)} />
+    <IconButton name='sms' color='blue' onPress={() => Sms(phone)} />
   )
 
   _renderHeader = trip => {

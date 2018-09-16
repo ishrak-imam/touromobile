@@ -6,7 +6,7 @@ import App from './app/navigation'
 import { store, persistor } from './app/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { AppLoading } from 'expo'
-import cacheAssestsAsync from './app/utils/cacheAssetsAsync'
+import cacheAssestsAsync from './app/utils/assetsCache'
 import I18n from './app/i18n'
 console.disableYellowBox = true
 
