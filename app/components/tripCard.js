@@ -41,9 +41,12 @@ export default class TripCard extends Component {
   }
 
   _renderImage = () => {
+    const arr = Array.from(new Array(5), (val, index) => ++index)
     return (
       <CardItem cardBody>
-        <ImageCache uri='http://www.gstatic.com/webp/gallery/1.jpg' style={ss.tripImage} />
+        {arr.map(item => {
+          return <ImageCache key={item} uri={`http://www.gstatic.com/webp/gallery/${item}.jpg`} style={ss.tripImage} />
+        })}
       </CardItem>
     )
   }

@@ -8,8 +8,15 @@ import { getHash, getExtension } from '../../utils/stringHelpers'
 import { IMAGE_CACHE_DIR } from './service'
 
 class ImageCache extends Component {
-  _resolveProps = () => {
-    const { uri, style, imageCache } = this.props
+  constructor (props) {
+    super(props)
+    this.state = {
+      gotImageOnce: false
+    }
+  }
+
+  _resolveProps = props => {
+    const { uri, style, imageCache } = props
     const imageName = `${getHash(uri)}.${getExtension(uri)}`
     const isInCache = imageCache.get('data').has(imageName)
     let imagePath = ''
@@ -21,20 +28,22 @@ class ImageCache extends Component {
     }
   }
 
-  // shouldComponentUpdate (nextProps) {
-  //   const { isInCache } = this._resolveProps()
-  //   return !isInCache
-  // }
+  shouldComponentUpdate (nextProps) {
+    const { isInCache } = this._resolveProps(nextProps)
+    const { gotImageOnce } = this.state
+    return (isInCache && !gotImageOnce)
+  }
 
   componentDidMount () {
-    const { uri, isInCache } = this._resolveProps()
+    const { uri, isInCache } = this._resolveProps(this.props)
     if (!isInCache) {
       this.props.dispatch(downloadImage({ uri }))
     }
   }
 
   render () {
-    const { style, imagePath } = this._resolveProps()
+    const { style, imagePath } = this._resolveProps(this.props)
+    this.state.gotImageOnce = !!imagePath
     return (
       <Image
         source={{ uri: imagePath }}
