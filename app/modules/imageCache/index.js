@@ -3,16 +3,19 @@ import { Image } from 'react-native'
 import { connect } from 'react-redux'
 import { getImageCache } from '../../selectors'
 import { downloadImage } from './action'
-import { getHash } from '../../utils/stringHelpers'
+import { getHash, getExtension } from '../../utils/stringHelpers'
 
 import { IMAGE_CACHE_DIR } from './service'
 
 class ImageCache extends Component {
   _resolveProps = () => {
     const { uri, style, imageCache } = this.props
-    const uriHash = getHash(uri)
-    const isInCache = imageCache.get('data').has(uriHash)
-    const imagePath = `${IMAGE_CACHE_DIR}${uriHash}`
+    const imageName = `${getHash(uri)}.${getExtension(uri)}`
+    const isInCache = imageCache.get('data').has(imageName)
+    let imagePath = ''
+    if (isInCache) {
+      imagePath = `${IMAGE_CACHE_DIR}${imageName}`
+    }
     return {
       uri, style, isInCache, imagePath
     }

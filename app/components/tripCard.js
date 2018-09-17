@@ -43,7 +43,7 @@ export default class TripCard extends Component {
   _renderImage = () => {
     return (
       <CardItem cardBody>
-        <ImageCache uri='https://picsum.photos/700/500/?image=181' style={ss.tripImage} />
+        <ImageCache uri='http://www.gstatic.com/webp/gallery/1.jpg' style={ss.tripImage} />
       </CardItem>
     )
   }
