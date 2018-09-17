@@ -4,13 +4,15 @@ import { getInitialState } from '../utils/initialState'
 import { LOGOUT_SUCS } from '../modules/auth/action'
 
 import * as navReducers from '../navigation/reducer'
+import * as appReducers from '../modules/app/reducer'
 import * as cacheImageReducers from '../modules/imageCache/reducer'
 import * as authReducers from '../modules/auth/reducer'
 import * as connectionReducer from '../connection/reducer'
 import * as tripReducer from '../modules/trip/reducer'
 
-const appReducer = combineReducers({
+const allReducers = combineReducers({
   ...navReducers,
+  ...appReducers,
   ...cacheImageReducers,
   ...connectionReducer,
   ...authReducers,
@@ -28,7 +30,7 @@ const rootReduces = (state, action) => {
      */
     state.connection = connection
   }
-  return appReducer(state, action)
+  return allReducers(state, action)
 }
 
 export default rootReduces

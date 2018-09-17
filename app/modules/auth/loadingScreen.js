@@ -8,12 +8,14 @@ import { init } from '../auth/action'
 import { Colors } from '../../theme'
 import { startConnectionMonitor, checkConnection } from '../../connection/action'
 import { createCacheDir } from '../imageCache/action'
+import { startAppStateMonitor } from '../../modules/app/action'
 
 class LoadingScreen extends Component {
   componentDidMount () {
     if (!isIOS) this.props.dispatch(checkConnection())
     this.props.dispatch(createCacheDir())
     this.props.dispatch(startConnectionMonitor())
+    this.props.dispatch(startAppStateMonitor())
     this.props.dispatch(init())
   }
   render () {

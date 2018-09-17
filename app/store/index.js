@@ -39,7 +39,7 @@ const persistConfig = {
   transforms: [immutableTransform()],
   key: 'root',
   storage,
-  blacklist: ['navigation']
+  blacklist: ['navigation', 'app', 'connection']
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

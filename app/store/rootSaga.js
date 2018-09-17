@@ -2,6 +2,7 @@
 import { fork, all } from 'redux-saga/effects'
 
 import * as toastSaga from '../toast/toast'
+import * as appSaga from '../modules/app/saga'
 import * as connectionSaga from '../connection/saga'
 import * as navSaga from '../navigation/saga'
 import * as cacheImageSaga from '../modules/imageCache/saga'
@@ -10,6 +11,7 @@ import * as tripSaga from '../modules/trip/saga'
 
 const sagas = {
   ...toastSaga,
+  ...appSaga,
   ...connectionSaga,
   ...navSaga,
   ...cacheImageSaga,
