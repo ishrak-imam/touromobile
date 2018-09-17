@@ -6,5 +6,7 @@ export const getJwt = state => state.login.getIn(['user', 'jwt']) // state.getIn
 export const getImageCache = state => state.imageCache // state.get('imageCache')
 export const {
   getCurrentTrip,
-  getPax
+  getPax,
+  getSortedPax,
+  getSortedBookings
 } = require('./trip')

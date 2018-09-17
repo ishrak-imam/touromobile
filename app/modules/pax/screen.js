@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
 import { getCurrentTrip } from '../../selectors'
 import PaxList from '../../components/paxList'
+import BookingList from '../../components/bookingList'
 const _T = Translator('PassengersScreen')
 
 class PaxScreen extends Component {
@@ -47,15 +48,16 @@ class PaxScreen extends Component {
   render () {
     const { navigation, currentTrip } = this.props
     const { booking } = this.state
+    const trip = currentTrip.get('data')
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} right={this._renderRight} />
         <Content>
-          <PaxList
-            trip={currentTrip.get('data')}
-            navigation={navigation}
-            booking={booking}
-          />
+          {
+            booking
+              ? <BookingList trip={trip} navigation={navigation} />
+              : <PaxList trip={trip} navigation={navigation} />
+          }
         </Content>
       </Container>
     )

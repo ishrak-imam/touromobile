@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 import { connect } from 'react-redux'
 import { getImageCache } from '../../selectors'
 import { downloadImage } from './action'
@@ -44,12 +44,9 @@ class ImageCache extends Component {
   render () {
     const { style, imagePath } = this._resolveProps(this.props)
     this.state.gotImageOnce = !!imagePath
-    return (
-      <Image
-        source={{ uri: imagePath }}
-        style={style}
-      />
-    )
+    return imagePath
+      ? <Image source={{ uri: imagePath }} style={style} />
+      : <View style={style} />
   }
 }
 

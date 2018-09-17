@@ -37,7 +37,7 @@ export default class Excursions extends Component {
     const description = excursion.get('description')
     const start = excursion.get('start')
 
-    const allPax = getPax(trip.get('bookings'))
+    const allPax = getPax(trip)
     let pax = allPax.filter(p => p.get('excursionPack') === true)
     const count = pax.size
 

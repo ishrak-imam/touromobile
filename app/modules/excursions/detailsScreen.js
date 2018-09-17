@@ -5,14 +5,10 @@ import {
   CheckBox, Body, Text
 } from 'native-base'
 import Header from '../../components/header'
-import { getPax } from '../../selectors'
+import { getSortedPax } from '../../selectors'
 import { StyleSheet } from 'react-native'
 
 export default class ExcursionDetailsScreen extends Component {
-  _sortByIdAndName = pax => {
-    return pax.sortBy(p => `${p.get('booking').get('id')} ${p.get('firstName')}`)
-  }
-
   _renderPersons = pax => {
     return (
       <List>
@@ -39,10 +35,9 @@ export default class ExcursionDetailsScreen extends Component {
 
   render () {
     const { navigation } = this.props
+    const trip = navigation.getParam('trip')
     const excursion = navigation.getParam('excursion')
-    const bookings = navigation.getParam('trip').get('bookings')
-    const pax = getPax(bookings)
-    const sortedPax = this._sortByIdAndName(pax)
+    const sortedPax = getSortedPax(trip)
     return (
       <Container>
         <Header left='back' title={excursion.get('name')} navigation={navigation} />

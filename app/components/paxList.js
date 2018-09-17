@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import {
   View, Text, List, ListItem, Body, Right
 } from 'native-base'
-import { getPax } from '../selectors'
+import { getSortedPax } from '../selectors'
 import { head, toLower, toUpper } from 'lodash'
 import { getList, getMap } from '../utils/immutable'
 import IconButton from '../components/iconButton'
@@ -19,9 +19,14 @@ export default class PaxList extends Component {
     }
   }
 
-  _sortByName = (pax) => {
+  _preparePaxData = pax => {
+    /**
+     * TODO:
+     * possible expensive function.
+     * Dig deeper later.
+     */
     let initial = null
-    return pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`).map(p => {
+    return pax.map(p => {
       const paxInitial = toLower(head(p.get('firstName')))
       if (initial !== paxInitial) {
         initial = paxInitial
@@ -38,93 +43,57 @@ export default class PaxList extends Component {
     }
   }
 
+  _renderPhone = number => <IconButton name='phone' color='green' onPress={() => Call(number)} />
+
+  _renderSMS = number => <IconButton name='sms' color='blue' onPress={() => Sms(number)} />
+
+  _renderComment = id => {
+    const { comment } = this.state
+    const name = comment === id ? 'up' : 'information'
+    return (
+      <IconButton
+        name={name} color='black'
+        onPress={() => this.setState({ comment: comment === id ? null : id })}
+      />
+    )
+  }
+
+  _renderDivider = (item, index) => (
+    <ListItem itemDivider key={index}>
+      <Text>{item.get('initial')}</Text>
+    </ListItem>
+  )
+
   _renderPerson = (item, index) => {
-    const first = item.get('first')
     const paxComment = item.get('comment')
     const phone = item.get('phone')
     const id = item.get('id')
-
-    const renderDivider = () => {
-      return (
-        <ListItem itemDivider key={index}>
-          <Text>{item.get('initial')}</Text>
-        </ListItem>
-      )
-    }
-
-    const renderData = () => {
-      const name = `${item.get('firstName')} ${item.get('lastName')}`
-      const { comment } = this.state
-      const renderPhone = number => <IconButton name='phone' color='green' onPress={() => Call(number)} />
-      const renderSMS = number => <IconButton name='sms' color='blue' onPress={() => Sms(number)} />
-      const renderComment = () => {
-        const name = comment === id ? 'up' : 'information'
-        return (
-          <IconButton
-            name={name} color='black'
-            onPress={() => this.setState({ comment: comment === id ? null : id })}
-          />
-        )
-      }
-
-      return (
-        <ListItem onPress={this._toPaxDetails(item)} key={index}>
-          <Body>
-            <Text>{name}</Text>
-            <Text note>{item.get('booking').get('id')}</Text>
-            {comment === id && <Text note>{paxComment}</Text>}
-          </Body>
-          <Right style={ss.itemRight}>
-            {!!paxComment && renderComment()}
-            {!!phone && renderPhone(phone)}
-            {!!phone && renderSMS(phone)}
-          </Right>
-        </ListItem>
-      )
-    }
-
-    if (first) {
-      return renderDivider()
-    }
-
-    return renderData()
-  }
-
-  _renderBooking = booking => {
-    const id = booking.get('id')
-    const pax = booking.get('pax')
-
-    const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
-    const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
-
-    const phones = sortedPax
-      .filter(p => p.get('phone'))
-      .map(p => p.get('phone'))
-      .join(',')
-
+    const name = `${item.get('firstName')} ${item.get('lastName')}`
+    const { comment } = this.state
     return (
-      <ListItem onPress={() => {}} key={id}>
+      <ListItem onPress={this._toPaxDetails(item)} key={index}>
         <Body>
-          <Text>{id}</Text>
-          {paxNames}
+          <Text>{name}</Text>
+          <Text note>{item.get('booking').get('id')}</Text>
+          {comment === id && <Text note>{paxComment}</Text>}
         </Body>
-        <Right>
-          {!!phones && <IconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
+        <Right style={ss.itemRight}>
+          {!!paxComment && this._renderComment(id)}
+          {!!phone && this._renderPhone(phone)}
+          {!!phone && this._renderSMS(phone)}
         </Right>
       </ListItem>
     )
   }
 
-  _renderList = bookings => {
-    const { booking } = this.props
-    const list = booking
-      ? bookings.sortBy(b => b.get('id')) // sort bookings by id
-      : this._sortByName(getPax(bookings))
+  _renderList = trip => {
+    const sortedPax = getSortedPax(trip)
+    const paxList = this._preparePaxData(sortedPax)
     return (
       <List>
-        {list.map((item, index) => {
-          return booking
-            ? this._renderBooking(item)
+        {paxList.map((item, index) => {
+          return item.get('first')
+            ? this._renderDivider(item, index)
             : this._renderPerson(item, index)
         })}
       </List>
@@ -136,7 +105,7 @@ export default class PaxList extends Component {
     const bookings = trip.get('bookings')
     return (
       <View>
-        {!!bookings && this._renderList(bookings)}
+        {!!bookings && this._renderList(trip)}
       </View>
     )
   }

@@ -134,7 +134,7 @@ export default class TripCard extends Component {
   }
 
   _smsAll = trip => {
-    const pax = getPax(trip.get('bookings'))
+    const pax = getPax(trip)
     const numbers = pax
       .filter(p => !!p.get('phone'))
       .map(p => p.get('phone'))
