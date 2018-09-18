@@ -8,11 +8,6 @@ import IconButton from '../components/iconButton'
 import { Call, Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
 
-const paxListCache = {
-  previous: null,
-  computed: null
-}
-
 export default class PaxList extends Component {
   constructor (props) {
     super(props)
@@ -74,16 +69,11 @@ export default class PaxList extends Component {
   }
 
   _renderList = trip => {
-    if (trip.equals(paxListCache.previous)) {
-      return <List>{paxListCache.computed}</List>
-    }
-    paxListCache.previous = trip
     const sortedPax = getSortedPax(trip)
     const paxList = preparePaxData(sortedPax)
-    paxListCache.computed = paxList.map((item, index) => this._renderPerson(item, index))
     return (
       <List>
-        {paxListCache.computed}
+        {paxList.map((item, index) => this._renderPerson(item, index))}
       </List>
     )
   }

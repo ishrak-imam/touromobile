@@ -1,73 +1,70 @@
 
 import { setIntoMap, getMap, getList } from '../utils/immutable'
+import Cache from '../utils/cache'
 
 export const getCurrentTrip = state => state.currentTrip // state.get('currentTrip')
 
-const paxCache = {
-  previous: null,
-  computed: null
-}
+let paxCache = null
 export const getPax = trip => {
-  if (trip.equals(paxCache.previous)) {
-    return paxCache.computed
+  const resolver = data => {
+    const bookings = data.get('bookings')
+    return bookings.map(b => {
+      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+    }).flatten(1) // one level deep flatten
   }
-  paxCache.previous = trip
-  const bookings = trip.get('bookings')
-  paxCache.computed = bookings.map(b => {
-    return b.get('pax').map(p => setIntoMap(p, 'booking', b))
-  }).flatten(1) // one level deep flatten
-  return paxCache.computed
+
+  if (!paxCache) {
+    paxCache = new Cache(trip, resolver)
+  }
+  return paxCache.getData()
 }
 
-const sortedPaxCache = {
-  previous: null,
-  computed: null
-}
+let sortedPaxCache = null
 export const getSortedPax = trip => {
-  if (trip.equals(sortedPaxCache.previous)) {
-    return sortedPaxCache.computed
+  const resolver = data => {
+    const bookings = data.get('bookings')
+    return bookings.map(b => {
+      return b.get('pax')
+        .map(p => setIntoMap(p, 'booking', b))
+    }).flatten(1) // one level deep flatten
+      .sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
   }
-  sortedPaxCache.previous = trip
-  const bookings = trip.get('bookings')
-  sortedPaxCache.computed = bookings.map(b => {
-    return b.get('pax')
-      .map(p => setIntoMap(p, 'booking', b))
-  }).flatten(1) // one level deep flatten
-    .sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
-  return sortedPaxCache.computed
+
+  if (!sortedPaxCache) {
+    sortedPaxCache = new Cache(trip, resolver)
+  }
+  return sortedPaxCache.getData()
 }
 
-const sortedBookingCache = {
-  previous: null,
-  computed: null
-}
+let sortedBookingCache = null
 export const getSortedBookings = trip => {
-  if (trip.equals(sortedBookingCache.previous)) {
-    return sortedBookingCache.computed
+  const resolver = data => {
+    const bookings = data.get('bookings')
+    return bookings.sortBy(b => b.get('id'))
   }
-  sortedBookingCache.previous = trip
-  const bookings = trip.get('bookings')
-  sortedBookingCache.computed = bookings.sortBy(b => b.get('id'))
-  return sortedBookingCache.computed
+
+  if (!sortedBookingCache) {
+    sortedBookingCache = new Cache(trip, resolver)
+  }
+  return sortedBookingCache.getData()
 }
 
-const paxDataCache = {
-  previous: null,
-  computed: null
-}
+let paxDataCache = null
 export const preparePaxData = pax => {
-  if (pax.equals(paxDataCache.previous)) {
-    return paxDataCache.computed
+  const resolver = pax => {
+    let initial = null
+    return pax.map(p => {
+      const paxInitial = p.get('firstName').charAt(0).toLowerCase()
+      if (initial !== paxInitial) {
+        initial = paxInitial
+        return getList([getMap({ first: true, initial: paxInitial.toUpperCase() }), p])
+      }
+      return getList([p])
+    }).flatten(1) // one level flatten
   }
-  paxDataCache.previous = pax
-  let initial = null
-  paxDataCache.computed = pax.map(p => {
-    const paxInitial = p.get('firstName').charAt(0).toLowerCase()
-    if (initial !== paxInitial) {
-      initial = paxInitial
-      return getList([getMap({ first: true, initial: paxInitial.toUpperCase() }), p])
-    }
-    return getList([p])
-  }).flatten(1) // one level flatten
-  return paxDataCache.computed
+
+  if (!paxDataCache) {
+    paxDataCache = new Cache(pax, resolver)
+  }
+  return paxDataCache.getData()
 }
