@@ -7,6 +7,7 @@ import {
   ImageBackground, Animated, TouchableOpacity,
   Keyboard, KeyboardAvoidingView, StyleSheet
 } from 'react-native'
+import { checkEmail } from '../../utils/stringHelpers'
 import { Colors, Images } from '../../theme'
 import { getLogin } from '../../selectors'
 import { connect } from 'react-redux'
@@ -68,7 +69,7 @@ class Login extends Component {
 
   _checkIsReady = () => {
     const { user, password } = this.state
-    this.setState({ isReady: !!user && !!password })
+    this.setState({ isReady: checkEmail(user) && !!password })
   }
 
   _login = () => {
@@ -160,7 +161,7 @@ class Login extends Component {
                   {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}
                 </Button>
                 <TouchableOpacity style={ss.forgotPass} disabled={isDisabled} onPress={this._forgotPass}>
-                  <Text style={{ color: isDisabled ? 'black' : Colors.headerBg }}>{_T('forgotPass')}</Text>
+                  <Text style={{ color: isDisabled ? Colors.loginBg : Colors.headerBg }} note>{_T('forgotPass')}</Text>
                 </TouchableOpacity>
               </View>
             </Form>
