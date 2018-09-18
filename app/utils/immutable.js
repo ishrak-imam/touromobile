@@ -76,3 +76,7 @@ export const shiftFromList = list => {
 export const readValue = (of, from) => {
   return from.get(of)
 }
+
+export const listToMap = (list, key) => {
+  return list.reduce((map, item) => map.set(item.get(key).toString(), item), getMap({}))
+}

@@ -9,9 +9,9 @@ import { format } from 'date-fns'
 import { StyleSheet } from 'react-native'
 import { Call, Text as Sms, Web, Map } from 'react-native-openanything'
 import { IonIcon } from '../../theme'
-import { get, set, keys, keyBy } from 'lodash'
 import isEmpty from '../../utils/isEmpty'
 import Translator from '../../utils/translator'
+import { listToMap } from '../../utils/immutable'
 
 const DATE_FORMAT = 'YY MM DD, h:mm'
 const _T = Translator('RestaurantScreen')
@@ -90,27 +90,24 @@ export default class RestaurantScreen extends Component {
   }
 
   _renderOrders = (orders, restaurant) => {
-    /**
-     * TODO:
-     * manipulate immutable data without using .toJS()
-     * method as it's use can degrade performance
-     */
-    const meals = keyBy(restaurant.get('meals').toJS(), 'id')
-    const beverages = keyBy(restaurant.get('beverages').toJS(), 'id')
+    const meals = listToMap(restaurant.get('meals'), 'id')
+    const beverages = listToMap(restaurant.get('beverages'), 'id')
 
     let adultMealOrders = {}
     let childMealOrders = {}
     let beverageOrders = {}
 
     orders.map(o => {
-      const mealCount = get(o.get('adult') ? adultMealOrders : childMealOrders, o.get('meal'), 0)
-      set(
-        o.get('adult') ? adultMealOrders : childMealOrders,
-        o.get('meal'),
-        mealCount + 1
-      )
-      const beverageCount = get(beverageOrders, o.get('drink'), 0)
-      set(beverageOrders, o.get('drink'), beverageCount + 1)
+      const mealCount = o.get('adult')
+        ? adultMealOrders[o.get('meal')] || 0
+        : childMealOrders[o.get('meal')] || 0
+
+      o.get('adult')
+        ? adultMealOrders[o.get('meal')] = mealCount + 1
+        : childMealOrders[o.get('meal')] = mealCount + 1
+
+      const beverageCount = beverageOrders[o.get('drink')] || 0
+      beverageOrders[o.get('drink')] = beverageCount + 1
     })
 
     const showAge = !isEmpty(childMealOrders)
@@ -127,7 +124,7 @@ export default class RestaurantScreen extends Component {
     }
 
     const renderOrderSummary = (orders, lookup) => {
-      return keys(orders).map(k => renderOrder(k, get(lookup[k], 'name'), orders[k]))
+      return Object.keys(orders).map(k => renderOrder(k, lookup.get(k).get('name'), orders[k]))
     }
 
     return (
@@ -138,7 +135,7 @@ export default class RestaurantScreen extends Component {
             <Right><Text>{_T('amount')}</Text></Right>
           </Item>
 
-          <Text note>Meal</Text>
+          <Text note>{_T('meal')}</Text>
           {showAge && <Text note>{_T('adults')}</Text>}
           {renderOrderSummary(adultMealOrders, meals)}
 
