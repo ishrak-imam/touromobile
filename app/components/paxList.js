@@ -3,12 +3,15 @@ import React, { Component } from 'react'
 import {
   View, Text, List, ListItem, Body, Right
 } from 'native-base'
-import { getSortedPax } from '../selectors'
-import { head, toLower, toUpper } from 'lodash'
-import { getList, getMap } from '../utils/immutable'
+import { getSortedPax, preparePaxData } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Call, Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
+
+const paxListCache = {
+  previous: null,
+  computed: null
+}
 
 export default class PaxList extends Component {
   constructor (props) {
@@ -17,23 +20,6 @@ export default class PaxList extends Component {
       comment: null,
       booking: false
     }
-  }
-
-  _preparePaxData = pax => {
-    /**
-     * TODO:
-     * possible expensive function.
-     * Dig deeper later.
-     */
-    let initial = null
-    return pax.map(p => {
-      const paxInitial = toLower(head(p.get('firstName')))
-      if (initial !== paxInitial) {
-        initial = paxInitial
-        return getList([getMap({ first: true, initial: toUpper(paxInitial) }), p])
-      }
-      return getList([p])
-    }).flatten(1)
   }
 
   _toPaxDetails = pax => {
@@ -58,13 +44,14 @@ export default class PaxList extends Component {
     )
   }
 
-  _renderDivider = (item, index) => (
-    <ListItem itemDivider key={index}>
-      <Text>{item.get('initial')}</Text>
-    </ListItem>
-  )
-
   _renderPerson = (item, index) => {
+    if (item.get('first')) {
+      return (
+        <ListItem itemDivider key={index}>
+          <Text>{item.get('initial')}</Text>
+        </ListItem>
+      )
+    }
     const paxComment = item.get('comment')
     const phone = item.get('phone')
     const id = item.get('id')
@@ -87,15 +74,16 @@ export default class PaxList extends Component {
   }
 
   _renderList = trip => {
+    if (trip.equals(paxListCache.previous)) {
+      return <List>{paxListCache.computed}</List>
+    }
+    paxListCache.previous = trip
     const sortedPax = getSortedPax(trip)
-    const paxList = this._preparePaxData(sortedPax)
+    const paxList = preparePaxData(sortedPax)
+    paxListCache.computed = paxList.map((item, index) => this._renderPerson(item, index))
     return (
       <List>
-        {paxList.map((item, index) => {
-          return item.get('first')
-            ? this._renderDivider(item, index)
-            : this._renderPerson(item, index)
-        })}
+        {paxListCache.computed}
       </List>
     )
   }

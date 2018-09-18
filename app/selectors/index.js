@@ -8,5 +8,6 @@ export const {
   getCurrentTrip,
   getPax,
   getSortedPax,
-  getSortedBookings
+  getSortedBookings,
+  preparePaxData
 } = require('./trip')
