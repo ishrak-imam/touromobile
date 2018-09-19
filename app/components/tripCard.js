@@ -1,10 +1,10 @@
 
 import React, { Component } from 'react'
 import {
-  Card, CardItem, Left,
-  Body, Right, Text, Content
+  CardItem, Left,
+  Body, Right, Text
 } from 'native-base'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native'
 import IconButton from '../components/iconButton'
 import { IonIcon } from '../theme'
 import Translator from '../utils/translator'
@@ -67,26 +67,24 @@ export default class TripCard extends Component {
 
   _renderDrivers = drivers => {
     return (
-      <CardItem>
-        <Content>
-          <Text style={ss.boldText}>{_T('drivers')}</Text>
-          {
-            drivers.map(driver => {
-              const id = driver.get('id')
-              const name = driver.get('name')
-              const phone = driver.get('phone')
-              return (
-                <Body style={ss.body} key={id}>
-                  <Text>{name}</Text>
-                  <Right style={ss.right}>
-                    {this._renderPhone(phone)}
-                    {this._renderSMS(phone)}
-                  </Right>
-                </Body>
-              )
-            })
-          }
-        </Content>
+      <CardItem style={ss.cardItem}>
+        <Text style={ss.boldText}>{_T('drivers')}</Text>
+        {
+          drivers.map(driver => {
+            const id = driver.get('id')
+            const name = driver.get('name')
+            const phone = driver.get('phone')
+            return (
+              <Body style={ss.body} key={id}>
+                <Text>{name}</Text>
+                <Right style={ss.right}>
+                  {this._renderPhone(phone)}
+                  {this._renderSMS(phone)}
+                </Right>
+              </Body>
+            )
+          })
+        }
       </CardItem>
     )
   }
@@ -104,37 +102,35 @@ export default class TripCard extends Component {
     const outPhone = out.get('phone')
     const homePhone = home.get('phone')
     return (
-      <CardItem>
-        <Content>
-          <Text style={ss.boldText}>{_T('lunchRestaurants')}</Text>
+      <CardItem style={ss.cardItem}>
+        <Text style={ss.boldText}>{_T('lunchRestaurants')}</Text>
 
-          <TouchableOpacity onPress={this._toRestaurant('out', out)} style={ss.restaurantsItem}>
-            <Text note>{_T('out')}</Text>
-            <Body style={ss.body}>
-              <Left style={{ flex: 2 }}>
-                <Text>{out.get('name')}</Text>
-              </Left>
-              <Right style={ss.right}>
-                {this._renderPhone(outPhone)}
-                {this._renderSMS(outPhone)}
-              </Right>
-            </Body>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={this._toRestaurant('out', out)} style={ss.restaurantsItem}>
+          <Text note>{_T('out')}</Text>
+          <Body style={ss.body}>
+            <Left style={{ flex: 2 }}>
+              <Text>{out.get('name')}</Text>
+            </Left>
+            <Right style={ss.right}>
+              {this._renderPhone(outPhone)}
+              {this._renderSMS(outPhone)}
+            </Right>
+          </Body>
+        </TouchableOpacity>
 
-          <TouchableOpacity onPress={this._toRestaurant('home', home)} style={ss.restaurantsItem}>
-            <Text note>{_T('home')}</Text>
-            <Body style={ss.body}>
-              <Left style={{ flex: 2 }}>
-                <Text>{home.get('name')}</Text>
-              </Left>
-              <Right style={ss.right}>
-                {this._renderPhone(homePhone)}
-                {this._renderSMS(homePhone)}
-              </Right>
-            </Body>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={this._toRestaurant('home', home)} style={ss.restaurantsItem}>
+          <Text note>{_T('home')}</Text>
+          <Body style={ss.body}>
+            <Left style={{ flex: 2 }}>
+              <Text>{home.get('name')}</Text>
+            </Left>
+            <Right style={ss.right}>
+              {this._renderPhone(homePhone)}
+              {this._renderSMS(homePhone)}
+            </Right>
+          </Body>
+        </TouchableOpacity>
 
-        </Content>
       </CardItem>
     )
   }
@@ -165,14 +161,14 @@ export default class TripCard extends Component {
     const launches = trip.get('lunches')
     const image = trip.get('image')
     return (
-      <Card>
+      <ScrollView>
         {this._renderHeader(trip)}
         {!!image && this._renderImage(image)}
         {!!transport && this._renderSchedule(transport)}
         {!!transport && this._renderDrivers(transport.get('drivers'))}
         {!!launches && this._renderRestaurants(launches)}
         {this._renderFooter(trip)}
-      </Card>
+      </ScrollView>
     )
   }
 }
@@ -190,7 +186,8 @@ const ss = StyleSheet.create({
     marginTop: 10
   },
   restaurantsItem: {
-    marginTop: 10
+    marginTop: 10,
+    width: '100%'
   },
   body: {
     flexDirection: 'row',
@@ -203,5 +200,9 @@ const ss = StyleSheet.create({
   footerButton: {
     flex: 1,
     justifyContent: 'center'
+  },
+  cardItem: {
+    flexDirection: 'column',
+    alignItems: 'flex-start'
   }
 })

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Container, Content, Text, View
+  Container, Text, View
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
@@ -34,17 +34,29 @@ class TripScreen extends Component {
     }
   }
 
+  _renderLoader = msg => {
+    return (
+      <View style={ss.centerAlign}>
+        <Text>{msg}</Text>
+      </View>
+    )
+  }
+
   render () {
     const { navigation, trips } = this.props
+    const isLoading = trips.get('isLoading')
+    const noMoreTrips = trips.get('noMoreTrips')
+    const currentTrip = trips.get('current')
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
-        <Content style={ss.content}>
-          <TripCard
-            trip={trips.get('current')}
-            navigation={navigation}
-          />
-        </Content>
+        {
+          isLoading
+            ? this._renderLoader('Fetching data from Touro...')
+            : noMoreTrips
+              ? this._renderLoader('No more trips')
+              : !!currentTrip.size && <TripCard trip={currentTrip} navigation={navigation} />
+        }
       </Container>
 
     )
@@ -61,5 +73,10 @@ export default connect(stateToProps, null)(TripScreen)
 const ss = StyleSheet.create({
   content: {
     // padding: 3
+  },
+  centerAlign: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
