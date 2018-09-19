@@ -5,8 +5,12 @@ const BASE_DIR = FileSystem.cacheDirectory
 
 export const IMAGE_CACHE_DIR = `${BASE_DIR}imageCache/`
 
-export const checkIfExists = () => {
+export const checkIfExistsDir = () => {
   return FileSystem.getInfoAsync(IMAGE_CACHE_DIR)
+}
+
+export const checkIfExistsImage = imageName => {
+  return FileSystem.getInfoAsync(`${IMAGE_CACHE_DIR}${imageName}`)
 }
 
 export const createDirectory = () => {
