@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Image, View } from 'react-native'
 import { connect } from 'react-redux'
 import { getImageCache } from '../../selectors'
-import { downloadImage } from './action'
+// import { downloadImage } from './action'
 import { getHash, getExtension } from '../../utils/stringHelpers'
 
 import { IMAGE_CACHE_DIR } from './service'
@@ -34,12 +34,12 @@ class ImageCache extends Component {
     return (isInCache && !gotImageOnce)
   }
 
-  componentDidMount () {
-    const { uri, isInCache } = this._resolveProps(this.props)
-    if (!isInCache) {
-      this.props.dispatch(downloadImage({ uri }))
-    }
-  }
+  // componentDidMount () {
+  //   const { uri, isInCache } = this._resolveProps(this.props)
+  //   if (!isInCache) {
+  //     this.props.dispatch(downloadImage({ uri }))
+  //   }
+  // }
 
   render () {
     const { style, imagePath } = this._resolveProps(this.props)

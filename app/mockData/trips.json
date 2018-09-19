@@ -6,6 +6,7 @@
     "name": "berw16",
     "description": "Berlin Weekend",
     "brand": "SC",
+    "image": "http://www.gstatic.com/webp/gallery/1.jpg",
     "bookings": [
       {
         "id": "640062",
@@ -1054,6 +1055,7 @@
     "name": "berw16",
     "description": "Berlin Weekend",
     "brand": "SC",
+    "image": "http://www.gstatic.com/webp/gallery/1.jpg",
     "bookings": [
       {
         "id": "640062",

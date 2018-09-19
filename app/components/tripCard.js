@@ -40,13 +40,10 @@ export default class TripCard extends Component {
     )
   }
 
-  _renderImage = () => {
-    const arr = Array.from(new Array(5), (val, index) => ++index)
+  _renderImage = image => {
     return (
       <CardItem cardBody>
-        {arr.map(item => {
-          return <ImageCache key={item} uri={`http://www.gstatic.com/webp/gallery/${item}.jpg`} style={ss.tripImage} />
-        })}
+        <ImageCache uri={image} style={ss.tripImage} />
       </CardItem>
     )
   }
@@ -166,10 +163,11 @@ export default class TripCard extends Component {
     const { trip } = this.props
     const transport = trip.get('transport')
     const launches = trip.get('lunches')
+    const image = trip.get('image')
     return (
       <Card>
         {this._renderHeader(trip)}
-        {this._renderImage()}
+        {!!image && this._renderImage(image)}
         {!!transport && this._renderSchedule(transport)}
         {!!transport && this._renderDrivers(transport.get('drivers'))}
         {!!launches && this._renderRestaurants(launches)}

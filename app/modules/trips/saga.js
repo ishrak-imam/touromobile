@@ -11,6 +11,8 @@ import {
   setCurrentTrip
 } from './action'
 
+import { downloadImage } from '../imageCache/action'
+
 import {
   getTripsApi
 } from './api'
@@ -40,5 +42,6 @@ export function * watchGetCurrentTrip () {
 
 function * workerGetCurrentTrip (action) {
   const currentTrip = yield select(gctSelector)
+  yield put(downloadImage({ uri: currentTrip.image }))
   yield put(setCurrentTrip(currentTrip))
 }
