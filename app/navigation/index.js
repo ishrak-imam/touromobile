@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react'
+import React from 'react'
 import {
   createStackNavigator,
   createSwitchNavigator,
@@ -7,10 +7,6 @@ import {
   createMaterialTopTabNavigator,
   createDrawerNavigator
 } from 'react-navigation'
-
-import { connect } from 'react-redux'
-import { setNavigator } from './service'
-import { setCurrentScreen } from './action'
 
 import isIOS from '../utils/isIOS'
 
@@ -90,22 +86,4 @@ const RootNavigator = createSwitchNavigator(
   }
 )
 
-/**
- * Application root
- */
-class App extends Component {
-  _handleNavigationStateChange = (prevState, currentState, action) => {
-    this.props.dispatch(setCurrentScreen(currentState.routes[currentState.index]))
-  }
-
-  render () {
-    return (
-      <RootNavigator
-        ref={navigatorRef => setNavigator(navigatorRef)}
-        onNavigationStateChange={this._handleNavigationStateChange}
-      />
-    )
-  }
-}
-
-export default connect(null, dispatch => ({ dispatch }))(App)
+export default RootNavigator

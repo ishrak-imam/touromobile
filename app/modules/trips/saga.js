@@ -8,10 +8,9 @@ import {
   tripsFail,
 
   getCurrentTrip,
-  setCurrentTrip
+  setCurrentTrip,
+  setNoMoreTrips
 } from './action'
-
-import { downloadImage } from '../imageCache/action'
 
 import {
   getTripsApi
@@ -41,7 +40,9 @@ export function * watchGetCurrentTrip () {
 }
 
 function * workerGetCurrentTrip (action) {
-  const currentTrip = yield select(gctSelector)
-  yield put(downloadImage({ uri: currentTrip.image }))
+  const { noMoreTrips, currentTrip } = yield select(gctSelector)
+  if (noMoreTrips) {
+    yield put(setNoMoreTrips())
+  }
   yield put(setCurrentTrip(currentTrip))
 }

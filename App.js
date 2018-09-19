@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { Root } from 'native-base'
 import { Provider } from 'react-redux'
-import App from './app/navigation'
+import App from './app/modules/app'
 import { store, persistor } from './app/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { AppLoading } from 'expo'

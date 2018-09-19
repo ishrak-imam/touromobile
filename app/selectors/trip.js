@@ -1,12 +1,21 @@
 
+import { isWithinRange } from 'date-fns'
 import { setIntoMap, getMap, getList } from '../utils/immutable'
 import Cache from '../utils/cache'
 
 export const getTrips = state => state.trips
 
 export const getCurrentTrip = state => {
-  const data = state.trips.get('data').toJS()
-  return data[0]
+  // const dateNow = new Date('2018-10-18T05:18:30.3953096+02:00')
+  const dateNow = new Date()
+  const trips = state.trips.get('data')
+  const currentTrip = trips.find(trip => {
+    return isWithinRange(dateNow, trip.get('outDate'), trip.get('homeDate'))
+  })
+  return {
+    noMoreTrips: !currentTrip,
+    currentTrip: currentTrip || {}
+  }
 }
 
 let paxCache = null
