@@ -7,10 +7,10 @@ import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import { currentTripReq } from './action'
+import { tripsReq } from './action'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import TripCard from '../../components/tripCard'
-import { getCurrentTrip } from '../../selectors'
+import { getTrips, getUser } from '../../selectors'
 const _T = Translator('CurrentTripScreen')
 
 class TripScreen extends Component {
@@ -21,23 +21,23 @@ class TripScreen extends Component {
   }
 
   componentDidMount () {
-    const { currentTrip } = this.props
-    const isLocalData = currentTrip.get('data').size
+    const { trips, user } = this.props
+    const isLocalData = trips.get('data').size
     if (!isLocalData) {
-      networkActionDispatcher(currentTripReq({
-        isNeedjwt: true
+      networkActionDispatcher(tripsReq({
+        isNeedjwt: true, guideId: user.get('id')
       }))
     }
   }
 
   render () {
-    const { navigation, currentTrip } = this.props
+    const { navigation, trips } = this.props
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
         <Content style={ss.content}>
           <TripCard
-            trip={currentTrip.get('data')}
+            trip={trips.get('current')}
             navigation={navigation}
           />
         </Content>
@@ -48,7 +48,8 @@ class TripScreen extends Component {
 }
 
 const stateToProps = state => ({
-  currentTrip: getCurrentTrip(state)
+  trips: getTrips(state),
+  user: getUser(state)
 })
 
 export default connect(stateToProps, null)(TripScreen)

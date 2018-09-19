@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  Card, CardItem,
+  Card, CardItem, Left,
   Body, Right, Text, Content
 } from 'native-base'
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
@@ -110,24 +110,33 @@ export default class TripCard extends Component {
       <CardItem>
         <Content>
           <Text style={ss.boldText}>{_T('lunchRestaurants')}</Text>
-          <TouchableOpacity onPress={this._toRestaurant('out', out)}>
+
+          <TouchableOpacity onPress={this._toRestaurant('out', out)} style={ss.restaurantsItem}>
+            <Text note>{_T('out')}</Text>
             <Body style={ss.body}>
-              <Text>{`${_T('out')}: ${out.get('name')}`}</Text>
+              <Left style={{ flex: 2 }}>
+                <Text>{out.get('name')}</Text>
+              </Left>
               <Right style={ss.right}>
                 {this._renderPhone(outPhone)}
                 {this._renderSMS(outPhone)}
               </Right>
             </Body>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this._toRestaurant('home', home)}>
+
+          <TouchableOpacity onPress={this._toRestaurant('home', home)} style={ss.restaurantsItem}>
+            <Text note>{_T('home')}</Text>
             <Body style={ss.body}>
-              <Text>{`${_T('home')}: ${home.get('name')}`}</Text>
+              <Left style={{ flex: 2 }}>
+                <Text>{home.get('name')}</Text>
+              </Left>
               <Right style={ss.right}>
                 {this._renderPhone(homePhone)}
                 {this._renderSMS(homePhone)}
               </Right>
             </Body>
           </TouchableOpacity>
+
         </Content>
       </CardItem>
     )
@@ -180,6 +189,9 @@ const ss = StyleSheet.create({
     flex: 1
   },
   scheduleContainer: {
+    marginTop: 10
+  },
+  restaurantsItem: {
     marginTop: 10
   },
   body: {

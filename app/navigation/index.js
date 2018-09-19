@@ -19,7 +19,7 @@ import DrawerComponent from '../components/drawer'
 
 import LoadingScreen from '../modules/auth/loadingScreen'
 import Login from '../modules/auth/login'
-import TripScreen from '../modules/trip/screen'
+import TripScreen from '../modules/trips/screen'
 import PaxScreen from '../modules/pax/screen'
 import ExcursionsScreen from '../modules/excursions/screen'
 import ReportsScreen from '../modules/reports/screen'

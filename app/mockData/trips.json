@@ -1,0 +1,2097 @@
+[
+  {
+    "departureId": 20271,
+    "outDate": "2018-09-18T05:18:30.3953096+02:00",
+    "homeDate": "2018-09-29T05:18:30.3953096+02:00",
+    "name": "berw16",
+    "description": "Berlin Weekend",
+    "brand": "SC",
+    "bookings": [
+      {
+        "id": "640062",
+        "customer": {
+          "id": 38747,
+          "firstName": "Kerstin Iris",
+          "lastName": "Holmström",
+          "phone": "0707884256,0707884256",
+          "email": "kerstinholmstrom49@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 646330,
+            "firstName": "Carl Gustaf",
+            "lastName": "Holmström",
+            "ssn": "1948-01-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 646331,
+            "firstName": "Hugo",
+            "lastName": "Holmström",
+            "ssn": "2002-08-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 663869,
+            "firstName": "Kerstin",
+            "lastName": "Holmström",
+            "ssn": "4911018986",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "642558",
+        "customer": {
+          "id": 44983,
+          "firstName": "Malin",
+          "lastName": "Johansson",
+          "phone": null,
+          "email": "Malin.johansson@lingmerths.se"
+        },
+        "pax": [
+          {
+            "id": 643058,
+            "firstName": "Malin",
+            "lastName": "Johansson",
+            "ssn": "1989-05-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 643059,
+            "firstName": "Susanna",
+            "lastName": "Johannesson",
+            "ssn": "1989-12-22",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "642571",
+        "customer": {
+          "id": 44990,
+          "firstName": "Annika",
+          "lastName": "Lauritsen",
+          "phone": null,
+          "email": "annikal83@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 649714,
+            "firstName": "Annika",
+            "lastName": "Lauritsen",
+            "ssn": "1983-04-22",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 649715,
+            "firstName": "Ann-Marie",
+            "lastName": "Silver",
+            "ssn": "1954-01-26",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 649716,
+            "firstName": "Matheus",
+            "lastName": "Lauritsen",
+            "ssn": "2005-07-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "642660",
+        "customer": {
+          "id": 26435,
+          "firstName": "Hans-Eric",
+          "lastName": "Lindberg",
+          "phone": null,
+          "email": "hansericlindberg@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 647711,
+            "firstName": "Hans-Eric",
+            "lastName": "Lindberg",
+            "ssn": "4610134035",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 654139,
+            "firstName": "Marianne",
+            "lastName": "Lindberg",
+            "ssn": "5402170269",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "642810",
+        "customer": {
+          "id": 45099,
+          "firstName": "Loke",
+          "lastName": "Dahlström",
+          "phone": "040452289,0705764007",
+          "email": "loke.dahlstrom@scandorama.se"
+        },
+        "pax": [
+          {
+            "id": 642058,
+            "firstName": "Loke",
+            "lastName": "Dahlström",
+            "ssn": "197203172452",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 642059,
+            "firstName": "Björn",
+            "lastName": "Dahlström",
+            "ssn": "2000-10-23",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 642060,
+            "firstName": "Helene",
+            "lastName": "Gustafsson",
+            "ssn": "1964-11-16",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 642061,
+            "firstName": "Ingrid",
+            "lastName": "Dahlström",
+            "ssn": "2002-11-21",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643053",
+        "customer": {
+          "id": 45219,
+          "firstName": "Helene",
+          "lastName": "Eriksson",
+          "phone": null,
+          "email": "helene.k.eriksson@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 667711,
+            "firstName": "Helene",
+            "lastName": "Eriksson",
+            "ssn": "1973-11-23",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 667712,
+            "firstName": "Annika",
+            "lastName": "Fervenza",
+            "ssn": "1965-05-30",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643224",
+        "customer": {
+          "id": 47346,
+          "firstName": "Joakim",
+          "lastName": "Andersson",
+          "phone": null,
+          "email": "joakim.andersson@edu.laholm.se"
+        },
+        "pax": [
+          {
+            "id": 645313,
+            "firstName": "Marie",
+            "lastName": "Lennartsson",
+            "ssn": "6802104643",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 645314,
+            "firstName": "Emma",
+            "lastName": "Andersson",
+            "ssn": "9510161525",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 655445,
+            "firstName": "Ebba",
+            "lastName": "Andersson",
+            "ssn": "0205176407",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 656499,
+            "firstName": "Joakim",
+            "lastName": "Andersson",
+            "ssn": "6810124617",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 656500,
+            "firstName": "Carl",
+            "lastName": "Andersson",
+            "ssn": "9903207695",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643511",
+        "customer": {
+          "id": 47506,
+          "firstName": "Marina",
+          "lastName": "Johnsson",
+          "phone": null,
+          "email": "marina_johnsson@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 656261,
+            "firstName": "Görgen",
+            "lastName": "Johnsson",
+            "ssn": "5102153615",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 664325,
+            "firstName": "Marina",
+            "lastName": "Johnsson",
+            "ssn": "5601073504",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643679",
+        "customer": {
+          "id": 29155,
+          "firstName": "Olof",
+          "lastName": "Björkman",
+          "phone": "0707122534,707122534",
+          "email": "olof.bjorkman2@comhem.se"
+        },
+        "pax": []
+      },
+      {
+        "id": "643684",
+        "customer": {
+          "id": 47589,
+          "firstName": "Anders",
+          "lastName": "Ebelin",
+          "phone": null,
+          "email": "ebelin@telia.com"
+        },
+        "pax": [
+          {
+            "id": 644118,
+            "firstName": "Anders",
+            "lastName": "Ebelin",
+            "ssn": "1961-01-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          },
+          {
+            "id": 644119,
+            "firstName": "Magdalena",
+            "lastName": "Björck-Ebelin",
+            "ssn": "1968-02-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          }
+        ]
+      },
+      {
+        "id": "643731",
+        "customer": {
+          "id": 47609,
+          "firstName": "Mats",
+          "lastName": "Nordlund",
+          "phone": null,
+          "email": "sannenordlund@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 650434,
+            "firstName": "Anders",
+            "lastName": "Norrestad",
+            "ssn": "1955-03-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 650435,
+            "firstName": "Mats",
+            "lastName": "Nordlund",
+            "ssn": "1955-01-27",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643742",
+        "customer": {
+          "id": 47616,
+          "firstName": "Gun Britt",
+          "lastName": "Berg",
+          "phone": null,
+          "email": "mammaberg38@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 657988,
+            "firstName": "Kent",
+            "lastName": "Berg",
+            "ssn": "4910124413",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 669265,
+            "firstName": "Gun Britt",
+            "lastName": "Berg",
+            "ssn": "5803013563",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643748",
+        "customer": {
+          "id": 47619,
+          "firstName": "Mikael",
+          "lastName": "Nelson",
+          "phone": null,
+          "email": "MIKAEL.NELSON@KUSTBEVAKNINGEN.SE"
+        },
+        "pax": [
+          {
+            "id": 653215,
+            "firstName": "Mikael",
+            "lastName": "Nelson",
+            "ssn": "6403082776",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 658655,
+            "firstName": "Anette",
+            "lastName": "Nelson",
+            "ssn": "6503022706",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643749",
+        "customer": {
+          "id": 47620,
+          "firstName": "Ulf",
+          "lastName": "Lennartsson",
+          "phone": null,
+          "email": "FAM-LENNARTSSON@TELIA.COM"
+        },
+        "pax": [
+          {
+            "id": 648180,
+            "firstName": "Ulf",
+            "lastName": "Lennartsson",
+            "ssn": "1962-04-20",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 648181,
+            "firstName": "Anna",
+            "lastName": "Lennartsson",
+            "ssn": "1964-12-19",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643751",
+        "customer": {
+          "id": 19560,
+          "firstName": "Thomas",
+          "lastName": "Petersson",
+          "phone": null,
+          "email": "thomas.petersson@hildinganders.com"
+        },
+        "pax": [
+          {
+            "id": 653139,
+            "firstName": "Thomas",
+            "lastName": "Petersson",
+            "ssn": "1960-05-01",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 653140,
+            "firstName": "Lena",
+            "lastName": "Arvidsson",
+            "ssn": "1962-12-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643752",
+        "customer": {
+          "id": 19562,
+          "firstName": "Bo",
+          "lastName": "Hansson",
+          "phone": null,
+          "email": "bo.x.hansson@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 656099,
+            "firstName": "Bo",
+            "lastName": "Hansson",
+            "ssn": "1957-07-04",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643763",
+        "customer": {
+          "id": 47628,
+          "firstName": "John",
+          "lastName": "Nylund",
+          "phone": null,
+          "email": "jonyl44@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 647636,
+            "firstName": "Ingrid",
+            "lastName": "Ingemark",
+            "ssn": "4103271906",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 661289,
+            "firstName": "John",
+            "lastName": "Nylund",
+            "ssn": "4201298413",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643769",
+        "customer": {
+          "id": 40789,
+          "firstName": "Lars",
+          "lastName": "Gustafsson",
+          "phone": null,
+          "email": "larsgustafsson@ymail.com"
+        },
+        "pax": [
+          {
+            "id": 671961,
+            "firstName": "Lars",
+            "lastName": "Gustafsson",
+            "ssn": "328999",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          }
+        ]
+      },
+      {
+        "id": "643785",
+        "customer": {
+          "id": 19975,
+          "firstName": "Gösta",
+          "lastName": "Ivarsson",
+          "phone": null,
+          "email": "g.ivarsson@pbhome.se"
+        },
+        "pax": [
+          {
+            "id": 651077,
+            "firstName": "Gösta",
+            "lastName": "Ivarsson",
+            "ssn": "1942-04-29",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 651078,
+            "firstName": "Birgitta",
+            "lastName": "Ivarsson",
+            "ssn": "1941-09-25",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643930",
+        "customer": {
+          "id": 35983,
+          "firstName": "Rolf Herman",
+          "lastName": "Jonsson",
+          "phone": "0707570475",
+          "email": "rjb@telia.com"
+        },
+        "pax": [
+          {
+            "id": 661561,
+            "firstName": "Rolf",
+            "lastName": "Jonsson",
+            "ssn": "1937-05-30",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 661562,
+            "firstName": "Berit",
+            "lastName": "Jonsson",
+            "ssn": "1937-04-20",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643957",
+        "customer": {
+          "id": 47737,
+          "firstName": "Sandra",
+          "lastName": "Densmark",
+          "phone": null,
+          "email": "densmark@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 646381,
+            "firstName": "Sandra",
+            "lastName": "Densmark",
+            "ssn": "1977-12-02",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 646382,
+            "firstName": "Shola Tony",
+            "lastName": "Edwards Atobatele",
+            "ssn": "1971-12-02",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 646443,
+            "firstName": "Nellie",
+            "lastName": "Densmark Atobatele",
+            "ssn": "2007-04-22",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 650942,
+            "firstName": "Alicia",
+            "lastName": "Densmark Atobatele",
+            "ssn": "20151205",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643958",
+        "customer": {
+          "id": 47738,
+          "firstName": "Monica",
+          "lastName": "Caisan",
+          "phone": null,
+          "email": "monicaserban@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 649467,
+            "firstName": "Monica",
+            "lastName": "Caisan",
+            "ssn": "1976-11-03",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          },
+          {
+            "id": 649468,
+            "firstName": "Petru Daniel",
+            "lastName": "Caisan",
+            "ssn": "1972-03-07",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          },
+          {
+            "id": 649469,
+            "firstName": "Simona",
+            "lastName": "Dobrescu",
+            "ssn": "1968-09-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          },
+          {
+            "id": 649470,
+            "firstName": "Nelu",
+            "lastName": "Dobrescu",
+            "ssn": "1960-07-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          }
+        ]
+      },
+      {
+        "id": "643959",
+        "customer": {
+          "id": 24041,
+          "firstName": "Anne-Marie",
+          "lastName": "Bengtsson",
+          "phone": "043120227,0706824458",
+          "email": "anne-marie.bengtsson@ektv.nu"
+        },
+        "pax": [
+          {
+            "id": 664249,
+            "firstName": "Anne-Marie",
+            "lastName": "Bengtsson",
+            "ssn": "1941-01-09",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 664250,
+            "firstName": "Hans Olof",
+            "lastName": "Bengtsson",
+            "ssn": "1940-05-06",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "644012",
+        "customer": {
+          "id": 47767,
+          "firstName": "Helene",
+          "lastName": "Ericsdotter",
+          "phone": "",
+          "email": "helene.ericsdotter@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 662028,
+            "firstName": "Helene",
+            "lastName": "Ericsdotter",
+            "ssn": "1959-08-15",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 662029,
+            "firstName": "Kerstin",
+            "lastName": "Johnsson",
+            "ssn": "1937-03-28",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "644038",
+        "customer": {
+          "id": 47781,
+          "firstName": "Patrik",
+          "lastName": "Lindestam",
+          "phone": null,
+          "email": "patriklindestam@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 655772,
+            "firstName": "Patrik",
+            "lastName": "Lindestam",
+            "ssn": "1972-08-01",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 655773,
+            "firstName": "Malin",
+            "lastName": "Lindestam",
+            "ssn": "1974-01-04",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 655774,
+            "firstName": "Tyra",
+            "lastName": "Lindestam",
+            "ssn": "2006-10-04",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 655775,
+            "firstName": "Isak",
+            "lastName": "Lindestam",
+            "ssn": "2003-04-08",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "644080",
+        "customer": {
+          "id": 47799,
+          "firstName": "Inger",
+          "lastName": "Lilja",
+          "phone": null,
+          "email": "inger.lilja@ronneby.se"
+        },
+        "pax": [
+          {
+            "id": 648941,
+            "firstName": "Inger",
+            "lastName": "Lilja",
+            "ssn": "1950-02-03",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 648942,
+            "firstName": "Ingela",
+            "lastName": "Lennartssonn",
+            "ssn": "1958-08-24",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "644296",
+        "customer": {
+          "id": 12125,
+          "firstName": "Kenneth",
+          "lastName": "Andersson",
+          "phone": null,
+          "email": "kennethsmula@telia.com"
+        },
+        "pax": [
+          {
+            "id": 652473,
+            "firstName": "Helen",
+            "lastName": "Andersson",
+            "ssn": "1955-09-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 659207,
+            "firstName": "Kenneth",
+            "lastName": "Andersson",
+            "ssn": "5207304030",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "634697",
+        "customer": {
+          "id": 34342,
+          "firstName": "Agneta",
+          "lastName": "Höckert",
+          "phone": null,
+          "email": "agnetabirgitta@telia.com"
+        },
+        "pax": [
+          {
+            "id": 616231,
+            "firstName": "Agneta",
+            "lastName": "Höckert",
+            "ssn": "4206214662",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 628230,
+            "firstName": "Kenneth",
+            "lastName": "Jarl",
+            "ssn": "4406062770",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "635545",
+        "customer": {
+          "id": 25833,
+          "firstName": "Lena",
+          "lastName": "Nilsson",
+          "phone": null,
+          "email": "daisy2@tele2.se"
+        },
+        "pax": [
+          {
+            "id": 620166,
+            "firstName": "Lena",
+            "lastName": "Nilsson",
+            "ssn": "1953-07-17",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 636160,
+            "firstName": "Martim",
+            "lastName": "Nilsson",
+            "ssn": "1986-08-23",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 636161,
+            "firstName": "+hillevi",
+            "lastName": "Nilsson",
+            "ssn": "1985-06-25",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      }
+    ],
+    "excursions": [
+      {
+        "id": 5283,
+        "name": "Willkommen in Berlin",
+        "description": null,
+        "start": "0001-01-01T00:00:00",
+        "order": 1,
+        "priceAdult": 360,
+        "priceChild": 270
+      },
+      {
+        "id": 5284,
+        "name": "Stadsrundtur",
+        "description": null,
+        "start": "0001-01-01T00:00:00",
+        "order": 2,
+        "priceAdult": 245,
+        "priceChild": 125
+      },
+      {
+        "id": 5285,
+        "name": "Shopping i Spandau",
+        "description": null,
+        "start": "0001-01-01T00:00:00",
+        "order": 3,
+        "priceAdult": 125,
+        "priceChild": 65
+      },
+      {
+        "id": 5286,
+        "name": "Berlins hjärta med TV-tornet",
+        "description": null,
+        "start": "0001-01-01T00:00:00",
+        "order": 4,
+        "priceAdult": 465,
+        "priceChild": 3500
+      }
+    ],
+    "lunches": {
+      "out": {
+        "name": "The Lexington Hotel New York City",
+        "address": "511 Lexington Avenue @ 48th Street",
+        "zip": "US-10017",
+        "city": "NEW YORK",
+        "country": "Usa",
+        "phone": "",
+        "url": "https://www.lexingtonhotelnyc.com",
+        "directions": null,
+        "time": "0001-01-01T00:00:00",
+        "meals": [
+          {
+            "id": 1,
+            "name": "Hamburger",
+            "adult": 125,
+            "child": 75
+          }
+        ]
+      },
+      "home": {
+        "name": "First Hotel Kong Frederik",
+        "address": "Vester Voldgade 25",
+        "zip": "1552",
+        "city": "Köpenhamn",
+        "country": "Danmark",
+        "phone": "",
+        "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
+        "directions": null,
+        "time": "0001-01-01T00:00:00",
+        "meals": [
+          {
+            "id": 2,
+            "name": "Pizza",
+            "adult": 90,
+            "child": 60
+          }
+        ]
+      }
+    }
+  },
+
+  {
+    "departureId": 20272,
+    "outDate": "2018-10-01T05:18:30.3953096+02:00",
+    "homeDate": "2018-10-11T05:18:30.3953096+02:00",
+    "name": "berw16",
+    "description": "Berlin Weekend",
+    "brand": "SC",
+    "bookings": [
+      {
+        "id": "640062",
+        "customer": {
+          "id": 38747,
+          "firstName": "Kerstin Iris",
+          "lastName": "Holmström",
+          "phone": "0707884256,0707884256",
+          "email": "kerstinholmstrom49@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 646330,
+            "firstName": "Carl Gustaf",
+            "lastName": "Holmström",
+            "ssn": "1948-01-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 646331,
+            "firstName": "Hugo",
+            "lastName": "Holmström",
+            "ssn": "2002-08-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 663869,
+            "firstName": "Kerstin",
+            "lastName": "Holmström",
+            "ssn": "4911018986",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "642558",
+        "customer": {
+          "id": 44983,
+          "firstName": "Malin",
+          "lastName": "Johansson",
+          "phone": null,
+          "email": "Malin.johansson@lingmerths.se"
+        },
+        "pax": [
+          {
+            "id": 643058,
+            "firstName": "Malin",
+            "lastName": "Johansson",
+            "ssn": "1989-05-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 643059,
+            "firstName": "Susanna",
+            "lastName": "Johannesson",
+            "ssn": "1989-12-22",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "642571",
+        "customer": {
+          "id": 44990,
+          "firstName": "Annika",
+          "lastName": "Lauritsen",
+          "phone": null,
+          "email": "annikal83@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 649714,
+            "firstName": "Annika",
+            "lastName": "Lauritsen",
+            "ssn": "1983-04-22",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 649715,
+            "firstName": "Ann-Marie",
+            "lastName": "Silver",
+            "ssn": "1954-01-26",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 649716,
+            "firstName": "Matheus",
+            "lastName": "Lauritsen",
+            "ssn": "2005-07-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "642660",
+        "customer": {
+          "id": 26435,
+          "firstName": "Hans-Eric",
+          "lastName": "Lindberg",
+          "phone": null,
+          "email": "hansericlindberg@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 647711,
+            "firstName": "Hans-Eric",
+            "lastName": "Lindberg",
+            "ssn": "4610134035",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 654139,
+            "firstName": "Marianne",
+            "lastName": "Lindberg",
+            "ssn": "5402170269",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "642810",
+        "customer": {
+          "id": 45099,
+          "firstName": "Loke",
+          "lastName": "Dahlström",
+          "phone": "040452289,0705764007",
+          "email": "loke.dahlstrom@scandorama.se"
+        },
+        "pax": [
+          {
+            "id": 642058,
+            "firstName": "Loke",
+            "lastName": "Dahlström",
+            "ssn": "197203172452",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 642059,
+            "firstName": "Björn",
+            "lastName": "Dahlström",
+            "ssn": "2000-10-23",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 642060,
+            "firstName": "Helene",
+            "lastName": "Gustafsson",
+            "ssn": "1964-11-16",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 642061,
+            "firstName": "Ingrid",
+            "lastName": "Dahlström",
+            "ssn": "2002-11-21",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643053",
+        "customer": {
+          "id": 45219,
+          "firstName": "Helene",
+          "lastName": "Eriksson",
+          "phone": null,
+          "email": "helene.k.eriksson@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 667711,
+            "firstName": "Helene",
+            "lastName": "Eriksson",
+            "ssn": "1973-11-23",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 667712,
+            "firstName": "Annika",
+            "lastName": "Fervenza",
+            "ssn": "1965-05-30",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643224",
+        "customer": {
+          "id": 47346,
+          "firstName": "Joakim",
+          "lastName": "Andersson",
+          "phone": null,
+          "email": "joakim.andersson@edu.laholm.se"
+        },
+        "pax": [
+          {
+            "id": 645313,
+            "firstName": "Marie",
+            "lastName": "Lennartsson",
+            "ssn": "6802104643",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 645314,
+            "firstName": "Emma",
+            "lastName": "Andersson",
+            "ssn": "9510161525",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 655445,
+            "firstName": "Ebba",
+            "lastName": "Andersson",
+            "ssn": "0205176407",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 656499,
+            "firstName": "Joakim",
+            "lastName": "Andersson",
+            "ssn": "6810124617",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 656500,
+            "firstName": "Carl",
+            "lastName": "Andersson",
+            "ssn": "9903207695",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643511",
+        "customer": {
+          "id": 47506,
+          "firstName": "Marina",
+          "lastName": "Johnsson",
+          "phone": null,
+          "email": "marina_johnsson@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 656261,
+            "firstName": "Görgen",
+            "lastName": "Johnsson",
+            "ssn": "5102153615",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 664325,
+            "firstName": "Marina",
+            "lastName": "Johnsson",
+            "ssn": "5601073504",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643679",
+        "customer": {
+          "id": 29155,
+          "firstName": "Olof",
+          "lastName": "Björkman",
+          "phone": "0707122534,707122534",
+          "email": "olof.bjorkman2@comhem.se"
+        },
+        "pax": []
+      },
+      {
+        "id": "643684",
+        "customer": {
+          "id": 47589,
+          "firstName": "Anders",
+          "lastName": "Ebelin",
+          "phone": null,
+          "email": "ebelin@telia.com"
+        },
+        "pax": [
+          {
+            "id": 644118,
+            "firstName": "Anders",
+            "lastName": "Ebelin",
+            "ssn": "1961-01-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          },
+          {
+            "id": 644119,
+            "firstName": "Magdalena",
+            "lastName": "Björck-Ebelin",
+            "ssn": "1968-02-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          }
+        ]
+      },
+      {
+        "id": "643731",
+        "customer": {
+          "id": 47609,
+          "firstName": "Mats",
+          "lastName": "Nordlund",
+          "phone": null,
+          "email": "sannenordlund@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 650434,
+            "firstName": "Anders",
+            "lastName": "Norrestad",
+            "ssn": "1955-03-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 650435,
+            "firstName": "Mats",
+            "lastName": "Nordlund",
+            "ssn": "1955-01-27",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643742",
+        "customer": {
+          "id": 47616,
+          "firstName": "Gun Britt",
+          "lastName": "Berg",
+          "phone": null,
+          "email": "mammaberg38@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 657988,
+            "firstName": "Kent",
+            "lastName": "Berg",
+            "ssn": "4910124413",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 669265,
+            "firstName": "Gun Britt",
+            "lastName": "Berg",
+            "ssn": "5803013563",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643748",
+        "customer": {
+          "id": 47619,
+          "firstName": "Mikael",
+          "lastName": "Nelson",
+          "phone": null,
+          "email": "MIKAEL.NELSON@KUSTBEVAKNINGEN.SE"
+        },
+        "pax": [
+          {
+            "id": 653215,
+            "firstName": "Mikael",
+            "lastName": "Nelson",
+            "ssn": "6403082776",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 658655,
+            "firstName": "Anette",
+            "lastName": "Nelson",
+            "ssn": "6503022706",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643749",
+        "customer": {
+          "id": 47620,
+          "firstName": "Ulf",
+          "lastName": "Lennartsson",
+          "phone": null,
+          "email": "FAM-LENNARTSSON@TELIA.COM"
+        },
+        "pax": [
+          {
+            "id": 648180,
+            "firstName": "Ulf",
+            "lastName": "Lennartsson",
+            "ssn": "1962-04-20",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 648181,
+            "firstName": "Anna",
+            "lastName": "Lennartsson",
+            "ssn": "1964-12-19",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643751",
+        "customer": {
+          "id": 19560,
+          "firstName": "Thomas",
+          "lastName": "Petersson",
+          "phone": null,
+          "email": "thomas.petersson@hildinganders.com"
+        },
+        "pax": [
+          {
+            "id": 653139,
+            "firstName": "Thomas",
+            "lastName": "Petersson",
+            "ssn": "1960-05-01",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 653140,
+            "firstName": "Lena",
+            "lastName": "Arvidsson",
+            "ssn": "1962-12-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643752",
+        "customer": {
+          "id": 19562,
+          "firstName": "Bo",
+          "lastName": "Hansson",
+          "phone": null,
+          "email": "bo.x.hansson@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 656099,
+            "firstName": "Bo",
+            "lastName": "Hansson",
+            "ssn": "1957-07-04",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643763",
+        "customer": {
+          "id": 47628,
+          "firstName": "John",
+          "lastName": "Nylund",
+          "phone": null,
+          "email": "jonyl44@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 647636,
+            "firstName": "Ingrid",
+            "lastName": "Ingemark",
+            "ssn": "4103271906",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 661289,
+            "firstName": "John",
+            "lastName": "Nylund",
+            "ssn": "4201298413",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643769",
+        "customer": {
+          "id": 40789,
+          "firstName": "Lars",
+          "lastName": "Gustafsson",
+          "phone": null,
+          "email": "larsgustafsson@ymail.com"
+        },
+        "pax": [
+          {
+            "id": 671961,
+            "firstName": "Lars",
+            "lastName": "Gustafsson",
+            "ssn": "328999",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          }
+        ]
+      },
+      {
+        "id": "643785",
+        "customer": {
+          "id": 19975,
+          "firstName": "Gösta",
+          "lastName": "Ivarsson",
+          "phone": null,
+          "email": "g.ivarsson@pbhome.se"
+        },
+        "pax": [
+          {
+            "id": 651077,
+            "firstName": "Gösta",
+            "lastName": "Ivarsson",
+            "ssn": "1942-04-29",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 651078,
+            "firstName": "Birgitta",
+            "lastName": "Ivarsson",
+            "ssn": "1941-09-25",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643930",
+        "customer": {
+          "id": 35983,
+          "firstName": "Rolf Herman",
+          "lastName": "Jonsson",
+          "phone": "0707570475",
+          "email": "rjb@telia.com"
+        },
+        "pax": [
+          {
+            "id": 661561,
+            "firstName": "Rolf",
+            "lastName": "Jonsson",
+            "ssn": "1937-05-30",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 661562,
+            "firstName": "Berit",
+            "lastName": "Jonsson",
+            "ssn": "1937-04-20",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643957",
+        "customer": {
+          "id": 47737,
+          "firstName": "Sandra",
+          "lastName": "Densmark",
+          "phone": null,
+          "email": "densmark@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 646381,
+            "firstName": "Sandra",
+            "lastName": "Densmark",
+            "ssn": "1977-12-02",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 646382,
+            "firstName": "Shola Tony",
+            "lastName": "Edwards Atobatele",
+            "ssn": "1971-12-02",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 646443,
+            "firstName": "Nellie",
+            "lastName": "Densmark Atobatele",
+            "ssn": "2007-04-22",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 650942,
+            "firstName": "Alicia",
+            "lastName": "Densmark Atobatele",
+            "ssn": "20151205",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "643958",
+        "customer": {
+          "id": 47738,
+          "firstName": "Monica",
+          "lastName": "Caisan",
+          "phone": null,
+          "email": "monicaserban@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 649467,
+            "firstName": "Monica",
+            "lastName": "Caisan",
+            "ssn": "1976-11-03",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          },
+          {
+            "id": 649468,
+            "firstName": "Petru Daniel",
+            "lastName": "Caisan",
+            "ssn": "1972-03-07",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          },
+          {
+            "id": 649469,
+            "firstName": "Simona",
+            "lastName": "Dobrescu",
+            "ssn": "1968-09-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          },
+          {
+            "id": 649470,
+            "firstName": "Nelu",
+            "lastName": "Dobrescu",
+            "ssn": "1960-07-18",
+            "phone": null,
+            "comment": null,
+            "excursionPack": true
+          }
+        ]
+      },
+      {
+        "id": "643959",
+        "customer": {
+          "id": 24041,
+          "firstName": "Anne-Marie",
+          "lastName": "Bengtsson",
+          "phone": "043120227,0706824458",
+          "email": "anne-marie.bengtsson@ektv.nu"
+        },
+        "pax": [
+          {
+            "id": 664249,
+            "firstName": "Anne-Marie",
+            "lastName": "Bengtsson",
+            "ssn": "1941-01-09",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 664250,
+            "firstName": "Hans Olof",
+            "lastName": "Bengtsson",
+            "ssn": "1940-05-06",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "644012",
+        "customer": {
+          "id": 47767,
+          "firstName": "Helene",
+          "lastName": "Ericsdotter",
+          "phone": "",
+          "email": "helene.ericsdotter@gmail.com"
+        },
+        "pax": [
+          {
+            "id": 662028,
+            "firstName": "Helene",
+            "lastName": "Ericsdotter",
+            "ssn": "1959-08-15",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 662029,
+            "firstName": "Kerstin",
+            "lastName": "Johnsson",
+            "ssn": "1937-03-28",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "644038",
+        "customer": {
+          "id": 47781,
+          "firstName": "Patrik",
+          "lastName": "Lindestam",
+          "phone": null,
+          "email": "patriklindestam@hotmail.com"
+        },
+        "pax": [
+          {
+            "id": 655772,
+            "firstName": "Patrik",
+            "lastName": "Lindestam",
+            "ssn": "1972-08-01",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 655773,
+            "firstName": "Malin",
+            "lastName": "Lindestam",
+            "ssn": "1974-01-04",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 655774,
+            "firstName": "Tyra",
+            "lastName": "Lindestam",
+            "ssn": "2006-10-04",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 655775,
+            "firstName": "Isak",
+            "lastName": "Lindestam",
+            "ssn": "2003-04-08",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "644080",
+        "customer": {
+          "id": 47799,
+          "firstName": "Inger",
+          "lastName": "Lilja",
+          "phone": null,
+          "email": "inger.lilja@ronneby.se"
+        },
+        "pax": [
+          {
+            "id": 648941,
+            "firstName": "Inger",
+            "lastName": "Lilja",
+            "ssn": "1950-02-03",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 648942,
+            "firstName": "Ingela",
+            "lastName": "Lennartssonn",
+            "ssn": "1958-08-24",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "644296",
+        "customer": {
+          "id": 12125,
+          "firstName": "Kenneth",
+          "lastName": "Andersson",
+          "phone": null,
+          "email": "kennethsmula@telia.com"
+        },
+        "pax": [
+          {
+            "id": 652473,
+            "firstName": "Helen",
+            "lastName": "Andersson",
+            "ssn": "1955-09-13",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 659207,
+            "firstName": "Kenneth",
+            "lastName": "Andersson",
+            "ssn": "5207304030",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "634697",
+        "customer": {
+          "id": 34342,
+          "firstName": "Agneta",
+          "lastName": "Höckert",
+          "phone": null,
+          "email": "agnetabirgitta@telia.com"
+        },
+        "pax": [
+          {
+            "id": 616231,
+            "firstName": "Agneta",
+            "lastName": "Höckert",
+            "ssn": "4206214662",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 628230,
+            "firstName": "Kenneth",
+            "lastName": "Jarl",
+            "ssn": "4406062770",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      },
+      {
+        "id": "635545",
+        "customer": {
+          "id": 25833,
+          "firstName": "Lena",
+          "lastName": "Nilsson",
+          "phone": null,
+          "email": "daisy2@tele2.se"
+        },
+        "pax": [
+          {
+            "id": 620166,
+            "firstName": "Lena",
+            "lastName": "Nilsson",
+            "ssn": "1953-07-17",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 636160,
+            "firstName": "Martim",
+            "lastName": "Nilsson",
+            "ssn": "1986-08-23",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          },
+          {
+            "id": 636161,
+            "firstName": "+hillevi",
+            "lastName": "Nilsson",
+            "ssn": "1985-06-25",
+            "phone": null,
+            "comment": null,
+            "excursionPack": false
+          }
+        ]
+      }
+    ],
+    "excursions": [
+      {
+        "id": 5283,
+        "name": "Willkommen in Berlin",
+        "description": null,
+        "start": "0001-01-01T00:00:00",
+        "order": 1,
+        "priceAdult": 360,
+        "priceChild": 270
+      },
+      {
+        "id": 5284,
+        "name": "Stadsrundtur",
+        "description": null,
+        "start": "0001-01-01T00:00:00",
+        "order": 2,
+        "priceAdult": 245,
+        "priceChild": 125
+      },
+      {
+        "id": 5285,
+        "name": "Shopping i Spandau",
+        "description": null,
+        "start": "0001-01-01T00:00:00",
+        "order": 3,
+        "priceAdult": 125,
+        "priceChild": 65
+      },
+      {
+        "id": 5286,
+        "name": "Berlins hjärta med TV-tornet",
+        "description": null,
+        "start": "0001-01-01T00:00:00",
+        "order": 4,
+        "priceAdult": 465,
+        "priceChild": 3500
+      }
+    ],
+    "lunches": {
+      "out": {
+        "name": "The Lexington Hotel New York City",
+        "address": "511 Lexington Avenue @ 48th Street",
+        "zip": "US-10017",
+        "city": "NEW YORK",
+        "country": "Usa",
+        "phone": "",
+        "url": "https://www.lexingtonhotelnyc.com",
+        "directions": null,
+        "time": "0001-01-01T00:00:00",
+        "meals": [
+          {
+            "id": 1,
+            "name": "Hamburger",
+            "adult": 125,
+            "child": 75
+          }
+        ]
+      },
+      "home": {
+        "name": "First Hotel Kong Frederik",
+        "address": "Vester Voldgade 25",
+        "zip": "1552",
+        "city": "Köpenhamn",
+        "country": "Danmark",
+        "phone": "",
+        "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
+        "directions": null,
+        "time": "0001-01-01T00:00:00",
+        "meals": [
+          {
+            "id": 2,
+            "name": "Pizza",
+            "adult": 90,
+            "child": 60
+          }
+        ]
+      }
+    }
+  }
+]

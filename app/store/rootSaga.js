@@ -7,7 +7,7 @@ import * as connectionSaga from '../connection/saga'
 import * as navSaga from '../navigation/saga'
 import * as cacheImageSaga from '../modules/imageCache/saga'
 import * as authSaga from '../modules/auth/saga'
-import * as tripSaga from '../modules/trip/saga'
+import * as tripsSaga from '../modules/trips/saga'
 
 const sagas = {
   ...toastSaga,
@@ -16,7 +16,7 @@ const sagas = {
   ...navSaga,
   ...cacheImageSaga,
   ...authSaga,
-  ...tripSaga
+  ...tripsSaga
 }
 
 const forkedSagas = Object.keys(sagas).map(key => fork(sagas[key]))

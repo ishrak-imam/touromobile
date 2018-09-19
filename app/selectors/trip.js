@@ -2,7 +2,12 @@
 import { setIntoMap, getMap, getList } from '../utils/immutable'
 import Cache from '../utils/cache'
 
-export const getCurrentTrip = state => state.currentTrip // state.get('currentTrip')
+export const getTrips = state => state.trips
+
+export const getCurrentTrip = state => {
+  const data = state.trips.get('data').toJS()
+  return data[0]
+}
 
 let paxCache = null
 export const getPax = trip => {

@@ -1,5 +1,5 @@
 
-import config from '../../utils/loadConfig'
+import config from '../../utils/config'
 import { mockToken, mockUser, mockForgetPass } from '../../mockData'
 import { postRequest, getRequest } from '../../utils/request'
 

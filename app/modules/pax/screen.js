@@ -7,7 +7,7 @@ import Header from '../../components/header'
 import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import { getCurrentTrip } from '../../selectors'
+import { getTrips } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
 const _T = Translator('PassengersScreen')
@@ -46,9 +46,9 @@ class PaxScreen extends Component {
   }
 
   render () {
-    const { navigation, currentTrip } = this.props
+    const { navigation, trips } = this.props
     const { booking } = this.state
-    const trip = currentTrip.get('data')
+    const trip = trips.get('current')
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} right={this._renderRight} />
@@ -65,7 +65,7 @@ class PaxScreen extends Component {
 }
 
 const stateToProps = state => ({
-  currentTrip: getCurrentTrip(state)
+  trips: getTrips(state)
 })
 
 export default connect(stateToProps, dispatch => ({ dispatch }))(PaxScreen)

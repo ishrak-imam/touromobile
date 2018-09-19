@@ -155,7 +155,7 @@ export default class RestaurantScreen extends Component {
     const restaurant = navigation.getParam('restaurant')
     const trip = navigation.getParam('trip')
     const meals = restaurant.get('meals')
-    const orders = trip.get('orders').get(direction)
+    const orders = trip.get('orders')
 
     return (
       <Container>
@@ -165,7 +165,7 @@ export default class RestaurantScreen extends Component {
             {this._renderRestaurant(restaurant)}
             {this._renderComs(restaurant)}
             {this._renderMeals(meals)}
-            {!!orders.size && this._renderOrders(orders, restaurant)}
+            {!!orders && this._renderOrders(orders.get(direction), restaurant)}
           </Card>
         </Content>
       </Container>
