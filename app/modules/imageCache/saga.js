@@ -8,7 +8,10 @@ import {
   createCacheDir
 } from './action'
 import { downloadFile, clearCache, checkIfExistsDir, checkIfExistsImage, createDirectory } from './service'
-import { getHash, getExtension } from '../../utils/stringHelpers'
+import {
+  // getHash, getExtension,
+  getImageName
+} from '../../utils/stringHelpers'
 
 export function * watchDownloadImage () {
   yield takeEvery(downloadImage.getType(), workerDownloadImage)
@@ -17,7 +20,8 @@ export function * watchDownloadImage () {
 function * workerDownloadImage (action) {
   try {
     const { uri } = action.payload
-    const imageName = `${getHash(uri)}.${getExtension(uri)}`
+    // const imageName = `${getHash(uri)}.${getExtension(uri)}`
+    const imageName = getImageName(uri)
     const { exists } = yield call(checkIfExistsImage, imageName)
     if (!exists) {
       yield call(downloadFile, uri, imageName)

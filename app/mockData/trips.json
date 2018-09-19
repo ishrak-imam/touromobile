@@ -6,7 +6,7 @@
     "name": "berw16",
     "description": "Berlin Weekend",
     "brand": "SC",
-    "image": "http://www.gstatic.com/webp/gallery/1.jpg",
+    "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "bookings": [
       {
         "id": "640062",
@@ -1055,7 +1055,7 @@
     "name": "berw16",
     "description": "Berlin Weekend",
     "brand": "SC",
-    "image": "http://www.gstatic.com/webp/gallery/1.jpg",
+    "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "bookings": [
       {
         "id": "640062",
