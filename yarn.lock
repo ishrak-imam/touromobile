@@ -2395,7 +2395,7 @@ immediate@^3.2.2:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.2.3.tgz#d140fa8f614659bd6541233097ddaac25cdd991c"
 
-immutable@^3.8.2:
+immutable@>=3.8, immutable@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
@@ -3705,6 +3705,13 @@ react-native-gesture-handler@1.0.6:
   dependencies:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
+    prop-types "^15.5.10"
+
+react-native-immutable-list-view@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/react-native-immutable-list-view/-/react-native-immutable-list-view-0.7.3.tgz#56ce7d37d938d12d9f3ddd6d213ec8f573f436fe"
+  dependencies:
+    immutable ">=3.8"
     prop-types "^15.5.10"
 
 react-native-iphone-x-helper@^1.0.1:

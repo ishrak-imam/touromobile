@@ -135,7 +135,7 @@ export default class RestaurantScreen extends Component {
             <Right><Text>{_T('amount')}</Text></Right>
           </Item>
 
-          <Text note>{_T('meal')}</Text>
+          <Text note>{_T('meals')}</Text>
           {showAge && <Text note>{_T('adults')}</Text>}
           {renderOrderSummary(adultMealOrders, meals)}
 

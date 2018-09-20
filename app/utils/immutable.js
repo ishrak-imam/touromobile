@@ -78,5 +78,5 @@ export const readValue = (of, from) => {
 }
 
 export const listToMap = (list, key) => {
-  return list.reduce((map, item) => map.set(item.get(key).toString(), item), getMap({}))
+  return list.reduce((map, item) => map.set(String(item.get(key)), item), getMap({}))
 }

@@ -15,10 +15,10 @@ const _T = Translator('ExcursionsScreen')
 const DATE_FORMAT = 'YY MM DD, h:mm'
 
 export default class Excursions extends Component {
-  _toDetails = (trip, excursion) => {
+  _toDetails = (excursion) => {
     const { navigation } = this.props
     return () => {
-      navigation.navigate('ExcursionDetails', { trip, excursion })
+      navigation.navigate('ExcursionDetails', { excursion })
     }
   }
 
@@ -42,7 +42,7 @@ export default class Excursions extends Component {
     const count = pax.size
 
     return (
-      <TouchableOpacity onPress={this._toDetails(trip, excursion)} key={id}>
+      <TouchableOpacity onPress={this._toDetails(excursion)} key={id}>
         <Card>
           <CardItem>
             <Left>
