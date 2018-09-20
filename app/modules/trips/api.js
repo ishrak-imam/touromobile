@@ -9,5 +9,5 @@ export const getTripsApi = (guideId, jwt) => {
   }
   return config.isDebugEnabled
     ? mockTrips()
-    : mockTrips() // getRequest(`resources/guide/${guideId}/overview`, headers)
+    : getRequest(`resources/guide/${guideId}/overview`, headers)
 }

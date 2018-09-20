@@ -10,8 +10,8 @@ import {
 } from './action'
 import { clearImageCache } from '../imageCache/action'
 import { navigateToScene } from '../../navigation/action'
-import localStore, { JWT_TOKEN } from '../../utils/persist'
-import { login, getUser, forgotPass } from './api'
+import localStore, { USER } from '../../utils/persist'
+import { login, forgotPass } from './api'
 
 export function * watchInit () {
   yield takeFirst(init.getType(), workerInit)
@@ -19,11 +19,8 @@ export function * watchInit () {
 
 function * workerInit () {
   try {
-    const { access_token, id } = yield call(localStore.get, JWT_TOKEN)
-    if (access_token) {
-      let user = yield call(getUser, id, access_token)
-      user.jwt = access_token
-      // yield call(delay, 1000) // need only when api data are mocked, as they are served from json files
+    const user = yield call(localStore.get, USER)
+    if (user.access_token) {
       yield put(loginSucs(user))
       yield put(navigateToScene({ routeName: 'App' }))
     } else {
@@ -40,8 +37,8 @@ export function * watchLogin () {
 
 function * workerLogin (action) {
   try {
-    const { access_token, id } = yield call(login, action.payload)
-    yield call(localStore.set, JWT_TOKEN, { access_token, id })
+    const result = yield call(login, action.payload)
+    yield call(localStore.set, USER, result)
     yield put(init())
   } catch (e) {
     yield put(loginFail({ msg: e }))
@@ -67,7 +64,7 @@ export function * watchLogout () {
 }
 
 function * workerLogout () {
-  yield call(localStore.delete, JWT_TOKEN)
+  yield call(localStore.delete, USER)
   yield put(clearImageCache())
   yield put(logoutSucs())
   yield put(init())

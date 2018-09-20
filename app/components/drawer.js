@@ -21,7 +21,7 @@ class TMDrawer extends Component {
 
   _renderHeader = () => {
     const { user } = this.props
-    const userName = `${user.get('firstName')} ${user.get('lastName')}`
+    const userName = user.get('full_name')
     return (
       <View style={ss.header}>
         <View style={ss.headerContent}>

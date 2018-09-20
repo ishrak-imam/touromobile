@@ -1,6 +1,7 @@
 import { SecureStore } from 'expo'
 
 export const JWT_TOKEN = 'JWT_TOKEN'
+export const USER = 'USER'
 
 const localStore = {
   set: async (key, value) => SecureStore.setItemAsync(key, JSON.stringify(value)),
