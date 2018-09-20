@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {
-  View, Text, List, ListItem, Body, Right
+  View, Text, ListItem, Body, Right
 } from 'native-base'
 import { getSortedBookings } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Text as Sms } from 'react-native-openanything'
+import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 export default class BookingList extends Component {
   _smsAll = pax => {
@@ -15,13 +16,13 @@ export default class BookingList extends Component {
     Sms(phones)
   }
 
-  _renderBooking = booking => {
-    const id = booking.get('id')
-    const pax = booking.get('pax')
+  _renderBooking = ({ item }) => {
+    const id = item.get('id')
+    const pax = item.get('pax')
     const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
     return (
-      <ListItem onPress={() => {}} key={id}>
+      <ListItem onPress={() => {}}>
         <Body>
           <Text>{id}</Text>
           {paxNames}
@@ -36,9 +37,11 @@ export default class BookingList extends Component {
   _renderList = trip => {
     const bookings = getSortedBookings(trip)
     return (
-      <List>
-        {bookings.map(b => this._renderBooking(b))}
-      </List>
+      <ImmutableVirtualizedList
+        immutableData={bookings}
+        renderItem={this._renderBooking}
+        keyExtractor={(item, index) => String(item.get('id'))}
+      />
     )
   }
 

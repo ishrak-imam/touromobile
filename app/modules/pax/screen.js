@@ -52,13 +52,11 @@ class PaxScreen extends Component {
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} right={this._renderRight} />
-        <Content>
-          {
-            booking
-              ? <BookingList trip={trip} navigation={navigation} />
-              : <PaxList trip={trip} navigation={navigation} />
-          }
-        </Content>
+        {
+          booking
+            ? <BookingList trip={trip} navigation={navigation} />
+            : <PaxList trip={trip} navigation={navigation} />
+        }
       </Container>
     )
   }

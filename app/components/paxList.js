@@ -1,12 +1,13 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text, List, ListItem, Body, Right
+  View, Text, ListItem, Body, Right
 } from 'native-base'
 import { getSortedPax, preparePaxData } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Call, Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
+import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 export default class PaxList extends Component {
   constructor (props) {
@@ -39,10 +40,10 @@ export default class PaxList extends Component {
     )
   }
 
-  _renderPerson = (item, index) => {
+  _renderPerson = ({ item, index }) => {
     if (item.get('first')) {
       return (
-        <ListItem itemDivider key={index}>
+        <ListItem itemDivider>
           <Text>{item.get('initial')}</Text>
         </ListItem>
       )
@@ -53,7 +54,7 @@ export default class PaxList extends Component {
     const name = `${item.get('firstName')} ${item.get('lastName')}`
     const { comment } = this.state
     return (
-      <ListItem onPress={this._toPaxDetails(item)} key={index}>
+      <ListItem onPress={this._toPaxDetails(item)}>
         <Body>
           <Text>{name}</Text>
           <Text note>{item.get('booking').get('id')}</Text>
@@ -72,9 +73,11 @@ export default class PaxList extends Component {
     const sortedPax = getSortedPax(trip)
     const paxList = preparePaxData(sortedPax)
     return (
-      <List>
-        {paxList.map((item, index) => this._renderPerson(item, index))}
-      </List>
+      <ImmutableVirtualizedList
+        immutableData={paxList}
+        renderItem={this._renderPerson}
+        keyExtractor={(item, index) => String(index)}
+      />
     )
   }
 
