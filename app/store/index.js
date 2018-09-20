@@ -33,13 +33,15 @@ if (__DEV__) {
  * Persist
  */
 import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+// import storage from 'redux-persist/lib/storage'
+// import storage from './storage'
+import storage from './sqlite'
 import immutableTransform from 'redux-persist-transform-immutable'
 const persistConfig = {
   transforms: [immutableTransform()],
   key: 'root',
   storage,
-  blacklist: ['navigation', 'app', 'connection']
+  blacklist: ['login', 'navigation', 'app', 'connection'],
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

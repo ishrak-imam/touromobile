@@ -7,25 +7,6 @@
     "homeDate": "2018-09-29T05:18:30.3953096+02:00",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "brand": "SC",
-    "transport": {
-      "type": "bus",
-      "size": "standard",
-      "regno": "XYZ123",
-      "drivers": [
-        {
-          "id": 443,
-          "name": "Curre Bengtsson",
-          "phone": "+465487545"
-        },
-        {
-          "id": 444,
-          "name": "Nisse Nilsson",
-          "phone": "+465487546"
-        }
-      ],
-      "platform": "A14",
-      "departure": "08:10"
-    },
     "lunches": {
       "out": {
         "name": "Klassenzimmer, Hammoor",
@@ -401,6 +382,25 @@
         }
       },
       "home": []
+    },
+    "transport": {
+      "type": "bus",
+      "size": "standard",
+      "regno": "XYZ123",
+      "drivers": [
+        {
+          "id": 443,
+          "name": "Curre Bengtsson",
+          "phone": "+465487545"
+        },
+        {
+          "id": 444,
+          "name": "Nisse Nilsson",
+          "phone": "+465487546"
+        }
+      ],
+      "platform": "A14",
+      "departure": "08:10"
     }
   }
 ]
