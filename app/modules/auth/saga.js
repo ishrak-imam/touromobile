@@ -8,7 +8,7 @@ import {
   logoutReq, logoutSucs,
   forgotPassReq, forgotPassSucs, forgotPassFail
 } from './action'
-import { clearImageCache } from '../imageCache/action'
+import { clearImageCache } from '../../components/imageCache/action'
 import { navigateToScene } from '../../navigation/action'
 import localStore, { USER } from '../../utils/persist'
 import { login, forgotPass } from './api'

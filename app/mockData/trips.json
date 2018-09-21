@@ -2,7 +2,7 @@
   {
     "departureId": 20271,
     "outDate": "2018-09-18T05:18:30.3953096+02:00",
-    "homeDate": "2018-09-29T05:18:30.3953096+02:00",
+    "homeDate": "2018-09-21T05:18:30.3953096+02:00",
     "name": "berw16",
     "description": "Berlin Weekend",
     "brand": "SC",
@@ -1069,7 +1069,7 @@
 
   {
     "departureId": 20272,
-    "outDate": "2018-10-01T05:18:30.3953096+02:00",
+    "outDate": "2018-9-21T05:18:30.3953096+02:00",
     "homeDate": "2018-10-11T05:18:30.3953096+02:00",
     "name": "munw16",
     "description": "Munich Weekend",

@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { init } from '../auth/action'
 import { Colors } from '../../theme'
 import { startConnectionMonitor, checkConnection } from '../../connection/action'
-import { createCacheDir } from '../imageCache/action'
+import { createCacheDir } from '../../components/imageCache/action'
 import { startAppStateMonitor } from '../../modules/app/action'
 
 class LoadingScreen extends Component {

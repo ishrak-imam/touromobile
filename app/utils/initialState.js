@@ -4,7 +4,7 @@ import { LOGIN_INITIAL_STATE } from '../modules/auth/immutable'
 import { CONNECTION_INITIAL_STATE } from '../connection/immutable'
 import { TRIPS_INITIAL_STATE } from '../modules/trips/immutable'
 import { NAV_INITIAL_STATE } from '../navigation/immutable'
-import { IMAGE_CACHE_INITIAL_STATE } from '../modules/imageCache/immutable'
+import { IMAGE_CACHE_INITIAL_STATE } from '../components/imageCache/immutable'
 import { APP_INITIAL_STATE } from '../modules/app/immutable'
 
 export const getInitialState = () => {
