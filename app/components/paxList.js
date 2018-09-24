@@ -85,7 +85,7 @@ export default class PaxList extends Component {
     const { trip } = this.props
     const bookings = trip.get('bookings')
     return (
-      <View>
+      <View style={ss.container}>
         {!!bookings && this._renderList(trip)}
       </View>
     )
@@ -93,6 +93,9 @@ export default class PaxList extends Component {
 }
 
 const ss = StyleSheet.create({
+  container: {
+    marginBottom: 70
+  },
   itemRight: {
     flexDirection: 'row',
     justifyContent: 'flex-end'

@@ -5,6 +5,7 @@ import {
 import { getSortedBookings } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Text as Sms } from 'react-native-openanything'
+import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 export default class BookingList extends Component {
@@ -49,9 +50,15 @@ export default class BookingList extends Component {
     const { trip } = this.props
     const bookings = trip.get('bookings')
     return (
-      <View>
+      <View style={ss.container}>
         {!!bookings && this._renderList(trip)}
       </View>
     )
   }
 }
+
+const ss = StyleSheet.create({
+  container: {
+    marginBottom: 70
+  }
+})
