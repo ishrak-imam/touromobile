@@ -13,6 +13,27 @@ import { getSet } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { setParticipants } from './action'
 
+class PaxListItem extends Component {
+  shouldComponentUpdate (nextProps) {
+    return nextProps.selected !== this.props.selected
+  }
+
+  render () {
+    const { selected, checked, onPress, id, bookingId, name } = this.props
+    return (
+      <ListItem key={`${id}${bookingId}`}>
+        <Left>
+          <CheckBox checked={checked || selected} onPress={onPress(String(id), checked)} />
+          <Body style={ss.itemBody}>
+            <Text style={ss.itemText}>{bookingId}</Text>
+            <Text style={ss.itemText}>{name}</Text>
+          </Body>
+        </Left>
+      </ListItem>
+    )
+  }
+}
+
 class ExcursionDetailsScreen extends Component {
   constructor (props) {
     super(props)
@@ -53,16 +74,19 @@ class ExcursionDetailsScreen extends Component {
     const participants = excursions.get('participants').get(excursionId)
     const selected = participants ? participants.has(String(id)) : false
 
+    /**
+     * separate class component used to take advantage
+     * of shouldComponentUpdate hook
+     */
     return (
-      <ListItem key={`${id}${bookingId}`}>
-        <Left>
-          <CheckBox checked={checked || selected} onPress={this._onPress(String(id), checked)} />
-          <Body style={ss.itemBody}>
-            <Text style={ss.itemText}>{bookingId}</Text>
-            <Text style={ss.itemText}>{name}</Text>
-          </Body>
-        </Left>
-      </ListItem>
+      <PaxListItem
+        id={id}
+        bookingId={bookingId}
+        onPress={this._onPress}
+        selected={selected}
+        checked={checked}
+        name={name}
+      />
     )
   }
 
