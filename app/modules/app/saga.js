@@ -7,7 +7,7 @@ import {
   setAppState
 } from './action'
 
-import { getCurrentTrip } from '../trips/action'
+import { getCurrentTrip, getFutureTrips } from '../trips/action'
 
 export function * watchAppState () {
   yield takeFirst(startAppStateMonitor.getType(), createAppStateSubscription)
@@ -24,6 +24,7 @@ function * createAppStateSubscription (action) {
     yield put(setAppState(appState !== 'active'))
     if (appState === 'active') {
       yield put(getCurrentTrip())
+      yield put(getFutureTrips())
     }
   })
 }
