@@ -8,6 +8,7 @@ import {
 import Button from '../components/button'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import isIOS from '../utils/isIOS'
+import debounce from '../utils/debounce'
 
 export default class TMHeader extends Component {
   constructor (props) {
@@ -48,7 +49,12 @@ export default class TMHeader extends Component {
         <Title style={ss.title}>{title}</Title>
         {
           searchConfig &&
-          <IonIcon name='search' size={25} color={Colors.silver} onPress={() => searchConfig.toggle(true)} />
+          <IonIcon
+            style={ss.searchIcon}
+            name='search' size={25}
+            color={Colors.silver}
+            onPress={() => searchConfig.toggle(true)}
+          />
         }
       </Body>
     )
@@ -129,9 +135,11 @@ const ss = StyleSheet.create({
   body: {
     flex: 3,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center'
-
+  },
+  searchIcon: {
+    marginLeft: 10
   },
   title: {
     color: Colors.silver,

@@ -56,21 +56,22 @@ class PaxScreen extends Component {
     const { navigation, trips } = this.props
     const { booking } = this.state
     const trip = trips.getIn(['current', 'trip'])
+    const searchConfig = {
+      toggle: this._searchToggle,
+      placeHolder: _T('paxSearch'),
+      icon: 'people',
+      onSearch: this._onSearch
+    }
 
     return (
       <Container>
         <Header
           left='menu'
-          title={_T('title')}
+          title={booking ? _T('bookingTitle') : _T('paxTitle')}
           navigation={navigation}
           right={this._renderRight}
           search={this.state.search}
-          searchConfig={{
-            toggle: this._searchToggle,
-            placeHolder: 'Search passengers',
-            icon: 'people',
-            onSearch: this._onSearch
-          }}
+          searchConfig={booking ? null : searchConfig}
         />
         {
           booking

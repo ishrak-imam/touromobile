@@ -21,7 +21,9 @@ export default {
     out: 'Ut'
   },
   PassengersScreen: {
-    title: 'Passagerare'
+    paxTitle: 'Passagerare',
+    bookingTitle: 'Bokning',
+    paxSearch: 'Sök passagerare'
   },
   ExcursionsScreen: {
     title: 'Utflykter',

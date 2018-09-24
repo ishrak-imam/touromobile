@@ -21,7 +21,9 @@ export default {
     out: 'Out'
   },
   PassengersScreen: {
-    title: 'Passengers'
+    paxTitle: 'Passengers',
+    bookingTitle: 'Booking',
+    paxSearch: 'Search passengers'
   },
   ExcursionsScreen: {
     title: 'Excursions',
