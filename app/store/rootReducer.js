@@ -9,6 +9,7 @@ import * as cacheImageReducers from '../components/imageCache/reducer'
 import * as authReducers from '../modules/auth/reducer'
 import * as connectionReducer from '../connection/reducer'
 import * as tripsReducer from '../modules/trips/reducer'
+import * as excursionsReducer from '../modules/excursions/reducer'
 
 const allReducers = combineReducers({
   ...navReducers,
@@ -16,7 +17,8 @@ const allReducers = combineReducers({
   ...cacheImageReducers,
   ...connectionReducer,
   ...authReducers,
-  ...tripsReducer
+  ...tripsReducer,
+  ...excursionsReducer
 })
 
 const rootReduces = (state, action) => {

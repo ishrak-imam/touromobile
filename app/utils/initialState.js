@@ -6,6 +6,7 @@ import { TRIPS_INITIAL_STATE } from '../modules/trips/immutable'
 import { NAV_INITIAL_STATE } from '../navigation/immutable'
 import { IMAGE_CACHE_INITIAL_STATE } from '../components/imageCache/immutable'
 import { APP_INITIAL_STATE } from '../modules/app/immutable'
+import { EXCURSIONS_INITIAL_STATE } from '../modules/excursions/immutable'
 
 export const getInitialState = () => {
   // return getMap({
@@ -21,6 +22,7 @@ export const getInitialState = () => {
     trips: TRIPS_INITIAL_STATE,
     navigation: NAV_INITIAL_STATE,
     imageCache: IMAGE_CACHE_INITIAL_STATE,
-    app: APP_INITIAL_STATE
+    app: APP_INITIAL_STATE,
+    excursions: EXCURSIONS_INITIAL_STATE
   }
 }

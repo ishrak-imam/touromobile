@@ -6,20 +6,57 @@ import {
 } from 'native-base'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
-import { getSortedPax, getTrips } from '../../selectors'
+import { getSortedPax, getTrips, getExcursions } from '../../selectors'
 import { StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
+import { getSet } from '../../utils/immutable'
+import { actionDispatcher } from '../../utils/actionDispatcher'
+import { setParticipants } from './action'
 
 class ExcursionDetailsScreen extends Component {
+  constructor (props) {
+    super(props)
+    const { navigation, excursions } = props
+    const excursion = navigation.getParam('excursion')
+    const excursionId = String(excursion.get('id'))
+    const participants = excursions.get('participants').get(excursionId)
+    this.state = {
+      participants: participants || getSet([])
+    }
+  }
+
+  _onPress = (paxId, checked) => {
+    const { navigation } = this.props
+    const excursion = navigation.getParam('excursion')
+    const excursionId = String(excursion.get('id'))
+    return () => {
+      if (!checked) {
+        const { participants } = this.state
+        this.state.participants = participants.has(paxId) ? participants.remove(paxId) : participants.add(paxId)
+        actionDispatcher(setParticipants({
+          key: excursionId,
+          value: this.state.participants
+        }))
+      }
+    }
+  }
+
   _renderItem = ({ item }) => {
+    const { navigation, excursions } = this.props
     const id = item.get('id')
     const checked = item.get('excursionPack')
     const bookingId = item.get('booking').get('id')
     const name = `${item.get('firstName')} ${item.get('lastName')}`
+
+    const excursion = navigation.getParam('excursion')
+    const excursionId = String(excursion.get('id'))
+    const participants = excursions.get('participants').get(excursionId)
+    const selected = participants ? participants.has(String(id)) : false
+
     return (
       <ListItem key={`${id}${bookingId}`}>
         <Left>
-          <CheckBox checked={checked} />
+          <CheckBox checked={checked || selected} onPress={this._onPress(String(id), checked)} />
           <Body style={ss.itemBody}>
             <Text style={ss.itemText}>{bookingId}</Text>
             <Text style={ss.itemText}>{name}</Text>
@@ -37,6 +74,7 @@ class ExcursionDetailsScreen extends Component {
         immutableData={pax}
         renderItem={this._renderItem}
         keyExtractor={this._keyExtractor}
+        extraData={this.state.participants}
       />
     )
   }
@@ -56,7 +94,8 @@ class ExcursionDetailsScreen extends Component {
 }
 
 const stateToProps = state => ({
-  trips: getTrips(state)
+  trips: getTrips(state),
+  excursions: getExcursions(state)
 })
 
 export default connect(stateToProps, null)(ExcursionDetailsScreen)
