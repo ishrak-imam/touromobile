@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Container, Content, Switch, View
+  Container, Switch, View
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
@@ -22,7 +22,8 @@ class PaxScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      booking: false
+      booking: false,
+      search: false
     }
   }
 
@@ -45,13 +46,32 @@ class PaxScreen extends Component {
     )
   }
 
+  _searchToggle = toggle => this.setState({ search: toggle })
+
+  _onSearch = text => {
+    console.log(text)
+  }
+
   render () {
     const { navigation, trips } = this.props
     const { booking } = this.state
     const trip = trips.getIn(['current', 'trip'])
+
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} right={this._renderRight} />
+        <Header
+          left='menu'
+          title={_T('title')}
+          navigation={navigation}
+          right={this._renderRight}
+          search={this.state.search}
+          searchConfig={{
+            toggle: this._searchToggle,
+            placeHolder: 'Search passengers',
+            icon: 'people',
+            onSearch: this._onSearch
+          }}
+        />
         {
           booking
             ? <BookingList trip={trip} navigation={navigation} />

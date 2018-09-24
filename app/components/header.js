@@ -2,14 +2,20 @@
 import React, { Component } from 'react'
 import { IonIcon, Colors } from '../theme'
 import {
-  Header, Left, Body, Title, Right
+  Header, Left, Body, Title, Right,
+  View, Item, Input, Text
 } from 'native-base'
 import Button from '../components/button'
-import { StyleSheet } from 'react-native'
-import isIphoneX from '../utils/isIphoneX'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import isIOS from '../utils/isIOS'
 
 export default class TMHeader extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      text: ''
+    }
+  }
   _navigate = type => {
     const { navigation } = this.props
     return () => {
@@ -36,10 +42,14 @@ export default class TMHeader extends Component {
   }
 
   _renderBody = () => {
-    const { title } = this.props
+    const { title, searchConfig } = this.props
     return (
       <Body style={ss.body}>
         <Title style={ss.title}>{title}</Title>
+        {
+          searchConfig &&
+          <IonIcon name='search' size={25} color={Colors.silver} onPress={() => searchConfig.toggle(true)} />
+        }
       </Body>
     )
   }
@@ -53,13 +63,55 @@ export default class TMHeader extends Component {
     )
   }
 
-  render () {
+  _handleChange = text => {
+    const { searchConfig } = this.props
+    this.setState({ text }, searchConfig.onSearch(text))
+  }
+
+  _onCancelSearch = () => {
+    const { searchConfig } = this.props
+    this.setState({ text: '' }, searchConfig.toggle(false))
+  }
+
+  _renderSearch = () => {
+    const { searchConfig } = this.props
+    return (
+      <Header style={ss.header} searchBar rounded>
+        <Item style={ss.searchBox}>
+          <IonIcon name='search' style={{ marginLeft: 10 }} />
+          <Input
+            placeholder={searchConfig.placeHolder}
+            onChangeText={this._handleChange}
+            value={this.state.text}
+          />
+          <IonIcon name={searchConfig.icon} style={{ marginRight: 10 }} />
+        </Item>
+        <Right style={ss.cancelButton}>
+          <TouchableOpacity onPress={this._onCancelSearch}>
+            <Text style={ss.cancelText}>Cancel</Text>
+          </TouchableOpacity>
+        </Right>
+      </Header>
+    )
+  }
+
+  _renderHeader = searchConfig => {
     return (
       <Header style={ss.header}>
         {this._renderLeft()}
-        {this._renderBody()}
+        {this._renderBody(searchConfig)}
         {this._renderRight()}
       </Header>
+    )
+  }
+
+  render () {
+    const { search } = this.props
+    return (
+      <View>
+        {!search && this._renderHeader()}
+        {search && this._renderSearch()}
+      </View>
     )
   }
 }
@@ -76,12 +128,27 @@ const ss = StyleSheet.create({
   },
   body: {
     flex: 3,
-    paddingBottom: 3
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+
   },
   title: {
-    color: Colors.silver
+    color: Colors.silver,
+    paddingBottom: 5
   },
   right: {
     flex: 2
+  },
+  cancelText: {
+    color: Colors.silver
+  },
+  searchBox: {
+    flex: 3
+  },
+  cancelButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })

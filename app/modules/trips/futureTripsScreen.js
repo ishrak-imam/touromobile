@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  Container, Text, View
+  Container
 } from 'native-base'
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
@@ -19,8 +19,7 @@ class FutureTripsScreen extends Component {
   }
 
   render () {
-    const { navigation, trips } = this.props
-    console.log(trips.get('future'))
+    const { navigation } = this.props
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
