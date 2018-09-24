@@ -16,6 +16,7 @@ export default class TMHeader extends Component {
     this.state = {
       text: ''
     }
+    this._onSearchDebounce = debounce(this._onSearchDebounce, 500)
   }
   _navigate = type => {
     const { navigation } = this.props
@@ -69,9 +70,13 @@ export default class TMHeader extends Component {
     )
   }
 
-  _handleChange = text => {
+  _onSearchDebounce = () => {
     const { searchConfig } = this.props
-    this.setState({ text }, searchConfig.onSearch(text))
+    searchConfig.onSearch(this.state.text)
+  }
+
+  _handleChange = text => {
+    this.setState({ text }, this._onSearchDebounce)
   }
 
   _onCancelSearch = () => {
