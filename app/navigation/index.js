@@ -19,6 +19,7 @@ import TripScreen from '../modules/trips/screen'
 import PaxScreen from '../modules/pax/screen'
 import ExcursionsScreen from '../modules/excursions/screen'
 import ReportsScreen from '../modules/reports/screen'
+import FutureTripsScreen from '../modules/trips/futureTripsScreen'
 
 import RestaurantScreen from '../modules/restaurant/screen'
 import ExcursionDetailsScreen from '../modules/excursions/detailsScreen'
@@ -41,7 +42,8 @@ const TripTabs = createTabNavigator(
     Trip: { screen: TripScreen },
     Pax: { screen: PaxScreen },
     Excursions: { screen: ExcursionsScreen },
-    Reports: { screen: ReportsScreen }
+    Reports: { screen: ReportsScreen },
+    FutureTrips: { screen: FutureTripsScreen }
   },
   {
     initialRouteName: 'Trip',

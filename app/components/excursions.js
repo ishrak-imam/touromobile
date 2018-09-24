@@ -83,7 +83,7 @@ export default class Excursions extends Component {
     const { trip } = this.props
     const excursions = trip.get('excursions')
     return (
-      <View>
+      <View style={ss.container}>
         {!!excursions && this._renderExcursions(excursions)}
       </View>
     )
@@ -91,6 +91,9 @@ export default class Excursions extends Component {
 }
 
 const ss = StyleSheet.create({
+  container: {
+    marginTop: 20
+  },
   boldText: {
     fontWeight: 'bold'
   },

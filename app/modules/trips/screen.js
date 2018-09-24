@@ -7,7 +7,7 @@ import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import { tripsReq, getCurrentTrip } from './action'
+import { tripsReq, getCurrentTrip, getFutureTrips } from './action'
 import {
   networkActionDispatcher, actionDispatcher
 } from '../../utils/actionDispatcher'
@@ -31,6 +31,7 @@ class TripScreen extends Component {
       }))
     } else {
       actionDispatcher(getCurrentTrip())
+      actionDispatcher(getFutureTrips())
     }
   }
 
@@ -45,17 +46,16 @@ class TripScreen extends Component {
   render () {
     const { navigation, trips } = this.props
     const isLoading = trips.get('isLoading')
-    const noMoreTrips = trips.get('noMoreTrips')
-    const currentTrip = trips.get('current')
+    const current = trips.get('current')
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
         {
           isLoading
             ? this._renderLoader('Fetching data from Touro...')
-            : noMoreTrips
+            : current.get('noMore')
               ? this._renderLoader('No more trips')
-              : !!currentTrip.size && <TripCard trip={currentTrip} navigation={navigation} />
+              : !!current.get('trip').size && <TripCard trip={current.get('trip')} navigation={navigation} />
         }
       </Container>
 

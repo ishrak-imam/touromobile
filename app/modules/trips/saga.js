@@ -9,7 +9,9 @@ import {
 
   getCurrentTrip,
   setCurrentTrip,
-  setNoMoreTrips
+
+  getFutureTrips,
+  setFutureTrips
 } from './action'
 
 import {
@@ -17,7 +19,8 @@ import {
 } from './api'
 
 import {
-  getCurrentTrip as gctSelector
+  getCurrentTrip as gctSelector,
+  getFutureTrips as gftSelector
 } from '../../selectors'
 
 export function * watchGetTrips () {
@@ -30,6 +33,7 @@ function * workerGetTrips (action) {
     const data = yield call(getTripsApi, guideId, jwt)
     yield put(tripsSucs(data))
     yield put(getCurrentTrip())
+    yield put(getFutureTrips())
   } catch (e) {
     yield put(tripsFail(e))
   }
@@ -40,9 +44,15 @@ export function * watchGetCurrentTrip () {
 }
 
 function * workerGetCurrentTrip (action) {
-  const { noMoreTrips, currentTrip } = yield select(gctSelector)
-  if (noMoreTrips) {
-    yield put(setNoMoreTrips())
-  }
-  yield put(setCurrentTrip(currentTrip))
+  const trip = yield select(gctSelector)
+  yield put(setCurrentTrip(trip))
+}
+
+export function * watchGetFutureTrips () {
+  yield takeFirst(getFutureTrips.getType(), workerGetFutureTrips)
+}
+
+function * workerGetFutureTrips (action) {
+  const trips = yield select(gftSelector)
+  yield put(setFutureTrips(trips))
 }

@@ -27,6 +27,9 @@ export default {
     title: 'Utflykter',
     textAllParticipants: 'Textmeddelande alla deltagare'
   },
+  FutureTripsScreen: {
+    title: 'Framtida resor'
+  },
   ReportsScreen: {
     title: 'Rapporter'
   },

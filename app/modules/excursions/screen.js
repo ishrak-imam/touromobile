@@ -24,7 +24,7 @@ class ExcursionsScreen extends Component {
         <Header left='menu' title={_T('title')} navigation={navigation} />
         <Content>
           <Excursions
-            trip={trips.get('current')}
+            trip={trips.getIn(['current', 'trip'])}
             navigation={navigation}
           />
         </Content>

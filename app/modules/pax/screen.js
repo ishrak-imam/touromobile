@@ -48,7 +48,7 @@ class PaxScreen extends Component {
   render () {
     const { navigation, trips } = this.props
     const { booking } = this.state
-    const trip = trips.get('current')
+    const trip = trips.getIn(['current', 'trip'])
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} right={this._renderRight} />

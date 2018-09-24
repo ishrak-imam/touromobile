@@ -1,5 +1,5 @@
 
-import { isWithinRange } from 'date-fns'
+import { isWithinRange, isAfter } from 'date-fns'
 import { setIntoMap, getMap, getList } from '../utils/immutable'
 import Cache from '../utils/cache'
 
@@ -92,11 +92,28 @@ export const preparePaxData = pax => {
 export const getCurrentTrip = state => {
   const dateNow = new Date()
   const trips = getSortedTrips(state.trips.get('data'))
-  const currentTrip = trips.find(trip => {
+  const trip = trips.find(trip => {
     return isWithinRange(dateNow, trip.get('outDate'), trip.get('homeDate'))
   })
   return {
-    noMoreTrips: !currentTrip,
-    currentTrip: currentTrip || {}
+    noMore: !trip,
+    trip: trip || {}
+  }
+}
+
+/**
+ * TODO:
+ * Find a way to cache the result
+ * note: Not immutable data
+ */
+export const getFutureTrips = state => {
+  const dateNow = new Date()
+  const sortedTrips = getSortedTrips(state.trips.get('data'))
+  const trips = sortedTrips.filter(trip => {
+    return isAfter(trip.get('outDate'), dateNow)
+  })
+  return {
+    noMore: !trips.size,
+    trips
   }
 }

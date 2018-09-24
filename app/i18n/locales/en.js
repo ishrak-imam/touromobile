@@ -27,6 +27,9 @@ export default {
     title: 'Excursions',
     textAllParticipants: 'Text message all participants'
   },
+  FutureTripsScreen: {
+    title: 'Future trips'
+  },
   ReportsScreen: {
     title: 'Reports'
   },
