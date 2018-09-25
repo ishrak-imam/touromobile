@@ -118,9 +118,36 @@ export const getFutureTrips = state => {
   }
 }
 
-export const filterPaxByName = (pax, text) => {
+const SEARCH_TEXT_TYPES = {
+  number: 'number',
+  text: 'text',
+  textWithSpace: 'textWithSpace'
+}
+
+function getSearchTextType (text) {
+  if (!isNaN(parseInt(text))) {
+    return SEARCH_TEXT_TYPES.number
+  }
+  if (text.split(' ').length === 1) {
+    return SEARCH_TEXT_TYPES.text
+  }
+  return SEARCH_TEXT_TYPES.textWithSpace
+}
+
+export const filterPaxBySearchText = (pax, text) => {
+  const searchTextType = getSearchTextType(text)
   return pax.filter(p => {
-    const name = `${p.get('firstName')} ${p.get('lastName')}`
-    return name.toLocaleLowerCase().includes(text)
+    switch (searchTextType) {
+      case SEARCH_TEXT_TYPES.number:
+        const bookingId = String(p.get('booking').get('id'))
+        return bookingId.includes(text)
+      case SEARCH_TEXT_TYPES.textWithSpace:
+        const splitted = text.split(' ')
+        return p.get('firstName').toLowerCase().includes(splitted[0]) &&
+                p.get('lastName').toLowerCase().includes(splitted[1])
+      case SEARCH_TEXT_TYPES.text:
+        const name = `${p.get('firstName')} ${p.get('lastName')}`
+        return name.toLowerCase().includes(text)
+    }
   })
 }

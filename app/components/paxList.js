@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import {
   View, Text, ListItem, Body, Right
 } from 'native-base'
-import { getSortedPax, preparePaxData, filterPaxByName } from '../selectors'
+import { getSortedPax, preparePaxData, filterPaxBySearchText } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Call, Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
@@ -78,7 +78,7 @@ export default class PaxList extends Component {
     const { searchText } = this.props
     let sortedPax = getSortedPax(trip)
     if (searchText) {
-      sortedPax = filterPaxByName(sortedPax, searchText)
+      sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
     const paxList = preparePaxData(sortedPax)
     return (

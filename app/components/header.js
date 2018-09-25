@@ -109,6 +109,7 @@ export default class TMHeader extends Component {
         <Item style={ss.searchBox}>
           <IonIcon name='search' style={{ marginLeft: 10 }} />
           <Input
+            autoCorrect={false}
             placeholder={searchConfig.placeHolder}
             onChangeText={this._handleChange}
             value={this.state.text}
