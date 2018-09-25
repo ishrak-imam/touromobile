@@ -162,6 +162,7 @@ const ss = StyleSheet.create({
   cancelButton: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center'
   }
 })

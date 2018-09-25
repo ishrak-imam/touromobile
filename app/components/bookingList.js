@@ -6,6 +6,7 @@ import { getSortedBookings } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
+import isIphoneX from '../utils/isIphoneX'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 export default class BookingList extends Component {
@@ -59,6 +60,6 @@ export default class BookingList extends Component {
 
 const ss = StyleSheet.create({
   container: {
-    marginBottom: 70
+    marginBottom: isIphoneX ? 100 : 85
   }
 })
