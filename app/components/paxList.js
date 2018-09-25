@@ -19,9 +19,9 @@ export default class PaxList extends Component {
     }
   }
 
-  shouldComponentUpdate (nextProps) {
-    return nextProps.searchText !== this.props.searchText
-  }
+  // shouldComponentUpdate (nextProps) {
+  //   return nextProps.searchText !== this.props.searchText
+  // }
 
   _toPaxDetails = pax => {
     const { navigation } = this.props
