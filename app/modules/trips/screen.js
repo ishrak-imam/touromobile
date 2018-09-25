@@ -22,9 +22,9 @@ class TripScreen extends Component {
     }
   }
 
-  shouldComponentUpdate (nextProps) {
-    return !nextProps.trips.equals(this.props.trips)
-  }
+  // shouldComponentUpdate (nextProps) {
+  //   return !nextProps.trips.equals(this.props.trips)
+  // }
 
   componentDidMount () {
     const { trips, user } = this.props
