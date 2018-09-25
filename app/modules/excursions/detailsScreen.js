@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import {
   Container, ListItem, Left,
-  CheckBox, Body, Text
+  CheckBox, Body, Text, Right
 } from 'native-base'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { getSet } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { setParticipants } from './action'
+import { IonIcon, Colors } from '../../theme'
 
 class PaxListItem extends Component {
   shouldComponentUpdate (nextProps) {
@@ -22,13 +23,16 @@ class PaxListItem extends Component {
     const { selected, checked, onPress, id, bookingId, name } = this.props
     return (
       <ListItem key={`${id}${bookingId}`}>
-        <Left>
+        <Left style={{ flex: 1 }}>
           <CheckBox checked={checked || selected} onPress={onPress(String(id), checked)} />
-          <Body style={ss.itemBody}>
-            <Text style={ss.itemText}>{bookingId}</Text>
-            <Text style={ss.itemText}>{name}</Text>
-          </Body>
         </Left>
+        <Body style={ss.itemBody}>
+          <Text style={{ flex: 1, flexWrap: 'wrap' }}>{bookingId}</Text>
+          <Text style={{ flex: 2, flexWrap: 'wrap' }}>{name}</Text>
+        </Body>
+        <Right style={{ flex: 1 }}>
+          {checked && <IonIcon name='star' color={Colors.headerBg} />}
+        </Right>
       </ListItem>
     )
   }
@@ -105,7 +109,7 @@ class ExcursionDetailsScreen extends Component {
 
   render () {
     const { navigation, trips } = this.props
-    const trip = trips.get('current').get('trip')
+    const trip = trips.getIn(['current', 'trip'])
     const excursion = navigation.getParam('excursion')
     const sortedPax = getSortedPax(trip)
     return (
@@ -126,9 +130,11 @@ export default connect(stateToProps, null)(ExcursionDetailsScreen)
 
 const ss = StyleSheet.create({
   itemText: {
-    marginLeft: 16
+    paddingHorizontal: 10
   },
   itemBody: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex: 4,
+    alignItems: 'center'
   }
 })

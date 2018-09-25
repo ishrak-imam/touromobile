@@ -14,14 +14,14 @@ export default class PaxList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      comment: null,
-      booking: false
+      comment: null
     }
   }
 
-  // shouldComponentUpdate (nextProps) {
-  //   return nextProps.searchText !== this.props.searchText
-  // }
+  shouldComponentUpdate (nextProps, nextState) {
+    return !nextProps.trip.equals(this.props.trip) ||
+            nextProps.searchText !== this.props.searchText
+  }
 
   _toPaxDetails = pax => {
     const { navigation } = this.props
