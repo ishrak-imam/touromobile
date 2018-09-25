@@ -16,7 +16,7 @@ export default class TMHeader extends Component {
     this.state = {
       text: ''
     }
-    this._onSearchDebounce = debounce(this._onSearchDebounce, 500)
+    this._onSearchDebounce = debounce(this._onSearch, 500)
   }
   _navigate = type => {
     const { navigation } = this.props
@@ -54,7 +54,7 @@ export default class TMHeader extends Component {
             style={ss.searchIcon}
             name='search' size={25}
             color={Colors.silver}
-            onPress={() => searchConfig.toggle(true)}
+            onPress={() => this._searchBoxToggle(true)}
           />
         }
       </Body>
@@ -70,18 +70,36 @@ export default class TMHeader extends Component {
     )
   }
 
-  _onSearchDebounce = () => {
+  /**
+   * sends search filter text to the parent
+   */
+  _onSearch = () => {
     const { searchConfig } = this.props
-    searchConfig.onSearch(this.state.text)
+    searchConfig.onSearch(this.state.text.toLocaleLowerCase())
   }
 
   _handleChange = text => {
+    /**
+     * basically the _onSearch method wrapped with debounce
+     */
     this.setState({ text }, this._onSearchDebounce)
   }
 
-  _onCancelSearch = () => {
+  _searchBoxToggle = toggle => {
     const { searchConfig } = this.props
-    this.setState({ text: '' }, searchConfig.toggle(false))
+    searchConfig.toggle(toggle)
+  }
+
+  _onCancelSearch = () => {
+    this.setState({ text: '' }, () => {
+      this._searchBoxToggle(false)
+      /**
+       * as search text is cleared on cancel, _onSearch
+       * is called after to let the parent know that
+       * it needs to re render the unfiltered list
+       */
+      this._onSearch()
+    })
   }
 
   _renderSearch = () => {
@@ -140,7 +158,6 @@ const ss = StyleSheet.create({
   body: {
     flex: 3,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     alignItems: 'center'
   },
   searchIcon: {

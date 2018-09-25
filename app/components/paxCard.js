@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import {
-  Card, CardItem, Left, Body,
+  CardItem, Left, Body,
   Text, Right
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import IconButton from '../components/iconButton'
-import { TouchableOpacity, StyleSheet } from 'react-native'
+import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { Call, Text as Sms } from 'react-native-openanything'
 import Translator from '../utils/translator'
 const _T = Translator('PaxDetailsScreen')
@@ -109,7 +109,7 @@ export default class PaxCard extends Component {
     const coPax = pax.get('booking').get('pax')
     const comment = pax.get('comment')
     return (
-      <Card>
+      <ScrollView>
         {this._renderPxName(pax)}
         {!!phone && this._renderPhone(phone)}
         {this._renderBooking(booking)}
@@ -117,7 +117,7 @@ export default class PaxCard extends Component {
         {!!coPax.size && this._renderCoPax(coPax, pax)}
         {!!comment && this._renderComment(comment)}
         {!!phone && this._renderComms(phone)}
-      </Card>
+      </ScrollView>
     )
   }
 }

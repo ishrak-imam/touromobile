@@ -47,41 +47,41 @@ export const getTrips = state => state.trips
 let sortedTripsCache = null
 export const getSortedTrips = trips => {
   if (!sortedTripsCache) {
-    sortedTripsCache = new Cache(trips, resolvers.sortedTrips)
+    sortedTripsCache = new Cache(resolvers.sortedTrips)
   }
-  return sortedTripsCache.getData()
+  return sortedTripsCache.getData(trips)
 }
 
 let paxCache = null
 export const getPax = trip => {
   if (!paxCache) {
-    paxCache = new Cache(trip, resolvers.pax)
+    paxCache = new Cache(resolvers.pax)
   }
-  return paxCache.getData()
+  return paxCache.getData(trip)
 }
 
 let sortedPaxCache = null
 export const getSortedPax = trip => {
   if (!sortedPaxCache) {
-    sortedPaxCache = new Cache(trip, resolvers.sortedPax)
+    sortedPaxCache = new Cache(resolvers.sortedPax)
   }
-  return sortedPaxCache.getData()
+  return sortedPaxCache.getData(trip)
 }
 
 let sortedBookingCache = null
 export const getSortedBookings = trip => {
   if (!sortedBookingCache) {
-    sortedBookingCache = new Cache(trip, resolvers.sortedBookings)
+    sortedBookingCache = new Cache(resolvers.sortedBookings)
   }
-  return sortedBookingCache.getData()
+  return sortedBookingCache.getData(trip)
 }
 
 let paxDataCache = null
 export const preparePaxData = pax => {
   if (!paxDataCache) {
-    paxDataCache = new Cache(pax, resolvers.paxData)
+    paxDataCache = new Cache(resolvers.paxData)
   }
-  return paxDataCache.getData()
+  return paxDataCache.getData(pax)
 }
 
 /**
@@ -116,4 +116,11 @@ export const getFutureTrips = state => {
     noMore: !trips.size,
     trips
   }
+}
+
+export const filterPaxByName = (pax, text) => {
+  return pax.filter(p => {
+    const name = `${p.get('firstName')} ${p.get('lastName')}`
+    return name.toLocaleLowerCase().includes(text)
+  })
 }

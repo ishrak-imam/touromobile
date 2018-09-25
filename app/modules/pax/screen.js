@@ -23,7 +23,8 @@ class PaxScreen extends Component {
     super(props)
     this.state = {
       booking: false,
-      search: false
+      search: false,
+      text: ''
     }
   }
 
@@ -48,13 +49,11 @@ class PaxScreen extends Component {
 
   _searchToggle = toggle => this.setState({ search: toggle })
 
-  _onSearch = text => {
-    console.log(text)
-  }
+  _onSearch = text => this.setState({ text })
 
   render () {
     const { navigation, trips } = this.props
-    const { booking } = this.state
+    const { booking, text } = this.state
     const trip = trips.getIn(['current', 'trip'])
     const searchConfig = {
       toggle: this._searchToggle,
@@ -76,7 +75,7 @@ class PaxScreen extends Component {
         {
           booking
             ? <BookingList trip={trip} navigation={navigation} />
-            : <PaxList trip={trip} navigation={navigation} />
+            : <PaxList trip={trip} navigation={navigation} searchText={text} />
         }
       </Container>
     )

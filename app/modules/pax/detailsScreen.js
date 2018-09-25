@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Content, Container
+  Container
 } from 'native-base'
 import Header from '../../components/header'
 import PaxCard from '../../components/paxCard'
@@ -13,9 +13,7 @@ export default class PaxDetailsScreen extends Component {
     return (
       <Container>
         <Header left='back' title={name} navigation={navigation} />
-        <Content>
-          <PaxCard pax={pax} />
-        </Content>
+        <PaxCard pax={pax} />
       </Container>
     )
   }

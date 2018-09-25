@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   View, Text, ListItem, Body, Right
 } from 'native-base'
@@ -9,7 +9,7 @@ import { StyleSheet } from 'react-native'
 import isIphoneX from '../utils/isIphoneX'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
-export default class BookingList extends Component {
+export default class BookingList extends PureComponent {
   _smsAll = pax => {
     const phones = pax
       .filter(p => p.get('phone'))

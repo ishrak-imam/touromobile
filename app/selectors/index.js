@@ -10,6 +10,7 @@ export const {
   getCurrentTrip,
   getFutureTrips,
   getPax,
+  filterPaxByName,
   getSortedPax,
   getSortedBookings,
   preparePaxData

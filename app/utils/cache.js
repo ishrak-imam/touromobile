@@ -1,22 +1,21 @@
 
 class Cache {
-  constructor (value, resolver) {
-    this.value = value
+  constructor (resolver) {
     this.resolver = resolver
     this.prev = null
     this.computed = null
   }
 
-  _shouldHitCache = () => {
-    return this.value.equals(this.prev) && !!this.computed
+  _shouldHitCache = value => {
+    return value.equals(this.prev) && !!this.computed
   }
 
-  getData = () => {
-    if (this._shouldHitCache()) {
+  getData = value => {
+    if (this._shouldHitCache(value)) {
       return this.computed
     }
-    this.prev = this.value
-    this.computed = this.resolver(this.value)
+    this.prev = value
+    this.computed = this.resolver(value)
     return this.computed
   }
 }
