@@ -21,9 +21,9 @@ class PaxListItem extends Component {
   render () {
     const { selected, checked, onPress, id, bookingId, name } = this.props
     return (
-      <ListItem key={`${id}${bookingId}`}>
+      <ListItem key={`${id}${bookingId}`} onPress={onPress(String(id), checked)}>
         <Left>
-          <CheckBox checked={checked || selected} onPress={onPress(String(id), checked)} />
+          <CheckBox checked={checked || selected} />
           <Body style={ss.itemBody}>
             <Text style={ss.itemText}>{bookingId}</Text>
             <Text style={ss.itemText}>{name}</Text>
