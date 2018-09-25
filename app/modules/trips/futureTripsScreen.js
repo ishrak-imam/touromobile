@@ -18,6 +18,10 @@ class FutureTripsScreen extends Component {
     }
   }
 
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.trips.equals(this.props.trips)
+  }
+
   render () {
     const { navigation } = this.props
     return (

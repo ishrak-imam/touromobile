@@ -21,9 +21,9 @@ class PaxListItem extends Component {
   render () {
     const { selected, checked, onPress, id, bookingId, name } = this.props
     return (
-      <ListItem key={`${id}${bookingId}`} onPress={onPress(String(id), checked)}>
+      <ListItem key={`${id}${bookingId}`}>
         <Left>
-          <CheckBox checked={checked || selected} />
+          <CheckBox checked={checked || selected} onPress={onPress(String(id), checked)} />
           <Body style={ss.itemBody}>
             <Text style={ss.itemText}>{bookingId}</Text>
             <Text style={ss.itemText}>{name}</Text>
@@ -105,7 +105,7 @@ class ExcursionDetailsScreen extends Component {
 
   render () {
     const { navigation, trips } = this.props
-    const trip = trips.get('current')
+    const trip = trips.get('current').get('trip')
     const excursion = navigation.getParam('excursion')
     const sortedPax = getSortedPax(trip)
     return (

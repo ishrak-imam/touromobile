@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import {
   View, Text, ListItem, Body, Right
 } from 'native-base'
@@ -9,7 +9,12 @@ import { StyleSheet } from 'react-native'
 import isIphoneX from '../utils/isIphoneX'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
-export default class BookingList extends PureComponent {
+export default class BookingList extends Component {
+  /**
+   * currently this is just a dumb component only receiving
+   * some props. So any re-render optimization is not needed
+   */
+
   _smsAll = pax => {
     const phones = pax
       .filter(p => p.get('phone'))

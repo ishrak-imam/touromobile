@@ -28,6 +28,12 @@ class PaxScreen extends Component {
     }
   }
 
+  shouldComponentUpdate (nextProps, nexState) {
+    const propsChanged = !nextProps.trips.equals(this.props.trips)
+    const stateChanged = nexState !== this.state
+    return propsChanged || stateChanged
+  }
+
   _renderRight = () => {
     const { booking } = this.state
     const color = Colors.silver

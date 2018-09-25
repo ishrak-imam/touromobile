@@ -92,7 +92,7 @@ export default class Excursions extends Component {
 
 const ss = StyleSheet.create({
   container: {
-    marginTop: 20
+    // marginTop: 20
   },
   boldText: {
     fontWeight: 'bold'

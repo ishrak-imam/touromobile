@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {
-  Container, Content
+  Container
 } from 'native-base'
+import { ScrollView } from 'react-native'
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import Translator from '../../utils/translator'
@@ -17,17 +18,21 @@ class ExcursionsScreen extends Component {
     }
   }
 
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.trips.equals(this.props.trips)
+  }
+
   render () {
     const { trips, navigation } = this.props
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
-        <Content>
+        <ScrollView>
           <Excursions
             trip={trips.getIn(['current', 'trip'])}
             navigation={navigation}
           />
-        </Content>
+        </ScrollView>
       </Container>
     )
   }
