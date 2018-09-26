@@ -94,6 +94,7 @@ export default class PaxList extends Component {
     return (
       paxList.size
         ? <ImmutableVirtualizedList
+          keyboardShouldPersistTaps
           immutableData={paxList}
           renderItem={this._renderPerson}
           keyExtractor={(item, index) => String(index)}

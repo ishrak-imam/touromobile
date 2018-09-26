@@ -5,7 +5,6 @@ import {
   Header, Left, Body, Title, Right,
   View, Item, Input, Text
 } from 'native-base'
-import Button from '../components/button'
 import { StyleSheet, TouchableOpacity, Keyboard } from 'react-native'
 import isIOS from '../utils/isIOS'
 import debounce from '../utils/debounce'
@@ -37,9 +36,9 @@ export default class TMHeader extends Component {
     const { left } = this.props
     return (
       <Left style={ss.left}>
-        <Button transparent onPress={this._navigate(left)}>
+        <TouchableOpacity transparent onPress={this._navigate(left)}>
           <IonIcon name={left} color={Colors.silver} />
-        </Button>
+        </TouchableOpacity>
       </Left>
     )
   }
@@ -155,19 +154,20 @@ const ss = StyleSheet.create({
     backgroundColor: Colors.headerBg
   },
   left: {
-    flex: 1
+    flex: 2
   },
   body: {
-    flex: 3,
+    flex: 4,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   searchIcon: {
     marginLeft: 10
   },
   title: {
-    color: Colors.silver,
-    paddingBottom: 5
+    color: Colors.silver
+    // paddingBottom: 5
   },
   right: {
     flex: 2,
