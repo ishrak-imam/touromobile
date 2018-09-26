@@ -55,5 +55,8 @@ export default {
     excursionPack: 'Excursion pack',
     travelsWith: 'Travels with',
     comment: 'Comment'
+  },
+  ExcursionDetailsScreen: {
+    paxSearch: 'Search passengers'
   }
 }

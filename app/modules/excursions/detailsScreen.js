@@ -4,15 +4,20 @@ import {
   Container, ListItem, Left,
   CheckBox, Body, Text, Right
 } from 'native-base'
+import SearchBar from '../../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
-import { getSortedPax, getTrips, getExcursions } from '../../selectors'
+import { getSortedPax, getTrips, getExcursions, filterPaxBySearchText } from '../../selectors'
 import { StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { getSet } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { setParticipants } from './action'
 import { IonIcon, Colors } from '../../theme'
+import Translator from '../../utils/translator'
+import NoData from '../../components/noData'
+
+const _T = Translator('ExcursionDetailsScreen')
 
 class PaxListItem extends Component {
   shouldComponentUpdate (nextProps) {
@@ -46,7 +51,8 @@ class ExcursionDetailsScreen extends Component {
     const excursionId = String(excursion.get('id'))
     const participants = excursions.get('participants').get(excursionId)
     this.state = {
-      participants: participants || getSet([])
+      participants: participants || getSet([]),
+      searchText: ''
     }
   }
 
@@ -98,23 +104,34 @@ class ExcursionDetailsScreen extends Component {
 
   _renderPersons = pax => {
     return (
-      <ImmutableVirtualizedList
-        immutableData={pax}
-        renderItem={this._renderItem}
-        keyExtractor={this._keyExtractor}
-        extraData={this.state.participants}
-      />
+      pax.size
+        ? <ImmutableVirtualizedList
+          immutableData={pax}
+          renderItem={this._renderItem}
+          keyExtractor={this._keyExtractor}
+          extraData={this.state.participants}
+        />
+        : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
     )
+  }
+
+  _onSearch = searchText => {
+    this.setState({ searchText })
   }
 
   render () {
     const { navigation, trips } = this.props
+    const { searchText } = this.state
     const trip = trips.getIn(['current', 'trip'])
     const excursion = navigation.getParam('excursion')
-    const sortedPax = getSortedPax(trip)
+    let sortedPax = getSortedPax(trip)
+    if (searchText) {
+      sortedPax = filterPaxBySearchText(sortedPax, searchText)
+    }
     return (
       <Container>
         <Header left='back' title={excursion.get('name')} navigation={navigation} />
+        <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
         {this._renderPersons(sortedPax)}
       </Container>
     )

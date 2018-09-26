@@ -55,5 +55,8 @@ export default {
     excursionPack: 'Utflyktspaket',
     travelsWith: 'Åker med',
     comment: 'Kommentar'
+  },
+  ExcursionDetailsScreen: {
+    paxSearch: 'Sök passagerare'
   }
 }
