@@ -16,16 +16,16 @@ const _T = Translator('PassengersScreen')
 class PaxScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='people' size={25} color={tintColor} />
+      return <IonIcon name='people' color={tintColor} />
     }
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      booking: false,
-      search: false,
-      text: ''
+      booking: false
+      // search: false,
+      // text: ''
     }
   }
 
@@ -54,20 +54,23 @@ class PaxScreen extends Component {
     )
   }
 
-  _searchToggle = toggle => this.setState({ search: toggle })
+  // _searchToggle = toggle => this.setState({ search: toggle })
 
-  _onSearch = text => this.setState({ text })
+  // _onSearch = text => this.setState({ text })
 
   render () {
     const { navigation, trips } = this.props
-    const { booking, text } = this.state
+    const {
+      booking
+      // text
+    } = this.state
     const trip = trips.getIn(['current', 'trip'])
-    const searchConfig = {
-      toggle: this._searchToggle,
-      placeHolder: _T('paxSearch'),
-      icon: 'people',
-      onSearch: this._onSearch
-    }
+    // const searchConfig = {
+    //   toggle: this._searchToggle,
+    //   placeHolder: _T('paxSearch'),
+    //   icon: 'people',
+    //   onSearch: this._onSearch
+    // }
 
     return (
       <Container>
@@ -76,13 +79,17 @@ class PaxScreen extends Component {
           title={booking ? _T('bookingTitle') : _T('paxTitle')}
           navigation={navigation}
           right={this._renderRight}
-          search={this.state.search}
-          searchConfig={booking ? null : searchConfig}
+          // search={this.state.search}
+          // searchConfig={booking ? null : searchConfig}
         />
         {
           booking
             ? <BookingList trip={trip} navigation={navigation} />
-            : <PaxList trip={trip} navigation={navigation} searchText={text} />
+            : <PaxList
+              trip={trip}
+              navigation={navigation}
+              // searchText={text}
+            />
         }
       </Container>
     )

@@ -14,7 +14,7 @@ const _T = Translator('FutureTripsScreen')
 class FutureTripsScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='futureTrips' size={25} color={tintColor} />
+      return <IonIcon name='futureTrips' color={tintColor} />
     }
   }
 

@@ -6,7 +6,7 @@ import {
   View, Item, Input, Text
 } from 'native-base'
 import Button from '../components/button'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, Keyboard } from 'react-native'
 import isIOS from '../utils/isIOS'
 import debounce from '../utils/debounce'
 
@@ -21,6 +21,7 @@ export default class TMHeader extends Component {
   _navigate = type => {
     const { navigation } = this.props
     return () => {
+      Keyboard.dismiss()
       switch (type) {
         case 'menu':
           navigation.openDrawer()
@@ -37,7 +38,7 @@ export default class TMHeader extends Component {
     return (
       <Left style={ss.left}>
         <Button transparent onPress={this._navigate(left)}>
-          <IonIcon name={left} size={25} color={Colors.silver} />
+          <IonIcon name={left} color={Colors.silver} />
         </Button>
       </Left>
     )
@@ -52,7 +53,7 @@ export default class TMHeader extends Component {
           searchConfig &&
           <IonIcon
             style={ss.searchIcon}
-            name='search' size={25}
+            name='search'
             color={Colors.silver}
             onPress={() => this._searchBoxToggle(true)}
           />
@@ -169,7 +170,8 @@ const ss = StyleSheet.create({
     paddingBottom: 5
   },
   right: {
-    flex: 2
+    flex: 2,
+    marginRight: 2
   },
   cancelText: {
     color: Colors.silver

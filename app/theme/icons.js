@@ -15,6 +15,7 @@ const getIconName = (name) => {
     up: ['ios-arrow-up', 'ios-arrow-up'],
     down: ['ios-arrow-down', 'ios-arrow-down'],
     close: ['ios-close', 'md-close'],
+    closeCircle: ['ios-close-circle', 'md-close-circle'],
     edit: ['ios-create', 'md-create'],
     check: ['ios-checkmark', 'md-checkmark'],
     report: ['ios-cloud-upload', 'md-cloud-upload'],
@@ -26,7 +27,6 @@ const getIconName = (name) => {
     search: ['ios-search', 'md-search'],
     map: ['ios-map', 'md-map'],
     web: ['ios-globe', 'md-globe'],
-    x: ['ios-close', 'md-close'],
     back: ['ios-arrow-back', 'md-arrow-back'],
     futureTrips: ['ios-paper-plane', 'md-paper-plane'],
     star: ['ios-star', 'md-star']
@@ -36,7 +36,7 @@ const getIconName = (name) => {
 }
 
 const IonIcon = (props) => {
-  const { name, size = 22, ...rest } = props
+  const { name, size = 25, ...rest } = props
   return <Ionicons name={getIconName(name)} size={size} {...rest} />
 }
 

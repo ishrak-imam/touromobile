@@ -18,7 +18,7 @@ const _T = Translator('CurrentTripScreen')
 class TripScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='home' size={25} color={tintColor} />
+      return <IonIcon name='home' color={tintColor} />
     }
   }
 

@@ -39,7 +39,7 @@ class TMDrawer extends Component {
     return (
       <Footer style={ss.footer}>
         <TouchableOpacity style={ss.footerContainer} onPress={this._logOut}>
-          <IonIcon name='logout' size={25} style={ss.icon} />
+          <IonIcon name='logout' style={ss.icon} />
           <Text>{_T('logout')}</Text>
         </TouchableOpacity>
       </Footer>

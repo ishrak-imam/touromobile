@@ -10,7 +10,7 @@ const _T = Translator('ReportsScreen')
 export default class ReportsScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='report' size={25} color={tintColor} />
+      return <IonIcon name='report' color={tintColor} />
     },
     title: 'Reports'
   }

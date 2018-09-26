@@ -14,7 +14,7 @@ const _T = Translator('ExcursionsScreen')
 class ExcursionsScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='excursion' size={25} color={tintColor} />
+      return <IonIcon name='excursion' color={tintColor} />
     }
   }
 

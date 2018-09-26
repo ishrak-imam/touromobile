@@ -7,20 +7,26 @@ import { getSortedPax, preparePaxData, filterPaxBySearchText } from '../selector
 import IconButton from '../components/iconButton'
 import { Call, Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
-import isIphoneX from '../utils/isIphoneX'
+import SearchBar from '../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import { Colors } from '../theme'
+import Translator from '../utils/translator'
+import NoData from '../components/noData'
+
+const _T = Translator('PassengersScreen')
 
 export default class PaxList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      comment: null
+      comment: null,
+      searchText: ''
     }
   }
 
   shouldComponentUpdate (nextProps, nextState) {
     return !nextProps.trip.equals(this.props.trip) ||
-            nextProps.searchText !== this.props.searchText
+            nextState.searchText !== this.state.searchText
   }
 
   _toPaxDetails = pax => {
@@ -48,8 +54,8 @@ export default class PaxList extends Component {
   _renderPerson = ({ item, index }) => {
     if (item.get('first')) {
       return (
-        <ListItem itemDivider>
-          <Text>{item.get('initial')}</Text>
+        <ListItem itemDivider style={{ backgroundColor: Colors.headerBg }}>
+          <Text style={ss.sectionText}>{item.get('initial')}</Text>
         </ListItem>
       )
     }
@@ -74,19 +80,25 @@ export default class PaxList extends Component {
     )
   }
 
+  _onSearch = searchText => {
+    this.setState({ searchText })
+  }
+
   _renderList = trip => {
-    const { searchText } = this.props
+    const { searchText } = this.state
     let sortedPax = getSortedPax(trip)
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
     const paxList = preparePaxData(sortedPax)
     return (
-      <ImmutableVirtualizedList
-        immutableData={paxList}
-        renderItem={this._renderPerson}
-        keyExtractor={(item, index) => String(index)}
-      />
+      paxList.size
+        ? <ImmutableVirtualizedList
+          immutableData={paxList}
+          renderItem={this._renderPerson}
+          keyExtractor={(item, index) => String(index)}
+        />
+        : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
     )
   }
 
@@ -95,6 +107,7 @@ export default class PaxList extends Component {
     const bookings = trip.get('bookings')
     return (
       <View style={ss.container}>
+        <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
         {!!bookings && this._renderList(trip)}
       </View>
     )
@@ -103,10 +116,14 @@ export default class PaxList extends Component {
 
 const ss = StyleSheet.create({
   container: {
-    marginBottom: isIphoneX ? 100 : 85
+    flex: 1
   },
   itemRight: {
     flexDirection: 'row',
     justifyContent: 'flex-end'
+  },
+  sectionText: {
+    fontWeight: 'bold',
+    color: Colors.silver
   }
 })
