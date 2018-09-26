@@ -107,7 +107,7 @@ class ExcursionDetailsScreen extends Component {
       pax.size
         ? <ImmutableVirtualizedList
           contentContainerStyle={{ paddingBottom: 20 }}
-          keyboardShouldPersistTaps
+          keyboardShouldPersistTaps='always'
           immutableData={pax}
           renderItem={this._renderItem}
           keyExtractor={this._keyExtractor}

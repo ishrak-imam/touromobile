@@ -18,3 +18,7 @@ export const {
 export const {
   getExcursions
 } = require('./excursions')
+
+export const {
+  getNavigation
+} = require('./navigation')

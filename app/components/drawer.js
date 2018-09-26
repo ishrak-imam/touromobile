@@ -1,20 +1,35 @@
 
 import React, { Component } from 'react'
 import {
-  Content, Container, View, Text,
-  Footer
+  Container, View, Text,
+  Footer, ListItem, Body
 } from 'native-base'
-
-import { StyleSheet, Image, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet, Image,
+  TouchableOpacity, ScrollView
+} from 'react-native'
 import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { logoutReq } from '../modules/auth/action'
-import { getLogin } from '../selectors'
+import { getLogin, getNavigation } from '../selectors'
 import Translator from '../utils/translator'
 const _T = Translator('DrawerScreen')
 
+const menuItems = [
+  { routeName: 'App', text: 'Current trip', icon: 'home' },
+  { routeName: 'FutureTrips', text: 'Future trips', icon: 'futureTrips' }
+]
+
 class TMDrawer extends Component {
+  constructor (props) {
+    super(props)
+    const { nav } = props
+    this.state = {
+      currentRoute: nav.get('screen')
+    }
+  }
+
   _logOut = () => {
     this.props.dispatch(logoutReq())
   }
@@ -35,6 +50,39 @@ class TMDrawer extends Component {
     )
   }
 
+  _onMenuItemPress = item => {
+    // const { navigation } = this.props
+    return () => {
+      // navigation.navigate(item.routeName)
+    }
+  }
+
+  _renderMenuItems = () => {
+    return menuItems.map((item, index) => {
+      const { icon, routeName, text } = item
+      const { currentRoute } = this.state
+      const isSelected = routeName === currentRoute
+      const backgroundColor = isSelected ? Colors.headerBg : 'transparent'
+      const color = isSelected ? Colors.silver : '#000000'
+      return (
+        <ListItem style={[ss.menuItem, { backgroundColor }]} key={index} onPress={this._onMenuItemPress(item)}>
+          <IonIcon name={icon} style={ss.icon} color={color} />
+          <Body>
+            <Text style={{ color }}>{text}</Text>
+          </Body>
+        </ListItem>
+      )
+    })
+  }
+
+  _renderMenu = () => {
+    return (
+      <ScrollView contentContainerStyle={{ marginVertical: 10 }}>
+        {this._renderMenuItems()}
+      </ScrollView>
+    )
+  }
+
   _renderFooter = () => {
     return (
       <Footer style={ss.footer}>
@@ -50,7 +98,7 @@ class TMDrawer extends Component {
     return (
       <Container>
         {this._renderHeader()}
-        <Content />
+        {this._renderMenu()}
         {this._renderFooter()}
       </Container>
     )
@@ -58,7 +106,8 @@ class TMDrawer extends Component {
 }
 
 const stateToProps = state => ({
-  user: getLogin(state).get('user')
+  user: getLogin(state).get('user'),
+  nav: getNavigation(state)
 })
 
 export default connect(stateToProps, dispatch => ({ dispatch }))(TMDrawer)
@@ -92,5 +141,8 @@ const ss = StyleSheet.create({
     alignSelf: 'center',
     height: 70,
     width: 70
+  },
+  menuItem: {
+    marginLeft: 0
   }
 })
