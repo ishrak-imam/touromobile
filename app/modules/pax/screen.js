@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Container, Switch, View
+  Container, View
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
@@ -10,6 +10,7 @@ import Translator from '../../utils/translator'
 import { getTrips } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
+import Switch from '../../components/switch'
 const _T = Translator('PassengersScreen')
 
 class PaxScreen extends Component {
@@ -36,19 +37,19 @@ class PaxScreen extends Component {
 
   _renderRight = () => {
     const { booking } = this.state
-    const color = Colors.silver
+    const iconColor = Colors.silver
+    const switchColor = Colors.headerBg
     const iconSize = 16
     return (
       <View style={ss.headerRight}>
-        <IonIcon name='people' color={color} size={iconSize} style={{ paddingRight: 5 }} />
+        <IonIcon name='people' color={iconColor} size={iconSize} style={{ paddingRight: 5 }} />
         <Switch
-          value={booking}
-          tintColor={color}
-          onValueChange={v => this.setState({ booking: v })}
-          thumbTintColor={color}
-          onTintColor={color}
+          isOn={booking}
+          onColor={switchColor}
+          offColor={switchColor}
+          onToggle={v => this.setState({ booking: v })}
         />
-        <IonIcon name='booking' color={color} size={iconSize} style={{ paddingLeft: 5 }} />
+        <IonIcon name='booking' color={iconColor} size={iconSize} style={{ paddingLeft: 5 }} />
       </View>
     )
   }
