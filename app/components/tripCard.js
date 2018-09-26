@@ -6,7 +6,7 @@ import {
 } from 'native-base'
 import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native'
 import IconButton from '../components/iconButton'
-import { IonIcon } from '../theme'
+import { IonIcon, Colors } from '../theme'
 import Translator from '../utils/translator'
 import { format } from 'date-fns'
 import { getPax } from '../selectors'
@@ -109,7 +109,7 @@ export default class TripCard extends Component {
           <Text note>{_T('out')}</Text>
           <Body style={ss.body}>
             <Left style={{ flex: 2 }}>
-              <Text>{out.get('name')}</Text>
+              <Text style={ss.restaurantName}>{out.get('name')}</Text>
             </Left>
             <Right style={ss.right}>
               {this._renderPhone(outPhone)}
@@ -122,7 +122,7 @@ export default class TripCard extends Component {
           <Text note>{_T('home')}</Text>
           <Body style={ss.body}>
             <Left style={{ flex: 2 }}>
-              <Text>{home.get('name')}</Text>
+              <Text style={ss.restaurantName}>{home.get('name')}</Text>
             </Left>
             <Right style={ss.right}>
               {this._renderPhone(homePhone)}
@@ -204,5 +204,8 @@ const ss = StyleSheet.create({
   cardItem: {
     flexDirection: 'column',
     alignItems: 'flex-start'
+  },
+  restaurantName: {
+    color: Colors.headerBg
   }
 })

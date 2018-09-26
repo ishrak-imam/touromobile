@@ -42,8 +42,7 @@ const TripTabs = createTabNavigator(
     Trip: { screen: TripScreen },
     Pax: { screen: PaxScreen },
     Excursions: { screen: ExcursionsScreen },
-    Reports: { screen: ReportsScreen },
-    FutureTrips: { screen: FutureTripsScreen }
+    Reports: { screen: ReportsScreen }
   },
   {
     initialRouteName: 'Trip',
@@ -59,7 +58,8 @@ const appStack = createStackNavigator(
     Home: { screen: TripTabs },
     Restaurant: { screen: RestaurantScreen },
     ExcursionDetails: { screen: ExcursionDetailsScreen },
-    PaxDetails: { screen: PaxDetailsScreen }
+    PaxDetails: { screen: PaxDetailsScreen },
+    FutureTrips: { screen: FutureTripsScreen }
   },
   {
     initialRouteName: 'Home',
