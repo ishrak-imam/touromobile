@@ -29,7 +29,8 @@ class Login extends Component {
     this.state = {
       user: '',
       password: '',
-      isReady: false
+      isValidEmail: '',
+      passTyped: ''
     }
   }
 
@@ -69,7 +70,10 @@ class Login extends Component {
 
   _checkIsReady = () => {
     const { user, password } = this.state
-    this.setState({ isReady: checkEmail(user) && !!password })
+    this.setState({
+      isValidEmail: checkEmail(user),
+      passTyped: !!password
+    })
   }
 
   _login = () => {
@@ -104,10 +108,11 @@ class Login extends Component {
   }
 
   render () {
-    const { username, password, isReady } = this.state
+    const { username, password, isValidEmail, passTyped } = this.state
     const { login } = this.props
     const isLoading = login.get('isLoading')
-    const isDisabled = (isLoading || !isReady)
+    const isDisabled = (isLoading || !isValidEmail || !passTyped)
+    const forgotDisabled = (isLoading || !isValidEmail)
     return (
       <ImageBackground source={Images.background} style={ss.background}>
         <KeyboardAvoidingView style={ss.container} behavior='padding'>
@@ -160,8 +165,8 @@ class Login extends Component {
                 <Button full onPress={this._login} disabled={isDisabled}>
                   {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}
                 </Button>
-                <TouchableOpacity style={ss.forgotPass} disabled={isDisabled} onPress={this._forgotPass}>
-                  <Text style={{ color: isDisabled ? Colors.loginBg : Colors.headerBg }} note>{_T('forgotPass')}</Text>
+                <TouchableOpacity style={ss.forgotPass} disabled={forgotDisabled} onPress={this._forgotPass}>
+                  <Text style={{ color: forgotDisabled ? Colors.loginBg : Colors.headerBg }} note>{_T('forgotPass')}</Text>
                 </TouchableOpacity>
               </View>
             </Form>
