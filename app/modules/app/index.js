@@ -6,7 +6,15 @@ import RootNavigator from '../../navigation'
 
 class App extends Component {
   _handleNavigationStateChange = (prevState, currentState, action) => {
-    this.props.dispatch(setCurrentScreen(currentState.routes[currentState.index]))
+    const lev1 = currentState.routes[currentState.index]
+    let lev3 = lev1.routes[lev1.index]
+    if (lev3.routes) {
+      lev3 = lev3.routes[lev3.index]
+      if (lev3.routes) {
+        lev3 = lev3.routes[lev3.index]
+      }
+    }
+    this.props.dispatch(setCurrentScreen(lev3))
   }
 
   render () {

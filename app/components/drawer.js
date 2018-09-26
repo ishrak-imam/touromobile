@@ -8,6 +8,7 @@ import {
   StyleSheet, Image,
   TouchableOpacity, ScrollView
 } from 'react-native'
+import { StackActions, NavigationActions } from 'react-navigation'
 import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
@@ -17,19 +18,11 @@ import Translator from '../utils/translator'
 const _T = Translator('DrawerScreen')
 
 const menuItems = [
-  { routeName: 'App', text: 'Current trip', icon: 'home' },
+  { routeName: 'Trip', text: 'Current trip', icon: 'home' },
   { routeName: 'FutureTrips', text: 'Future trips', icon: 'futureTrips' }
 ]
 
 class TMDrawer extends Component {
-  constructor (props) {
-    super(props)
-    const { nav } = props
-    this.state = {
-      currentRoute: nav.get('screen')
-    }
-  }
-
   _logOut = () => {
     this.props.dispatch(logoutReq())
   }
@@ -51,16 +44,33 @@ class TMDrawer extends Component {
   }
 
   _onMenuItemPress = item => {
-    // const { navigation } = this.props
+    const { navigation } = this.props
     return () => {
-      // navigation.navigate(item.routeName)
+      const currentRoute = this.props.nav.get('screen')
+      if (item.routeName === currentRoute) {
+        navigation.closeDrawer()
+        return
+      }
+      if (item.routeName === 'Trip') {
+        const navigateAction = NavigationActions.navigate({
+          routeName: 'Home',
+          action: NavigationActions.navigate({ routeName: 'Trip' })
+        })
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [navigateAction]
+        })
+        navigation.dispatch(resetAction)
+        return
+      }
+      navigation.navigate(item.routeName)
     }
   }
 
   _renderMenuItems = () => {
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
-      const { currentRoute } = this.state
+      const currentRoute = this.props.nav.get('screen')
       const isSelected = routeName === currentRoute
       const backgroundColor = isSelected ? Colors.headerBg : 'transparent'
       const color = isSelected ? Colors.silver : '#000000'

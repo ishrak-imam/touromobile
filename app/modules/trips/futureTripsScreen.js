@@ -26,7 +26,7 @@ class FutureTripsScreen extends Component {
     const { navigation } = this.props
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} />
+        <Header left='back' title={_T('title')} navigation={navigation} />
       </Container>
     )
   }

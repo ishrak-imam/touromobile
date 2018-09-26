@@ -12,7 +12,7 @@ export default class TMSearchBar extends Component {
     this.state = {
       text: ''
     }
-    this._onSearchDebounce = debounce(this._onSearch, 500)
+    this._onSearchDebounce = debounce(this._onSearch, 200)
   }
 
   _renderRight = () => {
