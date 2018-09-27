@@ -107,7 +107,7 @@ class Excursions extends Component {
     const excursions = trip.get('excursions')
     return (
       <View style={ss.container}>
-        {excursions.size && this._renderExcursions()}
+        {!!excursions && excursions.size && this._renderExcursions()}
       </View>
     )
   }
