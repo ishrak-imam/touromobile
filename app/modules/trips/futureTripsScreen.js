@@ -4,7 +4,7 @@ import {
   Container
 } from 'native-base'
 import Header from '../../components/header'
-// import { IonIcon } from '../../theme/'
+import FutureTrips from '../../components/futureTrips'
 import { connect } from 'react-redux'
 import { getTrips } from '../../selectors/index'
 import Translator from '../../utils/translator'
@@ -12,21 +12,17 @@ import Translator from '../../utils/translator'
 const _T = Translator('FutureTripsScreen')
 
 class FutureTripsScreen extends Component {
-  // static navigationOptions = {
-  //   tabBarIcon: ({ focused, tintColor }) => {
-  //     return <IonIcon name='futureTrips' color={tintColor} />
-  //   }
-  // }
-
   shouldComponentUpdate (nextProps) {
     return !nextProps.trips.equals(this.props.trips)
   }
 
   render () {
-    const { navigation } = this.props
+    const { navigation, trips } = this.props
+    const futureTrips = trips.getIn(['future', 'trips'])
     return (
       <Container>
         <Header left='back' title={_T('title')} navigation={navigation} />
+        <FutureTrips futureTrips={futureTrips} />
       </Container>
     )
   }

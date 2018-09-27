@@ -220,7 +220,7 @@ const ss = StyleSheet.create({
     paddingVertical: 5,
     // borderWidth: 1,
     // borderRadius: 3,
-    borderColor: Colors.error
+    // borderColor: Colors.error
   },
   errorText: {
     textAlign: 'center',
