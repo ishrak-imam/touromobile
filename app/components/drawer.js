@@ -37,7 +37,7 @@ class TMDrawer extends Component {
             style={ss.drawerImage}
             source={Images.logo}
           />
-          <Text>{userName}</Text>
+          <Text style={ss.headerName}>{userName}</Text>
         </View>
       </View>
     )
@@ -126,6 +126,9 @@ const ss = StyleSheet.create({
   header: {
     height: 200,
     backgroundColor: Colors.headerBg
+  },
+  headerName: {
+    color: Colors.silver
   },
   headerContent: {
     flex: 1,

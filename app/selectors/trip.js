@@ -151,3 +151,10 @@ export const filterPaxBySearchText = (pax, text) => {
     }
   })
 }
+
+export const filterBookingById = (booking, id) => {
+  return booking.filter(b => {
+    const bookingId = String(b.get('id'))
+    return bookingId.includes(id)
+  })
+}

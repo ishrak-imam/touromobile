@@ -23,7 +23,8 @@ export default {
   PassengersScreen: {
     paxTitle: 'Passagerare',
     bookingTitle: 'Bokning',
-    paxSearch: 'Sök passagerare'
+    paxSearch: 'Sök passagerare',
+    bookingSearch: 'Sök bokningar'
   },
   ExcursionsScreen: {
     title: 'Utflykter',

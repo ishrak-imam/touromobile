@@ -15,9 +15,8 @@ export default class TMSearchBar extends Component {
     this._onSearchDebounce = debounce(this._onSearch, 200)
   }
 
-  _renderRight = () => {
+  _renderRight = icon => {
     const { text } = this.state
-    const { icon } = this.props
     return (
       text
         ? <TouchableOpacity onPress={this._onCancel}>
@@ -44,7 +43,7 @@ export default class TMSearchBar extends Component {
   }
 
   render () {
-    const { placeholder } = this.props
+    const { placeholder, icon, onSearch, ...rest } = this.props
     return (
       <View style={ss.wrapper}>
         <View style={ss.searchSection}>
@@ -55,8 +54,9 @@ export default class TMSearchBar extends Component {
             placeholder={placeholder}
             onChangeText={text => this._onChangeText(text)}
             underlineColorAndroid='transparent'
+            {...rest}
           />
-          {this._renderRight()}
+          {this._renderRight(icon)}
         </View>
       </View>
     )

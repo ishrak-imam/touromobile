@@ -2,17 +2,29 @@ import React, { Component } from 'react'
 import {
   View, Text, ListItem, Body, Right
 } from 'native-base'
-import { getSortedBookings } from '../selectors'
+import { getSortedBookings, filterBookingById } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import SearchBar from '../components/searchBar'
+import NoData from '../components/noData'
+
+import Translator from '../utils/translator'
+const _T = Translator('PassengersScreen')
 
 export default class BookingList extends Component {
   /**
    * currently this is just a dumb component only receiving
    * some props. So any re-render optimization is not needed
    */
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      searchText: ''
+    }
+  }
 
   _smsAll = pax => {
     const phones = pax
@@ -41,14 +53,25 @@ export default class BookingList extends Component {
   }
 
   _renderList = trip => {
-    const bookings = getSortedBookings(trip)
+    const { searchText } = this.state
+    let bookings = getSortedBookings(trip)
+    if (searchText) {
+      bookings = filterBookingById(bookings, searchText)
+    }
     return (
-      <ImmutableVirtualizedList
-        immutableData={bookings}
-        renderItem={this._renderBooking}
-        keyExtractor={item => String(item.get('id'))}
-      />
+      bookings.size
+        ? <ImmutableVirtualizedList
+          keyboardShouldPersistTaps='always'
+          immutableData={bookings}
+          renderItem={this._renderBooking}
+          keyExtractor={item => String(item.get('id'))}
+        />
+        : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
     )
+  }
+
+  _onSearch = searchText => {
+    this.setState({ searchText })
   }
 
   render () {
@@ -56,6 +79,12 @@ export default class BookingList extends Component {
     const bookings = trip.get('bookings')
     return (
       <View style={ss.container}>
+        <SearchBar
+          onSearch={this._onSearch}
+          icon='booking'
+          placeholder={_T('bookingSearch')}
+          keyboardType='numeric'
+        />
         {!!bookings && this._renderList(trip)}
       </View>
     )
