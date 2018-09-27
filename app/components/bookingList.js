@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   View, Text, ListItem, Body, Right
 } from 'native-base'
-import { getSortedBookings, filterBookingById } from '../selectors'
+import { getSortedBookings, filterBookingBySearchText } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Text as Sms } from 'react-native-openanything'
 import { StyleSheet } from 'react-native'
@@ -31,10 +31,7 @@ export default class BookingList extends Component {
     const pax = item.get('pax')
     const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
-    const phones = pax
-      .filter(p => p.get('phone'))
-      .map(p => p.get('phone'))
-      .join(',')
+    const phones = pax.filter(p => p.get('phone')).map(p => p.get('phone')).join(',')
     return (
       <ListItem onPress={() => {}}>
         <Body>
@@ -42,7 +39,7 @@ export default class BookingList extends Component {
           {paxNames}
         </Body>
         <Right>
-          {phones && <IconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
+          {!!phones && <IconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
         </Right>
       </ListItem>
     )
@@ -52,7 +49,7 @@ export default class BookingList extends Component {
     const { searchText } = this.state
     let bookings = getSortedBookings(trip)
     if (searchText) {
-      bookings = filterBookingById(bookings, searchText)
+      bookings = filterBookingBySearchText(bookings, searchText)
     }
     return (
       bookings.size

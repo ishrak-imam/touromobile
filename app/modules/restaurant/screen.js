@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import {
-  Container, Content, Card, CardItem, Text,
+  Container, CardItem, Text,
   View, Body, Right, Item
 } from 'native-base'
 import Header from '../../components/header'
 import IconButton from '../../components/iconButton'
 import { format } from 'date-fns'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native'
 import { Call, Text as Sms, Web, Map } from 'react-native-openanything'
 import { IonIcon } from '../../theme'
 import isEmpty from '../../utils/isEmpty'
@@ -160,14 +160,14 @@ export default class RestaurantScreen extends Component {
     return (
       <Container>
         <Header left='back' title={restaurant.get('name')} navigation={navigation} />
-        <Content>
-          <Card style={ss.containerCard}>
+        <ScrollView>
+          <View style={ss.containerCard}>
             {this._renderRestaurant(restaurant)}
             {this._renderComs(restaurant)}
             {this._renderMeals(meals)}
             {!!orders && this._renderOrders(orders.get(direction), restaurant)}
-          </Card>
-        </Content>
+          </View>
+        </ScrollView>
       </Container>
     )
   }
