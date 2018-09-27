@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {
   Container
 } from 'native-base'
-import { ScrollView } from 'react-native'
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import Translator from '../../utils/translator'
@@ -27,12 +26,10 @@ class ExcursionsScreen extends Component {
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
-        <ScrollView>
-          <Excursions
-            trip={trips.getIn(['current', 'trip'])}
-            navigation={navigation}
-          />
-        </ScrollView>
+        <Excursions
+          trip={trips.getIn(['current', 'trip'])}
+          navigation={navigation}
+        />
       </Container>
     )
   }

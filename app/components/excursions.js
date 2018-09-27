@@ -4,24 +4,22 @@ import {
   CardItem, Left, Body, Right
 } from 'native-base'
 import { IonIcon } from '../theme'
-import { getPax } from '../selectors'
+import { getPax, getParticipants, getSortedExcursions } from '../selectors'
 import Translator from '../utils/translator'
 import { format } from 'date-fns'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Text as Sms } from 'react-native-openanything'
 import Button from '../components/button'
+import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import { connect } from 'react-redux'
 
 const _T = Translator('ExcursionsScreen')
 const DATE_FORMAT = 'YY MM DD, h:mm'
 
-export default class Excursions extends Component {
-  _toDetails = (excursion) => {
-    const { navigation } = this.props
-    return () => {
-      navigation.navigate('ExcursionDetails', { excursion })
-    }
+class ExcursionCard extends Component {
+  shouldComponentUpdate (nexProps) {
+    return !!nexProps.participants && !nexProps.participants.equals(this.props.participants)
   }
-
   _smsAll = pax => {
     const numbers = pax
       .filter(p => !!p.get('phone'))
@@ -30,19 +28,18 @@ export default class Excursions extends Component {
     Sms(numbers)
   }
 
-  _renderExcursionCard = excursion => {
-    const { trip } = this.props
-    const id = excursion.get('id')
-    const name = excursion.get('name')
-    const description = excursion.get('description')
-    const start = excursion.get('start')
-
+  render () {
+    const { item, onPress, trip, participants } = this.props
+    const id = item.get('id')
+    const name = item.get('name')
+    const description = item.get('description')
+    const start = item.get('start')
     const allPax = getPax(trip)
-    let pax = allPax.filter(p => p.get('excursionPack') === true)
-    const count = pax.size
+    const count = allPax.filter(p => p.get('excursionPack') === true).size
+    const others = participants ? participants.size : 0
 
     return (
-      <TouchableOpacity onPress={this._toDetails(excursion)} key={id}>
+      <TouchableOpacity onPress={onPress(item)} key={id}>
         <Card>
           <CardItem>
             <Left>
@@ -53,7 +50,7 @@ export default class Excursions extends Component {
               </Body>
             </Left>
             <Right>
-              <Text style={ss.boldText}>{count}/{allPax.size}</Text>
+              <Text style={ss.boldText}>{count + others}/{allPax.size}</Text>
             </Right>
           </CardItem>
           <CardItem>
@@ -71,11 +68,37 @@ export default class Excursions extends Component {
       </TouchableOpacity>
     )
   }
+}
 
-  _renderExcursions = excursions => {
-    const sortedExcursions = excursions.sortBy(e => e.get('start'))
+class Excursions extends Component {
+  _toDetails = (excursion) => {
+    const { navigation } = this.props
+    return () => {
+      navigation.navigate('ExcursionDetails', { excursion })
+    }
+  }
+
+  _renderExcursionCard = ({ item }) => {
+    const { trip, participants } = this.props
     return (
-      sortedExcursions.map(e => this._renderExcursionCard(e))
+      <ExcursionCard
+        item={item}
+        onPress={this._toDetails}
+        trip={trip}
+        participants={participants.get(String(item.get('id')))}
+      />
+    )
+  }
+
+  _renderExcursions = () => {
+    const { trip } = this.props
+    const sortedExcursions = getSortedExcursions(trip)
+    return (
+      <ImmutableVirtualizedList
+        immutableData={sortedExcursions}
+        renderItem={this._renderExcursionCard}
+        keyExtractor={item => String(item.get('id'))}
+      />
     )
   }
 
@@ -84,15 +107,21 @@ export default class Excursions extends Component {
     const excursions = trip.get('excursions')
     return (
       <View style={ss.container}>
-        {!!excursions && this._renderExcursions(excursions)}
+        {excursions.size && this._renderExcursions()}
       </View>
     )
   }
 }
 
+const stateToProps = state => ({
+  participants: getParticipants(state)
+})
+
+export default connect(stateToProps, null)(Excursions)
+
 const ss = StyleSheet.create({
   container: {
-    // marginTop: 20
+    flex: 1
   },
   boldText: {
     fontWeight: 'bold'

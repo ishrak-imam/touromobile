@@ -46,7 +46,7 @@ export default class BookingList extends Component {
       <ImmutableVirtualizedList
         immutableData={bookings}
         renderItem={this._renderBooking}
-        keyExtractor={(item, index) => String(item.get('id'))}
+        keyExtractor={item => String(item.get('id'))}
       />
     )
   }

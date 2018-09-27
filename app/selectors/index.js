@@ -5,6 +5,7 @@ export const getLogin = state => state.login
 export const getUser = state => state.login.get('user')
 export const getJwt = state => state.login.getIn(['user', 'access_token'])
 export const getImageCache = state => state.imageCache
+
 export const {
   getTrips,
   getCurrentTrip,
@@ -15,8 +16,11 @@ export const {
   getSortedBookings,
   preparePaxData
 } = require('./trip')
+
 export const {
-  getExcursions
+  getExcursions,
+  getParticipants,
+  getSortedExcursions
 } = require('./excursions')
 
 export const {
