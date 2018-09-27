@@ -26,19 +26,15 @@ export default class BookingList extends Component {
     }
   }
 
-  _smsAll = pax => {
-    const phones = pax
-      .filter(p => p.get('phone'))
-      .map(p => p.get('phone'))
-      .join(',')
-    Sms(phones)
-  }
-
   _renderBooking = ({ item }) => {
     const id = item.get('id')
     const pax = item.get('pax')
     const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
+    const phones = pax
+      .filter(p => p.get('phone'))
+      .map(p => p.get('phone'))
+      .join(',')
     return (
       <ListItem onPress={() => {}}>
         <Body>
@@ -46,7 +42,7 @@ export default class BookingList extends Component {
           {paxNames}
         </Body>
         <Right>
-          <IconButton name='sms' color='blue' onPress={() => this._smsAll(sortedPax)} />
+          {phones && <IconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
         </Right>
       </ListItem>
     )
