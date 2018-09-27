@@ -54,6 +54,7 @@ export default class TMSearchBar extends Component {
             placeholder={placeholder}
             onChangeText={text => this._onChangeText(text)}
             underlineColorAndroid='transparent'
+            autoCorrect={false}
             {...rest}
           />
           {this._renderRight(icon)}

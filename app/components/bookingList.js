@@ -76,7 +76,6 @@ export default class BookingList extends Component {
           onSearch={this._onSearch}
           icon='booking'
           placeholder={_T('bookingSearch')}
-          keyboardType='numeric'
         />
         {!!bookings && this._renderList(trip)}
       </View>

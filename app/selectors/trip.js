@@ -153,8 +153,13 @@ export const filterPaxBySearchText = (pax, text) => {
 }
 
 export const filterBookingBySearchText = (booking, text) => {
+  const searchTextType = getSearchTextType(text)
   return booking.filter(b => {
-    const bookingId = String(b.get('id'))
-    return bookingId.includes(text)
+    if (searchTextType === SEARCH_TEXT_TYPES.number) {
+      const bookingId = String(b.get('id'))
+      return bookingId.includes(text)
+    }
+    const pax = filterPaxBySearchText(b.get('pax'), text)
+    return pax.size
   })
 }
