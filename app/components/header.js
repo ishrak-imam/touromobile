@@ -2,21 +2,13 @@
 import React, { Component } from 'react'
 import { IonIcon, Colors } from '../theme'
 import {
-  Header, Left, Body, Title, Right,
-  View, Item, Input, Text
+  Header, Left, Body,
+  Title, Right, View
 } from 'native-base'
 import { StyleSheet, TouchableOpacity, Keyboard } from 'react-native'
 import isIOS from '../utils/isIOS'
-import debounce from '../utils/debounce'
 
 export default class TMHeader extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      text: ''
-    }
-    this._onSearchDebounce = debounce(this._onSearch, 500)
-  }
   _navigate = type => {
     const { navigation } = this.props
     return () => {
@@ -44,19 +36,10 @@ export default class TMHeader extends Component {
   }
 
   _renderBody = () => {
-    const { title, searchConfig } = this.props
+    const { title } = this.props
     return (
       <Body style={ss.body}>
         <Title style={ss.title}>{title}</Title>
-        {
-          searchConfig &&
-          <IonIcon
-            style={ss.searchIcon}
-            name='search'
-            color={Colors.silver}
-            onPress={() => this._searchBoxToggle(true)}
-          />
-        }
       </Body>
     )
   }
@@ -70,77 +53,20 @@ export default class TMHeader extends Component {
     )
   }
 
-  /**
-   * sends search filter text to the parent
-   */
-  _onSearch = () => {
-    const { searchConfig } = this.props
-    searchConfig.onSearch(this.state.text.toLocaleLowerCase())
-  }
-
-  _handleChange = text => {
-    /**
-     * basically the _onSearch method wrapped with debounce
-     */
-    this.setState({ text }, this._onSearchDebounce)
-  }
-
-  _searchBoxToggle = toggle => {
-    const { searchConfig } = this.props
-    searchConfig.toggle(toggle)
-  }
-
-  _onCancelSearch = () => {
-    this.setState({ text: '' }, () => {
-      this._searchBoxToggle(false)
-      /**
-       * as search text is cleared on cancel, _onSearch
-       * is called after to let the parent know that
-       * it needs to re render the unfiltered list
-       */
-      this._onSearch()
-    })
-  }
-
-  _renderSearch = () => {
-    const { searchConfig } = this.props
-    return (
-      <Header style={ss.header} searchBar rounded>
-        <Item style={ss.searchBox}>
-          <IonIcon name='search' style={{ marginLeft: 10 }} />
-          <Input
-            autoCorrect={false}
-            placeholder={searchConfig.placeHolder}
-            onChangeText={this._handleChange}
-            value={this.state.text}
-          />
-          <IonIcon name={searchConfig.icon} style={{ marginRight: 10 }} />
-        </Item>
-        <Right style={ss.cancelButton}>
-          <TouchableOpacity onPress={this._onCancelSearch}>
-            <Text style={ss.cancelText}>Cancel</Text>
-          </TouchableOpacity>
-        </Right>
-      </Header>
-    )
-  }
-
-  _renderHeader = searchConfig => {
+  _renderHeader = () => {
     return (
       <Header style={ss.header}>
         {this._renderLeft()}
-        {this._renderBody(searchConfig)}
+        {this._renderBody()}
         {this._renderRight()}
       </Header>
     )
   }
 
   render () {
-    const { search } = this.props
     return (
       <View>
-        {!search && this._renderHeader()}
-        {search && this._renderSearch()}
+        {this._renderHeader()}
       </View>
     )
   }
@@ -162,9 +88,6 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  searchIcon: {
-    marginLeft: 10
-  },
   title: {
     color: Colors.silver
     // paddingBottom: 5
@@ -172,17 +95,5 @@ const ss = StyleSheet.create({
   right: {
     flex: 2,
     marginRight: 2
-  },
-  cancelText: {
-    color: Colors.silver
-  },
-  searchBox: {
-    flex: 3
-  },
-  cancelButton: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 })

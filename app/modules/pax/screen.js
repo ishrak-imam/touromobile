@@ -11,6 +11,7 @@ import { getTrips } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
 import Switch from '../../components/switch'
+import { ViewPager } from 'rn-viewpager'
 const _T = Translator('PassengersScreen')
 
 class PaxScreen extends Component {
@@ -24,8 +25,6 @@ class PaxScreen extends Component {
     super(props)
     this.state = {
       booking: false
-      // search: false,
-      // text: ''
     }
   }
 
@@ -47,30 +46,25 @@ class PaxScreen extends Component {
           isOn={booking}
           onColor={switchColor}
           offColor={switchColor}
-          onToggle={v => this.setState({ booking: v })}
+          onToggle={this._onToggle}
         />
         <IonIcon name='booking' color={iconColor} size={iconSize} style={{ paddingLeft: 5 }} />
       </View>
     )
   }
 
-  // _searchToggle = toggle => this.setState({ search: toggle })
+  _onToggle = v => {
+    this.refs.pager.setPage(+v)
+  }
 
-  // _onSearch = text => this.setState({ text })
+  _onPageSelected = ({ position }) => {
+    this.setState({ booking: !!position })
+  }
 
   render () {
     const { navigation, trips } = this.props
-    const {
-      booking
-      // text
-    } = this.state
+    const { booking } = this.state
     const trip = trips.getIn(['current', 'trip'])
-    // const searchConfig = {
-    //   toggle: this._searchToggle,
-    //   placeHolder: _T('paxSearch'),
-    //   icon: 'people',
-    //   onSearch: this._onSearch
-    // }
 
     return (
       <Container>
@@ -79,18 +73,15 @@ class PaxScreen extends Component {
           title={booking ? _T('bookingTitle') : _T('paxTitle')}
           navigation={navigation}
           right={this._renderRight}
-          // search={this.state.search}
-          // searchConfig={booking ? null : searchConfig}
         />
-        {
-          booking
-            ? <BookingList trip={trip} navigation={navigation} />
-            : <PaxList
-              trip={trip}
-              navigation={navigation}
-              // searchText={text}
-            />
-        }
+        <ViewPager ref='pager' style={ss.pagerContainer} onPageSelected={this._onPageSelected}>
+          <View>
+            <PaxList trip={trip} navigation={navigation} />
+          </View>
+          <View>
+            <BookingList trip={trip} navigation={navigation} />
+          </View>
+        </ViewPager>
       </Container>
     )
   }
@@ -103,6 +94,9 @@ const stateToProps = state => ({
 export default connect(stateToProps, dispatch => ({ dispatch }))(PaxScreen)
 
 const ss = StyleSheet.create({
+  pagerContainer: {
+    flex: 1
+  },
   headerRight: {
     flex: 1,
     flexDirection: 'row',

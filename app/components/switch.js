@@ -65,7 +65,7 @@ export default class TMSwitch extends React.Component {
       this.offsetX,
       {
         toValue,
-        duration: 300,
+        duration: 100,
         useNativeDriver: true
       }
     ).start()
