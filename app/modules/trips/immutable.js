@@ -6,10 +6,10 @@ export const TRIPS_INITIAL_STATE = getMap({
   data: [],
   current: getMap({
     trip: getMap({}),
-    noMore: false
+    has: false
   }),
   future: getMap({
     trips: getList([]),
-    noMore: false
+    has: false
   })
 })

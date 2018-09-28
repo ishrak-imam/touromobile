@@ -96,7 +96,7 @@ export const getCurrentTrip = state => {
     return isWithinRange(dateNow, trip.get('outDate'), trip.get('homeDate'))
   })
   return {
-    noMore: !trip,
+    has: !!trip,
     trip: trip || {}
   }
 }
@@ -113,7 +113,7 @@ export const getFutureTrips = state => {
     return isAfter(trip.get('outDate'), dateNow)
   })
   return {
-    noMore: !trips.size,
+    has: !!trips.size,
     trips
   }
 }

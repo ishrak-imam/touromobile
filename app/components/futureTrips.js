@@ -19,15 +19,15 @@ class FutureTrips extends Component {
 
   _renderFutureTrips = future => {
     return (
-      future.get('noMore')
-        ? <NoData text='No more future trips' textStyle={{ marginTop: 30 }} />
-        : <ImmutableVirtualizedList
+      future.get('has')
+        ? <ImmutableVirtualizedList
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
           immutableData={future.get('trips')}
           renderItem={this._renderTripCard}
           keyExtractor={item => String(item.get('departureId'))}
         />
+        : <NoData text='No more future trips' textStyle={{ marginTop: 30 }} />
     )
   }
 

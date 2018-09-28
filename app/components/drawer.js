@@ -69,13 +69,13 @@ class TMDrawer extends Component {
 
   _renderMenuItems = () => {
     const { trips } = this.props
-    const noFutureTrips = trips.getIn(['future', 'noMore'])
+    const hasFutureTrips = trips.getIn(['future', 'has'])
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
       const currentRoute = this.props.nav.get('screen')
 
       const isSelected = routeName === currentRoute
-      const shouldBeDisabled = noFutureTrips && routeName === 'FutureTrips'
+      const isDisabled = !hasFutureTrips && routeName === 'FutureTrips'
 
       let backgroundColor = 'transparent'
       let color = Colors.black
@@ -86,7 +86,7 @@ class TMDrawer extends Component {
         color = Colors.silver
       }
 
-      if (shouldBeDisabled) {
+      if (isDisabled) {
         backgroundColor = 'transparent'
         color = Colors.loginBg
         onPress = null
