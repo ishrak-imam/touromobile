@@ -10,7 +10,7 @@ import { IonIcon, Colors } from '../theme'
 import Translator from '../utils/translator'
 import { format } from 'date-fns'
 import { getPax } from '../selectors'
-import { Call, Text as Sms } from 'react-native-openanything'
+import { call, sms } from '../utils/comms'
 import Button from '../components/button'
 import ImageCache from './imageCache'
 
@@ -19,11 +19,11 @@ const DATE_FORMAT = 'YY MM DD'
 
 export default class Trip extends Component {
   _renderPhone = phone => (
-    <IconButton name='phone' color='green' onPress={() => Call(phone)} />
+    <IconButton name='phone' color='green' onPress={() => call(phone)} />
   )
 
   _renderSMS = phone => (
-    <IconButton name='sms' color='blue' onPress={() => Sms(phone)} />
+    <IconButton name='sms' color='blue' onPress={() => sms(phone)} />
   )
 
   _renderHeader = trip => {
@@ -141,7 +141,7 @@ export default class Trip extends Component {
       .filter(p => !!p.get('phone'))
       .map(p => p.get('phone'))
       .join(',')
-    Sms(numbers)
+    sms(numbers)
   }
 
   _renderFooter =trip => {

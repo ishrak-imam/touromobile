@@ -6,7 +6,7 @@ import {
 import { IonIcon, Colors } from '../theme'
 import IconButton from '../components/iconButton'
 import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import { Call, Text as Sms } from 'react-native-openanything'
+import { call, sms } from '../utils/comms'
 import Translator from '../utils/translator'
 const _T = Translator('PaxDetailsScreen')
 
@@ -94,8 +94,8 @@ export default class PaxCard extends Component {
     return (
       <CardItem>
         <Body style={ss.commsBody}>
-          <IconButton name='phone' color='green' onPress={() => Call(phone)} />
-          <IconButton name='sms' color='blue' onPress={() => Sms(phone)} />
+          <IconButton name='phone' color='green' onPress={() => call(phone)} />
+          <IconButton name='sms' color='blue' onPress={() => sms(phone)} />
         </Body>
       </CardItem>
     )

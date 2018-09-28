@@ -7,7 +7,7 @@ import Header from '../../components/header'
 import IconButton from '../../components/iconButton'
 import { format } from 'date-fns'
 import { StyleSheet, ScrollView } from 'react-native'
-import { Call, Text as Sms, Web, Map } from 'react-native-openanything'
+import { call, sms, web, map } from '../../utils/comms'
 import { IonIcon } from '../../theme'
 import isEmpty from '../../utils/isEmpty'
 import Translator from '../../utils/translator'
@@ -39,7 +39,7 @@ export default class RestaurantScreen extends Component {
             <Text>{format(time, DATE_FORMAT)}</Text>
           </View>
           <Right style={ss.mapIcon}>
-            <IconButton name='map' color='blue' onPress={() => Map(location)} />
+            <IconButton name='map' color='blue' onPress={() => map(location)} />
           </Right>
         </Body>
       </CardItem>
@@ -52,9 +52,9 @@ export default class RestaurantScreen extends Component {
     return (
       <CardItem>
         <Body style={ss.comms}>
-          {!!url && <IconButton name='web' color='blue' onPress={() => Web(url)} />}
-          <IconButton name='phone' color='green' onPress={() => Call(phone)} />
-          <IconButton name='sms' color='blue' onPress={() => Sms(phone)} />
+          {!!url && <IconButton name='web' color='blue' onPress={() => web(url)} />}
+          <IconButton name='phone' color='green' onPress={() => call(phone)} />
+          <IconButton name='sms' color='blue' onPress={() => sms(phone)} />
         </Body>
       </CardItem>
     )

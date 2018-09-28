@@ -13,6 +13,7 @@ import {
 } from '../../utils/actionDispatcher'
 import Trip from '../../components/trip'
 import { getTrips, getUser } from '../../selectors'
+import NoData from '../../components/noData'
 const _T = Translator('CurrentTripScreen')
 
 class TripScreen extends Component {
@@ -22,9 +23,9 @@ class TripScreen extends Component {
     }
   }
 
-  // shouldComponentUpdate (nextProps) {
-  //   return !nextProps.trips.equals(this.props.trips)
-  // }
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.trips.equals(this.props.trips)
+  }
 
   componentDidMount () {
     const { trips, user } = this.props
@@ -39,14 +40,6 @@ class TripScreen extends Component {
     }
   }
 
-  _renderLoader = msg => {
-    return (
-      <View style={ss.centerAlign}>
-        <Text>{msg}</Text>
-      </View>
-    )
-  }
-
   render () {
     const { navigation, trips } = this.props
     const isLoading = trips.get('isLoading')
@@ -56,9 +49,9 @@ class TripScreen extends Component {
         <Header left='menu' title={_T('title')} navigation={navigation} />
         {
           isLoading
-            ? this._renderLoader('Fetching data from Touro...')
+            ? <NoData text='Fetching data from Touro...' textStyle={{ marginTop: 30 }} />
             : current.get('noMore')
-              ? this._renderLoader('No more trips')
+              ? <NoData text='No more trips' textStyle={{ marginTop: 30 }} />
               : !!current.get('trip').size && <Trip trip={current.get('trip')} navigation={navigation} />
         }
       </Container>

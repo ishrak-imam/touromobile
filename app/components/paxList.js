@@ -5,7 +5,7 @@ import {
 } from 'native-base'
 import { getSortedPax, preparePaxData, filterPaxBySearchText } from '../selectors'
 import IconButton from '../components/iconButton'
-import { Call, Text as Sms } from 'react-native-openanything'
+import { call, sms } from '../utils/comms'
 import { StyleSheet } from 'react-native'
 import SearchBar from '../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
@@ -36,9 +36,9 @@ export default class PaxList extends Component {
     }
   }
 
-  _renderPhone = number => <IconButton name='phone' color='green' onPress={() => Call(number)} />
+  _renderPhone = number => <IconButton name='phone' color='green' onPress={() => call(number)} />
 
-  _renderSMS = number => <IconButton name='sms' color='blue' onPress={() => Sms(number)} />
+  _renderSMS = number => <IconButton name='sms' color='blue' onPress={() => sms(number)} />
 
   _renderComment = id => {
     const { comment } = this.state

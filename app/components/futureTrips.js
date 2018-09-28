@@ -22,7 +22,7 @@ class FutureTrips extends Component {
       futureTrips.size
         ? <ImmutableVirtualizedList
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ padding: 10 }}
+          contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
           immutableData={futureTrips}
           renderItem={this._renderTripCard}
           keyExtractor={item => String(item.get('departureId'))}
