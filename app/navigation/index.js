@@ -64,7 +64,10 @@ const appStack = createStackNavigator(
   {
     initialRouteName: 'Home',
     mode: 'modal',
-    headerMode: 'none'
+    headerMode: 'none',
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   }
 )
 

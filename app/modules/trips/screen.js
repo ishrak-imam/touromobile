@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import {
-  Container, Text, View
+  Container
 } from 'native-base'
-import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
@@ -66,14 +65,3 @@ const stateToProps = state => ({
 })
 
 export default connect(stateToProps, null)(TripScreen)
-
-const ss = StyleSheet.create({
-  content: {
-    // padding: 3
-  },
-  centerAlign: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
