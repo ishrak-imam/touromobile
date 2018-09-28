@@ -17,26 +17,26 @@ class FutureTrips extends Component {
     return <TripCard trip={item} />
   }
 
-  _renderFutureTrips = futureTrips => {
+  _renderFutureTrips = future => {
     return (
-      futureTrips.size
-        ? <ImmutableVirtualizedList
+      future.get('noMore')
+        ? <NoData text='No more future trips' textStyle={{ marginTop: 30 }} />
+        : <ImmutableVirtualizedList
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
-          immutableData={futureTrips}
+          immutableData={future.get('trips')}
           renderItem={this._renderTripCard}
           keyExtractor={item => String(item.get('departureId'))}
         />
-        : <NoData text='No more future trips' textStyle={{ marginTop: 30 }} />
     )
   }
 
   render () {
     const { trips } = this.props
-    const futureTrips = trips.getIn(['future', 'trips'])
+    const future = trips.get('future')
     return (
       <View style={ss.container}>
-        {this._renderFutureTrips(futureTrips)}
+        {this._renderFutureTrips(future)}
       </View>
     )
   }

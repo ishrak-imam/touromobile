@@ -13,7 +13,7 @@ import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { logoutReq } from '../modules/auth/action'
-import { getLogin, getNavigation } from '../selectors'
+import { getLogin, getNavigation, getTrips } from '../selectors'
 import Translator from '../utils/translator'
 const _T = Translator('DrawerScreen')
 
@@ -68,14 +68,32 @@ class TMDrawer extends Component {
   }
 
   _renderMenuItems = () => {
+    const { trips } = this.props
+    const noFutureTrips = trips.getIn(['future', 'noMore'])
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
       const currentRoute = this.props.nav.get('screen')
+
       const isSelected = routeName === currentRoute
-      const backgroundColor = isSelected ? Colors.headerBg : 'transparent'
-      const color = isSelected ? Colors.silver : '#000000'
+      const shouldBeDisabled = noFutureTrips && routeName === 'FutureTrips'
+
+      let backgroundColor = 'transparent'
+      let color = Colors.black
+      let onPress = this._onMenuItemPress(item)
+
+      if (isSelected) {
+        backgroundColor = Colors.headerBg
+        color = Colors.silver
+      }
+
+      if (shouldBeDisabled) {
+        backgroundColor = 'transparent'
+        color = Colors.loginBg
+        onPress = null
+      }
+
       return (
-        <ListItem style={[ss.menuItem, { backgroundColor }]} key={index} onPress={this._onMenuItemPress(item)}>
+        <ListItem style={[ss.menuItem, { backgroundColor }]} key={index} onPress={onPress}>
           <IonIcon name={icon} style={ss.icon} color={color} />
           <Body>
             <Text style={{ color }}>{text}</Text>
@@ -117,7 +135,8 @@ class TMDrawer extends Component {
 
 const stateToProps = state => ({
   user: getLogin(state).get('user'),
-  nav: getNavigation(state)
+  nav: getNavigation(state),
+  trips: getTrips(state)
 })
 
 export default connect(stateToProps, dispatch => ({ dispatch }))(TMDrawer)

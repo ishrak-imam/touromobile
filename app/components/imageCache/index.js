@@ -49,9 +49,10 @@ class ImageCache extends Component {
   render () {
     const { style, imagePath } = this._resolveProps(this.props)
     this.state.gotImageOnce = !!imagePath
-    return imagePath
-      ? <Image source={{ uri: imagePath }} style={style} resizeMode='cover' />
-      : <Image source={Images.loading} style={style} resizeMode='cover' />
+    const image = imagePath ? { uri: imagePath } : Images.loading
+    return (
+      <Image source={image} style={style} resizeMode='cover' />
+    )
   }
 }
 
