@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import {
-  View, Text
+  View, Text, CheckBox
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
@@ -12,7 +12,7 @@ export default class FutureTrips extends Component {
   _renderGradient = () => {
     return (
       <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.8)']}
+        colors={['transparent', 'rgba(0,0,0,1)']}
         style={ss.gradient}
       />
     )
@@ -31,17 +31,21 @@ export default class FutureTrips extends Component {
 
           <View style={ss.imageContainer}>
             <ImageCache uri={'https://touro.scandorama.se/api/v1/resources/trip/2436/image'} style={ss.cardImage} />
-            {this._renderGradient()}
+            {/* {this._renderGradient()} */}
 
             <View style={ss.cardBody}>
 
               <View style={ss.cardTop} />
 
+              <View style={ss.cardContent} >
+
+              </View>
+
               <View style={ss.cardBottom}>
 
                 <View style={ss.bottomLeft}>
-                  <IonIcon name='people' color={Colors.silver} size={30} />
-                  <Text style={[ss.brandText, { color: Colors.silver, marginLeft: 10 }]}>44</Text>
+                  <IonIcon name='people' color={Colors.black} size={30} />
+                  <Text style={[ss.brandText, { color: Colors.black, marginLeft: 10 }]}>44</Text>
                 </View>
 
                 <View style={ss.bottomRight} />
@@ -76,6 +80,10 @@ const ss = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  cardContent: {
+    flex:1,
+    //...
+  },
   imageContainer: {
     borderWidth: 0,
     height: 225,
@@ -88,7 +96,8 @@ const ss = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    bottom: 0
+    bottom: 0,
+    opacity: 0.3
     // borderBottomLeftRadius: 10,
     // borderBottomRightRadius: 10
   },

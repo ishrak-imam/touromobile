@@ -25,8 +25,9 @@ const colors = {
   text: '#E0D7E5',
   headerBg: 'rgb(34,150,243)',
   black: '#000000',
-  scBrand: 'rgb(34,150,243)',
-  ohBrand: '#ffb53f'
+  scBrand: '#6eadd7', 
+  ohBrand: '#ce7f9e',
+  ssBrand: 'd7c58f'
 }
 
 export default colors
