@@ -15,6 +15,8 @@ export const checkEmail = email => {
 }
 
 export const getImageName = url => {
-  const split = url.split('/')
-  return `${split[split.length - 2]}.jpg`
+  // const split = url.split('/')
+  // return `${split[split.length - 2]}.jpg`
+  const hash = getHash(url)
+  return `${hash}.jpg`
 }

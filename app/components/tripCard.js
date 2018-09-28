@@ -1,211 +1,137 @@
-
 import React, { Component } from 'react'
-import {
-  CardItem, Left,
-  Body, Right, Text
-} from 'native-base'
-import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native'
-import IconButton from '../components/iconButton'
+import { StyleSheet } from 'react-native'
+import { View, Text } from 'native-base'
 import { IonIcon, Colors } from '../theme'
-import Translator from '../utils/translator'
+import ImageCache from './imageCache'
+import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import { getPax } from '../selectors'
-import { Call, Text as Sms } from 'react-native-openanything'
-import Button from '../components/button'
-import ImageCache from './imageCache'
-
-const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'YY MM DD'
 
 export default class TripCard extends Component {
-  _renderPhone = phone => (
-    <IconButton name='phone' color='green' onPress={() => Call(phone)} />
-  )
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.trip.equals(this.props.trip)
+  }
 
-  _renderSMS = phone => (
-    <IconButton name='sms' color='blue' onPress={() => Sms(phone)} />
-  )
+  _renderGradient = () => {
+    return (
+      <LinearGradient
+        colors={['transparent', 'rgba(0,0,0,0.8)']}
+        style={ss.gradient}
+      />
+    )
+  }
+  render () {
+    const { trip } = this.props
 
-  _renderHeader = trip => {
+    const brand = trip.get('brand')
+    const brCode = brand.toLowerCase()
     const name = trip.get('name')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
-    return (
-      <CardItem>
-        <Body><Text style={ss.boldText}>{name}</Text></Body>
-        <Right>
-          <Text note>{`${outDate} - ${homeDate}`}</Text>
-        </Right>
-      </CardItem>
-    )
-  }
-
-  _renderImage = image => {
-    return (
-      <CardItem cardBody>
-        <ImageCache uri={image} style={ss.tripImage} />
-      </CardItem>
-    )
-  }
-
-  _renderSchedule = transport => {
-    const departure = transport.get('departure')
-    const bus = transport.get('regno')
-    const platform = transport.get('platform')
-    return (
-      <View style={ss.scheduleContainer}>
-        <CardItem>
-          <Body><Text>{_T('departureTime')}</Text></Body>
-          <Right><Text>{departure}</Text></Right>
-        </CardItem>
-        <CardItem>
-          <Body><Text note>{`${_T('bus')}: ${bus}. ${_T('platform')}: ${platform}`}</Text></Body>
-        </CardItem>
-      </View>
-    )
-  }
-
-  _renderDrivers = drivers => {
-    return (
-      <CardItem style={ss.cardItem}>
-        <Text style={ss.boldText}>{_T('drivers')}</Text>
-        {
-          drivers.map(driver => {
-            const id = driver.get('id')
-            const name = driver.get('name')
-            const phone = driver.get('phone')
-            return (
-              <Body style={ss.body} key={id}>
-                <Text>{name}</Text>
-                <Right style={ss.right}>
-                  {this._renderPhone(phone)}
-                  {this._renderSMS(phone)}
-                </Right>
-              </Body>
-            )
-          })
-        }
-      </CardItem>
-    )
-  }
-
-  _toRestaurant = (direction, restaurant) => {
-    const { trip, navigation } = this.props
-    return () => {
-      navigation.navigate('Restaurant', { trip, direction, restaurant })
-    }
-  }
-
-  _renderRestaurants = launches => {
-    const out = launches.get('out')
-    const home = launches.get('home')
-    const outPhone = out.get('phone')
-    const homePhone = home.get('phone')
-    return (
-      <CardItem style={ss.cardItem}>
-        <Text style={ss.boldText}>{_T('lunchRestaurants')}</Text>
-
-        <TouchableOpacity onPress={this._toRestaurant('out', out)} style={ss.restaurantsItem}>
-          <Text note>{_T('out')}</Text>
-          <Body style={ss.body}>
-            <Left style={{ flex: 2 }}>
-              <Text style={ss.restaurantName}>{out.get('name')}</Text>
-            </Left>
-            <Right style={ss.right}>
-              {this._renderPhone(outPhone)}
-              {this._renderSMS(outPhone)}
-            </Right>
-          </Body>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={this._toRestaurant('home', home)} style={ss.restaurantsItem}>
-          <Text note>{_T('home')}</Text>
-          <Body style={ss.body}>
-            <Left style={{ flex: 2 }}>
-              <Text style={ss.restaurantName}>{home.get('name')}</Text>
-            </Left>
-            <Right style={ss.right}>
-              {this._renderPhone(homePhone)}
-              {this._renderSMS(homePhone)}
-            </Right>
-          </Body>
-        </TouchableOpacity>
-
-      </CardItem>
-    )
-  }
-
-  _smsAll = trip => {
-    const pax = getPax(trip)
-    const numbers = pax
-      .filter(p => !!p.get('phone'))
-      .map(p => p.get('phone'))
-      .join(',')
-    Sms(numbers)
-  }
-
-  _renderFooter =trip => {
-    return (
-      <CardItem footer>
-        <Button iconLeft style={ss.footerButton} onPress={() => this._smsAll(trip)}>
-          <IonIcon name='sms' color='white' />
-          <Text>{_T('textAllPax')}</Text>
-        </Button>
-      </CardItem>
-    )
-  }
-
-  render () {
-    const { trip } = this.props
     const transport = trip.get('transport')
-    const launches = trip.get('lunches')
     const image = trip.get('image')
+    const pax = getPax(trip)
+
     return (
-      <ScrollView>
-        {this._renderHeader(trip)}
-        {!!image && this._renderImage(image)}
-        {!!transport && this._renderSchedule(transport)}
-        {!!transport && this._renderDrivers(transport.get('drivers'))}
-        {!!launches && this._renderRestaurants(launches)}
-        {this._renderFooter(trip)}
-      </ScrollView>
+      <View style={ss.card}>
+
+        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brCode}Brand`] }]}>
+          <Text style={ss.brandText}>{brand}</Text>
+          <Text>{`${name} ${outDate} - ${homeDate}`}</Text>
+          <IonIcon name={transport.get('type')} />
+        </View>
+
+        <View style={ss.imageContainer}>
+          <ImageCache uri={image} style={ss.cardImage} />
+          {/* {this._renderGradient()} */}
+          <View style={ss.cardBody}>
+            <View style={ss.cardTop} />
+            <View style={ss.cardBottom}>
+              <View style={ss.bottomLeft}>
+                <IonIcon name='people' color={Colors.black} size={30} />
+                <Text style={[ss.brandText, { color: Colors.black, marginLeft: 10 }]}>{pax.size}</Text>
+              </View>
+              <View style={ss.bottomRight} />
+            </View>
+          </View>
+        </View>
+
+      </View>
     )
   }
 }
 
 const ss = StyleSheet.create({
-  boldText: {
-    fontWeight: 'bold'
+  card: {
+    height: 250,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10
   },
-  tripImage: {
-    height: 150,
-    width: null,
-    flex: 1
-  },
-  scheduleContainer: {
-    marginTop: 10
-  },
-  restaurantsItem: {
-    marginTop: 10,
-    width: '100%'
-  },
-  body: {
+  cardHeader: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderWidth: 0,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
-  right: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
+  cardContent: {
+    flex: 1
   },
-  footerButton: {
+  imageContainer: {
+    borderWidth: 0,
+    height: 200,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    overflow: 'hidden'// needed for iOS
+  },
+  cardImage: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.3,
+    borderBottomLeftRadius: 10, // needed for Android
+    borderBottomRightRadius: 10, // needed for Android
+    width: null,
+    height: null
+  },
+  gradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
+  },
+  cardBody: {
+    flex: 1
+  },
+  cardTop: {
+    flex: 3
+  },
+  cardBottom: {
     flex: 1,
-    justifyContent: 'center'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  cardItem: {
-    flexDirection: 'column',
-    alignItems: 'flex-start'
+  bottomLeft: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginLeft: 10
   },
-  restaurantName: {
-    color: Colors.headerBg
+  brandText: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  bottomRight: {
+    flex: 1,
+    flexDirection: 'row'
   }
 })

@@ -11,7 +11,7 @@ import { tripsReq, getCurrentTrip, getFutureTrips } from './action'
 import {
   networkActionDispatcher, actionDispatcher
 } from '../../utils/actionDispatcher'
-import TripCard from '../../components/tripCard'
+import Trip from '../../components/trip'
 import { getTrips, getUser } from '../../selectors'
 const _T = Translator('CurrentTripScreen')
 
@@ -59,7 +59,7 @@ class TripScreen extends Component {
             ? this._renderLoader('Fetching data from Touro...')
             : current.get('noMore')
               ? this._renderLoader('No more trips')
-              : !!current.get('trip').size && <TripCard trip={current.get('trip')} navigation={navigation} />
+              : !!current.get('trip').size && <Trip trip={current.get('trip')} navigation={navigation} />
         }
       </Container>
 
