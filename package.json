@@ -1,13 +1,26 @@
 {
-  "name": "empty-project-template",
+  "name": "touro-guide-app",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
+  "description": "Cross-platform native app for Touro guides",
+
   "scripts": {
+
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "eject": "expo eject"
+    "eject": "expo eject",
+
+    "publish-staging": "expo publish --release-channel staging",
+    "build-android-staging": "expo build:android --release-channel staging",
+    "build-ios-staging": "expo build:ios --release-channel staginh",
+
+    "publish-prod": "expo publish --release-channel prod-v1",
+    "build-android-prod": "expo build:android --release-channel prod-v1",
+    "build-ios-prod": "expo build:ios --release-channel prod-v1"
+
   },
+
   "standard": {
     "parser": "babel-eslint"
   },

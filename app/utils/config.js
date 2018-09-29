@@ -1,11 +1,3 @@
-// import configs from '../../config.json'
-
-// const config = {
-//   ...configs
-// }
-
-// export default config
-
 import { Constants } from 'expo'
 import allConfigs from '../../config.json'
 
@@ -25,16 +17,18 @@ if (releaseChannel === undefined) {
 }
 
 const isProduction = environment === 'PRODUCTION'
+const isStaging = environment === 'STAGING'
 
 const isDevice = Constants.isDevice
 
-const useMockData = !isProduction
+const useMockData = !isProduction && !isStaging
 
 const config = {
   ...allConfigs[environment],
   environment,
   version,
   isProduction,
+  isStaging,
   isDevice,
   useMockData
 }

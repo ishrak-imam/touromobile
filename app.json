@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Touro",
-    "description": "This project is really great.",
+    "description": "Cross-platform native app for Touro guides",
     "slug": "touro-guide",
     "privacy": "unlisted",
     "sdkVersion": "29.0.0",
