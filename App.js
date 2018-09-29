@@ -19,7 +19,7 @@ export default class TouroMobile extends Component {
   }
 
   componentWillMount () {
-    I18n.initAsync() // initialization form picking device locale and configure accordingly
+    I18n.initAsync() // initialization for picking device locale and configure accordingly
     this._loadAssetsAsync()
   }
 

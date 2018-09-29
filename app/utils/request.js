@@ -1,7 +1,8 @@
 
 /* eslint-disable */
 
-const SERVER_URL = 'https://touro.scandorama.se/api/v1/';
+import config from '../utils/config'
+const SERVER_URL = config.SERVER_URL
 
 const responseHandler = response => {
   if (response.status === 200 || response.status === 201) {
