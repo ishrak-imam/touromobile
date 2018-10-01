@@ -19,60 +19,69 @@ import { connect } from 'react-redux'
 
 const _T = Translator('PassengersScreen')
 
-// class PaxItem extends Component {
-//   _renderPhone = number => <IconButton name='phone' color='green' onPress={() => call(number)} />
+class PaxItem extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      comment: false
+    }
+  }
 
-//   _renderSMS = number => <IconButton name='sms' color='blue' onPress={() => sms(number)} />
+  shouldComponentUpdate (nextProps, nextState) {
+    return !nextProps.pax.equals(this.props.pax) ||
+            nextState.comment !== this.state.comment
+  }
 
-//   _renderComment = id => {
-//     const { comment, onInfoIconPress } = this.props
-//     const name = comment === id ? 'up' : 'information'
-//     return (
-//       <IconButton
-//         name={name} color='black'
-//         // onPress={() => this.setState({ comment: comment === id ? null : id })}
-//         onPress={onInfoIconPress({ comment: comment === id ? null : id })}
-//       />
-//     )
-//   }
+  _renderPhone = number => <IconButton name='phone' color='green' onPress={() => call(number)} />
 
-//   render () {
-//     const { item, modifiedData, comment } = this.props
-//     if (item.get('first')) {
-//       return (
-//         <ListItem itemDivider style={{ backgroundColor: Colors.headerBg }}>
-//           <Text style={ss.sectionText}>{item.get('initial')}</Text>
-//         </ListItem>
-//       )
-//     }
+  _renderSMS = number => <IconButton name='sms' color='blue' onPress={() => sms(number)} />
 
-//     const id = String(item.get('id'))
-//     const modifiedpax = modifiedData.get(id) || item
-//     const paxComment = modifiedpax.get('comment')
-//     const phone = modifiedpax.get('phone')
-//     const name = `${modifiedpax.get('firstName')} ${modifiedpax.get('lastName')}`
-//     return (
-//       <ListItem onPress={this._toPaxDetails(modifiedpax)}>
-//         <Body>
-//           <Text>{name}</Text>
-//           <Text note>{modifiedpax.get('booking').get('id')}</Text>
-//           {comment === id && <Text note>{paxComment}</Text>}
-//         </Body>
-//         <Right style={ss.itemRight}>
-//           {!!paxComment && this._renderComment(id)}
-//           {!!phone && this._renderPhone(phone)}
-//           {!!phone && this._renderSMS(phone)}
-//         </Right>
-//       </ListItem>
-//     )
-//   }
-// }
+  _commentToggle = () => {
+    const { comment } = this.state
+    const name = comment ? 'up' : 'information'
+    return (
+      <IconButton
+        name={name} color='black'
+        onPress={() => this.setState({ comment: !this.state.comment })}
+      />
+    )
+  }
+
+  render () {
+    console.log('render')
+    const { pax, onItemPress } = this.props
+    const { comment } = this.state
+    if (pax.get('first')) {
+      return (
+        <ListItem itemDivider style={{ backgroundColor: Colors.headerBg }}>
+          <Text style={ss.sectionText}>{pax.get('initial')}</Text>
+        </ListItem>
+      )
+    }
+    const paxComment = pax.get('comment')
+    const phone = pax.get('phone')
+    const name = `${pax.get('firstName')} ${pax.get('lastName')}`
+    return (
+      <ListItem onPress={onItemPress(pax)}>
+        <Body>
+          <Text>{name}</Text>
+          <Text note>{pax.get('booking').get('id')}</Text>
+          {comment && <Text note>{paxComment}</Text>}
+        </Body>
+        <Right style={ss.itemRight}>
+          {!!paxComment && this._commentToggle()}
+          {!!phone && this._renderPhone(phone)}
+          {!!phone && this._renderSMS(phone)}
+        </Right>
+      </ListItem>
+    )
+  }
+}
 
 class PaxList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      comment: null,
       searchText: ''
     }
   }
@@ -80,8 +89,7 @@ class PaxList extends Component {
   shouldComponentUpdate (nextProps, nextState) {
     return !nextProps.trip.equals(this.props.trip) ||
             nextState.searchText !== this.state.searchText ||
-            nextState.comment !== this.state.comment ||
-            !nextProps.pax.equals(this.props.pax)
+            !nextProps.paxStore.equals(this.props.paxStore)
   }
 
   _toPaxDetails = pax => {
@@ -91,66 +99,16 @@ class PaxList extends Component {
     }
   }
 
-  _renderPhone = number => <IconButton name='phone' color='green' onPress={() => call(number)} />
-
-  _renderSMS = number => <IconButton name='sms' color='blue' onPress={() => sms(number)} />
-
-  _renderComment = id => {
-    const { comment } = this.state
-    const name = comment === id ? 'up' : 'information'
+  _renderPerson = ({ item }) => {
+    const { paxStore } = this.props
+    const id = String(item.get('id'))
+    const pax = paxStore.get('modifiedData').get(id) || item
     return (
-      <IconButton
-        name={name} color='black'
-        onPress={() => this.setState({ comment: comment === id ? null : id })}
+      <PaxItem
+        pax={pax}
+        onItemPress={this._toPaxDetails}
       />
     )
-  }
-
-  _onInfoPress = value => {
-    this.setState(value)
-  }
-
-  _renderPerson = ({ item, index }) => {
-    if (item.get('first')) {
-      return (
-        <ListItem itemDivider style={{ backgroundColor: Colors.headerBg }}>
-          <Text style={ss.sectionText}>{item.get('initial')}</Text>
-        </ListItem>
-      )
-    }
-
-    const id = String(item.get('id'))
-    const { pax } = this.props
-    const modifiedData = pax.get('modifiedData').get(id) || item
-    const paxComment = modifiedData.get('comment')
-    const phone = modifiedData.get('phone')
-    const name = `${modifiedData.get('firstName')} ${modifiedData.get('lastName')}`
-    const { comment } = this.state
-    return (
-      <ListItem onPress={this._toPaxDetails(modifiedData)}>
-        <Body>
-          <Text>{name}</Text>
-          <Text note>{modifiedData.get('booking').get('id')}</Text>
-          {comment === id && <Text note>{paxComment}</Text>}
-        </Body>
-        <Right style={ss.itemRight}>
-          {!!paxComment && this._renderComment(id)}
-          {!!phone && this._renderPhone(phone)}
-          {!!phone && this._renderSMS(phone)}
-        </Right>
-      </ListItem>
-    )
-
-    // const { pax } = this.props
-    // const { comment } = this.state
-    // return (
-    //   <PaxItem
-    //     item={item}
-    //     modifiedData={pax.get('modifiedData')}
-    //     comment={comment}
-    //     onInfoIconPress={this._onInfoPress}
-    //   />
-    // )
   }
 
   _onSearch = searchText => {
@@ -189,7 +147,7 @@ class PaxList extends Component {
 }
 
 const stateToProps = state => ({
-  pax: getPaxFromStore(state)
+  paxStore: getPaxFromStore(state)
 })
 
 export default connect(stateToProps, null)(PaxList)
