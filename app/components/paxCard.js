@@ -141,6 +141,9 @@ class PaxCard extends Component {
   _onSave = () => {
     const { pax } = this.props
     const { phone, comment } = this.state
+
+    if (!phone && !comment) return
+
     const update = {}
     if (phone) update.phone = phone
     if (comment) update.comment = comment
@@ -148,7 +151,6 @@ class PaxCard extends Component {
       key: String(pax.get('id')),
       pax: update
     }))
-
     this._onCancel()
   }
 
