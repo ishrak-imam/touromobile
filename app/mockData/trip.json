@@ -3,8 +3,8 @@
     "departureId": 123,
     "name": "Berlin Weekend",
     "description": "See amazin Berlin over the weekend",
-    "outDate": "2018-09-18T05:18:30.3953096+02:00",
-    "homeDate": "2018-09-29T05:18:30.3953096+02:00",
+    "outDate": "2018-09-30T05:18:30.3953096+02:00",
+    "homeDate": "2018-10-29T05:18:30.3953096+02:00",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "brand": "SC",
     "lunches": {

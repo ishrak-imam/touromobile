@@ -38,4 +38,4 @@ export const mockForgetPass = () => Promise.resolve({
   msg: 'Check your email for a new password'
 })
 
-export const mockTrips = () => Promise.resolve(require('./trips.json')) // require('./trips.json')
+export const mockTrips = () => Promise.resolve(require('./trip.json')) // require('./trips.json')
