@@ -27,3 +27,7 @@ export const {
 export const {
   getNavigation
 } = require('./navigation')
+
+export const {
+  getPaxFromStore
+} = require('./pax')

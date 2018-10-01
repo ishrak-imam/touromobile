@@ -11,11 +11,20 @@ import Translator from '../utils/translator'
 import OutLineButton from '../components/outlineButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import isIOS from '../utils/isIOS'
+import { actionDispatcher } from '../utils/actionDispatcher'
+import { modifyPaxData } from '../modules/pax/action'
+import { connect } from 'react-redux'
+import { getPaxFromStore } from '../selectors'
 const _T = Translator('PaxDetailsScreen')
 
-export default class PaxCard extends Component {
+class PaxCard extends Component {
   constructor (props) {
     super(props)
+    const { pax } = props
+    actionDispatcher(modifyPaxData({
+      key: String(pax.get('id')),
+      pax
+    }))
     this.state = {
       editMode: false,
       phone: '',
@@ -130,8 +139,17 @@ export default class PaxCard extends Component {
   }
 
   _onSave = () => {
+    const { pax } = this.props
     const { phone, comment } = this.state
-    console.log(phone, comment)
+    const update = {}
+    if (phone) update.phone = phone
+    if (comment) update.comment = comment
+    actionDispatcher(modifyPaxData({
+      key: String(pax.get('id')),
+      pax: update
+    }))
+
+    this._onCancel()
   }
 
   _onChangeText = field => text => {
@@ -172,26 +190,27 @@ export default class PaxCard extends Component {
   }
 
   render () {
-    const { pax } = this.props
-    const { editMode } = this.state
-    const phone = pax.get('phone')
-    const booking = pax.get('booking')
-    const excursion = pax.get('excursionPack')
-    const coPax = pax.get('booking').get('pax')
-    const comment = pax.get('comment')
+    const { pax, paxInStore } = this.props
+    const id = String(pax.get('id'))
+    const modifiedPax = paxInStore.get('modifiedData').get(id) || pax
 
-    // console.log(pax.toJS())
+    const { editMode } = this.state
+    const phone = modifiedPax.get('phone')
+    const booking = modifiedPax.get('booking')
+    const excursion = modifiedPax.get('excursionPack')
+    const coPax = modifiedPax.get('booking').get('pax')
+    const comment = modifiedPax.get('comment')
     return (
       <KeyboardAwareScrollView
         extraScrollHeight={isIOS ? 0 : 150}
         enableOnAndroid
         keyboardShouldPersistTaps='always'
       >
-        {this._renderPxName(pax)}
+        {this._renderPxName(modifiedPax)}
         {!!phone && this._renderPhone(phone)}
         {this._renderBooking(booking)}
         {!!excursion && this._renderExcursion()}
-        {!!coPax.size && this._renderCoPax(coPax, pax)}
+        {!!coPax.size && this._renderCoPax(coPax, modifiedPax)}
         {!!comment && this._renderComment(comment)}
         {!!phone && this._renderComms(phone)}
         {editMode && this._renderEditForm()}
@@ -199,6 +218,12 @@ export default class PaxCard extends Component {
     )
   }
 }
+
+const stateToProps = state => ({
+  paxInStore: getPaxFromStore(state)
+})
+
+export default connect(stateToProps, null)(PaxCard)
 
 const ss = StyleSheet.create({
   commsBody: {
