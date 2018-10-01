@@ -164,6 +164,7 @@ class PaxCard extends Component {
         <View style={ss.inputItem}>
           <Text style={ss.label}>Cell:</Text>
           <TextInput
+            underlineColorAndroid='transparent'
             placeholder='Phone'
             value={this.state.phone}
             keyboardType='numeric'
@@ -174,6 +175,7 @@ class PaxCard extends Component {
         <View style={ss.inputItem}>
           <Text style={ss.label}>Comment:</Text>
           <TextInput
+            underlineColorAndroid='transparent'
             placeholder='Comment'
             value={this.state.comment}
             multiline
@@ -204,7 +206,7 @@ class PaxCard extends Component {
     const comment = modifiedPax.get('comment')
     return (
       <KeyboardAwareScrollView
-        extraScrollHeight={isIOS ? 0 : 150}
+        extraScrollHeight={isIOS ? 0 : 200}
         enableOnAndroid
         keyboardShouldPersistTaps='always'
       >
