@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react'
 import {
-  Container, ListItem, Left,
+  Container, ListItem, Left, View,
   CheckBox, Body, Text, Right
 } from 'native-base'
 import SearchBar from '../../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
 import { getSortedPax, getTrips, getExcursions, filterPaxBySearchText } from '../../selectors'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { getSet } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
@@ -16,6 +16,9 @@ import { setParticipants } from './action'
 import { IonIcon, Colors } from '../../theme'
 import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
+
+const PARTICIPATING = 'PARTICIPATING'
+const ALL = 'ALL'
 
 const _T = Translator('ExcursionDetailsScreen')
 
@@ -26,8 +29,9 @@ class PaxListItem extends Component {
 
   render () {
     const { selected, checked, onPress, id, bookingId, name } = this.props
+    const key = id + bookingId
     return (
-      <ListItem key={`${id}${bookingId}`}>
+      <ListItem key={key}>
         <Left style={{ flex: 1 }}>
           <CheckBox checked={checked || selected} onPress={onPress(String(id), checked)} />
         </Left>
@@ -52,7 +56,8 @@ class ExcursionDetailsScreen extends Component {
     const participants = excursions.get('participants').get(excursionId)
     this.state = {
       participants: participants || getSet([]),
-      searchText: ''
+      searchText: '',
+      filter: PARTICIPATING
     }
   }
 
@@ -84,19 +89,24 @@ class ExcursionDetailsScreen extends Component {
     const participants = excursions.get('participants').get(excursionId)
     const selected = participants ? participants.has(String(id)) : false
 
+    const { filter } = this.state
+    const showItem = filter === PARTICIPATING ? selected || checked : true
+
     /**
      * separate class component used to take advantage
      * of shouldComponentUpdate hook
      */
     return (
-      <PaxListItem
-        id={id}
-        bookingId={bookingId}
-        onPress={this._onPress}
-        selected={selected}
-        checked={checked}
-        name={name}
-      />
+      showItem
+        ? <PaxListItem
+          id={id}
+          bookingId={bookingId}
+          onPress={this._onPress}
+          selected={selected}
+          checked={checked}
+          name={name}
+        />
+        : null
     )
   }
 
@@ -106,12 +116,12 @@ class ExcursionDetailsScreen extends Component {
     return (
       pax.size
         ? <ImmutableVirtualizedList
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}
           keyboardShouldPersistTaps='always'
           immutableData={pax}
           renderItem={this._renderItem}
           keyExtractor={this._keyExtractor}
-          extraData={this.state.participants}
+          // extraData={this.state.filter}
         />
         : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
     )
@@ -119,6 +129,32 @@ class ExcursionDetailsScreen extends Component {
 
   _onSearch = searchText => {
     this.setState({ searchText })
+  }
+
+  _onTabSwitch = filter => {
+    return () => {
+      this.setState({ filter })
+    }
+  }
+
+  _renderTabs = () => {
+    const { filter } = this.state
+    return (
+      <View style={ss.tabContainer}>
+        <TouchableOpacity
+          style={[ss.tab, { backgroundColor: filter === PARTICIPATING ? Colors.headerBg : 'white' }]}
+          onPress={this._onTabSwitch(PARTICIPATING)}
+        >
+          <Text>Participants</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[ss.tab, { backgroundColor: filter === ALL ? Colors.headerBg : 'white' }]}
+          onPress={this._onTabSwitch(ALL)}
+        >
+          <Text>All</Text>
+        </TouchableOpacity>
+      </View>
+    )
   }
 
   render () {
@@ -134,6 +170,7 @@ class ExcursionDetailsScreen extends Component {
       <Container>
         <Header left='back' title={excursion.get('name')} navigation={navigation} />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
+        {this._renderTabs()}
         {this._renderPersons(sortedPax)}
       </Container>
     )
@@ -155,5 +192,15 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     flex: 4,
     alignItems: 'center'
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderWidth: 1
+  },
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 7
   }
 })

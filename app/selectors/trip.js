@@ -38,6 +38,10 @@ const resolvers = {
       }
       return getList([p])
     }).flatten(1) // one level flatten
+  },
+
+  participants: pax => {
+    
   }
 
 }

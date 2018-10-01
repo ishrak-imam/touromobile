@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {
-  Container, View
+  Container
 } from 'native-base'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Header from '../../components/header'
 import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
