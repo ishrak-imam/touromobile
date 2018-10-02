@@ -24,16 +24,22 @@ const _T = Translator('ExcursionDetailsScreen')
 
 class PaxListItem extends Component {
   shouldComponentUpdate (nextProps) {
-    return nextProps.selected !== this.props.selected
+    return !nextProps.pax.equals(this.props.pax) ||
+            nextProps.selected !== this.props.selected
   }
 
   render () {
-    const { selected, checked, onPress, id, bookingId, name } = this.props
-    const key = id + bookingId
+    const { pax, selected, onPress } = this.props
+    const paxId = String(pax.get('id'))
+    const checked = pax.get('excursionPack')
+    const bookingId = pax.get('booking').get('id')
+    const key = `${paxId}${bookingId}`
+    const name = `${pax.get('firstName')} ${pax.get('lastName')}`
+
     return (
       <ListItem key={key}>
         <Left style={{ flex: 1 }}>
-          <CheckBox checked={checked || selected} onPress={onPress(String(id), checked)} />
+          <CheckBox checked={checked || selected} onPress={onPress(paxId, checked)} />
         </Left>
         <Body style={ss.itemBody}>
           <Text style={{ flex: 1, flexWrap: 'wrap' }}>{bookingId}</Text>
@@ -77,51 +83,31 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _renderItem = ({ item }) => {
-    const { navigation, excursions } = this.props
-    const id = item.get('id')
-    const checked = item.get('excursionPack')
-    const bookingId = item.get('booking').get('id')
-    const name = `${item.get('firstName')} ${item.get('lastName')}`
-
-    const excursion = navigation.getParam('excursion')
-    const excursionId = String(excursion.get('id'))
-    const participants = excursions.get('participants').get(excursionId)
-    const selected = participants ? participants.has(String(id)) : false
-
-    const { filter } = this.state
-    const showItem = filter === PARTICIPATING ? selected || checked : true
-
-    /**
-     * separate class component used to take advantage
-     * of shouldComponentUpdate hook
-     */
-    return (
-      showItem
-        ? <PaxListItem
-          id={id}
-          bookingId={bookingId}
-          onPress={this._onPress}
+  _renderItem = (participants) => {
+    return ({ item }) => {
+      const paxId = String(item.get('id'))
+      const selected = participants ? participants.has(paxId) : false
+      return (
+        <PaxListItem
+          pax={item}
           selected={selected}
-          checked={checked}
-          name={name}
+          onPress={this._onPress}
         />
-        : null
-    )
+      )
+    }
   }
 
   _keyExtractor = (item, index) => `${item.get('id')}${item.get('booking').get('id')}`
 
-  _renderPersons = pax => {
+  _renderPersons = (pax, participants) => {
     return (
       pax.size
         ? <ImmutableVirtualizedList
           contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}
           keyboardShouldPersistTaps='always'
           immutableData={pax}
-          renderItem={this._renderItem}
+          renderItem={this._renderItem(participants)}
           keyExtractor={this._keyExtractor}
-          // extraData={this.state.filter}
         />
         : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
     )
@@ -157,21 +143,37 @@ class ExcursionDetailsScreen extends Component {
     )
   }
 
+  _findParticipatingPax = (pax, participants) => {
+    return pax.filter(p => {
+      const paxId = String(p.get('id'))
+      const selected = participants ? participants.has(paxId) : false
+      return selected || p.get('excursionPack')
+    })
+  }
+
   render () {
-    const { navigation, trips } = this.props
-    const { searchText } = this.state
+    const { navigation, trips, excursions } = this.props
+    const { searchText, filter } = this.state
     const trip = trips.getIn(['current', 'trip'])
     const excursion = navigation.getParam('excursion')
+    const excursionId = String(excursion.get('id'))
+    const participants = excursions.get('participants').get(excursionId)
+
     let sortedPax = getSortedPax(trip)
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
+
+    if (filter === PARTICIPATING) {
+      sortedPax = this._findParticipatingPax(sortedPax, participants)
+    }
+
     return (
       <Container>
         <Header left='back' title={excursion.get('name')} navigation={navigation} />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
         {this._renderTabs()}
-        {this._renderPersons(sortedPax)}
+        {this._renderPersons(sortedPax, participants)}
       </Container>
     )
   }
