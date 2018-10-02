@@ -58,6 +58,8 @@ export default {
     comment: 'Comment'
   },
   ExcursionDetailsScreen: {
-    paxSearch: 'Search passengers'
+    paxSearch: 'Search passengers',
+    participating: 'Participating',
+    all: 'All'
   }
 }

@@ -145,13 +145,13 @@ class ExcursionDetailsScreen extends Component {
           style={[ss.tab, { backgroundColor: filter === PARTICIPATING ? Colors.headerBg : Colors.silver }]}
           onPress={this._onTabSwitch(PARTICIPATING)}
         >
-          <Text style={{ color: filter === PARTICIPATING ? Colors.silver : Colors.black }}>Participating</Text>
+          <Text style={{ color: filter === PARTICIPATING ? Colors.silver : Colors.black }}>{_T('participating')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[ss.tab, { backgroundColor: filter === ALL ? Colors.headerBg : Colors.silver }]}
           onPress={this._onTabSwitch(ALL)}
         >
-          <Text style={{ color: filter === ALL ? Colors.silver : Colors.black }}>All</Text>
+          <Text style={{ color: filter === ALL ? Colors.silver : Colors.black }}>{_T('all')}</Text>
         </TouchableOpacity>
       </View>
     )
