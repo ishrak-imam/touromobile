@@ -1,5 +1,5 @@
 import { AppState } from 'react-native'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { takeFirst, eventEmitterChannel } from '../../utils/sagaHelpers'
 
 import {
@@ -8,6 +8,8 @@ import {
 } from './action'
 
 import { getCurrentTrip, getFutureTrips } from '../trips/action'
+
+import { getUser } from '../../selectors'
 
 export function * watchAppState () {
   yield takeFirst(startAppStateMonitor.getType(), createAppStateSubscription)
@@ -23,8 +25,12 @@ function * createAppStateSubscription (action) {
   yield takeEvery(appStateChannel, function * (appState) {
     yield put(setAppState(appState !== 'active'))
     if (appState === 'active') {
-      yield put(getCurrentTrip())
-      yield put(getFutureTrips())
+      const user = yield select(getUser)
+      const isLoggedIn = user.get('access_token')
+      if (isLoggedIn) {
+        yield put(getCurrentTrip())
+        yield put(getFutureTrips())
+      }
     }
   })
 }
