@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react'
 import {
-  Container, ListItem, Left, View,
+  Container, ListItem, Left,
   CheckBox, Body, Text, Right
 } from 'native-base'
 import SearchBar from '../../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
 import { getSortedPax, getTrips, getExcursions, filterPaxBySearchText } from '../../selectors'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
 import { getSet } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
@@ -142,16 +142,16 @@ class ExcursionDetailsScreen extends Component {
     return (
       <View style={ss.tabContainer}>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: filter === PARTICIPATING ? Colors.headerBg : 'white' }]}
+          style={[ss.tab, { backgroundColor: filter === PARTICIPATING ? Colors.headerBg : Colors.silver }]}
           onPress={this._onTabSwitch(PARTICIPATING)}
         >
-          <Text>Participants</Text>
+          <Text style={{ color: filter === PARTICIPATING ? Colors.silver : Colors.black }}>Participating</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: filter === ALL ? Colors.headerBg : 'white' }]}
+          style={[ss.tab, { backgroundColor: filter === ALL ? Colors.headerBg : Colors.silver }]}
           onPress={this._onTabSwitch(ALL)}
         >
-          <Text>All</Text>
+          <Text style={{ color: filter === ALL ? Colors.silver : Colors.black }}>All</Text>
         </TouchableOpacity>
       </View>
     )
@@ -196,11 +196,17 @@ const ss = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderWidth: 1
+    marginVertical: 5,
+    marginHorizontal: 10,
+    borderWidth: 1,
+    padding: 2,
+    borderRadius: 5
   },
   tab: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 7
+    paddingVertical: 7,
+    borderRadius: 5
   }
 })

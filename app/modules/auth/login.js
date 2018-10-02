@@ -198,10 +198,12 @@ const ss = StyleSheet.create({
   },
   formContainer: {
     flex: 2,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: 7
     // marginTop: 30
   },
   form: {
+    borderRadius: 7,
     backgroundColor: Colors.snow,
     marginHorizontal: 20
   },
