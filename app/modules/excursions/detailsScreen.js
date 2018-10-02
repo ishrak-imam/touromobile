@@ -108,7 +108,9 @@ class ExcursionDetailsScreen extends Component {
           immutableData={pax}
           renderItem={this._renderItem(participants)}
           keyExtractor={this._keyExtractor}
-        />
+          windowSize={3}
+          initialNumToRender={20}
+          />
         : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
     )
   }
