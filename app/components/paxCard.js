@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  CardItem, Left, Body, View,
+  CardItem, Left, Body,
   Text, Right
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
@@ -20,23 +20,32 @@ const _T = Translator('PaxDetailsScreen')
 class PaxCard extends Component {
   constructor (props) {
     super(props)
-    const { pax } = props
-    actionDispatcher(modifyPaxData({
-      key: String(pax.get('id')),
-      pax
-    }))
+    const { pax, paxInStore } = props
+    const paxId = String(pax.get('id'))
+    const modifiedData = paxInStore.get('modifiedData').get(paxId)
+    if (!modifiedData) {
+      actionDispatcher(modifyPaxData({
+        key: String(pax.get('id')),
+        pax
+      }))
+    }
+    const phone = modifiedData ? modifiedData.get('phone') : pax.get('phone')
+    const comment = modifiedData ? modifiedData.get('comment') : pax.get('comment')
     this.state = {
       editMode: false,
-      phone: '',
-      comment: ''
+      phone,
+      comment
     }
   }
 
   _toggleEditMode = () => {
+    const { pax, paxInStore } = this.props
+    const paxId = String(pax.get('id'))
+    const modifiedData = paxInStore.get('modifiedData').get(paxId)
     this.setState({
       editMode: !this.state.editMode,
-      phone: '',
-      comment: ''
+      phone: modifiedData.get('phone'),
+      comment: modifiedData.get('comment')
     })
   }
 
@@ -59,13 +68,36 @@ class PaxCard extends Component {
     )
   }
 
+  _renderPhoneInput = phone => {
+    const { editMode } = this.state
+    return editMode
+      ? <TextInput
+        underlineColorAndroid='transparent'
+        placeholder='Phone'
+        value={phone}
+        keyboardType='numeric'
+        style={ss.input}
+        onChangeText={this._onChangeText('phone')}
+      />
+      : <Text note>{phone}</Text>
+  }
+
   _renderPhone = phone => {
+    const phnOnPress = phone ? () => call(phone) : () => {}
+    const smsOnPress = phone ? () => sms(phone) : () => {}
+    const phnColor = phone ? 'green' : Colors.charcoal
+    const smsColor = phone ? 'blue' : Colors.charcoal
+
     return (
       <CardItem>
-        <Body>
+        <Body style={{ flex: 3 }}>
           <Text>{_T('phone')}</Text>
-          <Text note>{phone}</Text>
+          {this._renderPhoneInput(phone)}
         </Body>
+        <Right style={ss.comms}>
+          <IconButton name='phone' color={phnColor} onPress={phnOnPress} />
+          <IconButton name='sms' color={smsColor} onPress={smsOnPress} />
+        </Right>
       </CardItem>
     )
   }
@@ -108,33 +140,42 @@ class PaxCard extends Component {
     )
   }
 
+  _renderCommentInput = comment => {
+    const { editMode } = this.state
+    console.log(comment)
+    return editMode
+      ? <TextInput
+        underlineColorAndroid='transparent'
+        placeholder='Comment'
+        value={comment}
+        multiline
+        numberOfLines={5}
+        autoCorrect={false}
+        style={ss.multiLineInput}
+        onChangeText={this._onChangeText('comment')}
+      />
+      : <Text note>{comment}</Text>
+  }
+
   _renderComment = comment => {
     return (
       <CardItem>
         <Body>
           <Text>{_T('comment')}</Text>
-          <Text note>{comment}</Text>
-        </Body>
-      </CardItem>
-    )
-  }
-
-  _renderComms = phone => {
-    return (
-      <CardItem>
-        <Body style={ss.commsBody}>
-          <IconButton name='phone' color='green' onPress={() => call(phone)} />
-          <IconButton name='sms' color='blue' onPress={() => sms(phone)} />
+          {this._renderCommentInput(comment)}
         </Body>
       </CardItem>
     )
   }
 
   _onCancel = () => {
+    const { pax, paxInStore } = this.props
+    const paxId = String(pax.get('id'))
+    const modifiedData = paxInStore.get('modifiedData').get(paxId)
     this.setState({
       editMode: false,
-      phone: '',
-      comment: ''
+      phone: modifiedData.get('phone'),
+      comment: modifiedData.get('comment')
     })
   }
 
@@ -151,45 +192,23 @@ class PaxCard extends Component {
       key: String(pax.get('id')),
       pax: update
     }))
-    this._onCancel()
+    this.setState({
+      editMode: false,
+      phone,
+      comment
+    })
   }
 
   _onChangeText = field => text => {
     this.setState({ [field]: text })
   }
 
-  _renderEditForm = () => {
+  _renderFooterButtons = () => {
     return (
-      <View style={ss.editForm}>
-        <View style={ss.inputItem}>
-          <Text style={ss.label}>Cell:</Text>
-          <TextInput
-            underlineColorAndroid='transparent'
-            placeholder='Phone'
-            value={this.state.phone}
-            keyboardType='numeric'
-            style={ss.input}
-            onChangeText={this._onChangeText('phone')}
-          />
-        </View>
-        <View style={ss.inputItem}>
-          <Text style={ss.label}>Comment:</Text>
-          <TextInput
-            underlineColorAndroid='transparent'
-            placeholder='Comment'
-            value={this.state.comment}
-            multiline
-            numberOfLines={5}
-            autoCorrect={false}
-            style={ss.multiLineInput}
-            onChangeText={this._onChangeText('comment')}
-          />
-        </View>
-        <View style={ss.formFooter}>
-          <OutLineButton text='Cancel' style={ss.footerButton} onPress={this._onCancel} />
-          <OutLineButton text='Save' style={ss.footerButton} onPress={this._onSave} />
-        </View>
-      </View>
+      <CardItem style={{ justifyContent: 'flex-end' }}>
+        <OutLineButton text='Cancel' textColor={Colors.silver} style={[ss.footerButton, { backgroundColor: Colors.cancel }]} onPress={this._onCancel} />
+        <OutLineButton text='Save' textColor={Colors.silver} style={[ss.footerButton, { backgroundColor: Colors.green }]} onPress={this._onSave} />
+      </CardItem>
     )
   }
 
@@ -198,12 +217,10 @@ class PaxCard extends Component {
     const id = String(pax.get('id'))
     const modifiedPax = paxInStore.get('modifiedData').get(id) || pax
 
-    const { editMode } = this.state
-    const phone = modifiedPax.get('phone')
+    const { editMode, phone, comment } = this.state
     const booking = modifiedPax.get('booking')
     const excursion = modifiedPax.get('excursionPack')
     const coPax = modifiedPax.get('booking').get('pax')
-    const comment = modifiedPax.get('comment')
     return (
       <KeyboardAwareScrollView
         extraScrollHeight={isIOS ? 0 : 200}
@@ -211,13 +228,12 @@ class PaxCard extends Component {
         keyboardShouldPersistTaps='always'
       >
         {this._renderPxName(modifiedPax)}
-        {!!phone && this._renderPhone(phone)}
+        {this._renderPhone(phone)}
         {this._renderBooking(booking)}
         {!!excursion && this._renderExcursion()}
         {!!coPax.size && this._renderCoPax(coPax, modifiedPax)}
-        {!!comment && this._renderComment(comment)}
-        {!!phone && this._renderComms(phone)}
-        {editMode && this._renderEditForm()}
+        {this._renderComment(comment)}
+        {editMode && this._renderFooterButtons()}
       </KeyboardAwareScrollView>
     )
   }
@@ -230,7 +246,9 @@ const stateToProps = state => ({
 export default connect(stateToProps, null)(PaxCard)
 
 const ss = StyleSheet.create({
-  commsBody: {
+
+  comms: {
+    flex: 1,
     flexDirection: 'row'
   },
   booking: {
@@ -260,16 +278,20 @@ const ss = StyleSheet.create({
     height: 40,
     borderWidth: 1,
     borderRadius: 4,
-    padding: 5
+    padding: 5,
+    width: '100%',
+    marginTop: 5
   },
   multiLineInput: {
     height: 80,
     borderWidth: 1,
     borderRadius: 4,
-    padding: 5
+    padding: 5,
+    marginTop: 5,
+    width: '100%'
   },
   footerButton: {
     marginRight: 10,
-    borderRadius: 5
+    borderRadius: 3
   }
 })

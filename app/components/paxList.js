@@ -48,7 +48,6 @@ class PaxItem extends Component {
   }
 
   render () {
-    console.log('render')
     const { pax, onItemPress } = this.props
     const { comment } = this.state
     if (pax.get('first')) {

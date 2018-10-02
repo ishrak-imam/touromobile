@@ -34,8 +34,8 @@ if (__DEV__) {
  */
 import { persistStore, persistReducer } from 'redux-persist'
 // import storage from 'redux-persist/lib/storage'
-// import storage from './storage'
-import storage from './sqlite'
+// import storage from './sqlite'
+import storage from './filesystem'
 import immutableTransform from 'redux-persist-transform-immutable'
 const persistConfig = {
   transforms: [immutableTransform()],
