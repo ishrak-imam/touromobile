@@ -12,7 +12,6 @@ class Cache {
 
   getData = value => {
     if (this._shouldHitCache(value)) {
-      console.log('cache hit')
       return this.computed
     }
     this.prev = value
