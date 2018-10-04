@@ -11,6 +11,7 @@ export default {
   },
   CurrentTripScreen: {
     title: 'Nuvarande resa',
+    pax: 'Passagerare',
     departureTime: 'Avgångstid',
     bus: 'Buss',
     platform: 'Plattform',

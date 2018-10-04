@@ -65,6 +65,15 @@ export default class Trip extends Component {
     )
   }
 
+  _renderPaxCount = paxCount => {
+    return (
+      <CardItem>
+        <Body><Text>{_T('pax')}</Text></Body>
+        <Right><Text>{paxCount}</Text></Right>
+      </CardItem>
+    )
+  }
+
   _renderDrivers = drivers => {
     return (
       <CardItem style={ss.cardItem}>
@@ -135,8 +144,7 @@ export default class Trip extends Component {
     )
   }
 
-  _smsAll = trip => {
-    const pax = getPax(trip)
+  _smsAll = pax => {
     const numbers = pax
       .filter(p => !!p.get('phone'))
       .map(p => p.get('phone'))
@@ -144,10 +152,10 @@ export default class Trip extends Component {
     sms(numbers)
   }
 
-  _renderFooter =trip => {
+  _renderFooter = pax => {
     return (
       <CardItem footer>
-        <Button iconLeft style={ss.footerButton} onPress={() => this._smsAll(trip)}>
+        <Button iconLeft style={ss.footerButton} onPress={() => this._smsAll(pax)}>
           <IonIcon name='sms' color='white' />
           <Text>{_T('textAllPax')}</Text>
         </Button>
@@ -160,14 +168,17 @@ export default class Trip extends Component {
     const transport = trip.get('transport')
     const launches = trip.get('lunches')
     const image = trip.get('image')
+    const allPax = getPax(trip)
+
     return (
       <ScrollView>
         {this._renderHeader(trip)}
         {!!image && this._renderImage(image)}
+        {this._renderPaxCount(allPax.size)}
         {!!transport && this._renderSchedule(transport)}
         {!!transport && this._renderDrivers(transport.get('drivers'))}
         {!!launches && this._renderRestaurants(launches)}
-        {this._renderFooter(trip)}
+        {this._renderFooter(allPax)}
       </ScrollView>
     )
   }
