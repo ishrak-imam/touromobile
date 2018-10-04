@@ -39,4 +39,4 @@ const stateToProps = state => ({
   trips: getTrips(state)
 })
 
-export default connect(stateToProps, dispatch => ({ dispatch }))(ExcursionsScreen)
+export default connect(stateToProps, null)(ExcursionsScreen)

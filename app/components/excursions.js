@@ -31,16 +31,16 @@ class ExcursionCard extends Component {
   }
 
   render () {
-    const { item, onPress, trip, participants, modifiedPax } = this.props
-    const id = item.get('id')
-    const name = item.get('name')
-    const description = item.get('description')
-    const start = item.get('start')
+    const { excursion, onPress, trip, participants, modifiedPax } = this.props
+    const id = excursion.get('id')
+    const name = excursion.get('name')
+    const description = excursion.get('description')
+    const start = excursion.get('start')
     const pax = getPax(trip)
     const participatingPax = getParticipatingPax(getMap({ pax, participants }))
 
     return (
-      <TouchableOpacity onPress={onPress(item)} key={id}>
+      <TouchableOpacity onPress={onPress(excursion)} key={id}>
         <Card>
           <CardItem>
             <Left>
@@ -83,7 +83,7 @@ class Excursions extends Component {
     const { trip, participants, modifiedPax } = this.props
     return (
       <ExcursionCard
-        item={item}
+        excursion={item}
         onPress={this._toDetails}
         trip={trip}
         participants={participants.get(String(item.get('id')))}
