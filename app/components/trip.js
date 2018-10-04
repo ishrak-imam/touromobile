@@ -9,15 +9,17 @@ import IconButton from '../components/iconButton'
 import { IonIcon, Colors } from '../theme'
 import Translator from '../utils/translator'
 import { format } from 'date-fns'
-import { getPax } from '../selectors'
+import { getPax, getModifiedPax, getPhoneNumbers } from '../selectors'
 import { call, sms } from '../utils/comms'
 import Button from '../components/button'
 import ImageCache from './imageCache'
+import { connect } from 'react-redux'
+import { getMap } from '../utils/immutable'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'YY MM DD'
 
-export default class Trip extends Component {
+class Trip extends Component {
   _renderPhone = phone => (
     <IconButton name='phone' color='green' onPress={() => call(phone)} />
   )
@@ -25,6 +27,12 @@ export default class Trip extends Component {
   _renderSMS = phone => (
     <IconButton name='sms' color='blue' onPress={() => sms(phone)} />
   )
+
+  _smsAll = pax => {
+    const { modifiedPax } = this.props
+    const data = getMap({ pax, modifiedPax })
+    sms(getPhoneNumbers(data))
+  }
 
   _renderHeader = trip => {
     const name = trip.get('name')
@@ -144,14 +152,6 @@ export default class Trip extends Component {
     )
   }
 
-  _smsAll = pax => {
-    const numbers = pax
-      .filter(p => !!p.get('phone'))
-      .map(p => p.get('phone'))
-      .join(',')
-    sms(numbers)
-  }
-
   _renderFooter = pax => {
     return (
       <CardItem footer>
@@ -183,6 +183,12 @@ export default class Trip extends Component {
     )
   }
 }
+
+const stateToProps = state => ({
+  modifiedPax: getModifiedPax(state)
+})
+
+export default connect(stateToProps, null)(Trip)
 
 const ss = StyleSheet.create({
   boldText: {

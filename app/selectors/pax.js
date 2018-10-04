@@ -1,2 +1,2 @@
 
-export const getPaxFromStore = state => state.pax
+export const getModifiedPax = state => state.modifiedPax

@@ -40,8 +40,29 @@ const resolvers = {
     }).flatten(1) // one level flatten
   },
 
-  participants: pax => {
-    
+  phoneNumbers: data => {
+    const pax = data.get('pax')
+    const modifiedPax = data.get('modifiedPax')
+    return pax.filter(p => {
+      const paxId = String(p.get('id'))
+      const mp = modifiedPax.get(paxId) || p
+      return !!mp.get('phone')
+    }).map(p => {
+      const paxId = String(p.get('id'))
+      const mp = modifiedPax.get(paxId) || p
+      return mp
+    }).map(p => p.get('phone')).join(',')
+  },
+
+  participatingPax: data => {
+    const pax = data.get('pax')
+    const participants = data.get('participants')
+    return pax.filter(p => {
+      const paxId = String(p.get('id'))
+      const hasExcursionPack = p.get('excursionPack')
+      const isParticipating = participants ? participants.has(paxId) : false
+      return hasExcursionPack || isParticipating
+    })
   }
 
 }
@@ -86,6 +107,22 @@ export const preparePaxData = pax => {
     paxDataCache = new Cache(resolvers.paxData)
   }
   return paxDataCache.getData(pax)
+}
+
+let phoneNumbersCache = null
+export const getPhoneNumbers = data => {
+  if (!phoneNumbersCache) {
+    phoneNumbersCache = new Cache(resolvers.phoneNumbers)
+  }
+  return phoneNumbersCache.getData(data)
+}
+
+let participatingPaxCache = null
+export const getParticipatingPax = data => {
+  if (!participatingPaxCache) {
+    participatingPaxCache = new Cache(resolvers.participatingPax)
+  }
+  return participatingPaxCache.getData(data)
 }
 
 /**

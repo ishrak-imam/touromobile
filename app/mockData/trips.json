@@ -1091,7 +1091,7 @@
             "firstName": "Carl Gustaf",
             "lastName": "Holmström",
             "ssn": "1948-01-13",
-            "phone": null,
+            "phone": 111111,
             "comment": null,
             "excursionPack": false
           },

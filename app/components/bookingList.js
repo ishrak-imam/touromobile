@@ -4,7 +4,7 @@ import {
 } from 'native-base'
 import { getSortedBookings, filterBookingBySearchText } from '../selectors'
 import IconButton from '../components/iconButton'
-import { Text as Sms } from 'react-native-openanything'
+import { sms } from '../utils/comms'
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import SearchBar from '../components/searchBar'
@@ -39,7 +39,7 @@ export default class BookingList extends Component {
           {paxNames}
         </Body>
         <Right>
-          {!!phones && <IconButton name='sms' color='blue' onPress={() => Sms(phones)} />}
+          {!!phones && <IconButton name='sms' color='blue' onPress={() => sms(phones)} />}
         </Right>
       </ListItem>
     )

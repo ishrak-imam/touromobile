@@ -5,7 +5,7 @@ import {
 } from 'native-base'
 import {
   getSortedPax, preparePaxData,
-  filterPaxBySearchText, getPaxFromStore
+  filterPaxBySearchText, getModifiedPax
 } from '../selectors'
 import IconButton from '../components/iconButton'
 import { call, sms } from '../utils/comms'
@@ -88,7 +88,7 @@ class PaxList extends Component {
   shouldComponentUpdate (nextProps, nextState) {
     return !nextProps.trip.equals(this.props.trip) ||
             nextState.searchText !== this.state.searchText ||
-            !nextProps.paxStore.equals(this.props.paxStore)
+            !nextProps.modifiedPax.equals(this.props.modifiedPax)
   }
 
   _toPaxDetails = pax => {
@@ -99,9 +99,9 @@ class PaxList extends Component {
   }
 
   _renderPerson = ({ item }) => {
-    const { paxStore } = this.props
+    const { modifiedPax } = this.props
     const id = String(item.get('id'))
-    const pax = paxStore.get('modifiedData').get(id) || item
+    const pax = modifiedPax.get(id) || item
     return (
       <PaxItem
         pax={pax}
@@ -146,7 +146,7 @@ class PaxList extends Component {
 }
 
 const stateToProps = state => ({
-  paxStore: getPaxFromStore(state)
+  modifiedPax: getModifiedPax(state)
 })
 
 export default connect(stateToProps, null)(PaxList)

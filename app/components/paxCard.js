@@ -14,15 +14,15 @@ import isIOS from '../utils/isIOS'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { modifyPaxData } from '../modules/pax/action'
 import { connect } from 'react-redux'
-import { getPaxFromStore } from '../selectors'
+import { getModifiedPax } from '../selectors'
 const _T = Translator('PaxDetailsScreen')
 
 class PaxCard extends Component {
   constructor (props) {
     super(props)
-    const { pax, paxInStore } = props
+    const { pax, modifiedPax } = props
     const paxId = String(pax.get('id'))
-    const modifiedData = paxInStore.get('modifiedData').get(paxId)
+    const modifiedData = modifiedPax.get(paxId)
     if (!modifiedData) {
       actionDispatcher(modifyPaxData({
         key: String(pax.get('id')),
@@ -39,9 +39,9 @@ class PaxCard extends Component {
   }
 
   _toggleEditMode = () => {
-    const { pax, paxInStore } = this.props
+    const { pax, modifiedPax } = this.props
     const paxId = String(pax.get('id'))
-    const modifiedData = paxInStore.get('modifiedData').get(paxId)
+    const modifiedData = modifiedPax.get(paxId)
     this.setState({
       editMode: !this.state.editMode,
       phone: modifiedData.get('phone'),
@@ -168,9 +168,9 @@ class PaxCard extends Component {
   }
 
   _onCancel = () => {
-    const { pax, paxInStore } = this.props
+    const { pax, modifiedPax } = this.props
     const paxId = String(pax.get('id'))
-    const modifiedData = paxInStore.get('modifiedData').get(paxId)
+    const modifiedData = modifiedPax.get(paxId)
     this.setState({
       editMode: false,
       phone: modifiedData.get('phone'),
@@ -212,25 +212,25 @@ class PaxCard extends Component {
   }
 
   render () {
-    const { pax, paxInStore } = this.props
+    let { pax, modifiedPax } = this.props
     const id = String(pax.get('id'))
-    const modifiedPax = paxInStore.get('modifiedData').get(id) || pax
+    pax = modifiedPax.get(id) || pax
 
     const { editMode, phone, comment } = this.state
-    const booking = modifiedPax.get('booking')
-    const excursion = modifiedPax.get('excursionPack')
-    const coPax = modifiedPax.get('booking').get('pax')
+    const booking = pax.get('booking')
+    const excursion = pax.get('excursionPack')
+    const coPax = pax.get('booking').get('pax')
     return (
       <KeyboardAwareScrollView
         extraScrollHeight={isIOS ? 0 : 200}
         enableOnAndroid
         keyboardShouldPersistTaps='always'
       >
-        {this._renderPxName(modifiedPax)}
+        {this._renderPxName(pax)}
         {this._renderPhone(phone)}
         {this._renderBooking(booking)}
         {!!excursion && this._renderExcursion()}
-        {!!coPax.size && this._renderCoPax(coPax, modifiedPax)}
+        {!!coPax.size && this._renderCoPax(coPax, pax)}
         {this._renderComment(comment)}
         {editMode && this._renderFooterButtons()}
       </KeyboardAwareScrollView>
@@ -239,7 +239,7 @@ class PaxCard extends Component {
 }
 
 const stateToProps = state => ({
-  paxInStore: getPaxFromStore(state)
+  modifiedPax: getModifiedPax(state)
 })
 
 export default connect(stateToProps, null)(PaxCard)

@@ -8,11 +8,9 @@ import {
 
 import { PAX_INITIAL_STATE } from './immutable'
 
-export const pax = createReducer(PAX_INITIAL_STATE, {
+export const modifiedPax = createReducer(PAX_INITIAL_STATE, {
   [MODIFY_PAX_DATA]: (state, payload) => {
-    const modifiedData = readValue('modifiedData', state)
-    const pax = readValue(payload.key, modifiedData) || getMap({})
-    const finalData = setIntoMap(modifiedData, payload.key, mergeMapShallow(pax, getMap(payload.pax)))
-    return setIntoMap(state, 'modifiedData', finalData)
+    const pax = readValue(payload.key, state) || getMap({})
+    return setIntoMap(state, payload.key, mergeMapShallow(pax, getMap(payload.pax)))
   }
 })

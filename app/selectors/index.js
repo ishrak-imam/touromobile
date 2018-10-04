@@ -15,7 +15,9 @@ export const {
   filterBookingBySearchText,
   getSortedPax,
   getSortedBookings,
-  preparePaxData
+  preparePaxData,
+  getPhoneNumbers,
+  getParticipatingPax
 } = require('./trip')
 
 export const {
@@ -29,5 +31,5 @@ export const {
 } = require('./navigation')
 
 export const {
-  getPaxFromStore
+  getModifiedPax
 } = require('./pax')
