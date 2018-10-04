@@ -7,7 +7,7 @@ import {
 const OutLineButton = ({ onPress, text, textColor, style }) => {
   return (
     <TouchableOpacity style={[ss.button, style]} onPress={onPress}>
-      <Text style={{color: textColor}}>{text}</Text>
+      <Text style={{ color: textColor }}>{text}</Text>
     </TouchableOpacity>
   )
 }

@@ -142,7 +142,6 @@ class PaxCard extends Component {
 
   _renderCommentInput = comment => {
     const { editMode } = this.state
-    console.log(comment)
     return editMode
       ? <TextInput
         underlineColorAndroid='transparent'
@@ -183,14 +182,14 @@ class PaxCard extends Component {
     const { pax } = this.props
     const { phone, comment } = this.state
 
-    if (!phone && !comment) return
+    // if (!phone && !comment) return
+    // const update = {}
+    // if (phone) update.phone = phone
+    // if (comment) update.comment = comment
 
-    const update = {}
-    if (phone) update.phone = phone
-    if (comment) update.comment = comment
     actionDispatcher(modifyPaxData({
       key: String(pax.get('id')),
-      pax: update
+      pax: { phone, comment }
     }))
     this.setState({
       editMode: false,
