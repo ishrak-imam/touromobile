@@ -2,18 +2,22 @@ import React, { Component } from 'react'
 import {
   View, Text, ListItem, Body, Right
 } from 'native-base'
-import { getSortedBookings, filterBookingBySearchText } from '../selectors'
+import {
+  getSortedBookings, getModifiedPax,
+  filterBookingBySearchText, getPhoneNumbers
+} from '../selectors'
 import IconButton from '../components/iconButton'
 import { sms } from '../utils/comms'
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import SearchBar from '../components/searchBar'
 import NoData from '../components/noData'
-
+import { connect } from 'react-redux'
 import Translator from '../utils/translator'
+import { getMap } from '../utils/immutable'
 const _T = Translator('PassengersScreen')
 
-export default class BookingList extends Component {
+class BookingList extends Component {
   /**
    * currently this is just a dumb component only receiving
    * some props. So any re-render optimization is not needed
@@ -27,11 +31,13 @@ export default class BookingList extends Component {
   }
 
   _renderBooking = ({ item }) => {
+    const { modifiedPax } = this.props
     const id = item.get('id')
     const pax = item.get('pax')
     const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
-    const phones = pax.filter(p => p.get('phone')).map(p => p.get('phone')).join(',')
+    const phones = getPhoneNumbers(getMap({ pax, modifiedPax }))
+
     return (
       <ListItem onPress={() => {}}>
         <Body>
@@ -82,6 +88,12 @@ export default class BookingList extends Component {
     )
   }
 }
+
+const stateToProps = state => ({
+  modifiedPax: getModifiedPax(state)
+})
+
+export default connect(stateToProps, null)(BookingList)
 
 const ss = StyleSheet.create({
   container: {
