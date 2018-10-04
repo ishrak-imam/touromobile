@@ -63,6 +63,19 @@ const resolvers = {
       const isParticipating = participants ? participants.has(paxId) : false
       return hasExcursionPack || isParticipating
     })
+  },
+
+  modifiedPaxByBooking: data => {
+    const pax = data.get('pax')
+    const modifiedPax = data.get('modifiedPax')
+    return pax.reduce((m, p) => {
+      const paxId = String(p.get('id'))
+      const mp = modifiedPax.get(paxId)
+      if (mp) {
+        m = m.set(paxId, mp)
+      }
+      return m
+    }, getMap({}))
   }
 
 }
@@ -125,6 +138,14 @@ export const getParticipatingPax = data => {
   return participatingPaxCache.getData(data)
 }
 
+let modifiedPaxByBookingCache = null
+export const getModifiedPaxByBooking = data => {
+  if (!modifiedPaxByBookingCache) {
+    modifiedPaxByBookingCache = new Cache(resolvers.modifiedPaxByBooking)
+  }
+  return modifiedPaxByBookingCache.getData(data)
+}
+
 /**
  * TODO:
  * Find a way to cache the result
@@ -165,7 +186,7 @@ const SEARCH_TEXT_TYPES = {
   textWithSpace: 'textWithSpace'
 }
 
-function getSearchTextType (text) {
+const getSearchTextType = text => {
   if (!isNaN(parseInt(text))) {
     return SEARCH_TEXT_TYPES.number
   }

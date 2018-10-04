@@ -3,7 +3,7 @@ import {
   View, Text, ListItem, Body, Right
 } from 'native-base'
 import {
-  getSortedBookings, getModifiedPax,
+  getSortedBookings, getModifiedPax, getModifiedPaxByBooking,
   filterBookingBySearchText, getPhoneNumbers
 } from '../selectors'
 import IconButton from '../components/iconButton'
@@ -59,19 +59,11 @@ class BookingList extends Component {
   }
 
   _renderBooking = ({ item }) => {
-    let { modifiedPax } = this.props
+    const { modifiedPax } = this.props
     const pax = item.get('pax')
-    modifiedPax = pax.reduce((m, p) => {
-      const paxId = String(p.get('id'))
-      const mp = modifiedPax.get(paxId)
-      if (mp) {
-        m = m.set(paxId, mp)
-      }
-      return m
-    }, getMap({}))
-
+    const filteredModifiedPax = getModifiedPaxByBooking(getMap({ pax, modifiedPax }))
     return (
-      <BookingItem booking={item} modifiedPax={modifiedPax} />
+      <BookingItem booking={item} modifiedPax={filteredModifiedPax} />
     )
   }
 
