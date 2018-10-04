@@ -17,12 +17,40 @@ import Translator from '../utils/translator'
 import { getMap } from '../utils/immutable'
 const _T = Translator('PassengersScreen')
 
-class BookingList extends Component {
-  /**
-   * currently this is just a dumb component only receiving
-   * some props. So any re-render optimization is not needed
-   */
+class BookingItem extends Component {
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.booking.equals(this.props.booking) ||
+            !nextProps.modifiedPax.equals(this.props.modifiedPax)
+  }
 
+  _sms = phones => {
+    return () => {
+      sms(phones)
+    }
+  }
+
+  render () {
+    const { booking, modifiedPax } = this.props
+    const id = booking.get('id')
+    const pax = booking.get('pax')
+    const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+    const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
+    const phones = getPhoneNumbers(getMap({ pax, modifiedPax }))
+    return (
+      <ListItem>
+        <Body>
+          <Text>{id}</Text>
+          {paxNames}
+        </Body>
+        <Right>
+          {!!phones && <IconButton name='sms' color='blue' onPress={this._sms(phones)} />}
+        </Right>
+      </ListItem>
+    )
+  }
+}
+
+class BookingList extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -31,23 +59,19 @@ class BookingList extends Component {
   }
 
   _renderBooking = ({ item }) => {
-    const { modifiedPax } = this.props
-    const id = item.get('id')
+    let { modifiedPax } = this.props
     const pax = item.get('pax')
-    const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
-    const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
-    const phones = getPhoneNumbers(getMap({ pax, modifiedPax }))
+    modifiedPax = pax.reduce((m, p) => {
+      const paxId = String(p.get('id'))
+      const mp = modifiedPax.get(paxId)
+      if (mp) {
+        m = m.set(paxId, mp)
+      }
+      return m
+    }, getMap({}))
 
     return (
-      <ListItem onPress={() => {}}>
-        <Body>
-          <Text>{id}</Text>
-          {paxNames}
-        </Body>
-        <Right>
-          {!!phones && <IconButton name='sms' color='blue' onPress={() => sms(phones)} />}
-        </Right>
-      </ListItem>
+      <BookingItem booking={item} modifiedPax={modifiedPax} />
     )
   }
 
