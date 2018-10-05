@@ -22,9 +22,11 @@ import Translator from '../utils/translator'
 const _T = Translator('DrawerScreen')
 
 const menuItems = [
-  { routeName: 'Trip', text: 'Current trip', icon: 'home' },
-  { routeName: 'FutureTrips', text: 'Future trips', icon: 'futureTrips' }
+  { routeName: 'Trip', text: 'currentTrip', icon: 'home' },
+  { routeName: 'FutureTrips', text: 'futureTrips', icon: 'futureTrips' }
 ]
+
+console.log(menuItems)
 
 class TMDrawer extends Component {
   _logOut = () => {
@@ -100,7 +102,7 @@ class TMDrawer extends Component {
         <ListItem style={[ss.menuItem, { backgroundColor }]} key={index} onPress={onPress}>
           <IonIcon name={icon} style={ss.icon} color={color} />
           <Body>
-            <Text style={{ color }}>{text}</Text>
+            <Text style={{ color }}>{_T(text)}</Text>
           </Body>
         </ListItem>
       )

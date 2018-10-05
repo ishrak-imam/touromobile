@@ -7,7 +7,9 @@ export default {
     forgotPass: 'I forgot my password'
   },
   DrawerScreen: {
-    logout: 'Log out'
+    logout: 'Log out',
+    currentTrip: 'Current trip',
+    futureTrips: 'Future trips'
   },
   CurrentTripScreen: {
     title: 'Current trip',
@@ -35,7 +37,12 @@ export default {
     title: 'Future trips'
   },
   ReportsScreen: {
-    title: 'Reports'
+    title: 'Reports',
+    totalPax: 'Total passengers',
+    excursion: 'Excursion',
+    participants: 'Participants',
+    share: 'Share',
+    upload: 'Upload'
   },
   RestaurantScreen: {
     address: 'Address',

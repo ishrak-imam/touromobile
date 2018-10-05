@@ -248,7 +248,8 @@ const ss = StyleSheet.create({
     justifyContent: 'space-around',
     marginVertical: 5,
     marginHorizontal: 10,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: Colors.headerBg,
     padding: 2,
     borderRadius: 5
   },
@@ -269,6 +270,7 @@ const ss = StyleSheet.create({
   sortText: {
     color: Colors.silver,
     fontSize: 14,
-    lineHeight: 13
+    lineHeight: 13,
+    fontWeight: 'bold'
   }
 })

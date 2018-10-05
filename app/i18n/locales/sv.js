@@ -7,7 +7,9 @@ export default {
     forgotPass: 'Jag har glömt mitt lösenord'
   },
   DrawerScreen: {
-    logout: 'Logga ut'
+    logout: 'Logga ut',
+    currentTrip: 'Nuvarande resa',
+    futureTrips: 'Framtida resor'
   },
   CurrentTripScreen: {
     title: 'Nuvarande resa',
@@ -35,7 +37,12 @@ export default {
     title: 'Framtida resor'
   },
   ReportsScreen: {
-    title: 'Rapporter'
+    title: 'Rapporter',
+    totalPax: 'Totalt passagerare',
+    excursion: 'Utflykt',
+    participants: 'Deltagare',
+    share: 'Dela med sig',
+    upload: 'Ladda upp'
   },
   RestaurantScreen: {
     address: 'Adress',

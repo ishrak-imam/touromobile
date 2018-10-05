@@ -15,6 +15,8 @@ import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
 import Button from '../components/button'
 import { IonIcon } from '../theme'
+import Translator from '../utils/translator'
+const _T = Translator('ReportsScreen')
 
 const bgColors = ['#edeaea', '#ffffff']
 
@@ -50,7 +52,7 @@ class Stats extends Component {
   _renderTop = paxCount => {
     return (
       <CardItem>
-        <Body><Text style={ss.boldText}>Total passengers: {paxCount}</Text></Body>
+        <Body><Text style={ss.boldText}>{_T('totalPax')}: {paxCount}</Text></Body>
       </CardItem>
     )
   }
@@ -59,13 +61,13 @@ class Stats extends Component {
     return (
       <ListItem style={ss.item}>
         <Left style={ss.left}>
-          <Text style={ss.boldText}>Excursion</Text>
+          <Text style={ss.boldText}>{_T('excursion')}</Text>
         </Left>
         <Body style={ss.body}>
-          <Text style={ss.boldText}>Participants</Text>
+          <Text style={ss.boldText}>{_T('participants')}</Text>
         </Body>
         <Right style={ss.right}>
-          <Text style={ss.boldText}>Share</Text>
+          <Text style={ss.boldText}>{_T('share')}</Text>
         </Right>
       </ListItem>
     )
@@ -103,7 +105,7 @@ class Stats extends Component {
       <CardItem>
         <Button iconLeft style={ss.footerButton} onPress={() => {}}>
           <IonIcon name='upload' color='white' />
-          <Text>Upload</Text>
+          <Text>{_T('upload')}</Text>
         </Button>
       </CardItem>
     )
@@ -158,7 +160,7 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   right: {
-    flex: 1,
+    flex: 2,
     alignItems: 'center'
   },
   boldText: {
