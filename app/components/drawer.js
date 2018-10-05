@@ -26,8 +26,6 @@ const menuItems = [
   { routeName: 'FutureTrips', text: 'futureTrips', icon: 'futureTrips' }
 ]
 
-console.log(menuItems)
-
 class TMDrawer extends Component {
   _logOut = () => {
     this.props.dispatch(logoutReq())
