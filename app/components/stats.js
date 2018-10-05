@@ -5,16 +5,13 @@ import {
   View, CardItem, Left, Body, Right, Text,
   ListItem
 } from 'native-base'
-import { connect } from 'react-redux'
 import {
-  getParticipants, getPax, getSortedExcursions,
+  getPax, getSortedExcursions,
   getParticipatingPax
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
-import Button from '../components/button'
-import { IonIcon } from '../theme'
 import Translator from '../utils/translator'
 const _T = Translator('ReportsScreen')
 
@@ -48,7 +45,7 @@ class StatItem extends Component {
   }
 }
 
-class Stats extends Component {
+export default class Stats extends Component {
   _renderTop = paxCount => {
     return (
       <CardItem>
@@ -87,7 +84,7 @@ class Stats extends Component {
     }
   }
 
-  _renderList = (pax) => {
+  _renderList = pax => {
     const { trip } = this.props
     const sortedExcursions = getSortedExcursions(trip)
 
@@ -100,17 +97,6 @@ class Stats extends Component {
     )
   }
 
-  _renderUploadButton = () => {
-    return (
-      <CardItem>
-        <Button iconLeft style={ss.footerButton} onPress={() => {}}>
-          <IonIcon name='upload' color='white' />
-          <Text>{_T('upload')}</Text>
-        </Button>
-      </CardItem>
-    )
-  }
-
   _renderStats = () => {
     const { trip } = this.props
     const pax = getPax(trip)
@@ -119,7 +105,6 @@ class Stats extends Component {
         {this._renderTop(pax.size)}
         {this._renderListHeader()}
         {this._renderList(pax)}
-        {this._renderUploadButton()}
       </View>
     )
   }
@@ -135,12 +120,6 @@ class Stats extends Component {
     )
   }
 }
-
-const stateToProps = state => ({
-  participants: getParticipants(state)
-})
-
-export default connect(stateToProps, null)(Stats)
 
 const ss = StyleSheet.create({
   container: {
@@ -164,10 +143,7 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   boldText: {
-    fontWeight: 'bold'
-  },
-  footerButton: {
-    flex: 1,
-    justifyContent: 'center'
+    fontWeight: 'bold',
+    fontSize: 15
   }
 })

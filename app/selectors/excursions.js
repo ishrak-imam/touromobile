@@ -3,6 +3,7 @@ import Cache from '../utils/cache'
 
 export const getExcursions = state => state.excursions
 export const getParticipants = state => state.excursions.get('participants')
+export const getTripExcursions = state => state.trips.getIn(['current', 'trip', 'excursions'])
 
 const resolvers = {
   sortedExcursions: trip => {

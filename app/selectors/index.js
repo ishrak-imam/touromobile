@@ -25,7 +25,8 @@ export const {
 export const {
   getExcursions,
   getParticipants,
-  getSortedExcursions
+  getSortedExcursions,
+  getTripExcursions
 } = require('./excursions')
 
 export const {
