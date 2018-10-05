@@ -80,7 +80,7 @@ const ss = StyleSheet.create({
     backgroundColor: Colors.headerBg
   },
   left: {
-    flex: 2
+    flex: 1
   },
   body: {
     flex: 4,

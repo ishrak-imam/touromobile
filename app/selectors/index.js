@@ -18,7 +18,8 @@ export const {
   preparePaxData,
   getPhoneNumbers,
   getParticipatingPax,
-  getModifiedPaxByBooking
+  getModifiedPaxByBooking,
+  getSortedPaxByBookingId
 } = require('./trip')
 
 export const {

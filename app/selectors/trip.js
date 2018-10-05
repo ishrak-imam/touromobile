@@ -17,10 +17,15 @@ const resolvers = {
   sortedPax: data => {
     const bookings = data.get('bookings')
     return bookings.map(b => {
-      return b.get('pax')
-        .map(p => setIntoMap(p, 'booking', b))
-    }).flatten(1) // one level deep flatten
-      .sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+    }).flatten(1).sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+  },
+
+  sortedPaxByBookingId: data => {
+    const bookings = data.get('bookings')
+    return bookings.sortBy(b => b.get('id')).map(b => {
+      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+    }).flatten(1)
   },
 
   sortedBookings: data => {
@@ -104,6 +109,14 @@ export const getSortedPax = trip => {
     sortedPaxCache = new Cache(resolvers.sortedPax)
   }
   return sortedPaxCache.getData(trip)
+}
+
+let sortedPaxByBookingIdCache = null
+export const getSortedPaxByBookingId = trip => {
+  if (!sortedPaxByBookingIdCache) {
+    sortedPaxByBookingIdCache = new Cache(resolvers.sortedPaxByBookingId)
+  }
+  return sortedPaxByBookingIdCache.getData(trip)
 }
 
 let sortedBookingCache = null

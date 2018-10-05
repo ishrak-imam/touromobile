@@ -7,7 +7,10 @@ import {
 import SearchBar from '../../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
-import { getSortedPax, getTrips, getExcursions, filterPaxBySearchText } from '../../selectors'
+import {
+  getSortedPax, getTrips,
+  getExcursions, filterPaxBySearchText, getSortedPaxByBookingId
+} from '../../selectors'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
 import { getSet } from '../../utils/immutable'
@@ -16,6 +19,7 @@ import { setParticipants } from './action'
 import { IonIcon, Colors } from '../../theme'
 import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
+import Switch from '../../components/switch'
 
 const PARTICIPATING = 'PARTICIPATING'
 const ALL = 'ALL'
@@ -63,7 +67,8 @@ class ExcursionDetailsScreen extends Component {
     this.state = {
       participants: participants || getSet([]),
       searchText: '',
-      filter: PARTICIPATING
+      filter: PARTICIPATING,
+      sort: false
     }
   }
 
@@ -158,15 +163,46 @@ class ExcursionDetailsScreen extends Component {
     })
   }
 
+  _renderRight = () => {
+    const { sort } = this.state
+    // const iconColor = Colors.silver
+    const switchColor = Colors.headerBg
+    // const iconSize = 16
+    return (
+      <View style={ss.headerRight}>
+        {/* <IonIcon name='down' color={iconColor} size={iconSize} /> */}
+        <View style={{ paddingRight: 5 }}>
+          <Text style={ss.sortText}>A</Text>
+          <Text style={ss.sortText}>Z</Text>
+        </View>
+        <Switch
+          isOn={sort}
+          onColor={switchColor}
+          offColor={switchColor}
+          onToggle={this._onToggle}
+        />
+        {/* <IonIcon name='down' color={iconColor} size={iconSize} /> */}
+        <View style={{ paddingLeft: 5 }}>
+          <Text style={ss.sortText}>1</Text>
+          <Text style={ss.sortText}>9</Text>
+        </View>
+      </View>
+    )
+  }
+
+  _onToggle = sort => {
+    this.setState({ sort })
+  }
+
   render () {
     const { navigation, trips, excursions } = this.props
-    const { searchText, filter } = this.state
+    const { searchText, filter, sort } = this.state
     const trip = trips.getIn(['current', 'trip'])
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
     const participants = excursions.get('participants').get(excursionId)
 
-    let sortedPax = getSortedPax(trip)
+    let sortedPax = sort ? getSortedPaxByBookingId(trip) : getSortedPax(trip)
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
@@ -177,7 +213,12 @@ class ExcursionDetailsScreen extends Component {
 
     return (
       <Container>
-        <Header left='back' title={excursion.get('name')} navigation={navigation} />
+        <Header
+          left='back'
+          title={excursion.get('name')}
+          navigation={navigation}
+          right={this._renderRight}
+        />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
         {this._renderTabs()}
         {this._renderPersons(sortedPax, participants)}
@@ -217,5 +258,17 @@ const ss = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 7,
     borderRadius: 5
+  },
+  headerRight: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginRight: 5
+  },
+  sortText: {
+    color: Colors.silver,
+    fontSize: 14,
+    lineHeight: 13
   }
 })
