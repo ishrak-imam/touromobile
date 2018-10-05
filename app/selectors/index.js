@@ -36,3 +36,7 @@ export const {
 export const {
   getModifiedPax
 } = require('./pax')
+
+export const {
+  getWarningModal
+} = require('./modal')

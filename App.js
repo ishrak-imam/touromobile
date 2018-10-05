@@ -8,6 +8,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { AppLoading } from 'expo'
 import cacheAssestsAsync from './app/utils/assetsCache'
 import I18n from './app/i18n'
+
+import WarningModal from './app/modal/warning'
+
 console.disableYellowBox = true
 
 export default class TouroMobile extends Component {
@@ -51,6 +54,8 @@ export default class TouroMobile extends Component {
           <PersistGate loading={null} persistor={persistor}>
             <Root>
               <App />
+
+              <WarningModal />
             </Root>
           </PersistGate>
         </Provider>

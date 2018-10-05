@@ -32,7 +32,8 @@ const getIconName = (name) => {
     futureTrips: ['ios-paper-plane', 'md-paper-plane'],
     star: ['ios-star', 'md-star'],
     bus: ['ios-bus', 'md-bus'],
-    airplane: ['ios-plane', 'md-plane']
+    airplane: ['ios-plane', 'md-plane'],
+    warning: ['ios-warning', 'md-warning']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]

@@ -8,6 +8,7 @@ import { IMAGE_CACHE_INITIAL_STATE } from '../components/imageCache/immutable'
 import { APP_INITIAL_STATE } from '../modules/app/immutable'
 import { EXCURSIONS_INITIAL_STATE } from '../modules/excursions/immutable'
 import { PAX_INITIAL_STATE } from '../modules/pax/immutable'
+import { MODAL_INITIAL_STATE } from '../modal/immutable'
 
 export const getInitialState = () => {
   // return getMap({
@@ -25,6 +26,7 @@ export const getInitialState = () => {
     imageCache: IMAGE_CACHE_INITIAL_STATE,
     app: APP_INITIAL_STATE,
     excursions: EXCURSIONS_INITIAL_STATE,
-    modifiedPax: PAX_INITIAL_STATE
+    modifiedPax: PAX_INITIAL_STATE,
+    modal: MODAL_INITIAL_STATE
   }
 }

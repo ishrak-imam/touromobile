@@ -13,6 +13,7 @@ import {
 import Trip from '../../components/trip'
 import { getTrips, getUser } from '../../selectors'
 import NoData from '../../components/noData'
+
 const _T = Translator('CurrentTripScreen')
 
 class TripScreen extends Component {

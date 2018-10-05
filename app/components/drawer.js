@@ -13,12 +13,16 @@ import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { logoutReq } from '../modules/auth/action'
+import { actionDispatcher } from '../utils/actionDispatcher'
 import {
   getLogin,
   getNavigation
   // getTrips
 } from '../selectors'
 import Translator from '../utils/translator'
+
+import { showModal } from '../modal/action'
+
 const _T = Translator('DrawerScreen')
 
 const menuItems = [
@@ -28,7 +32,15 @@ const menuItems = [
 
 class TMDrawer extends Component {
   _logOut = () => {
-    this.props.dispatch(logoutReq())
+    actionDispatcher(logoutReq())
+  }
+
+  _showWarning = () => {
+    actionDispatcher(showModal({
+      type: 'warning',
+      text: 'Modified trip data will be lost permanently.',
+      onOk: this._logOut
+    }))
   }
 
   _renderHeader = () => {
@@ -118,7 +130,7 @@ class TMDrawer extends Component {
   _renderFooter = () => {
     return (
       <Footer style={ss.footer}>
-        <TouchableOpacity style={ss.footerContainer} onPress={this._logOut}>
+        <TouchableOpacity style={ss.footerContainer} onPress={this._showWarning}>
           <IonIcon name='logout' style={ss.icon} />
           <Text>{_T('logout')}</Text>
         </TouchableOpacity>
@@ -143,7 +155,7 @@ const stateToProps = state => ({
   // trips: getTrips(state)
 })
 
-export default connect(stateToProps, dispatch => ({ dispatch }))(TMDrawer)
+export default connect(stateToProps, null)(TMDrawer)
 
 const ss = StyleSheet.create({
   header: {

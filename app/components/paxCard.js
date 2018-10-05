@@ -205,8 +205,8 @@ class PaxCard extends Component {
   _renderFooterButtons = () => {
     return (
       <CardItem style={{ justifyContent: 'flex-end' }}>
-        <OutLineButton text='Cancel' textColor={Colors.silver} style={[ss.footerButton, { backgroundColor: Colors.cancel }]} onPress={this._onCancel} />
-        <OutLineButton text='Save' textColor={Colors.silver} style={[ss.footerButton, { backgroundColor: Colors.green }]} onPress={this._onSave} />
+        <OutLineButton text='Cancel' style={{ backgroundColor: Colors.cancel }} onPress={this._onCancel} />
+        <OutLineButton text='Save' style={{ backgroundColor: Colors.green }} onPress={this._onSave} />
       </CardItem>
     )
   }

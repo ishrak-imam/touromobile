@@ -11,6 +11,7 @@ import * as connectionReducer from '../connection/reducer'
 import * as tripsReducer from '../modules/trips/reducer'
 import * as excursionsReducer from '../modules/excursions/reducer'
 import * as paxReducer from '../modules/pax/reducer'
+import * as modalReducer from '../modal/reducer'
 
 const allReducers = combineReducers({
   ...navReducers,
@@ -20,7 +21,8 @@ const allReducers = combineReducers({
   ...authReducers,
   ...tripsReducer,
   ...excursionsReducer,
-  ...paxReducer
+  ...paxReducer,
+  ...modalReducer
 })
 
 const rootReduces = (state, action) => {
