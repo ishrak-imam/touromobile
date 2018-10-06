@@ -1,18 +1,16 @@
-
 import React, { Component } from 'react'
 import {
   View, Text, StyleSheet, Dimensions,
-  TouchableOpacity
+  TouchableOpacity, Modal
 } from 'react-native'
 import { IonIcon, Colors } from '../theme'
-import Modal from 'react-native-modalbox'
 import { connect } from 'react-redux'
 import { closeModal } from './action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { getWarningModal } from '../selectors'
 
 const { height, width } = Dimensions.get('window')
-const heightOffset = 450
+const heightOffset = 400
 const widthOffset = 100
 
 const modalHeight = height - heightOffset
@@ -33,25 +31,26 @@ class WarningModal extends Component {
     const { warning } = this.props
     return (
       <Modal
-        style={ss.modal}
-        position={'center'}
-        backdrop
-        swipeToClose={false}
-        backdropPressToClose={false}
-        isOpen={warning.get('visible')}
+        animationType='fade'
+        transparent
+        visible={warning.get('visible')}
+        onRequestClose={() => {}}
+        useNativeDriver
       >
-        <View style={ss.wrapper}>
-          <View style={ss.body}>
-            <IonIcon name='warning' color={Colors.fire} size={60} />
-            <Text style={ss.warningText}>{warning.get('text')}</Text>
-          </View>
-          <View style={ss.footer}>
-            <TouchableOpacity style={ss.cancel} onPress={this._onCancel}>
-              <Text style={ss.buttonText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={ss.ok} onPress={this._onOk}>
-              <Text style={ss.buttonText}>Ok</Text>
-            </TouchableOpacity>
+        <View style={ss.modal}>
+          <View style={ss.container}>
+            <View style={ss.body}>
+              <IonIcon name='warning' color={Colors.fire} size={60} />
+              <Text style={ss.warningText}>{warning.get('text')}</Text>
+            </View>
+            <View style={ss.footer}>
+              <TouchableOpacity style={ss.cancel} onPress={this._onCancel}>
+                <Text style={ss.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={ss.ok} onPress={this._onOk}>
+                <Text style={ss.buttonText}>Ok</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -67,14 +66,16 @@ export default connect(stateToProps, null)(WarningModal)
 
 const ss = StyleSheet.create({
   modal: {
-    height: modalHeight,
-    width: modalWidth,
-    borderRadius: 7
-  },
-  wrapper: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+  container: {
+    height: modalHeight,
+    width: modalWidth,
+    borderRadius: 7,
+    backgroundColor: Colors.silver
   },
   body: {
     flex: 2,

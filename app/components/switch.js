@@ -20,7 +20,8 @@ export default class TMSwitch extends React.Component {
         })
       default:
         return ({
-          width: 50, padding: 12, circleWidth: 20, circleHeight: 20, translateX: 26
+          // width: 50, padding: 12, circleWidth: 20, circleHeight: 20, translateX: 26
+          width: 45, padding: 10, circleWidth: 16, circleHeight: 16, translateX: 20
         })
     }
   }
@@ -90,8 +91,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'white',
+    // borderWidth: 2,
+    backgroundColor: 'white',
+    padding: 2,
     borderRadius: 20
   }
 })
