@@ -115,10 +115,14 @@ class Excursions extends Component {
   }
 }
 
-const stateToProps = state => ({
-  participants: getParticipants(state),
-  modifiedPax: getModifiedPax(state)
-})
+const stateToProps = (state, props) => {
+  const { trip } = props
+  const departureId = String(trip.get('departureId'))
+  return {
+    participants: getParticipants(state, departureId),
+    modifiedPax: getModifiedPax(state, departureId)
+  }
+}
 
 export default connect(stateToProps, null)(Excursions)
 
