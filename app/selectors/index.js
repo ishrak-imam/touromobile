@@ -8,6 +8,8 @@ export const getImageCache = state => state.imageCache
 
 export const {
   getTrips,
+  currentTripSelector,
+  futureTripsSelector,
   getCurrentTrip,
   getFutureTrips,
   getPax,

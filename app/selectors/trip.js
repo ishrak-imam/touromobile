@@ -87,6 +87,10 @@ const resolvers = {
 
 export const getTrips = state => state.trips
 
+export const currentTripSelector = state => state.trips.get('current')
+
+export const futureTripsSelector = state => state.trips.get('future')
+
 let sortedTripsCache = null
 export const getSortedTrips = trips => {
   if (!sortedTripsCache) {

@@ -8,7 +8,7 @@ import SearchBar from '../../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
 import {
-  getSortedPax, getTrips,
+  getSortedPax, currentTripSelector,
   getExcursions, filterPaxBySearchText, getSortedPaxByBookingId
 } from '../../selectors'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
@@ -195,9 +195,9 @@ class ExcursionDetailsScreen extends Component {
   }
 
   render () {
-    const { navigation, trips, excursions } = this.props
+    const { navigation, currentTrip, excursions } = this.props
     const { searchText, filter, sort } = this.state
-    const trip = trips.getIn(['current', 'trip'])
+    const trip = currentTrip.get('trip')
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
     const participants = excursions.get('participants').get(excursionId)
@@ -228,7 +228,7 @@ class ExcursionDetailsScreen extends Component {
 }
 
 const stateToProps = state => ({
-  trips: getTrips(state),
+  currentTrip: currentTripSelector(state),
   excursions: getExcursions(state)
 })
 

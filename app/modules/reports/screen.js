@@ -7,12 +7,14 @@ import { IonIcon } from '../../theme/'
 import Header from '../../components/header'
 import Translator from '../../utils/translator'
 import {
-  getPax, getParticipatingPax,
-  getTrips, getParticipants, getTripExcursions
+  getParticipatingPax, currentTripSelector,
+  getParticipants, getTripExcursions, getPax
 } from '../../selectors'
 import Stats from '../../components/stats'
 import { connect } from 'react-redux'
 import { getMap } from '../../utils/immutable'
+import { networkActionDispatcher } from '../../utils/actionDispatcher'
+import { uploadStatsReq } from './action'
 
 const _T = Translator('ReportsScreen')
 
@@ -24,8 +26,8 @@ class ReportsScreen extends Component {
   }
 
   _onUpload = () => {
-    const { excursions, participants, trips } = this.props
-    const trip = trips.getIn(['current', 'trip'])
+    const { excursions, participants, currentTrip } = this.props
+    const trip = currentTrip.get('trip')
     const pax = getPax(trip)
     const excursionPaxCounts = excursions.reduce((m, e) => {
       const excursionId = e.get('id')
@@ -42,18 +44,22 @@ class ReportsScreen extends Component {
       totalPassengers: pax.size
     }
 
-    console.log(statsData)
+    networkActionDispatcher(uploadStatsReq({
+      isNeedJwt: true,
+      departureId: trip.get('departureId'),
+      data: statsData
+    }))
   }
 
   render () {
-    const { trips, participants, excursions, navigation } = this.props
+    const { currentTrip, participants, excursions, navigation } = this.props
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
         <Stats
           participants={participants}
           excursions={excursions}
-          trip={trips.getIn(['current', 'trip'])}
+          trip={currentTrip.get('trip')}
           navigation={navigation}
         />
         <CardItem>
@@ -68,7 +74,7 @@ class ReportsScreen extends Component {
 }
 
 const stateToProps = state => ({
-  trips: getTrips(state),
+  currentTrip: currentTripSelector(state),
   participants: getParticipants(state),
   excursions: getTripExcursions(state)
 })

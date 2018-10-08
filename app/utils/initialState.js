@@ -9,6 +9,7 @@ import { APP_INITIAL_STATE } from '../modules/app/immutable'
 import { EXCURSIONS_INITIAL_STATE } from '../modules/excursions/immutable'
 import { PAX_INITIAL_STATE } from '../modules/pax/immutable'
 import { MODAL_INITIAL_STATE } from '../modal/immutable'
+import {REPORTS_INITIAL_STATE} from '../modules/reports/immutable'
 
 export const getInitialState = () => {
   // return getMap({
@@ -27,6 +28,7 @@ export const getInitialState = () => {
     app: APP_INITIAL_STATE,
     excursions: EXCURSIONS_INITIAL_STATE,
     modifiedPax: PAX_INITIAL_STATE,
-    modal: MODAL_INITIAL_STATE
+    modal: MODAL_INITIAL_STATE,
+    reports: REPORTS_INITIAL_STATE
   }
 }

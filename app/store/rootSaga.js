@@ -8,6 +8,7 @@ import * as navSaga from '../navigation/saga'
 import * as cacheImageSaga from '../components/imageCache/saga'
 import * as authSaga from '../modules/auth/saga'
 import * as tripsSaga from '../modules/trips/saga'
+import * as reportsSaga from '../modules/reports/saga'
 
 const sagas = {
   ...toastSaga,
@@ -16,7 +17,8 @@ const sagas = {
   ...navSaga,
   ...cacheImageSaga,
   ...authSaga,
-  ...tripsSaga
+  ...tripsSaga,
+  ...reportsSaga
 }
 
 const forkedSagas = Object.keys(sagas).map(key => fork(sagas[key]))

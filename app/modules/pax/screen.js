@@ -7,7 +7,7 @@ import Header from '../../components/header'
 import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import { getTrips } from '../../selectors'
+import { currentTripSelector } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
 import Switch from '../../components/switch'
@@ -29,7 +29,7 @@ class PaxScreen extends Component {
   }
 
   shouldComponentUpdate (nextProps, nexState) {
-    const propsChanged = !nextProps.trips.equals(this.props.trips)
+    const propsChanged = !nextProps.currentTrip.equals(this.props.currentTrip)
     const stateChanged = nexState !== this.state
     return propsChanged || stateChanged
   }
@@ -62,9 +62,9 @@ class PaxScreen extends Component {
   }
 
   render () {
-    const { navigation, trips } = this.props
+    const { navigation, currentTrip } = this.props
     const { booking } = this.state
-    const trip = trips.getIn(['current', 'trip'])
+    const trip = currentTrip.get('trip')
 
     return (
       <Container>
@@ -88,7 +88,7 @@ class PaxScreen extends Component {
 }
 
 const stateToProps = state => ({
-  trips: getTrips(state)
+  currentTrip: currentTripSelector(state)
 })
 
 export default connect(stateToProps, dispatch => ({ dispatch }))(PaxScreen)

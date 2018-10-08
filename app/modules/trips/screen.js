@@ -32,7 +32,7 @@ class TripScreen extends Component {
     const isLocalData = trips.get('data').size > 0
     if (!isLocalData) {
       networkActionDispatcher(tripsReq({
-        isNeedjwt: true, guideId: user.get('id')
+        isNeedJwt: true, guideId: user.get('id')
       }))
     } else {
       actionDispatcher(getCurrentTrip())

@@ -6,7 +6,7 @@ import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import Translator from '../../utils/translator'
 import { connect } from 'react-redux'
-import { getTrips } from '../../selectors'
+import { currentTripSelector } from '../../selectors'
 import Excursions from '../../components/excursions'
 const _T = Translator('ExcursionsScreen')
 
@@ -18,16 +18,16 @@ class ExcursionsScreen extends Component {
   }
 
   shouldComponentUpdate (nextProps) {
-    return !nextProps.trips.equals(this.props.trips)
+    return !nextProps.currentTrip.equals(this.props.currentTrip)
   }
 
   render () {
-    const { trips, navigation } = this.props
+    const { currentTrip, navigation } = this.props
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
         <Excursions
-          trip={trips.getIn(['current', 'trip'])}
+          trip={currentTrip.get('trip')}
           navigation={navigation}
         />
       </Container>
@@ -36,7 +36,7 @@ class ExcursionsScreen extends Component {
 }
 
 const stateToProps = state => ({
-  trips: getTrips(state)
+  currentTrip: currentTripSelector(state)
 })
 
 export default connect(stateToProps, null)(ExcursionsScreen)

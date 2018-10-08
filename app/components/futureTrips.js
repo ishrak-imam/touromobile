@@ -2,28 +2,26 @@
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { View } from 'native-base'
-import { connect } from 'react-redux'
-import { getTrips } from '../selectors'
 import NoData from '../components/noData'
 import TripCard from './tripCard'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
-class FutureTrips extends Component {
+export default class FutureTrips extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.trips.equals(this.props.trips)
+    return !nextProps.futureTrips.equals(this.props.futureTrips)
   }
 
   _renderTripCard = ({ item }) => {
     return <TripCard trip={item} />
   }
 
-  _renderFutureTrips = future => {
+  _renderFutureTrips = futureTrips => {
     return (
-      future.get('has')
+      futureTrips.get('has')
         ? <ImmutableVirtualizedList
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
-          immutableData={future.get('trips')}
+          immutableData={futureTrips.get('trips')}
           renderItem={this._renderTripCard}
           keyExtractor={item => String(item.get('departureId'))}
         />
@@ -32,21 +30,14 @@ class FutureTrips extends Component {
   }
 
   render () {
-    const { trips } = this.props
-    const future = trips.get('future')
+    const { futureTrips } = this.props
     return (
       <View style={ss.container}>
-        {this._renderFutureTrips(future)}
+        {this._renderFutureTrips(futureTrips)}
       </View>
     )
   }
 }
-
-const stateToProps = state => ({
-  trips: getTrips(state)
-})
-
-export default connect(stateToProps, null)(FutureTrips)
 
 const ss = StyleSheet.create({
   container: {

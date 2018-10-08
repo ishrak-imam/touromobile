@@ -8,9 +8,10 @@ import { connect } from 'react-redux'
 import { closeModal } from './action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { getWarningModal } from '../selectors'
+import isIphoneX from '../utils/isIphoneX'
 
 const { height, width } = Dimensions.get('window')
-const heightOffset = 400
+const heightOffset = isIphoneX ? 500 : 400
 const widthOffset = 100
 
 const modalHeight = height - heightOffset

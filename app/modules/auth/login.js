@@ -193,11 +193,10 @@ const ss = StyleSheet.create({
   logo: {
     flex: 1,
     justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingBottom: 20
+    alignItems: 'center'
   },
   formContainer: {
-    flex: 2,
+    flex: 2.5,
     justifyContent: 'center',
     borderRadius: 7
     // marginTop: 30
