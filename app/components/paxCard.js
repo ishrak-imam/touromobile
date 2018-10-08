@@ -12,7 +12,7 @@ import OutLineButton from '../components/outlineButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import isIOS from '../utils/isIOS'
 import { actionDispatcher } from '../utils/actionDispatcher'
-import { modifyPaxData } from '../modules/pax/action'
+import { modifyPaxData } from '../modules/modifiedData/action'
 import { connect } from 'react-redux'
 import { getModifiedPax } from '../selectors'
 const _T = Translator('PaxDetailsScreen')
@@ -20,12 +20,13 @@ const _T = Translator('PaxDetailsScreen')
 class PaxCard extends Component {
   constructor (props) {
     super(props)
-    const { pax, modifiedPax } = props
+    const { pax, modifiedPax, departureId } = props
     const paxId = String(pax.get('id'))
     const modifiedData = modifiedPax.get(paxId)
     if (!modifiedData) {
       actionDispatcher(modifyPaxData({
-        key: String(pax.get('id')),
+        departureId,
+        paxId: String(pax.get('id')),
         pax
       }))
     }
@@ -179,7 +180,7 @@ class PaxCard extends Component {
   }
 
   _onSave = () => {
-    const { pax } = this.props
+    const { pax, departureId } = this.props
     const { phone, comment } = this.state
 
     // if (!phone && !comment) return
@@ -188,7 +189,8 @@ class PaxCard extends Component {
     // if (comment) update.comment = comment
 
     actionDispatcher(modifyPaxData({
-      key: String(pax.get('id')),
+      departureId,
+      paxId: String(pax.get('id')),
       pax: { phone, comment }
     }))
     this.setState({
@@ -238,9 +240,12 @@ class PaxCard extends Component {
   }
 }
 
-const stateToProps = state => ({
-  modifiedPax: getModifiedPax(state)
-})
+const stateToProps = (state, props) => {
+  const { departureId } = props
+  return {
+    modifiedPax: getModifiedPax(state, departureId)
+  }
+}
 
 export default connect(stateToProps, null)(PaxCard)
 

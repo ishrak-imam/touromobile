@@ -6,7 +6,7 @@ import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import { tripsReq, getCurrentTrip, getFutureTrips } from './action'
+import { tripsReq, getCurrentTrip, getFutureTrips, getPastTrips } from './action'
 import {
   networkActionDispatcher, actionDispatcher
 } from '../../utils/actionDispatcher'
@@ -37,6 +37,7 @@ class TripScreen extends Component {
     } else {
       actionDispatcher(getCurrentTrip())
       actionDispatcher(getFutureTrips())
+      actionDispatcher(getPastTrips())
     }
   }
 

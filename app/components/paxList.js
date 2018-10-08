@@ -92,9 +92,10 @@ class PaxList extends Component {
   }
 
   _toPaxDetails = pax => {
-    const { navigation } = this.props
+    const { navigation, trip } = this.props
+    const departureId = String(trip.get('departureId'))
     return () => {
-      navigation.navigate('PaxDetails', { pax })
+      navigation.navigate('PaxDetails', { pax, departureId })
     }
   }
 
@@ -145,9 +146,13 @@ class PaxList extends Component {
   }
 }
 
-const stateToProps = state => ({
-  modifiedPax: getModifiedPax(state)
-})
+const stateToProps = (state, props) => {
+  const { trip } = props
+  const departureId = String(trip.get('departureId'))
+  return {
+    modifiedPax: getModifiedPax(state, departureId)
+  }
+}
 
 export default connect(stateToProps, null)(PaxList)
 

@@ -11,5 +11,9 @@ export const TRIPS_INITIAL_STATE = getMap({
   future: getMap({
     trips: getList([]),
     has: false
+  }),
+  past: getMap({
+    trips: getList([]),
+    has: false
   })
 })

@@ -9,10 +9,9 @@ import * as cacheImageReducers from '../components/imageCache/reducer'
 import * as authReducers from '../modules/auth/reducer'
 import * as connectionReducer from '../connection/reducer'
 import * as tripsReducer from '../modules/trips/reducer'
-import * as excursionsReducer from '../modules/excursions/reducer'
-import * as paxReducer from '../modules/pax/reducer'
 import * as modalReducer from '../modal/reducer'
 import * as reportsReducer from '../modules/reports/reducer'
+import * as modifiedDataReducer from '../modules/modifiedData/reducer'
 
 const allReducers = combineReducers({
   ...navReducers,
@@ -21,10 +20,9 @@ const allReducers = combineReducers({
   ...connectionReducer,
   ...authReducers,
   ...tripsReducer,
-  ...excursionsReducer,
-  ...paxReducer,
   ...modalReducer,
-  ...reportsReducer
+  ...reportsReducer,
+  ...modifiedDataReducer
 })
 
 const rootReduces = (state, action) => {

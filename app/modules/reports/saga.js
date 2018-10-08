@@ -1,7 +1,6 @@
 
 import { delay } from 'redux-saga'
-import { call, put } from 'redux-saga/effects'
-import { takeFirst } from '../../utils/sagaHelpers'
+import { call, put, takeEvery } from 'redux-saga/effects'
 
 import {
   uploadStatsReq,
@@ -12,15 +11,18 @@ import {
 import { uploadStats } from './api'
 
 export function * watchUploadState () {
-  yield takeFirst(uploadStatsReq.getType(), workerUploadStats)
+  yield takeEvery(uploadStatsReq.getType(), workerUploadStats)
 }
 
 function * workerUploadStats (action) {
   try {
-    const { departureId, data, jwt } = action.payload
-    yield call(uploadStats, departureId, data, jwt)
+    const { departureId, statsData, jwt } = action.payload
+    yield call(uploadStats, departureId, statsData, jwt)
     yield call(delay, 2000)
-    yield put(uploadStatsSucs())
+    yield put(uploadStatsSucs({
+      departureId,
+      time: new Date().toISOString()
+    }))
   } catch (e) {
     yield put(uploadStatsFail())
   }

@@ -11,7 +11,10 @@ import {
   setCurrentTrip,
 
   getFutureTrips,
-  setFutureTrips
+  setFutureTrips,
+
+  getPastTrips,
+  setPastTrips
 } from './action'
 
 import {
@@ -20,7 +23,8 @@ import {
 
 import {
   getCurrentTrip as gctSelector,
-  getFutureTrips as gftSelector
+  getFutureTrips as gftSelector,
+  getPastTrips as gptSelector
 } from '../../selectors'
 
 export function * watchGetTrips () {
@@ -34,6 +38,7 @@ function * workerGetTrips (action) {
     yield put(tripsSucs(data))
     yield put(getCurrentTrip())
     yield put(getFutureTrips())
+    yield put(getPastTrips())
   } catch (e) {
     yield put(tripsFail(e))
   }
@@ -55,4 +60,13 @@ export function * watchGetFutureTrips () {
 function * workerGetFutureTrips (action) {
   const trips = yield select(gftSelector)
   yield put(setFutureTrips(trips))
+}
+
+export function * watchGetPastTrips () {
+  yield takeFirst(getPastTrips.getType(), workerGetPastTrips)
+}
+
+function * workerGetPastTrips (action) {
+  const trips = yield select(gptSelector)
+  yield put(setPastTrips(trips))
 }

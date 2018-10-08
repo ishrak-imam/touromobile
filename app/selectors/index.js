@@ -11,6 +11,7 @@ export const {
   currentTripSelector,
   futureTripsSelector,
   getCurrentTrip,
+  getPastTrips,
   getFutureTrips,
   getPax,
   filterPaxBySearchText,
@@ -25,8 +26,6 @@ export const {
 } = require('./trip')
 
 export const {
-  getExcursions,
-  getParticipants,
   getSortedExcursions,
   getTripExcursions
 } = require('./excursions')
@@ -36,13 +35,15 @@ export const {
 } = require('./navigation')
 
 export const {
-  getModifiedPax
-} = require('./pax')
-
-export const {
   getWarningModal
 } = require('./modal')
 
 export const {
-  getReports
+  getReports,
+  getStatsData
 } = require('./reports')
+
+export const {
+  getModifiedPax,
+  getParticipants
+} = require('./modifiedData')

@@ -8,14 +8,14 @@ import SearchBar from '../../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
 import {
-  getSortedPax, currentTripSelector,
-  getExcursions, filterPaxBySearchText, getSortedPaxByBookingId
+  getSortedPax, currentTripSelector, getSortedPaxByBookingId,
+  getParticipants, filterPaxBySearchText
 } from '../../selectors'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
 import { getSet } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
-import { setParticipants } from './action'
+import { setParticipants } from '../modifiedData/action'
 import { IonIcon, Colors } from '../../theme'
 import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
@@ -60,12 +60,12 @@ class PaxListItem extends Component {
 class ExcursionDetailsScreen extends Component {
   constructor (props) {
     super(props)
-    const { navigation, excursions } = props
+    const { navigation, participants } = props
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
-    const participants = excursions.get('participants').get(excursionId)
+    const exParticipants = participants.get(excursionId)
     this.state = {
-      participants: participants || getSet([]),
+      participants: exParticipants || getSet([]),
       searchText: '',
       filter: PARTICIPATING,
       sort: false
@@ -73,16 +73,18 @@ class ExcursionDetailsScreen extends Component {
   }
 
   _onPress = (paxId, checked) => {
-    const { navigation } = this.props
+    const { navigation, currentTrip } = this.props
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
+    const departureId = String(currentTrip.get('departureId'))
     return () => {
       if (!checked) {
         const { participants } = this.state
         this.state.participants = participants.has(paxId) ? participants.remove(paxId) : participants.add(paxId)
         actionDispatcher(setParticipants({
-          key: excursionId,
-          value: this.state.participants
+          departureId,
+          excursionId,
+          participants: this.state.participants
         }))
       }
     }
@@ -195,20 +197,19 @@ class ExcursionDetailsScreen extends Component {
   }
 
   render () {
-    const { navigation, currentTrip, excursions } = this.props
+    const { navigation, currentTrip, participants } = this.props
     const { searchText, filter, sort } = this.state
-    const trip = currentTrip.get('trip')
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
-    const participants = excursions.get('participants').get(excursionId)
+    const exParticipants = participants.get(excursionId)
 
-    let sortedPax = sort ? getSortedPaxByBookingId(trip) : getSortedPax(trip)
+    let sortedPax = sort ? getSortedPaxByBookingId(currentTrip) : getSortedPax(currentTrip)
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
 
     if (filter === PARTICIPATING) {
-      sortedPax = this._findParticipatingPax(sortedPax, participants)
+      sortedPax = this._findParticipatingPax(sortedPax, exParticipants)
     }
 
     return (
@@ -221,16 +222,20 @@ class ExcursionDetailsScreen extends Component {
         />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
         {this._renderTabs()}
-        {this._renderPersons(sortedPax, participants)}
+        {this._renderPersons(sortedPax, exParticipants)}
       </Container>
     )
   }
 }
 
-const stateToProps = state => ({
-  currentTrip: currentTripSelector(state),
-  excursions: getExcursions(state)
-})
+const stateToProps = state => {
+  const currentTrip = currentTripSelector(state).get('trip')
+  const departureId = String(currentTrip.get('departureId'))
+  return {
+    currentTrip,
+    participants: getParticipants(state, departureId)
+  }
+}
 
 export default connect(stateToProps, null)(ExcursionDetailsScreen)
 

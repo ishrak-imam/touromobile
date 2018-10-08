@@ -8,12 +8,11 @@ import { IonIcon, Colors } from '../../theme/'
 import Header from '../../components/header'
 import Translator from '../../utils/translator'
 import {
-  getParticipatingPax, currentTripSelector,
-  getParticipants, getTripExcursions, getPax, getReports
+  currentTripSelector, getStatsData,
+  getParticipants, getTripExcursions, getReports
 } from '../../selectors'
 import Stats from '../../components/stats'
 import { connect } from 'react-redux'
-import { getMap } from '../../utils/immutable'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { uploadStatsReq } from './action'
 import Button from '../../components/button'
@@ -29,27 +28,12 @@ class ReportsScreen extends Component {
 
   _onUpload = () => {
     const { excursions, participants, currentTrip } = this.props
-    const trip = currentTrip.get('trip')
-    const pax = getPax(trip)
-    const excursionPaxCounts = excursions.reduce((m, e) => {
-      const excursionId = e.get('id')
-      const participatingPax = getParticipatingPax(getMap({ pax, participants: participants.get(String(excursionId)) }))
-      m.push({
-        excursionId,
-        participantCount: participatingPax.size
-      })
-      return m
-    }, [])
-
-    const statsData = {
-      excursions: excursionPaxCounts,
-      totalPassengers: pax.size
-    }
-
+    const departureId = String(currentTrip.get('trip').get('departureId'))
+    const statsData = getStatsData(excursions, participants, currentTrip)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
-      departureId: trip.get('departureId'),
-      data: statsData
+      departureId,
+      statsData
     }))
   }
 
@@ -82,12 +66,17 @@ class ReportsScreen extends Component {
   }
 }
 
-const stateToProps = state => ({
-  currentTrip: currentTripSelector(state),
-  participants: getParticipants(state),
-  excursions: getTripExcursions(state),
-  reports: getReports(state)
-})
+const stateToProps = state => {
+  const currentTrip = currentTripSelector(state)
+  const departureId = String(currentTrip.get('trip').get('departureId'))
+
+  return {
+    currentTrip,
+    participants: getParticipants(state, departureId),
+    excursions: getTripExcursions(state),
+    reports: getReports(state)
+  }
+}
 
 export default connect(stateToProps, null)(ReportsScreen)
 
