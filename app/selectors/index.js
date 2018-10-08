@@ -11,6 +11,7 @@ export const {
   currentTripSelector,
   futureTripsSelector,
   getCurrentTrip,
+  getPastTrips,
   getFutureTrips,
   getPax,
   filterPaxBySearchText,
