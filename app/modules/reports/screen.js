@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
 import {
-  Container, CardItem, Button, Text
+  Container, CardItem, Text,
+  Spinner, View
 } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { IonIcon } from '../../theme/'
+import { IonIcon, Colors } from '../../theme/'
 import Header from '../../components/header'
 import Translator from '../../utils/translator'
 import {
   getParticipatingPax, currentTripSelector,
-  getParticipants, getTripExcursions, getPax
+  getParticipants, getTripExcursions, getPax, getReports
 } from '../../selectors'
 import Stats from '../../components/stats'
 import { connect } from 'react-redux'
 import { getMap } from '../../utils/immutable'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { uploadStatsReq } from './action'
+import Button from '../../components/button'
 
 const _T = Translator('ReportsScreen')
 
@@ -52,7 +54,8 @@ class ReportsScreen extends Component {
   }
 
   render () {
-    const { currentTrip, participants, excursions, navigation } = this.props
+    const { currentTrip, participants, excursions, reports, navigation } = this.props
+    const isLoading = reports.get('isLoading')
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} />
@@ -63,9 +66,15 @@ class ReportsScreen extends Component {
           navigation={navigation}
         />
         <CardItem>
-          <Button iconLeft style={ss.footerButton} onPress={this._onUpload}>
-            <IonIcon name='upload' color='white' />
-            <Text>{_T('upload')}</Text>
+          <Button iconLeft style={ss.footerButton} onPress={this._onUpload} disabled={isLoading}>
+            {
+              isLoading
+                ? <Spinner color={Colors.headerBg} />
+                : <View style={ss.buttonItem}>
+                  <IonIcon name='upload' color='white' style={ss.buttonIcon} />
+                  <Text style={ss.buttonText}>{_T('upload')}</Text>
+                </View>
+            }
           </Button>
         </CardItem>
       </Container>
@@ -76,7 +85,8 @@ class ReportsScreen extends Component {
 const stateToProps = state => ({
   currentTrip: currentTripSelector(state),
   participants: getParticipants(state),
-  excursions: getTripExcursions(state)
+  excursions: getTripExcursions(state),
+  reports: getReports(state)
 })
 
 export default connect(stateToProps, null)(ReportsScreen)
@@ -85,5 +95,16 @@ const ss = StyleSheet.create({
   footerButton: {
     flex: 1,
     justifyContent: 'center'
+  },
+  buttonItem: {
+    flexDirection: 'row'
+  },
+  buttonIcon: {
+    marginRight: 10
+  },
+  buttonText: {
+    color: Colors.silver,
+    marginTop: 2,
+    marginLeft: 10
   }
 })

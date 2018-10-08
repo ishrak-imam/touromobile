@@ -42,3 +42,7 @@ export const {
 export const {
   getWarningModal
 } = require('./modal')
+
+export const {
+  getReports
+} = require('./reports')
