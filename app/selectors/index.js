@@ -43,7 +43,8 @@ export const {
 
 export const {
   getReports,
-  getStatsData
+  getStatsData,
+  getTotalPercentage
 } = require('./reports')
 
 export const {

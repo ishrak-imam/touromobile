@@ -1,25 +1,27 @@
 import React, { Component } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
-import { View, Text, Spinner } from 'native-base'
+import { StyleSheet, TouchableOpacity, ActivityIndicator as Spinner } from 'react-native'
+import { View, Text } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
-import { getPax, getStatsData } from '../selectors'
+import { getPax, getStatsData, getTotalPercentage } from '../selectors'
 
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
 
+import { getMap } from '../utils/immutable'
+
 const DATE_FORMAT = 'YY-MM-DD'
 
 export default class TripCard extends Component {
-  shouldComponentUpdate (nextProps) {
-    const modifiedDataChanged = nextProps.modifiedTripData
-      ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
-      : false
-    const tripChanged = !nextProps.trip.equals(this.props.trip)
-    return tripChanged || modifiedDataChanged
-  }
+  // shouldComponentUpdate (nextProps) {
+  //   const modifiedDataChanged = nextProps.modifiedTripData
+  //     ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
+  //     : false
+  //   const tripChanged = !nextProps.trip.equals(this.props.trip)
+  //   return tripChanged || modifiedDataChanged
+  // }
 
   _renderGradient = () => {
     return (
@@ -34,7 +36,7 @@ export default class TripCard extends Component {
     const { trip, modifiedTripData } = this.props
     const departureId = String(trip.get('departureId'))
     const excursions = trip.get('excursions')
-    const participants = modifiedTripData.get('participants')
+    const participants = modifiedTripData ? modifiedTripData.get('participants') : getMap({})
     const statsData = getStatsData(excursions, participants, trip)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
@@ -45,10 +47,10 @@ export default class TripCard extends Component {
 
   _renderUploadButton = () => {
     const { modifiedTripData } = this.props
-    const isLoading = modifiedTripData.get('isLoading')
+    const isLoading = modifiedTripData ? modifiedTripData.get('isLoading') : false
     return (
       isLoading
-        ? <Spinner color={Colors.headerBg} />
+        ? <Spinner color={Colors.headerBg} size='small' style={{ marginTop: 10 }} />
         : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
           <Text style={ss.uploadButtonText}>Upload report</Text>
         </TouchableOpacity>
@@ -56,20 +58,22 @@ export default class TripCard extends Component {
   }
 
   _forPastTrips = () => {
-    const { modifiedTripData } = this.props
-    const isNeedStatsUpload = !!modifiedTripData
+    const { modifiedTripData, trip } = this.props
 
-    let statsUploadedAt = null
-    if (isNeedStatsUpload) {
-      statsUploadedAt = modifiedTripData.get('statsUploadedAt')
-    }
+    const excursions = trip.get('excursions')
+    const participants = modifiedTripData
+      ? modifiedTripData.get('participants') ? modifiedTripData.get('participants') : getMap({})
+      : getMap({})
+    const share = getTotalPercentage(excursions, participants, trip)
 
-    return isNeedStatsUpload
-      ? <View style={ss.pastTripCardTop}>
-        {statsUploadedAt && <Text style={{ fontWeight: 'bold' }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>}
+    const statsUploadedAt = modifiedTripData ? modifiedTripData.get('statsUploadedAt') : null
+    return (
+      <View style={ss.pastTripCardTop}>
+        <Text style={{ fontWeight: 'bold', marginTop: 10 }}>Participant share: {share}%</Text>
+        {statsUploadedAt && <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>}
         {!statsUploadedAt && this._renderUploadButton()}
       </View>
-      : null
+    )
   }
 
   _renderCardTop = () => {
@@ -200,7 +204,6 @@ const ss = StyleSheet.create({
     width: 150,
     paddingVertical: 10,
     borderRadius: 5,
-    marginRight: 20,
     alignItems: 'center',
     backgroundColor: Colors.headerBg
   },

@@ -228,7 +228,7 @@ export const pendingStatsUpload = state => {
 
   count = trips.reduce((count, trip) => {
     const departureId = String(trip.get('departureId'))
-    if (modifiedData.get(departureId) && !modifiedData.get(departureId).get('statsUploadedAt')) {
+    if (!modifiedData.get(departureId) || !modifiedData.get(departureId).get('statsUploadedAt')) {
       count = count + 1
     }
     return count
