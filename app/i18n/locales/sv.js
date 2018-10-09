@@ -67,7 +67,9 @@ export default {
     booking: 'Bokning',
     excursionPack: 'Utflyktspaket',
     travelsWith: 'Åker med',
-    comment: 'Kommentar'
+    comment: 'Kommentar',
+    cancel: 'Annullera',
+    save: 'Spara'
   },
   ExcursionDetailsScreen: {
     paxSearch: 'Sök passagerare',

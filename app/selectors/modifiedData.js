@@ -10,3 +10,5 @@ export const getParticipants = (state, departureId) => {
     ? state.modifiedData.get(departureId).get('participants') ? state.modifiedData.get(departureId).get('participants') : getMap({})
     : getMap({})
 }
+
+export const getModifiedData = state => state.modifiedData

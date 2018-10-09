@@ -8,6 +8,7 @@ import {
 } from './action'
 
 import {
+  UPLOAD_STATS_REQ,
   UPLOAD_STATS_SUCS
 } from '../reports/action'
 
@@ -21,6 +22,7 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     participants = setIntoMap(participants, payload.excursionId, payload.participants)
     modifiedData = setIntoMap(modifiedData, 'participants', participants)
     modifiedData = setIntoMap(modifiedData, 'statsUploadedAt', null)
+    modifiedData = setIntoMap(modifiedData, 'isLoading', false)
     return setIntoMap(state, payload.departureId, modifiedData)
   },
 
@@ -30,12 +32,20 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let pax = readValue(payload.paxId, modifiedPax) || getMap({})
     modifiedPax = setIntoMap(modifiedPax, payload.paxId, mergeMapShallow(pax, getMap(payload.pax)))
     modifiedData = setIntoMap(modifiedData, 'modifiedPax', modifiedPax)
+    modifiedData = setIntoMap(modifiedData, 'isLoading', false)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [UPLOAD_STATS_REQ]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    modifiedData = setIntoMap(modifiedData, 'isLoading', true)
     return setIntoMap(state, payload.departureId, modifiedData)
   },
 
   [UPLOAD_STATS_SUCS]: (state, payload) => {
     let modifiedData = readValue(payload.departureId, state) || getMap({})
     modifiedData = setIntoMap(modifiedData, 'statsUploadedAt', payload.time)
+    modifiedData = setIntoMap(modifiedData, 'isLoading', false)
     return setIntoMap(state, payload.departureId, modifiedData)
   }
 

@@ -8,8 +8,7 @@ export const getReports = state => state.reports
  * TODO:
  * see if possible to add caching
  */
-export const getStatsData = (excursions, participants, currentTrip) => {
-  const trip = currentTrip.get('trip')
+export const getStatsData = (excursions, participants, trip) => {
   const pax = getPax(trip)
   const excursionPaxCounts = excursions.reduce((m, e) => {
     const excursionId = e.get('id')

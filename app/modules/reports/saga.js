@@ -8,6 +8,8 @@ import {
   uploadStatsFail
 } from './action'
 
+import { getPendingStatsUpload } from '../trips/action'
+
 import { uploadStats } from './api'
 
 export function * watchUploadState () {
@@ -23,6 +25,7 @@ function * workerUploadStats (action) {
       departureId,
       time: new Date().toISOString()
     }))
+    yield put(getPendingStatsUpload())
   } catch (e) {
     yield put(uploadStatsFail())
   }

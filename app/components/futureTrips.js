@@ -12,7 +12,7 @@ export default class FutureTrips extends Component {
   }
 
   _renderTripCard = ({ item }) => {
-    return <TripCard trip={item} />
+    return <TripCard trip={item} type='future' />
   }
 
   _renderFutureTrips = futureTrips => {

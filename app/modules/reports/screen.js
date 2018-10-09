@@ -27,9 +27,9 @@ class ReportsScreen extends Component {
   }
 
   _onUpload = () => {
-    const { excursions, participants, currentTrip } = this.props
-    const departureId = String(currentTrip.get('trip').get('departureId'))
-    const statsData = getStatsData(excursions, participants, currentTrip)
+    const { excursions, participants, trip } = this.props
+    const departureId = String(trip.get('departureId'))
+    const statsData = getStatsData(excursions, participants, trip)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
@@ -38,7 +38,7 @@ class ReportsScreen extends Component {
   }
 
   render () {
-    const { currentTrip, participants, excursions, reports, navigation } = this.props
+    const { trip, participants, excursions, reports, navigation } = this.props
     const isLoading = reports.get('isLoading')
     return (
       <Container>
@@ -46,7 +46,7 @@ class ReportsScreen extends Component {
         <Stats
           participants={participants}
           excursions={excursions}
-          trip={currentTrip.get('trip')}
+          trip={trip}
           navigation={navigation}
         />
         <CardItem>
@@ -67,11 +67,11 @@ class ReportsScreen extends Component {
 }
 
 const stateToProps = state => {
-  const currentTrip = currentTripSelector(state)
-  const departureId = String(currentTrip.get('trip').get('departureId'))
-
+  const current = currentTripSelector(state)
+  const trip = current.get('trip')
+  const departureId = String(trip.get('departureId'))
   return {
-    currentTrip,
+    trip,
     participants: getParticipants(state, departureId),
     excursions: getTripExcursions(state),
     reports: getReports(state)

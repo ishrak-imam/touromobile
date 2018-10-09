@@ -48,5 +48,6 @@ export const {
 
 export const {
   getModifiedPax,
-  getParticipants
+  getParticipants,
+  getModifiedData
 } = require('./modifiedData')

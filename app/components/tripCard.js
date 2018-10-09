@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
-import { View, Text } from 'native-base'
+import { StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, Spinner } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
-import { getPax } from '../selectors'
-const DATE_FORMAT = 'YY MM DD'
+import { getPax, getStatsData } from '../selectors'
+
+import { networkActionDispatcher } from '../utils/actionDispatcher'
+import { uploadStatsReq } from '../modules/reports/action'
+
+const DATE_FORMAT = 'YY-MM-DD'
 
 export default class TripCard extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.trip.equals(this.props.trip)
+    const modifiedDataChanged = nextProps.modifiedTripData
+      ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
+      : false
+    const tripChanged = !nextProps.trip.equals(this.props.trip)
+    return tripChanged || modifiedDataChanged
   }
 
   _renderGradient = () => {
@@ -21,6 +29,58 @@ export default class TripCard extends Component {
       />
     )
   }
+
+  _uploadStats = () => {
+    const { trip, modifiedTripData } = this.props
+    const departureId = String(trip.get('departureId'))
+    const excursions = trip.get('excursions')
+    const participants = modifiedTripData.get('participants')
+    const statsData = getStatsData(excursions, participants, trip)
+    networkActionDispatcher(uploadStatsReq({
+      isNeedJwt: true,
+      departureId,
+      statsData
+    }))
+  }
+
+  _renderUploadButton = () => {
+    const { modifiedTripData } = this.props
+    const isLoading = modifiedTripData.get('isLoading')
+    return (
+      isLoading
+        ? <Spinner color={Colors.headerBg} />
+        : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
+          <Text style={ss.uploadButtonText}>Upload report</Text>
+        </TouchableOpacity>
+    )
+  }
+
+  _forPastTrips = () => {
+    const { modifiedTripData } = this.props
+    const isNeedStatsUpload = !!modifiedTripData
+
+    let statsUploadedAt = null
+    if (isNeedStatsUpload) {
+      statsUploadedAt = modifiedTripData.get('statsUploadedAt')
+    }
+
+    return isNeedStatsUpload
+      ? <View style={ss.pastTripCardTop}>
+        {statsUploadedAt && <Text style={{ fontWeight: 'bold' }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>}
+        {!statsUploadedAt && this._renderUploadButton()}
+      </View>
+      : null
+  }
+
+  _renderCardTop = () => {
+    const { type } = this.props
+    if (type === 'future') {
+      return null
+    }
+
+    return this._forPastTrips()
+  }
+
   render () {
     const { trip } = this.props
 
@@ -46,7 +106,9 @@ export default class TripCard extends Component {
           <ImageCache uri={image} style={ss.cardImage} />
           {/* {this._renderGradient()} */}
           <View style={ss.cardBody}>
-            <View style={ss.cardTop} />
+            <View style={ss.cardTop}>
+              {this._renderCardTop()}
+            </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
                 <IonIcon name='people' color={Colors.black} size={30} />
@@ -133,5 +195,22 @@ const ss = StyleSheet.create({
   bottomRight: {
     flex: 1,
     flexDirection: 'row'
+  },
+  uploadButton: {
+    width: 150,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginRight: 20,
+    alignItems: 'center',
+    backgroundColor: Colors.headerBg
+  },
+  uploadButtonText: {
+    color: Colors.silver,
+    fontWeight: 'bold'
+  },
+  pastTripCardTop: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
