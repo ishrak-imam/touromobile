@@ -91,6 +91,10 @@ export const currentTripSelector = state => state.trips.get('current')
 
 export const futureTripsSelector = state => state.trips.get('future')
 
+export const pastTripsSelector = state => state.trips.get('past')
+
+export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpload')
+
 let sortedTripsCache = null
 export const getSortedTrips = trips => {
   if (!sortedTripsCache) {
@@ -169,7 +173,7 @@ export const getModifiedPaxByBooking = data => {
  * note: Not immutable data
  */
 export const getCurrentTrip = state => {
-  const dateNow = new Date()
+  const dateNow = '2018-10-11T05:03:22.1030847+02:00' // new Date()
   const trips = getSortedTrips(state.trips.get('data'))
   const trip = trips.find(trip => {
     return isWithinRange(dateNow, trip.get('outDate'), trip.get('homeDate'))
@@ -186,7 +190,7 @@ export const getCurrentTrip = state => {
  * note: Not immutable data
  */
 export const getFutureTrips = state => {
-  const dateNow = new Date()
+  const dateNow = '2018-10-11T05:03:22.1030847+02:00' // new Date()
   const sortedTrips = getSortedTrips(state.trips.get('data'))
   const trips = sortedTrips.filter(trip => {
     return isAfter(trip.get('outDate'), dateNow)
@@ -203,7 +207,7 @@ export const getFutureTrips = state => {
  * note: Not immutable data
  */
 export const getPastTrips = state => {
-  const dateNow = new Date()
+  const dateNow = '2018-10-11T05:03:22.1030847+02:00' // new Date()
   const sortedTrips = getSortedTrips(state.trips.get('data'))
   const trips = sortedTrips.filter(trip => {
     return isBefore(trip.get('homeDate'), dateNow)
@@ -212,6 +216,25 @@ export const getPastTrips = state => {
     has: !!trips.size,
     trips
   }
+}
+
+export const pendingStatsUpload = state => {
+  const { has, trips } = getPastTrips(state)
+  const modifiedData = state.modifiedData
+  let count = 0
+  if (!has) {
+    return count
+  }
+
+  count = trips.reduce((count, trip) => {
+    const departureId = String(trip.get('departureId'))
+    if (modifiedData.get(departureId) && !modifiedData.get(departureId).get('statsUploadedAt')) {
+      count = count + 1
+    }
+    return count
+  }, count)
+
+  return count
 }
 
 const SEARCH_TEXT_TYPES = {

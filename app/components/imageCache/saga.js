@@ -7,7 +7,10 @@ import {
   clearImageCache,
   createCacheDir
 } from './action'
-import { downloadFile, clearCache, checkIfExistsDir, checkIfExistsImage, createDirectory } from './service'
+import {
+  downloadFile, clearCache, checkIfExistsDir,
+  checkIfExistsImage, createDirectory
+} from './service'
 import {
   // getHash, getExtension,
   getImageName

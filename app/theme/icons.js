@@ -30,6 +30,7 @@ const getIconName = (name) => {
     web: ['ios-globe', 'md-globe'],
     back: ['ios-arrow-back', 'md-arrow-back'],
     futureTrips: ['ios-paper-plane', 'md-paper-plane'],
+    pastTrips: ['ios-time', 'md-time'],
     star: ['ios-star', 'md-star'],
     bus: ['ios-bus', 'md-bus'],
     airplane: ['ios-plane', 'md-plane'],

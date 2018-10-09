@@ -15,5 +15,6 @@ export const TRIPS_INITIAL_STATE = getMap({
   past: getMap({
     trips: getList([]),
     has: false
-  })
+  }),
+  pendingStatsUpload: 0
 })

@@ -10,6 +10,7 @@ export const {
   getTrips,
   currentTripSelector,
   futureTripsSelector,
+  pastTripsSelector,
   getCurrentTrip,
   getPastTrips,
   getFutureTrips,
@@ -22,7 +23,9 @@ export const {
   getPhoneNumbers,
   getParticipatingPax,
   getModifiedPaxByBooking,
-  getSortedPaxByBookingId
+  getSortedPaxByBookingId,
+  pendingStatsUpload,
+  pendingStatsUploadCount
 } = require('./trip')
 
 export const {

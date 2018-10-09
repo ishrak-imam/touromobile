@@ -13,6 +13,9 @@ export const SET_FUTURE_TRIPS = 'SET_FUTURE_TRIPS'
 export const GET_PAST_TRIPS = 'GET_PAST_TRIPS'
 export const SET_PAST_TRIPS = 'SET_PAST_TRIPS'
 
+export const GET_PENDING_STATS_UPLOAD = 'GET_PENDING_STATS_UPLOAD'
+export const SET_PENDING_STATS_UPLOAD = 'SET_PENDING_STATS_UPLOAD'
+
 export const tripsReq = createAction(TRIPS_REQ)
 export const tripsSucs = createAction(TRIPS_SUCS)
 export const tripsFail = createAction(TRIPS_FAIL)
@@ -25,3 +28,6 @@ export const setFutureTrips = createAction(SET_FUTURE_TRIPS)
 
 export const getPastTrips = createAction(GET_PAST_TRIPS)
 export const setPastTrips = createAction(SET_PAST_TRIPS)
+
+export const getPendingStatsUpload = createAction(GET_PENDING_STATS_UPLOAD)
+export const setPendingStatsUpload = createAction(SET_PENDING_STATS_UPLOAD)

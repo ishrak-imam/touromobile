@@ -1,8 +1,8 @@
 
 import React, { Component } from 'react'
 import {
-  Container, View, Text,
-  Footer, ListItem, Body
+  Container, View, Text, Badge,
+  Footer, ListItem, Body, Right
 } from 'native-base'
 import {
   StyleSheet, Image,
@@ -16,18 +16,20 @@ import { logoutReq } from '../modules/auth/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import {
   getLogin,
-  getNavigation
-  // getTrips
+  getNavigation,
+  pendingStatsUploadCount
+  // getTrips,
 } from '../selectors'
 import Translator from '../utils/translator'
 
-import { showModal } from '../modal/action'
+// import { showModal } from '../modal/action'
 
 const _T = Translator('DrawerScreen')
 
 const menuItems = [
   { routeName: 'Trip', text: 'currentTrip', icon: 'home' },
-  { routeName: 'FutureTrips', text: 'futureTrips', icon: 'futureTrips' }
+  { routeName: 'FutureTrips', text: 'futureTrips', icon: 'futureTrips' },
+  { routeName: 'PastTrips', text: 'pastTrips', icon: 'pastTrips' }
 ]
 
 class TMDrawer extends Component {
@@ -36,11 +38,12 @@ class TMDrawer extends Component {
   }
 
   _showWarning = () => {
-    actionDispatcher(showModal({
-      type: 'warning',
-      text: 'Modified trip data will be lost permanently.',
-      onOk: this._logOut
-    }))
+    // actionDispatcher(showModal({
+    //   type: 'warning',
+    //   text: 'Modified trip data will be lost permanently.',
+    //   onOk: this._logOut
+    // }))
+    this._logOut()
   }
 
   _renderHeader = () => {
@@ -84,7 +87,7 @@ class TMDrawer extends Component {
   }
 
   _renderMenuItems = () => {
-    // const { trips } = this.props
+    const { pendingUploadCount } = this.props
     // const hasFutureTrips = trips.getIn(['future', 'has'])
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
@@ -114,6 +117,12 @@ class TMDrawer extends Component {
           <Body>
             <Text style={{ color }}>{_T(text)}</Text>
           </Body>
+          <Right>
+            {
+              (routeName === 'PastTrips' && !!pendingUploadCount) &&
+              <Badge><Text>{pendingUploadCount}</Text></Badge>
+            }
+          </Right>
         </ListItem>
       )
     })
@@ -151,7 +160,8 @@ class TMDrawer extends Component {
 
 const stateToProps = state => ({
   user: getLogin(state).get('user'),
-  nav: getNavigation(state)
+  nav: getNavigation(state),
+  pendingUploadCount: pendingStatsUploadCount(state)
   // trips: getTrips(state)
 })
 

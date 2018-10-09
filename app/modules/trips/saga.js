@@ -14,7 +14,10 @@ import {
   setFutureTrips,
 
   getPastTrips,
-  setPastTrips
+  setPastTrips,
+
+  getPendingStatsUpload,
+  setPendingStatsUpload
 } from './action'
 
 import {
@@ -24,7 +27,8 @@ import {
 import {
   getCurrentTrip as gctSelector,
   getFutureTrips as gftSelector,
-  getPastTrips as gptSelector
+  getPastTrips as gptSelector,
+  pendingStatsUpload
 } from '../../selectors'
 
 export function * watchGetTrips () {
@@ -39,6 +43,7 @@ function * workerGetTrips (action) {
     yield put(getCurrentTrip())
     yield put(getFutureTrips())
     yield put(getPastTrips())
+    yield put(getPendingStatsUpload())
   } catch (e) {
     yield put(tripsFail(e))
   }
@@ -69,4 +74,13 @@ export function * watchGetPastTrips () {
 function * workerGetPastTrips (action) {
   const trips = yield select(gptSelector)
   yield put(setPastTrips(trips))
+}
+
+export function * watchGetPendingStatsUpload () {
+  yield takeFirst(getPendingStatsUpload.getType(), workerGetPendingStatsUpload)
+}
+
+function * workerGetPendingStatsUpload (action) {
+  const count = yield select(pendingStatsUpload)
+  yield put(setPendingStatsUpload({ count }))
 }

@@ -9,7 +9,8 @@ export default {
   DrawerScreen: {
     logout: 'Logga ut',
     currentTrip: 'Nuvarande resa',
-    futureTrips: 'Framtida resor'
+    futureTrips: 'Framtida resor',
+    pastTrips: 'Tidigare resor'
   },
   CurrentTripScreen: {
     title: 'Nuvarande resa',
@@ -35,6 +36,9 @@ export default {
   },
   FutureTripsScreen: {
     title: 'Framtida resor'
+  },
+  PastTripsScreen: {
+    title: 'Tidigare resor'
   },
   ReportsScreen: {
     title: 'Rapporter',

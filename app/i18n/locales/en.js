@@ -9,7 +9,8 @@ export default {
   DrawerScreen: {
     logout: 'Log out',
     currentTrip: 'Current trip',
-    futureTrips: 'Future trips'
+    futureTrips: 'Future trips',
+    pastTrips: 'Past trips'
   },
   CurrentTripScreen: {
     title: 'Current trip',
@@ -35,6 +36,9 @@ export default {
   },
   FutureTripsScreen: {
     title: 'Future trips'
+  },
+  PastTripsScreen: {
+    title: 'Past trips'
   },
   ReportsScreen: {
     title: 'Reports',
