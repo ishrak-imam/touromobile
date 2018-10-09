@@ -13,7 +13,7 @@ const _T = Translator('PastTripsScreen')
 
 class PastTripsScreen extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.futureTrips.equals(this.props.futureTrips)
+    return !nextProps.pastTrips.equals(this.props.pastTrips)
   }
 
   render () {

@@ -15,13 +15,13 @@ import { getMap } from '../utils/immutable'
 const DATE_FORMAT = 'YY-MM-DD'
 
 export default class TripCard extends Component {
-  // shouldComponentUpdate (nextProps) {
-  //   const modifiedDataChanged = nextProps.modifiedTripData
-  //     ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
-  //     : false
-  //   const tripChanged = !nextProps.trip.equals(this.props.trip)
-  //   return tripChanged || modifiedDataChanged
-  // }
+  shouldComponentUpdate (nextProps) {
+    const modifiedDataChanged = nextProps.modifiedTripData
+      ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
+      : false
+    const tripChanged = !nextProps.trip.equals(this.props.trip)
+    return tripChanged || modifiedDataChanged
+  }
 
   _renderGradient = () => {
     return (
@@ -49,11 +49,15 @@ export default class TripCard extends Component {
     const { modifiedTripData } = this.props
     const isLoading = modifiedTripData ? modifiedTripData.get('isLoading') : false
     return (
-      isLoading
-        ? <Spinner color={Colors.headerBg} size='small' style={{ marginTop: 10 }} />
-        : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
-          <Text style={ss.uploadButtonText}>Upload report</Text>
-        </TouchableOpacity>
+      <View style={{ paddingTop: 10 }}>
+        {
+          isLoading
+            ? <Spinner color={Colors.headerBg} size='small' style={{ paddingVertical: 10 }} />
+            : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
+              <Text style={ss.uploadButtonText}>Upload report</Text>
+            </TouchableOpacity>
+        }
+      </View>
     )
   }
 
@@ -69,8 +73,8 @@ export default class TripCard extends Component {
     const statsUploadedAt = modifiedTripData ? modifiedTripData.get('statsUploadedAt') : null
     return (
       <View style={ss.pastTripCardTop}>
-        <Text style={{ fontWeight: 'bold', marginTop: 10 }}>Participant share: {share}%</Text>
-        {statsUploadedAt && <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>}
+        <Text style={{ fontWeight: 'bold' }}>Participant share: {share}%</Text>
+        {statsUploadedAt && <Text style={{ fontWeight: 'bold', paddingVertical: 15 }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>}
         {!statsUploadedAt && this._renderUploadButton()}
       </View>
     )
