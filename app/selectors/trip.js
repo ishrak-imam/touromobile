@@ -77,7 +77,7 @@ const resolvers = {
       const paxId = String(p.get('id'))
       const mp = modifiedPax.get(paxId)
       if (mp) {
-        m = m.set(paxId, mp)
+        m = setIntoMap(m, paxId, mp)
       }
       return m
     }, getMap({}))

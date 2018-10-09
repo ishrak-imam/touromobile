@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  Container, View, Text, Badge,
+  Container, View, Text,
   Footer, ListItem, Body, Right
 } from 'native-base'
 import {
@@ -14,6 +14,7 @@ import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { logoutReq } from '../modules/auth/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
+import Badge from '../components/badge'
 import {
   getLogin,
   getNavigation,
@@ -120,7 +121,7 @@ class TMDrawer extends Component {
           <Right>
             {
               (routeName === 'PastTrips' && !!pendingUploadCount) &&
-              <Badge><Text>{pendingUploadCount}</Text></Badge>
+              <Badge type='warning'><Text style={ss.badgeText}>{pendingUploadCount}</Text></Badge>
             }
           </Right>
         </ListItem>
@@ -202,5 +203,8 @@ const ss = StyleSheet.create({
   },
   menuItem: {
     marginLeft: 0
+  },
+  badgeText: {
+    color: Colors.silver
   }
 })
