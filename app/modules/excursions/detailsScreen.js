@@ -33,7 +33,7 @@ class PaxListItem extends Component {
   }
 
   render () {
-    const { pax, selected, onPress } = this.props
+    const { pax, selected, onPress, brand } = this.props
     const paxId = String(pax.get('id'))
     const checked = pax.get('excursionPack')
     const bookingId = pax.get('booking').get('id')
@@ -43,14 +43,18 @@ class PaxListItem extends Component {
     return (
       <ListItem key={key}>
         <Left style={{ flex: 1 }}>
-          <CheckBox checked={checked || selected} onPress={onPress(paxId, checked)} />
+          <CheckBox
+            checked={checked || selected}
+            onPress={onPress(paxId, checked)}
+            color={Colors[`${brand}Brand`]}
+          />
         </Left>
         <Body style={ss.itemBody}>
           <Text style={{ flex: 1, flexWrap: 'wrap' }}>{bookingId}</Text>
           <Text style={{ flex: 2, flexWrap: 'wrap' }}>{name}</Text>
         </Body>
         <Right style={{ flex: 1 }}>
-          {checked && <IonIcon name='star' color={Colors.blue} />}
+          {checked && <IonIcon name='star' color={Colors[`${brand}Brand`]} />}
         </Right>
       </ListItem>
     )
@@ -90,7 +94,7 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _renderItem = (participants) => {
+  _renderItem = (participants, brand) => {
     return ({ item }) => {
       const paxId = String(item.get('id'))
       const selected = participants ? participants.has(paxId) : false
@@ -99,6 +103,7 @@ class ExcursionDetailsScreen extends Component {
           pax={item}
           selected={selected}
           onPress={this._onPress}
+          brand={brand}
         />
       )
     }
@@ -106,14 +111,14 @@ class ExcursionDetailsScreen extends Component {
 
   _keyExtractor = (item, index) => `${item.get('id')}${item.get('booking').get('id')}`
 
-  _renderPersons = (pax, participants) => {
+  _renderPersons = (pax, participants, brand) => {
     return (
       pax.size
         ? <ImmutableVirtualizedList
           contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}
           keyboardShouldPersistTaps='always'
           immutableData={pax}
-          renderItem={this._renderItem(participants)}
+          renderItem={this._renderItem(participants, brand)}
           keyExtractor={this._keyExtractor}
           windowSize={3}
           initialNumToRender={20}
@@ -225,7 +230,7 @@ class ExcursionDetailsScreen extends Component {
         />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
         {this._renderTabs(brand)}
-        {this._renderPersons(sortedPax, exParticipants)}
+        {this._renderPersons(sortedPax, exParticipants, brand)}
       </Container>
     )
   }

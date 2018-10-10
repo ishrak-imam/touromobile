@@ -31,12 +31,21 @@ class TabBarComponent extends Component {
     const TabBar = isIOS ? BottomTabBar : MaterialTopTabBar
     const brand = trip.get('brand')
 
+    const color = Colors[`${brand}Brand`] || Colors.blue
+
+    // const others = {
+    //   style: {}
+    // }
+    // isIOS
+    //   ? others.activeTintColor = color
+    //   : others.style.backgroundColor = color
+
     const others = {
-      style: {}
+      activeTintColor: color,
+      style: {
+        backgroundColor: Colors.silver
+      }
     }
-    isIOS
-      ? others.activeTintColor = Colors[`${brand}Brand`] || Colors.blue
-      : others.style.backgroundColor = Colors[`${brand}Brand`] || Colors.blue
 
     return (
       <TabBar
