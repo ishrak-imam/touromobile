@@ -18,9 +18,9 @@ export default TMBadge
 
 const ss = StyleSheet.create({
   badge: {
-    height: 25,
-    width: 25,
-    borderRadius: 12.5,
+    height: 24,
+    width: 24,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center'
   }

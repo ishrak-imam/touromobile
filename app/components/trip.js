@@ -36,13 +36,14 @@ class Trip extends Component {
 
   _renderHeader = trip => {
     const name = trip.get('name')
+    const brand = trip.get('brand')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     return (
-      <CardItem>
-        <Body><Text style={ss.boldText}>{name}</Text></Body>
+      <CardItem style={{ backgroundColor: Colors[`${brand}Brand`], borderRadius: 0 }}>
+        <Body><Text style={ss.boldText}>{brand}   {name}</Text></Body>
         <Right>
-          <Text note>{`${outDate} - ${homeDate}`}</Text>
+          <Text>{`${outDate} - ${homeDate}`}</Text>
         </Right>
       </CardItem>
     )
@@ -118,6 +119,7 @@ class Trip extends Component {
     const home = launches.get('home')
     const outPhone = out.get('phone')
     const homePhone = home.get('phone')
+
     return (
       <CardItem style={ss.cardItem}>
         <Text style={ss.boldText}>{_T('lunchRestaurants')}</Text>
@@ -152,10 +154,15 @@ class Trip extends Component {
     )
   }
 
-  _renderFooter = pax => {
+  _renderFooter = (pax, trip) => {
+    const brand = trip.get('brand')
+    const style = StyleSheet.flatten([
+      ss.footerButton,
+      { backgroundColor: Colors[`${brand}Brand`] }
+    ])
     return (
       <CardItem footer>
-        <Button iconLeft style={ss.footerButton} onPress={() => this._smsAll(pax)}>
+        <Button iconLeft style={style} onPress={() => this._smsAll(pax)}>
           <IonIcon name='sms' color='white' />
           <Text>{_T('textAllPax')}</Text>
         </Button>
@@ -178,7 +185,7 @@ class Trip extends Component {
         {!!transport && this._renderSchedule(transport)}
         {!!transport && this._renderDrivers(transport.get('drivers'))}
         {!!launches && this._renderRestaurants(launches)}
-        {this._renderFooter(allPax)}
+        {this._renderFooter(allPax, trip)}
       </ScrollView>
     )
   }
@@ -223,6 +230,6 @@ const ss = StyleSheet.create({
     alignItems: 'flex-start'
   },
   restaurantName: {
-    color: Colors.headerBg
+    color: Colors.blue
   }
 })

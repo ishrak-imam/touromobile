@@ -1,35 +1,21 @@
-const colors = {
-  loginBg: '#CCCCCC',
-  background: '#1F0808',
-  clear: 'rgba(0,0,0,0)',
-  facebook: '#3b5998',
-  transparent: 'rgba(0,0,0,0)',
-  green: '#3aa821',
-  cancel: '#fc6a6e',
+
+const Colors = {
+  green: '#3AA821',
+  cancel: '#FC6A6E',
+  white: '#FFFFFF',
   silver: '#F7F7F7',
   steel: '#CCCCCC',
-  error: 'rgba(200, 0, 0, 0.8)',
-  ricePaper: 'rgba(255,255,255, 0.75)',
-  frost: '#D8D8D8',
-  cloud: 'rgba(200,200,200, 0.35)',
-  windowTint: 'rgba(0, 0, 0, 0.4)',
-  panther: '#161616',
   charcoal: '#595959',
-  coal: '#2d2d2d',
-  bloodOrange: '#fb5f26',
-  snow: 'white',
-  ember: 'rgba(164, 0, 48, 0.5)',
-  fire: '#e73536',
-  drawer: 'rgba(30, 30, 29, 0.95)',
-  eggplant: '#251a34',
-  border: '#483F53',
-  banner: '#5F3E63',
-  text: '#E0D7E5',
-  headerBg: 'rgb(34,150,243)',
+  cloud: '#E5E5E5',
+  coal: '#2D2D2D',
+  bloodOrange: '#FB5F26',
+  ember: '#A42830',
+  fire: '#E73536',
+  blue: '#2296F3',
   black: '#000000',
-  scBrand: '#6eadd7',
-  ohBrand: '#ce7f9e',
-  ssBrand: '#d7c58f'
+  SCBrand: '#6EADD7',
+  OHBrand: '#CE7F9E',
+  SSBrand: '#D7C58F'
 }
 
-export default colors
+export default Colors

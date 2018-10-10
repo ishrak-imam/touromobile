@@ -21,7 +21,7 @@ class LoadingScreen extends Component {
   render () {
     return (
       <View style={ss.container}>
-        <Spinner size='large' color={Colors.headerBg} />
+        <Spinner size='large' color={Colors.blue} />
       </View>
     )
   }

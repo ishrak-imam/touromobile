@@ -163,10 +163,10 @@ class Login extends Component {
 
               <View style={ss.submitContainer}>
                 <Button full onPress={this._login} disabled={isDisabled}>
-                  {isLoading ? <Spinner color={Colors.headerBg} /> : <Text>{_T('login')}</Text>}
+                  {isLoading ? <Spinner color={Colors.blue} /> : <Text>{_T('login')}</Text>}
                 </Button>
                 <TouchableOpacity style={ss.forgotPass} disabled={forgotDisabled} onPress={this._forgotPass}>
-                  <Text style={{ color: forgotDisabled ? Colors.loginBg : Colors.headerBg }} note>{_T('forgotPass')}</Text>
+                  <Text style={{ color: forgotDisabled ? Colors.steel : Colors.blue }} note>{_T('forgotPass')}</Text>
                 </TouchableOpacity>
               </View>
             </Form>
@@ -203,7 +203,7 @@ const ss = StyleSheet.create({
   },
   form: {
     borderRadius: 7,
-    backgroundColor: Colors.snow,
+    backgroundColor: Colors.white,
     marginHorizontal: 20
   },
   item: {
@@ -221,11 +221,11 @@ const ss = StyleSheet.create({
     paddingVertical: 5
     // borderWidth: 1,
     // borderRadius: 3,
-    // borderColor: Colors.error
+    // borderColor: Colors.fire
   },
   errorText: {
     textAlign: 'center',
-    color: Colors.error
+    color: Colors.fire
   },
   submitContainer: {
     marginHorizontal: 10,

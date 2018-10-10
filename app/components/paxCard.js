@@ -259,7 +259,7 @@ const ss = StyleSheet.create({
     paddingVertical: 5
   },
   bookingText: {
-    color: Colors.headerBg
+    color: Colors.blue
   },
   editForm: {
     padding: 20

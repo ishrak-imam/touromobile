@@ -18,17 +18,19 @@ class ExcursionsScreen extends Component {
   }
 
   shouldComponentUpdate (nextProps) {
-    return !nextProps.currentTrip.equals(this.props.currentTrip)
+    return !nextProps.trip.equals(this.props.trip)
   }
 
   render () {
-    const { currentTrip, navigation } = this.props
+    const { trip, navigation } = this.props
+    const brand = trip.get('brand')
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} />
+        <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
         <Excursions
-          trip={currentTrip.get('trip')}
+          trip={trip}
           navigation={navigation}
+          brand={brand}
         />
       </Container>
     )
@@ -36,7 +38,7 @@ class ExcursionsScreen extends Component {
 }
 
 const stateToProps = state => ({
-  currentTrip: currentTripSelector(state)
+  trip: currentTripSelector(state).get('trip')
 })
 
 export default connect(stateToProps, null)(ExcursionsScreen)

@@ -50,7 +50,7 @@ class PaxListItem extends Component {
           <Text style={{ flex: 2, flexWrap: 'wrap' }}>{name}</Text>
         </Body>
         <Right style={{ flex: 1 }}>
-          {checked && <IonIcon name='star' color={Colors.headerBg} />}
+          {checked && <IonIcon name='star' color={Colors.blue} />}
         </Right>
       </ListItem>
     )
@@ -137,18 +137,19 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _renderTabs = () => {
+  _renderTabs = brand => {
     const { filter } = this.state
+    const selectedColor = Colors[`${brand}Brand`]
     return (
       <View style={ss.tabContainer}>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: filter === PARTICIPATING ? Colors.headerBg : Colors.silver }]}
+          style={[ss.tab, { backgroundColor: filter === PARTICIPATING ? selectedColor : Colors.silver }]}
           onPress={this._onTabSwitch(PARTICIPATING)}
         >
           <Text style={{ color: filter === PARTICIPATING ? Colors.silver : Colors.black }}>{_T('participating')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: filter === ALL ? Colors.headerBg : Colors.silver }]}
+          style={[ss.tab, { backgroundColor: filter === ALL ? selectedColor : Colors.silver }]}
           onPress={this._onTabSwitch(ALL)}
         >
           <Text style={{ color: filter === ALL ? Colors.silver : Colors.black }}>{_T('all')}</Text>
@@ -165,10 +166,10 @@ class ExcursionDetailsScreen extends Component {
     })
   }
 
-  _renderRight = () => {
+  _renderRight = brand => {
     const { sort } = this.state
     // const iconColor = Colors.silver
-    const switchColor = Colors.headerBg
+    const switchColor = Colors[`${brand}Brand`]
     // const iconSize = 16
     return (
       <View style={ss.headerRight}>
@@ -200,6 +201,7 @@ class ExcursionDetailsScreen extends Component {
     const { navigation, currentTrip, participants } = this.props
     const { searchText, filter, sort } = this.state
     const excursion = navigation.getParam('excursion')
+    const brand = navigation.getParam('brand')
     const excursionId = String(excursion.get('id'))
     const exParticipants = participants.get(excursionId)
 
@@ -218,10 +220,11 @@ class ExcursionDetailsScreen extends Component {
           left='back'
           title={excursion.get('name')}
           navigation={navigation}
-          right={this._renderRight}
+          right={this._renderRight(brand)}
+          brand={brand}
         />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
-        {this._renderTabs()}
+        {this._renderTabs(brand)}
         {this._renderPersons(sortedPax, exParticipants)}
       </Container>
     )
@@ -254,7 +257,7 @@ const ss = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 10,
     // borderWidth: 2,
-    borderColor: Colors.headerBg,
+    borderColor: Colors.blue,
     padding: 2,
     borderRadius: 5
   },

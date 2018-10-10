@@ -18,7 +18,8 @@ import Badge from '../components/badge'
 import {
   getLogin,
   getNavigation,
-  pendingStatsUploadCount
+  pendingStatsUploadCount,
+  currentTripSelector
   // getTrips,
 } from '../selectors'
 import Translator from '../utils/translator'
@@ -48,10 +49,11 @@ class TMDrawer extends Component {
   }
 
   _renderHeader = () => {
-    const { user } = this.props
+    const { user, trip } = this.props
+    const brand = trip.get('brand')
     const userName = user.get('full_name')
     return (
-      <View style={ss.header}>
+      <View style={[ss.header, { backgroundColor: Colors[`${brand}Brand`] }]}>
         <View style={ss.headerContent}>
           <Image
             style={ss.drawerImage}
@@ -88,7 +90,8 @@ class TMDrawer extends Component {
   }
 
   _renderMenuItems = () => {
-    const { pendingUploadCount } = this.props
+    const { pendingUploadCount, trip } = this.props
+    const brand = trip.get('brand')
     // const hasFutureTrips = trips.getIn(['future', 'has'])
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
@@ -102,13 +105,13 @@ class TMDrawer extends Component {
       let onPress = this._onMenuItemPress(item)
 
       if (isSelected) {
-        backgroundColor = Colors.headerBg
+        backgroundColor = Colors[`${brand}Brand`]
         color = Colors.silver
       }
 
       // if (isDisabled) {
       //   backgroundColor = 'transparent'
-      //   color = Colors.loginBg
+      //   color = Colors.steel
       //   onPress = null
       // }
 
@@ -162,16 +165,15 @@ class TMDrawer extends Component {
 const stateToProps = state => ({
   user: getLogin(state).get('user'),
   nav: getNavigation(state),
-  pendingUploadCount: pendingStatsUploadCount(state)
-  // trips: getTrips(state)
+  pendingUploadCount: pendingStatsUploadCount(state),
+  trip: currentTripSelector(state).get('trip')
 })
 
 export default connect(stateToProps, null)(TMDrawer)
 
 const ss = StyleSheet.create({
   header: {
-    height: 200,
-    backgroundColor: Colors.headerBg
+    height: 200
   },
   headerName: {
     color: Colors.silver
@@ -183,7 +185,7 @@ const ss = StyleSheet.create({
     paddingTop: 50
   },
   footer: {
-    backgroundColor: Colors.snow,
+    backgroundColor: Colors.white,
     height: 60
   },
   footerContainer: {

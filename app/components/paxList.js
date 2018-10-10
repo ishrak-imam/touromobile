@@ -38,7 +38,7 @@ class PaxItem extends Component {
 
   _commentToggle = () => {
     const { comment } = this.state
-    const name = comment ? 'up' : 'information'
+    const name = comment ? 'up' : 'info'
     return (
       <IconButton
         name={name} color='black'
@@ -48,11 +48,11 @@ class PaxItem extends Component {
   }
 
   render () {
-    const { pax, onItemPress } = this.props
+    const { pax, onItemPress, brand } = this.props
     const { comment } = this.state
     if (pax.get('first')) {
       return (
-        <ListItem itemDivider style={{ backgroundColor: Colors.headerBg }}>
+        <ListItem itemDivider style={{ backgroundColor: Colors[`${brand}Brand`] }}>
           <Text style={ss.sectionText}>{pax.get('initial')}</Text>
         </ListItem>
       )
@@ -92,21 +92,22 @@ class PaxList extends Component {
   }
 
   _toPaxDetails = pax => {
-    const { navigation, trip } = this.props
+    const { navigation, trip, brand } = this.props
     const departureId = String(trip.get('departureId'))
     return () => {
-      navigation.navigate('PaxDetails', { pax, departureId })
+      navigation.navigate('PaxDetails', { pax, departureId, brand })
     }
   }
 
   _renderPerson = ({ item }) => {
-    const { modifiedPax } = this.props
+    const { modifiedPax, brand } = this.props
     const id = String(item.get('id'))
     const pax = modifiedPax.get(id) || item
     return (
       <PaxItem
         pax={pax}
         onItemPress={this._toPaxDetails}
+        brand={brand}
       />
     )
   }

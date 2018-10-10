@@ -52,14 +52,16 @@ class TripScreen extends Component {
     const { navigation, trips } = this.props
     const isLoading = trips.get('isLoading')
     const current = trips.get('current')
+    const trip = current.get('trip')
+    const brand = trip.get('brand')
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} />
+        <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
         {
           isLoading
             ? <NoData text='Fetching data from Touro...' textStyle={{ marginTop: 30 }} />
             : current.get('has')
-              ? current.get('has') && <Trip trip={current.get('trip')} navigation={navigation} />
+              ? current.get('has') && <Trip trip={trip} navigation={navigation} />
               : <NoData text='No more trips' textStyle={{ marginTop: 30 }} />
         }
       </Container>

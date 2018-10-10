@@ -6,21 +6,24 @@ import {
 import Header from '../../components/header'
 import FutureTrips from '../../components/futureTrips'
 import { connect } from 'react-redux'
-import { futureTripsSelector } from '../../selectors/index'
+import { getTrips } from '../../selectors/index'
 import Translator from '../../utils/translator'
 
 const _T = Translator('FutureTripsScreen')
 
 class FutureTripsScreen extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.futureTrips.equals(this.props.futureTrips)
+    return !nextProps.trips.equals(this.props.trips)
   }
 
   render () {
-    const { navigation, futureTrips } = this.props
+    const { navigation, trips } = this.props
+    const futureTrips = trips.get('future')
+    const trip = trips.get('current').get('trip')
+    const brand = trip.get('brand')
     return (
       <Container>
-        <Header left='back' title={_T('title')} navigation={navigation} />
+        <Header left='back' title={_T('title')} navigation={navigation} brand={brand} />
         <FutureTrips futureTrips={futureTrips} />
       </Container>
     )
@@ -28,7 +31,7 @@ class FutureTripsScreen extends Component {
 }
 
 const stateToProps = state => ({
-  futureTrips: futureTripsSelector(state)
+  trips: getTrips(state)
 })
 
 export default connect(stateToProps, null)(FutureTripsScreen)

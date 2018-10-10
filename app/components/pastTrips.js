@@ -14,21 +14,23 @@ class PastTrips extends Component {
            !nextProps.modifiedData.equals(this.props.modifiedData)
   }
 
-  _renderTripCard = ({ item }) => {
+  _renderTripCard = brand => {
     const { modifiedData } = this.props
-    const departureId = String(item.get('departureId'))
-    const modifiedTripData = modifiedData.get(departureId)
-    return <TripCard trip={item} type='past' modifiedTripData={modifiedTripData} />
+    return ({ item }) => {
+      const departureId = String(item.get('departureId'))
+      const modifiedTripData = modifiedData.get(departureId)
+      return <TripCard trip={item} type='past' modifiedTripData={modifiedTripData} brand={brand} />
+    }
   }
 
-  _renderFutureTrips = pastTrips => {
+  _renderPastTrips = (pastTrips, brand) => {
     return (
       pastTrips.get('has')
         ? <ImmutableVirtualizedList
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
           immutableData={pastTrips.get('trips')}
-          renderItem={this._renderTripCard}
+          renderItem={this._renderTripCard(brand)}
           keyExtractor={item => String(item.get('departureId'))}
         />
         : <NoData text='No more future trips' textStyle={{ marginTop: 30 }} />
@@ -36,10 +38,10 @@ class PastTrips extends Component {
   }
 
   render () {
-    const { pastTrips } = this.props
+    const { pastTrips, brand } = this.props
     return (
       <View style={ss.container}>
-        {this._renderFutureTrips(pastTrips)}
+        {this._renderPastTrips(pastTrips, brand)}
       </View>
     )
   }

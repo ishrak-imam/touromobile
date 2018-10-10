@@ -20,7 +20,7 @@ export default class TMSearchBar extends Component {
     return (
       text
         ? <TouchableOpacity onPress={this._onCancel}>
-          <IonIcon style={ss.righIcon} name='closeCircle' color={Colors.black} />
+          <IonIcon style={ss.righIcon} name='circleX' color={Colors.black} />
         </TouchableOpacity>
         : <IonIcon style={ss.righIcon} name={icon} color={Colors.black} />
     )
@@ -83,8 +83,7 @@ const ss = StyleSheet.create({
   input: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#fff',
-    color: '#424242',
+    backgroundColor: Colors.white,
     borderRadius: 7,
     fontSize: 16
   },

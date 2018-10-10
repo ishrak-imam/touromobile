@@ -39,10 +39,15 @@ class ReportsScreen extends Component {
 
   render () {
     const { trip, participants, excursions, reports, navigation } = this.props
+    const brand = trip.get('brand')
     const isLoading = reports.get('isLoading')
+    const footerButton = StyleSheet.flatten([
+      ss.footerButton,
+      { backgroundColor: Colors[`${brand}Brand`] }
+    ])
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} />
+        <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
         <Stats
           participants={participants}
           excursions={excursions}
@@ -50,10 +55,10 @@ class ReportsScreen extends Component {
           navigation={navigation}
         />
         <CardItem>
-          <Button iconLeft style={ss.footerButton} onPress={this._onUpload} disabled={isLoading}>
+          <Button iconLeft style={footerButton} onPress={this._onUpload} disabled={isLoading}>
             {
               isLoading
-                ? <Spinner color={Colors.headerBg} />
+                ? <Spinner color={Colors.blue} />
                 : <View style={ss.buttonItem}>
                   <IonIcon name='upload' color='white' style={ss.buttonIcon} />
                   <Text style={ss.buttonText}>{_T('upload')}</Text>

@@ -73,8 +73,8 @@ export default class RestaurantScreen extends Component {
             const name = m.get('name')
             const adult = m.get('adult')
             const child = m.get('child')
-            const adultObj = adult === null ? <IonIcon name='close' color='red' size={14} /> : adult
-            const childObj = child === null ? <IonIcon name='close' color='red' size={14} /> : child
+            const adultObj = adult === null ? <IonIcon name='x' color='red' size={14} /> : adult
+            const childObj = child === null ? <IonIcon name='x' color='red' size={14} /> : child
             return (
               <Item key={id} style={ss.item}>
                 <Text style={ss.itemText}>{name}</Text>
@@ -154,12 +154,13 @@ export default class RestaurantScreen extends Component {
     const direction = navigation.getParam('direction')
     const restaurant = navigation.getParam('restaurant')
     const trip = navigation.getParam('trip')
+    const brand = trip.get('brand')
     const meals = restaurant.get('meals')
     const orders = trip.get('orders')
 
     return (
       <Container>
-        <Header left='back' title={restaurant.get('name')} navigation={navigation} />
+        <Header left='back' title={restaurant.get('name')} navigation={navigation} brand={brand} />
         <ScrollView>
           <View style={ss.containerCard}>
             {this._renderRestaurant(restaurant)}

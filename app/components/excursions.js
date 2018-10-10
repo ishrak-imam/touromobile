@@ -3,7 +3,7 @@ import {
   View, Text, Card,
   CardItem, Left, Body, Right
 } from 'native-base'
-import { IonIcon } from '../theme'
+import { IonIcon, Colors } from '../theme'
 import {
   getPax, getParticipants,
   getSortedExcursions, getModifiedPax,
@@ -31,13 +31,18 @@ class ExcursionCard extends Component {
   }
 
   render () {
-    const { excursion, onPress, trip, participants, modifiedPax } = this.props
+    const { excursion, onPress, trip, participants, modifiedPax, brand } = this.props
     const id = excursion.get('id')
     const name = excursion.get('name')
     const description = excursion.get('description')
     const start = excursion.get('start')
     const pax = getPax(trip)
     const participatingPax = getParticipatingPax(getMap({ pax, participants }))
+
+    const buttonStyle = StyleSheet.flatten([
+      ss.button,
+      { backgroundColor: Colors[`${brand}Brand`] }
+    ])
 
     return (
       <TouchableOpacity onPress={onPress(excursion)} key={id}>
@@ -60,7 +65,7 @@ class ExcursionCard extends Component {
             </Body>
           </CardItem>
           <CardItem footer>
-            <Button iconLeft style={ss.button} onPress={() => this._smsAll(pax, modifiedPax)}>
+            <Button iconLeft style={buttonStyle} onPress={() => this._smsAll(pax, modifiedPax)}>
               <IonIcon name='sms' color='white' />
               <Text>{_T('textAllParticipants')}</Text>
             </Button>
@@ -73,14 +78,14 @@ class ExcursionCard extends Component {
 
 class Excursions extends Component {
   _toDetails = (excursion) => {
-    const { navigation } = this.props
+    const { navigation, brand } = this.props
     return () => {
-      navigation.navigate('ExcursionDetails', { excursion })
+      navigation.navigate('ExcursionDetails', { excursion, brand })
     }
   }
 
   _renderExcursionCard = ({ item }) => {
-    const { trip, participants, modifiedPax } = this.props
+    const { trip, participants, modifiedPax, brand } = this.props
     return (
       <ExcursionCard
         excursion={item}
@@ -88,6 +93,7 @@ class Excursions extends Component {
         trip={trip}
         participants={participants.get(String(item.get('id')))}
         modifiedPax={modifiedPax}
+        brand={brand}
       />
     )
   }

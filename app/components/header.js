@@ -48,14 +48,15 @@ export default class TMHeader extends Component {
     const { right } = this.props
     return (
       <Right style={ss.right}>
-        {!!right && right()}
+        {!!right && right}
       </Right>
     )
   }
 
   _renderHeader = () => {
+    const { brand } = this.props
     return (
-      <Header style={ss.header}>
+      <Header style={[ss.header, { backgroundColor: Colors[`${brand}Brand`] }]}>
         {this._renderLeft()}
         {this._renderBody()}
         {this._renderRight()}
@@ -76,8 +77,8 @@ const ss = StyleSheet.create({
   header: {
     height: isIOS ? 70 : 80,
     paddingTop: isIOS ? 20 : 25,
-    paddingLeft: isIOS ? 15 : 10,
-    backgroundColor: Colors.headerBg
+    paddingLeft: isIOS ? 15 : 10
+    // backgroundColor: Colors.blue
   },
   left: {
     flex: 1
