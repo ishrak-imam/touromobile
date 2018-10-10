@@ -37,7 +37,7 @@ class PaxScreen extends Component {
   _renderRight = brand => {
     const { booking } = this.state
     const iconColor = Colors.silver
-    const switchColor = Colors[`${brand}Brand`]
+    const switchColor = Colors[`${brand}Brand`] || Colors.blue
     const iconSize = 16
     return (
       <View style={ss.headerRight}>

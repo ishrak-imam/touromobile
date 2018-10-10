@@ -50,9 +50,10 @@ class PaxItem extends Component {
   render () {
     const { pax, onItemPress, brand } = this.props
     const { comment } = this.state
+    const backgroundColor = Colors[`${brand}Brand`] || Colors.blue
     if (pax.get('first')) {
       return (
-        <ListItem itemDivider style={{ backgroundColor: Colors[`${brand}Brand`] }}>
+        <ListItem itemDivider style={{ backgroundColor }}>
           <Text style={ss.sectionText}>{pax.get('initial')}</Text>
         </ListItem>
       )

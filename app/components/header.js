@@ -55,8 +55,9 @@ export default class TMHeader extends Component {
 
   _renderHeader = () => {
     const { brand } = this.props
+    const backgroundColor = Colors[`${brand}Brand`] || Colors.blue
     return (
-      <Header style={[ss.header, { backgroundColor: Colors[`${brand}Brand`] }]}>
+      <Header style={[ss.header, { backgroundColor }]}>
         {this._renderLeft()}
         {this._renderBody()}
         {this._renderRight()}

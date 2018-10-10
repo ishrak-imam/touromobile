@@ -52,8 +52,9 @@ class TMDrawer extends Component {
     const { user, trip } = this.props
     const brand = trip.get('brand')
     const userName = user.get('full_name')
+    const backgroundColor = Colors[`${brand}Brand`] || Colors.blue
     return (
-      <View style={[ss.header, { backgroundColor: Colors[`${brand}Brand`] }]}>
+      <View style={[ss.header, { backgroundColor }]}>
         <View style={ss.headerContent}>
           <Image
             style={ss.drawerImage}
@@ -105,7 +106,7 @@ class TMDrawer extends Component {
       let onPress = this._onMenuItemPress(item)
 
       if (isSelected) {
-        backgroundColor = Colors[`${brand}Brand`]
+        backgroundColor = Colors[`${brand}Brand`] || Colors.blue
         color = Colors.silver
       }
 

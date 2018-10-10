@@ -27,7 +27,8 @@ class ReportsScreen extends Component {
   }
 
   _onUpload = () => {
-    const { excursions, participants, trip } = this.props
+    const { excursions, participants, currentTrip } = this.props
+    const trip = currentTrip.get('trip')
     const departureId = String(trip.get('departureId'))
     const statsData = getStatsData(excursions, participants, trip)
     networkActionDispatcher(uploadStatsReq({
@@ -37,14 +38,33 @@ class ReportsScreen extends Component {
     }))
   }
 
-  render () {
-    const { trip, participants, excursions, reports, navigation } = this.props
-    const brand = trip.get('brand')
-    const isLoading = reports.get('isLoading')
+  _renderUploadButton = (reports, brand) => {
     const footerButton = StyleSheet.flatten([
       ss.footerButton,
-      { backgroundColor: Colors[`${brand}Brand`] }
+      { backgroundColor: Colors[`${brand}Brand`] || Colors.blue }
     ])
+    const isLoading = reports.get('isLoading')
+    return (
+      <CardItem>
+        <Button iconLeft style={footerButton} onPress={this._onUpload} disabled={isLoading}>
+          {
+            isLoading
+              ? <Spinner color={Colors.blue} />
+              : <View style={ss.buttonItem}>
+                <IonIcon name='upload' color='white' style={ss.buttonIcon} />
+                <Text style={ss.buttonText}>{_T('upload')}</Text>
+              </View>
+          }
+        </Button>
+      </CardItem>
+    )
+  }
+
+  render () {
+    const { currentTrip, participants, excursions, reports, navigation } = this.props
+    const trip = currentTrip.get('trip')
+    const brand = trip.get('brand')
+
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
@@ -54,29 +74,17 @@ class ReportsScreen extends Component {
           trip={trip}
           navigation={navigation}
         />
-        <CardItem>
-          <Button iconLeft style={footerButton} onPress={this._onUpload} disabled={isLoading}>
-            {
-              isLoading
-                ? <Spinner color={Colors.blue} />
-                : <View style={ss.buttonItem}>
-                  <IonIcon name='upload' color='white' style={ss.buttonIcon} />
-                  <Text style={ss.buttonText}>{_T('upload')}</Text>
-                </View>
-            }
-          </Button>
-        </CardItem>
+        {currentTrip.get('has') && this._renderUploadButton(reports, brand)}
       </Container>
     )
   }
 }
 
 const stateToProps = state => {
-  const current = currentTripSelector(state)
-  const trip = current.get('trip')
-  const departureId = String(trip.get('departureId'))
+  const currentTrip = currentTripSelector(state)
+  const departureId = String(currentTrip.get('trip').get('departureId'))
   return {
-    trip,
+    currentTrip,
     participants: getParticipants(state, departureId),
     excursions: getTripExcursions(state),
     reports: getReports(state)

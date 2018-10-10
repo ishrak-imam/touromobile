@@ -39,8 +39,9 @@ class Trip extends Component {
     const brand = trip.get('brand')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
+    const backgroundColor = Colors[`${brand}Brand`] || Colors.blue
     return (
-      <CardItem style={{ backgroundColor: Colors[`${brand}Brand`], borderRadius: 0 }}>
+      <CardItem style={{ backgroundColor, borderRadius: 0 }}>
         <Body><Text style={ss.boldText}>{brand}   {name}</Text></Body>
         <Right>
           <Text>{`${outDate} - ${homeDate}`}</Text>
@@ -158,7 +159,7 @@ class Trip extends Component {
     const brand = trip.get('brand')
     const style = StyleSheet.flatten([
       ss.footerButton,
-      { backgroundColor: Colors[`${brand}Brand`] }
+      { backgroundColor: Colors[`${brand}Brand`] || Colors.blue }
     ])
     return (
       <CardItem footer>

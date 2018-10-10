@@ -48,7 +48,8 @@ export default class TripCard extends Component {
   _renderUploadButton = () => {
     const { modifiedTripData, brand } = this.props
     const isLoading = modifiedTripData ? modifiedTripData.get('isLoading') : false
-    const button = [ss.uploadButton, { backgroundColor: Colors[`${brand}Brand`] }]
+    const backgroundColor = Colors[`${brand}Brand`] || Colors.blue
+    const button = [ss.uploadButton, { backgroundColor }]
     return (
       <View style={{ paddingTop: 10 }}>
         {
@@ -101,10 +102,12 @@ export default class TripCard extends Component {
     const image = trip.get('image')
     const pax = getPax(trip)
 
+    const backgroundColor = Colors[`${brand}Brand`] || Colors.blue
+
     return (
       <View style={ss.card}>
 
-        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
+        <View style={[ss.cardHeader, { backgroundColor }]}>
           <Text style={ss.brandText}>{brand}</Text>
           <Text>{`${name} ${outDate} - ${homeDate}`}</Text>
           <IonIcon name={transport.get('type')} />

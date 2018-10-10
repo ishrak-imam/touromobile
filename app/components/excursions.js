@@ -41,7 +41,7 @@ class ExcursionCard extends Component {
 
     const buttonStyle = StyleSheet.flatten([
       ss.button,
-      { backgroundColor: Colors[`${brand}Brand`] }
+      { backgroundColor: Colors[`${brand}Brand`] || Colors.blue }
     ])
 
     return (
