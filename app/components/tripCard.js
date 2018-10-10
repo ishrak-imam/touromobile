@@ -52,7 +52,7 @@ export default class TripCard extends Component {
       <View style={{ paddingTop: 10 }}>
         {
           isLoading
-            ? <Spinner color={Colors.headerBg} size='small' style={{ paddingVertical: 10 }} />
+            ? <Spinner color={Colors.blue} size='small' style={{ paddingVertical: 10 }} />
             : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
               <Text style={ss.uploadButtonText}>Upload report</Text>
             </TouchableOpacity>
@@ -93,7 +93,6 @@ export default class TripCard extends Component {
     const { trip } = this.props
 
     const brand = trip.get('brand')
-    const brCode = brand.toLowerCase()
     const name = trip.get('name')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
@@ -104,7 +103,7 @@ export default class TripCard extends Component {
     return (
       <View style={ss.card}>
 
-        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brCode}Brand`] }]}>
+        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <Text style={ss.brandText}>{brand}</Text>
           <Text>{`${name} ${outDate} - ${homeDate}`}</Text>
           <IonIcon name={transport.get('type')} />
@@ -209,7 +208,7 @@ const ss = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 5,
     alignItems: 'center',
-    backgroundColor: Colors.headerBg
+    backgroundColor: Colors.blue
   },
   uploadButtonText: {
     color: Colors.silver,

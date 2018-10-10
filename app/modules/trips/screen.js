@@ -52,9 +52,11 @@ class TripScreen extends Component {
     const { navigation, trips } = this.props
     const isLoading = trips.get('isLoading')
     const current = trips.get('current')
+
+    const brand = current.get('trip').get('brand')
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} />
+        <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
         {
           isLoading
             ? <NoData text='Fetching data from Touro...' textStyle={{ marginTop: 30 }} />

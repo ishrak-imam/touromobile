@@ -7,6 +7,8 @@ import {
   Animated
 } from 'react-native'
 
+import { Colors } from '../theme'
+
 export default class TMSwitch extends React.Component {
   static calculateDimensions (size) {
     switch (size) {
@@ -91,8 +93,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    // borderWidth: 2,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     padding: 2,
     borderRadius: 20
   }

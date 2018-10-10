@@ -1,7 +1,8 @@
 
 import React from 'react'
 import isIOS from '../utils/isIOS'
-import { BottomTabBar, MaterialTopTabBar  } from 'react-navigation-tabs'
+import { Colors } from '../theme'
+import { BottomTabBar, MaterialTopTabBar } from 'react-navigation-tabs'
 
 const TabBarComponent = (props) => {
   const { navigation, ...options } = props
@@ -11,6 +12,9 @@ const TabBarComponent = (props) => {
       navigation={navigation} {...options}
       showLabel={false}
       showIcon
+      style={{ backgroundColor: Colors.sliver }}
+      activeTintColor={Colors.blue}
+      inactiveTintColor={Colors.charcoal}
     />
   )
 }

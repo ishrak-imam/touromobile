@@ -21,7 +21,7 @@ class PastTrips extends Component {
     return <TripCard trip={item} type='past' modifiedTripData={modifiedTripData} />
   }
 
-  _renderFutureTrips = pastTrips => {
+  _renderPastTrips = pastTrips => {
     return (
       pastTrips.get('has')
         ? <ImmutableVirtualizedList
@@ -39,7 +39,7 @@ class PastTrips extends Component {
     const { pastTrips } = this.props
     return (
       <View style={ss.container}>
-        {this._renderFutureTrips(pastTrips)}
+        {this._renderPastTrips(pastTrips)}
       </View>
     )
   }

@@ -102,7 +102,7 @@ class TMDrawer extends Component {
       let onPress = this._onMenuItemPress(item)
 
       if (isSelected) {
-        backgroundColor = Colors.headerBg
+        backgroundColor = Colors.blue
         color = Colors.silver
       }
 
@@ -171,7 +171,7 @@ export default connect(stateToProps, null)(TMDrawer)
 const ss = StyleSheet.create({
   header: {
     height: 200,
-    backgroundColor: Colors.headerBg
+    backgroundColor: Colors.blue
   },
   headerName: {
     color: Colors.silver

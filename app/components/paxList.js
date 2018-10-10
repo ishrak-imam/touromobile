@@ -38,7 +38,7 @@ class PaxItem extends Component {
 
   _commentToggle = () => {
     const { comment } = this.state
-    const name = comment ? 'up' : 'information'
+    const name = comment ? 'up' : 'info'
     return (
       <IconButton
         name={name} color='black'
@@ -52,7 +52,7 @@ class PaxItem extends Component {
     const { comment } = this.state
     if (pax.get('first')) {
       return (
-        <ListItem itemDivider style={{ backgroundColor: Colors.headerBg }}>
+        <ListItem itemDivider style={{ backgroundColor: Colors.blue }}>
           <Text style={ss.sectionText}>{pax.get('initial')}</Text>
         </ListItem>
       )

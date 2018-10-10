@@ -73,8 +73,8 @@ export default class RestaurantScreen extends Component {
             const name = m.get('name')
             const adult = m.get('adult')
             const child = m.get('child')
-            const adultObj = adult === null ? <IonIcon name='close' color='red' size={14} /> : adult
-            const childObj = child === null ? <IonIcon name='close' color='red' size={14} /> : child
+            const adultObj = adult === null ? <IonIcon name='x' color='red' size={14} /> : adult
+            const childObj = child === null ? <IonIcon name='x' color='red' size={14} /> : child
             return (
               <Item key={id} style={ss.item}>
                 <Text style={ss.itemText}>{name}</Text>

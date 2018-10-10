@@ -23,11 +23,14 @@ class ExcursionsScreen extends Component {
 
   render () {
     const { currentTrip, navigation } = this.props
+    const trip = currentTrip.get('trip')
+    const brand = trip.get('brand')
+
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} />
+        <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
         <Excursions
-          trip={currentTrip.get('trip')}
+          trip={trip}
           navigation={navigation}
         />
       </Container>

@@ -38,11 +38,12 @@ class Trip extends Component {
     const name = trip.get('name')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
+    const brand = trip.get('brand')
     return (
-      <CardItem>
-        <Body><Text style={ss.boldText}>{name}</Text></Body>
+      <CardItem style={{ backgroundColor: Colors[`${brand}Brand`], borderRadius: 0 }}>
+        <Body><Text style={ss.boldText}>{brand}   {name}</Text></Body>
         <Right>
-          <Text note>{`${outDate} - ${homeDate}`}</Text>
+          <Text>{`${outDate} - ${homeDate}`}</Text>
         </Right>
       </CardItem>
     )
@@ -223,6 +224,6 @@ const ss = StyleSheet.create({
     alignItems: 'flex-start'
   },
   restaurantName: {
-    color: Colors.headerBg
+    color: Colors.blue
   }
 })

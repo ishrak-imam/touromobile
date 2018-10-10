@@ -34,10 +34,10 @@ class PaxScreen extends Component {
     return propsChanged || stateChanged
   }
 
-  _renderRight = () => {
+  _renderRight = brand => {
     const { booking } = this.state
     const iconColor = Colors.silver
-    const switchColor = Colors.headerBg
+    const switchColor = Colors[`${brand}Brand`] || Colors.blue
     const iconSize = 16
     return (
       <View style={ss.headerRight}>
@@ -66,13 +66,16 @@ class PaxScreen extends Component {
     const { booking } = this.state
     const trip = currentTrip.get('trip')
 
+    const brand = trip.get('brand')
+
     return (
       <Container>
         <Header
           left='menu'
           title={booking ? _T('bookingTitle') : _T('paxTitle')}
           navigation={navigation}
-          right={this._renderRight}
+          right={this._renderRight(brand)}
+          brand={brand}
         />
         <ViewPager ref='pager' style={ss.pagerContainer} onPageSelected={this._onPageSelected}>
           <View>
