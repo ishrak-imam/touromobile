@@ -19,7 +19,7 @@ const getIconName = (name) => {
     circleX: ['ios-close-circle', 'md-close-circle'],
     edit: ['ios-create', 'md-create'],
     check: ['ios-checkmark', 'md-checkmark'],
-    report: ['ios-cloud-upload', 'md-cloud-upload'],
+    stats: ['ios-stats', 'md-stats'],
     logout: ['ios-log-out', 'md-log-out'],
     settings: ['ios-settings', 'md-settings'],
     forward: ['ios-arrow-forward', 'md-arrow-forward'],

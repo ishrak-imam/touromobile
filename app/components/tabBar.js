@@ -15,6 +15,7 @@ const TabBarComponent = ({ navigation, ...options }) => {
       style={{ backgroundColor: Colors.sliver }}
       activeTintColor={Colors.blue}
       inactiveTintColor={Colors.charcoal}
+      indicatorStyle={{ backgroundColor: Colors.blue }}
     />
   )
 }

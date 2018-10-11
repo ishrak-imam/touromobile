@@ -22,7 +22,7 @@ const _T = Translator('ReportsScreen')
 class ReportsScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='report' color={tintColor} />
+      return <IonIcon name='stats' color={tintColor} />
     }
   }
 
