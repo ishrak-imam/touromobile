@@ -3,9 +3,10 @@ import {
   Container
 } from 'native-base'
 import Header from '../../components/header'
-import { IonIcon } from '../../theme/'
+import { IonIcon, Colors } from '../../theme/'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import {
   tripsReq,
   getCurrentTrip,
@@ -34,18 +35,42 @@ class TripScreen extends Component {
   }
 
   componentDidMount () {
-    const { trips, user } = this.props
+    const { trips } = this.props
     const isLocalData = trips.get('data').size > 0
     if (!isLocalData) {
-      networkActionDispatcher(tripsReq({
-        isNeedJwt: true, guideId: user.get('id')
-      }))
+      this._requestTrips()
     } else {
       actionDispatcher(getCurrentTrip())
       actionDispatcher(getFutureTrips())
       actionDispatcher(getPastTrips())
       actionDispatcher(getPendingStatsUpload())
     }
+  }
+
+  _requestTrips = () => {
+    const { user } = this.props
+    networkActionDispatcher(tripsReq({
+      isNeedJwt: true, guideId: user.get('id')
+    }))
+  }
+
+  _onRefresh = () => {
+    this._requestTrips()
+  }
+
+  _renderRight = () => {
+    const iconColor = Colors.silver
+    const iconSize = 30
+    return (
+      <TouchableOpacity style={ss.headerRight} onPress={this._onRefresh}>
+        <IonIcon
+          name='refresh'
+          color={iconColor}
+          size={iconSize}
+          style={{ paddingRight: 5 }}
+        />
+      </TouchableOpacity>
+    )
   }
 
   render () {
@@ -56,7 +81,13 @@ class TripScreen extends Component {
     const brand = current.get('trip').get('brand')
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
+        <Header
+          left='menu'
+          title={_T('title')}
+          navigation={navigation}
+          brand={brand}
+          right={this._renderRight()}
+        />
         {
           isLoading
             ? <NoData text='Fetching data from Touro...' textStyle={{ marginTop: 30 }} />
@@ -76,3 +107,13 @@ const stateToProps = state => ({
 })
 
 export default connect(stateToProps, null)(TripScreen)
+
+const ss = StyleSheet.create({
+  headerRight: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginRight: 5
+  }
+})
