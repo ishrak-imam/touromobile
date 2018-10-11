@@ -20,7 +20,7 @@ import { getMap } from '../utils/immutable'
 
 const _T = Translator('ExcursionsScreen')
 
-const DATE_FORMAT = 'YY MM DD, h:mm'
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
 class ExcursionCard extends Component {
   shouldComponentUpdate (nexProps) {

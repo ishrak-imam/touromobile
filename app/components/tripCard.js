@@ -6,13 +6,11 @@ import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import { getPax, getStatsData, getTotalPercentage } from '../selectors'
-
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
-
 import { getMap } from '../utils/immutable'
 
-const DATE_FORMAT = 'YY MM DD'
+const DATE_FORMAT = 'DD/MM'
 
 export default class TripCard extends Component {
   shouldComponentUpdate (nextProps) {
@@ -105,7 +103,7 @@ export default class TripCard extends Component {
 
         <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <Text style={ss.brandText}>{brand}</Text>
-          <Text>{`${name} ${outDate} - ${homeDate}`}</Text>
+          <Text>{`${name}    ${outDate} - ${homeDate}`}</Text>
           <IonIcon name={transport.get('type')} />
         </View>
 

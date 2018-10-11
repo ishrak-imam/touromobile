@@ -973,7 +973,7 @@
         "id": 5283,
         "name": "Willkommen in Berlin",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 1,
         "priceAdult": 360,
         "priceChild": 270
@@ -982,7 +982,7 @@
         "id": 5284,
         "name": "Stadsrundtur",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 2,
         "priceAdult": 245,
         "priceChild": 125
@@ -991,7 +991,7 @@
         "id": 5285,
         "name": "Shopping i Spandau",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 3,
         "priceAdult": 125,
         "priceChild": 65
@@ -1000,7 +1000,7 @@
         "id": 5286,
         "name": "Berlins hjärta med TV-tornet",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 4,
         "priceAdult": 465,
         "priceChild": 3500
@@ -2041,7 +2041,7 @@
         "id": 5283,
         "name": "Willkommen in Berlin",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 1,
         "priceAdult": 360,
         "priceChild": 270
@@ -2050,7 +2050,7 @@
         "id": 5284,
         "name": "Stadsrundtur",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 2,
         "priceAdult": 245,
         "priceChild": 125
@@ -2059,7 +2059,7 @@
         "id": 5285,
         "name": "Shopping i Spandau",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 3,
         "priceAdult": 125,
         "priceChild": 65
@@ -2068,7 +2068,7 @@
         "id": 5286,
         "name": "Berlins hjärta med TV-tornet",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 4,
         "priceAdult": 465,
         "priceChild": 3500
@@ -3109,7 +3109,7 @@
         "id": 5283,
         "name": "Willkommen in Berlin",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 1,
         "priceAdult": 360,
         "priceChild": 270
@@ -3118,7 +3118,7 @@
         "id": 5284,
         "name": "Stadsrundtur",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 2,
         "priceAdult": 245,
         "priceChild": 125
@@ -3127,7 +3127,7 @@
         "id": 5285,
         "name": "Shopping i Spandau",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 3,
         "priceAdult": 125,
         "priceChild": 65
@@ -3136,7 +3136,7 @@
         "id": 5286,
         "name": "Berlins hjärta med TV-tornet",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 4,
         "priceAdult": 465,
         "priceChild": 3500
@@ -4177,7 +4177,7 @@
         "id": 5283,
         "name": "Willkommen in Berlin",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 1,
         "priceAdult": 360,
         "priceChild": 270
@@ -4186,7 +4186,7 @@
         "id": 5284,
         "name": "Stadsrundtur",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 2,
         "priceAdult": 245,
         "priceChild": 125
@@ -4195,7 +4195,7 @@
         "id": 5285,
         "name": "Shopping i Spandau",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 3,
         "priceAdult": 125,
         "priceChild": 65
@@ -4204,7 +4204,7 @@
         "id": 5286,
         "name": "Berlins hjärta med TV-tornet",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 4,
         "priceAdult": 465,
         "priceChild": 3500
@@ -5245,7 +5245,7 @@
         "id": 5283,
         "name": "Willkommen in Berlin",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 1,
         "priceAdult": 360,
         "priceChild": 270
@@ -5254,7 +5254,7 @@
         "id": 5284,
         "name": "Stadsrundtur",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 2,
         "priceAdult": 245,
         "priceChild": 125
@@ -5263,7 +5263,7 @@
         "id": 5285,
         "name": "Shopping i Spandau",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 3,
         "priceAdult": 125,
         "priceChild": 65
@@ -5272,7 +5272,7 @@
         "id": 5286,
         "name": "Berlins hjärta med TV-tornet",
         "description": null,
-        "start": "0001-01-01T00:00:00",
+        "start": "2018-01-01T12:00",
         "order": 4,
         "priceAdult": 465,
         "priceChild": 3500

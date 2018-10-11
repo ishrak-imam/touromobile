@@ -18,7 +18,7 @@ import { getMap } from '../utils/immutable'
 
 const _T = Translator('CurrentTripScreen')
 
-const DATE_FORMAT = 'MM DD'
+const DATE_FORMAT = 'DD/MM'
 
 class Trip extends Component {
   _renderPhone = phone => (
