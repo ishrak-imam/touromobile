@@ -12,7 +12,7 @@ import { uploadStatsReq } from '../modules/reports/action'
 
 import { getMap } from '../utils/immutable'
 
-const DATE_FORMAT = 'YY-MM-DD'
+const DATE_FORMAT = 'YY MM DD'
 
 export default class TripCard extends Component {
   shouldComponentUpdate (nextProps) {

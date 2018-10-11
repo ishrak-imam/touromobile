@@ -17,6 +17,7 @@ import { connect } from 'react-redux'
 import { getMap } from '../utils/immutable'
 
 const _T = Translator('CurrentTripScreen')
+
 const DATE_FORMAT = 'YY MM DD'
 
 class Trip extends Component {

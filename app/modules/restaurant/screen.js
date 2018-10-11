@@ -14,6 +14,7 @@ import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
 
 const DATE_FORMAT = 'YY MM DD, h:mm'
+
 const _T = Translator('RestaurantScreen')
 
 export default class RestaurantScreen extends Component {

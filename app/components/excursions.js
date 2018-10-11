@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import { getMap } from '../utils/immutable'
 
 const _T = Translator('ExcursionsScreen')
+
 const DATE_FORMAT = 'YY MM DD, h:mm'
 
 class ExcursionCard extends Component {

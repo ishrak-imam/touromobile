@@ -76,7 +76,7 @@ export default class TMHeader extends Component {
 
 const ss = StyleSheet.create({
   header: {
-    height: isIOS ? 70 : 80,
+    height: isIOS ? 70 : 90,
     paddingTop: isIOS ? 20 : 25,
     paddingLeft: isIOS ? 15 : 10
   },
