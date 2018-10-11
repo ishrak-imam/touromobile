@@ -18,7 +18,7 @@ import { getMap } from '../utils/immutable'
 
 const _T = Translator('CurrentTripScreen')
 
-const DATE_FORMAT = 'YY MM DD'
+const DATE_FORMAT = 'MM DD'
 
 class Trip extends Component {
   _renderPhone = phone => (
@@ -40,11 +40,17 @@ class Trip extends Component {
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     const brand = trip.get('brand')
+    const iconName = trip.get('transport').get('type')
     return (
       <CardItem style={{ backgroundColor: Colors[`${brand}Brand`], borderRadius: 0 }}>
-        <Body><Text style={ss.boldText}>{brand}   {name}</Text></Body>
-        <Right>
+        <Left style={ss.headerLeft}>
+          <Text numberOfLines={1} style={ss.headerLeftText}>{brand}  {name}</Text>
+        </Left>
+        <Body style={ss.headerBody}>
           <Text>{`${outDate} - ${homeDate}`}</Text>
+        </Body>
+        <Right style={ss.headerRight}>
+          <IonIcon name={iconName} />
         </Right>
       </CardItem>
     )
@@ -228,5 +234,20 @@ const ss = StyleSheet.create({
   },
   restaurantName: {
     color: Colors.blue
+  },
+  headerLeft: {
+    flex: 3
+  },
+  headerLeftText: {
+    fontWeight: 'bold',
+    marginLeft: 0
+  },
+  headerBody: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  headerRight: {
+    flex: 0.5
   }
 })
