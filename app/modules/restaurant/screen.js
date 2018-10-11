@@ -153,13 +153,13 @@ export default class RestaurantScreen extends Component {
     const { navigation } = this.props
     const direction = navigation.getParam('direction')
     const restaurant = navigation.getParam('restaurant')
-    const trip = navigation.getParam('trip')
+    const orders = navigation.getParam('orders')
+    const brand = navigation.getParam('brand')
     const meals = restaurant.get('meals')
-    const orders = trip.get('orders')
 
     return (
       <Container>
-        <Header left='back' title={restaurant.get('name')} navigation={navigation} />
+        <Header left='back' title={restaurant.get('name')} navigation={navigation} brand={brand} />
         <ScrollView>
           <View style={ss.containerCard}>
             {this._renderRestaurant(restaurant)}

@@ -8,7 +8,7 @@ import {
   logoutReq, logoutSucs,
   forgotPassReq, forgotPassSucs, forgotPassFail
 } from './action'
-// import { clearImageCache } from '../../components/imageCache/action'
+import { clearImageCache } from '../../components/imageCache/action'
 import { navigateToScene } from '../../navigation/action'
 import localStore, { USER } from '../../utils/persist'
 import { login, forgotPass } from './api'
@@ -65,7 +65,7 @@ export function * watchLogout () {
 
 function * workerLogout () {
   yield call(localStore.delete, USER)
-  // yield put(clearImageCache())
+  yield put(clearImageCache())
   yield put(logoutSucs())
   yield put(init())
 }

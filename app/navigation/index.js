@@ -50,7 +50,7 @@ const TripTabs = createTabNavigator(
     headerMode: 'none',
     tabBarPosition: 'bottom',
     lazy: false,
-    tabBarComponent: ({ navigation, ...options }) => <TabBarComponent navigation={navigation} {...options} />
+    tabBarComponent: props => <TabBarComponent {...props} />
   }
 )
 

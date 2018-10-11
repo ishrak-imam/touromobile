@@ -165,10 +165,10 @@ class ExcursionDetailsScreen extends Component {
     })
   }
 
-  _renderRight = () => {
+  _renderRight = brand => {
     const { sort } = this.state
     // const iconColor = Colors.silver
-    const switchColor = Colors.blue
+    const switchColor = Colors[`${brand}Brand`] || Colors.blue
     // const iconSize = 16
     return (
       <View style={ss.headerRight}>
@@ -200,6 +200,7 @@ class ExcursionDetailsScreen extends Component {
     const { navigation, currentTrip, participants } = this.props
     const { searchText, filter, sort } = this.state
     const excursion = navigation.getParam('excursion')
+    const brand = navigation.getParam('brand')
     const excursionId = String(excursion.get('id'))
     const exParticipants = participants.get(excursionId)
 
@@ -218,7 +219,8 @@ class ExcursionDetailsScreen extends Component {
           left='back'
           title={excursion.get('name')}
           navigation={navigation}
-          right={this._renderRight()}
+          right={this._renderRight(brand)}
+          brand={brand}
         />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
         {this._renderTabs()}

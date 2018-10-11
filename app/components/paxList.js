@@ -94,8 +94,9 @@ class PaxList extends Component {
   _toPaxDetails = pax => {
     const { navigation, trip } = this.props
     const departureId = String(trip.get('departureId'))
+    const brand = trip.get('brand')
     return () => {
-      navigation.navigate('PaxDetails', { pax, departureId })
+      navigation.navigate('PaxDetails', { brand, pax, departureId })
     }
   }
 
