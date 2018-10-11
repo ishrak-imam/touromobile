@@ -9,5 +9,5 @@ export const uploadStats = (departureId, statsData, jwt) => {
   }
   return config.useMockData
     ? mockUploadStats()
-    : postRequest(`resources/departure/${departureId}/statistics`, statsData, headers)
+    : mockUploadStats() // postRequest(`resources/departure/${departureId}/statistics`, statsData, headers)
 }
