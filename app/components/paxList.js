@@ -62,7 +62,7 @@ class PaxItem extends Component {
     const name = `${pax.get('firstName')} ${pax.get('lastName')}`
     return (
       <ListItem onPress={onItemPress(pax)}>
-        <Body>
+        <Body style={ss.itemBody}>
           <Text>{name}</Text>
           <Text note>{pax.get('booking').get('id')}</Text>
           {comment && <Text note>{paxComment}</Text>}
@@ -161,7 +161,11 @@ const ss = StyleSheet.create({
   container: {
     flex: 1
   },
+  itemBody: {
+    flex: 3.5
+  },
   itemRight: {
+    flex: 2,
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },

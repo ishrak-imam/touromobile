@@ -105,9 +105,13 @@ class BookingList extends Component {
   }
 }
 
-const stateToProps = state => ({
-  modifiedPax: getModifiedPax(state)
-})
+const stateToProps = (state, props) => {
+  const { trip } = props
+  const departureId = String(trip.get('departureId'))
+  return {
+    modifiedPax: getModifiedPax(state, departureId)
+  }
+}
 
 export default connect(stateToProps, null)(BookingList)
 
