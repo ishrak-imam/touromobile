@@ -13,7 +13,7 @@ import isEmpty from '../../utils/isEmpty'
 import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
 
-const DATE_FORMAT = 'YY MM DD, h:mm'
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
 const _T = Translator('RestaurantScreen')
 

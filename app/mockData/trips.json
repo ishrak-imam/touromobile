@@ -1016,7 +1016,7 @@
         "phone": "",
         "url": "https://www.lexingtonhotelnyc.com",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 1,
@@ -1035,7 +1035,7 @@
         "phone": "",
         "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 2,
@@ -2084,7 +2084,7 @@
         "phone": "",
         "url": "https://www.lexingtonhotelnyc.com",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 1,
@@ -2103,7 +2103,7 @@
         "phone": "",
         "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 2,
@@ -2142,7 +2142,7 @@
     "name": "Berlin Weekend",
     "image": "https://picsum.photos/700/500/?image=574",
     "description": "Berlin Weekend",
-    "brand": "SC",
+    "brand": "SS",
     "bookings": [
       {
         "id": "640062",
@@ -3152,7 +3152,7 @@
         "phone": "",
         "url": "https://www.lexingtonhotelnyc.com",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 1,
@@ -3171,7 +3171,7 @@
         "phone": "",
         "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 2,
@@ -4220,7 +4220,7 @@
         "phone": "",
         "url": "https://www.lexingtonhotelnyc.com",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 1,
@@ -4239,7 +4239,7 @@
         "phone": "",
         "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 2,
@@ -5288,7 +5288,7 @@
         "phone": "",
         "url": "https://www.lexingtonhotelnyc.com",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 1,
@@ -5307,7 +5307,7 @@
         "phone": "",
         "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
         "directions": null,
-        "time": "0001-01-01T00:00:00",
+        "time": "2018-01-01T12:00",
         "meals": [
           {
             "id": 2,
