@@ -16,6 +16,7 @@ import { Colors } from '../theme'
 import Translator from '../utils/translator'
 import NoData from '../components/noData'
 import { connect } from 'react-redux'
+import { mergeMapShallow } from '../utils/immutable'
 
 const _T = Translator('PassengersScreen')
 
@@ -64,7 +65,7 @@ class PaxItem extends Component {
       <ListItem onPress={onItemPress(pax)}>
         <Body style={ss.itemBody}>
           <Text>{name}</Text>
-          <Text note>{pax.get('booking').get('id')}</Text>
+          {/* <Text note>{pax.get('booking').get('id')}</Text> */}
           {comment && <Text note>{paxComment}</Text>}
         </Body>
         <Right style={ss.itemRight}>
@@ -102,8 +103,8 @@ class PaxList extends Component {
 
   _renderPerson = ({ item }) => {
     const { modifiedPax } = this.props
-    const id = String(item.get('id'))
-    const pax = modifiedPax.get(id) || item
+    const paxId = String(item.get('id'))
+    const pax = mergeMapShallow(item, modifiedPax.get(paxId))
     return (
       <PaxItem
         pax={pax}

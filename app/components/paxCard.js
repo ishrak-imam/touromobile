@@ -15,38 +15,35 @@ import { actionDispatcher } from '../utils/actionDispatcher'
 import { modifyPaxData } from '../modules/modifiedData/action'
 import { connect } from 'react-redux'
 import { getModifiedPax } from '../selectors'
+import { mergeMapShallow } from '../utils/immutable'
 const _T = Translator('PaxDetailsScreen')
 
 class PaxCard extends Component {
   constructor (props) {
     super(props)
-    const { pax, modifiedPax, departureId } = props
-    const paxId = String(pax.get('id'))
-    const modifiedData = modifiedPax.get(paxId)
-    if (!modifiedData) {
-      actionDispatcher(modifyPaxData({
-        departureId,
-        paxId: String(pax.get('id')),
-        pax
-      }))
-    }
-    const phone = modifiedData ? modifiedData.get('phone') : pax.get('phone')
-    const comment = modifiedData ? modifiedData.get('comment') : pax.get('comment')
     this.state = {
       editMode: false,
-      phone,
-      comment
+      phone: this.paxData.get('phone'),
+      comment: this.paxData.get('comment')
     }
   }
 
-  _toggleEditMode = () => {
+  get paxData () {
     const { pax, modifiedPax } = this.props
     const paxId = String(pax.get('id'))
     const modifiedData = modifiedPax.get(paxId)
+    /**
+     * merge reference data with modified pax data
+     * for UI consistency.
+     */
+    return mergeMapShallow(pax, modifiedData)
+  }
+
+  _toggleEditMode = () => {
     this.setState({
       editMode: !this.state.editMode,
-      phone: modifiedData.get('phone'),
-      comment: modifiedData.get('comment')
+      phone: this.paxData.get('phone'),
+      comment: this.paxData.get('comment')
     })
   }
 
@@ -169,13 +166,10 @@ class PaxCard extends Component {
   }
 
   _onCancel = () => {
-    const { pax, modifiedPax } = this.props
-    const paxId = String(pax.get('id'))
-    const modifiedData = modifiedPax.get(paxId)
     this.setState({
       editMode: false,
-      phone: modifiedData.get('phone'),
-      comment: modifiedData.get('comment')
+      phone: this.paxData.get('phone'),
+      comment: this.paxData.get('comment')
     })
   }
 
@@ -193,6 +187,7 @@ class PaxCard extends Component {
       paxId: String(pax.get('id')),
       pax: { phone, comment }
     }))
+
     this.setState({
       editMode: false,
       phone,
@@ -214,25 +209,21 @@ class PaxCard extends Component {
   }
 
   render () {
-    let { pax, modifiedPax } = this.props
-    const id = String(pax.get('id'))
-    pax = modifiedPax.get(id) || pax
-
     const { editMode, phone, comment } = this.state
-    const booking = pax.get('booking')
-    const excursion = pax.get('excursionPack')
-    const coPax = pax.get('booking').get('pax')
+    const booking = this.paxData.get('booking')
+    const excursion = this.paxData.get('excursionPack')
+    const coPax = this.paxData.get('booking').get('pax')
     return (
       <KeyboardAwareScrollView
         extraScrollHeight={isIOS ? 0 : 200}
         enableOnAndroid
         keyboardShouldPersistTaps='always'
       >
-        {this._renderPxName(pax)}
+        {this._renderPxName(this.paxData)}
         {this._renderPhone(phone)}
         {this._renderBooking(booking)}
         {!!excursion && this._renderExcursion()}
-        {!!coPax.size && this._renderCoPax(coPax, pax)}
+        {!!coPax.size && this._renderCoPax(coPax, this.paxData)}
         {this._renderComment(comment)}
         {editMode && this._renderFooterButtons()}
       </KeyboardAwareScrollView>
