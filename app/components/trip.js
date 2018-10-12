@@ -40,7 +40,8 @@ class Trip extends Component {
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     const brand = trip.get('brand')
-    const iconName = trip.get('transport').get('type')
+    const transport = trip.get('transport')
+    const iconName = transport ? transport.get('type') : null
     return (
       <CardItem style={{ backgroundColor: Colors[`${brand}Brand`], borderRadius: 0 }}>
         <Left style={ss.headerLeft}>
@@ -50,7 +51,7 @@ class Trip extends Component {
           <Text>{`${outDate} - ${homeDate}`}</Text>
         </Body>
         <Right style={ss.headerRight}>
-          <IonIcon name={iconName} />
+          {iconName && <IonIcon name={iconName} />}
         </Right>
       </CardItem>
     )

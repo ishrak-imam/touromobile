@@ -17,16 +17,26 @@ export function * watchUploadState () {
 }
 
 function * workerUploadStats (action) {
+  const {
+    departureId, statsData, jwt,
+    showToast, sucsMsg, failMsg
+  } = action.payload
+
   try {
-    const { departureId, statsData, jwt } = action.payload
     yield call(uploadStats, departureId, statsData, jwt)
     yield call(delay, 2000)
     yield put(uploadStatsSucs({
+      toast: showToast,
+      message: sucsMsg,
       departureId,
       time: new Date().toISOString()
     }))
     yield put(getPendingStatsUpload())
   } catch (e) {
-    yield put(uploadStatsFail())
+    yield put(uploadStatsFail({
+      departureId,
+      toast: showToast,
+      message: failMsg
+    }))
   }
 }

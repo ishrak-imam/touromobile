@@ -34,7 +34,10 @@ class ReportsScreen extends Component {
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
-      statsData
+      statsData,
+      showToast: true,
+      sucsMsg: 'Reports uploaded successfully',
+      failMsg: 'Reports upload failed'
     }))
   }
 

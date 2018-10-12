@@ -30,16 +30,35 @@ export default class TripCard extends Component {
     )
   }
 
-  _uploadStats = () => {
+  get tripData () {
     const { trip, modifiedTripData } = this.props
     const departureId = String(trip.get('departureId'))
     const excursions = trip.get('excursions')
-    const participants = modifiedTripData ? modifiedTripData.get('participants') : getMap({})
+    const participants = modifiedTripData
+      ? modifiedTripData.get('participants') ? modifiedTripData.get('participants') : getMap({})
+      : getMap({})
+    const statsUploadedAt = modifiedTripData ? modifiedTripData.get('statsUploadedAt') : null
+
+    return {
+      trip,
+      departureId,
+      excursions,
+      participants,
+      statsUploadedAt
+    }
+  }
+
+  _uploadStats = () => {
+    const { trip, departureId, excursions, participants } = this.tripData
     const statsData = getStatsData(excursions, participants, trip)
+
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
-      statsData
+      statsData,
+      showToast: true,
+      sucsMsg: 'Reports uploaded successfully',
+      failMsg: 'Reports upload failed'
     }))
   }
 
@@ -60,19 +79,16 @@ export default class TripCard extends Component {
   }
 
   _forPastTrips = () => {
-    const { modifiedTripData, trip } = this.props
-
-    const excursions = trip.get('excursions')
-    const participants = modifiedTripData
-      ? modifiedTripData.get('participants') ? modifiedTripData.get('participants') : getMap({})
-      : getMap({})
+    const { trip, excursions, participants, statsUploadedAt } = this.tripData
     const share = getTotalPercentage(excursions, participants, trip)
 
-    const statsUploadedAt = modifiedTripData ? modifiedTripData.get('statsUploadedAt') : null
     return (
       <View style={ss.pastTripCardTop}>
         <Text style={{ fontWeight: 'bold' }}>Participant share: {share}%</Text>
-        {statsUploadedAt && <Text style={{ fontWeight: 'bold', paddingVertical: 15 }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>}
+        {
+          statsUploadedAt &&
+          <Text style={{ fontWeight: 'bold', paddingVertical: 15 }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>
+        }
         {!statsUploadedAt && this._renderUploadButton()}
       </View>
     )

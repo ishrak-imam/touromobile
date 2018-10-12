@@ -9,7 +9,8 @@ import {
 
 import {
   UPLOAD_STATS_REQ,
-  UPLOAD_STATS_SUCS
+  UPLOAD_STATS_SUCS,
+  UPLOAD_STATS_FAIL
 } from '../reports/action'
 
 import { MODIFIED_DATA_INITIAL_STATE } from './immutable'
@@ -45,6 +46,13 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
   [UPLOAD_STATS_SUCS]: (state, payload) => {
     let modifiedData = readValue(payload.departureId, state) || getMap({})
     modifiedData = setIntoMap(modifiedData, 'statsUploadedAt', payload.time)
+    modifiedData = setIntoMap(modifiedData, 'isLoading', false)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [UPLOAD_STATS_FAIL]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    modifiedData = setIntoMap(modifiedData, 'statsUploadedAt', null)
     modifiedData = setIntoMap(modifiedData, 'isLoading', false)
     return setIntoMap(state, payload.departureId, modifiedData)
   }
