@@ -4,7 +4,10 @@ import {
   CardItem, Left,
   Body, Right, Text
 } from 'native-base'
-import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native'
+import {
+  StyleSheet, View,
+  TouchableOpacity, ScrollView
+} from 'react-native'
 import IconButton from '../components/iconButton'
 import { IonIcon, Colors } from '../theme'
 import Translator from '../utils/translator'
@@ -182,10 +185,38 @@ class Trip extends Component {
     const allPax = getPax(trip)
 
     return (
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ justifyContent: 'center' }}>
         {this._renderHeader(trip)}
         {!!image && this._renderImage(image)}
         {this._renderPaxCount(allPax.size)}
+
+        <View style={ss.flightCard}>
+
+          <View style={ss.cardHeader}>
+            <Text>CPH</Text>
+            <Text>Location</Text>
+            <Text />
+          </View>
+
+          <View style={ss.cardBody}>
+            <View style={ss.cardTop}>
+              <View style={{ padding: 10 }}>
+                <Text>aaaaaa</Text>
+                <Text>aaaaaa</Text>
+              </View>
+            </View>
+            <View style={ss.cardBottom}>
+              <View style={ss.bottomLeft}>
+                <Text>Passengers: 23</Text>
+              </View>
+              <View style={ss.bottomRight}>
+                <IconButton name='sms' color='blue' onPress={() => {}} />
+              </View>
+            </View>
+          </View>
+
+        </View>
+
         {!!transport && this._renderSchedule(transport)}
         {!!transport && this._renderDrivers(transport.get('drivers'))}
         {!!launches && this._renderRestaurants(launches)}
@@ -250,5 +281,47 @@ const ss = StyleSheet.create({
   },
   headerRight: {
     flex: 0.5
+  },
+
+  flightCard: {
+    height: 170,
+    marginHorizontal: 15,
+    borderRadius: 15,
+    borderWidth: 1
+  },
+  cardHeader: {
+    borderBottomWidth: 1,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  cardBody: {
+    flex: 1
+  },
+  cardTop: {
+    flex: 3
+  },
+  cardBottom: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 5
+  },
+  bottomLeft: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginLeft: 10
+  },
+  bottomRight: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginRight: 10
   }
 })

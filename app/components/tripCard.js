@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { StyleSheet, TouchableOpacity, ActivityIndicator as Spinner } from 'react-native'
+import {
+  StyleSheet, TouchableOpacity,
+  ActivityIndicator as Spinner
+} from 'react-native'
 import { View, Text } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
@@ -209,13 +212,13 @@ const ss = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 10
   },
-  brandText: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
   bottomRight: {
     flex: 1,
     flexDirection: 'row'
+  },
+  brandText: {
+    fontSize: 16,
+    fontWeight: 'bold'
   },
   uploadButton: {
     width: 150,
