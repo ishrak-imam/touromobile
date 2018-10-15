@@ -98,73 +98,73 @@ export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpl
 let sortedTripsCache = null
 export const getSortedTrips = trips => {
   if (!sortedTripsCache) {
-    sortedTripsCache = new Cache(resolvers.sortedTrips)
+    sortedTripsCache = Cache(resolvers.sortedTrips)
   }
-  return sortedTripsCache.getData(trips)
+  return sortedTripsCache(trips)
 }
 
 let paxCache = null
 export const getPax = trip => {
   if (!paxCache) {
-    paxCache = new Cache(resolvers.pax)
+    paxCache = Cache(resolvers.pax)
   }
-  return paxCache.getData(trip)
+  return paxCache(trip)
 }
 
 let sortedPaxCache = null
 export const getSortedPax = trip => {
   if (!sortedPaxCache) {
-    sortedPaxCache = new Cache(resolvers.sortedPax)
+    sortedPaxCache = Cache(resolvers.sortedPax)
   }
-  return sortedPaxCache.getData(trip)
+  return sortedPaxCache(trip)
 }
 
 let sortedPaxByBookingIdCache = null
 export const getSortedPaxByBookingId = trip => {
   if (!sortedPaxByBookingIdCache) {
-    sortedPaxByBookingIdCache = new Cache(resolvers.sortedPaxByBookingId)
+    sortedPaxByBookingIdCache = Cache(resolvers.sortedPaxByBookingId)
   }
-  return sortedPaxByBookingIdCache.getData(trip)
+  return sortedPaxByBookingIdCache(trip)
 }
 
 let sortedBookingCache = null
 export const getSortedBookings = trip => {
   if (!sortedBookingCache) {
-    sortedBookingCache = new Cache(resolvers.sortedBookings)
+    sortedBookingCache = Cache(resolvers.sortedBookings)
   }
-  return sortedBookingCache.getData(trip)
+  return sortedBookingCache(trip)
 }
 
 let paxDataCache = null
 export const preparePaxData = pax => {
   if (!paxDataCache) {
-    paxDataCache = new Cache(resolvers.paxData)
+    paxDataCache = Cache(resolvers.paxData)
   }
-  return paxDataCache.getData(pax)
+  return paxDataCache(pax)
 }
 
 let phoneNumbersCache = null
 export const getPhoneNumbers = data => {
   if (!phoneNumbersCache) {
-    phoneNumbersCache = new Cache(resolvers.phoneNumbers)
+    phoneNumbersCache = Cache(resolvers.phoneNumbers)
   }
-  return phoneNumbersCache.getData(data)
+  return phoneNumbersCache(data)
 }
 
 let participatingPaxCache = null
 export const getParticipatingPax = data => {
   if (!participatingPaxCache) {
-    participatingPaxCache = new Cache(resolvers.participatingPax)
+    participatingPaxCache = Cache(resolvers.participatingPax)
   }
-  return participatingPaxCache.getData(data)
+  return participatingPaxCache(data)
 }
 
 let modifiedPaxByBookingCache = null
 export const getModifiedPaxByBooking = data => {
   if (!modifiedPaxByBookingCache) {
-    modifiedPaxByBookingCache = new Cache(resolvers.modifiedPaxByBooking)
+    modifiedPaxByBookingCache = Cache(resolvers.modifiedPaxByBooking)
   }
-  return modifiedPaxByBookingCache.getData(data)
+  return modifiedPaxByBookingCache(data)
 }
 
 /**

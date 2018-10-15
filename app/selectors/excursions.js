@@ -13,7 +13,7 @@ const resolvers = {
 let sortedExcursionsCache = null
 export const getSortedExcursions = trip => {
   if (!sortedExcursionsCache) {
-    sortedExcursionsCache = new Cache(resolvers.sortedExcursions)
+    sortedExcursionsCache = Cache(resolvers.sortedExcursions)
   }
-  return sortedExcursionsCache.getData(trip)
+  return sortedExcursionsCache(trip)
 }
