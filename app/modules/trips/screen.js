@@ -90,10 +90,10 @@ class TripScreen extends Component {
         />
         {
           isLoading
-            ? <NoData text='Fetching data from Touro...' textStyle={{ marginTop: 30 }} />
+            ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
             : current.get('has')
               ? current.get('has') && <Trip trip={current.get('trip')} navigation={navigation} />
-              : <NoData text='No more trips' textStyle={{ marginTop: 30 }} />
+              : <NoData text='noCurrentTrip' textStyle={{ marginTop: 30 }} />
         }
       </Container>
 

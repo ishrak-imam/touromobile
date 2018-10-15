@@ -81,7 +81,7 @@ class BookingList extends Component {
           renderItem={this._renderBooking}
           keyExtractor={item => String(item.get('id'))}
         />
-        : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
+        : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
     )
   }
 

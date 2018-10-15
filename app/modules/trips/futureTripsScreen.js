@@ -58,7 +58,7 @@ class FutureTripsScreen extends Component {
         />
         {
           isLoading
-            ? <NoData text='Fetching data from Touro...' textStyle={{ marginTop: 30 }} />
+            ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
             : <FutureTrips futureTrips={futureTrips} />
         }
       </Container>

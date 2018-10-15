@@ -75,5 +75,12 @@ export default {
     paxSearch: 'Sök passagerare',
     participating: 'Deltagande',
     all: 'Allt'
+  },
+  NoData: {
+    noMatch: 'Ingen matchning hittad',
+    noFutureTrips: 'Inga fler framtida resor',
+    noPastTrips: 'Inga fler tidigare resor',
+    fetchingData: 'Hämtar data från Touro...',
+    noCurrentTrip: 'Ingen aktuell resa'
   }
 }

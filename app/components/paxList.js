@@ -132,7 +132,7 @@ class PaxList extends Component {
           renderItem={this._renderPerson}
           keyExtractor={(item, index) => String(index)}
         />
-        : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
+        : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
     )
   }
 

@@ -4,10 +4,13 @@ import {
   View, Text, StyleSheet
 } from 'react-native'
 
+import Translator from '../utils/translator'
+const _T = Translator('NoData')
+
 const noData = ({ text, textStyle }) => {
   return (
     <View style={ss.wrapper}>
-      <Text style={textStyle}>{text}</Text>
+      <Text style={textStyle}>{_T(text)}</Text>
     </View>
   )
 }
@@ -15,7 +18,6 @@ const noData = ({ text, textStyle }) => {
 const ss = StyleSheet.create({
   wrapper: {
     flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center'
   }
 })

@@ -25,7 +25,7 @@ export default class FutureTrips extends Component {
           renderItem={this._renderTripCard}
           keyExtractor={item => String(item.get('departureId'))}
         />
-        : <NoData text='No more future trips' textStyle={{ marginTop: 30 }} />
+        : <NoData text='noFutureTrips' textStyle={{ marginTop: 30 }} />
     )
   }
 

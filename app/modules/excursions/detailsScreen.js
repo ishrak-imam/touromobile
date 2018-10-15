@@ -123,7 +123,7 @@ class ExcursionDetailsScreen extends Component {
           //   index
           // })}
         />
-        : <NoData text='No match found' textStyle={{ marginTop: 30 }} />
+        : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
     )
   }
 

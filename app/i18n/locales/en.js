@@ -75,5 +75,12 @@ export default {
     paxSearch: 'Search passengers',
     participating: 'Participating',
     all: 'All'
+  },
+  NoData: {
+    noMatch: 'No match found',
+    noFutureTrips: 'No more future trips',
+    noPastTrips: 'No more past trips',
+    fetchingData: 'Fetching data from Touro...',
+    noCurrentTrip: 'No current trip'
   }
 }
