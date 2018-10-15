@@ -34,16 +34,24 @@ class TripScreen extends Component {
     return !nextProps.trips.equals(this.props.trips)
   }
 
+  _pendingModalOk = () => {
+    this.props.navigation.navigate('PastTrips')
+  }
+
   componentDidMount () {
     const { trips } = this.props
-    const isLocalData = trips.get('data').size > 0
-    if (!isLocalData) {
+    const hasLocalData = trips.get('data').size > 0
+    if (!hasLocalData) {
       this._requestTrips()
     } else {
       actionDispatcher(getCurrentTrip())
       actionDispatcher(getFutureTrips())
       actionDispatcher(getPastTrips())
-      actionDispatcher(getPendingStatsUpload())
+      actionDispatcher(getPendingStatsUpload({
+        showWarning: false,
+        msg: 'pending stats upload',
+        onOk: this._pendingModalOk
+      }))
     }
   }
 

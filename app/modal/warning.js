@@ -26,6 +26,7 @@ class WarningModal extends Component {
     const { warning } = this.props
     const onOk = warning.get('onOk')
     onOk()
+    this._onCancel()
   }
 
   render () {

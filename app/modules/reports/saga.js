@@ -31,7 +31,11 @@ function * workerUploadStats (action) {
       departureId,
       time: new Date().toISOString()
     }))
-    yield put(getPendingStatsUpload())
+    yield put(getPendingStatsUpload({
+      showWarning: false,
+      msg: '',
+      onOk: null
+    }))
   } catch (e) {
     yield put(uploadStatsFail({
       departureId,

@@ -20,6 +20,8 @@ import {
   setPendingStatsUpload
 } from './action'
 
+import { showModal } from '../../modal/action'
+
 import {
   getTripsApi
 } from './api'
@@ -43,7 +45,11 @@ function * workerGetTrips (action) {
     yield put(getCurrentTrip())
     yield put(getFutureTrips())
     yield put(getPastTrips())
-    yield put(getPendingStatsUpload())
+    yield put(getPendingStatsUpload({
+      showWarning: false,
+      msg: '',
+      onOk: null
+    }))
   } catch (e) {
     yield put(tripsFail(e))
   }
@@ -81,6 +87,15 @@ export function * watchGetPendingStatsUpload () {
 }
 
 function * workerGetPendingStatsUpload (action) {
+  const { showWarning, msg, onOk } = action.payload
   const count = yield select(pendingStatsUpload)
   yield put(setPendingStatsUpload({ count }))
+
+  if (count > 0 && showWarning) {
+    yield put(showModal({
+      type: 'warning',
+      text: `${count} ${msg}`,
+      onOk
+    }))
+  }
 }

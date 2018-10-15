@@ -36,7 +36,11 @@ function * createAppStateSubscription (action) {
         yield put(getCurrentTrip())
         yield put(getFutureTrips())
         yield put(getPastTrips())
-        yield put(getPendingStatsUpload())
+        yield put(getPendingStatsUpload({
+          showWarning: false,
+          msg: '',
+          onOk: null
+        }))
       }
     }
   })

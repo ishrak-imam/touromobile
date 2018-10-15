@@ -8,7 +8,7 @@ import {
   StyleSheet, Image,
   TouchableOpacity, ScrollView
 } from 'react-native'
-import { StackActions, NavigationActions } from 'react-navigation'
+// import { StackActions, NavigationActions } from 'react-navigation'
 import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
@@ -40,9 +40,9 @@ class TMDrawer extends Component {
 
   _showWarning = () => {
     // actionDispatcher(showModal({
-    //   type: 'warning',
-    //   text: 'Modified trip data will be lost permanently.',
-    //   onOk: this._logOut
+    // type: 'warning',
+    // text: 'Modified trip data will be lost permanently.',
+    // onOk: this._logOut
     // }))
     this._logOut()
   }
@@ -72,16 +72,18 @@ class TMDrawer extends Component {
         return
       }
       if (item.routeName === 'Trip') {
-        const navigateAction = NavigationActions.navigate({
-          routeName: 'Home',
-          action: NavigationActions.navigate({ routeName: 'Trip' })
-        })
-        const resetAction = StackActions.reset({
-          index: 0,
-          actions: [navigateAction]
-        })
-        navigation.dispatch(resetAction)
-        return
+        // const navigateAction = NavigationActions.navigate({
+        //   routeName: 'Home',
+        //   action: NavigationActions.navigate({ routeName: 'Trip' })
+        // })
+        // const resetAction = StackActions.reset({
+        //   index: 0,
+        //   actions: [navigateAction]
+        // })
+        // navigation.dispatch(resetAction)
+        // return
+
+        navigation.goBack('Home')
       }
       navigation.navigate(item.routeName)
     }
