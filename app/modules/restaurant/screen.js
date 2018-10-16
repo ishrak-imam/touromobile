@@ -54,8 +54,8 @@ export default class RestaurantScreen extends Component {
       <CardItem>
         <Body style={ss.comms}>
           {!!url && <IconButton name='web' color='blue' onPress={() => web(url)} />}
-          <IconButton name='phone' color='green' onPress={() => call(phone)} />
-          <IconButton name='sms' color='blue' onPress={() => sms(phone)} />
+          {!!phone && <IconButton name='phone' color='green' onPress={() => call(phone)} />}
+          {!!phone && <IconButton name='sms' color='blue' onPress={() => sms(phone)} />}
         </Body>
       </CardItem>
     )

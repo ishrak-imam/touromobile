@@ -345,10 +345,12 @@ const ss = StyleSheet.create({
     marginHorizontal: 15,
     borderRadius: 15,
     borderWidth: 1,
+    borderColor: Colors.steel,
     marginVertical: 10
   },
   cardHeader: {
     borderBottomWidth: 1,
+    borderBottomColor: Colors.steel,
     paddingVertical: 7,
     paddingHorizontal: 10,
     flexDirection: 'row',
