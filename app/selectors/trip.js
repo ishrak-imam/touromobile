@@ -71,16 +71,6 @@ const resolvers = {
       numbers = pax.get('phone') ? numbers + ',' + pax.get('phone') : numbers
       return numbers
     }, '')
-
-    // const allPax = data.get('allPax')
-    // const flightPax = data.get('flightPax')
-    // const paxMap = listToMap(allPax, 'id')
-
-    // return flightPax.reduce((numbers, fp) => {
-    //   const pax = paxMap.get(String(fp))
-    //   numbers = pax.get('phone') ? numbers + pax.get('phone') : numbers
-    //   return numbers
-    // }, '')
   },
 
   participatingPax: data => {
