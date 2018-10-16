@@ -28,7 +28,8 @@ const DATE_FORMAT = 'DD/MM'
 
 class Trip extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.modifiedPax.equals(this.props.modifiedPax)
+    return !nextProps.modifiedPax.equals(this.props.modifiedPax) ||
+            !nextProps.trip.equals(this.props.trip)
   }
 
   _renderPhone = phone => (
