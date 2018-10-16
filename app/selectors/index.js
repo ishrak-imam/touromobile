@@ -25,7 +25,8 @@ export const {
   getModifiedPaxByBooking,
   getSortedPaxByBookingId,
   pendingStatsUpload,
-  pendingStatsUploadCount
+  pendingStatsUploadCount,
+  getFlightPaxPhones
 } = require('./trip')
 
 export const {

@@ -1,6 +1,6 @@
 
 import { isWithinRange, isAfter, isBefore } from 'date-fns'
-import { setIntoMap, getMap, getList } from '../utils/immutable'
+import { setIntoMap, getMap, getList, listToMap } from '../utils/immutable'
 import Cache from '../utils/cache'
 
 const resolvers = {
@@ -57,6 +57,30 @@ const resolvers = {
       const mp = modifiedPax.get(paxId) || p
       return mp
     }).map(p => p.get('phone')).join(',')
+  },
+
+  flightPaxPhones: data => {
+    const pax = data.get('pax')
+    const flightPax = data.get('flightPax')
+    const modifiedPax = data.get('modifiedPax')
+    const paxMap = listToMap(pax, 'id')
+
+    return flightPax.reduce((numbers, fp) => {
+      const paxId = String(fp)
+      const pax = modifiedPax.get(paxId) || paxMap.get(paxId)
+      numbers = pax.get('phone') ? numbers + ',' + pax.get('phone') : numbers
+      return numbers
+    }, '')
+
+    // const allPax = data.get('allPax')
+    // const flightPax = data.get('flightPax')
+    // const paxMap = listToMap(allPax, 'id')
+
+    // return flightPax.reduce((numbers, fp) => {
+    //   const pax = paxMap.get(String(fp))
+    //   numbers = pax.get('phone') ? numbers + pax.get('phone') : numbers
+    //   return numbers
+    // }, '')
   },
 
   participatingPax: data => {
@@ -149,6 +173,14 @@ export const getPhoneNumbers = data => {
     phoneNumbersCache = Cache(resolvers.phoneNumbers)
   }
   return phoneNumbersCache(data)
+}
+
+let flightPaxPhonesCache = null
+export const getFlightPaxPhones = data => {
+  if (!flightPaxPhonesCache) {
+    flightPaxPhonesCache = Cache(resolvers.flightPaxPhones)
+  }
+  return flightPaxPhonesCache(data)
 }
 
 let participatingPaxCache = null

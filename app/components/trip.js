@@ -12,7 +12,10 @@ import IconButton from '../components/iconButton'
 import { IonIcon, Colors } from '../theme'
 import Translator from '../utils/translator'
 import { format } from 'date-fns'
-import { getPax, getModifiedPax, getPhoneNumbers } from '../selectors'
+import {
+  getPax, getModifiedPax,
+  getPhoneNumbers, getFlightPaxPhones
+} from '../selectors'
 import { call, sms } from '../utils/comms'
 import Button from '../components/button'
 import ImageCache from './imageCache'
@@ -24,6 +27,10 @@ const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'DD/MM'
 
 class Trip extends Component {
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.modifiedPax.equals(this.props.modifiedPax)
+  }
+
   _renderPhone = phone => (
     <IconButton name='phone' color='green' onPress={() => call(phone)} />
   )
@@ -34,8 +41,8 @@ class Trip extends Component {
 
   _smsAll = pax => {
     const { modifiedPax } = this.props
-    const data = getMap({ pax, modifiedPax })
-    sms(getPhoneNumbers(data))
+    const numbers = getPhoneNumbers(getMap({ pax, modifiedPax }))
+    sms(numbers)
   }
 
   _renderHeader = trip => {
@@ -68,6 +75,15 @@ class Trip extends Component {
     )
   }
 
+  _renderPaxCount = paxCount => {
+    return (
+      <CardItem>
+        <Body><Text style={ss.boldText}>{_T('pax')}</Text></Body>
+        <Right><Text style={ss.boldText}>{paxCount}</Text></Right>
+      </CardItem>
+    )
+  }
+
   _renderSchedule = transport => {
     const departure = transport.get('departure')
     const bus = transport.get('regno')
@@ -75,22 +91,13 @@ class Trip extends Component {
     return (
       <View style={ss.scheduleContainer}>
         <CardItem>
-          <Body><Text>{_T('departureTime')}</Text></Body>
+          <Body><Text style={ss.boldText}>{_T('departureTime')}</Text></Body>
           <Right><Text>{departure}</Text></Right>
         </CardItem>
         <CardItem>
           <Body><Text note>{`${_T('bus')}: ${bus}. ${_T('platform')}: ${platform}`}</Text></Body>
         </CardItem>
       </View>
-    )
-  }
-
-  _renderPaxCount = paxCount => {
-    return (
-      <CardItem>
-        <Body><Text>{_T('pax')}</Text></Body>
-        <Right><Text>{paxCount}</Text></Right>
-      </CardItem>
     )
   }
 
@@ -107,8 +114,8 @@ class Trip extends Component {
               <Body style={ss.body} key={id}>
                 <Text>{name}</Text>
                 <Right style={ss.right}>
-                  {this._renderPhone(phone)}
-                  {this._renderSMS(phone)}
+                  {!!phone && this._renderPhone(phone)}
+                  {!!phone && this._renderSMS(phone)}
                 </Right>
               </Body>
             )
@@ -116,6 +123,74 @@ class Trip extends Component {
         }
       </CardItem>
     )
+  }
+
+  _renderBus = transport => {
+    return (
+      <View>
+        {this._renderSchedule(transport)}
+        {this._renderDrivers(transport.get('drivers'))}
+      </View>
+    )
+  }
+
+  // _smsFlightPax = (pax, flightPax) => {
+  //   const { modifiedPax } = this.props
+  //   const numbers = getFlightPaxPhones(getMap({ pax, flightPax, modifiedPax }))
+  //   sms(numbers)
+  // }
+
+  _renderFlight = (transport, pax) => {
+    const { modifiedPax } = this.props
+    const flights = transport.get('flights')
+
+    return flights.map(f => {
+      const key = f.get('key')
+      const name = f.get('name')
+
+      const out = f.get('out')
+      const home = f.get('home')
+
+      const outTime = `${out.get('departure')} - ${out.get('arrival')}`
+      const homeTime = `${home.get('departure')} - ${home.get('arrival')}`
+
+      const outFlight = out.get('flightNo')
+      const homeFlight = out.get('flightNo')
+
+      const flightPax = f.get('passengers')
+
+      const numbers = getFlightPaxPhones(getMap({ pax, flightPax, modifiedPax }))
+
+      return (
+        <View style={ss.flightCard} key={key}>
+          <View style={ss.cardHeader}>
+            <Text>{key}</Text>
+            <Text>{name}</Text>
+            <Text />
+          </View>
+          <View style={ss.cardBody}>
+            <View style={ss.cardTop}>
+              <View style={{ paddingLeft: 10, paddingTop: 15 }}>
+                <Text>
+                  <Text style={ss.boldText}>{_T('out')}:</Text>       <Text>{outTime}</Text>      <Text style={ss.boldText}>{outFlight}</Text>
+                </Text>
+                <Text>
+                  <Text style={ss.boldText}>{_T('home')}:</Text>   <Text>{homeTime}</Text>      <Text style={ss.boldText}>{homeFlight}</Text>
+                </Text>
+              </View>
+            </View>
+            <View style={ss.cardBottom}>
+              <View style={ss.bottomLeft}>
+                <Text>{_T('pax')}: {flightPax.size}</Text>
+              </View>
+              <View style={ss.bottomRight}>
+                {!!numbers && <IconButton name='sms' color='blue' onPress={() => sms(numbers)} />}
+              </View>
+            </View>
+          </View>
+        </View>
+      )
+    })
   }
 
   _toRestaurant = (direction, restaurant) => {
@@ -143,8 +218,8 @@ class Trip extends Component {
               <Text style={ss.restaurantName}>{out.get('name')}</Text>
             </Left>
             <Right style={ss.right}>
-              {this._renderPhone(outPhone)}
-              {this._renderSMS(outPhone)}
+              {!!outPhone && this._renderPhone(outPhone)}
+              {!!outPhone && this._renderSMS(outPhone)}
             </Right>
           </Body>
         </TouchableOpacity>
@@ -156,8 +231,8 @@ class Trip extends Component {
               <Text style={ss.restaurantName}>{home.get('name')}</Text>
             </Left>
             <Right style={ss.right}>
-              {this._renderPhone(homePhone)}
-              {this._renderSMS(homePhone)}
+              {!!homePhone && this._renderPhone(homePhone)}
+              {!!homePhone && this._renderSMS(homePhone)}
             </Right>
           </Body>
         </TouchableOpacity>
@@ -182,53 +257,35 @@ class Trip extends Component {
     const transport = trip.get('transport')
     const launches = trip.get('lunches')
     const image = trip.get('image')
-    const allPax = getPax(trip)
+    const pax = getPax(trip)
+
+    const isFlight = transport ? transport.get('type') === 'flight' : false
+    const isBus = transport ? transport.get('type') === 'bus' : false
 
     return (
       <ScrollView contentContainerStyle={{ justifyContent: 'center' }}>
         {this._renderHeader(trip)}
         {!!image && this._renderImage(image)}
-        {this._renderPaxCount(allPax.size)}
+        {this._renderPaxCount(pax.size)}
 
-        <View style={ss.flightCard}>
+        {isFlight && this._renderFlight(transport, pax)}
 
-          <View style={ss.cardHeader}>
-            <Text>CPH</Text>
-            <Text>Location</Text>
-            <Text />
-          </View>
+        {isBus && this._renderBus(transport)}
 
-          <View style={ss.cardBody}>
-            <View style={ss.cardTop}>
-              <View style={{ padding: 10 }}>
-                <Text>aaaaaa</Text>
-                <Text>aaaaaa</Text>
-              </View>
-            </View>
-            <View style={ss.cardBottom}>
-              <View style={ss.bottomLeft}>
-                <Text>Passengers: 23</Text>
-              </View>
-              <View style={ss.bottomRight}>
-                <IconButton name='sms' color='blue' onPress={() => {}} />
-              </View>
-            </View>
-          </View>
-
-        </View>
-
-        {!!transport && this._renderSchedule(transport)}
-        {!!transport && this._renderDrivers(transport.get('drivers'))}
         {!!launches && this._renderRestaurants(launches)}
-        {this._renderFooter(allPax)}
+        {this._renderFooter(pax)}
       </ScrollView>
     )
   }
 }
 
-const stateToProps = state => ({
-  modifiedPax: getModifiedPax(state)
-})
+const stateToProps = (state, props) => {
+  const { trip } = props
+  const departureId = String(trip.get('departureId'))
+  return {
+    modifiedPax: getModifiedPax(state, departureId)
+  }
+}
 
 export default connect(stateToProps, null)(Trip)
 
@@ -284,10 +341,11 @@ const ss = StyleSheet.create({
   },
 
   flightCard: {
-    height: 170,
+    height: 150,
     marginHorizontal: 15,
     borderRadius: 15,
-    borderWidth: 1
+    borderWidth: 1,
+    marginVertical: 10
   },
   cardHeader: {
     borderBottomWidth: 1,
