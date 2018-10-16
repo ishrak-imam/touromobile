@@ -28,7 +28,8 @@ class ExcursionCard extends Component {
   }
   _smsAll = (pax, modifiedPax) => {
     const data = getMap({ pax, modifiedPax })
-    sms(getPhoneNumbers(data))
+    const numbers = getPhoneNumbers(data)
+    sms(numbers)
   }
 
   render () {

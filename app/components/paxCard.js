@@ -272,6 +272,7 @@ const ss = StyleSheet.create({
   input: {
     height: 40,
     borderWidth: 1,
+    borderColor: Colors.steel,
     borderRadius: 4,
     padding: 5,
     width: '100%',
@@ -280,6 +281,7 @@ const ss = StyleSheet.create({
   multiLineInput: {
     height: 80,
     borderWidth: 1,
+    borderColor: Colors.steel,
     borderRadius: 4,
     padding: 5,
     marginTop: 5,
