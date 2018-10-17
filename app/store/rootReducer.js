@@ -12,6 +12,7 @@ import * as tripsReducer from '../modules/trips/reducer'
 import * as modalReducer from '../modal/reducer'
 import * as reportsReducer from '../modules/reports/reducer'
 import * as modifiedDataReducer from '../modules/modifiedData/reducer'
+import * as profileReducer from '../modules/profile/reducer'
 
 const allReducers = combineReducers({
   ...navReducers,
@@ -22,7 +23,8 @@ const allReducers = combineReducers({
   ...tripsReducer,
   ...modalReducer,
   ...reportsReducer,
-  ...modifiedDataReducer
+  ...modifiedDataReducer,
+  ...profileReducer
 })
 
 const rootReduces = (state, action) => {

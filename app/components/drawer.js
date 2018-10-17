@@ -47,6 +47,11 @@ class TMDrawer extends Component {
     this._logOut()
   }
 
+  _toProfile = () => {
+    const { navigation } = this.props
+    navigation.navigate('Profile')
+  }
+
   _renderHeader = () => {
     const { user } = this.props
     const userName = user.get('full_name')
@@ -57,7 +62,9 @@ class TMDrawer extends Component {
             style={ss.drawerImage}
             source={Images.logo}
           />
-          <Text style={ss.headerName}>{userName}</Text>
+          <TouchableOpacity onPress={this._toProfile}>
+            <Text style={ss.headerName}>{userName}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     )

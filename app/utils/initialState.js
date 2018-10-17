@@ -9,6 +9,7 @@ import { APP_INITIAL_STATE } from '../modules/app/immutable'
 import { MODAL_INITIAL_STATE } from '../modal/immutable'
 import { REPORTS_INITIAL_STATE } from '../modules/reports/immutable'
 import { MODIFIED_DATA_INITIAL_STATE } from '../modules/modifiedData/immutable'
+import { PROFILE_INITIAL_STATE } from '../modules/profile/immutable'
 
 export const getInitialState = () => {
   // return getMap({
@@ -27,6 +28,7 @@ export const getInitialState = () => {
     app: APP_INITIAL_STATE,
     modal: MODAL_INITIAL_STATE,
     reports: REPORTS_INITIAL_STATE,
-    modifiedData: MODIFIED_DATA_INITIAL_STATE
+    modifiedData: MODIFIED_DATA_INITIAL_STATE,
+    profile: PROFILE_INITIAL_STATE
   }
 }

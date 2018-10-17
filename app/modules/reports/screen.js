@@ -23,7 +23,8 @@ class ReportsScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
       return <IonIcon name='stats' color={tintColor} />
-    }
+    },
+    tabBarLabel: 'Reports'
   }
 
   _onUpload = () => {

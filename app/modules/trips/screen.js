@@ -27,7 +27,8 @@ class TripScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
       return <IonIcon name='home' color={tintColor} />
-    }
+    },
+    tabBarLabel: 'Current Trip'
   }
 
   shouldComponentUpdate (nextProps) {

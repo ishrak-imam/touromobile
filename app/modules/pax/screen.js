@@ -18,7 +18,8 @@ class PaxScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
       return <IonIcon name='people' color={tintColor} />
-    }
+    },
+    tabBarLabel: 'Passengers'
   }
 
   constructor (props) {

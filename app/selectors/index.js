@@ -53,3 +53,7 @@ export const {
   getParticipants,
   getModifiedData
 } = require('./modifiedData')
+
+export const {
+  getProfile
+} = require('./profile')

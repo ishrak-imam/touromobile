@@ -1,23 +1,33 @@
 
-import React from 'react'
+import React, { Component } from 'react'
 import isIOS from '../utils/isIOS'
 import { Colors } from '../theme'
 import { BottomTabBar, MaterialTopTabBar } from 'react-navigation-tabs'
+import { getProfile } from '../selectors'
+import { connect } from 'react-redux'
 
-const TabBarComponent = ({ navigation, ...options }) => {
-  const TabBar = isIOS ? BottomTabBar : MaterialTopTabBar
-  return (
-    <TabBar
-      navigation={navigation}
-      {...options}
-      showLabel={false}
-      showIcon
-      style={{ backgroundColor: Colors.sliver }}
-      activeTintColor={Colors.blue}
-      inactiveTintColor={Colors.charcoal}
-      indicatorStyle={{ backgroundColor: Colors.blue }}
-    />
-  )
+class TabBarComponent extends Component {
+  render () {
+    const TabBar = isIOS ? BottomTabBar : MaterialTopTabBar
+    const { navigation, profile, ...options } = this.props
+    return (
+      <TabBar
+        navigation={navigation}
+        {...options}
+        showLabel={profile.get('labelVisible')}
+        upperCaseLabel={false}
+        showIcon
+        style={{ backgroundColor: Colors.sliver, height: 60 }}
+        activeTintColor={Colors.blue}
+        inactiveTintColor={Colors.charcoal}
+        indicatorStyle={{ backgroundColor: Colors.blue }}
+      />
+    )
+  }
 }
 
-export default TabBarComponent
+const stateToProps = state => ({
+  profile: getProfile(state)
+})
+
+export default connect(stateToProps, null)(TabBarComponent)

@@ -14,7 +14,8 @@ class ExcursionsScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => {
       return <IonIcon name='excursion' color={tintColor} />
-    }
+    },
+    tabBarLabel: 'Excursions'
   }
 
   shouldComponentUpdate (nextProps) {

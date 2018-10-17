@@ -25,6 +25,7 @@ import PastTripsScreen from '../modules/trips/pastTripsScreen'
 import RestaurantScreen from '../modules/restaurant/screen'
 import ExcursionDetailsScreen from '../modules/excursions/detailsScreen'
 import PaxDetailsScreen from '../modules/pax/detailsScreen'
+import ProfileScreen from '../modules/profile/screen'
 
 const authStack = createStackNavigator(
   {
@@ -61,7 +62,8 @@ const appStack = createStackNavigator(
     ExcursionDetails: { screen: ExcursionDetailsScreen },
     PaxDetails: { screen: PaxDetailsScreen },
     FutureTrips: { screen: FutureTripsScreen },
-    PastTrips: { screen: PastTripsScreen }
+    PastTrips: { screen: PastTripsScreen },
+    Profile: { screen: ProfileScreen }
   },
   {
     initialRouteName: 'Home',
