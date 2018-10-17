@@ -86,12 +86,12 @@ const ss = StyleSheet.create({
   body: {
     flex: 4,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center'
   },
   title: {
-    color: Colors.silver
-    // paddingBottom: 5
+    color: Colors.silver,
+    paddingBottom: isIOS ? 4 : 3
   },
   right: {
     flex: 2,
