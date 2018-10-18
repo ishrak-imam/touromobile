@@ -7,7 +7,7 @@ import { PROFILE_INITIAL_STATE } from './immutable'
 
 export const profile = createReducer(PROFILE_INITIAL_STATE, {
   [TOGGLE_TAB_LABELS]: (state) => {
-    const toggle = readValue('labelVisible', state)
-    return setIntoMap(state, 'labelVisible', !toggle)
+    const toggle = readValue('showLabel', state)
+    return setIntoMap(state, 'showLabel', !toggle)
   }
 })

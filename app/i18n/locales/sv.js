@@ -67,9 +67,7 @@ export default {
     booking: 'Bokning',
     excursionPack: 'Utflyktspaket',
     travelsWith: 'Åker med',
-    comment: 'Kommentar',
-    cancel: 'Annullera',
-    save: 'Spara'
+    comment: 'Kommentar'
   },
   ExcursionDetailsScreen: {
     paxSearch: 'Sök passagerare',
@@ -82,5 +80,9 @@ export default {
     noPastTrips: 'Inga fler tidigare resor',
     fetchingData: 'Hämtar data från Touro...',
     noCurrentTrip: 'Ingen aktuell resa'
+  },
+  FooterButtons: {
+    cancel: 'Annullera',
+    save: 'Spara'
   }
 }

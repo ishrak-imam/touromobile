@@ -67,9 +67,7 @@ export default {
     booking: 'Booking',
     excursionPack: 'Excursion pack',
     travelsWith: 'Travels with',
-    comment: 'Comment',
-    cancel: 'Cancel',
-    save: 'Save'
+    comment: 'Comment'
   },
   ExcursionDetailsScreen: {
     paxSearch: 'Search passengers',
@@ -82,5 +80,9 @@ export default {
     noPastTrips: 'No more past trips',
     fetchingData: 'Fetching data from Touro...',
     noCurrentTrip: 'No current trip'
+  },
+  FooterButtons: {
+    cancel: 'Cancel',
+    save: 'Save'
   }
 }

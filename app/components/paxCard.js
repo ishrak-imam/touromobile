@@ -8,7 +8,6 @@ import IconButton from '../components/iconButton'
 import { TouchableOpacity, StyleSheet, TextInput } from 'react-native'
 import { call, sms } from '../utils/comms'
 import Translator from '../utils/translator'
-import OutLineButton from '../components/outlineButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import isIOS from '../utils/isIOS'
 import { actionDispatcher } from '../utils/actionDispatcher'
@@ -16,6 +15,7 @@ import { modifyPaxData } from '../modules/modifiedData/action'
 import { connect } from 'react-redux'
 import { getModifiedPax } from '../selectors'
 import { mergeMapShallow } from '../utils/immutable'
+import FooterButtons from '../components/footerButtons'
 const _T = Translator('PaxDetailsScreen')
 
 class PaxCard extends Component {
@@ -52,14 +52,14 @@ class PaxCard extends Component {
     const ssn = pax.get('ssn')
     return (
       <CardItem>
-        <Left>
+        <Left style={{ flex: 4 }}>
           <IonIcon name='person' />
           <Body>
             <Text>{name}</Text>
             <Text note>{ssn}</Text>
           </Body>
         </Left>
-        <Right>
+        <Right style={{ flex: 1 }}>
           <IconButton name='edit' onPress={this._toggleEditMode} />
         </Right>
       </CardItem>
@@ -199,15 +199,6 @@ class PaxCard extends Component {
     this.setState({ [field]: text })
   }
 
-  _renderFooterButtons = () => {
-    return (
-      <CardItem style={{ justifyContent: 'flex-end' }}>
-        <OutLineButton text={_T('cancel')} style={{ backgroundColor: Colors.cancel }} onPress={this._onCancel} />
-        <OutLineButton text={_T('save')} style={{ backgroundColor: Colors.green }} onPress={this._onSave} />
-      </CardItem>
-    )
-  }
-
   render () {
     const { editMode, phone, comment } = this.state
     const booking = this.paxData.get('booking')
@@ -225,7 +216,7 @@ class PaxCard extends Component {
         {!!excursion && this._renderExcursion()}
         {!!coPax.size && this._renderCoPax(coPax, this.paxData)}
         {this._renderComment(comment)}
-        {editMode && this._renderFooterButtons()}
+        {editMode && <FooterButtons onCancel={this._onCancel} onSave={this._onSave} />}
       </KeyboardAwareScrollView>
     )
   }
