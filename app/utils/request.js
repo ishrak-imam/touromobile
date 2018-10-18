@@ -13,6 +13,9 @@ const responseHandler = response => {
       return Promise.reject(errMsg)
     })
   }
+  if(response.status === 404) {
+    return Promise.reject('404 not found')
+  }
   return response.json().then(e => {
     const {code, message, name} = e;
     return Promise.reject({code, message, name});

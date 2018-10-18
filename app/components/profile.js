@@ -159,14 +159,14 @@ export default class Profile extends Component {
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>Work phone:</Text>
+            <Text>Phone:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
                   underlineColorAndroid='transparent'
-                  placeholder='Work phone'
+                  placeholder='Phone'
                   // value={''}
                   style={ss.input}
                   onChangeText={() => {}}
@@ -175,7 +175,8 @@ export default class Profile extends Component {
             }
           </Body>
         </View>
-        <View style={ss.cardItem}>
+
+        {/* <View style={ss.cardItem}>
           <Left style={ss.left}>
             <Text>Private phone:</Text>
           </Left>
@@ -192,7 +193,8 @@ export default class Profile extends Component {
                 : <Text style={ss.text}>Private phone</Text>
             }
           </Body>
-        </View>
+        </View> */}
+
         <View style={ss.cardItem}>
           <Left style={ss.left}>
             <Text>Email:</Text>

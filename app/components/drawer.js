@@ -54,7 +54,7 @@ class TMDrawer extends Component {
 
   _renderHeader = () => {
     const { user } = this.props
-    const userName = user.get('full_name')
+    const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     return (
       <View style={ss.header}>
         <View style={ss.headerContent}>
@@ -63,7 +63,7 @@ class TMDrawer extends Component {
             source={Images.logo}
           />
           <TouchableOpacity onPress={this._toProfile}>
-            <Text style={ss.headerName}>{userName}</Text>
+            <Text style={ss.headerName}>{fullName}</Text>
           </TouchableOpacity>
         </View>
       </View>

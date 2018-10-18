@@ -20,7 +20,7 @@ export function * watchInit () {
 function * workerInit () {
   try {
     const user = yield call(localStore.get, USER)
-    if (user.access_token) {
+    if (user.accessToken) {
       yield put(loginSucs(user))
       yield put(navigateToScene({ routeName: 'App' }))
     } else {
@@ -35,10 +35,23 @@ export function * watchLogin () {
   yield takeFirst(loginReq.getType(), workerLogin)
 }
 
+const formatUserData = user => {
+  return {
+    id: user.id,
+    accessToken: user.access_token,
+    expiresIn: user.expires_in,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    fullName: user.full_name,
+    group: user.group,
+    image: user.image
+  }
+}
+
 function * workerLogin (action) {
   try {
     const result = yield call(login, action.payload)
-    yield call(localStore.set, USER, result)
+    yield call(localStore.set, USER, formatUserData(result))
     yield put(init())
   } catch (e) {
     yield put(loginFail({ msg: e }))

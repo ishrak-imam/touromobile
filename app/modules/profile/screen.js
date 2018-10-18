@@ -6,8 +6,11 @@ import {
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
-import { toggleTabLabels } from './action'
-import { actionDispatcher } from '../../utils/actionDispatcher'
+import { toggleTabLabels, userDetailsReq } from './action'
+import {
+  actionDispatcher,
+  networkActionDispatcher
+} from '../../utils/actionDispatcher'
 import { getProfile, getUser } from '../../selectors'
 import { connect } from 'react-redux'
 import { Colors } from '../../theme'
@@ -35,17 +38,24 @@ class Settings extends Component {
 }
 
 class ProfileScreen extends Component {
+  componentDidMount () {
+    const { user } = this.props
+    networkActionDispatcher(userDetailsReq({
+      isNeedJwt: true, guideId: user.get('id')
+    }))
+  }
+
   _toggleLabel = () => {
     actionDispatcher(toggleTabLabels())
   }
 
   render () {
     const { navigation, profile, user } = this.props
-    const userName = user.get('full_name')
+    const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     const showLabel = profile.get('showLabel')
     return (
       <Container>
-        <Header left='back' title={userName} navigation={navigation} />
+        <Header left='back' title={fullName} navigation={navigation} />
         <Profile style={ss.profile} />
         <Settings style={ss.settings} showLabel={showLabel} toggleLabel={this._toggleLabel} />
       </Container>

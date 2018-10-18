@@ -2,5 +2,7 @@
 import { getMap } from '../../utils/immutable'
 
 export const PROFILE_INITIAL_STATE = getMap({
-  showLabel: true
+  showLabel: true,
+  user: null,
+  isLoading: false
 })

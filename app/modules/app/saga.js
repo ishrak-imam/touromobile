@@ -31,7 +31,7 @@ function * createAppStateSubscription (action) {
     yield put(setAppState(appState !== 'active'))
     if (appState === 'active') {
       const user = yield select(getUser)
-      const isLoggedIn = user.get('access_token')
+      const isLoggedIn = user.get('accessToken')
       if (isLoggedIn) {
         yield put(getCurrentTrip())
         yield put(getFutureTrips())

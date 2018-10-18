@@ -34,6 +34,33 @@ export const mockUser = () => Promise.resolve({
   'resourceName': 'user'
 })
 
+export const mockUserDetails = () => Promise.resolve({
+  'id': 52,
+  'externalId': null,
+  'signature': 'ishrak',
+  'status': 0,
+  'ssn': '730318-7608',
+  'firstName': 'Ishrak Ibne',
+  'lastName': 'Imam',
+  'address': 'Östra Vramsvägen 22',
+  'zip': '291 32',
+  'city': 'TOLLARP',
+  'country': '',
+  'account': '0969',
+  'email': 'ishrak@email.com',
+  'phone': '+88012121',
+  'emailAddresses': [],
+  'phones': [],
+  'guideCourse': '0001-01-01T00:00:00',
+  'comment': null,
+  'departures': null,
+  'commissionType': 1,
+  'createdBy': 'lwt',
+  'created': '2007-06-27T11:18:56.4',
+  'modifiedBy': 'ikr',
+  'modified': '2010-03-01T13:41:07.65'
+})
+
 export const mockForgetPass = () => Promise.resolve({
   msg: 'Check your email for a new password'
 })
