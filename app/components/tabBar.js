@@ -10,14 +10,17 @@ class TabBarComponent extends Component {
   render () {
     const TabBar = isIOS ? BottomTabBar : MaterialTopTabBar
     const { navigation, profile, ...options } = this.props
+    const label = profile.get('labelVisible')
+    const height = label ? 60 : 50
     return (
       <TabBar
         navigation={navigation}
         {...options}
-        showLabel={profile.get('labelVisible')}
+        showLabel={label}
+        labelStyle={{ fontSize: 10 }}
         upperCaseLabel={false}
         showIcon
-        style={{ backgroundColor: Colors.sliver, height: 60 }}
+        style={{ backgroundColor: Colors.sliver, height }}
         activeTintColor={Colors.blue}
         inactiveTintColor={Colors.charcoal}
         indicatorStyle={{ backgroundColor: Colors.blue }}

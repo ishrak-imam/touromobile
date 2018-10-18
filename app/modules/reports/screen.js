@@ -20,11 +20,13 @@ import Button from '../../components/button'
 const _T = Translator('ReportsScreen')
 
 class ReportsScreen extends Component {
-  static navigationOptions = {
-    tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='stats' color={tintColor} />
-    },
-    tabBarLabel: 'Reports'
+  static navigationOptions = () => {
+    return {
+      tabBarIcon: ({ focused, tintColor }) => {
+        return <IonIcon name='stats' color={tintColor} />
+      },
+      tabBarLabel: _T('title')
+    }
   }
 
   _onUpload = () => {

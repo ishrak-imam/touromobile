@@ -21,9 +21,13 @@ export default class TouroMobile extends Component {
     }
   }
 
-  componentWillMount () {
-    I18n.initAsync() // initialization for picking device locale and configure accordingly
-    this._loadAssetsAsync()
+  componentDidMount () {
+    Promise.all([
+      I18n.initAsync(),
+      this._loadAssetsAsync()
+    ]).then(_ => this.setState({
+      isAppReady: true
+    }))
   }
 
   async _loadAssetsAsync () {
@@ -43,7 +47,7 @@ export default class TouroMobile extends Component {
           'network timeout, so we skipped caching. Reload the app to try again.'
       )
     } finally {
-      this.setState({ isAppReady: true })
+      console.log('Assets cached')
     }
   }
 

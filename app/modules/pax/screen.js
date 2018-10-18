@@ -15,11 +15,13 @@ import { ViewPager } from 'rn-viewpager'
 const _T = Translator('PassengersScreen')
 
 class PaxScreen extends Component {
-  static navigationOptions = {
-    tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='people' color={tintColor} />
-    },
-    tabBarLabel: 'Passengers'
+  static navigationOptions = () => {
+    return {
+      tabBarIcon: ({ focused, tintColor }) => {
+        return <IonIcon name='people' color={tintColor} />
+      },
+      tabBarLabel: _T('paxTitle')
+    }
   }
 
   constructor (props) {

@@ -11,11 +11,13 @@ import Excursions from '../../components/excursions'
 const _T = Translator('ExcursionsScreen')
 
 class ExcursionsScreen extends Component {
-  static navigationOptions = {
-    tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='excursion' color={tintColor} />
-    },
-    tabBarLabel: 'Excursions'
+  static navigationOptions = () => {
+    return {
+      tabBarIcon: ({ focused, tintColor }) => {
+        return <IonIcon name='excursion' color={tintColor} />
+      },
+      tabBarLabel: _T('title')
+    }
   }
 
   shouldComponentUpdate (nextProps) {

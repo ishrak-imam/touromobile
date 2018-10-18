@@ -24,11 +24,13 @@ import NoData from '../../components/noData'
 const _T = Translator('CurrentTripScreen')
 
 class TripScreen extends Component {
-  static navigationOptions = {
-    tabBarIcon: ({ focused, tintColor }) => {
-      return <IonIcon name='home' color={tintColor} />
-    },
-    tabBarLabel: 'Current Trip'
+  static navigationOptions = () => {
+    return {
+      tabBarIcon: ({ focused, tintColor }) => {
+        return <IonIcon name='home' color={tintColor} />
+      },
+      tabBarLabel: _T('title')
+    }
   }
 
   shouldComponentUpdate (nextProps) {
