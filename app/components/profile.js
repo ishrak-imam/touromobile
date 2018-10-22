@@ -70,7 +70,8 @@ export default class Profile extends Component {
       onUpdate({ changes, profile: userDetails })
     }
 
-    this._onCancel()
+    // this._onCancel()
+    this.setState({ editMode: false })
   }
 
   _toggleEditMode = () => {
