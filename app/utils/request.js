@@ -8,6 +8,9 @@ const responseHandler = response => {
   if (response.status === 200 || response.status === 201) {
     return response.json();
   }
+  if(response.status === 204) {
+    return Promise.resolve()
+  }
   if(response.status === 401) {
     return response.text().then(errMsg => {
       return Promise.reject(errMsg)
@@ -25,6 +28,18 @@ const responseHandler = response => {
 export const postRequest = (endPoint, data, headers = {}) => {
   return fetch(`${SERVER_URL}${endPoint}`, {
     method: 'POST',
+    headers: {
+      ...headers,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(responseHandler);
+}
+
+export const putRequest = (endPoint, data, headers = {}) => {
+  return fetch(`${SERVER_URL}${endPoint}`, {
+    method: 'PUT',
     headers: {
       ...headers,
       'Accept': 'application/json',

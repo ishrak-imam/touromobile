@@ -61,7 +61,7 @@ class TripScreen extends Component {
   _requestTrips = () => {
     const { user } = this.props
     networkActionDispatcher(tripsReq({
-      isNeedJwt: true, guideId: user.get('id')
+      isNeedJwt: true, guideId: user.get('guideId')
     }))
   }
 

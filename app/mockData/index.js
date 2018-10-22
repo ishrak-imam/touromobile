@@ -68,3 +68,5 @@ export const mockForgetPass = () => Promise.resolve({
 export const mockTrips = () => Promise.resolve(require('./trips.json'))
 
 export const mockUploadStats = () => Promise.resolve({ ok: true })
+
+export const mockUpdateProfile = () => Promise.resolve({ ok: true })

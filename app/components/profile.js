@@ -5,32 +5,78 @@ import {
   Body, Right
 } from 'native-base'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { StyleSheet, TextInput } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Colors } from '../theme'
 import FooterButtons from './footerButtons'
 import IconButton from './iconButton'
+import TextInput from '../components/textinput'
+
+import { actionDispatcher } from '../utils/actionDispatcher'
+import { editProfile, editProfileCancel } from '../modules/profile/action'
 
 export default class Profile extends Component {
   constructor (props) {
     super(props)
+    const { userDetails } = props
     this.state = {
-      editMode: false
+      editMode: false,
+      oldData: {
+        firstName: userDetails.get('firstName'),
+        lastName: userDetails.get('lastName'),
+        address: userDetails.get('address'),
+        city: userDetails.get('city'),
+        zip: userDetails.get('zip'),
+        phone: userDetails.get('phone'),
+        email: userDetails.get('email'),
+        account: userDetails.get('account')
+      },
+      changes: {}
     }
   }
 
+  _handleChange = field => {
+    return text => {
+      actionDispatcher(editProfile({ [field]: text }))
+      this._trackChanges(field, text)
+    }
+  }
+
+  _trackChanges = (field, text) => {
+    this.state.changes[field] = text
+  }
+
   _onCancel = () => {
+    actionDispatcher(editProfileCancel(this.state.oldData))
     this.setState({
-      editMode: false
+      editMode: false,
+      changes: {}
     })
   }
 
   _onSave = () => {
-    console.log('onSave')
+    const { userDetails, onUpdate } = this.props
+    let { changes } = this.state
+
+    changes = Object.keys(changes).reduce((list, key) => {
+      list.push({
+        column: key,
+        old: '',
+        new: changes[key]
+      })
+      return list
+    }, [])
+
+    if (changes.length) {
+      onUpdate({ changes, profile: userDetails })
+    }
+
+    this._onCancel()
   }
 
   _toggleEditMode = () => {
     this.setState({
-      editMode: !this.state.editMode
+      editMode: !this.state.editMode,
+      changes: {}
     })
   }
 
@@ -48,42 +94,43 @@ export default class Profile extends Component {
   }
 
   _renderName = () => {
+    const { userDetails } = this.props
     const { editMode } = this.state
+    const firstName = userDetails.get('firstName')
+    const lastName = userDetails.get('lastName')
     return (
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>First name:</Text>
+            <Text style={ss.label}>First name:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
-                  underlineColorAndroid='transparent'
                   placeholder='First name'
-                  // value={''}
                   style={ss.input}
-                  onChangeText={() => {}}
+                  onChange={this._handleChange('firstName')}
+                  value={firstName}
                 />
-                : <Text style={ss.text}>Ishrak Ibne</Text>
+                : <Text style={ss.text}>{firstName}</Text>
             }
           </Body>
         </View>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>Last name:</Text>
+            <Text style={ss.label}>Last name:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
-                  underlineColorAndroid='transparent'
                   placeholder='Last name'
-                  // value={''}
                   style={ss.input}
-                  onChangeText={() => {}}
+                  onChange={this._handleChange('lastName')}
+                  value={lastName}
                 />
-                : <Text style={ss.text}>Imam</Text>
+                : <Text style={ss.text}>{lastName}</Text>
             }
           </Body>
         </View>
@@ -92,60 +139,61 @@ export default class Profile extends Component {
   }
 
   _renderAddress = () => {
+    const { userDetails } = this.props
     const { editMode } = this.state
+    const address = userDetails.get('address')
+    const city = userDetails.get('city')
+    const zip = userDetails.get('zip')
     return (
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>Address:</Text>
+            <Text style={ss.label}>Address:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
-                  underlineColorAndroid='transparent'
                   placeholder='Address'
-                  // value={''}
                   style={ss.input}
-                  onChangeText={() => {}}
+                  onChange={this._handleChange('address')}
+                  value={address}
                 />
-                : <Text style={ss.text}>Address</Text>
+                : <Text style={ss.text}>{address}</Text>
             }
           </Body>
         </View>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>City:</Text>
+            <Text style={ss.label}>City:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
-                  underlineColorAndroid='transparent'
                   placeholder='City'
-                  // value={''}
                   style={ss.input}
-                  onChangeText={() => {}}
+                  onChange={this._handleChange('city')}
+                  value={city}
                 />
-                : <Text style={ss.text}>City</Text>
+                : <Text style={ss.text}>{city}</Text>
             }
           </Body>
         </View>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>Zip:</Text>
+            <Text style={ss.label}>Zip:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
-                  underlineColorAndroid='transparent'
                   placeholder='Zip'
-                  // value={''}
                   style={ss.input}
-                  onChangeText={() => {}}
+                  onChange={this._handleChange('zip')}
+                  value={zip}
                 />
-                : <Text style={ss.text}>Zip</Text>
+                : <Text style={ss.text}>{zip}</Text>
             }
           </Body>
         </View>
@@ -154,24 +202,26 @@ export default class Profile extends Component {
   }
 
   _renderContact = () => {
+    const { userDetails } = this.props
     const { editMode } = this.state
+    const phone = userDetails.get('phone')
+    const email = userDetails.get('email')
     return (
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>Phone:</Text>
+            <Text style={ss.label}>Phone:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
-                  underlineColorAndroid='transparent'
                   placeholder='Phone'
-                  // value={''}
                   style={ss.input}
-                  onChangeText={() => {}}
+                  onChange={this._handleChange('phone')}
+                  value={phone}
                 />
-                : <Text style={ss.text}>work phone</Text>
+                : <Text style={ss.text}>{phone}</Text>
             }
           </Body>
         </View>
@@ -197,19 +247,18 @@ export default class Profile extends Component {
 
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>Email:</Text>
+            <Text style={ss.label}>Email:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
-                  underlineColorAndroid='transparent'
                   placeholder='Email'
-                  // value={''}
                   style={ss.input}
-                  onChangeText={() => {}}
+                  onChange={this._handleChange('email')}
+                  value={email}
                 />
-                : <Text style={ss.text}>email</Text>
+                : <Text style={ss.text}>{email}</Text>
             }
           </Body>
         </View>
@@ -218,24 +267,25 @@ export default class Profile extends Component {
   }
 
   _renderAccount = () => {
+    const { userDetails } = this.props
     const { editMode } = this.state
+    const account = userDetails.get('account')
     return (
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text>Bank acc no.:</Text>
+            <Text style={ss.label}>Bank acc no.:</Text>
           </Left>
           <Body style={ss.body}>
             {
               editMode
                 ? <TextInput
-                  underlineColorAndroid='transparent'
                   placeholder='Bank acc no.'
-                  // value={''}
                   style={ss.input}
-                  onChangeText={() => {}}
+                  onChange={this._handleChange('account')}
+                  value={account}
                 />
-                : <Text style={ss.text}>Bank acc no.</Text>
+                : <Text style={ss.text}>{account}</Text>
             }
           </Body>
         </View>
@@ -295,5 +345,8 @@ const ss = StyleSheet.create({
   text: {
     lineHeight: 35,
     marginLeft: 20
+  },
+  label: {
+    lineHeight: 35
   }
 })

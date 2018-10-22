@@ -29,6 +29,14 @@ export const setIntoMap = (map, key, val) => {
   return map.set(key, val)
 }
 
+// export const deleteFromMap = (map, key) => {
+//   return map.delete(key)
+// }
+
+// export const deleteAllFromMap = (map, keys) => {
+//   return map.deleteAll(keys)
+// }
+
 /**
  * Set methods
  */

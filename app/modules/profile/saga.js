@@ -1,16 +1,23 @@
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 
 import {
   userDetailsReq,
   userDetailsSucs,
-  userDetailsFail
+  userDetailsFail,
+
+  updateProfileReq,
+  updateProfileSucs,
+  updateProfileFail
 } from './action'
 
 import {
-  getUserDetails
+  getUserDetails,
+  updateProfile
 } from './api'
+
+import { getUser } from '../../selectors'
 
 export function * watchGetUserDetails () {
   yield takeFirst(userDetailsReq.getType(), workerGetUserDetails)
@@ -35,6 +42,27 @@ function * workerGetUserDetails (action) {
     const user = yield call(getUserDetails, guideId, jwt)
     yield put(userDetailsSucs(formatUserData(user)))
   } catch (e) {
-    yield put(userDetailsFail(e))
+    let user = yield select(getUser)
+    const mutated = [
+      'accessToken',
+      'expiresIn',
+      'group',
+      'image'
+    ].reduce((map, key) => map.delete(key), user)
+    yield put(userDetailsFail(mutated))
+  }
+}
+
+export function * watchUpdateProfile () {
+  yield takeFirst(updateProfileReq.getType(), workerUpdateProfile)
+}
+
+function * workerUpdateProfile (action) {
+  const { guideId, changes, profile, jwt } = action.payload
+  try {
+    yield call(updateProfile, guideId, changes, jwt)
+    yield put(updateProfileSucs(profile))
+  } catch (e) {
+    yield put(updateProfileFail({ changes, profile }))
   }
 }

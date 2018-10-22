@@ -6,7 +6,7 @@ import {
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
-import { toggleTabLabels, userDetailsReq } from './action'
+import { toggleTabLabels, userDetailsReq, updateProfileReq } from './action'
 import {
   actionDispatcher,
   networkActionDispatcher
@@ -39,24 +39,36 @@ class Settings extends Component {
 
 class ProfileScreen extends Component {
   componentDidMount () {
-    const { user } = this.props
-    networkActionDispatcher(userDetailsReq({
-      isNeedJwt: true, guideId: user.get('id')
-    }))
+    const { user, profile } = this.props
+    if (!profile.get('user').size) {
+      networkActionDispatcher(userDetailsReq({
+        isNeedJwt: true, guideId: user.get('guideId')
+      }))
+    }
   }
 
   _toggleLabel = () => {
     actionDispatcher(toggleTabLabels())
   }
 
+  _updateProfile = data => {
+    const { user } = this.props
+    actionDispatcher(updateProfileReq({
+      isNeedJwt: true,
+      guideId: user.get('guideId'),
+      ...data
+    }))
+  }
+
   render () {
     const { navigation, profile, user } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     const showLabel = profile.get('showLabel')
+    const userDetails = profile.get('user')
     return (
       <Container>
         <Header left='back' title={fullName} navigation={navigation} />
-        <Profile style={ss.profile} />
+        <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
         <Settings style={ss.settings} showLabel={showLabel} toggleLabel={this._toggleLabel} />
       </Container>
     )

@@ -1,12 +1,16 @@
 
 import { createReducer } from '../../utils/reduxHelpers'
-import { getMap, mergeMapShallow } from '../../utils/immutable'
+import { getMap, mergeMapShallow, readValue, setIntoMap } from '../../utils/immutable'
 
 import {
   LOGIN_REQ, LOGIN_SUCS, LOGIN_FAIL,
   LOGOUT_SUCS,
   FORGOT_PASS_REQ, FORGOT_PASS_SUCS, FORGOT_PASS_FAIL
 } from './action'
+
+import {
+  UPDATE_PROFILE_SUCS, UPDATE_PROFILE_FAIL
+} from '../profile/action'
 
 import { LOGIN_INITIAL_STATE } from './immutable'
 
@@ -19,5 +23,21 @@ export const login = createReducer(LOGIN_INITIAL_STATE, {
 
   [FORGOT_PASS_REQ]: state => mergeMapShallow(state, getMap({ isLoading: true, error: null, forgotPass: null })),
   [FORGOT_PASS_SUCS]: (state, payload) => mergeMapShallow(state, getMap({ isLoading: false, forgotPass: getMap(payload) })),
-  [FORGOT_PASS_FAIL]: (state, payload) => mergeMapShallow(state, getMap({ isLoading: false, error: getMap(payload) }))
+  [FORGOT_PASS_FAIL]: (state, payload) => mergeMapShallow(state, getMap({ isLoading: false, error: getMap(payload) })),
+
+  [UPDATE_PROFILE_SUCS]: (state, payload) => {
+    const user = mergeMapShallow(
+      readValue('user', state),
+      payload
+    )
+    return setIntoMap(state, 'user', user)
+  },
+
+  [UPDATE_PROFILE_FAIL]: (state, payload) => {
+    const user = mergeMapShallow(
+      readValue('user', state),
+      payload.profile
+    )
+    return setIntoMap(state, 'user', user)
+  }
 })

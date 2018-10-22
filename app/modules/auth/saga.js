@@ -38,6 +38,7 @@ export function * watchLogin () {
 const formatUserData = user => {
   return {
     id: user.id,
+    guideId: user.guide_id,
     accessToken: user.access_token,
     expiresIn: user.expires_in,
     firstName: user.first_name,
