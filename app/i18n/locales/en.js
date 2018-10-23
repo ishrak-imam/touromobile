@@ -74,6 +74,18 @@ export default {
     participating: 'Participating',
     all: 'All'
   },
+  ProfileScreen: {
+    details: 'Details',
+    firstName: 'First name',
+    lastName: 'Last name',
+    address: 'Address',
+    city: 'City',
+    zip: 'Zip',
+    phone: 'Phone',
+    email: 'Email',
+    backAccount: 'Back account',
+    showTabLabels: 'Show tab labels'
+  },
   NoData: {
     noMatch: 'No match found',
     noFutureTrips: 'No more future trips',

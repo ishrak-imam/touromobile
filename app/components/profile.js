@@ -14,6 +14,10 @@ import TextInput from '../components/textinput'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { editProfile, editProfileCancel } from '../modules/profile/action'
 
+import Translator from '../utils/translator'
+
+const _T = Translator('ProfileScreen')
+
 export default class Profile extends Component {
   constructor (props) {
     super(props)
@@ -84,7 +88,7 @@ export default class Profile extends Component {
     return (
       <View style={ss.cardItem}>
         <Left>
-          <Text style={ss.boldText}>Details</Text>
+          <Text style={ss.boldText}>{_T('details')}</Text>
         </Left>
         <Right>
           <IconButton name='edit' onPress={this._toggleEditMode} />
@@ -102,7 +106,7 @@ export default class Profile extends Component {
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text style={ss.label}>First name:</Text>
+            <Text style={ss.label}>{_T('firstName')}:</Text>
           </Left>
           <Body style={ss.body}>
             {
@@ -119,7 +123,7 @@ export default class Profile extends Component {
         </View>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text style={ss.label}>Last name:</Text>
+            <Text style={ss.label}>{_T('lastName')}:</Text>
           </Left>
           <Body style={ss.body}>
             {
@@ -148,7 +152,7 @@ export default class Profile extends Component {
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text style={ss.label}>Address:</Text>
+            <Text style={ss.label}>{_T('address')}:</Text>
           </Left>
           <Body style={ss.body}>
             {
@@ -165,7 +169,7 @@ export default class Profile extends Component {
         </View>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text style={ss.label}>City:</Text>
+            <Text style={ss.label}>{_T('city')}:</Text>
           </Left>
           <Body style={ss.body}>
             {
@@ -182,7 +186,7 @@ export default class Profile extends Component {
         </View>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text style={ss.label}>Zip:</Text>
+            <Text style={ss.label}>{_T('zip')}:</Text>
           </Left>
           <Body style={ss.body}>
             {
@@ -210,7 +214,7 @@ export default class Profile extends Component {
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text style={ss.label}>Phone:</Text>
+            <Text style={ss.label}>{_T('phone')}:</Text>
           </Left>
           <Body style={ss.body}>
             {
@@ -247,7 +251,7 @@ export default class Profile extends Component {
 
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text style={ss.label}>Email:</Text>
+            <Text style={ss.label}>{_T('email')}:</Text>
           </Left>
           <Body style={ss.body}>
             {
@@ -274,7 +278,7 @@ export default class Profile extends Component {
       <View style={ss.item}>
         <View style={ss.cardItem}>
           <Left style={ss.left}>
-            <Text style={ss.label}>Bank acc no.:</Text>
+            <Text style={ss.label}>{_T('backAccount')}:</Text>
           </Left>
           <Body style={ss.body}>
             {

@@ -17,6 +17,10 @@ import { Colors } from '../../theme'
 import Profile from '../../components/profile'
 import NoData from '../../components/noData'
 
+import Translator from '../../utils/translator'
+
+const _T = Translator('ProfileScreen')
+
 class Settings extends Component {
   render () {
     const { showLabel, toggleLabel, style } = this.props
@@ -30,7 +34,7 @@ class Settings extends Component {
             />
           </Left>
           <Body style={ss.body}>
-            <Text>Show tab labels</Text>
+            <Text>{_T('showTabLabels')}</Text>
           </Body>
         </CardItem>
       </View>

@@ -74,6 +74,18 @@ export default {
     participating: 'Deltagande',
     all: 'Allt'
   },
+  ProfileScreen: {
+    details: 'Detaljer',
+    firstName: 'Förnamn',
+    lastName: 'Efternamn',
+    address: 'Adress',
+    city: 'Stad',
+    zip: 'Postnummer',
+    phone: 'Telefon',
+    email: 'E-post',
+    backAccount: 'Bankkonto',
+    showTabLabels: 'Visa fliketiketter'
+  },
   NoData: {
     noMatch: 'Ingen matchning hittad',
     noFutureTrips: 'Inga fler framtida resor',

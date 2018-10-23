@@ -1,5 +1,4 @@
 
-import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 
@@ -47,7 +46,6 @@ function * workerGetUserDetails (action) {
   try {
     const { guideId, jwt } = action.payload
     const user = yield call(getUserDetails, guideId, jwt)
-    yield call(delay, 2000)
     yield put(userDetailsSucs(formatUserData(user)))
   } catch (e) {
     let user = yield select(getUser)

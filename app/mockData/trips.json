@@ -3209,7 +3209,7 @@
   {
     "departureId": 20274,
     "outDate": "2018-10-11T05:03:22.1030847+02:00",
-    "homeDate": "2018-10-23T05:03:22.1030847+02:00",
+    "homeDate": "2018-10-30T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
     "image": "https://picsum.photos/700/500/?image=524",
     "description": "Berlin Weekend",
@@ -4329,8 +4329,8 @@
 
   {
     "departureId": 20275,
-    "outDate": "2018-10-26T05:03:22.1030847+02:00",
-    "homeDate": "2018-10-30T05:03:22.1030847+02:00",
+    "outDate": "2018-11-26T05:03:22.1030847+02:00",
+    "homeDate": "2018-11-30T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
     "image": "https://picsum.photos/700/500/?image=444",
     "description": "Berlin Weekend",
