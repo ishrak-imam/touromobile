@@ -27,7 +27,7 @@ class Login extends Component {
     this.kbrdHide = Keyboard.addListener('keyboardDidHide', this._onKbrdHide)
 
     this.state = {
-      username: '',
+      user: '',
       password: '',
       isValidEmail: '',
       passTyped: ''
@@ -108,7 +108,7 @@ class Login extends Component {
   }
 
   render () {
-    const { username, password, isValidEmail, passTyped } = this.state
+    const { user, password, isValidEmail, passTyped } = this.state
     const { login } = this.props
     const isLoading = login.get('isLoading')
     const isDisabled = (isLoading || !isValidEmail || !passTyped)
@@ -133,7 +133,7 @@ class Login extends Component {
                 <Label>{_T('username')}</Label>
                 <Input
                   ref='username'
-                  value={username}
+                  value={user}
                   editable={!isLoading}
                   keyboardType='email-address'
                   // returnKeyType="next"

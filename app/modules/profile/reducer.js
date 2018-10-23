@@ -38,7 +38,7 @@ export const profile = createReducer(PROFILE_INITIAL_STATE, {
       getMap({
         isLoading: false,
         // user: payload,
-        update: null
+        updates: null
       }))
   },
   [UPDATE_PROFILE_FAIL]: (state, payload) => {
@@ -47,7 +47,7 @@ export const profile = createReducer(PROFILE_INITIAL_STATE, {
       getMap({
         isLoading: false,
         // user: payload.profile,
-        update: getList(payload.changes)
+        updates: getList(payload.changes)
       })
     )
   },

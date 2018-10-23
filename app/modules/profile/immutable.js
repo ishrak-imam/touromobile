@@ -5,5 +5,5 @@ export const PROFILE_INITIAL_STATE = getMap({
   showLabel: true,
   user: getMap({}),
   isLoading: false,
-  update: null
+  updates: null
 })

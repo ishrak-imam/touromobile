@@ -55,5 +55,7 @@ export const {
 } = require('./modifiedData')
 
 export const {
-  getProfile
+  getProfile,
+  getProfileUpdates,
+  getUserInProfile
 } = require('./profile')

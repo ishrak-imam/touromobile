@@ -10,6 +10,10 @@ import {
   startConnectionMonitor
 } from './action'
 
+import {
+  syncPendingUpdates
+} from '../modules/profile/action'
+
 function checkIfConnected () {
   return NetInfo.isConnected.fetch()
 }
@@ -47,6 +51,7 @@ function * createConnectionSubscription (action) {
     yield put(connectionType(connection.type))
     if (connection.type !== 'none') {
       yield put(connectionStatus(true))
+      yield put(syncPendingUpdates())
     } else {
       yield put(connectionStatus(false))
     }

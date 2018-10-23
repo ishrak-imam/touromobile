@@ -10,7 +10,9 @@ import {
 
   updateProfileReq,
   updateProfileSucs,
-  updateProfileFail
+  updateProfileFail,
+
+  syncPendingUpdates
 } from './action'
 
 import {
@@ -18,7 +20,11 @@ import {
   updateProfile
 } from './api'
 
-import { getUser } from '../../selectors'
+import {
+  getUser,
+  getProfileUpdates,
+  getUserInProfile
+} from '../../selectors'
 
 export function * watchGetUserDetails () {
   yield takeFirst(userDetailsReq.getType(), workerGetUserDetails)
@@ -66,5 +72,25 @@ function * workerUpdateProfile (action) {
     yield put(updateProfileSucs(profile))
   } catch (e) {
     yield put(updateProfileFail({ changes, profile }))
+  }
+}
+
+export function * watchPendingProfileUpdate () {
+  yield takeFirst(syncPendingUpdates.getType(), workerPendingProfileUpdate)
+}
+
+function * workerPendingProfileUpdate () {
+  const changes = yield select(getProfileUpdates)
+  if (changes) {
+    const user = yield select(getUser)
+    const guideId = user.get('guideId')
+    const jwt = user.get('accessToken')
+    const profile = yield select(getUserInProfile)
+    yield put(updateProfileReq({
+      guideId,
+      changes: changes.toJS(),
+      profile,
+      jwt
+    }))
   }
 }
