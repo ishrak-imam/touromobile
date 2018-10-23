@@ -62,8 +62,9 @@ class TMDrawer extends Component {
             style={ss.drawerImage}
             source={Images.logo}
           />
-          <TouchableOpacity onPress={this._toProfile}>
-            <Text style={ss.headerName}>{fullName}</Text>
+          <TouchableOpacity onPress={this._toProfile} style={ss.headerName}>
+            <IonIcon name='settings' size={20} color={Colors.silver} />
+            <Text style={ss.headerNameText}>{fullName}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -183,7 +184,11 @@ const ss = StyleSheet.create({
     backgroundColor: Colors.blue
   },
   headerName: {
-    color: Colors.silver
+    flexDirection: 'row'
+  },
+  headerNameText: {
+    color: Colors.silver,
+    marginLeft: 10
   },
   headerContent: {
     flex: 1,
