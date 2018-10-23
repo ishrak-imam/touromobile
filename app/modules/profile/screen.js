@@ -15,6 +15,7 @@ import { getProfile, getUser } from '../../selectors'
 import { connect } from 'react-redux'
 import { Colors } from '../../theme'
 import Profile from '../../components/profile'
+import NoData from '../../components/noData'
 
 class Settings extends Component {
   render () {
@@ -60,6 +61,14 @@ class ProfileScreen extends Component {
     }))
   }
 
+  _renderLoader () {
+    return (
+      <View style={ss.profile}>
+        <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
+      </View>
+    )
+  }
+
   render () {
     const { navigation, profile, user } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
@@ -68,7 +77,11 @@ class ProfileScreen extends Component {
     return (
       <Container>
         <Header left='back' title={fullName} navigation={navigation} />
-        <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
+        {
+          !userDetails.size
+            ? this._renderLoader()
+            : <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
+        }
         <Settings style={ss.settings} showLabel={showLabel} toggleLabel={this._toggleLabel} />
       </Container>
     )

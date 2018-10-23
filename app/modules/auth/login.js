@@ -27,7 +27,7 @@ class Login extends Component {
     this.kbrdHide = Keyboard.addListener('keyboardDidHide', this._onKbrdHide)
 
     this.state = {
-      user: '',
+      username: '',
       password: '',
       isValidEmail: '',
       passTyped: ''
