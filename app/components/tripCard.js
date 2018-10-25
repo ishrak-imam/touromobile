@@ -3,11 +3,12 @@ import {
   StyleSheet, TouchableOpacity,
   ActivityIndicator as Spinner
 } from 'react-native'
-import { View, Text } from 'native-base'
+import { View, Text, CheckBox } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
+import FooterButtons from './footerButtons'
 import { getPax, getStatsData, getTotalPercentage } from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
@@ -16,12 +17,20 @@ import { getMap } from '../utils/immutable'
 const DATE_FORMAT = 'DD/MM'
 
 export default class TripCard extends Component {
-  shouldComponentUpdate (nextProps) {
+  constructor (props) {
+    super(props)
+    this.state = {
+      language: ''
+    }
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
     const modifiedDataChanged = nextProps.modifiedTripData
       ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
       : false
     const tripChanged = !nextProps.trip.equals(this.props.trip)
-    return tripChanged || modifiedDataChanged
+    const stateChanged = this.state !== nextState
+    return tripChanged || modifiedDataChanged || stateChanged
   }
 
   _renderGradient = () => {
@@ -97,17 +106,83 @@ export default class TripCard extends Component {
     )
   }
 
-  _renderCardTop = () => {
-    const { type } = this.props
-    if (type === 'future') {
-      return null
-    }
+  _forFutureTrips = () => {
+    return (
+      <View style={{ flex: 1, marginHorizontal: 5 }}>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <CheckBox
+            checked
+            onPress={() => console.log('accept check')}
+          />
+          <Text style={{ marginLeft: 25 }}>Accept assignment</Text>
+        </View>
+        <View style={{ flex: 5, flexDirection: 'row', borderWidth: 2, borderColor: Colors.charcoal }}>
 
-    return this._forPastTrips()
+          <View style={{ flex: 1, paddingHorizontal: 5, borderRightWidth: 1, borderColor: Colors.charcoal }}>
+            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Out</Text>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontSize: 13, lineHeight: 40 }}>Accomodation:</Text>
+              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontSize: 13, lineHeight: 40 }}>Bag pickup:</Text>
+              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontSize: 13, lineHeight: 40 }}>Transfer:</Text>
+              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontSize: 13, lineHeight: 40 }}>Transfer city:</Text>
+              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
+            </View>
+
+          </View>
+
+          <View style={{ flex: 1, paddingHorizontal: 5, borderLeftWidth: 1, borderColor: Colors.charcoal }}>
+            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Home</Text>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontSize: 13, lineHeight: 40 }}>Accomodation:</Text>
+              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontSize: 13, lineHeight: 40 }}>Bag drop:</Text>
+              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontSize: 13, lineHeight: 40 }}>Transfer:</Text>
+              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontSize: 13, lineHeight: 40 }}>Transfer city:</Text>
+              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
+            </View>
+
+          </View>
+        </View>
+      </View>
+    )
+  }
+
+  _renderCardTop = type => {
+    switch (type) {
+      case 'future':
+        return this._forFutureTrips()
+      case 'past':
+        return this._forPastTrips()
+    }
   }
 
   render () {
-    const { trip } = this.props
+    const { trip, type } = this.props
 
     const brand = trip.get('brand')
     const name = trip.get('name')
@@ -117,8 +192,11 @@ export default class TripCard extends Component {
     const image = trip.get('image')
     const pax = getPax(trip)
 
+    const cardHeight = type === 'future' ? 350 : 250
+    const imageHeight = type === 'future' ? 300 : 200
+
     return (
-      <View style={ss.card}>
+      <View style={[ss.card, { height: cardHeight }]}>
 
         <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <Text style={ss.brandText}>{brand}</Text>
@@ -126,19 +204,28 @@ export default class TripCard extends Component {
           <IonIcon name={transport.get('type')} />
         </View>
 
-        <View style={ss.imageContainer}>
+        <View style={[ss.imageContainer, { height: imageHeight }]}>
           <ImageCache uri={image} style={ss.cardImage} />
           {/* {this._renderGradient()} */}
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
-              {this._renderCardTop()}
+              {this._renderCardTop(type)}
             </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
                 <IonIcon name='people' color={Colors.black} size={30} />
                 <Text style={[ss.brandText, { color: Colors.black, marginLeft: 10 }]}>{pax.size}</Text>
               </View>
-              <View style={ss.bottomRight} />
+              <View style={ss.bottomRight}>
+                {
+                  type === 'future' &&
+                  <FooterButtons
+                    disabled={false}
+                    onCancel={() => console.log('cancel')}
+                    onSave={() => console.log('save')}
+                  />
+                }
+              </View>
             </View>
           </View>
         </View>
@@ -150,7 +237,7 @@ export default class TripCard extends Component {
 
 const ss = StyleSheet.create({
   card: {
-    height: 250,
+    // height: 250,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },
@@ -169,7 +256,7 @@ const ss = StyleSheet.create({
   },
   imageContainer: {
     borderWidth: 0,
-    height: 200,
+    // height: 200,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     overflow: 'hidden'// needed for iOS
@@ -180,7 +267,7 @@ const ss = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    opacity: 0.3,
+    opacity: 0.2,
     borderBottomLeftRadius: 10, // needed for Android
     borderBottomRightRadius: 10, // needed for Android
     width: null,
@@ -197,7 +284,8 @@ const ss = StyleSheet.create({
     flex: 1
   },
   cardTop: {
-    flex: 3
+    flex: 5
+    // backgroundColor: 'red'
   },
   cardBottom: {
     flex: 1,
@@ -213,8 +301,10 @@ const ss = StyleSheet.create({
     marginLeft: 10
   },
   bottomRight: {
-    flex: 1,
-    flexDirection: 'row'
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginRight: 10
   },
   brandText: {
     fontSize: 16,

@@ -216,7 +216,7 @@ class PaxCard extends Component {
         {!!excursion && this._renderExcursion()}
         {!!coPax.size && this._renderCoPax(coPax, this.paxData)}
         {this._renderComment(comment)}
-        {editMode && <FooterButtons onCancel={this._onCancel} onSave={this._onSave} />}
+        {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
       </KeyboardAwareScrollView>
     )
   }
@@ -279,7 +279,6 @@ const ss = StyleSheet.create({
     width: '100%'
   },
   footerButton: {
-    marginRight: 10,
-    borderRadius: 3
+    marginRight: 20
   }
 })

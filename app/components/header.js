@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { IonIcon, Colors } from '../theme'
 import {
   Header, Left, Body,
-  Title, Right, View
+  Title, Right
 } from 'native-base'
 import { StyleSheet, TouchableOpacity, Keyboard } from 'react-native'
 import isIOS from '../utils/isIOS'

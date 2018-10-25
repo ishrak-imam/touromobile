@@ -311,7 +311,7 @@ export default class Profile extends Component {
           {this._renderAddress()}
           {this._renderContact()}
           {this._renderAccount()}
-          {editMode && <FooterButtons onCancel={this._onCancel} onSave={this._onSave} />}
+          {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
         </KeyboardAwareScrollView>
       </View>
     )
@@ -352,5 +352,8 @@ const ss = StyleSheet.create({
   },
   label: {
     lineHeight: 35
+  },
+  footerButton: {
+    marginRight: 20
   }
 })
