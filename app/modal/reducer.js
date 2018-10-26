@@ -1,6 +1,6 @@
 
 import { createReducer } from '../utils/reduxHelpers'
-import { setIntoMap, getMap } from '../utils/immutable'
+import { setIntoMap, getImmutableObject, getMap } from '../utils/immutable'
 
 import {
   SHOW_MODAL,
@@ -11,11 +11,10 @@ import { MODAL_INITIAL_STATE } from './immutable'
 
 export const modal = createReducer(MODAL_INITIAL_STATE, {
   [SHOW_MODAL]: (state, payload) => {
-    const { type, text, onOk } = payload
-    return setIntoMap(state, type, getMap({ visible: true, text, onOk }))
+    return setIntoMap(state, payload.type, getImmutableObject(payload))
   },
   [CLOSE_MODAL]: (state, payload) => {
     const { type } = payload
-    return setIntoMap(state, type, getMap({ visible: false, text: null, onOk: null }))
+    return setIntoMap(state, type, getMap({}))
   }
 })

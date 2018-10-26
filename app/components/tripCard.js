@@ -1,26 +1,41 @@
 import React, { Component } from 'react'
 import {
   StyleSheet, TouchableOpacity,
-  ActivityIndicator as Spinner
+  ActivityIndicator as Spinner, View
 } from 'react-native'
-import { View, Text, CheckBox } from 'native-base'
+// import Switch from '../components/switch'
+import { Text, CheckBox } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import FooterButtons from './footerButtons'
+// import { ViewPager } from 'rn-viewpager'
 import { getPax, getStatsData, getTotalPercentage } from '../selectors'
-import { networkActionDispatcher } from '../utils/actionDispatcher'
+import { networkActionDispatcher, actionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
 import { getMap } from '../utils/immutable'
 
+import { showModal } from '../modal/action'
+
 const DATE_FORMAT = 'DD/MM'
+
+const HOME = 'HOME'
+const OUT = 'OUT'
+
+const SELECTIONS = {
+  accomodation: [
+    'Single room',
+    'Part in double room',
+    'No accomodation'
+  ]
+}
 
 export default class TripCard extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      language: ''
+      tab: HOME
     }
   }
 
@@ -106,68 +121,152 @@ export default class TripCard extends Component {
     )
   }
 
-  _forFutureTrips = () => {
+  // _onToggle = v => {
+  //   this.refs.pager.setPage(+v)
+  // }
+
+  // _onPageSelected = ({ position }) => {
+  //   this.setState({ isHome: !!position })
+  // }
+
+  _onTabSwitch = tab => {
+    return () => {
+      this.setState({ tab })
+    }
+  }
+
+  _onSelect = value => {
+    console.log(value)
+  }
+
+  _showSelections = of => {
+    return () => {
+      actionDispatcher(showModal({
+        type: 'selection',
+        options: SELECTIONS[of],
+        onSelect: this._onSelect
+      }))
+    }
+  }
+
+  _renderTabs = () => {
+    const { tab } = this.state
     return (
-      <View style={{ flex: 1, marginHorizontal: 5 }}>
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+      <View style={ss.tabContainer}>
+        <TouchableOpacity
+          style={[ss.tab, { backgroundColor: tab === HOME ? Colors.blue : Colors.steel }]}
+          onPress={this._onTabSwitch(HOME)}
+        >
+          <Text style={{ color: tab === HOME ? Colors.silver : Colors.black }}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[ss.tab, { backgroundColor: tab === OUT ? Colors.blue : Colors.steel }]}
+          onPress={this._onTabSwitch(OUT)}
+        >
+          <Text style={{ color: tab === OUT ? Colors.silver : Colors.black }}>Out</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  _renderSelector = of => {
+    return (
+      <View style={ss.selector}>
+        <View style={ss.selectorText}>
+          <Text numberOfLines={1} style={{ fontSize: 14 }}>Overnight hotel Malmö ghjgj jgj </Text>
+        </View>
+        <View style={ss.dropDown}>
+          <IonIcon name='down' color={Colors.charcoal} size={20} onPress={this._showSelections(of)} />
+        </View>
+      </View>
+    )
+  }
+
+  _renderHomeCombos = () => {
+    return (
+      <View style={ss.comboCon}>
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Accomodation:</Text>
+          {this._renderSelector('accomodation')}
+        </View>
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Bag pickup:</Text>
+          {this._renderSelector('accomodation')}
+        </View>
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Transfer:</Text>
+          {this._renderSelector('accomodation')}
+        </View>
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Transfer city:</Text>
+          {this._renderSelector('accomodation')}
+        </View>
+      </View>
+    )
+  }
+
+  _renderOutCombos = () => {
+    return (
+      <View style={ss.comboCon}>
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Accomodation:</Text>
+          {this._renderSelector('accomodation')}
+        </View>
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Bag drop:</Text>
+          {this._renderSelector('accomodation')}
+        </View>
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Transfer:</Text>
+          {this._renderSelector('accomodation')}
+        </View>
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Transfer city:</Text>
+          {this._renderSelector('accomodation')}
+        </View>
+      </View>
+    )
+  }
+
+  _forFutureTrips = () => {
+    const { tab } = this.state
+    return (
+      <View style={{ flex: 1 }}>
+
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
           <CheckBox
             checked
             onPress={() => console.log('accept check')}
           />
           <Text style={{ marginLeft: 25 }}>Accept assignment</Text>
         </View>
-        <View style={{ flex: 5, flexDirection: 'row', borderWidth: 2, borderColor: Colors.charcoal }}>
 
-          <View style={{ flex: 1, paddingHorizontal: 5, borderRightWidth: 1, borderColor: Colors.charcoal }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Out</Text>
+        <View style={{ flex: 5 }}>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontSize: 13, lineHeight: 40 }}>Accomodation:</Text>
-              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
-            </View>
+          {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
+            <Text style={{ fontSize: 14, marginRight: 5 }}>Out</Text>
+            <Switch
+              isOn={this.state.isHome}
+              onColor={Colors.steel}
+              offColor={Colors.steel}
+              onToggle={this._onToggle}
+            />
+            <Text style={{ fontSize: 14, marginLeft: 5 }}>Home</Text>
+          </View> */}
+          {/* <ViewPager style={{ flex: 1 }} ref='pager' onPageSelected={this._onPageSelected} /> */}
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontSize: 13, lineHeight: 40 }}>Bag pickup:</Text>
-              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
-            </View>
+          {this._renderTabs()}
+          {tab === HOME && this._renderHomeCombos()}
+          {tab === OUT && this._renderOutCombos()}
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontSize: 13, lineHeight: 40 }}>Transfer:</Text>
-              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
-            </View>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontSize: 13, lineHeight: 40 }}>Transfer city:</Text>
-              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
-            </View>
-
-          </View>
-
-          <View style={{ flex: 1, paddingHorizontal: 5, borderLeftWidth: 1, borderColor: Colors.charcoal }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Home</Text>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontSize: 13, lineHeight: 40 }}>Accomodation:</Text>
-              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
-            </View>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontSize: 13, lineHeight: 40 }}>Bag drop:</Text>
-              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
-            </View>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontSize: 13, lineHeight: 40 }}>Transfer:</Text>
-              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
-            </View>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontSize: 13, lineHeight: 40 }}>Transfer city:</Text>
-              <View style={{ height: 25, width: 90, borderWidth: 1, borderColor: 'black' }} />
-            </View>
-
-          </View>
         </View>
+
       </View>
     )
   }
@@ -220,7 +319,8 @@ export default class TripCard extends Component {
                 {
                   type === 'future' &&
                   <FooterButtons
-                    disabled={false}
+                    style={ss.footerButtons}
+                    disabled
                     onCancel={() => console.log('cancel')}
                     onSave={() => console.log('save')}
                   />
@@ -291,7 +391,7 @@ const ss = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'flex-end'
   },
   bottomLeft: {
     flex: 1,
@@ -325,5 +425,56 @@ const ss = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  footerButtons: {
+    marginBottom: 5
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 5
+  },
+  tab: {
+    width: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 4,
+    borderRadius: 5
+  },
+  selectorText: {
+    flex: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 3,
+    borderWidth: 1,
+    borderRightWidth: 0,
+    borderTopLeftRadius: 3,
+    borderBottomLeftRadius: 3,
+    borderColor: Colors.charcoal
+  },
+  dropDown: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: Colors.blue,
+    alignItems: 'center',
+    borderTopRightRadius: 3,
+    borderBottomRightRadius: 3
+  },
+  selector: {
+    height: 30,
+    width: 200,
+    flexDirection: 'row'
+  },
+  comboCon: {
+    paddingHorizontal: 20
+  },
+  combo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  comboLabel: {
+    fontSize: 14,
+    lineHeight: 40
   }
 })

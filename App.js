@@ -10,6 +10,7 @@ import cacheAssestsAsync from './app/utils/assetsCache'
 import I18n from './app/i18n'
 
 import WarningModal from './app/modal/warning'
+import SelectionModal from './app/modal/selection'
 
 console.disableYellowBox = true
 
@@ -58,8 +59,8 @@ export default class TouroMobile extends Component {
           <PersistGate loading={null} persistor={persistor}>
             <Root>
               <App />
-
               <WarningModal />
+              <SelectionModal />
             </Root>
           </PersistGate>
         </Provider>

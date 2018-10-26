@@ -35,7 +35,7 @@ class WarningModal extends Component {
       <Modal
         animationType='fade'
         transparent
-        visible={warning.get('visible')}
+        visible={!!warning.size}
         onRequestClose={() => {}}
         useNativeDriver
       >

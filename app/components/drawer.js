@@ -23,7 +23,7 @@ import {
 } from '../selectors'
 import Translator from '../utils/translator'
 
-// import { showModal } from '../modal/action'
+import { showModal } from '../modal/action'
 
 const _T = Translator('DrawerScreen')
 
@@ -39,12 +39,12 @@ class TMDrawer extends Component {
   }
 
   _showWarning = () => {
-    // actionDispatcher(showModal({
-    // type: 'warning',
-    // text: 'Modified trip data will be lost permanently.',
-    // onOk: this._logOut
-    // }))
-    this._logOut()
+    actionDispatcher(showModal({
+      type: 'warning',
+      text: 'Modified trip data will be lost permanently.',
+      onOk: this._logOut
+    }))
+    // this._logOut()
   }
 
   _toProfile = () => {

@@ -14,7 +14,7 @@ const getIconName = (name) => {
     sms: ['ios-text', 'md-text'],
     info: ['ios-information-circle', 'md-information-circle'],
     up: ['ios-arrow-up', 'ios-arrow-up'],
-    down: ['md-arrow-down', 'md-arrow-down'],
+    down: ['ios-arrow-down', 'ios-arrow-down'],
     x: ['ios-close', 'md-close'],
     circleX: ['ios-close-circle', 'md-close-circle'],
     edit: ['ios-create', 'md-create'],

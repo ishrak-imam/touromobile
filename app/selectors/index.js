@@ -39,7 +39,8 @@ export const {
 } = require('./navigation')
 
 export const {
-  getWarningModal
+  getWarningModal,
+  getSelectionModal
 } = require('./modal')
 
 export const {
