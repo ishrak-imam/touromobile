@@ -15,27 +15,24 @@ import { getPax, getStatsData, getTotalPercentage } from '../selectors'
 import { networkActionDispatcher, actionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
 import { getMap } from '../utils/immutable'
-
 import { showModal } from '../modal/action'
+
+import {
+  getLocations,
+  getAccomodations,
+  getBagLocations
+} from '../utils/comboValues'
 
 const DATE_FORMAT = 'DD/MM'
 
 const HOME = 'HOME'
 const OUT = 'OUT'
 
-const SELECTIONS = {
-  accomodation: [
-    'Single room',
-    'Part in double room',
-    'No accomodation'
-  ]
-}
-
 export default class TripCard extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      tab: HOME
+      tab: OUT
     }
   }
 
@@ -139,11 +136,11 @@ export default class TripCard extends Component {
     console.log(value)
   }
 
-  _showSelections = of => {
+  _showSelections = options => {
     return () => {
       actionDispatcher(showModal({
         type: 'selection',
-        options: SELECTIONS[of],
+        options,
         onSelect: this._onSelect
       }))
     }
@@ -154,16 +151,16 @@ export default class TripCard extends Component {
     return (
       <View style={ss.tabContainer}>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: tab === HOME ? Colors.blue : Colors.steel }]}
-          onPress={this._onTabSwitch(HOME)}
-        >
-          <Text style={{ color: tab === HOME ? Colors.silver : Colors.black }}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
           style={[ss.tab, { backgroundColor: tab === OUT ? Colors.blue : Colors.steel }]}
           onPress={this._onTabSwitch(OUT)}
         >
           <Text style={{ color: tab === OUT ? Colors.silver : Colors.black }}>Out</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[ss.tab, { backgroundColor: tab === HOME ? Colors.blue : Colors.steel }]}
+          onPress={this._onTabSwitch(HOME)}
+        >
+          <Text style={{ color: tab === HOME ? Colors.silver : Colors.black }}>Home</Text>
         </TouchableOpacity>
       </View>
     )
@@ -172,56 +169,56 @@ export default class TripCard extends Component {
   _renderSelector = of => {
     return (
       <View style={ss.selector}>
-        <View style={ss.selectorText}>
-          <Text numberOfLines={1} style={{ fontSize: 14 }}>Overnight hotel Malmö ghjgj jgj </Text>
+        <View style={ss.selectorBox}>
+          <Text numberOfLines={1} style={ss.selectorText}>Overnight hotel Malmö ghjgj jgj </Text>
         </View>
-        <View style={ss.dropDown}>
-          <IonIcon name='down' color={Colors.charcoal} size={20} onPress={this._showSelections(of)} />
-        </View>
+        <TouchableOpacity style={ss.dropDown} onPress={this._showSelections(of)}>
+          <IonIcon name='down' color={Colors.charcoal} size={20} />
+        </TouchableOpacity>
       </View>
     )
   }
 
-  _renderHomeCombos = () => {
+  _renderOutCombos = transportType => {
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Accomodation:</Text>
+          <Text style={ss.comboLabel}>Boarding Location:</Text>
+          {this._renderSelector(getLocations('out', transportType))}
+        </View>
+
+        {/* <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Transfer:</Text>
           {this._renderSelector('accomodation')}
+        </View>
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Transfer city:</Text>
+          {this._renderSelector('accomodation')}
+        </View> */}
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Accomodation:</Text>
+          {this._renderSelector(getAccomodations('out', transportType))}
         </View>
 
         <View style={ss.combo}>
           <Text style={ss.comboLabel}>Bag pickup:</Text>
-          {this._renderSelector('accomodation')}
-        </View>
-
-        <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Transfer:</Text>
-          {this._renderSelector('accomodation')}
-        </View>
-
-        <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Transfer city:</Text>
-          {this._renderSelector('accomodation')}
+          {this._renderSelector(getBagLocations('out', transportType))}
         </View>
       </View>
     )
   }
 
-  _renderOutCombos = () => {
+  _renderHomeCombos = transportType => {
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Accomodation:</Text>
-          {this._renderSelector('accomodation')}
+          <Text style={ss.comboLabel}>Alighting Location:</Text>
+          {this._renderSelector(getLocations('home', transportType))}
         </View>
 
-        <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Bag drop:</Text>
-          {this._renderSelector('accomodation')}
-        </View>
-
-        <View style={ss.combo}>
+        {/* <View style={ss.combo}>
           <Text style={ss.comboLabel}>Transfer:</Text>
           {this._renderSelector('accomodation')}
         </View>
@@ -229,25 +226,35 @@ export default class TripCard extends Component {
         <View style={ss.combo}>
           <Text style={ss.comboLabel}>Transfer city:</Text>
           {this._renderSelector('accomodation')}
+        </View> */}
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Accomodation:</Text>
+          {this._renderSelector(getAccomodations('home', transportType))}
+        </View>
+
+        <View style={ss.combo}>
+          <Text style={ss.comboLabel}>Bag dropoff:</Text>
+          {this._renderSelector(getBagLocations('home', transportType))}
         </View>
       </View>
     )
   }
 
-  _forFutureTrips = () => {
+  _forFutureTrips = transportType => {
     const { tab } = this.state
     return (
-      <View style={{ flex: 1 }}>
+      <View style={ss.futureTtip}>
 
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
+        <View style={ss.futureTripCheck}>
           <CheckBox
             checked
             onPress={() => console.log('accept check')}
           />
-          <Text style={{ marginLeft: 25 }}>Accept assignment</Text>
+          <Text style={ss.checkText}>Accept assignment</Text>
         </View>
 
-        <View style={{ flex: 5 }}>
+        <View style={ss.comboTabs}>
 
           {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
             <Text style={{ fontSize: 14, marginRight: 5 }}>Out</Text>
@@ -262,8 +269,9 @@ export default class TripCard extends Component {
           {/* <ViewPager style={{ flex: 1 }} ref='pager' onPageSelected={this._onPageSelected} /> */}
 
           {this._renderTabs()}
-          {tab === HOME && this._renderHomeCombos()}
-          {tab === OUT && this._renderOutCombos()}
+
+          {tab === OUT && this._renderOutCombos(transportType)}
+          {tab === HOME && this._renderHomeCombos(transportType)}
 
         </View>
 
@@ -271,10 +279,10 @@ export default class TripCard extends Component {
     )
   }
 
-  _renderCardTop = type => {
+  _renderCardTop = (type, transportType) => {
     switch (type) {
       case 'future':
-        return this._forFutureTrips()
+        return this._forFutureTrips(transportType)
       case 'past':
         return this._forPastTrips()
     }
@@ -291,8 +299,10 @@ export default class TripCard extends Component {
     const image = trip.get('image')
     const pax = getPax(trip)
 
-    const cardHeight = type === 'future' ? 350 : 250
-    const imageHeight = type === 'future' ? 300 : 200
+    const transportType = transport.get('type')
+
+    const cardHeight = type === 'future' ? 400 : 250
+    const imageHeight = type === 'future' ? 350 : 200
 
     return (
       <View style={[ss.card, { height: cardHeight }]}>
@@ -300,7 +310,7 @@ export default class TripCard extends Component {
         <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <Text style={ss.brandText}>{brand}</Text>
           <Text>{`${name}    ${outDate} - ${homeDate}`}</Text>
-          <IonIcon name={transport.get('type')} />
+          <IonIcon name={transportType} />
         </View>
 
         <View style={[ss.imageContainer, { height: imageHeight }]}>
@@ -308,12 +318,12 @@ export default class TripCard extends Component {
           {/* {this._renderGradient()} */}
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
-              {this._renderCardTop(type)}
+              {this._renderCardTop(type, transportType)}
             </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
                 <IonIcon name='people' color={Colors.black} size={30} />
-                <Text style={[ss.brandText, { color: Colors.black, marginLeft: 10 }]}>{pax.size}</Text>
+                <Text style={[ss.brandText, { marginLeft: 10 }]}>{pax.size}</Text>
               </View>
               <View style={ss.bottomRight}>
                 {
@@ -391,7 +401,7 @@ const ss = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end'
+    alignItems: 'center'
   },
   bottomLeft: {
     flex: 1,
@@ -408,7 +418,8 @@ const ss = StyleSheet.create({
   },
   brandText: {
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: Colors.black
   },
   uploadButton: {
     width: 150,
@@ -441,7 +452,7 @@ const ss = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 5
   },
-  selectorText: {
+  selectorBox: {
     flex: 4,
     justifyContent: 'center',
     alignItems: 'center',
@@ -451,6 +462,9 @@ const ss = StyleSheet.create({
     borderTopLeftRadius: 3,
     borderBottomLeftRadius: 3,
     borderColor: Colors.charcoal
+  },
+  selectorText: {
+    fontSize: 14
   },
   dropDown: {
     flex: 1,
@@ -463,7 +477,8 @@ const ss = StyleSheet.create({
   selector: {
     height: 30,
     width: 200,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: Colors.silver
   },
   comboCon: {
     paddingHorizontal: 20
@@ -476,5 +491,20 @@ const ss = StyleSheet.create({
   comboLabel: {
     fontSize: 14,
     lineHeight: 40
+  },
+  futureTtip: {
+    flex: 1
+  },
+  futureTripCheck: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5
+  },
+  checkText: {
+    marginLeft: 25
+  },
+  comboTabs: {
+    flex: 5
   }
 })
