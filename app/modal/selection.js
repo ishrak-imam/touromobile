@@ -18,7 +18,7 @@ const widthOffset = 100
 const modalHeight = height - heightOffset
 const modalWidth = width - widthOffset
 
-class WarningModal extends Component {
+class SelectionModal extends Component {
   _onCancel = () => {
     actionDispatcher(closeModal({ type: 'selection' }))
   }
@@ -27,21 +27,30 @@ class WarningModal extends Component {
     const { selection } = this.props
     const onSelect = selection.get('onSelect')
     const key = config.get('key')
+    const direction = config.get('direction')
     return () => {
-      onSelect({ key, value: item })
+      onSelect({ key, value: item, direction })
       this._onCancel()
     }
   }
 
   _renderItems = (items, config) => {
     return (
-      <ScrollView style={ss.itemCon} contentContainerStyle={{ paddingBottom: 5 }}>
+      <ScrollView style={ss.itemCon} contentContainerStyle={{ paddingVertical: 10 }}>
+        {/* <ListItem
+          style={[ss.listItem, { backgroundColor: Colors.blue }]} key={'aaa'}
+        >
+          <Text style={{ color: Colors.silver }}>DEMO</Text>
+        </ListItem> */}
         {
           items.map(item => {
             const key = item.get('key')
             const value = item.get('value')
             return (
-              <ListItem style={ss.listItem} key={key} onPress={this._onSelect(key, config)}>
+              <ListItem
+                style={ss.listItem} key={key}
+                onPress={this._onSelect({ key: String(key), value }, config)}
+              >
                 <Text>{value}</Text>
               </ListItem>
             )
@@ -67,7 +76,7 @@ class WarningModal extends Component {
         <View style={ss.modal}>
           <View style={ss.container}>
             <View style={ss.top}>
-              {!!config && <Text style={ss.label}>{config.get('value')}</Text>}
+              {!!config && <Text style={ss.label}>{config.get('label')}</Text>}
               <TouchableOpacity onPress={this._onCancel}>
                 <IonIcon name='x' size={30} color={Colors.silver} />
               </TouchableOpacity>
@@ -86,7 +95,7 @@ const stateToProps = state => ({
   selection: getSelectionModal(state)
 })
 
-export default connect(stateToProps, null)(WarningModal)
+export default connect(stateToProps, null)(SelectionModal)
 
 const ss = StyleSheet.create({
   modal: {
@@ -119,7 +128,8 @@ const ss = StyleSheet.create({
     marginTop: 5
   },
   listItem: {
-    paddingLeft: 5
+    paddingLeft: 20,
+    marginLeft: 0
   },
   label: {
     fontWeight: 'bold',

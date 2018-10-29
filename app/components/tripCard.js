@@ -11,28 +11,46 @@ import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import FooterButtons from './footerButtons'
 // import { ViewPager } from 'rn-viewpager'
-import { getPax, getStatsData, getTotalPercentage } from '../selectors'
+
+import { connect } from 'react-redux'
+
+import {
+  getPax, getStatsData,
+  getTotalPercentage, getAaccept
+} from '../selectors'
 import { networkActionDispatcher, actionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
 import { getMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
 
 import {
+  setAcceptTrip,
+  setAcceptTripCombos
+} from '../modules/modifiedData/action'
+
+import {
+  getKeyNames,
   getLocations,
   getAccomodations,
-  getBagLocations
+  getBagLocations,
+  getTransfers,
+  getTransferCities
 } from '../utils/comboValues'
+
+const KEY_NAMES = getKeyNames()
 
 const DATE_FORMAT = 'DD/MM'
 
 const HOME = 'HOME'
 const OUT = 'OUT'
 
-export default class TripCard extends Component {
+class TripCard extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      tab: OUT
+      tab: OUT,
+      out: {},
+      home: {}
     }
   }
 
@@ -40,9 +58,10 @@ export default class TripCard extends Component {
     const modifiedDataChanged = nextProps.modifiedTripData
       ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
       : false
+    const acceptChanged = !nextProps.accept.equals(this.props.accept)
     const tripChanged = !nextProps.trip.equals(this.props.trip)
     const stateChanged = this.state !== nextState
-    return tripChanged || modifiedDataChanged || stateChanged
+    return tripChanged || modifiedDataChanged || stateChanged || acceptChanged
   }
 
   _renderGradient = () => {
@@ -132,8 +151,22 @@ export default class TripCard extends Component {
     }
   }
 
-  _onSelect = value => {
-    console.log(value)
+  _onSelect = selection => {
+    const { key, value, direction } = selection
+    this.setState({
+      [direction]: {
+        ...this.state[direction],
+        ...{ [key]: value }
+      }
+    }, () => console.log(this.state))
+
+    const { trip } = this.props
+    actionDispatcher(setAcceptTripCombos({
+      departureId: trip.get('departureId'),
+      key,
+      value,
+      direction
+    }))
   }
 
   _showSelections = options => {
@@ -173,37 +206,49 @@ export default class TripCard extends Component {
           <Text numberOfLines={1} style={ss.selectorText}>Overnight hotel Malmö ghjgj jgj </Text>
         </View>
         <TouchableOpacity style={ss.dropDown} onPress={this._showSelections(of)}>
-          <IonIcon name='down' color={Colors.charcoal} size={20} />
+          <IonIcon name='down' color={Colors.silver} size={20} />
         </TouchableOpacity>
       </View>
     )
   }
 
+  _renderComboLabel = label => {
+    return (
+      <View style={ss.comboText}>
+        <Text style={ss.comboLabel}>{label}:</Text>
+      </View>
+    )
+  }
+
   _renderOutCombos = transportType => {
+    const transfer = this.state['out'][KEY_NAMES.TRANSFER]
+      ? this.state['out'][KEY_NAMES.TRANSFER]['key']
+      : null
+
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Boarding Location:</Text>
+          {this._renderComboLabel('Boarding Location')}
           {this._renderSelector(getLocations('out', transportType))}
         </View>
 
-        {/* <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Transfer:</Text>
-          {this._renderSelector('accomodation')}
+        <View style={ss.combo}>
+          {this._renderComboLabel('Transfer')}
+          {this._renderSelector(getTransfers('out', transportType))}
         </View>
 
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Transfer city:</Text>
-          {this._renderSelector('accomodation')}
-        </View> */}
+          {this._renderComboLabel('Transfer city')}
+          {this._renderSelector(getTransferCities('out', transportType, transfer))}
+        </View>
 
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Accomodation:</Text>
+          {this._renderComboLabel('Accomodation')}
           {this._renderSelector(getAccomodations('out', transportType))}
         </View>
 
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Bag pickup:</Text>
+          {this._renderComboLabel('Bag pickup')}
           {this._renderSelector(getBagLocations('out', transportType))}
         </View>
       </View>
@@ -211,45 +256,59 @@ export default class TripCard extends Component {
   }
 
   _renderHomeCombos = transportType => {
+    const transfer = this.state['home'][KEY_NAMES.TRANSFER]
+      ? this.state['home'][KEY_NAMES.TRANSFER]['key']
+      : null
+
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Alighting Location:</Text>
+          {this._renderComboLabel('Alighting Location')}
           {this._renderSelector(getLocations('home', transportType))}
         </View>
 
-        {/* <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Transfer:</Text>
-          {this._renderSelector('accomodation')}
+        <View style={ss.combo}>
+          {this._renderComboLabel('Transfer')}
+          {this._renderSelector(getTransfers('home', transportType))}
         </View>
 
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Transfer city:</Text>
-          {this._renderSelector('accomodation')}
-        </View> */}
+          {this._renderComboLabel('Transfer city')}
+          {this._renderSelector(getTransferCities('home', transportType, transfer))}
+        </View>
 
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Accomodation:</Text>
+          {this._renderComboLabel('Accomodation')}
           {this._renderSelector(getAccomodations('home', transportType))}
         </View>
 
         <View style={ss.combo}>
-          <Text style={ss.comboLabel}>Bag dropoff:</Text>
+          {this._renderComboLabel('Bag dropoff')}
           {this._renderSelector(getBagLocations('home', transportType))}
         </View>
       </View>
     )
   }
 
+  _setAcceptTrip = () => {
+    const { accept, trip } = this.props
+    actionDispatcher(setAcceptTrip({
+      isAccepted: !accept.get('isAccepted'),
+      departureId: String(trip.get('departureId'))
+    }))
+  }
+
   _forFutureTrips = transportType => {
     const { tab } = this.state
+    const { accept } = this.props
+    const isAccepted = accept.get('isAccepted')
     return (
       <View style={ss.futureTtip}>
 
         <View style={ss.futureTripCheck}>
           <CheckBox
-            checked
-            onPress={() => console.log('accept check')}
+            checked={isAccepted}
+            onPress={this._setAcceptTrip}
           />
           <Text style={ss.checkText}>Accept assignment</Text>
         </View>
@@ -289,8 +348,7 @@ export default class TripCard extends Component {
   }
 
   render () {
-    const { trip, type } = this.props
-
+    const { trip, type, accept } = this.props
     const brand = trip.get('brand')
     const name = trip.get('name')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
@@ -303,6 +361,8 @@ export default class TripCard extends Component {
 
     const cardHeight = type === 'future' ? 400 : 250
     const imageHeight = type === 'future' ? 350 : 200
+
+    const dirty = accept.get('dirty')
 
     return (
       <View style={[ss.card, { height: cardHeight }]}>
@@ -330,7 +390,7 @@ export default class TripCard extends Component {
                   type === 'future' &&
                   <FooterButtons
                     style={ss.footerButtons}
-                    disabled
+                    disabled={!dirty}
                     onCancel={() => console.log('cancel')}
                     onSave={() => console.log('save')}
                   />
@@ -344,6 +404,15 @@ export default class TripCard extends Component {
     )
   }
 }
+
+const stateToProps = (state, props) => {
+  const departureId = String(props.trip.get('departureId'))
+  return {
+    accept: getAaccept(state, departureId)
+  }
+}
+
+export default connect(stateToProps, null)(TripCard)
 
 const ss = StyleSheet.create({
   card: {
@@ -443,7 +512,7 @@ const ss = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 5
+    marginBottom: 10
   },
   tab: {
     width: 70,
@@ -475,22 +544,30 @@ const ss = StyleSheet.create({
     borderBottomRightRadius: 3
   },
   selector: {
+    flex: 1.5,
     height: 30,
-    width: 200,
     flexDirection: 'row',
-    backgroundColor: Colors.silver
+    backgroundColor: Colors.silver,
+    borderTopLeftRadius: 3,
+    borderBottomLeftRadius: 3
   },
   comboCon: {
-    paddingHorizontal: 20
+    paddingHorizontal: 10
   },
   combo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 5
   },
   comboLabel: {
-    fontSize: 14,
-    lineHeight: 40
+    fontSize: 14
+  },
+  comboText: {
+    flex: 1,
+    height: 30,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   futureTtip: {
     flex: 1

@@ -29,6 +29,10 @@ export const setIntoMap = (map, key, val) => {
   return map.set(key, val)
 }
 
+export const setIntoMapNested = (map, nest, val) => {
+  return map.setIn(nest, val)
+}
+
 // export const deleteFromMap = (map, key) => {
 //   return map.delete(key)
 // }

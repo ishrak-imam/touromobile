@@ -1,10 +1,16 @@
 
 import { createReducer } from '../../utils/reduxHelpers'
-import { setIntoMap, readValue, getMap, mergeMapShallow } from '../../utils/immutable'
+import {
+  setIntoMap, readValue, getMap,
+  mergeMapShallow
+} from '../../utils/immutable'
 
 import {
   MODIFY_PAX_DATA,
-  SET_PARTICIPANTS
+  SET_PARTICIPANTS,
+
+  SET_ACCEPT_TRIP,
+  SET_ACCEPT_TRIP_COMBOS
 } from './action'
 
 import {
@@ -54,6 +60,25 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let modifiedData = readValue(payload.departureId, state) || getMap({})
     modifiedData = setIntoMap(modifiedData, 'statsUploadedAt', null)
     modifiedData = setIntoMap(modifiedData, 'isLoading', false)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SET_ACCEPT_TRIP]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    modifiedData = setIntoMap(modifiedData, 'accept', getMap({
+      isAccepted: payload.isAccepted,
+      dirty: true
+    }))
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SET_ACCEPT_TRIP_COMBOS]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let accept = readValue('accept', modifiedData) || getMap({})
+    let direction = readValue(payload.direction, accept) || getMap({})
+    direction = setIntoMap(direction, payload.key, getMap(payload.value))
+    accept = setIntoMap(accept, payload.direction, direction)
+    modifiedData = setIntoMap(modifiedData, 'accept', accept)
     return setIntoMap(state, payload.departureId, modifiedData)
   }
 
