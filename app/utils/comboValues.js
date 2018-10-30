@@ -199,7 +199,7 @@ const LOCATIONS = {
   ],
 
   bus: [
-    { key: 'ÖT', value: 'ÖT' }
+    { key: 'ÖT', value: 'Öresundsterminalen' }
   ]
 
 }
@@ -270,37 +270,62 @@ const TRANSFER_CITIES = {
   home: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'home' }
 }
 
-export const getLocations = (direction, transport) => {
+export const getLocations = (direction, transport, selected) => {
   return {
+    selected,
     config: LOCATIONS[direction],
     items: LOCATIONS[transport]
   }
 }
 
-export const getAccomodations = (direction, transport) => {
+export const getAccomodations = (direction, transport, selected) => {
   return {
+    selected,
     config: ACCOMODATIONS[direction],
     items: ACCOMODATIONS[transport]
   }
 }
 
-export const getBagLocations = (direction, transport) => {
+export const getBagLocations = (direction, transport, selected, otherSelected) => {
+  const EDTRIP = 'EDTRIP'
+
+  if (otherSelected && otherSelected.get('key') === EDTRIP) {
+    return {
+      disabled: true,
+      selected: null,
+      config: null,
+      items: null
+    }
+  }
+
   return {
+    selected,
     config: BAG[direction],
     items: BAG[transport]
   }
 }
 
-export const getTransfers = (direction, transport) => {
+export const getTransfers = (direction, transport, selected) => {
   return {
+    selected,
     config: TRANSFERS[direction],
     items: TRANSFERS[transport]
   }
 }
 
-export const getTransferCities = (direction, transport, transfer) => {
+export const getTransferCities = (direction, transport, transfer, selected) => {
+  const NO_TRANSFER = 'NT'
   const DIRECT_KEY = 'D'
   const OVERNIGHT_KEY = 'O'
+
+  if (transfer && transfer.get('key') === NO_TRANSFER) {
+    return {
+      disabled: true,
+      selected: null,
+      config: null,
+      items: null
+    }
+  }
 
   const date = new Date()
   const year = date.getFullYear()
@@ -308,8 +333,8 @@ export const getTransferCities = (direction, transport, transfer) => {
   const newYear = new Date(year + 1, 0, 1)
   const isWinter = isWithinRange(date, xMas, newYear)
 
-  const isDirect = transfer === DIRECT_KEY
-  const isOvernight = transfer === OVERNIGHT_KEY
+  const isDirect = transfer ? transfer.get('key') === DIRECT_KEY : false
+  const isOvernight = transfer ? transfer.get('key') === OVERNIGHT_KEY : false
 
   const config = TRANSFER_CITIES[direction]
   let items = []
@@ -327,7 +352,9 @@ export const getTransferCities = (direction, transport, transfer) => {
   }
 
   return {
-    config, items
+    selected,
+    config,
+    items
   }
 }
 

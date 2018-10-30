@@ -34,24 +34,22 @@ class SelectionModal extends Component {
     }
   }
 
-  _renderItems = (items, config) => {
+  _renderItems = (items, config, selected) => {
     return (
       <ScrollView style={ss.itemCon} contentContainerStyle={{ paddingVertical: 10 }}>
-        {/* <ListItem
-          style={[ss.listItem, { backgroundColor: Colors.blue }]} key={'aaa'}
-        >
-          <Text style={{ color: Colors.silver }}>DEMO</Text>
-        </ListItem> */}
         {
           items.map(item => {
-            const key = item.get('key')
+            const key = String(item.get('key'))
             const value = item.get('value')
+            const isSelected = selected ? selected.get('key') === key : false
+            const backgroundColor = isSelected ? Colors.blue : 'transparent'
+            const color = isSelected ? Colors.silver : Colors.black
             return (
               <ListItem
-                style={ss.listItem} key={key}
+                style={[ss.listItem, { backgroundColor }]} key={key}
                 onPress={this._onSelect({ key: String(key), value }, config)}
               >
-                <Text>{value}</Text>
+                <Text style={{ color }}>{value}</Text>
               </ListItem>
             )
           })
@@ -65,6 +63,7 @@ class SelectionModal extends Component {
     const options = selection.get('options')
     const config = options ? options.get('config') : null
     const items = options ? options.get('items') : null
+    const selected = options ? options.get('selected') : null
     return (
       <Modal
         animationType='fade'
@@ -82,7 +81,7 @@ class SelectionModal extends Component {
               </TouchableOpacity>
             </View>
             <View style={ss.body}>
-              {!!items && this._renderItems(items, config)}
+              {!!items && this._renderItems(items, config, selected)}
             </View>
           </View>
         </View>

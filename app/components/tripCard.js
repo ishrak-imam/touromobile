@@ -48,9 +48,7 @@ class TripCard extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      tab: OUT,
-      out: {},
-      home: {}
+      tab: OUT
     }
   }
 
@@ -153,16 +151,9 @@ class TripCard extends Component {
 
   _onSelect = selection => {
     const { key, value, direction } = selection
-    this.setState({
-      [direction]: {
-        ...this.state[direction],
-        ...{ [key]: value }
-      }
-    }, () => console.log(this.state))
-
     const { trip } = this.props
     actionDispatcher(setAcceptTripCombos({
-      departureId: trip.get('departureId'),
+      departureId: String(trip.get('departureId')),
       key,
       value,
       direction
@@ -199,14 +190,22 @@ class TripCard extends Component {
     )
   }
 
-  _renderSelector = of => {
+  _renderSelector = options => {
+    const { selected, disabled } = options
+    const text = selected ? selected.get('value') : ''
+    const backgroundColor = disabled ? Colors.steel : Colors.blue
+    const iconColor = disabled ? Colors.charcoal : Colors.silver
     return (
       <View style={ss.selector}>
         <View style={ss.selectorBox}>
-          <Text numberOfLines={1} style={ss.selectorText}>Overnight hotel Malmö ghjgj jgj </Text>
+          <Text numberOfLines={1} style={ss.selectorText}>{text}</Text>
         </View>
-        <TouchableOpacity style={ss.dropDown} onPress={this._showSelections(of)}>
-          <IonIcon name='down' color={Colors.silver} size={20} />
+        <TouchableOpacity
+          style={[ss.dropDown, { backgroundColor }]}
+          onPress={this._showSelections(options)}
+          disabled={disabled}
+        >
+          <IonIcon name='down' color={iconColor} size={20} />
         </TouchableOpacity>
       </View>
     )
@@ -221,70 +220,112 @@ class TripCard extends Component {
   }
 
   _renderOutCombos = transportType => {
-    const transfer = this.state['out'][KEY_NAMES.TRANSFER]
-      ? this.state['out'][KEY_NAMES.TRANSFER]['key']
-      : null
+    const out = this.props.accept.get('out') || getMap({})
+    const home = this.props.accept.get('home') || getMap({})
 
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
           {this._renderComboLabel('Boarding Location')}
-          {this._renderSelector(getLocations('out', transportType))}
+          {this._renderSelector(getLocations(
+            'out',
+            transportType,
+            out.get(KEY_NAMES.LOCATION)
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Transfer')}
-          {this._renderSelector(getTransfers('out', transportType))}
+          {this._renderSelector(getTransfers(
+            'out',
+            transportType,
+            out.get(KEY_NAMES.TRANSFER)
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Transfer city')}
-          {this._renderSelector(getTransferCities('out', transportType, transfer))}
+          {this._renderSelector(getTransferCities(
+            'out',
+            transportType,
+            out.get(KEY_NAMES.TRANSFER),
+            out.get(KEY_NAMES.TRANSFER_CITY)
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Accomodation')}
-          {this._renderSelector(getAccomodations('out', transportType))}
+          {this._renderSelector(getAccomodations(
+            'out',
+            transportType,
+            out.get(KEY_NAMES.ACCOMODATION)
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Bag pickup')}
-          {this._renderSelector(getBagLocations('out', transportType))}
+          {this._renderSelector(getBagLocations(
+            'out',
+            transportType,
+            out.get(KEY_NAMES.BAG),
+            home.get(KEY_NAMES.BAG)
+          ))}
         </View>
       </View>
     )
   }
 
   _renderHomeCombos = transportType => {
-    const transfer = this.state['home'][KEY_NAMES.TRANSFER]
-      ? this.state['home'][KEY_NAMES.TRANSFER]['key']
-      : null
+    const home = this.props.accept.get('home') || getMap({})
+    const out = this.props.accept.get('out') || getMap({})
 
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
           {this._renderComboLabel('Alighting Location')}
-          {this._renderSelector(getLocations('home', transportType))}
+          {this._renderSelector(getLocations(
+            'home',
+            transportType,
+            home.get(KEY_NAMES.LOCATION)
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Transfer')}
-          {this._renderSelector(getTransfers('home', transportType))}
+          {this._renderSelector(getTransfers(
+            'home',
+            transportType,
+            home.get(KEY_NAMES.TRANSFER)
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Transfer city')}
-          {this._renderSelector(getTransferCities('home', transportType, transfer))}
+          {this._renderSelector(getTransferCities(
+            'home',
+            transportType,
+            home.get(KEY_NAMES.TRANSFER),
+            home.get(KEY_NAMES.TRANSFER_CITY)
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Accomodation')}
-          {this._renderSelector(getAccomodations('home', transportType))}
+          {this._renderSelector(getAccomodations(
+            'home',
+            transportType,
+            home.get(KEY_NAMES.ACCOMODATION)
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Bag dropoff')}
-          {this._renderSelector(getBagLocations('home', transportType))}
+          {this._renderSelector(getBagLocations(
+            'home',
+            transportType,
+            home.get(KEY_NAMES.BAG),
+            out.get(KEY_NAMES.BAG)
+          ))}
         </View>
       </View>
     )
@@ -525,7 +566,7 @@ const ss = StyleSheet.create({
     flex: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 3,
+    paddingHorizontal: 5,
     borderWidth: 1,
     borderRightWidth: 0,
     borderTopLeftRadius: 3,
@@ -538,7 +579,6 @@ const ss = StyleSheet.create({
   dropDown: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: Colors.blue,
     alignItems: 'center',
     borderTopRightRadius: 3,
     borderBottomRightRadius: 3
