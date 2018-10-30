@@ -1,32 +1,20 @@
 import React, { Component } from 'react'
 import {
-  StyleSheet, TouchableOpacity,
-  ActivityIndicator as Spinner, View
+  StyleSheet,
+  View, TouchableOpacity
 } from 'react-native'
-// import Switch from '../components/switch'
 import { Text, CheckBox } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import FooterButtons from './footerButtons'
-// import { ViewPager } from 'rn-viewpager'
-
 import { connect } from 'react-redux'
-
-import {
-  getPax, getStatsData,
-  getTotalPercentage, getAaccept
-} from '../selectors'
-import { networkActionDispatcher, actionDispatcher } from '../utils/actionDispatcher'
-import { uploadStatsReq } from '../modules/reports/action'
+import { getPax, getAaccept } from '../selectors'
+import { actionDispatcher } from '../utils/actionDispatcher'
 import { getMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
-
-import {
-  setAcceptTrip,
-  setAcceptTripCombos
-} from '../modules/modifiedData/action'
+import { setAcceptTrip, setAcceptTripCombos } from '../modules/modifiedData/action'
 
 import {
   getKeyNames,
@@ -44,7 +32,7 @@ const DATE_FORMAT = 'DD/MM'
 const HOME = 'HOME'
 const OUT = 'OUT'
 
-class TripCard extends Component {
+class FutureTripCard extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -53,13 +41,10 @@ class TripCard extends Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    const modifiedDataChanged = nextProps.modifiedTripData
-      ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
-      : false
     const acceptChanged = !nextProps.accept.equals(this.props.accept)
     const tripChanged = !nextProps.trip.equals(this.props.trip)
     const stateChanged = this.state !== nextState
-    return tripChanged || modifiedDataChanged || stateChanged || acceptChanged
+    return tripChanged || stateChanged || acceptChanged
   }
 
   _renderGradient = () => {
@@ -70,78 +55,6 @@ class TripCard extends Component {
       />
     )
   }
-
-  get tripData () {
-    const { trip, modifiedTripData } = this.props
-    const departureId = String(trip.get('departureId'))
-    const excursions = trip.get('excursions')
-    const participants = modifiedTripData
-      ? modifiedTripData.get('participants') ? modifiedTripData.get('participants') : getMap({})
-      : getMap({})
-    const statsUploadedAt = modifiedTripData ? modifiedTripData.get('statsUploadedAt') : null
-
-    return {
-      trip,
-      departureId,
-      excursions,
-      participants,
-      statsUploadedAt
-    }
-  }
-
-  _uploadStats = () => {
-    const { trip, departureId, excursions, participants } = this.tripData
-    const statsData = getStatsData(excursions, participants, trip)
-
-    networkActionDispatcher(uploadStatsReq({
-      isNeedJwt: true,
-      departureId,
-      statsData,
-      showToast: true,
-      sucsMsg: 'Reports uploaded successfully',
-      failMsg: 'Reports upload failed'
-    }))
-  }
-
-  _renderUploadButton = () => {
-    const { modifiedTripData } = this.props
-    const isLoading = modifiedTripData ? modifiedTripData.get('isLoading') : false
-    return (
-      <View style={{ paddingTop: 10 }}>
-        {
-          isLoading
-            ? <Spinner color={Colors.blue} size='small' style={{ paddingVertical: 10 }} />
-            : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
-              <Text style={ss.uploadButtonText}>Upload report</Text>
-            </TouchableOpacity>
-        }
-      </View>
-    )
-  }
-
-  _forPastTrips = () => {
-    const { trip, excursions, participants, statsUploadedAt } = this.tripData
-    const share = getTotalPercentage(excursions, participants, trip)
-
-    return (
-      <View style={ss.pastTripCardTop}>
-        <Text style={{ fontWeight: 'bold' }}>Participant share: {share}%</Text>
-        {
-          statsUploadedAt &&
-          <Text style={{ fontWeight: 'bold', paddingVertical: 15 }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>
-        }
-        {!statsUploadedAt && this._renderUploadButton()}
-      </View>
-    )
-  }
-
-  // _onToggle = v => {
-  //   this.refs.pager.setPage(+v)
-  // }
-
-  // _onPageSelected = ({ position }) => {
-  //   this.setState({ isHome: !!position })
-  // }
 
   _onTabSwitch = tab => {
     return () => {
@@ -339,13 +252,12 @@ class TripCard extends Component {
     }))
   }
 
-  _forFutureTrips = transportType => {
+  _renderCardTop = (transportType) => {
     const { tab } = this.state
     const { accept } = this.props
     const isAccepted = accept.get('isAccepted')
     return (
       <View style={ss.futureTtip}>
-
         <View style={ss.futureTripCheck}>
           <CheckBox
             checked={isAccepted}
@@ -353,43 +265,17 @@ class TripCard extends Component {
           />
           <Text style={ss.checkText}>Accept assignment</Text>
         </View>
-
         <View style={ss.comboTabs}>
-
-          {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
-            <Text style={{ fontSize: 14, marginRight: 5 }}>Out</Text>
-            <Switch
-              isOn={this.state.isHome}
-              onColor={Colors.steel}
-              offColor={Colors.steel}
-              onToggle={this._onToggle}
-            />
-            <Text style={{ fontSize: 14, marginLeft: 5 }}>Home</Text>
-          </View> */}
-          {/* <ViewPager style={{ flex: 1 }} ref='pager' onPageSelected={this._onPageSelected} /> */}
-
           {this._renderTabs()}
-
           {tab === OUT && this._renderOutCombos(transportType)}
           {tab === HOME && this._renderHomeCombos(transportType)}
-
         </View>
-
       </View>
     )
   }
 
-  _renderCardTop = (type, transportType) => {
-    switch (type) {
-      case 'future':
-        return this._forFutureTrips(transportType)
-      case 'past':
-        return this._forPastTrips()
-    }
-  }
-
   render () {
-    const { trip, type, accept } = this.props
+    const { trip, accept } = this.props
     const brand = trip.get('brand')
     const name = trip.get('name')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
@@ -397,16 +283,11 @@ class TripCard extends Component {
     const transport = trip.get('transport')
     const image = trip.get('image')
     const pax = getPax(trip)
-
     const transportType = transport.get('type')
-
-    const cardHeight = type === 'future' ? 400 : 250
-    const imageHeight = type === 'future' ? 350 : 200
-
     const dirty = accept.get('dirty')
 
     return (
-      <View style={[ss.card, { height: cardHeight }]}>
+      <View style={ss.card}>
 
         <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <Text style={ss.brandText}>{brand}</Text>
@@ -414,12 +295,12 @@ class TripCard extends Component {
           <IonIcon name={transportType} />
         </View>
 
-        <View style={[ss.imageContainer, { height: imageHeight }]}>
+        <View style={ss.imageContainer}>
           <ImageCache uri={image} style={ss.cardImage} />
           {/* {this._renderGradient()} */}
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
-              {this._renderCardTop(type, transportType)}
+              {this._renderCardTop(transportType)}
             </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
@@ -427,15 +308,13 @@ class TripCard extends Component {
                 <Text style={[ss.brandText, { marginLeft: 10 }]}>{pax.size}</Text>
               </View>
               <View style={ss.bottomRight}>
-                {
-                  type === 'future' &&
-                  <FooterButtons
-                    style={ss.footerButtons}
-                    disabled={!dirty}
-                    onCancel={() => console.log('cancel')}
-                    onSave={() => console.log('save')}
-                  />
-                }
+                <FooterButtons
+                  hideCancel
+                  style={ss.footerButtons}
+                  disabled={!dirty}
+                  onCancel={() => console.log('cancel')}
+                  onSave={() => console.log('save')}
+                />
               </View>
             </View>
           </View>
@@ -453,11 +332,11 @@ const stateToProps = (state, props) => {
   }
 }
 
-export default connect(stateToProps, null)(TripCard)
+export default connect(stateToProps, null)(FutureTripCard)
 
 const ss = StyleSheet.create({
   card: {
-    // height: 250,
+    height: 400,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },
@@ -471,12 +350,9 @@ const ss = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  cardContent: {
-    flex: 1
-  },
   imageContainer: {
     borderWidth: 0,
-    // height: 200,
+    height: 350,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     overflow: 'hidden'// needed for iOS

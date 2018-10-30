@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { View } from 'native-base'
 import NoData from '../components/noData'
-import TripCard from './tripCard'
+import FutureTripCard from './futureTripCard'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 export default class FutureTrips extends Component {
@@ -12,7 +12,7 @@ export default class FutureTrips extends Component {
   }
 
   _renderTripCard = ({ item }) => {
-    return <TripCard trip={item} type='future' />
+    return <FutureTripCard trip={item} />
   }
 
   _renderFutureTrips = futureTrips => {

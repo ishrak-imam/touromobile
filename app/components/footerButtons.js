@@ -9,16 +9,20 @@ const _T = Translator('FooterButtons')
 
 export default class FooterButtons extends Component {
   render () {
-    const { onCancel, onSave, style, disabled } = this.props
+    const { onCancel, onSave, style, disabled, hideCancel } = this.props
     return (
       <View style={StyleSheet.flatten([ss.item, style])}>
 
-        <OutLineButton
-          disabled={disabled}
-          text={_T('cancel')}
-          color={Colors.cancel}
-          onPress={onCancel}
-        />
+        {
+          hideCancel
+            ? null
+            : <OutLineButton
+              disabled={disabled}
+              text={_T('cancel')}
+              color={Colors.cancel}
+              onPress={onCancel}
+            />
+        }
 
         <OutLineButton
           disabled={disabled}

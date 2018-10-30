@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { View } from 'native-base'
 import NoData from '../components/noData'
-import TripCard from './tripCard'
+import PastTripCard from './pastTripCard'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { connect } from 'react-redux'
 import { getModifiedData } from '../selectors'
@@ -18,7 +18,7 @@ class PastTrips extends Component {
     const { modifiedData } = this.props
     const departureId = String(item.get('departureId'))
     const modifiedTripData = modifiedData.get(departureId)
-    return <TripCard trip={item} type='past' modifiedTripData={modifiedTripData} />
+    return <PastTripCard trip={item} modifiedTripData={modifiedTripData} />
   }
 
   _renderPastTrips = pastTrips => {
