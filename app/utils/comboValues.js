@@ -9,7 +9,21 @@ const KEY_NAMES = {
   TRANSFER_CITY: 'transferCity'
 }
 
-const HotelConnection = [
+const TRANSFER_OPTIONS = {
+  NT: { key: 'NT', value: 'No transfer' },
+  D: { key: 'D', value: 'Direct' },
+  O: { key: 'O', value: 'Overnight' }
+}
+
+const BAG_OPTIONS = {
+  HOTEL: { key: 'HOTEL', value: 'Overnight hotel Malmö' },
+  OT: { key: 'OT', value: 'Öresundsterminalen' },
+  OFFICE: { key: 'OFFICE', value: 'Office' },
+  MAIL: { key: 'MAIL', value: 'Mail' },
+  EDTRIP: { key: 'EDTRIP', value: 'Education Trip (no bag)' }
+}
+
+const HC = [
 
   { key: 'HC-1', value: 'Arboga/Resecentrum' },
   { key: 'HC-2', value: 'Bollebygd/Circle K' },
@@ -61,7 +75,7 @@ const HotelConnection = [
 
 ]
 
-const DirectConnection = [
+const DC = [
 
   { key: 'DC-1', value: 'Alvesta/ICA Supermarket, Allbogatan' },
   { key: 'DC-2', value: 'Borås/Järnvägsstationen' },
@@ -132,7 +146,7 @@ const DirectConnection = [
 
 ]
 
-const DirectConnectionCitiesWinter = [
+const DCW = [
 
   { key: 'DCW-1', value: 'Bromölla, Preem gamla E22:an' },
   { key: 'DCW-2', value: 'Bräkne Hoby, St1 Bensinstation' },
@@ -204,6 +218,19 @@ const LOCATIONS = {
 
 }
 
+const TRANSFERS = {
+  out: { label: 'Transfer', key: KEY_NAMES.TRANSFER, direction: 'out' },
+  home: { label: 'Transfer', key: KEY_NAMES.TRANSFER, direction: 'home' },
+  flight: Object.values(TRANSFER_OPTIONS),
+  bus: Object.values(TRANSFER_OPTIONS)
+}
+
+const TRANSFER_CITY = {
+
+  out: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'out' },
+  home: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'home' }
+}
+
 const ACCOMODATIONS = {
 
   out: { label: 'Accomodation', key: KEY_NAMES.ACCOMODATION, direction: 'out' },
@@ -224,101 +251,41 @@ const ACCOMODATIONS = {
 }
 
 const BAG = {
-
   out: { label: 'Bag pickup', key: KEY_NAMES.BAG, direction: 'out' },
   home: { label: 'Bag dropoff', key: KEY_NAMES.BAG, direction: 'home' },
-
-  flight: [
-    { key: 'HOTEL', value: 'Overnight hotel Malmö' },
-    { key: 'OT', value: 'Öresundsterminalen' },
-    { key: 'OFFICE', value: 'Office' },
-    { key: 'MAIL', value: 'Mail' },
-    { key: 'EDTRIP', value: 'Education Trip (no bag)' }
-  ],
-
+  flight: Object.values(BAG_OPTIONS),
   bus: [
-    { key: 'HOTEL', value: 'Overnight hotel Malmö' },
-    { key: 'OT', value: 'Öresundsterminalen' },
-    { key: 'OFFICE', value: 'Office' },
-    { key: 'EDTRIP', value: 'Education Trip (no bag)' }
+    BAG_OPTIONS.HOTEL,
+    BAG_OPTIONS.OT,
+    BAG_OPTIONS.OFFICE,
+    BAG_OPTIONS.EDTRIP
   ]
-
 }
 
-const TRANSFERS = {
+export const getLocations = basedOn => {
+  const { direction, transportType, selected } = basedOn
 
-  out: { label: 'Transfer', key: KEY_NAMES.TRANSFER, direction: 'out' },
-  home: { label: 'Transfer', key: KEY_NAMES.TRANSFER, direction: 'home' },
-
-  flight: [
-    { key: 'NT', value: 'No transfer' },
-    { key: 'D', value: 'Direct' },
-    { key: 'O', value: 'Overnight' }
-  ],
-
-  bus: [
-    { key: 'NT', value: 'No transfer' },
-    { key: 'D', value: 'Direct' },
-    { key: 'O', value: 'Overnight' }
-  ]
-
-}
-
-const TRANSFER_CITIES = {
-
-  out: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'out' },
-  home: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'home' }
-}
-
-export const getLocations = (direction, transport, selected) => {
   return {
     selected,
     config: LOCATIONS[direction],
-    items: LOCATIONS[transport]
+    items: LOCATIONS[transportType]
   }
 }
 
-export const getAccomodations = (direction, transport, selected) => {
-  return {
-    selected,
-    config: ACCOMODATIONS[direction],
-    items: ACCOMODATIONS[transport]
-  }
-}
+export const getTransfers = basedOn => {
+  const { direction, transportType, selected } = basedOn
 
-export const getBagLocations = (direction, transport, selected, otherSelected) => {
-  const EDTRIP = 'EDTRIP'
-
-  if (otherSelected && otherSelected.get('key') === EDTRIP) {
-    return {
-      disabled: true,
-      selected: null,
-      config: null,
-      items: null
-    }
-  }
-
-  return {
-    selected,
-    config: BAG[direction],
-    items: BAG[transport]
-  }
-}
-
-export const getTransfers = (direction, transport, selected) => {
   return {
     selected,
     config: TRANSFERS[direction],
-    items: TRANSFERS[transport]
+    items: TRANSFERS[transportType]
   }
 }
 
-export const getTransferCities = (direction, transport, transfer, selected) => {
-  const NO_TRANSFER = 'NT'
-  const DIRECT_KEY = 'D'
-  const OVERNIGHT_KEY = 'O'
+export const getTransferCities = basedOn => {
+  const { direction, transportType, transfer, selected } = basedOn
 
-  if (transfer && transfer.get('key') === NO_TRANSFER) {
+  if (transfer && transfer.get('key') === TRANSFER_OPTIONS.NT.key) {
     return {
       disabled: true,
       selected: null,
@@ -333,21 +300,21 @@ export const getTransferCities = (direction, transport, transfer, selected) => {
   const newYear = new Date(year + 1, 0, 1)
   const isWinter = isWithinRange(date, xMas, newYear)
 
-  const isDirect = transfer ? transfer.get('key') === DIRECT_KEY : false
-  const isOvernight = transfer ? transfer.get('key') === OVERNIGHT_KEY : false
+  const isDirect = transfer ? transfer.get('key') === TRANSFER_OPTIONS.D.key : false
+  const isOvernight = transfer ? transfer.get('key') === TRANSFER_OPTIONS.O.key : false
 
-  const config = TRANSFER_CITIES[direction]
+  const config = TRANSFER_CITY[direction]
   let items = []
 
-  switch (transport) {
+  switch (transportType) {
     case 'bus':
-      if (isDirect && isWinter) items = DirectConnectionCitiesWinter
-      if (isDirect && !isWinter) items = DirectConnection
-      if (isOvernight) items = HotelConnection
+      if (isDirect && isWinter) items = DCW
+      if (isDirect && !isWinter) items = DC
+      if (isOvernight) items = HC
       break
     case 'flight':
-      if (isDirect) items = DirectConnection
-      if (isOvernight) items = HotelConnection
+      if (isDirect) items = DC
+      if (isOvernight) items = HC
       break
   }
 
@@ -358,6 +325,43 @@ export const getTransferCities = (direction, transport, transfer, selected) => {
   }
 }
 
+export const getAccomodations = basedOn => {
+  const { direction, transportType, selected } = basedOn
+
+  return {
+    selected,
+    config: ACCOMODATIONS[direction],
+    items: ACCOMODATIONS[transportType]
+  }
+}
+
+export const getBagLocations = basedOn => {
+  const { direction, transportType, selected, other } = basedOn
+
+  if (other && other.get('key') === BAG_OPTIONS.EDTRIP.key) {
+    return {
+      disabled: true,
+      selected: null,
+      config: null,
+      items: null
+    }
+  }
+
+  return {
+    selected,
+    config: BAG[direction],
+    items: BAG[transportType]
+  }
+}
+
 export const getKeyNames = () => {
   return KEY_NAMES
+}
+
+export const getTransferOptions = () => {
+  return TRANSFER_OPTIONS
+}
+
+export const getBagOptions = () => {
+  return BAG_OPTIONS
 }

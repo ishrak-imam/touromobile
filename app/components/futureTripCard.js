@@ -140,49 +140,49 @@ class FutureTripCard extends Component {
       <View style={ss.comboCon}>
         <View style={ss.combo}>
           {this._renderComboLabel('Boarding Location')}
-          {this._renderSelector(getLocations(
-            'out',
+          {this._renderSelector(getLocations({
+            direction: 'out',
             transportType,
-            out.get(KEY_NAMES.LOCATION)
-          ))}
+            selected: out.get(KEY_NAMES.LOCATION)
+          }))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Transfer')}
-          {this._renderSelector(getTransfers(
-            'out',
+          {this._renderSelector(getTransfers({
+            direction: 'out',
             transportType,
-            out.get(KEY_NAMES.TRANSFER)
-          ))}
+            selected: out.get(KEY_NAMES.TRANSFER)
+          }))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Transfer city')}
-          {this._renderSelector(getTransferCities(
-            'out',
+          {this._renderSelector(getTransferCities({
+            direction: 'out',
             transportType,
-            out.get(KEY_NAMES.TRANSFER),
-            out.get(KEY_NAMES.TRANSFER_CITY)
-          ))}
+            transfer: out.get(KEY_NAMES.TRANSFER),
+            selected: out.get(KEY_NAMES.TRANSFER_CITY)
+          }))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Accomodation')}
-          {this._renderSelector(getAccomodations(
-            'out',
+          {this._renderSelector(getAccomodations({
+            direction: 'out',
             transportType,
-            out.get(KEY_NAMES.ACCOMODATION)
-          ))}
+            selected: out.get(KEY_NAMES.ACCOMODATION)
+          }))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Bag pickup')}
-          {this._renderSelector(getBagLocations(
-            'out',
+          {this._renderSelector(getBagLocations({
+            direction: 'out',
             transportType,
-            out.get(KEY_NAMES.BAG),
-            home.get(KEY_NAMES.BAG)
-          ))}
+            selected: out.get(KEY_NAMES.BAG),
+            other: home.get(KEY_NAMES.BAG)
+          }))}
         </View>
       </View>
     )
@@ -196,49 +196,49 @@ class FutureTripCard extends Component {
       <View style={ss.comboCon}>
         <View style={ss.combo}>
           {this._renderComboLabel('Alighting Location')}
-          {this._renderSelector(getLocations(
-            'home',
+          {this._renderSelector(getLocations({
+            direction: 'home',
             transportType,
-            home.get(KEY_NAMES.LOCATION)
-          ))}
+            selected: home.get(KEY_NAMES.LOCATION)
+          }))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Transfer')}
-          {this._renderSelector(getTransfers(
-            'home',
+          {this._renderSelector(getTransfers({
+            direction: 'home',
             transportType,
-            home.get(KEY_NAMES.TRANSFER)
-          ))}
+            selected: home.get(KEY_NAMES.TRANSFER)
+          }))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Transfer city')}
-          {this._renderSelector(getTransferCities(
-            'home',
+          {this._renderSelector(getTransferCities({
+            direction: 'home',
             transportType,
-            home.get(KEY_NAMES.TRANSFER),
-            home.get(KEY_NAMES.TRANSFER_CITY)
-          ))}
+            transfer: home.get(KEY_NAMES.TRANSFER),
+            selected: home.get(KEY_NAMES.TRANSFER_CITY)
+          }))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Accomodation')}
-          {this._renderSelector(getAccomodations(
-            'home',
+          {this._renderSelector(getAccomodations({
+            direction: 'home',
             transportType,
-            home.get(KEY_NAMES.ACCOMODATION)
-          ))}
+            selected: home.get(KEY_NAMES.ACCOMODATION)
+          }))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('Bag dropoff')}
-          {this._renderSelector(getBagLocations(
-            'home',
+          {this._renderSelector(getBagLocations({
+            direction: 'home',
             transportType,
-            home.get(KEY_NAMES.BAG),
-            out.get(KEY_NAMES.BAG)
-          ))}
+            selected: home.get(KEY_NAMES.BAG),
+            other: out.get(KEY_NAMES.BAG)
+          }))}
         </View>
       </View>
     )

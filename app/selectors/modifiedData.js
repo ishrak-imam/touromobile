@@ -13,7 +13,9 @@ export const getParticipants = (state, departureId) => {
 
 export const getAaccept = (state, departureId) => {
   return state.modifiedData.get(departureId)
-    ? state.modifiedData.get(departureId).get('accept') ? state.modifiedData.get(departureId).get('accept') : getMap({})
+    ? state.modifiedData.get(departureId).get('accept')
+      ? state.modifiedData.get(departureId).get('accept')
+      : getMap({})
     : getMap({})
 }
 

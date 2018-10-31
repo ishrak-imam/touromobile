@@ -59,6 +59,7 @@ class SelectionModal extends Component {
   _renderItems = (items, config, selected) => {
     return (
       <ImmutableVirtualizedList
+        style={{ marginVertical: 10 }}
         immutableData={items}
         renderItem={this._renderItem}
         keyExtractor={item => String(item.get('key'))}
