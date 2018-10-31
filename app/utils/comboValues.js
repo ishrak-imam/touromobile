@@ -1,5 +1,6 @@
 
 import { isWithinRange } from 'date-fns'
+import { getImmutableObject } from './immutable'
 
 const KEY_NAMES = {
   LOCATION: 'location',
@@ -21,6 +22,21 @@ const BAG_OPTIONS = {
   OFFICE: { key: 'OFFICE', value: 'Office' },
   MAIL: { key: 'MAIL', value: 'Mail' },
   EDTRIP: { key: 'EDTRIP', value: 'Education Trip (no bag)' }
+}
+
+const ACCOMODATION_OPTIONS = {
+  NA: { key: 'NA', value: 'No accomodation' },
+  SR: { key: 'SR', value: 'Single room' },
+  DR: { key: 'DR', value: 'Part in double room' }
+}
+
+const LOCATION_OPTIONS = {
+  OT: { key: 'OT', value: 'Öresundsterminalen' },
+  BMA: { key: 'BMA', value: 'BMA, Bromma' },
+  ARN: { key: 'ARN', value: 'ARN, Arlanda' },
+  CPH: { key: 'CPH', value: 'CPH, Köpenhamn' },
+  GOT: { key: 'GOT', value: 'GOT, Landvetter' },
+  OSL: { key: 'OSL', value: 'OSL, Gardermoen' }
 }
 
 const HC = [
@@ -200,20 +216,19 @@ const DCW = [
 ]
 
 const LOCATIONS = {
-
   out: { label: 'Boarding location', key: KEY_NAMES.LOCATION, direction: 'out' },
   home: { label: 'Alighting location', key: KEY_NAMES.LOCATION, direction: 'home' },
 
   flight: [
-    { key: 'BMA', value: 'BMA, Bromma' },
-    { key: 'ARN', value: 'ARN, Arlanda' },
-    { key: 'CPH', value: 'CPH, Köpenhamn' },
-    { key: 'GOT', value: 'GOT, Landvetter' },
-    { key: 'OSL', value: 'OSL, Gardermoen' }
+    LOCATION_OPTIONS.BMA,
+    LOCATION_OPTIONS.ARN,
+    LOCATION_OPTIONS.CPH,
+    LOCATION_OPTIONS.GOT,
+    LOCATION_OPTIONS.OSL
   ],
 
   bus: [
-    { key: 'OT', value: 'Öresundsterminalen' }
+    LOCATION_OPTIONS.OT
   ]
 
 }
@@ -226,13 +241,11 @@ const TRANSFERS = {
 }
 
 const TRANSFER_CITY = {
-
   out: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'out' },
   home: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'home' }
 }
 
 const ACCOMODATIONS = {
-
   out: { label: 'Accomodation', key: KEY_NAMES.ACCOMODATION, direction: 'out' },
   home: { label: 'Accomodation', key: KEY_NAMES.ACCOMODATION, direction: 'home' },
 
@@ -247,13 +260,14 @@ const ACCOMODATIONS = {
     { key: 'SR', value: 'Single room' },
     { key: 'DR', value: 'Part in double room' }
   ]
-
 }
 
 const BAG = {
   out: { label: 'Bag pickup', key: KEY_NAMES.BAG, direction: 'out' },
   home: { label: 'Bag dropoff', key: KEY_NAMES.BAG, direction: 'home' },
+
   flight: Object.values(BAG_OPTIONS),
+
   bus: [
     BAG_OPTIONS.HOTEL,
     BAG_OPTIONS.OT,
@@ -364,4 +378,49 @@ export const getTransferOptions = () => {
 
 export const getBagOptions = () => {
   return BAG_OPTIONS
+}
+
+export const getDefaultValues = (accept, transportType) => {
+  let out = null
+  let home = null
+
+  switch (transportType) {
+    case 'bus':
+      out = accept.get('out') || getImmutableObject({
+        [KEY_NAMES.LOCATION]: LOCATION_OPTIONS.OT,
+        [KEY_NAMES.TRANSFER]: TRANSFER_OPTIONS.NT,
+        [KEY_NAMES.TRANSFER_CITY]: { key: null, value: null },
+        [KEY_NAMES.ACCOMODATION]: ACCOMODATION_OPTIONS.NA,
+        [KEY_NAMES.BAG]: BAG_OPTIONS.OT
+      })
+      home = accept.get('home') || getImmutableObject({
+        [KEY_NAMES.LOCATION]: LOCATION_OPTIONS.OT,
+        [KEY_NAMES.TRANSFER]: TRANSFER_OPTIONS.NT,
+        [KEY_NAMES.TRANSFER_CITY]: { key: null, value: null },
+        [KEY_NAMES.ACCOMODATION]: ACCOMODATION_OPTIONS.NA,
+        [KEY_NAMES.BAG]: BAG_OPTIONS.OT
+      })
+      break
+
+    case 'flight':
+      out = accept.get('out') || getImmutableObject({
+        [KEY_NAMES.LOCATION]: LOCATION_OPTIONS.BMA,
+        [KEY_NAMES.TRANSFER]: TRANSFER_OPTIONS.NT,
+        [KEY_NAMES.TRANSFER_CITY]: { key: null, value: null },
+        [KEY_NAMES.ACCOMODATION]: ACCOMODATION_OPTIONS.NA,
+        [KEY_NAMES.BAG]: BAG_OPTIONS.OT
+      })
+      home = accept.get('home') || getImmutableObject({
+        [KEY_NAMES.LOCATION]: LOCATION_OPTIONS.BMA,
+        [KEY_NAMES.TRANSFER]: TRANSFER_OPTIONS.NT,
+        [KEY_NAMES.TRANSFER_CITY]: { key: null, value: null },
+        [KEY_NAMES.ACCOMODATION]: ACCOMODATION_OPTIONS.NA,
+        [KEY_NAMES.BAG]: BAG_OPTIONS.OT
+      })
+      break
+  }
+
+  return {
+    out, home
+  }
 }

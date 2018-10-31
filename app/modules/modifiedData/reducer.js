@@ -10,7 +10,9 @@ import {
   SET_PARTICIPANTS,
 
   SET_ACCEPT_TRIP,
-  SET_ACCEPT_TRIP_COMBOS
+  SET_ACCEPT_TRIP_COMBOS,
+
+  SET_DEFAULT_COMBOS
 } from './action'
 
 import {
@@ -81,6 +83,17 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let direction = readValue(payload.direction, accept) || getMap({})
     direction = setIntoMap(direction, payload.key, getMap(payload.value))
     accept = setIntoMap(accept, payload.direction, direction)
+    modifiedData = setIntoMap(modifiedData, 'accept', accept)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SET_DEFAULT_COMBOS]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let accept = readValue('accept', modifiedData) || getMap({})
+    // accept = setIntoMap(accept, 'dirty', true)
+    // accept = setIntoMap(accept, 'acceptedAt', null)
+    accept = setIntoMap(accept, 'home', payload.home)
+    accept = setIntoMap(accept, 'out', payload.out)
     modifiedData = setIntoMap(modifiedData, 'accept', accept)
     return setIntoMap(state, payload.departureId, modifiedData)
   }

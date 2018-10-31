@@ -14,7 +14,11 @@ import { getPax, getAaccept } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { getMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
-import { setAcceptTrip, setAcceptTripCombos } from '../modules/modifiedData/action'
+import {
+  setAcceptTrip,
+  setAcceptTripCombos,
+  setDefaultCombos
+} from '../modules/modifiedData/action'
 
 import {
   getKeyNames,
@@ -22,7 +26,8 @@ import {
   getAccomodations,
   getBagLocations,
   getTransfers,
-  getTransferCities
+  getTransferCities,
+  getDefaultValues
 } from '../utils/comboValues'
 
 const KEY_NAMES = getKeyNames()
@@ -35,6 +40,19 @@ const OUT = 'OUT'
 class FutureTripCard extends Component {
   constructor (props) {
     super(props)
+
+    const { accept, trip } = props
+    const departureId = String(trip.get('departureId'))
+    const transport = trip.get('transport')
+    const transportType = transport.get('type')
+
+    if (!accept.get('out') && !accept.get('home')) {
+      actionDispatcher(setDefaultCombos({
+        departureId,
+        ...getDefaultValues(accept, transportType)
+      }))
+    }
+
     this.state = {
       tab: OUT
     }

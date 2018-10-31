@@ -23,7 +23,7 @@ import {
 } from '../selectors'
 import Translator from '../utils/translator'
 
-import { showModal } from '../modal/action'
+// import { showModal } from '../modal/action'
 
 const _T = Translator('DrawerScreen')
 
