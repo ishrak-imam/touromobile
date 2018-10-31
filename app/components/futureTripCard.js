@@ -40,6 +40,21 @@ class FutureTripCard extends Component {
     }
   }
 
+  get acceptData () {
+    const { accept } = this.props
+    return {
+      isAccepted: accept.get('isAccepted'),
+      dirty: accept.get('dirty'),
+      acceptedAt: accept.get('acceptedAt'),
+      out: accept.get('out') || getMap({}),
+      home: accept.get('home') || getMap({})
+    }
+  }
+
+  get departureId () {
+    return String(this.props.trip.get('departureId'))
+  }
+
   shouldComponentUpdate (nextProps, nextState) {
     const acceptChanged = !nextProps.accept.equals(this.props.accept)
     const tripChanged = !nextProps.trip.equals(this.props.trip)
@@ -64,9 +79,8 @@ class FutureTripCard extends Component {
 
   _onSelect = selection => {
     const { key, value, direction } = selection
-    const { trip } = this.props
     actionDispatcher(setAcceptTripCombos({
-      departureId: String(trip.get('departureId')),
+      departureId: this.departureId,
       key,
       value,
       direction
@@ -133,9 +147,7 @@ class FutureTripCard extends Component {
   }
 
   _renderOutCombos = transportType => {
-    const out = this.props.accept.get('out') || getMap({})
-    const home = this.props.accept.get('home') || getMap({})
-
+    const { out, home } = this.acceptData
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
@@ -189,8 +201,7 @@ class FutureTripCard extends Component {
   }
 
   _renderHomeCombos = transportType => {
-    const home = this.props.accept.get('home') || getMap({})
-    const out = this.props.accept.get('out') || getMap({})
+    const { out, home } = this.acceptData
 
     return (
       <View style={ss.comboCon}>
@@ -245,17 +256,16 @@ class FutureTripCard extends Component {
   }
 
   _setAcceptTrip = () => {
-    const { accept, trip } = this.props
+    const { isAccepted } = this.acceptData
     actionDispatcher(setAcceptTrip({
-      isAccepted: !accept.get('isAccepted'),
-      departureId: String(trip.get('departureId'))
+      isAccepted: !isAccepted,
+      departureId: this.departureId
     }))
   }
 
   _renderCardTop = (transportType) => {
     const { tab } = this.state
-    const { accept } = this.props
-    const isAccepted = accept.get('isAccepted')
+    const { isAccepted } = this.acceptData
     return (
       <View style={ss.futureTtip}>
         <View style={ss.futureTripCheck}>
@@ -275,7 +285,8 @@ class FutureTripCard extends Component {
   }
 
   render () {
-    const { trip, accept } = this.props
+    const { trip } = this.props
+    const { dirty } = this.acceptData
     const brand = trip.get('brand')
     const name = trip.get('name')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
@@ -284,7 +295,6 @@ class FutureTripCard extends Component {
     const image = trip.get('image')
     const pax = getPax(trip)
     const transportType = transport.get('type')
-    const dirty = accept.get('dirty')
 
     return (
       <View style={ss.card}>
