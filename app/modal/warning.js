@@ -37,7 +37,6 @@ class WarningModal extends Component {
         transparent
         visible={!!warning.size}
         onRequestClose={() => {}}
-        useNativeDriver
       >
         <View style={ss.modal}>
           <View style={ss.container}>

@@ -304,6 +304,7 @@ export default class Profile extends Component {
       <View style={style}>
         {this._renderHeader()}
         <KeyboardAwareScrollView
+          style={{ marginBottom: 10 }}
           enableOnAndroid
           keyboardShouldPersistTaps='always'
         >
@@ -311,7 +312,14 @@ export default class Profile extends Component {
           {this._renderAddress()}
           {this._renderContact()}
           {this._renderAccount()}
-          {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
+          {
+            editMode &&
+            <FooterButtons
+              style={ss.footerButton}
+              onCancel={this._onCancel}
+              onSave={this._onSave}
+            />
+          }
         </KeyboardAwareScrollView>
       </View>
     )

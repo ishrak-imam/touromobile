@@ -13,7 +13,7 @@ import isIphoneX from '../utils/isIphoneX'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 const { height, width } = Dimensions.get('window')
-const heightOffset = isIphoneX ? 500 : 400
+const heightOffset = isIphoneX ? 500 : 300
 const widthOffset = 100
 
 const modalHeight = height - heightOffset
@@ -81,7 +81,6 @@ class SelectionModal extends Component {
         transparent
         visible={!!selection.size}
         onRequestClose={() => {}}
-        useNativeDriver
       >
         <View style={ss.modal}>
           <View style={ss.container}>
@@ -131,7 +130,7 @@ const ss = StyleSheet.create({
     borderTopRightRadius: 7
   },
   body: {
-    flex: 5
+    flex: 6
   },
   close: {
     marginRight: 10,
