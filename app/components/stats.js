@@ -7,7 +7,7 @@ import {
 } from 'native-base'
 import {
   getPax, getSortedExcursions,
-  getParticipatingPax
+  getParticipatingPax, getActualParticipatingPax
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { getMap } from '../utils/immutable'
@@ -25,19 +25,25 @@ class StatItem extends Component {
   render () {
     const { excursion, pax, participants, backgroundColor } = this.props
     const name = excursion.get('name')
-    const participatingPax = getParticipatingPax(getMap({ pax, participants }))
+    const data = getMap({ pax, participants })
+    const participatingPax = getParticipatingPax(data)
+    const actualParticipatingPax = getActualParticipatingPax(data)
     const total = pax.size
     const participating = participatingPax.size
+
     const share = percentage(participating, total)
     return (
       <ListItem style={[ss.item, { backgroundColor }]}>
-        <Left style={ss.left}>
+        <Left style={ss.name}>
           <Text>{name}</Text>
         </Left>
-        <Body style={ss.body}>
+        <Body style={ss.participants}>
           <Text>{participating}/{total}</Text>
         </Body>
-        <Right style={ss.right}>
+        <Body style={ss.sale}>
+          <Text>{actualParticipatingPax.size}/{total}</Text>
+        </Body>
+        <Right style={ss.share}>
           <Text>{share}%</Text>
         </Right>
       </ListItem>
@@ -49,7 +55,7 @@ export default class Stats extends Component {
   _renderTop = paxCount => {
     return (
       <CardItem>
-        <Body><Text style={ss.boldText}>{_T('totalPax')}: {paxCount}</Text></Body>
+        <Body><Text style={ss.totalPax}>{_T('totalPax')}: {paxCount}</Text></Body>
       </CardItem>
     )
   }
@@ -57,14 +63,36 @@ export default class Stats extends Component {
   _renderListHeader = () => {
     return (
       <ListItem style={ss.item}>
-        <Left style={ss.left}>
-          <Text style={ss.boldText}>{_T('excursion')}</Text>
+        <Left style={ss.name}>
+          <Text style={ss.headerText}>{_T('excursion')}</Text>
         </Left>
-        <Body style={ss.body}>
-          <Text style={ss.boldText}>{_T('participants')}</Text>
+        <Body style={ss.participants}>
+          <Text style={ss.headerText}>{_T('participants')}</Text>
         </Body>
-        <Right style={ss.right}>
-          <Text style={ss.boldText}>{_T('share')}</Text>
+        <Body style={ss.sale}>
+          <Text style={ss.headerText}>{_T('sale')}</Text>
+        </Body>
+        <Right style={ss.share}>
+          <Text style={ss.headerText}>{_T('share')}</Text>
+        </Right>
+      </ListItem>
+    )
+  }
+
+  _renderListFooter = pax => {
+    return (
+      <ListItem style={ss.item}>
+        <Left style={ss.name}>
+          <Text style={ss.headerText}>Totals</Text>
+        </Left>
+        <Body style={ss.participants}>
+          <Text style={ss.headerText}>{_T('participants')}</Text>
+        </Body>
+        <Body style={ss.sale}>
+          <Text style={ss.headerText}>{_T('sale')}</Text>
+        </Body>
+        <Right style={ss.share}>
+          <Text style={ss.headerText}>{_T('share')}</Text>
         </Right>
       </ListItem>
     )
@@ -97,14 +125,13 @@ export default class Stats extends Component {
     )
   }
 
-  _renderStats = () => {
-    const { trip } = this.props
-    const pax = getPax(trip)
+  _renderStats = (excursions, pax) => {
     return (
       <View style={ss.container}>
         {this._renderTop(pax.size)}
         {this._renderListHeader()}
         {this._renderList(pax)}
+        {this._renderListFooter(excursions, pax)}
       </View>
     )
   }
@@ -112,10 +139,11 @@ export default class Stats extends Component {
   render () {
     const { trip } = this.props
     const excursions = trip.get('excursions')
+    const pax = getPax(trip)
 
     return (
       <View style={ss.container}>
-        {!!excursions && excursions.size && this._renderStats()}
+        {!!excursions && excursions.size && this._renderStats(excursions, pax)}
       </View>
     )
   }
@@ -127,23 +155,32 @@ const ss = StyleSheet.create({
   },
   item: {
     marginLeft: 0,
-    paddingLeft: 20,
+    paddingRight: 0,
     paddingVertical: 5,
     justifyContent: 'center'
   },
-  left: {
-    flex: 2
+  name: {
+    flex: 2,
+    paddingLeft: 20
   },
-  body: {
+  participants: {
     flex: 2,
     alignItems: 'center'
   },
-  right: {
+  sale: {
     flex: 2,
     alignItems: 'center'
   },
-  boldText: {
+  share: {
+    flex: 2,
+    alignItems: 'center'
+  },
+  totalPax: {
     fontWeight: 'bold',
-    fontSize: 15
+    fontSize: 16
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 13
   }
 })

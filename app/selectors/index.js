@@ -22,6 +22,7 @@ export const {
   preparePaxData,
   getPhoneNumbers,
   getParticipatingPax,
+  getActualParticipatingPax,
   getModifiedPaxByBooking,
   getSortedPaxByBookingId,
   pendingStatsUpload,
