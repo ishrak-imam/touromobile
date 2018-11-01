@@ -46,8 +46,12 @@ class PaxListItem extends Component {
           <CheckBox checked={checked || selected} onPress={onPress(paxId, checked)} />
         </Left>
         <Body style={ss.itemBody}>
-          <Text style={{ flex: 1, flexWrap: 'wrap' }}>{bookingId}</Text>
-          <Text style={{ flex: 2, flexWrap: 'wrap' }}>{name}</Text>
+          <View style={{ flex: 1 }}>
+            <Text>{bookingId}</Text>
+          </View>
+          <View style={{ flex: 2 }}>
+            <Text numberOfLines={1}>{name}</Text>
+          </View>
         </Body>
         <Right style={{ flex: 1 }}>
           {checked && <IonIcon name='star' color={Colors.blue} />}
@@ -247,7 +251,8 @@ const ss = StyleSheet.create({
   },
   itemBody: {
     flexDirection: 'row',
-    flex: 4,
+    flex: 7,
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   tabContainer: {
