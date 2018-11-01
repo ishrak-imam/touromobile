@@ -77,7 +77,7 @@ class SelectionModal extends Component {
     const selected = options ? options.get('selected') : null
     return (
       <Modal
-        animationType='fade'
+        animationType='slide'
         transparent
         visible={!!selection.size}
         onRequestClose={() => {}}

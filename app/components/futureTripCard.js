@@ -120,13 +120,21 @@ class FutureTripCard extends Component {
     return (
       <View style={ss.tabContainer}>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: tab === OUT ? Colors.blue : Colors.steel }]}
+          style={[ss.tab, {
+            backgroundColor: tab === OUT ? Colors.blue : Colors.steel,
+            borderTopLeftRadius: 3,
+            borderBottomLeftRadius: 3
+          }]}
           onPress={this._onTabSwitch(OUT)}
         >
           <Text style={{ color: tab === OUT ? Colors.silver : Colors.black }}>Out</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: tab === HOME ? Colors.blue : Colors.steel }]}
+          style={[ss.tab, {
+            backgroundColor: tab === HOME ? Colors.blue : Colors.steel,
+            borderTopRightRadius: 3,
+            borderBottomRightRadius: 3
+          }]}
           onPress={this._onTabSwitch(HOME)}
         >
           <Text style={{ color: tab === HOME ? Colors.silver : Colors.black }}>Home</Text>
@@ -463,8 +471,7 @@ const ss = StyleSheet.create({
     width: 70,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 4,
-    borderRadius: 5
+    paddingVertical: 4
   },
   selectorBox: {
     flex: 4,
