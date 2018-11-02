@@ -94,6 +94,10 @@ const resolvers = {
     })
   },
 
+  paxWithExcursionPack: pax => {
+    return pax.filter(p => p.get('excursionPack'))
+  },
+
   modifiedPaxByBooking: data => {
     const pax = data.get('pax')
     const modifiedPax = data.get('modifiedPax')
@@ -197,6 +201,15 @@ export const getActualParticipatingPax = data => {
     actualParticipatingPaxCache = Cache(resolvers.actualParticipatingPax)
   }
   return actualParticipatingPaxCache(data)
+}
+
+let paxWithExcursionPackCache = null
+export const getPaxWithExcursionPack = pax => {
+  if (!paxWithExcursionPackCache) {
+    paxWithExcursionPackCache = Cache(resolvers.paxWithExcursionPack)
+  }
+
+  return paxWithExcursionPackCache(pax)
 }
 
 let modifiedPaxByBookingCache = null

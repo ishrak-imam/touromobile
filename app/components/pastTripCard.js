@@ -8,7 +8,7 @@ import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
-import { getPax, getStatsData, getTotalParticipants } from '../selectors'
+import { getPax, getStatsData, getTotalParticipantsCount } from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
 import { getMap } from '../utils/immutable'
@@ -84,8 +84,9 @@ export default class PastTripCard extends Component {
 
   _renderCardTop = () => {
     const { trip, excursions, participants, statsUploadedAt } = this.tripData
-    const { totalParticipants, maxPossiblePax } = getTotalParticipants(excursions, participants, trip)
-    const share = percentage(totalParticipants, maxPossiblePax)
+    const pax = getPax(trip)
+    const totalParticipants = getTotalParticipantsCount(excursions, participants, trip)
+    const share = percentage(totalParticipants, pax.size * excursions.size)
 
     return (
       <View style={ss.pastTripCardTop}>
