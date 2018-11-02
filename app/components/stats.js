@@ -121,17 +121,19 @@ export default class Stats extends Component {
         immutableData={sortedExcursions}
         renderItem={this._renderExcursItem(pax)}
         keyExtractor={item => String(item.get('id'))}
+        ListFooterComponent={this._renderListFooter(pax)}
       />
     )
   }
 
-  _renderStats = (excursions, pax) => {
+  _renderStats = () => {
+    const { trip } = this.props
+    const pax = getPax(trip)
     return (
       <View style={ss.container}>
         {this._renderTop(pax.size)}
         {this._renderListHeader()}
         {this._renderList(pax)}
-        {this._renderListFooter(excursions, pax)}
       </View>
     )
   }
@@ -139,11 +141,10 @@ export default class Stats extends Component {
   render () {
     const { trip } = this.props
     const excursions = trip.get('excursions')
-    const pax = getPax(trip)
 
     return (
       <View style={ss.container}>
-        {!!excursions && excursions.size && this._renderStats(excursions, pax)}
+        {!!excursions && excursions.size && this._renderStats()}
       </View>
     )
   }
@@ -181,6 +182,6 @@ const ss = StyleSheet.create({
   },
   headerText: {
     fontWeight: 'bold',
-    fontSize: 13
+    fontSize: 12
   }
 })
