@@ -6,8 +6,9 @@ import {
   ListItem
 } from 'native-base'
 import {
-  getPax, getSortedExcursions,
-  getParticipatingPax, getActualParticipatingPax
+  getPax, getSortedExcursions, getTotalParticipantsCount,
+  getParticipatingPax, getActualParticipatingPax,
+  getActualTotalParticipantsCount, getPaxWithExcursionPack
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { getMap } from '../utils/immutable'
@@ -79,20 +80,26 @@ export default class Stats extends Component {
     )
   }
 
-  _renderListFooter = pax => {
+  _renderListFooter = () => {
+    const { excursions, participants, trip } = this.props
+    const pax = getPax(trip)
+    const totalParticipants = getTotalParticipantsCount(excursions, participants, trip)
+    const actualTotalParticipants = getActualTotalParticipantsCount(excursions, participants, trip)
+    const paxWithExcursionPack = getPaxWithExcursionPack(pax)
+    console.log(paxWithExcursionPack.size)
     return (
       <ListItem style={ss.item}>
         <Left style={ss.name}>
-          <Text style={ss.headerText}>Totals</Text>
+          <Text>{_T('totals')}</Text>
         </Left>
         <Body style={ss.participants}>
-          <Text style={ss.headerText}>{_T('participants')}</Text>
+          <Text>{totalParticipants}/{pax.size * excursions.size}</Text>
         </Body>
         <Body style={ss.sale}>
-          <Text style={ss.headerText}>{_T('sale')}</Text>
+          <Text>{actualTotalParticipants}/{(pax.size * excursions.size) - (paxWithExcursionPack.size * excursions.size)}</Text>
         </Body>
         <Right style={ss.share}>
-          <Text style={ss.headerText}>{_T('share')}</Text>
+          <Text>{totalParticipants}/{pax.size * excursions.size}</Text>
         </Right>
       </ListItem>
     )

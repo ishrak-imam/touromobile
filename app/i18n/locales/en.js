@@ -47,6 +47,7 @@ export default {
     participants: 'Participants',
     sale: 'Sale',
     share: 'Share',
+    totals: 'Totals',
     upload: 'Upload'
   },
   RestaurantScreen: {

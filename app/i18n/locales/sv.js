@@ -46,7 +46,8 @@ export default {
     excursion: 'Utflykt',
     participants: 'Deltagare',
     sale: 'Försäljning',
-    share: 'Dela med sig',
+    share: 'Andel',
+    totals: 'Totals',
     upload: 'Ladda upp'
   },
   RestaurantScreen: {

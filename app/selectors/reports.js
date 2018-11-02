@@ -1,5 +1,5 @@
 
-import { getPax, getParticipatingPax } from './trip'
+import { getPax, getParticipatingPax, getActualParticipatingPax } from './trip'
 import { getMap } from '../utils/immutable'
 
 export const getReports = state => state.reports
@@ -26,18 +26,22 @@ export const getStatsData = (excursions, participants, trip) => {
   }
 }
 
-export const getTotalParticipants = (excursions, participants, trip) => {
+export const getTotalParticipantsCount = (excursions, participants, trip) => {
   const pax = getPax(trip)
-  let aggregatedParticipants = 0
-  aggregatedParticipants = excursions.reduce((aggr, e) => {
+  return excursions.reduce((aggr, e) => {
     const excursionId = String(e.get('id'))
     const participatingPax = getParticipatingPax(getMap({ pax, participants: participants.get(excursionId) }))
     aggr = aggr + participatingPax.size
     return aggr
-  }, aggregatedParticipants)
+  }, 0)
+}
 
-  return {
-    totalParticipants: aggregatedParticipants,
-    maxPossiblePax: pax.size * excursions.size
-  }
+export const getActualTotalParticipantsCount = (excursions, participants, trip) => {
+  const pax = getPax(trip)
+  return excursions.reduce((aggr, e) => {
+    const excursionId = String(e.get('id'))
+    const participatingPax = getActualParticipatingPax(getMap({ pax, participants: participants.get(excursionId) }))
+    aggr = aggr + participatingPax.size
+    return aggr
+  }, 0)
 }
