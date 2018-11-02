@@ -86,7 +86,6 @@ export default class Stats extends Component {
     const totalParticipants = getTotalParticipantsCount(excursions, participants, trip)
     const actualTotalParticipants = getActualTotalParticipantsCount(excursions, participants, trip)
     const paxWithExcursionPack = getPaxWithExcursionPack(pax)
-    console.log(paxWithExcursionPack.size)
     return (
       <ListItem style={ss.item}>
         <Left style={ss.name}>
