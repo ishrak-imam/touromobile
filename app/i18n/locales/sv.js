@@ -45,6 +45,7 @@ export default {
     totalPax: 'Totalt passagerare',
     excursion: 'Utflykt',
     participants: 'Deltagare',
+    sale: 'Försäljning',
     share: 'Dela med sig',
     upload: 'Ladda upp'
   },

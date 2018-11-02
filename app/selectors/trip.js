@@ -84,6 +84,16 @@ const resolvers = {
     })
   },
 
+  actualParticipatingPax: data => {
+    const pax = data.get('pax')
+    const participants = data.get('participants')
+    return pax.filter(p => {
+      const paxId = String(p.get('id'))
+      const isParticipating = participants ? participants.has(paxId) : false
+      return isParticipating
+    })
+  },
+
   modifiedPaxByBooking: data => {
     const pax = data.get('pax')
     const modifiedPax = data.get('modifiedPax')
@@ -179,6 +189,14 @@ export const getParticipatingPax = data => {
     participatingPaxCache = Cache(resolvers.participatingPax)
   }
   return participatingPaxCache(data)
+}
+
+let actualParticipatingPaxCache = null
+export const getActualParticipatingPax = data => {
+  if (!actualParticipatingPaxCache) {
+    actualParticipatingPaxCache = Cache(resolvers.actualParticipatingPax)
+  }
+  return actualParticipatingPaxCache(data)
 }
 
 let modifiedPaxByBookingCache = null
