@@ -1071,7 +1071,7 @@
   {
     "departureId": 20272,
     "outDate": "2018-10-08T05:03:22.1030847+02:00",
-    "homeDate": "2018-11-29T05:03:22.1030847+02:00",
+    "homeDate": "2018-11-13T05:03:22.1030847+02:00",
     "name": "berw16",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "description": "Berlin Weekend",
@@ -4329,8 +4329,8 @@
 
   {
     "departureId": 20275,
-    "outDate": "2018-12-26T05:03:22.1030847+02:00",
-    "homeDate": "2018-12-30T05:03:22.1030847+02:00",
+    "outDate": "2019-11-26T05:03:22.1030847+02:00",
+    "homeDate": "2019-11-30T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
     "image": "https://picsum.photos/700/500/?image=444",
     "description": "Berlin Weekend",

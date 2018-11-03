@@ -45,7 +45,9 @@ export default {
     totalPax: 'Totalt passagerare',
     excursion: 'Utflykt',
     participants: 'Deltagare',
-    share: 'Dela med sig',
+    sale: 'Försäljning',
+    share: 'Andel',
+    totals: 'Totals',
     upload: 'Ladda upp'
   },
   RestaurantScreen: {

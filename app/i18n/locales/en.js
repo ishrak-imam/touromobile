@@ -45,7 +45,9 @@ export default {
     totalPax: 'Total passengers',
     excursion: 'Excursion',
     participants: 'Participants',
+    sale: 'Sale',
     share: 'Share',
+    totals: 'Totals',
     upload: 'Upload'
   },
   RestaurantScreen: {

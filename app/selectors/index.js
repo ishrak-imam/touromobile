@@ -22,11 +22,13 @@ export const {
   preparePaxData,
   getPhoneNumbers,
   getParticipatingPax,
+  getActualParticipatingPax,
   getModifiedPaxByBooking,
   getSortedPaxByBookingId,
   pendingStatsUpload,
   pendingStatsUploadCount,
-  getFlightPaxPhones
+  getFlightPaxPhones,
+  getPaxWithExcursionPack
 } = require('./trip')
 
 export const {
@@ -46,7 +48,8 @@ export const {
 export const {
   getReports,
   getStatsData,
-  getTotalPercentage
+  getTotalParticipantsCount,
+  getActualTotalParticipantsCount
 } = require('./reports')
 
 export const {
