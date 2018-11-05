@@ -1,6 +1,6 @@
 
 import { setAcceptTripCombos } from '../modules/modifiedData/action'
-import { getKeyNames, getBagOptions } from '../utils/comboValues'
+import { getKeyNames, getBagOptions } from '../utils/futureTrip'
 
 const KEY_NAMES = getKeyNames()
 const BAG_OPTIONS = getBagOptions()

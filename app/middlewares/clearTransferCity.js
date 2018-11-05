@@ -3,7 +3,7 @@ import { setAcceptTripCombos } from '../modules/modifiedData/action'
 import {
   getKeyNames
   // getTransferOptions
-} from '../utils/comboValues'
+} from '../utils/futureTrip'
 
 const KEY_NAMES = getKeyNames()
 // const TRANSFER_OPTIONS = getTransferOptions()

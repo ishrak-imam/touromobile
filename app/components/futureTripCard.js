@@ -27,8 +27,9 @@ import {
   getBagLocations,
   getTransfers,
   getTransferCities,
-  getDefaultValues
-} from '../utils/comboValues'
+  getDefaultValues,
+  shouldLockTrip
+} from '../utils/futureTrip'
 
 const KEY_NAMES = getKeyNames()
 
@@ -71,6 +72,10 @@ class FutureTripCard extends Component {
 
   get departureId () {
     return String(this.props.trip.get('departureId'))
+  }
+
+  get shouldLockTrip () {
+    return shouldLockTrip(this.props.trip.get('outDate'))
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -181,7 +186,8 @@ class FutureTripCard extends Component {
           {this._renderSelector(getLocations({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.LOCATION)
+            selected: out.get(KEY_NAMES.LOCATION),
+            locked: this.shouldLockTrip
           }))}
         </View>
 
@@ -190,7 +196,8 @@ class FutureTripCard extends Component {
           {this._renderSelector(getTransfers({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.TRANSFER)
+            selected: out.get(KEY_NAMES.TRANSFER),
+            locked: this.shouldLockTrip
           }))}
         </View>
 
@@ -200,7 +207,8 @@ class FutureTripCard extends Component {
             direction: 'out',
             transportType,
             transfer: out.get(KEY_NAMES.TRANSFER),
-            selected: out.get(KEY_NAMES.TRANSFER_CITY)
+            selected: out.get(KEY_NAMES.TRANSFER_CITY),
+            locked: this.shouldLockTrip
           }))}
         </View>
 
@@ -209,7 +217,8 @@ class FutureTripCard extends Component {
           {this._renderSelector(getAccomodations({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.ACCOMODATION)
+            selected: out.get(KEY_NAMES.ACCOMODATION),
+            locked: this.shouldLockTrip
           }))}
         </View>
 
@@ -219,7 +228,8 @@ class FutureTripCard extends Component {
             direction: 'out',
             transportType,
             selected: out.get(KEY_NAMES.BAG),
-            other: home.get(KEY_NAMES.BAG)
+            other: home.get(KEY_NAMES.BAG),
+            locked: this.shouldLockTrip
           }))}
         </View>
       </View>
@@ -228,7 +238,6 @@ class FutureTripCard extends Component {
 
   _renderHomeCombos = transportType => {
     const { out, home } = this.acceptData
-
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
@@ -236,7 +245,8 @@ class FutureTripCard extends Component {
           {this._renderSelector(getLocations({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.LOCATION)
+            selected: home.get(KEY_NAMES.LOCATION),
+            locked: this.shouldLockTrip
           }))}
         </View>
 
@@ -245,7 +255,8 @@ class FutureTripCard extends Component {
           {this._renderSelector(getTransfers({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.TRANSFER)
+            selected: home.get(KEY_NAMES.TRANSFER),
+            locked: this.shouldLockTrip
           }))}
         </View>
 
@@ -255,7 +266,8 @@ class FutureTripCard extends Component {
             direction: 'home',
             transportType,
             transfer: home.get(KEY_NAMES.TRANSFER),
-            selected: home.get(KEY_NAMES.TRANSFER_CITY)
+            selected: home.get(KEY_NAMES.TRANSFER_CITY),
+            locked: this.shouldLockTrip
           }))}
         </View>
 
@@ -264,7 +276,8 @@ class FutureTripCard extends Component {
           {this._renderSelector(getAccomodations({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.ACCOMODATION)
+            selected: home.get(KEY_NAMES.ACCOMODATION),
+            locked: this.shouldLockTrip
           }))}
         </View>
 
@@ -274,7 +287,8 @@ class FutureTripCard extends Component {
             direction: 'home',
             transportType,
             selected: home.get(KEY_NAMES.BAG),
-            other: out.get(KEY_NAMES.BAG)
+            other: out.get(KEY_NAMES.BAG),
+            locked: this.shouldLockTrip
           }))}
         </View>
       </View>
@@ -296,6 +310,7 @@ class FutureTripCard extends Component {
       <View style={ss.futureTtip}>
         <View style={ss.futureTripCheck}>
           <CheckBox
+            disabled={this.shouldLockTrip}
             checked={isAccepted}
             onPress={this._setAcceptTrip}
           />
@@ -315,8 +330,8 @@ class FutureTripCard extends Component {
     const { dirty } = this.acceptData
     const brand = trip.get('brand')
     const name = trip.get('name')
-    const outDate = format(trip.get('outDate'), DATE_FORMAT)
-    const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
+    const outDate = trip.get('outDate')
+    const homeDate = trip.get('homeDate')
     const transport = trip.get('transport')
     const image = trip.get('image')
     const pax = getPax(trip)
@@ -327,7 +342,7 @@ class FutureTripCard extends Component {
 
         <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <Text style={ss.brandText}>{brand}</Text>
-          <Text>{`${name}    ${outDate} - ${homeDate}`}</Text>
+          <Text>{`${name}    ${format(outDate, DATE_FORMAT)} - ${format(homeDate, DATE_FORMAT)}`}</Text>
           <IonIcon name={transportType} />
         </View>
 
@@ -347,7 +362,7 @@ class FutureTripCard extends Component {
                 <FooterButtons
                   hideCancel
                   style={ss.footerButtons}
-                  disabled={!dirty}
+                  disabled={!dirty || this.shouldLockTrip}
                   onCancel={() => console.log('cancel')}
                   onSave={() => console.log('save')}
                 />

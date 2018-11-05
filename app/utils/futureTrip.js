@@ -1,6 +1,8 @@
 
-import { isWithinRange } from 'date-fns'
+import { isWithinRange, differenceInCalendarDays } from 'date-fns'
 import { getImmutableObject } from './immutable'
+
+const LOCK_TRIP_BEFORE = 15
 
 const KEY_NAMES = {
   LOCATION: 'location',
@@ -277,7 +279,16 @@ const BAG = {
 }
 
 export const getLocations = basedOn => {
-  const { direction, transportType, selected } = basedOn
+  const { direction, transportType, selected, locked } = basedOn
+
+  if (locked) {
+    return {
+      disabled: true,
+      selected: selected,
+      config: null,
+      items: null
+    }
+  }
 
   return {
     selected,
@@ -287,7 +298,16 @@ export const getLocations = basedOn => {
 }
 
 export const getTransfers = basedOn => {
-  const { direction, transportType, selected } = basedOn
+  const { direction, transportType, selected, locked } = basedOn
+
+  if (locked) {
+    return {
+      disabled: true,
+      selected: selected,
+      config: null,
+      items: null
+    }
+  }
 
   return {
     selected,
@@ -297,7 +317,16 @@ export const getTransfers = basedOn => {
 }
 
 export const getTransferCities = basedOn => {
-  const { direction, transportType, transfer, selected } = basedOn
+  const { direction, transportType, transfer, selected, locked } = basedOn
+
+  if (locked) {
+    return {
+      disabled: true,
+      selected: selected,
+      config: null,
+      items: null
+    }
+  }
 
   if (transfer && transfer.get('key') === TRANSFER_OPTIONS.NT.key) {
     return {
@@ -340,7 +369,16 @@ export const getTransferCities = basedOn => {
 }
 
 export const getAccomodations = basedOn => {
-  const { direction, transportType, selected } = basedOn
+  const { direction, transportType, selected, locked } = basedOn
+
+  if (locked) {
+    return {
+      disabled: true,
+      selected: selected,
+      config: null,
+      items: null
+    }
+  }
 
   return {
     selected,
@@ -350,7 +388,16 @@ export const getAccomodations = basedOn => {
 }
 
 export const getBagLocations = basedOn => {
-  const { direction, transportType, selected, other } = basedOn
+  const { direction, transportType, selected, other, locked } = basedOn
+
+  if (locked) {
+    return {
+      disabled: true,
+      selected: selected,
+      config: null,
+      items: null
+    }
+  }
 
   if (other && other.get('key') === BAG_OPTIONS.EDTRIP.key) {
     return {
@@ -423,4 +470,10 @@ export const getDefaultValues = (accept, transportType) => {
   return {
     out, home
   }
+}
+
+export const shouldLockTrip = outDate => {
+  const date = new Date()
+  const diff = differenceInCalendarDays(outDate, date)
+  return diff <= LOCK_TRIP_BEFORE
 }
