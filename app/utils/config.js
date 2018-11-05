@@ -21,7 +21,7 @@ const isStaging = environment === 'STAGING'
 
 const isDevice = Constants.isDevice
 
-const useMockData = true // !isProduction && !isStaging
+const useMockData = !isProduction && !isStaging
 
 const config = {
   ...allConfigs[environment],

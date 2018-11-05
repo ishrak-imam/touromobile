@@ -3,6 +3,7 @@ export const mockToken = () => Promise.resolve({
   'access_token': 'some_token',
   'expires_in': 315360000,
   'id': 52,
+  'guide_id': 14,
   'group': 'Users',
   'full_name': 'Ishrak Ibne Imam',
   'first_name': 'Ishrak',
