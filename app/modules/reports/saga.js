@@ -1,5 +1,5 @@
 
-import { delay } from 'redux-saga'
+// import { delay } from 'redux-saga'
 import { call, put, takeEvery } from 'redux-saga/effects'
 
 import {
@@ -24,7 +24,7 @@ function * workerUploadStats (action) {
 
   try {
     yield call(uploadStats, departureId, statsData, jwt)
-    yield call(delay, 2000)
+    // yield call(delay, 2000)
     yield put(uploadStatsSucs({
       toast: showToast,
       message: sucsMsg,
