@@ -86,19 +86,24 @@ export default class Stats extends Component {
     const totalParticipants = getTotalParticipantsCount(excursions, participants, trip)
     const actualTotalParticipants = getActualTotalParticipantsCount(excursions, participants, trip)
     const paxWithExcursionPack = getPaxWithExcursionPack(pax)
+
+    const participant = percentage(totalParticipants, pax.size * excursions.size)
+    const sale = percentage(actualTotalParticipants, (pax.size * excursions.size) - (paxWithExcursionPack.size * excursions.size))
+    const share = percentage(totalParticipants, pax.size * excursions.size)
+
     return (
       <ListItem style={ss.item}>
         <Left style={ss.name}>
-          <Text>{_T('totals')}</Text>
+          <Text style={ss.totalPax}>{_T('totals')}</Text>
         </Left>
         <Body style={ss.participants}>
-          <Text>{totalParticipants}/{pax.size * excursions.size}</Text>
+          <Text style={ss.totalPax}>{participant}%</Text>
         </Body>
         <Body style={ss.sale}>
-          <Text>{actualTotalParticipants}/{(pax.size * excursions.size) - (paxWithExcursionPack.size * excursions.size)}</Text>
+          <Text style={ss.totalPax}>{sale}%</Text>
         </Body>
         <Right style={ss.share}>
-          <Text>{totalParticipants}/{pax.size * excursions.size}</Text>
+          <Text style={ss.totalPax}>{share}%</Text>
         </Right>
       </ListItem>
     )
@@ -171,11 +176,11 @@ const ss = StyleSheet.create({
     paddingLeft: 20
   },
   participants: {
-    flex: 2,
+    flex: 2.5,
     alignItems: 'center'
   },
   sale: {
-    flex: 2,
+    flex: 2.5,
     alignItems: 'center'
   },
   share: {

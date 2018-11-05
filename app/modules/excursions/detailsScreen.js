@@ -146,13 +146,21 @@ class ExcursionDetailsScreen extends Component {
     return (
       <View style={ss.tabContainer}>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: filter === PARTICIPATING ? Colors.blue : Colors.silver }]}
+          style={[ss.tab, {
+            backgroundColor: filter === PARTICIPATING ? Colors.blue : Colors.silver,
+            borderTopLeftRadius: 5,
+            borderBottomLeftRadius: 5
+          }]}
           onPress={this._onTabSwitch(PARTICIPATING)}
         >
           <Text style={{ color: filter === PARTICIPATING ? Colors.silver : Colors.black }}>{_T('participating')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[ss.tab, { backgroundColor: filter === ALL ? Colors.blue : Colors.silver }]}
+          style={[ss.tab, {
+            backgroundColor: filter === ALL ? Colors.blue : Colors.silver,
+            borderTopRightRadius: 5,
+            borderBottomRightRadius: 5
+          }]}
           onPress={this._onTabSwitch(ALL)}
         >
           <Text style={{ color: filter === ALL ? Colors.silver : Colors.black }}>{_T('all')}</Text>
@@ -269,8 +277,7 @@ const ss = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 7,
-    borderRadius: 5
+    paddingVertical: 7
   },
   headerRight: {
     flex: 1,
