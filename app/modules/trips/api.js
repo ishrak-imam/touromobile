@@ -11,3 +11,12 @@ export const getTripsApi = (guideId, jwt) => {
     ? mockTrips()
     : getRequest(`resources/guide/${guideId}/overview`, headers)
 }
+
+export const acceptTrip = (jwt) => {
+  const headers = {
+    'Authorization': `Bearer ${jwt}`
+  }
+  return config.useMockData
+    ? mockTrips()
+    : mockTrips()
+}

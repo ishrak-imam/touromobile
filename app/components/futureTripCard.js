@@ -10,14 +10,16 @@ import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import FooterButtons from './footerButtons'
 import { connect } from 'react-redux'
-import { getPax, getAaccept } from '../selectors'
-import { actionDispatcher } from '../utils/actionDispatcher'
+import { getPax, getAaccept, getUser } from '../selectors'
+import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
 import { getMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
 import {
   setAcceptTrip,
   setAcceptTripCombos,
-  setDefaultCombos
+  setDefaultCombos,
+
+  acceptTripReq
 } from '../modules/modifiedData/action'
 
 import {
@@ -303,7 +305,7 @@ class FutureTripCard extends Component {
     }))
   }
 
-  _renderCardTop = (transportType) => {
+  _renderCardTop = transportType => {
     const { tab } = this.state
     const { isAccepted } = this.acceptData
     return (
@@ -323,6 +325,14 @@ class FutureTripCard extends Component {
         </View>
       </View>
     )
+  }
+
+  _acceptTrip = () => {
+    const { user } = this.props
+    networkActionDispatcher(acceptTripReq({
+      isNeedJwt: true,
+      guideId: user.get('guideId')
+    }))
   }
 
   render () {
@@ -364,7 +374,7 @@ class FutureTripCard extends Component {
                   style={ss.footerButtons}
                   disabled={!dirty || this.shouldLockTrip}
                   onCancel={() => console.log('cancel')}
-                  onSave={() => console.log('save')}
+                  onSave={this._acceptTrip}
                 />
               </View>
             </View>
@@ -379,7 +389,8 @@ class FutureTripCard extends Component {
 const stateToProps = (state, props) => {
   const departureId = String(props.trip.get('departureId'))
   return {
-    accept: getAaccept(state, departureId)
+    accept: getAaccept(state, departureId),
+    user: getUser(state)
   }
 }
 

@@ -20,10 +20,16 @@ import {
   setPendingStatsUpload
 } from './action'
 
+import {
+  acceptTripReq,
+  acceptTripFail,
+  acceptTripSucs
+} from '../modifiedData/action'
+
 import { showModal } from '../../modal/action'
 
 import {
-  getTripsApi
+  getTripsApi, acceptTrip
 } from './api'
 
 import {
@@ -97,5 +103,19 @@ function * workerGetPendingStatsUpload (action) {
       text: `${count} ${msg}`,
       onOk
     }))
+  }
+}
+
+export function * watchAcceptTrip () {
+  yield takeFirst(acceptTripReq.getType(), workerAcceptTrip)
+}
+
+function * workerAcceptTrip (action) {
+  const { guideId, jwt } = action.payload
+  try {
+    yield call(acceptTrip, guideId, jwt)
+    yield put(acceptTripSucs())
+  } catch (e) {
+    yield put(acceptTripSucs())
   }
 }
