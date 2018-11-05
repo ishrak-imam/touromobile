@@ -12,7 +12,11 @@ import {
   SET_ACCEPT_TRIP,
   SET_ACCEPT_TRIP_COMBOS,
 
-  SET_DEFAULT_COMBOS
+  SET_DEFAULT_COMBOS,
+
+  ACCEPT_TRIP_REQ,
+  ACCEPT_TRIP_SUCS,
+  ACCEPT_TRIP_FAIL
 } from './action'
 
 import {
@@ -94,6 +98,34 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     // accept = setIntoMap(accept, 'acceptedAt', null)
     accept = setIntoMap(accept, 'home', payload.home)
     accept = setIntoMap(accept, 'out', payload.out)
+    modifiedData = setIntoMap(modifiedData, 'accept', accept)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [ACCEPT_TRIP_REQ]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let accept = readValue('accept', modifiedData) || getMap({})
+    accept = setIntoMap(accept, 'isLoading', true)
+    modifiedData = setIntoMap(modifiedData, 'accept', accept)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [ACCEPT_TRIP_SUCS]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let accept = readValue('accept', modifiedData) || getMap({})
+    accept = setIntoMap(accept, 'isLoading', false)
+    accept = setIntoMap(accept, 'dirty', false)
+    accept = setIntoMap(accept, 'acceptedAt', payload.time)
+    modifiedData = setIntoMap(modifiedData, 'accept', accept)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [ACCEPT_TRIP_FAIL]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let accept = readValue('accept', modifiedData) || getMap({})
+    accept = setIntoMap(accept, 'isLoading', false)
+    accept = setIntoMap(accept, 'dirty', true)
+    accept = setIntoMap(accept, 'acceptedAt', null)
     modifiedData = setIntoMap(modifiedData, 'accept', accept)
     return setIntoMap(state, payload.departureId, modifiedData)
   }

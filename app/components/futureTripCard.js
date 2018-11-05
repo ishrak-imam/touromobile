@@ -64,6 +64,7 @@ class FutureTripCard extends Component {
   get acceptData () {
     const { accept } = this.props
     return {
+      isLoading: accept.get('isLoading'),
       isAccepted: accept.get('isAccepted'),
       dirty: accept.get('dirty'),
       acceptedAt: accept.get('acceptedAt'),
@@ -307,7 +308,12 @@ class FutureTripCard extends Component {
 
   _renderCardTop = transportType => {
     const { tab } = this.state
-    const { isAccepted } = this.acceptData
+    const { isAccepted, acceptedAt, dirty } = this.acceptData
+
+    const acceptText = acceptedAt && !dirty
+      ? `Assignment accepted at ${format(acceptedAt, DATE_FORMAT)}`
+      : `Accept assignment`
+
     return (
       <View style={ss.futureTtip}>
         <View style={ss.futureTripCheck}>
@@ -316,7 +322,7 @@ class FutureTripCard extends Component {
             checked={isAccepted}
             onPress={this._setAcceptTrip}
           />
-          <Text style={ss.checkText}>Accept assignment</Text>
+          <Text style={ss.checkText}>{acceptText}</Text>
         </View>
         <View style={ss.comboTabs}>
           {this._renderTabs()}
@@ -331,7 +337,8 @@ class FutureTripCard extends Component {
     const { user } = this.props
     networkActionDispatcher(acceptTripReq({
       isNeedJwt: true,
-      guideId: user.get('guideId')
+      guideId: user.get('guideId'),
+      departureId: this.departureId
     }))
   }
 
