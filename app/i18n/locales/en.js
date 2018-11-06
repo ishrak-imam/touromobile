@@ -85,7 +85,7 @@ export default {
     zip: 'Zip',
     phone: 'Phone',
     email: 'Email',
-    backAccount: 'Back account',
+    backAccount: 'Bank account',
     showTabLabels: 'Show tab labels'
   },
   NoData: {

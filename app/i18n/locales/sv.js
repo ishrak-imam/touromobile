@@ -32,7 +32,7 @@ export default {
   },
   ExcursionsScreen: {
     title: 'Utflykter',
-    textAllParticipants: 'Textmeddelande alla deltagare'
+    textAllParticipants: 'Textmeddelande till alla deltagare'
   },
   FutureTripsScreen: {
     title: 'Framtida resor'
@@ -47,7 +47,7 @@ export default {
     participants: 'Deltagare',
     sale: 'Försäljning',
     share: 'Andel',
-    totals: 'Totals',
+    totals: 'Total',
     upload: 'Ladda upp'
   },
   RestaurantScreen: {
