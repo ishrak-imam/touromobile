@@ -13,6 +13,9 @@ export const SET_ACCEPT_TRIP_COMBOS = 'SET_ACCEPT_TRIP_COMBOS'
 
 export const SET_DEFAULT_COMBOS = 'SET_DEFAULT_COMBOS'
 
+export const PREPARE_CANCEL_DATA = 'PREPARE_CANCEL_DATA'
+export const CANCEL_COMBO_VALUES = 'CANCEL_COMBO_VALUES'
+
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
 export const setParticipants = createAction(SET_PARTICIPANTS)
 
@@ -24,3 +27,6 @@ export const setAcceptTrip = createAction(SET_ACCEPT_TRIP)
 export const setAcceptTripCombos = createAction(SET_ACCEPT_TRIP_COMBOS)
 
 export const setDefaultCombos = createAction(SET_DEFAULT_COMBOS)
+
+export const prepareCancelData = createAction(PREPARE_CANCEL_DATA)
+export const cancelComboValues = createAction(CANCEL_COMBO_VALUES)

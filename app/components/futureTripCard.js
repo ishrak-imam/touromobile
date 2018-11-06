@@ -18,8 +18,9 @@ import {
   setAcceptTrip,
   setAcceptTripCombos,
   setDefaultCombos,
-
-  acceptTripReq
+  acceptTripReq,
+  prepareCancelData,
+  cancelComboValues
 } from '../modules/modifiedData/action'
 
 import {
@@ -59,6 +60,14 @@ class FutureTripCard extends Component {
     this.state = {
       tab: OUT
     }
+  }
+
+  componentDidMount () {
+    const { accept } = this.props
+    actionDispatcher(prepareCancelData({
+      departureId: this.departureId,
+      accept
+    }))
   }
 
   get acceptData () {
@@ -342,6 +351,12 @@ class FutureTripCard extends Component {
     }))
   }
 
+  _cancelSelection = () => {
+    actionDispatcher(cancelComboValues({
+      departureId: this.departureId
+    }))
+  }
+
   render () {
     const { trip } = this.props
     const { dirty } = this.acceptData
@@ -377,10 +392,10 @@ class FutureTripCard extends Component {
               </View>
               <View style={ss.bottomRight}>
                 <FooterButtons
-                  hideCancel
+                  // hideCancel
                   style={ss.footerButtons}
                   disabled={!dirty || this.shouldLockTrip}
-                  onCancel={() => console.log('cancel')}
+                  onCancel={this._cancelSelection}
                   onSave={this._acceptTrip}
                 />
               </View>
@@ -532,8 +547,7 @@ const ss = StyleSheet.create({
     height: 30,
     flexDirection: 'row',
     backgroundColor: Colors.silver,
-    borderTopLeftRadius: 3,
-    borderBottomLeftRadius: 3
+    borderRadius: 3
   },
   comboCon: {
     paddingHorizontal: 10
