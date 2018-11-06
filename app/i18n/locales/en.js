@@ -35,7 +35,16 @@ export default {
     textAllParticipants: 'Text message all participants'
   },
   FutureTripsScreen: {
-    title: 'Future trips'
+    title: 'Future trips',
+    acceptedAt: 'Assignment accepted at',
+    accept: 'Accept assignment',
+    boardingLoc: 'Boarding location',
+    alightingLoc: 'Alighting location',
+    transfer: 'Transfer',
+    transferCity: 'Transfer city',
+    accommodation: 'Accommodation',
+    bagPick: 'Bag pickup',
+    bagDrop: 'Bag dropoff'
   },
   PastTripsScreen: {
     title: 'Past trips'

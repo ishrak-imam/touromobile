@@ -34,6 +34,10 @@ import {
   shouldLockTrip
 } from '../utils/futureTrip'
 
+import Translator from '../utils/translator'
+
+const _T = Translator('FutureTripsScreen')
+
 const KEY_NAMES = getKeyNames()
 
 const DATE_FORMAT = 'DD/MM'
@@ -184,7 +188,7 @@ class FutureTripCard extends Component {
   _renderComboLabel = label => {
     return (
       <View style={ss.comboText}>
-        <Text style={ss.comboLabel}>{label}:</Text>
+        <Text style={ss.comboLabel}>{_T(label)}:</Text>
       </View>
     )
   }
@@ -194,7 +198,7 @@ class FutureTripCard extends Component {
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
-          {this._renderComboLabel('Boarding Location')}
+          {this._renderComboLabel('boardingLoc')}
           {this._renderSelector(getLocations({
             direction: 'out',
             transportType,
@@ -204,7 +208,7 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('Transfer')}
+          {this._renderComboLabel('transfer')}
           {this._renderSelector(getTransfers({
             direction: 'out',
             transportType,
@@ -214,7 +218,7 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('Transfer city')}
+          {this._renderComboLabel('transferCity')}
           {this._renderSelector(getTransferCities({
             direction: 'out',
             transportType,
@@ -225,7 +229,7 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('Accomodation')}
+          {this._renderComboLabel('accommodation')}
           {this._renderSelector(getAccomodations({
             direction: 'out',
             transportType,
@@ -235,7 +239,7 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('Bag pickup')}
+          {this._renderComboLabel('bagPick')}
           {this._renderSelector(getBagLocations({
             direction: 'out',
             transportType,
@@ -253,7 +257,7 @@ class FutureTripCard extends Component {
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
-          {this._renderComboLabel('Alighting Location')}
+          {this._renderComboLabel('alightingLoc')}
           {this._renderSelector(getLocations({
             direction: 'home',
             transportType,
@@ -263,7 +267,7 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('Transfer')}
+          {this._renderComboLabel('transfer')}
           {this._renderSelector(getTransfers({
             direction: 'home',
             transportType,
@@ -273,7 +277,7 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('Transfer city')}
+          {this._renderComboLabel('transferCity')}
           {this._renderSelector(getTransferCities({
             direction: 'home',
             transportType,
@@ -284,7 +288,7 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('Accomodation')}
+          {this._renderComboLabel('accommodation')}
           {this._renderSelector(getAccomodations({
             direction: 'home',
             transportType,
@@ -294,7 +298,7 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('Bag dropoff')}
+          {this._renderComboLabel('bagDrop')}
           {this._renderSelector(getBagLocations({
             direction: 'home',
             transportType,
@@ -320,8 +324,8 @@ class FutureTripCard extends Component {
     const { isAccepted, acceptedAt, dirty } = this.acceptData
 
     const acceptText = acceptedAt && !dirty
-      ? `Assignment accepted at ${format(acceptedAt, DATE_FORMAT)}`
-      : `Accept assignment`
+      ? `${_T('acceptedAt')} ${format(acceptedAt, DATE_FORMAT)}`
+      : `${_T('accept')}`
 
     return (
       <View style={ss.futureTtip}>

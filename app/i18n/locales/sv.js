@@ -35,7 +35,16 @@ export default {
     textAllParticipants: 'Textmeddelande till alla deltagare'
   },
   FutureTripsScreen: {
-    title: 'Framtida resor'
+    title: 'Framtida resor',
+    acceptedAt: 'Uppdrag accepterat vid',
+    accept: 'Acceptera uppdrag',
+    boardingLoc: 'Ombordstigning',
+    alightingLoc: 'Alighting plats',
+    transfer: 'Överföra',
+    transferCity: 'Överför stad',
+    accomodation: 'Boende',
+    bagPick: 'Väska hämtning',
+    bagDrop: 'Väskan släpps av'
   },
   PastTripsScreen: {
     title: 'Tidigare resor'
