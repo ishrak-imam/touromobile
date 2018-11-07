@@ -41,9 +41,9 @@ class PaxListItem extends Component {
     const name = `${pax.get('firstName')} ${pax.get('lastName')}`
 
     return (
-      <ListItem key={key}>
+      <ListItem key={key} onPress={onPress(paxId, checked)}>
         <Left style={{ flex: 1 }}>
-          <CheckBox checked={checked || selected} onPress={onPress(paxId, checked)} />
+          <CheckBox disabled checked={checked || selected} />
         </Left>
         <Body style={ss.itemBody}>
           <View style={{ flex: 1 }}>
