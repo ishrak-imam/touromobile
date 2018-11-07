@@ -1,6 +1,6 @@
 
 import { NetInfo } from 'react-native'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { takeFirst, eventEmitterChannel } from '../utils/sagaHelpers'
 
 import {
@@ -13,6 +13,8 @@ import {
 import {
   syncPendingUpdates
 } from '../modules/profile/action'
+
+import { getUser } from '../selectors'
 
 function checkIfConnected () {
   return NetInfo.isConnected.fetch()
@@ -51,7 +53,11 @@ function * createConnectionSubscription (action) {
     yield put(connectionType(connection.type))
     if (connection.type !== 'none') {
       yield put(connectionStatus(true))
-      yield put(syncPendingUpdates())
+      const user = yield select(getUser)
+      const isLoggedIn = user.get('accessToken')
+      if (isLoggedIn) {
+        yield put(syncPendingUpdates())
+      }
     } else {
       yield put(connectionStatus(false))
     }
