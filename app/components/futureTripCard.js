@@ -68,11 +68,13 @@ class FutureTripCard extends Component {
   }
 
   componentDidMount () {
-    const { accept } = this.props
-    actionDispatcher(prepareCancelData({
-      departureId: this.departureId,
-      accept
-    }))
+    setTimeout(() => {
+      const { accept } = this.props
+      actionDispatcher(prepareCancelData({
+        departureId: this.departureId,
+        accept
+      }))
+    }, 0)
   }
 
   get acceptData () {
