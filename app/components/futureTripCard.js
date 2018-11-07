@@ -35,6 +35,7 @@ import {
 } from '../utils/futureTrip'
 
 import Translator from '../utils/translator'
+import OverlaySpinner from './overlaySpinner'
 
 const _T = Translator('FutureTripsScreen')
 
@@ -361,9 +362,17 @@ class FutureTripCard extends Component {
     }))
   }
 
+  _renderSpinner = () => {
+    return (
+      <View style={ss.spinner}>
+        <OverlaySpinner />
+      </View>
+    )
+  }
+
   render () {
     const { trip } = this.props
-    const { dirty } = this.acceptData
+    const { dirty, isLoading } = this.acceptData
     const brand = trip.get('brand')
     const name = trip.get('name')
     const outDate = trip.get('outDate')
@@ -385,6 +394,7 @@ class FutureTripCard extends Component {
         <View style={ss.imageContainer}>
           <ImageCache uri={image} style={ss.cardImage} />
           {/* {this._renderGradient()} */}
+          {isLoading && this._renderSpinner()}
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
               {this._renderCardTop(transportType)}
@@ -439,7 +449,7 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   imageContainer: {
-    borderWidth: 0,
+    // borderWidth: 0,
     height: 350,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
@@ -585,5 +595,15 @@ const ss = StyleSheet.create({
   },
   comboTabs: {
     flex: 5
+  },
+  spinner: {
+    position: 'absolute',
+    height: 350,
+    width: '100%',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1
   }
 })
