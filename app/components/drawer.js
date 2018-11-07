@@ -22,6 +22,8 @@ import {
   // getTrips,
 } from '../selectors'
 import Translator from '../utils/translator'
+import config from '../utils/config'
+import FileSystemStorage from '../store/filesystem'
 
 // import { showModal } from '../modal/action'
 
@@ -139,10 +141,27 @@ class TMDrawer extends Component {
     })
   }
 
+  _clearData = async () => {
+    const error = await FileSystemStorage.clearData()
+    if (!error) console.log('Local data cleared')
+  }
+
+  _renderClearData = () => {
+    return (
+      <ListItem style={ss.menuItem} key={'del'} onPress={this._clearData}>
+        <IonIcon name='delete' style={ss.icon} color={Colors.black} />
+        <Body>
+          <Text>Clear local data</Text>
+        </Body>
+      </ListItem>
+    )
+  }
+
   _renderMenu = () => {
     return (
       <ScrollView contentContainerStyle={{ marginVertical: 10 }}>
         {this._renderMenuItems()}
+        {config.isDev && this._renderClearData()}
       </ScrollView>
     )
   }

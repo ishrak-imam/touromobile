@@ -35,7 +35,8 @@ const getIconName = (name) => {
     bus: ['ios-bus', 'md-bus'],
     flight: ['ios-plane', 'md-plane'],
     warning: ['ios-warning', 'md-warning'],
-    refresh: ['ios-refresh', 'md-refresh']
+    refresh: ['ios-refresh', 'md-refresh'],
+    delete: ['ios-trash', 'md-trash']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]

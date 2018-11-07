@@ -16,6 +16,7 @@ if (releaseChannel === undefined) {
   environment = 'STAGING'
 }
 
+const isDev = environment === 'DEV'
 const isProduction = environment === 'PRODUCTION'
 const isStaging = environment === 'STAGING'
 
@@ -27,6 +28,7 @@ const config = {
   ...allConfigs[environment],
   environment,
   version,
+  isDev,
   isProduction,
   isStaging,
   isDevice,

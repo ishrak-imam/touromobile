@@ -21,7 +21,8 @@ const FileSystemStorage = {
       await createDir()
     }
     return FileSystem.writeAsStringAsync(STORAGE_FILE, value)
-  }
+  },
+  clearData: () => FileSystem.writeAsStringAsync(STORAGE_FILE, '')
 }
 
 export default FileSystemStorage
