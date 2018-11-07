@@ -8,19 +8,19 @@ export default {
   },
   DrawerScreen: {
     logout: 'Logga ut',
-    currentTrip: 'Nuvarande resa',
+    currentTrip: 'Pågående resa',
     futureTrips: 'Framtida resor',
     pastTrips: 'Tidigare resor'
   },
   CurrentTripScreen: {
-    title: 'Nuvarande resa',
+    title: 'Pågående resa',
     pax: 'Passagerare',
     departureTime: 'Avgångstid',
     bus: 'Buss',
     platform: 'Plattform',
     drivers: 'Chaufförer',
     lunchRestaurants: 'Lunchrestauranger',
-    textAllPax: 'Textmeddelande alla passagerare',
+    textAllPax: 'SMS till alla passagerare',
     home: 'Hem',
     out: 'Ut'
   },
@@ -32,7 +32,7 @@ export default {
   },
   ExcursionsScreen: {
     title: 'Utflykter',
-    textAllParticipants: 'Textmeddelande till alla deltagare'
+    textAllParticipants: 'SMS till alla deltagare'
   },
   FutureTripsScreen: {
     title: 'Framtida resor'
@@ -73,8 +73,8 @@ export default {
   },
   ExcursionDetailsScreen: {
     paxSearch: 'Sök passagerare',
-    participating: 'Deltagande',
-    all: 'Allt'
+    participating: 'Deltagare',
+    all: 'Alla'
   },
   ProfileScreen: {
     details: 'Detaljer',
@@ -93,7 +93,7 @@ export default {
     noFutureTrips: 'Inga fler framtida resor',
     noPastTrips: 'Inga fler tidigare resor',
     fetchingData: 'Hämtar data från Touro...',
-    noCurrentTrip: 'Ingen aktuell resa'
+    noCurrentTrip: 'Ingen pågående resa'
   },
   FooterButtons: {
     cancel: 'Annullera',
