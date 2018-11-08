@@ -39,7 +39,9 @@ export default {
     title: 'Framtida resor'
   },
   PastTripsScreen: {
-    title: 'Tidigare resor'
+    title: 'Tidigare resor',
+    statsSucs: 'Rapporter har laddats upp',
+    statsFail: 'Rapporter uppladdning misslyckades'
   },
   ReportsScreen: {
     title: 'Rapporter',

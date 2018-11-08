@@ -39,7 +39,9 @@ export default {
     title: 'Future trips'
   },
   PastTripsScreen: {
-    title: 'Past trips'
+    title: 'Past trips',
+    statsSucs: 'Reports uploaded successfully',
+    statsFail: 'Reports upload failed'
   },
   ReportsScreen: {
     title: 'Reports',
