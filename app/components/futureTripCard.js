@@ -326,7 +326,7 @@ class FutureTripCard extends Component {
     const { tab } = this.state
     const { isAccepted, acceptedAt, dirty } = this.acceptData
 
-    const acceptText = acceptedAt && !dirty
+    const acceptText = isAccepted && acceptedAt && !dirty
       ? `${_T('acceptedAt')} ${format(acceptedAt, DATE_FORMAT)}`
       : `${_T('accept')}`
 
