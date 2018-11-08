@@ -51,8 +51,8 @@ class TripScreen extends Component {
       actionDispatcher(getFutureTrips())
       actionDispatcher(getPastTrips())
       actionDispatcher(getPendingStatsUpload({
-        showWarning: false,
-        msg: 'pending stats upload',
+        showWarning: true,
+        msg: _T('pendingStats'),
         onOk: this._pendingModalOk
       }))
     }

@@ -14,6 +14,10 @@ import { uploadStatsReq } from '../modules/reports/action'
 import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
 
+import Translator from '../utils/translator'
+
+const _T = Translator('PastTripsScreen')
+
 const DATE_FORMAT = 'DD/MM'
 
 export default class PastTripCard extends Component {
@@ -61,8 +65,8 @@ export default class PastTripCard extends Component {
       departureId,
       statsData,
       showToast: true,
-      sucsMsg: 'Reports uploaded successfully',
-      failMsg: 'Reports upload failed'
+      sucsMsg: _T('statsSucs'),
+      failMsg: _T('statsFail')
     }))
   }
 
