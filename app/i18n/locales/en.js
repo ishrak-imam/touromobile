@@ -36,6 +36,8 @@ export default {
   },
   FutureTripsScreen: {
     title: 'Future trips',
+    acceptSucs: 'Assignment accepted successfully',
+    acceptFail: 'Assignment accept failed',
     acceptedAt: 'Assignment accepted at',
     accept: 'Accept assignment',
     boardingLoc: 'Boarding location',

@@ -112,15 +112,24 @@ export function * watchAcceptTrip () {
 }
 
 function * workerAcceptTrip (action) {
-  const { guideId, departureId, jwt } = action.payload
+  const {
+    guideId, departureId, jwt,
+    showToast, sucsMsg, failMsg
+  } = action.payload
   try {
     yield call(acceptTrip, guideId, jwt)
     yield call(delay, 2000)
     yield put(acceptTripSucs({
+      toast: showToast,
+      message: sucsMsg,
       departureId,
       time: new Date().toISOString()
     }))
   } catch (e) {
-    yield put(acceptTripFail())
+    yield put(acceptTripFail({
+      toast: showToast,
+      message: failMsg,
+      departureId
+    }))
   }
 }

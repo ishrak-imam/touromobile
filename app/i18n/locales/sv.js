@@ -36,6 +36,8 @@ export default {
   },
   FutureTripsScreen: {
     title: 'Framtida resor',
+    acceptSucs: 'Uppdrag godkändes framgångsrikt',
+    acceptFail: 'Godkännande av uppdrag misslyckades',
     acceptedAt: 'Uppdrag accepterat vid',
     accept: 'Acceptera uppdrag',
     boardingLoc: 'Ombordstigning',

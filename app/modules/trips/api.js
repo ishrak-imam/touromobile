@@ -1,7 +1,7 @@
 
 import config from '../../utils/config'
 import { getRequest } from '../../utils/request'
-import { mockTrips } from '../../mockData'
+import { mockTrips, mockAcceptFutureTrip } from '../../mockData'
 
 export const getTripsApi = (guideId, jwt) => {
   const headers = {
@@ -17,6 +17,6 @@ export const acceptTrip = (jwt) => {
     'Authorization': `Bearer ${jwt}`
   }
   return config.useMockData
-    ? mockTrips()
-    : mockTrips()
+    ? mockAcceptFutureTrip()
+    : mockAcceptFutureTrip()
 }

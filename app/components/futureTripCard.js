@@ -357,7 +357,10 @@ class FutureTripCard extends Component {
     networkActionDispatcher(acceptTripReq({
       isNeedJwt: true,
       guideId: user.get('guideId'),
-      departureId: this.departureId
+      departureId: this.departureId,
+      showToast: true,
+      sucsMsg: _T('acceptSucs'),
+      failMsg: _T('acceptFail')
     }))
   }
 
