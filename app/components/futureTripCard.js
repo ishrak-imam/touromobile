@@ -332,14 +332,17 @@ class FutureTripCard extends Component {
 
     return (
       <View style={ss.futureTtip}>
-        <View style={ss.futureTripCheck}>
+        <TouchableOpacity
+          style={ss.futureTripCheck}
+          disabled={this.shouldLockTrip}
+          onPress={this._setAcceptTrip}
+        >
           <CheckBox
-            disabled={this.shouldLockTrip}
+            disabled
             checked={isAccepted}
-            onPress={this._setAcceptTrip}
           />
           <Text style={ss.checkText}>{acceptText}</Text>
-        </View>
+        </TouchableOpacity>
         <View style={ss.comboTabs}>
           {this._renderTabs()}
           {tab === OUT && this._renderOutCombos(transportType)}
