@@ -39,8 +39,8 @@ class ReportsScreen extends Component {
       departureId,
       statsData,
       showToast: true,
-      sucsMsg: 'Reports uploaded successfully',
-      failMsg: 'Reports upload failed'
+      sucsMsg: _T('statsSucs'),
+      failMsg: _T('statsFail')
     }))
   }
 

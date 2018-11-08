@@ -6,7 +6,7 @@ import sv from './locales/sv'
 I18n.initAsync = async () => {
   const Localization = Expo.DangerZone.Localization || Expo.Localization || Expo.Util
   const locale = await Localization.getCurrentLocaleAsync()
-  I18n.locale = (locale) ? locale.replace(/_/, '-') : ''
+  I18n.locale = 'sv' // (locale) ? locale.replace(/_/, '-') : ''
 }
 
 I18n.fallbacks = true

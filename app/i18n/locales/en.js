@@ -14,6 +14,7 @@ export default {
   },
   CurrentTripScreen: {
     title: 'Current trip',
+    pendingStats: 'pending statistics upload',
     pax: 'Passengers',
     departureTime: 'Departure time',
     bus: 'Bus',
@@ -42,6 +43,8 @@ export default {
   },
   ReportsScreen: {
     title: 'Reports',
+    statsSucs: 'Reports uploaded successfully',
+    statsFail: 'Reports upload failed',
     totalPax: 'Total passengers',
     excursion: 'Excursion',
     participants: 'Participants',
