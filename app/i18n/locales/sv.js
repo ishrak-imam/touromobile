@@ -4,7 +4,8 @@ export default {
     username: 'Användare',
     password: 'Lösenord',
     login: 'Logga in',
-    forgotPass: 'Jag har glömt mitt lösenord'
+    forgotPass: 'Jag har glömt mitt lösenord',
+    loginFail: 'Ogiltigt användarnamn eller lösenord'
   },
   DrawerScreen: {
     logout: 'Logga ut',
