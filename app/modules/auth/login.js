@@ -90,7 +90,9 @@ class Login extends Component {
     Keyboard.dismiss()
     const { user } = this.state
     networkActionDispatcher(forgotPassReq({
-      user
+      user,
+      sucsMsg: _T('passResetSucs'),
+      failMsg: _T('passResetFail')
     }))
   }
 

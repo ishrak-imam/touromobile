@@ -5,7 +5,9 @@ export default {
     password: 'Password',
     login: 'Log in',
     forgotPass: 'I forgot my password',
-    loginFail: 'Invalid username and password'
+    loginFail: 'Invalid username and password',
+    passResetSucs: 'Check your email for a new password',
+    passResetFail: 'Password reset failed'
   },
   DrawerScreen: {
     logout: 'Log out',

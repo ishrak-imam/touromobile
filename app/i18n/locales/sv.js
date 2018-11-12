@@ -5,7 +5,9 @@ export default {
     password: 'Lösenord',
     login: 'Logga in',
     forgotPass: 'Jag har glömt mitt lösenord',
-    loginFail: 'Ogiltigt användarnamn eller lösenord'
+    loginFail: 'Ogiltigt användarnamn eller lösenord',
+    passResetSucs: 'Kontrollera din email för ett nytt lösenord',
+    passResetFail: 'Lösenordsåterställning misslyckades'
   },
   DrawerScreen: {
     logout: 'Logga ut',

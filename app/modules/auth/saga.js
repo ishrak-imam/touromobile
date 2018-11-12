@@ -65,12 +65,13 @@ export function * watchForgotPass () {
 }
 
 function * workerForgotPass (action) {
+  const { user, sucsMsg, failMsg } = action.payload
   try {
-    const response = yield call(forgotPass, action.payload)
+    yield call(forgotPass, user)
     yield call(delay, 2000)
-    yield put(forgotPassSucs(response))
+    yield put(forgotPassSucs({ msg: sucsMsg }))
   } catch (e) {
-    yield put(forgotPassFail({ msg: e }))
+    yield put(forgotPassFail({ msg: failMsg }))
   }
 }
 
