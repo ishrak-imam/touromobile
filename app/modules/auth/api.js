@@ -14,6 +14,6 @@ export const getUser = (userId, jwt) => {
   return config.useMockData ? mockUser() : getRequest(`resources/user/${userId}`, headers)
 }
 
-export const forgotPass = data => {
+export const forgotPass = user => {
   return config.useMockData ? mockForgetPass() : mockForgetPass()
 }
