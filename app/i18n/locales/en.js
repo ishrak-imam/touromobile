@@ -4,7 +4,8 @@ export default {
     username: 'Username',
     password: 'Password',
     login: 'Log in',
-    forgotPass: 'I forgot my password'
+    forgotPass: 'I forgot my password',
+    loginFail: 'Invalid username and password'
   },
   DrawerScreen: {
     logout: 'Log out',
@@ -39,9 +40,7 @@ export default {
     title: 'Future trips'
   },
   PastTripsScreen: {
-    title: 'Past trips',
-    statsSucs: 'Reports uploaded successfully',
-    statsFail: 'Reports upload failed'
+    title: 'Past trips'
   },
   ReportsScreen: {
     title: 'Reports',

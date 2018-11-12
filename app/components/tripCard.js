@@ -16,7 +16,7 @@ import { percentage } from '../utils/mathHelpers'
 
 import Translator from '../utils/translator'
 
-const _T = Translator('PastTripsScreen')
+const _T = Translator('ReportsScreen')
 
 const DATE_FORMAT = 'DD/MM'
 

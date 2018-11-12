@@ -50,12 +50,13 @@ const formatUserData = user => {
 }
 
 function * workerLogin (action) {
+  const { user, password, failMsg } = action.payload
   try {
-    const result = yield call(login, action.payload)
+    const result = yield call(login, user, password)
     yield call(localStore.set, USER, formatUserData(result))
     yield put(init())
   } catch (e) {
-    yield put(loginFail({ msg: e }))
+    yield put(loginFail({ msg: failMsg }))
   }
 }
 

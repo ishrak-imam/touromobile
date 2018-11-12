@@ -81,7 +81,8 @@ class Login extends Component {
     const { user, password } = this.state
     networkActionDispatcher(loginReq({
       user,
-      password
+      password,
+      failMsg: _T('loginFail')
     }))
   }
 
