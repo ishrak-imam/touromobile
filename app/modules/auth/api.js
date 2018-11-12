@@ -15,5 +15,5 @@ export const getUser = (userId, jwt) => {
 }
 
 export const forgotPass = user => {
-  return config.useMockData ? mockForgetPass() : mockForgetPass()
+  return config.useMockData ? mockForgetPass() : postRequest('forgotpassword', { user })
 }
