@@ -44,7 +44,7 @@ export default {
   PastTripsScreen: {
     title: 'Tidigare resor',
     statsSucs: 'Rapporter har laddats upp',
-    statsFail: 'Rapporter uppladdning misslyckades'
+    statsFail: 'Uppladdning av rapporter misslyckades'
   },
   ReportsScreen: {
     title: 'Rapporter',
@@ -104,7 +104,7 @@ export default {
     noCurrentTrip: 'Ingen pågående resa'
   },
   FooterButtons: {
-    cancel: 'Annullera',
+    cancel: 'Avbryt',
     save: 'Spara'
   }
 }
