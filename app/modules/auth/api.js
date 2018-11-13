@@ -1,7 +1,7 @@
 
 import config from '../../utils/config'
 import { mockToken, mockUser, mockForgetPass } from '../../mockData'
-import { postRequest, getRequest, resetPass } from '../../utils/request'
+import { postRequest, getRequest } from '../../utils/request'
 
 export const login = (user, password) => {
   return config.useMockData ? mockToken() : postRequest('token', { user, password })
@@ -15,5 +15,5 @@ export const getUser = (userId, jwt) => {
 }
 
 export const forgotPass = user => {
-  return config.useMockData ? mockForgetPass() : resetPass('forgotpassword', { user })
+  return config.useMockData ? mockForgetPass() : postRequest('forgotpassword', { user })
 }
