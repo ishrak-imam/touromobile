@@ -30,7 +30,7 @@ import {
 import { showModal } from '../../modal/action'
 
 import {
-  getTripsApi, acceptTrip
+  getTrips, acceptTrip, sendTripReservations
 } from './api'
 
 import {
@@ -47,7 +47,7 @@ export function * watchGetTrips () {
 function * workerGetTrips (action) {
   try {
     const { guideId, jwt } = action.payload
-    const data = yield call(getTripsApi, guideId, jwt)
+    const data = yield call(getTrips, guideId, jwt)
     yield put(tripsSucs(data))
     yield put(getCurrentTrip())
     yield put(getFutureTrips())
@@ -114,10 +114,13 @@ export function * watchAcceptTrip () {
 function * workerAcceptTrip (action) {
   const {
     guideId, departureId, jwt,
+    accept,
     showToast, sucsMsg, failMsg
   } = action.payload
   try {
-    yield call(acceptTrip, guideId, jwt)
+    let { isAccepted, out, home } = accept
+    yield call(acceptTrip, guideId, departureId, isAccepted, jwt)
+    yield call(sendTripReservations, guideId, departureId, { out, home }, jwt)
     yield call(delay, 2000)
     yield put(acceptTripSucs({
       toast: showToast,

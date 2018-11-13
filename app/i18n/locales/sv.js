@@ -48,7 +48,7 @@ export default {
     alightingLoc: 'Alighting plats',
     transfer: 'Överföra',
     transferCity: 'Överför stad',
-    accomodation: 'Boende',
+    accommodation: 'Boende',
     bagPick: 'Väska hämtning',
     bagDrop: 'Väskan släpps av'
   },

@@ -6,7 +6,7 @@ const LOCK_TRIP_BEFORE = 15
 
 const KEY_NAMES = {
   LOCATION: 'location',
-  ACCOMODATION: 'accomodation',
+  ACCOMMODATION: 'accommodation',
   BAG: 'bag',
   TRANSFER: 'transfer',
   TRANSFER_CITY: 'transferCity'
@@ -26,8 +26,8 @@ const BAG_OPTIONS = {
   EDTRIP: { key: 'EDTRIP', value: 'Education Trip (no bag)' }
 }
 
-const ACCOMODATION_OPTIONS = {
-  NA: { key: 'NA', value: 'No accomodation' },
+const ACCOMMODATION_OPTIONS = {
+  NA: { key: 'NA', value: 'No accommodation' },
   SR: { key: 'SR', value: 'Single room' },
   DR: { key: 'DR', value: 'Part in double room' }
 }
@@ -247,18 +247,18 @@ const TRANSFER_CITY = {
   home: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'home' }
 }
 
-const ACCOMODATIONS = {
-  out: { label: 'Accomodation', key: KEY_NAMES.ACCOMODATION, direction: 'out' },
-  home: { label: 'Accomodation', key: KEY_NAMES.ACCOMODATION, direction: 'home' },
+const ACCOMMODATIONS = {
+  out: { label: 'Accommodation', key: KEY_NAMES.ACCOMMODATION, direction: 'out' },
+  home: { label: 'Accommodation', key: KEY_NAMES.ACCOMMODATION, direction: 'home' },
 
   flight: [
-    { key: 'NA', value: 'No accomodation' },
+    { key: 'NA', value: 'No accommodation' },
     { key: 'SR', value: 'Single room' },
     { key: 'DR', value: 'Part in double room' }
   ],
 
   bus: [
-    { key: 'NA', value: 'No accomodation' },
+    { key: 'NA', value: 'No accommodation' },
     { key: 'SR', value: 'Single room' },
     { key: 'DR', value: 'Part in double room' }
   ]
@@ -368,7 +368,7 @@ export const getTransferCities = basedOn => {
   }
 }
 
-export const getAccomodations = basedOn => {
+export const getAccommodations = basedOn => {
   const { direction, transportType, selected, locked } = basedOn
 
   if (locked) {
@@ -382,8 +382,8 @@ export const getAccomodations = basedOn => {
 
   return {
     selected,
-    config: ACCOMODATIONS[direction],
-    items: ACCOMODATIONS[transportType]
+    config: ACCOMMODATIONS[direction],
+    items: ACCOMMODATIONS[transportType]
   }
 }
 
@@ -437,14 +437,14 @@ export const getDefaultValues = (accept, transportType) => {
         [KEY_NAMES.LOCATION]: LOCATION_OPTIONS.OT,
         [KEY_NAMES.TRANSFER]: TRANSFER_OPTIONS.NT,
         [KEY_NAMES.TRANSFER_CITY]: { key: null, value: null },
-        [KEY_NAMES.ACCOMODATION]: ACCOMODATION_OPTIONS.NA,
+        [KEY_NAMES.ACCOMMODATION]: ACCOMMODATION_OPTIONS.NA,
         [KEY_NAMES.BAG]: BAG_OPTIONS.OT
       })
       home = accept.get('home') || getImmutableObject({
         [KEY_NAMES.LOCATION]: LOCATION_OPTIONS.OT,
         [KEY_NAMES.TRANSFER]: TRANSFER_OPTIONS.NT,
         [KEY_NAMES.TRANSFER_CITY]: { key: null, value: null },
-        [KEY_NAMES.ACCOMODATION]: ACCOMODATION_OPTIONS.NA,
+        [KEY_NAMES.ACCOMMODATION]: ACCOMMODATION_OPTIONS.NA,
         [KEY_NAMES.BAG]: BAG_OPTIONS.OT
       })
       break
@@ -454,14 +454,14 @@ export const getDefaultValues = (accept, transportType) => {
         [KEY_NAMES.LOCATION]: LOCATION_OPTIONS.BMA,
         [KEY_NAMES.TRANSFER]: TRANSFER_OPTIONS.NT,
         [KEY_NAMES.TRANSFER_CITY]: { key: null, value: null },
-        [KEY_NAMES.ACCOMODATION]: ACCOMODATION_OPTIONS.NA,
+        [KEY_NAMES.ACCOMMODATION]: ACCOMMODATION_OPTIONS.NA,
         [KEY_NAMES.BAG]: BAG_OPTIONS.OT
       })
       home = accept.get('home') || getImmutableObject({
         [KEY_NAMES.LOCATION]: LOCATION_OPTIONS.BMA,
         [KEY_NAMES.TRANSFER]: TRANSFER_OPTIONS.NT,
         [KEY_NAMES.TRANSFER_CITY]: { key: null, value: null },
-        [KEY_NAMES.ACCOMODATION]: ACCOMODATION_OPTIONS.NA,
+        [KEY_NAMES.ACCOMMODATION]: ACCOMMODATION_OPTIONS.NA,
         [KEY_NAMES.BAG]: BAG_OPTIONS.OT
       })
       break

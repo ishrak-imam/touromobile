@@ -26,7 +26,7 @@ import {
 import {
   getKeyNames,
   getLocations,
-  getAccomodations,
+  getAccommodations,
   getBagLocations,
   getTransfers,
   getTransferCities,
@@ -233,10 +233,10 @@ class FutureTripCard extends Component {
 
         <View style={ss.combo}>
           {this._renderComboLabel('accommodation')}
-          {this._renderSelector(getAccomodations({
+          {this._renderSelector(getAccommodations({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.ACCOMODATION),
+            selected: out.get(KEY_NAMES.ACCOMMODATION),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -292,10 +292,10 @@ class FutureTripCard extends Component {
 
         <View style={ss.combo}>
           {this._renderComboLabel('accommodation')}
-          {this._renderSelector(getAccomodations({
+          {this._renderSelector(getAccommodations({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.ACCOMODATION),
+            selected: home.get(KEY_NAMES.ACCOMMODATION),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -354,10 +354,28 @@ class FutureTripCard extends Component {
 
   _acceptTrip = () => {
     const { user } = this.props
+    const { isAccepted, out, home } = this.acceptData
     networkActionDispatcher(acceptTripReq({
       isNeedJwt: true,
       guideId: user.get('guideId'),
       departureId: this.departureId,
+      accept: {
+        isAccepted,
+        out: {
+          location: out.get('location').get('key'),
+          transfer: out.get('transfer').get('key'),
+          transferCity: out.get('transferCity').get('key'),
+          accommodation: out.get('accommodation').get('key'),
+          bag: out.get('bag').get('key')
+        },
+        home: {
+          location: home.get('location').get('key'),
+          transfer: home.get('transfer').get('key'),
+          transferCity: home.get('transferCity').get('key'),
+          accommodation: home.get('accommodation').get('key'),
+          bag: home.get('bag').get('key')
+        }
+      },
       showToast: true,
       sucsMsg: _T('acceptSucs'),
       failMsg: _T('acceptFail')
