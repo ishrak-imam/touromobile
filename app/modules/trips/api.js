@@ -1,7 +1,7 @@
 
 import config from '../../utils/config'
 import { getRequest, postRequest } from '../../utils/request'
-import { mockTrips, mockAcceptFutureTrip } from '../../mockData'
+import { mockTrips, mockAcceptAssignment, mockConfirmReservations } from '../../mockData'
 
 export const getTrips = (guideId, jwt) => {
   const headers = {
@@ -12,12 +12,12 @@ export const getTrips = (guideId, jwt) => {
     : getRequest(`resources/guide/${guideId}/overview`, headers)
 }
 
-export const acceptTrip = (guideId, departureId, isAccepted, jwt) => {
+export const acceptAssignment = (guideId, departureId, isAccepted, jwt) => {
   const headers = {
     'Authorization': `Bearer ${jwt}`
   }
   return config.useMockData
-    ? mockAcceptFutureTrip()
+    ? mockAcceptAssignment()
     : postRequest(
       `resources/guide/${guideId}/trip/${departureId}/accept`,
       { accept: isAccepted },
@@ -25,12 +25,12 @@ export const acceptTrip = (guideId, departureId, isAccepted, jwt) => {
     )
 }
 
-export const sendTripReservations = (guideId, departureId, data, jwt) => {
+export const confirmReservations = (guideId, departureId, data, jwt) => {
   const headers = {
     'Authorization': `Bearer ${jwt}`
   }
   return config.useMockData
-    ? mockAcceptFutureTrip()
+    ? mockConfirmReservations()
     : postRequest(
       `resources/guide/${guideId}/trip/${departureId}/reservation`,
       data,

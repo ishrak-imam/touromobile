@@ -1,5 +1,4 @@
 
-import { delay } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 
@@ -30,7 +29,7 @@ import {
 import { showModal } from '../../modal/action'
 
 import {
-  getTrips, acceptTrip, sendTripReservations
+  getTrips, acceptAssignment, confirmReservations
 } from './api'
 
 import {
@@ -119,9 +118,8 @@ function * workerAcceptTrip (action) {
   } = action.payload
   try {
     let { isAccepted, out, home } = accept
-    yield call(acceptTrip, guideId, departureId, isAccepted, jwt)
-    yield call(sendTripReservations, guideId, departureId, { out, home }, jwt)
-    yield call(delay, 2000)
+    yield call(acceptAssignment, guideId, departureId, isAccepted, jwt)
+    yield call(confirmReservations, guideId, departureId, { out, home }, jwt)
     yield put(acceptTripSucs({
       toast: showToast,
       message: sucsMsg,

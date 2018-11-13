@@ -72,4 +72,6 @@ export const mockUploadStats = () => Promise.resolve({ ok: true })
 
 export const mockUpdateProfile = () => Promise.resolve({ ok: true })
 
-export const mockAcceptFutureTrip = () => Promise.resolve({ ok: true })
+export const mockAcceptAssignment = () => Promise.resolve({ ok: true })
+
+export const mockConfirmReservations = () => Promise.resolve({ ok: true })
