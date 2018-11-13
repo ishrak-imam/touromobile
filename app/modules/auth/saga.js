@@ -1,5 +1,4 @@
 
-import { delay } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 import {
@@ -68,7 +67,6 @@ function * workerForgotPass (action) {
   const { user, sucsMsg, failMsg } = action.payload
   try {
     yield call(forgotPass, user)
-    yield call(delay, 2000)
     yield put(forgotPassSucs({ msg: sucsMsg }))
   } catch (e) {
     yield put(forgotPassFail({ msg: failMsg }))
