@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { IonIcon, Colors } from '../theme'
 import {
   Header, Left, Body,
-  Title, Right, View
+  Title, Right
 } from 'native-base'
 import { StyleSheet, TouchableOpacity, Keyboard } from 'react-native'
 import isIOS from '../utils/isIOS'
@@ -28,7 +28,7 @@ export default class TMHeader extends Component {
     const { left } = this.props
     return (
       <Left style={ss.left}>
-        <TouchableOpacity transparent onPress={this._navigate(left)}>
+        <TouchableOpacity style={ss.leftTouchable} onPress={this._navigate(left)}>
           <IonIcon name={left} color={Colors.silver} />
         </TouchableOpacity>
       </Left>
@@ -73,7 +73,11 @@ const ss = StyleSheet.create({
     paddingLeft: 15
   },
   left: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
+  },
+  leftTouchable: {
+    paddingRight: 25
   },
   body: {
     flex: 4,
