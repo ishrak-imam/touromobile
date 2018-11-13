@@ -19,19 +19,14 @@ const responseHandler = response => {
   if(response.status === 404) {
     return Promise.reject('404 not found')
   }
+  if(response.status === 500) {
+    return Promise.reject('Something went wrong')
+  }
   return response.json().then(e => {
     const {code, message, name} = e;
     return Promise.reject({code, message, name});
   });
 };
-
-const passResponseHandler = response => {
-  if(response.status === 404 || response.status === 400) {
-    return Promise.reject()
-  }
-
-  return Promise.resolve()
-}
 
 export const postRequest = (endPoint, data, headers = {}) => {
   return fetch(`${SERVER_URL}${endPoint}`, {
@@ -66,18 +61,6 @@ export const getRequest = (url, headers = {}) => {
       'Content-Type': 'application/json'
     }
   }).then(responseHandler);
-}
-
-export const resetPass = (endPoint, data, headers = {}) => {
-  return fetch(`${SERVER_URL}${endPoint}`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }).then(passResponseHandler);
 }
 
 // function buildUrl (endPoint, obj) {
