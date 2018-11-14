@@ -13,6 +13,7 @@ import { Colors, Images, IonIcon } from '../theme'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { logoutReq } from '../modules/auth/action'
+import { clearLocalData } from '../modules/app/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import Badge from '../components/badge'
 import {
@@ -23,7 +24,6 @@ import {
 } from '../selectors'
 import Translator from '../utils/translator'
 import config from '../utils/config'
-import FileSystemStorage from '../store/filesystem'
 
 // import { showModal } from '../modal/action'
 
@@ -142,8 +142,7 @@ class TMDrawer extends Component {
   }
 
   _clearData = async () => {
-    const error = await FileSystemStorage.clearData()
-    if (!error) console.log('Local data cleared')
+    actionDispatcher(clearLocalData())
   }
 
   _renderClearData = () => {

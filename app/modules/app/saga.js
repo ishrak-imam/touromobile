@@ -1,10 +1,12 @@
 import { AppState } from 'react-native'
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { takeFirst, eventEmitterChannel } from '../../utils/sagaHelpers'
+import FileSystemStorage from '../../store/filesystem'
 
 import {
   startAppStateMonitor,
-  setAppState
+  setAppState,
+  clearLocalData
 } from './action'
 
 import {
@@ -15,6 +17,14 @@ import {
 } from '../trips/action'
 
 import { getUser } from '../../selectors'
+
+export function * watchClearLocalData () {
+  yield takeFirst(clearLocalData.getType(), workerClearLocalData)
+}
+
+function * workerClearLocalData () {
+  yield call(FileSystemStorage.clearData)
+}
 
 export function * watchAppState () {
   yield takeFirst(startAppStateMonitor.getType(), createAppStateSubscription)

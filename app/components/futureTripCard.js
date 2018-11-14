@@ -53,12 +53,11 @@ class FutureTripCard extends Component {
     const { accept, trip } = props
     const departureId = String(trip.get('departureId'))
     const transport = trip.get('transport')
-    const transportType = transport.get('type')
 
-    if (!accept.get('out') && !accept.get('home')) {
+    if (transport && !accept.get('out') && !accept.get('home')) {
       actionDispatcher(setDefaultCombos({
         departureId,
-        ...getDefaultValues(accept, transportType)
+        ...getDefaultValues(accept, transport.get('type'))
       }))
     }
 
@@ -68,13 +67,17 @@ class FutureTripCard extends Component {
   }
 
   componentDidMount () {
-    setTimeout(() => {
-      const { accept } = this.props
-      actionDispatcher(prepareCancelData({
-        departureId: this.departureId,
-        accept
-      }))
-    }, 0)
+    const { trip } = this.props
+    const transport = trip.get('transport')
+    if (transport) {
+      setTimeout(() => {
+        const { accept } = this.props
+        actionDispatcher(prepareCancelData({
+          departureId: this.departureId,
+          accept
+        }))
+      }, 0)
+    }
   }
 
   get acceptData () {
@@ -398,7 +401,6 @@ class FutureTripCard extends Component {
     const transport = trip.get('transport')
     const image = trip.get('image')
     const pax = getPax(trip)
-    const transportType = transport.get('type')
 
     return (
       <View style={ss.card}>
@@ -406,7 +408,7 @@ class FutureTripCard extends Component {
         <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <Text style={ss.brandText}>{brand}</Text>
           <Text>{`${name}    ${format(outDate, DATE_FORMAT)} - ${format(homeDate, DATE_FORMAT)}`}</Text>
-          <IonIcon name={transportType} />
+          {transport && <IonIcon name={transport.get('type')} />}
         </View>
 
         <View style={ss.imageContainer}>
@@ -415,7 +417,7 @@ class FutureTripCard extends Component {
           {isLoading && <OverlaySpinner />}
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
-              {this._renderCardTop(transportType)}
+              {transport && this._renderCardTop(transport.get('type'))}
             </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>

@@ -2,6 +2,7 @@
 import { combineReducers } from 'redux'
 import { getInitialState } from '../utils/initialState'
 import { LOGOUT_SUCS } from '../modules/auth/action'
+import { CLEAR_LOCAL_DATA } from '../modules/app/action'
 
 import * as navReducers from '../navigation/reducer'
 import * as appReducers from '../modules/app/reducer'
@@ -29,7 +30,7 @@ const allReducers = combineReducers({
 
 const rootReduces = (state, action) => {
   // clean-up state on logout
-  if (action.type === LOGOUT_SUCS) {
+  if (action.type === LOGOUT_SUCS || action.type === CLEAR_LOCAL_DATA) {
     const connection = state.connection
     const modifiedData = state.modifiedData
     const imageCache = state.imageCache
