@@ -121,7 +121,7 @@ export default class PastTripCard extends Component {
         <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <Text style={ss.brandText}>{brand}</Text>
           <Text>{`${name}    ${outDate} - ${homeDate}`}</Text>
-          <IonIcon name={transport.get('type')} />
+          {transport && <IonIcon name={transport.get('type')} />}
         </View>
 
         <View style={ss.imageContainer}>
