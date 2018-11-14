@@ -388,14 +388,6 @@ class FutureTripCard extends Component {
     }))
   }
 
-  _renderSpinner = () => {
-    return (
-      <View style={ss.spinner}>
-        <OverlaySpinner />
-      </View>
-    )
-  }
-
   render () {
     const { trip } = this.props
     const { dirty, isLoading } = this.acceptData
@@ -420,7 +412,7 @@ class FutureTripCard extends Component {
         <View style={ss.imageContainer}>
           <ImageCache uri={image} style={ss.cardImage} />
           {/* {this._renderGradient()} */}
-          {isLoading && this._renderSpinner()}
+          {isLoading && <OverlaySpinner />}
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
               {this._renderCardTop(transportType)}
@@ -621,15 +613,5 @@ const ss = StyleSheet.create({
   },
   comboTabs: {
     flex: 5
-  },
-  spinner: {
-    position: 'absolute',
-    height: 350,
-    width: '100%',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1
   }
 })

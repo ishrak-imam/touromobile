@@ -5,20 +5,25 @@ import { View } from 'native-base'
 import NoData from '../components/noData'
 import FutureTripCard from './futureTripCard'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import OverlaySpinner from './overlaySpinner'
 
 export default class FutureTrips extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.futureTrips.equals(this.props.futureTrips)
+    return !nextProps.futureTrips.equals(this.props.futureTrips) ||
+            nextProps.refreshing !== this.props.refreshing
   }
 
   _renderTripCard = ({ item }) => {
     return <FutureTripCard trip={item} />
   }
 
-  _renderFutureTrips = futureTrips => {
+  _renderFutureTrips = () => {
+    const { futureTrips, onRefresh } = this.props
     return (
       futureTrips.get('has')
         ? <ImmutableVirtualizedList
+          onRefresh={onRefresh}
+          refreshing={false}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
           immutableData={futureTrips.get('trips')}
@@ -30,10 +35,11 @@ export default class FutureTrips extends Component {
   }
 
   render () {
-    const { futureTrips } = this.props
+    const { refreshing } = this.props
     return (
       <View style={ss.container}>
-        {this._renderFutureTrips(futureTrips)}
+        {refreshing && <OverlaySpinner />}
+        {this._renderFutureTrips()}
       </View>
     )
   }
