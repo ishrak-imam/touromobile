@@ -91,19 +91,25 @@ class Trip extends Component {
     const platform = transport.get('platform')
     return (
       <View style={ss.scheduleContainer}>
-        <CardItem>
-          <Body><Text style={ss.boldText}>{_T('departureTime')}</Text></Body>
-          <Right><Text>{departure}</Text></Right>
-        </CardItem>
-        <CardItem>
-          <Body><Text note>{`${_T('bus')}: ${bus}. ${_T('platform')}: ${platform}`}</Text></Body>
-        </CardItem>
+        {
+          departure &&
+          <CardItem>
+            <Body><Text style={ss.boldText}>{_T('departureTime')}</Text></Body>
+            <Right><Text>{departure}</Text></Right>
+          </CardItem>
+        }
+        {
+          bus && platform &&
+          <CardItem>
+            <Body><Text note>{`${_T('bus')}: ${bus}. ${_T('platform')}: ${platform}`}</Text></Body>}
+          </CardItem>
+        }
       </View>
     )
   }
 
   _renderDrivers = drivers => {
-    return (
+    return drivers &&
       <CardItem style={ss.cardItem}>
         <Text style={ss.boldText}>{_T('drivers')}</Text>
         {
@@ -123,7 +129,6 @@ class Trip extends Component {
           })
         }
       </CardItem>
-    )
   }
 
   _renderBus = transport => {
@@ -145,7 +150,7 @@ class Trip extends Component {
     const { modifiedPax } = this.props
     const flights = transport.get('flights')
 
-    return flights.map(f => {
+    return flights && flights.map(f => {
       const key = f.get('key')
       const name = f.get('name')
 
