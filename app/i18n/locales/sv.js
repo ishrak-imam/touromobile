@@ -50,12 +50,15 @@ export default {
     transferCity: 'Anslutningsort',
     accommodation: 'Övernattning',
     bagPick: 'Väskhämtning',
-    bagDrop: 'Väskavlämning'
+    bagDrop: 'Väskavlämning',
+    home: 'Hem',
+    out: 'Ut'
   },
   PastTripsScreen: {
     title: 'Tidigare resor',
-    statsSucs: 'Rapporter har laddats upp',
-    statsFail: 'Uppladdning av rapporter misslyckades'
+    uploadReport: 'Ladda upp rapport',
+    participantShare: 'Deltagarandel',
+    uploadedAt: 'Rapport uppladdad'
   },
   ReportsScreen: {
     title: 'Rapporter',

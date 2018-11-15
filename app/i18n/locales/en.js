@@ -50,10 +50,15 @@ export default {
     transferCity: 'Transfer city',
     accommodation: 'Accommodation',
     bagPick: 'Bag pickup',
-    bagDrop: 'Bag dropoff'
+    bagDrop: 'Bag dropoff',
+    home: 'Home',
+    out: 'Out'
   },
   PastTripsScreen: {
-    title: 'Past trips'
+    title: 'Past trips',
+    uploadReport: 'Upload report',
+    participantShare: 'Participant share',
+    uploadedAt: 'Report uploaded at'
   },
   ReportsScreen: {
     title: 'Reports',

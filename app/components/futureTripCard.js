@@ -154,7 +154,7 @@ class FutureTripCard extends Component {
           }]}
           onPress={this._onTabSwitch(OUT)}
         >
-          <Text style={{ color: tab === OUT ? Colors.silver : Colors.black }}>Out</Text>
+          <Text style={{ color: tab === OUT ? Colors.silver : Colors.black }}>{_T('out')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[ss.tab, {
@@ -164,7 +164,7 @@ class FutureTripCard extends Component {
           }]}
           onPress={this._onTabSwitch(HOME)}
         >
-          <Text style={{ color: tab === HOME ? Colors.silver : Colors.black }}>Home</Text>
+          <Text style={{ color: tab === HOME ? Colors.silver : Colors.black }}>{_T('home')}</Text>
         </TouchableOpacity>
       </View>
     )

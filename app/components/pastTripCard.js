@@ -18,6 +18,8 @@ import Translator from '../utils/translator'
 
 const _T = Translator('ReportsScreen')
 
+const _TPast = Translator('PastTripsScreen')
+
 const DATE_FORMAT = 'DD/MM'
 
 export default class PastTripCard extends Component {
@@ -79,7 +81,7 @@ export default class PastTripCard extends Component {
           isLoading
             ? <Spinner color={Colors.blue} size='small' style={{ paddingVertical: 10 }} />
             : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
-              <Text style={ss.uploadButtonText}>Upload report</Text>
+              <Text style={ss.uploadButtonText}>{_TPast('uploadReport')}</Text>
             </TouchableOpacity>
         }
       </View>
@@ -94,10 +96,10 @@ export default class PastTripCard extends Component {
 
     return (
       <View style={ss.pastTripCardTop}>
-        <Text style={{ fontWeight: 'bold' }}>Participant share: {share}%</Text>
+        <Text style={{ fontWeight: 'bold' }}>{`${_TPast('participantShare')}: ${share}%`}</Text>
         {
           statsUploadedAt &&
-          <Text style={{ fontWeight: 'bold', paddingVertical: 15 }}>Report uploaded: {format(statsUploadedAt, DATE_FORMAT)}</Text>
+          <Text style={{ fontWeight: 'bold', paddingVertical: 15 }}>{`${_TPast('uploadedAt')}: ${format(statsUploadedAt, DATE_FORMAT)}`}</Text>
         }
         {!statsUploadedAt && this._renderUploadButton()}
       </View>
@@ -216,7 +218,7 @@ const ss = StyleSheet.create({
     fontWeight: 'bold'
   },
   uploadButton: {
-    width: 150,
+    width: 200,
     paddingVertical: 10,
     borderRadius: 5,
     alignItems: 'center',
