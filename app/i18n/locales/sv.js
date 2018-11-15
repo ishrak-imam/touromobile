@@ -40,17 +40,17 @@ export default {
   },
   FutureTripsScreen: {
     title: 'Framtida resor',
-    acceptSucs: 'Uppdrag godkändes framgångsrikt',
-    acceptFail: 'Godkännande av uppdrag misslyckades',
-    acceptedAt: 'Uppdrag accepterat vid',
+    acceptSucs: 'Accepterande av uppdrag lyckades',
+    acceptFail: 'Accepterande av uppdrag misslyckades',
+    acceptedAt: 'Uppdrag accepterat',
     accept: 'Acceptera uppdrag',
-    boardingLoc: 'Ombordstigning',
-    alightingLoc: 'Alighting plats',
-    transfer: 'Överföra',
-    transferCity: 'Överför stad',
-    accommodation: 'Boende',
-    bagPick: 'Väska hämtning',
-    bagDrop: 'Väskan släpps av'
+    boardingLoc: 'Påstigningsort',
+    alightingLoc: 'Avstigningsort',
+    transfer: 'Anslutning',
+    transferCity: 'Anslutningsort',
+    accommodation: 'Övernattning',
+    bagPick: 'Väskhämtning',
+    bagDrop: 'Väskavlämning'
   },
   PastTripsScreen: {
     title: 'Tidigare resor',

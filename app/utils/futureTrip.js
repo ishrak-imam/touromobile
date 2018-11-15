@@ -13,23 +13,23 @@ const KEY_NAMES = {
 }
 
 const TRANSFER_OPTIONS = {
-  NT: { key: 'NT', value: 'No transfer' },
-  D: { key: 'D', value: 'Direct' },
-  O: { key: 'O', value: 'Overnight' }
+  NT: { key: 'NT', value: 'Ingen anslutning' },
+  D: { key: 'D', value: 'Direkt' },
+  O: { key: 'O', value: 'Övernattning' }
 }
 
 const BAG_OPTIONS = {
-  HOTEL: { key: 'HOTEL', value: 'Overnight hotel Malmö' },
+  HOTEL: { key: 'HOTEL', value: 'Övernattningshotell Malmö' },
   OT: { key: 'OT', value: 'Öresundsterminalen' },
-  OFFICE: { key: 'OFFICE', value: 'Office' },
-  MAIL: { key: 'MAIL', value: 'Mail' },
-  EDTRIP: { key: 'EDTRIP', value: 'Education Trip (no bag)' }
+  OFFICE: { key: 'OFFICE', value: 'Kontoret' },
+  MAIL: { key: 'MAIL', value: 'Post' },
+  EDTRIP: { key: 'EDTRIP', value: 'Utbildningsresa (ingen väska)' }
 }
 
 const ACCOMMODATION_OPTIONS = {
-  NA: { key: 'NA', value: 'No accommodation' },
-  SR: { key: 'SR', value: 'Single room' },
-  DR: { key: 'DR', value: 'Part in double room' }
+  NA: { key: 'NA', value: 'Inget boende' },
+  SR: { key: 'SR', value: 'Enkelrum' },
+  DR: { key: 'DR', value: 'Del i dubbelrum' }
 }
 
 const LOCATION_OPTIONS = {
