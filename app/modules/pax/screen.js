@@ -80,7 +80,13 @@ class PaxScreen extends Component {
           right={this._renderRight(brand)}
           brand={brand}
         />
-        <ViewPager ref='pager' style={ss.pagerContainer} onPageSelected={this._onPageSelected}>
+        <ViewPager
+          ref='pager'
+          style={ss.pagerContainer}
+          onPageSelected={this._onPageSelected}
+          forceScrollView
+          scrollEnabled={false}
+        >
           <View>
             <PaxList trip={trip} navigation={navigation} />
           </View>

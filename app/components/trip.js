@@ -101,7 +101,7 @@ class Trip extends Component {
         {
           bus && platform &&
           <CardItem>
-            <Body><Text note>{`${_T('bus')}: ${bus}. ${_T('platform')}: ${platform}`}</Text></Body>}
+            <Body><Text note>{`${_T('bus')}: ${bus}. ${_T('platform')}: ${platform}`}</Text></Body>
           </CardItem>
         }
       </View>
