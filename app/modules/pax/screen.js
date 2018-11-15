@@ -11,7 +11,6 @@ import { currentTripSelector } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
 import Switch from '../../components/switch'
-import { ViewPager } from 'rn-viewpager'
 const _T = Translator('PassengersScreen')
 
 class PaxScreen extends Component {
@@ -57,11 +56,7 @@ class PaxScreen extends Component {
   }
 
   _onToggle = v => {
-    this.refs.pager.setPage(+v)
-  }
-
-  _onPageSelected = ({ position }) => {
-    this.setState({ booking: !!position })
+    this.setState({ booking: !this.state.booking })
   }
 
   render () {
@@ -80,20 +75,11 @@ class PaxScreen extends Component {
           right={this._renderRight(brand)}
           brand={brand}
         />
-        <ViewPager
-          ref='pager'
-          style={ss.pagerContainer}
-          onPageSelected={this._onPageSelected}
-          forceScrollView
-          scrollEnabled={false}
-        >
-          <View>
-            <PaxList trip={trip} navigation={navigation} />
-          </View>
-          <View>
-            <BookingList trip={trip} navigation={navigation} />
-          </View>
-        </ViewPager>
+        {
+          this.state.booking
+            ? <BookingList trip={trip} navigation={navigation} />
+            : <PaxList trip={trip} navigation={navigation} />
+        }
       </Container>
     )
   }
@@ -106,9 +92,6 @@ const stateToProps = state => ({
 export default connect(stateToProps, dispatch => ({ dispatch }))(PaxScreen)
 
 const ss = StyleSheet.create({
-  pagerContainer: {
-    flex: 1
-  },
   headerRight: {
     flex: 1,
     flexDirection: 'row',
