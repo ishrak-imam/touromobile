@@ -17,7 +17,7 @@ export default {
   },
   CurrentTripScreen: {
     title: 'Pågående resa',
-    pendingStats: 'väntar statistikuppladdning',
+    pendingStats: 'väntar på statistikuppladdning',
     pax: 'Passagerare',
     departureTime: 'Avgångstid',
     bus: 'Buss',
@@ -62,8 +62,8 @@ export default {
   },
   ReportsScreen: {
     title: 'Rapporter',
-    statsSucs: 'Rapporter har laddats upp',
-    statsFail: 'Rapporter uppladdning misslyckades',
+    statsSucs: 'Rapportuppladdning klar',
+    statsFail: 'Rapportuppladdning misslyckades',
     totalPax: 'Totalt passagerare',
     excursion: 'Utflykt',
     participants: 'Deltagare',
