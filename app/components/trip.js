@@ -271,7 +271,7 @@ class Trip extends Component {
     const isBus = transport ? transport.get('type') === 'bus' : false
 
     return (
-      <View>
+      <View style={ss.wrapper}>
         {isRefreshing && <OverlaySpinner />}
         <ScrollView
           contentContainerStyle={{ justifyContent: 'center' }}
@@ -309,6 +309,9 @@ const stateToProps = (state, props) => {
 export default connect(stateToProps, null)(Trip)
 
 const ss = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
   boldText: {
     fontWeight: 'bold'
   },
