@@ -27,7 +27,7 @@ const BAG_OPTIONS = {
 }
 
 const ACCOMMODATION_OPTIONS = {
-  NA: { key: 'NA', value: 'Inget boende' },
+  NA: { key: 'NA', value: 'Ingen övernattning' },
   SR: { key: 'SR', value: 'Enkelrum' },
   DR: { key: 'DR', value: 'Del i dubbelrum' }
 }
