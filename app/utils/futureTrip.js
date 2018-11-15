@@ -250,18 +250,8 @@ const TRANSFER_CITY = {
 const ACCOMMODATIONS = {
   out: { label: 'Accommodation', key: KEY_NAMES.ACCOMMODATION, direction: 'out' },
   home: { label: 'Accommodation', key: KEY_NAMES.ACCOMMODATION, direction: 'home' },
-
-  flight: [
-    { key: 'NA', value: 'No accommodation' },
-    { key: 'SR', value: 'Single room' },
-    { key: 'DR', value: 'Part in double room' }
-  ],
-
-  bus: [
-    { key: 'NA', value: 'No accommodation' },
-    { key: 'SR', value: 'Single room' },
-    { key: 'DR', value: 'Part in double room' }
-  ]
+  flight: Object.values(ACCOMMODATION_OPTIONS),
+  bus: Object.values(ACCOMMODATION_OPTIONS)
 }
 
 const BAG = {
