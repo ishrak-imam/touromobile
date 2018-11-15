@@ -3,10 +3,16 @@ import {
   Container
 } from 'native-base'
 import Header from '../../components/header'
-import { IonIcon, Colors } from '../../theme/'
+import {
+  IonIcon
+  // Colors
+} from '../../theme/'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet
+  // TouchableOpacity
+} from 'react-native'
 import {
   tripsReq,
   getCurrentTrip,
@@ -45,7 +51,7 @@ class TripScreen extends Component {
     const { trips } = this.props
     const hasLocalData = trips.get('data').size > 0
     if (!hasLocalData) {
-      this._requestTrips()
+      this._requestTrips(false)
     } else {
       actionDispatcher(getCurrentTrip())
       actionDispatcher(getFutureTrips())
@@ -58,35 +64,38 @@ class TripScreen extends Component {
     }
   }
 
-  _requestTrips = () => {
+  _requestTrips = isRefreshing => {
     const { user } = this.props
     networkActionDispatcher(tripsReq({
-      isNeedJwt: true, guideId: user.get('guideId')
+      isNeedJwt: true,
+      guideId: user.get('guideId'),
+      isRefreshing
     }))
   }
 
   _onRefresh = () => {
-    this._requestTrips()
+    this._requestTrips(true)
   }
 
-  _renderRight = () => {
-    const iconColor = Colors.silver
-    const iconSize = 30
-    return (
-      <TouchableOpacity style={ss.headerRight} onPress={this._onRefresh}>
-        <IonIcon
-          name='refresh'
-          color={iconColor}
-          size={iconSize}
-          style={{ paddingRight: 5 }}
-        />
-      </TouchableOpacity>
-    )
-  }
+  // _renderRight = () => {
+  //   const iconColor = Colors.silver
+  //   const iconSize = 30
+  //   return (
+  //     <TouchableOpacity style={ss.headerRight} onPress={this._onRefresh}>
+  //       <IonIcon
+  //         name='refresh'
+  //         color={iconColor}
+  //         size={iconSize}
+  //         style={{ paddingRight: 5 }}
+  //       />
+  //     </TouchableOpacity>
+  //   )
+  // }
 
   render () {
     const { navigation, trips } = this.props
     const isLoading = trips.get('isLoading')
+    const isRefreshing = trips.get('isRefreshing')
     const current = trips.get('current')
     const brand = current.get('trip').get('brand')
 
@@ -97,13 +106,18 @@ class TripScreen extends Component {
           title={_T('title')}
           navigation={navigation}
           brand={brand}
-          right={this._renderRight()}
+          // right={this._renderRight()}
         />
         {
           isLoading
             ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
             : current.get('has')
-              ? current.get('has') && <Trip trip={current.get('trip')} navigation={navigation} />
+              ? <Trip
+                trip={current.get('trip')}
+                navigation={navigation}
+                onRefresh={this._onRefresh}
+                isRefreshing={isRefreshing}
+              />
               : <NoData text='noCurrentTrip' textStyle={{ marginTop: 30 }} />
         }
       </Container>

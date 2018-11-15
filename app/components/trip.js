@@ -5,7 +5,7 @@ import {
   Body, Right, Text
 } from 'native-base'
 import {
-  StyleSheet, View,
+  StyleSheet, View, RefreshControl,
   TouchableOpacity, ScrollView
 } from 'react-native'
 import IconButton from '../components/iconButton'
@@ -21,6 +21,7 @@ import Button from '../components/button'
 import ImageCache from './imageCache'
 import { connect } from 'react-redux'
 import { getMap } from '../utils/immutable'
+import OverlaySpinner from '../components/overlaySpinner'
 
 const _T = Translator('CurrentTripScreen')
 
@@ -29,7 +30,8 @@ const DATE_FORMAT = 'DD/MM'
 class Trip extends Component {
   shouldComponentUpdate (nextProps) {
     return !nextProps.modifiedPax.equals(this.props.modifiedPax) ||
-            !nextProps.trip.equals(this.props.trip)
+            !nextProps.trip.equals(this.props.trip) ||
+            nextProps.isRefreshing !== this.props.isRefreshing
   }
 
   _renderPhone = phone => (
@@ -259,7 +261,7 @@ class Trip extends Component {
   }
 
   render () {
-    const { trip } = this.props
+    const { trip, onRefresh, isRefreshing } = this.props
     const transport = trip.get('transport')
     const launches = trip.get('lunches')
     const image = trip.get('image')
@@ -269,18 +271,29 @@ class Trip extends Component {
     const isBus = transport ? transport.get('type') === 'bus' : false
 
     return (
-      <ScrollView contentContainerStyle={{ justifyContent: 'center' }}>
-        {this._renderHeader(trip)}
-        {!!image && this._renderImage(image)}
-        {this._renderPaxCount(pax.size)}
+      <View>
+        {isRefreshing && <OverlaySpinner />}
+        <ScrollView
+          contentContainerStyle={{ justifyContent: 'center' }}
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={onRefresh}
+            />
+          }
+        >
+          {this._renderHeader(trip)}
+          {!!image && this._renderImage(image)}
+          {this._renderPaxCount(pax.size)}
 
-        {isFlight && this._renderFlight(transport, pax)}
+          {isFlight && this._renderFlight(transport, pax)}
 
-        {isBus && this._renderBus(transport)}
+          {isBus && this._renderBus(transport)}
 
-        {!!launches && this._renderRestaurants(launches)}
-        {this._renderFooter(pax)}
-      </ScrollView>
+          {!!launches && this._renderRestaurants(launches)}
+          {this._renderFooter(pax)}
+        </ScrollView>
+      </View>
     )
   }
 }

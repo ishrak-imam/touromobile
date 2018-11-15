@@ -11,9 +11,18 @@ import {
 import { TRIPS_INITIAL_STATE } from './immutable'
 
 export const trips = createReducer(TRIPS_INITIAL_STATE, {
-  [TRIPS_REQ]: state => mergeMapShallow(state, getMap({ isLoading: true })),
-  [TRIPS_SUCS]: (state, payload) => mergeMapShallow(state, getMap({ isLoading: false, data: getImmutableObject(payload) })),
-  [TRIPS_FAIL]: state => mergeMapShallow(state, getMap({ isLoading: false })),
+
+  [TRIPS_REQ]: (state, payload) => mergeMapShallow(
+    state,
+    getMap({ isLoading: !payload.isRefreshing, isRefreshing: payload.isRefreshing })
+  ),
+
+  [TRIPS_SUCS]: (state, payload) => mergeMapShallow(
+    state,
+    getMap({ isLoading: false, isRefreshing: false, data: getImmutableObject(payload) })
+  ),
+
+  [TRIPS_FAIL]: state => mergeMapShallow(state, getMap({ isLoading: false, isRefreshing: false })),
 
   [SET_CURRENT_TRIP]: (state, payload) => setIntoMap(state, 'current', getImmutableObject(payload)),
   [SET_FUTURE_TRIPS]: (state, payload) => setIntoMap(state, 'future', getImmutableObject(payload)),
