@@ -1,18 +1,9 @@
 import React, { Component } from 'react'
-import {
-  Container
-} from 'native-base'
+import { Container } from 'native-base'
 import Header from '../../components/header'
-import {
-  IonIcon
-  // Colors
-} from '../../theme/'
+import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import {
-  StyleSheet
-  // TouchableOpacity
-} from 'react-native'
 import {
   tripsReq,
   getCurrentTrip,
@@ -77,21 +68,6 @@ class TripScreen extends Component {
     this._requestTrips(true)
   }
 
-  // _renderRight = () => {
-  //   const iconColor = Colors.silver
-  //   const iconSize = 30
-  //   return (
-  //     <TouchableOpacity style={ss.headerRight} onPress={this._onRefresh}>
-  //       <IonIcon
-  //         name='refresh'
-  //         color={iconColor}
-  //         size={iconSize}
-  //         style={{ paddingRight: 5 }}
-  //       />
-  //     </TouchableOpacity>
-  //   )
-  // }
-
   render () {
     const { navigation, trips } = this.props
     const isLoading = trips.get('isLoading')
@@ -106,7 +82,6 @@ class TripScreen extends Component {
           title={_T('title')}
           navigation={navigation}
           brand={brand}
-          // right={this._renderRight()}
         />
         {
           isLoading
@@ -132,13 +107,3 @@ const stateToProps = state => ({
 })
 
 export default connect(stateToProps, null)(TripScreen)
-
-const ss = StyleSheet.create({
-  headerRight: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginRight: 5
-  }
-})

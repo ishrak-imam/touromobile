@@ -1,8 +1,6 @@
 
 import React, { Component } from 'react'
-import {
-  Container
-} from 'native-base'
+import { Container } from 'native-base'
 // import { StyleSheet, TouchableOpacity } from 'react-native'
 import Header from '../../components/header'
 // import { IonIcon, Colors } from '../../theme'
@@ -56,11 +54,6 @@ class FutureTripsScreen extends Component {
           navigation={navigation}
           // right={this._renderRight()}
         />
-        {/* {
-          isLoading
-            ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
-            : <FutureTrips futureTrips={futureTrips} refreshing={isLoading} />
-        } */}
         <FutureTrips
           futureTrips={futureTrips}
           refreshing={isLoading}

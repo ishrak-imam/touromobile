@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import { Constants } from 'expo'
 import allConfigs from '../../config.json'
 
@@ -20,7 +21,11 @@ const isDev = environment === 'DEV'
 const isProduction = environment === 'PRODUCTION'
 const isStaging = environment === 'STAGING'
 
+const OS = Platform.OS
+
 const isDevice = Constants.isDevice
+const deviceName = Constants.deviceName
+const deviceId = Constants.deviceId
 
 const useMockData = !isProduction && !isStaging
 
@@ -32,7 +37,10 @@ const config = {
   isProduction,
   isStaging,
   isDevice,
-  useMockData
+  deviceName,
+  deviceId,
+  useMockData,
+  platform: OS
 }
 
 export default config
