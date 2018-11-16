@@ -28,6 +28,18 @@
     "android": {
       "package": "com.scandorama.touroguide",
       "versionCode": 3
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "ishrak",
+            "project": "touroguide-6l",
+            "authToken": "4d444177b0b44c2b9cbfb2d737525b9f41d383d4f9444de08cd28b3b4f40c9e3"
+          }
+        }
+      ]
     }
   }
 }

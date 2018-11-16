@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { AppLoading } from 'expo'
 import cacheAssestsAsync from './app/utils/assetsCache'
 import I18n from './app/i18n'
-
+import './app/utils/sentry'
 import WarningModal from './app/modal/warning'
 import SelectionModal from './app/modal/selection'
 
