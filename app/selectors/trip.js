@@ -45,6 +45,18 @@ const resolvers = {
     }).flatten(1) // one level flatten
   },
 
+  paxDataGroupByBooking: pax => {
+    let initial = null
+    return pax.map(p => {
+      const paxInitial = p.get('booking').get('id')
+      if (initial !== paxInitial) {
+        initial = paxInitial
+        return getList([getMap({ first: true, initial: paxInitial }), p])
+      }
+      return getList([p])
+    }).flatten(1)
+  },
+
   phoneNumbers: data => {
     const pax = data.get('pax')
     const modifiedPax = data.get('modifiedPax')
@@ -169,6 +181,14 @@ export const preparePaxData = pax => {
     paxDataCache = Cache(resolvers.paxData)
   }
   return paxDataCache(pax)
+}
+
+let paxDataGroupByBookingCache = null
+export const paxDataGroupByBooking = pax => {
+  if (!paxDataGroupByBookingCache) {
+    paxDataGroupByBookingCache = Cache(resolvers.paxDataGroupByBooking)
+  }
+  return paxDataGroupByBookingCache(pax)
 }
 
 let phoneNumbersCache = null

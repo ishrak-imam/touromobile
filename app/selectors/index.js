@@ -28,7 +28,8 @@ export const {
   pendingStatsUpload,
   pendingStatsUploadCount,
   getFlightPaxPhones,
-  getPaxWithExcursionPack
+  getPaxWithExcursionPack,
+  paxDataGroupByBooking
 } = require('./trip')
 
 export const {

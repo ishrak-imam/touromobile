@@ -8,8 +8,9 @@ import SearchBar from '../../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
 import {
-  getSortedPax, currentTripSelector, getSortedPaxByBookingId,
-  getParticipants, filterPaxBySearchText
+  // getSortedPax,
+  currentTripSelector, getSortedPaxByBookingId,
+  getParticipants, filterPaxBySearchText, paxDataGroupByBooking
 } from '../../selectors'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
@@ -19,7 +20,7 @@ import { setParticipants } from '../modifiedData/action'
 import { IonIcon, Colors } from '../../theme'
 import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
-import Switch from '../../components/switch'
+// import Switch from '../../components/switch'
 
 const PARTICIPATING = 'PARTICIPATING'
 const ALL = 'ALL'
@@ -71,8 +72,8 @@ class ExcursionDetailsScreen extends Component {
     this.state = {
       participants: exParticipants || getSet([]),
       searchText: '',
-      filter: PARTICIPATING,
-      sort: false
+      filter: PARTICIPATING
+      // sort: false
     }
   }
 
@@ -94,8 +95,16 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _renderItem = (participants) => {
+  _renderItem = participants => {
     return ({ item }) => {
+      if (item.get('first')) {
+        return (
+          <ListItem itemDivider style={{ backgroundColor: Colors.blue }}>
+            <Text style={ss.sectionText}>{item.get('initial')}</Text>
+          </ListItem>
+        )
+      }
+
       const paxId = String(item.get('id'))
       const selected = participants ? participants.has(paxId) : false
       return (
@@ -108,7 +117,7 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _keyExtractor = (item, index) => `${item.get('id')}${item.get('booking').get('id')}`
+  // _keyExtractor = (item, index) => `${item.get('id')}${item.get('booking').get('id')}`
 
   _renderPersons = (pax, participants) => {
     return (
@@ -118,7 +127,7 @@ class ExcursionDetailsScreen extends Component {
           keyboardShouldPersistTaps='always'
           immutableData={pax}
           renderItem={this._renderItem(participants)}
-          keyExtractor={this._keyExtractor}
+          keyExtractor={(item, index) => String(index)}
           windowSize={3}
           initialNumToRender={20}
           // getItemLayout={(data, index) => ({
@@ -177,46 +186,50 @@ class ExcursionDetailsScreen extends Component {
     })
   }
 
-  _renderRight = brand => {
-    const { sort } = this.state
-    // const iconColor = Colors.silver
-    const switchColor = Colors[`${brand}Brand`] || Colors.blue
-    // const iconSize = 16
-    return (
-      <View style={ss.headerRight}>
-        {/* <IonIcon name='down' color={iconColor} size={iconSize} /> */}
-        <View style={{ paddingRight: 5 }}>
-          <Text style={ss.sortText}>A</Text>
-          <Text style={ss.sortText}>Z</Text>
-        </View>
-        <Switch
-          isOn={sort}
-          onColor={switchColor}
-          offColor={switchColor}
-          onToggle={this._onToggle}
-        />
-        {/* <IonIcon name='down' color={iconColor} size={iconSize} /> */}
-        <View style={{ paddingLeft: 5 }}>
-          <Text style={ss.sortText}>1</Text>
-          <Text style={ss.sortText}>9</Text>
-        </View>
-      </View>
-    )
-  }
+  // _renderRight = brand => {
+  //   const { sort } = this.state
+  //   // const iconColor = Colors.silver
+  //   const switchColor = Colors[`${brand}Brand`] || Colors.blue
+  //   // const iconSize = 16
+  //   return (
+  //     <View style={ss.headerRight}>
+  //       {/* <IonIcon name='down' color={iconColor} size={iconSize} /> */}
+  //       <View style={{ paddingRight: 5 }}>
+  //         <Text style={ss.sortText}>A</Text>
+  //         <Text style={ss.sortText}>Z</Text>
+  //       </View>
+  //       <Switch
+  //         isOn={sort}
+  //         onColor={switchColor}
+  //         offColor={switchColor}
+  //         onToggle={this._onToggle}
+  //       />
+  //       {/* <IonIcon name='down' color={iconColor} size={iconSize} /> */}
+  //       <View style={{ paddingLeft: 5 }}>
+  //         <Text style={ss.sortText}>1</Text>
+  //         <Text style={ss.sortText}>9</Text>
+  //       </View>
+  //     </View>
+  //   )
+  // }
 
-  _onToggle = sort => {
-    this.setState({ sort })
-  }
+  // _onToggle = sort => {
+  //   this.setState({ sort })
+  // }
 
   render () {
     const { navigation, currentTrip, participants } = this.props
-    const { searchText, filter, sort } = this.state
+    const {
+      searchText, filter
+      // sort
+    } = this.state
     const excursion = navigation.getParam('excursion')
     const brand = navigation.getParam('brand')
     const excursionId = String(excursion.get('id'))
     const exParticipants = participants.get(excursionId)
 
-    let sortedPax = sort ? getSortedPaxByBookingId(currentTrip) : getSortedPax(currentTrip)
+    // sort ? getSortedPaxByBookingId(currentTrip) : getSortedPax(currentTrip)
+    let sortedPax = getSortedPaxByBookingId(currentTrip)
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
@@ -225,13 +238,15 @@ class ExcursionDetailsScreen extends Component {
       sortedPax = this._findParticipatingPax(sortedPax, exParticipants)
     }
 
+    sortedPax = paxDataGroupByBooking(sortedPax)
+
     return (
       <Container>
         <Header
           left='back'
           title={excursion.get('name')}
           navigation={navigation}
-          right={this._renderRight(brand)}
+          // right={this._renderRight(brand)}
           brand={brand}
         />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
@@ -291,5 +306,9 @@ const ss = StyleSheet.create({
     fontSize: 10,
     lineHeight: 11,
     fontWeight: 'bold'
+  },
+  sectionText: {
+    fontWeight: 'bold',
+    color: Colors.silver
   }
 })
