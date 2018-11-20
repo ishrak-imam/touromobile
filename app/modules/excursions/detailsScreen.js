@@ -8,7 +8,7 @@ import SearchBar from '../../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
 import {
-  // getSortedPax,
+  getSortedPax,
   currentTripSelector, getSortedPaxByBookingId,
   getParticipants, filterPaxBySearchText, paxDataGroupByBooking
 } from '../../selectors'
@@ -20,7 +20,7 @@ import { setParticipants } from '../modifiedData/action'
 import { IonIcon, Colors } from '../../theme'
 import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
-// import Switch from '../../components/switch'
+import Switch from '../../components/switch'
 
 const PARTICIPATING = 'PARTICIPATING'
 const ALL = 'ALL'
@@ -72,8 +72,8 @@ class ExcursionDetailsScreen extends Component {
     this.state = {
       participants: exParticipants || getSet([]),
       searchText: '',
-      filter: PARTICIPATING
-      // sort: false
+      filter: PARTICIPATING,
+      groupByBooking: false
     }
   }
 
@@ -95,7 +95,7 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _getReferenceData = bookingId => {
+  _getBookingData = bookingId => {
     const { participants } = this.state
     const { currentTrip } = this.props
     const bookings = currentTrip.get('bookings')
@@ -122,7 +122,7 @@ class ExcursionDetailsScreen extends Component {
     const excursionId = String(excursion.get('id'))
     const departureId = String(currentTrip.get('departureId'))
     return () => {
-      const { isAllSelected, pax } = this._getReferenceData(bookingId)
+      const { isAllSelected, pax } = this._getBookingData(bookingId)
       this.state.participants = pax.reduce((participants, p) => {
         const paxId = String(p.get('id'))
         if (!p.get('excursionPack')) {
@@ -140,9 +140,10 @@ class ExcursionDetailsScreen extends Component {
 
   _renderItem = participants => {
     return ({ item }) => {
-      if (item.get('first')) {
+      const { groupByBooking } = this.state
+      if (item.get('first') && groupByBooking) {
         const bookingId = item.get('initial')
-        const { isAllSelected, isAllHasPack } = this._getReferenceData(bookingId)
+        const { isAllSelected, isAllHasPack } = this._getBookingData(bookingId)
         const onPress = isAllHasPack ? null : this._onSectionHeaderPress(bookingId)
         return (
           <TouchableOpacity style={ss.sectionHeader} onPress={onPress}>
@@ -233,50 +234,49 @@ class ExcursionDetailsScreen extends Component {
     })
   }
 
-  // _renderRight = brand => {
-  //   const { sort } = this.state
-  //   // const iconColor = Colors.silver
-  //   const switchColor = Colors[`${brand}Brand`] || Colors.blue
-  //   // const iconSize = 16
-  //   return (
-  //     <View style={ss.headerRight}>
-  //       {/* <IonIcon name='down' color={iconColor} size={iconSize} /> */}
-  //       <View style={{ paddingRight: 5 }}>
-  //         <Text style={ss.sortText}>A</Text>
-  //         <Text style={ss.sortText}>Z</Text>
-  //       </View>
-  //       <Switch
-  //         isOn={sort}
-  //         onColor={switchColor}
-  //         offColor={switchColor}
-  //         onToggle={this._onToggle}
-  //       />
-  //       {/* <IonIcon name='down' color={iconColor} size={iconSize} /> */}
-  //       <View style={{ paddingLeft: 5 }}>
-  //         <Text style={ss.sortText}>1</Text>
-  //         <Text style={ss.sortText}>9</Text>
-  //       </View>
-  //     </View>
-  //   )
-  // }
+  _renderRight = brand => {
+    const { groupByBooking } = this.state
+    const iconColor = Colors.silver
+    const switchColor = Colors[`${brand}Brand`] || Colors.blue
+    const iconSize = 16
+    return (
+      <View style={ss.headerRight}>
+        <IonIcon name='people' color={iconColor} size={iconSize} style={{ paddingRight: 5 }} />
+        {/* <View style={{ paddingRight: 5 }}>
+          <Text style={ss.sortText}>A</Text>
+          <Text style={ss.sortText}>Z</Text>
+        </View> */}
+        <Switch
+          isOn={groupByBooking}
+          onColor={switchColor}
+          offColor={switchColor}
+          onToggle={this._onToggle}
+        />
+        <IonIcon name='booking' color={iconColor} size={iconSize} style={{ paddingLeft: 5 }} />
+        {/* <View style={{ paddingLeft: 5 }}>
+          <Text style={ss.sortText}>1</Text>
+          <Text style={ss.sortText}>9</Text>
+        </View> */}
+      </View>
+    )
+  }
 
-  // _onToggle = sort => {
-  //   this.setState({ sort })
-  // }
+  _onToggle = groupByBooking => {
+    this.setState({ groupByBooking })
+  }
 
   render () {
     const { navigation, currentTrip, participants } = this.props
     const {
-      searchText, filter
-      // sort
+      searchText, filter,
+      groupByBooking
     } = this.state
     const excursion = navigation.getParam('excursion')
     const brand = navigation.getParam('brand')
     const excursionId = String(excursion.get('id'))
     const exParticipants = participants.get(excursionId)
 
-    // sort ? getSortedPaxByBookingId(currentTrip) : getSortedPax(currentTrip)
-    let sortedPax = getSortedPaxByBookingId(currentTrip)
+    let sortedPax = groupByBooking ? getSortedPaxByBookingId(currentTrip) : getSortedPax(currentTrip)
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
@@ -285,7 +285,9 @@ class ExcursionDetailsScreen extends Component {
       sortedPax = this._findParticipatingPax(sortedPax, exParticipants)
     }
 
-    sortedPax = paxDataGroupByBooking(sortedPax)
+    if (groupByBooking) {
+      sortedPax = paxDataGroupByBooking(sortedPax)
+    }
 
     return (
       <Container>
@@ -293,7 +295,7 @@ class ExcursionDetailsScreen extends Component {
           left='back'
           title={excursion.get('name')}
           navigation={navigation}
-          // right={this._renderRight(brand)}
+          right={this._renderRight(brand)}
           brand={brand}
         />
         <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
