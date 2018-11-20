@@ -5,14 +5,13 @@ import {
   CheckBox, Body, Text, Right
 } from 'native-base'
 import SearchBar from '../../components/searchBar'
-import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Header from '../../components/header'
 import {
   getSortedPax,
   currentTripSelector, getSortedPaxByBookingId,
   getParticipants, filterPaxBySearchText, paxDataGroupByBooking
 } from '../../selectors'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { getSet } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
@@ -21,6 +20,17 @@ import { IonIcon, Colors } from '../../theme'
 import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
 import Switch from '../../components/switch'
+import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
+
+const { width } = Dimensions.get('window')
+
+const dataProvider = new DataProvider((r1, r2) => {
+  return r1 !== r2
+})
+
+const layoutProvider = new LayoutProvider(
+  () => 'type', (_, dim) => { dim.width = width; dim.height = 50 }
+)
 
 const PARTICIPATING = 'PARTICIPATING'
 const ALL = 'ALL'
@@ -29,17 +39,17 @@ const _T = Translator('ExcursionDetailsScreen')
 
 class PaxListItem extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.pax.equals(this.props.pax) ||
+    return !nextProps.pax !== this.props.pax ||
             nextProps.selected !== this.props.selected
   }
 
   render () {
     const { pax, selected, onPress } = this.props
-    const paxId = String(pax.get('id'))
-    const checked = pax.get('excursionPack')
-    const bookingId = pax.get('booking').get('id')
+    const paxId = String(pax.id)
+    const checked = pax.excursionPack
+    const bookingId = pax.booking.id
     const key = `${paxId}${bookingId}`
-    const name = `${pax.get('firstName')} ${pax.get('lastName')}`
+    const name = `${pax.firstName} ${pax.lastName}`
 
     return (
       <ListItem key={key} onPress={onPress(paxId, checked)}>
@@ -139,10 +149,10 @@ class ExcursionDetailsScreen extends Component {
   }
 
   _renderItem = participants => {
-    return ({ item }) => {
+    return (type, item) => {
       const { groupByBooking } = this.state
-      if (item.get('first') && groupByBooking) {
-        const bookingId = item.get('initial')
+      if (item.first && groupByBooking) {
+        const bookingId = item.initial
         const { isAllSelected, isAllHasPack } = this._getBookingData(bookingId)
         const onPress = isAllHasPack ? null : this._onSectionHeaderPress(bookingId)
         return (
@@ -153,7 +163,7 @@ class ExcursionDetailsScreen extends Component {
         )
       }
 
-      const paxId = String(item.get('id'))
+      const paxId = String(item.id)
       const selected = participants ? participants.has(paxId) : false
       return (
         <PaxListItem
@@ -165,24 +175,13 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  // _keyExtractor = (item, index) => `${item.get('id')}${item.get('booking').get('id')}`
-
   _renderPersons = (pax, participants) => {
     return (
       pax.size
-        ? <ImmutableVirtualizedList
-          contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}
-          keyboardShouldPersistTaps='always'
-          immutableData={pax}
-          renderItem={this._renderItem(participants)}
-          keyExtractor={(item, index) => String(index)}
-          windowSize={3}
-          initialNumToRender={20}
-          // getItemLayout={(data, index) => ({
-          //   length: 53,
-          //   offset: 53 * index,
-          //   index
-          // })}
+        ? <RecyclerListView
+          dataProvider={dataProvider.cloneWithRows(pax.toJS())}
+          rowRenderer={this._renderItem(participants)}
+          layoutProvider={layoutProvider}
         />
         : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
     )
