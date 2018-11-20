@@ -2163,7 +2163,7 @@
             "ssn": "1948-01-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": true
           },
           {
             "id": 646331,

@@ -95,13 +95,60 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
+  _getReferenceData = bookingId => {
+    const { participants } = this.state
+    const { currentTrip } = this.props
+    const bookings = currentTrip.get('bookings')
+    const pax = bookings.find(b => b.get('id') === bookingId).get('pax')
+
+    const isAllSelected = pax.reduce((flag, p) => {
+      const paxId = String(p.get('id'))
+      return (flag && participants.has(paxId)) || p.get('excursionPack')
+    }, true)
+
+    const isAllHasPack = pax.reduce((flag, p) => {
+      return flag && p.get('excursionPack')
+    }, true)
+
+    return {
+      isAllSelected, pax, isAllHasPack
+    }
+  }
+
+  _onSectionHeaderPress = bookingId => {
+    const { currentTrip, navigation } = this.props
+    const { participants } = this.state
+    const excursion = navigation.getParam('excursion')
+    const excursionId = String(excursion.get('id'))
+    const departureId = String(currentTrip.get('departureId'))
+    return () => {
+      const { isAllSelected, pax } = this._getReferenceData(bookingId)
+      this.state.participants = pax.reduce((participants, p) => {
+        const paxId = String(p.get('id'))
+        if (!p.get('excursionPack')) {
+          participants = isAllSelected ? participants.remove(paxId) : participants.add(paxId)
+        }
+        return participants
+      }, participants)
+      actionDispatcher(setParticipants({
+        departureId,
+        excursionId,
+        participants: this.state.participants
+      }))
+    }
+  }
+
   _renderItem = participants => {
     return ({ item }) => {
       if (item.get('first')) {
+        const bookingId = item.get('initial')
+        const { isAllSelected, isAllHasPack } = this._getReferenceData(bookingId)
+        const onPress = isAllHasPack ? null : this._onSectionHeaderPress(bookingId)
         return (
-          <ListItem itemDivider style={{ backgroundColor: Colors.blue }}>
-            <Text style={ss.sectionText}>{item.get('initial')}</Text>
-          </ListItem>
+          <TouchableOpacity style={ss.sectionHeader} onPress={onPress}>
+            <Text style={ss.sectionText}>{bookingId}</Text>
+            <CheckBox checked={isAllSelected || isAllHasPack} />
+          </TouchableOpacity>
         )
       }
 
@@ -307,8 +354,17 @@ const ss = StyleSheet.create({
     lineHeight: 11,
     fontWeight: 'bold'
   },
+  sectionHeader: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingVertical: 10,
+    backgroundColor: Colors.steel,
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 27
+  },
   sectionText: {
     fontWeight: 'bold',
-    color: Colors.silver
+    paddingLeft: 20
   }
 })
