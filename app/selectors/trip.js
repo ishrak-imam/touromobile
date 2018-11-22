@@ -24,7 +24,9 @@ const resolvers = {
   sortedPaxByBookingId: data => {
     const bookings = data.get('bookings')
     return bookings.sortBy(b => b.get('id')).map(b => {
-      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+      return b.get('pax')
+        .map(p => setIntoMap(p, 'booking', b))
+        .sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     }).flatten(1)
   },
 
