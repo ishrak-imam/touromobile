@@ -38,16 +38,21 @@ const ALL = 'ALL'
 const _T = Translator('ExcursionDetailsScreen')
 
 class PaxListItem extends Component {
+  shouldComponentUpdate (nextProps) {
+    return nextProps.pax.id !== this.props.pax.id ||
+            nextProps.selected !== this.props.selected
+  }
+
   render () {
     const { pax, selected, onPress } = this.props
     const paxId = String(pax.id)
     const checked = pax.excursionPack
     const bookingId = pax.booking.id
-    const key = `${paxId}${bookingId}`
+    // const key = `${paxId}${bookingId}`
     const name = `${pax.firstName} ${pax.lastName}`
 
     return (
-      <ListItem key={key} onPress={onPress(paxId, checked)}>
+      <ListItem onPress={onPress(paxId, checked)}>
         <Left style={{ flex: 1 }}>
           <CheckBox disabled checked={checked || selected} />
         </Left>
@@ -115,8 +120,16 @@ class ExcursionDetailsScreen extends Component {
       return flag && p.get('excursionPack')
     }, true)
 
+    const isAnySelected = pax.some(p => {
+      const paxId = String(p.get('id'))
+      return participants.has(paxId)
+    })
+
     return {
-      isAllSelected, pax, isAllHasPack
+      pax,
+      isAnySelected,
+      isAllSelected,
+      isAllHasPack
     }
   }
 
@@ -127,11 +140,11 @@ class ExcursionDetailsScreen extends Component {
     const excursionId = String(excursion.get('id'))
     const departureId = String(currentTrip.get('departureId'))
     return () => {
-      const { isAllSelected, pax } = this._getBookingData(bookingId)
+      const { isAllSelected, isAnySelected, pax } = this._getBookingData(bookingId)
       this.state.participants = pax.reduce((participants, p) => {
         const paxId = String(p.get('id'))
         if (!p.get('excursionPack')) {
-          participants = isAllSelected ? participants.remove(paxId) : participants.add(paxId)
+          participants = isAllSelected || isAnySelected ? participants.remove(paxId) : participants.add(paxId)
         }
         return participants
       }, participants)
