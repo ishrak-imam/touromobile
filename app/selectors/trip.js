@@ -48,10 +48,10 @@ const resolvers = {
   paxDataGroupByBooking: pax => {
     let initial = null
     return pax.map(p => {
-      const paxInitial = p.get('booking').get('id')
+      const paxInitial = String(p.get('booking').get('id'))
       if (initial !== paxInitial) {
         initial = paxInitial
-        return getList([getMap({ first: true, initial: paxInitial }), p])
+        return getList([getMap({ first: true, initial: paxInitial, id: paxInitial }), p])
       }
       return getList([p])
     }).flatten(1)

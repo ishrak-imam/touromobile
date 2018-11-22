@@ -29,7 +29,7 @@ const dataProvider = new DataProvider((r1, r2) => {
 })
 
 const layoutProvider = new LayoutProvider(
-  () => 'type', (_, dim) => { dim.width = width; dim.height = 50 }
+  () => 'type', (_, dim) => { dim.width = width; dim.height = 53 }
 )
 
 const PARTICIPATING = 'PARTICIPATING'
@@ -38,11 +38,6 @@ const ALL = 'ALL'
 const _T = Translator('ExcursionDetailsScreen')
 
 class PaxListItem extends Component {
-  shouldComponentUpdate (nextProps) {
-    return !nextProps.pax !== this.props.pax ||
-            nextProps.selected !== this.props.selected
-  }
-
   render () {
     const { pax, selected, onPress } = this.props
     const paxId = String(pax.id)
