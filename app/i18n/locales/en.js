@@ -120,5 +120,10 @@ export default {
   FooterButtons: {
     cancel: 'Cancel',
     save: 'Save'
+  },
+  ContextMenu: {
+    name: 'Name',
+    hotel: 'Hotel',
+    airport: 'Airport'
   }
 }

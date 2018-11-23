@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { AppLoading } from 'expo'
 import cacheAssestsAsync from './app/utils/assetsCache'
 import I18n from './app/i18n'
+import { MenuProvider } from 'react-native-popup-menu'
 import './app/utils/sentry'
 import WarningModal from './app/modal/warning'
 import SelectionModal from './app/modal/selection'
@@ -58,7 +59,9 @@ export default class TouroMobile extends Component {
         ? <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Root>
-              <App />
+              <MenuProvider>
+                <App />
+              </MenuProvider>
               <WarningModal />
               <SelectionModal />
             </Root>

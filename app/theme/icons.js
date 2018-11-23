@@ -2,7 +2,7 @@ import React from 'react'
 import isIOS from '../utils/isIOS'
 import { Ionicons } from '@expo/vector-icons'
 
-const getIconName = (name) => {
+const getIconName = name => {
   const icons = {
     upload: ['ios-cloud-upload', 'md-cloud-upload'],
     menu: ['ios-menu', 'md-menu'],
@@ -36,7 +36,8 @@ const getIconName = (name) => {
     flight: ['ios-plane', 'md-plane'],
     warning: ['ios-warning', 'md-warning'],
     refresh: ['ios-refresh', 'md-refresh'],
-    delete: ['ios-trash', 'md-trash']
+    delete: ['ios-trash', 'md-trash'],
+    sort: ['ios-list', 'md-list']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]

@@ -15,14 +15,20 @@ export default class TMSearchBar extends Component {
     this._onSearchDebounce = debounce(this._onSearch, 200)
   }
 
-  _renderRight = icon => {
-    const { text } = this.state
+  _renderCancel = (icon, text) => {
     return (
       text
         ? <TouchableOpacity onPress={this._onCancel}>
           <IonIcon style={ss.righIcon} name='circleX' color={Colors.black} />
         </TouchableOpacity>
         : <IonIcon style={ss.righIcon} name={icon} color={Colors.black} />
+    )
+  }
+
+  _renderRight = (icon, right) => {
+    const { text } = this.state
+    return (
+      right && !text ? right : this._renderCancel(icon, text)
     )
   }
 
@@ -43,7 +49,7 @@ export default class TMSearchBar extends Component {
   }
 
   render () {
-    const { placeholder, icon, onSearch, ...rest } = this.props
+    const { placeholder, icon, onSearch, right, ...rest } = this.props
     return (
       <View style={ss.wrapper}>
         <View style={ss.searchSection}>
@@ -57,7 +63,7 @@ export default class TMSearchBar extends Component {
             autoCorrect={false}
             {...rest}
           />
-          {this._renderRight(icon)}
+          {this._renderRight(icon, right)}
         </View>
       </View>
     )

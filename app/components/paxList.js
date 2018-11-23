@@ -17,14 +17,22 @@ import Translator from '../utils/translator'
 import NoData from '../components/noData'
 import { connect } from 'react-redux'
 import { mergeMapShallow } from '../utils/immutable'
+import ContextMenu from './contextMenu'
 
 const _T = Translator('PassengersScreen')
+
+const CONTEXT_OPTIONS = [
+  { text: 'name', key: 'NAME' },
+  { text: 'hotel', key: 'HOTEL' },
+  { text: 'airport', key: 'AIRPORT' }
+]
 
 class PaxItem extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      comment: false
+      comment: false,
+      groupBy: CONTEXT_OPTIONS[0].key
     }
   }
 
@@ -125,8 +133,6 @@ class PaxList extends Component {
     }
     const paxList = preparePaxData(sortedPax)
 
-    console.log(paxList.toJS())
-
     return (
       paxList.size
         ? <ImmutableVirtualizedList
@@ -139,12 +145,27 @@ class PaxList extends Component {
     )
   }
 
+  _onSelect = option => {
+    this.setState({ groupBy: option.key })
+  }
+
+  _renderRight = () => {
+    return (
+      <ContextMenu icon='sort' onSelect={this._onSelect} options={CONTEXT_OPTIONS} />
+    )
+  }
+
   render () {
     const { trip } = this.props
     const bookings = trip.get('bookings')
     return (
       <View style={ss.container}>
-        <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
+        <SearchBar
+          onSearch={this._onSearch}
+          icon='people'
+          placeholder={_T('paxSearch')}
+          right={this._renderRight()}
+        />
         {!!bookings && this._renderList(trip)}
       </View>
     )
