@@ -38,10 +38,15 @@ const resolvers = {
   paxData: pax => {
     let initial = null
     return pax.map(p => {
+      const paxId = String(p.get('id'))
       const paxInitial = p.get('firstName').charAt(0).toLowerCase()
       if (initial !== paxInitial) {
         initial = paxInitial
-        return getList([getMap({ first: true, initial: paxInitial.toUpperCase() }), p])
+        return getList([getMap({
+          first: true,
+          initial: paxInitial.toUpperCase(),
+          id: `${paxInitial}-${paxId}`
+        }), p])
       }
       return getList([p])
     }).flatten(1) // one level flatten

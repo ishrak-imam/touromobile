@@ -124,6 +124,9 @@ class PaxList extends Component {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
     const paxList = preparePaxData(sortedPax)
+
+    console.log(paxList.toJS())
+
     return (
       paxList.size
         ? <ImmutableVirtualizedList
