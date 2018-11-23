@@ -9,6 +9,7 @@ import {
 } from 'react-native-popup-menu'
 import { Colors, IonIcon } from '../theme'
 import Translator from '../utils/translator'
+import { Text } from 'native-base'
 
 const _T = Translator('ContextMenu')
 
@@ -22,23 +23,30 @@ export default class ContextMenu extends Component {
 
   _renderOptions = options => {
     return options.map((item, index) => {
-      return <MenuOption
-        key={index}
-        onSelect={this._onSelect(item)}
-        text={_T(item.text)}
-        style={ss.menuItem}
-      />
+      return (
+        <MenuOption
+          key={index}
+          style={ss.menuItem}
+          onSelect={this._onSelect(item)}
+        >
+          <IonIcon name={item.icon} size={20} />
+          <Text style={ss.itemText}>{_T(item.text)}</Text>
+        </MenuOption>
+      )
     })
   }
 
   render () {
-    const { icon, options } = this.props
+    const { icon, options, label } = this.props
     return (
       <Menu>
         <MenuTrigger>
-          <IonIcon style={ss.righIcon} name={icon} color={Colors.black} />
+          <IonIcon style={ss.rightIcon} name={icon} color={Colors.black} />
         </MenuTrigger>
         <MenuOptions>
+          <MenuOption disabled style={ss.menuItemHeader}>
+            <Text style={ss.headerText}>{_T(label)}</Text>
+          </MenuOption>
           {this._renderOptions(options)}
         </MenuOptions>
       </Menu>
@@ -47,7 +55,7 @@ export default class ContextMenu extends Component {
 }
 
 const ss = StyleSheet.create({
-  righIcon: {
+  rightIcon: {
     padding: 10,
     marginHorizontal: 10,
     zIndex: 5
@@ -56,6 +64,22 @@ const ss = StyleSheet.create({
     paddingVertical: 15,
     paddingLeft: 10,
     borderBottomWidth: 1,
-    borderColor: Colors.steel
+    borderColor: Colors.steel,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  menuItemHeader: {
+    paddingVertical: 15,
+    paddingLeft: 10,
+    backgroundColor: Colors.blue,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  itemText: {
+    marginLeft: 10
+  },
+  headerText: {
+    color: Colors.silver,
+    fontWeight: 'bold'
   }
 })

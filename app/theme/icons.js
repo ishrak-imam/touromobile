@@ -37,7 +37,7 @@ const getIconName = name => {
     warning: ['ios-warning', 'md-warning'],
     refresh: ['ios-refresh', 'md-refresh'],
     delete: ['ios-trash', 'md-trash'],
-    sort: ['ios-list', 'md-list']
+    sort: ['md-list', 'md-list']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]

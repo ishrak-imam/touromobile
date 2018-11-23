@@ -22,9 +22,9 @@ import ContextMenu from './contextMenu'
 const _T = Translator('PassengersScreen')
 
 const CONTEXT_OPTIONS = [
-  { text: 'name', key: 'NAME' },
-  { text: 'hotel', key: 'HOTEL' },
-  { text: 'airport', key: 'AIRPORT' }
+  { text: 'name', key: 'NAME', icon: 'person' },
+  { text: 'hotel', key: 'HOTEL', icon: 'home' },
+  { text: 'airport', key: 'AIRPORT', icon: 'flight' }
 ]
 
 class PaxItem extends Component {
@@ -146,12 +146,18 @@ class PaxList extends Component {
   }
 
   _onSelect = option => {
+    console.log(option)
     this.setState({ groupBy: option.key })
   }
 
   _renderRight = () => {
     return (
-      <ContextMenu icon='sort' onSelect={this._onSelect} options={CONTEXT_OPTIONS} />
+      <ContextMenu
+        icon='sort'
+        label='sortOrder'
+        onSelect={this._onSelect}
+        options={CONTEXT_OPTIONS}
+      />
     )
   }
 

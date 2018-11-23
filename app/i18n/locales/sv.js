@@ -122,6 +122,7 @@ export default {
     save: 'Spara'
   },
   ContextMenu: {
+    sortOrder: 'Sorteringsordning',
     name: 'Nombre',
     hotel: 'Hotel',
     airport: 'Aeropuerto'
