@@ -140,11 +140,11 @@ class ExcursionDetailsScreen extends Component {
     const excursionId = String(excursion.get('id'))
     const departureId = String(currentTrip.get('departureId'))
     return () => {
-      const { isAllSelected, isAnySelected, pax } = this._getBookingData(bookingId)
+      const { isAllSelected, pax } = this._getBookingData(bookingId)
       this.state.participants = pax.reduce((participants, p) => {
         const paxId = String(p.get('id'))
         if (!p.get('excursionPack')) {
-          participants = isAllSelected || isAnySelected ? participants.remove(paxId) : participants.add(paxId)
+          participants = isAllSelected ? participants.remove(paxId) : participants.add(paxId)
         }
         return participants
       }, participants)
@@ -161,12 +161,23 @@ class ExcursionDetailsScreen extends Component {
       const { groupByBooking } = this.state
       if (item.first && groupByBooking) {
         const bookingId = item.initial
-        const { isAllSelected, isAllHasPack } = this._getBookingData(bookingId)
+        const { isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId)
         const onPress = isAllHasPack ? null : this._onSectionHeaderPress(bookingId)
+
+        let iconName = 'checkOutline'
+        let iconColor = Colors.black
+        if (isAllSelected || isAnySelected || isAllHasPack) {
+          iconColor = Colors.blue
+          if (isAllSelected || isAllHasPack) {
+            iconName = 'checkFill'
+          }
+        }
+
         return (
           <TouchableOpacity style={ss.sectionHeader} onPress={onPress}>
             <Text style={ss.sectionText}>{bookingId}</Text>
-            <CheckBox checked={isAllSelected || isAllHasPack} />
+            {/* <CheckBox checked={isAllSelected || isAllHasPack} /> */}
+            <IonIcon name={iconName} color={iconColor} size={25} />
           </TouchableOpacity>
         )
       }
@@ -370,7 +381,7 @@ const ss = StyleSheet.create({
     backgroundColor: Colors.steel,
     justifyContent: 'space-between',
     paddingLeft: 10,
-    paddingRight: 27
+    paddingRight: 18
   },
   sectionText: {
     fontWeight: 'bold',
