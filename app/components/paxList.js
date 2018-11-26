@@ -4,15 +4,15 @@ import {
   View, Text, ListItem, Body, Right
 } from 'native-base'
 import {
-  getSortedPax, preparePaxData,
-  filterPaxBySearchText, getModifiedPax
+  getSortedPax, getPaxData, getSortedPaxByAirport, getSortedPaxByHotel,
+  filterPaxBySearchText, getModifiedPax, getPaxDataGroupByAirport,
+  getPaxDataGroupByHotel
 } from '../selectors'
-import IconButton from '../components/iconButton'
 import { call, sms } from '../utils/comms'
 import { StyleSheet } from 'react-native'
 import SearchBar from '../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-import { Colors } from '../theme'
+import { Colors, IonIcon } from '../theme'
 import Translator from '../utils/translator'
 import NoData from '../components/noData'
 import { connect } from 'react-redux'
@@ -31,8 +31,7 @@ class PaxItem extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      comment: false,
-      groupBy: CONTEXT_OPTIONS[0].key
+      comment: false
     }
   }
 
@@ -41,42 +40,76 @@ class PaxItem extends Component {
             nextState.comment !== this.state.comment
   }
 
-  _renderPhone = number => <IconButton name='phone' color='green' onPress={() => call(number)} />
+  _renderPhone = number => <IonIcon name='phone' color='green' onPress={() => call(number)} />
 
-  _renderSMS = number => <IconButton name='sms' color='blue' onPress={() => sms(number)} />
+  _renderSMS = number => <IonIcon name='sms' color='blue' onPress={() => sms(number)} />
 
   _commentToggle = () => {
     const { comment } = this.state
     const name = comment ? 'up' : 'info'
     return (
-      <IconButton
+      <IonIcon
         name={name} color='black'
         onPress={() => this.setState({ comment: !this.state.comment })}
       />
     )
   }
 
+  _renderAirport = airport => {
+    return (
+      <View style={{
+        height: 20,
+        width: 37,
+        borderWidth: 1,
+        borderRadius: 2,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <Text style={{ fontSize: 12 }}>{airport}</Text>
+      </View>
+    )
+  }
+
+  _renderHotel = hotelId => {
+    return (
+      <IonIcon name='home' />
+    )
+  }
+
   render () {
     const { pax, onItemPress } = this.props
     const { comment } = this.state
+
     if (pax.get('first')) {
+      const { groupBy, hotels } = this.props
+
+      let text = String(pax.get('initial'))
+      if (groupBy === CONTEXT_OPTIONS[1].key) {
+        text = hotels.find(h => String(h.get('id') === text)).get('name')
+      }
+
       return (
         <ListItem itemDivider style={{ backgroundColor: Colors.blue }}>
-          <Text style={ss.sectionText}>{pax.get('initial')}</Text>
+          <Text style={ss.sectionText}>{text}</Text>
         </ListItem>
       )
     }
+
     const paxComment = pax.get('comment')
     const phone = pax.get('phone')
     const name = `${pax.get('firstName')} ${pax.get('lastName')}`
+    const airport = pax.get('airport')
+    const hotelId = String(pax.get('hotel'))
     return (
-      <ListItem onPress={onItemPress(pax)}>
+      <ListItem style={{ marginLeft: 0, paddingRight: 5 }} onPress={onItemPress(pax)}>
         <Body style={ss.itemBody}>
           <Text numberOfLines={1}>{name}</Text>
           {/* <Text note>{pax.get('booking').get('id')}</Text> */}
           {comment && <Text note>{paxComment}</Text>}
         </Body>
         <Right style={ss.itemRight}>
+          {!!airport && this._renderAirport(airport)}
+          {!!hotelId && this._renderHotel(hotelId)}
           {!!paxComment && this._commentToggle()}
           {!!phone && this._renderPhone(phone)}
           {!!phone && this._renderSMS(phone)}
@@ -90,14 +123,16 @@ class PaxList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      searchText: ''
+      searchText: '',
+      groupBy: CONTEXT_OPTIONS[0].key
     }
   }
 
   shouldComponentUpdate (nextProps, nextState) {
     return !nextProps.trip.equals(this.props.trip) ||
             nextState.searchText !== this.state.searchText ||
-            !nextProps.modifiedPax.equals(this.props.modifiedPax)
+            !nextProps.modifiedPax.equals(this.props.modifiedPax) ||
+            nextState.groupBy !== this.state.groupBy
   }
 
   _toPaxDetails = pax => {
@@ -110,13 +145,16 @@ class PaxList extends Component {
   }
 
   _renderPerson = ({ item }) => {
-    const { modifiedPax } = this.props
+    const { modifiedPax, trip } = this.props
+    const { groupBy } = this.state
     const paxId = String(item.get('id'))
     const pax = mergeMapShallow(item, modifiedPax.get(paxId))
     return (
       <PaxItem
         pax={pax}
         onItemPress={this._toPaxDetails}
+        groupBy={groupBy}
+        hotels={trip.get('hotels')}
       />
     )
   }
@@ -126,12 +164,37 @@ class PaxList extends Component {
   }
 
   _renderList = trip => {
-    const { searchText } = this.state
-    let sortedPax = getSortedPax(trip)
+    const { searchText, groupBy } = this.state
+
+    let sortedPax = null
+    switch (groupBy) {
+      case CONTEXT_OPTIONS[0].key:
+        sortedPax = getSortedPax(trip)
+        break
+      case CONTEXT_OPTIONS[1].key:
+        sortedPax = getSortedPaxByHotel(trip)
+        break
+      case CONTEXT_OPTIONS[2].key:
+        sortedPax = getSortedPaxByAirport(trip)
+        break
+    }
+
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
-    const paxList = preparePaxData(sortedPax)
+
+    let paxList = null // preparePaxData(sortedPax)
+    switch (groupBy) {
+      case CONTEXT_OPTIONS[0].key:
+        paxList = getPaxData(sortedPax)
+        break
+      case CONTEXT_OPTIONS[1].key:
+        paxList = getPaxDataGroupByHotel(sortedPax)
+        break
+      case CONTEXT_OPTIONS[2].key:
+        paxList = getPaxDataGroupByAirport(sortedPax)
+        break
+    }
 
     return (
       paxList.size
@@ -146,7 +209,6 @@ class PaxList extends Component {
   }
 
   _onSelect = option => {
-    console.log(option)
     this.setState({ groupBy: option.key })
   }
 
@@ -193,12 +255,13 @@ const ss = StyleSheet.create({
     flex: 1
   },
   itemBody: {
-    flex: 4
+    flex: 3
   },
   itemRight: {
-    flex: 2,
+    flex: 3,
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'space-around',
+    alignItems: 'center'
   },
   sectionText: {
     fontWeight: 'bold',

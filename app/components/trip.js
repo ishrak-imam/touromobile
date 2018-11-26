@@ -230,7 +230,7 @@ class Trip extends Component {
             return (
               <TouchableOpacity key={id} onPress={this._toHotel(hotel)} style={ss.restaurantsItem}>
                 <Body style={ss.body}>
-                  <Text style={{ marginRight: 5, fontWeight: 'bold' }}>{`H${++index}`}</Text>
+                  <Text style={{ marginRight: 10, fontWeight: 'bold' }}>{`H${++index}`}</Text>
                   <Left style={ss.left}>
                     <Text style={ss.restaurantName}>{name}</Text>
                   </Left>
