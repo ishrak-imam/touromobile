@@ -178,7 +178,7 @@ class Trip extends Component {
           </View>
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
-              <View style={{ paddingLeft: 10, paddingTop: 15 }}>
+              <View style={ss.flightCon}>
                 <Text>
                   <Text style={ss.boldText}>{_T('out')}:</Text>       <Text>{outTime}</Text>      <Text style={ss.boldText}>{outFlight}</Text>
                 </Text>
@@ -203,11 +203,48 @@ class Trip extends Component {
 
   _toRestaurant = (direction, restaurant) => {
     const { trip, navigation } = this.props
+    const orders = trip.get('orders')
+    const brand = trip.get('brand')
     return () => {
-      const orders = trip.get('orders')
-      const brand = trip.get('brand')
       navigation.navigate('Restaurant', { orders, brand, direction, restaurant })
     }
+  }
+
+  _toHotel = hotel => {
+    const { trip, navigation } = this.props
+    const brand = trip.get('brand')
+    return () => {
+      navigation.navigate('Restaurant', { brand, restaurant: hotel })
+    }
+  }
+
+  _renderHotels = hotels => {
+    return (
+      <CardItem style={ss.cardItem}>
+        <Text style={ss.boldText}>{_T('hotels')}</Text>
+        {
+          hotels.map((hotel, index) => {
+            const id = String(hotel.get('id'))
+            const name = hotel.get('name')
+            const phone = hotel.get('phone')
+            return (
+              <TouchableOpacity key={id} onPress={this._toHotel(hotel)} style={ss.restaurantsItem}>
+                <Body style={ss.body}>
+                  <Text style={{ marginRight: 5, fontWeight: 'bold' }}>{`H${++index}`}</Text>
+                  <Left style={ss.left}>
+                    <Text style={ss.restaurantName}>{name}</Text>
+                  </Left>
+                  <Right style={ss.right}>
+                    {!!phone && this._renderPhone(phone)}
+                    {!!phone && this._renderSMS(phone)}
+                  </Right>
+                </Body>
+              </TouchableOpacity>
+            )
+          })
+        }
+      </CardItem>
+    )
   }
 
   _renderRestaurants = launches => {
@@ -222,7 +259,7 @@ class Trip extends Component {
         <TouchableOpacity onPress={this._toRestaurant('out', out)} style={ss.restaurantsItem}>
           <Text note>{_T('out')}</Text>
           <Body style={ss.body}>
-            <Left style={{ flex: 2 }}>
+            <Left style={ss.left}>
               <Text style={ss.restaurantName}>{out.get('name')}</Text>
             </Left>
             <Right style={ss.right}>
@@ -235,7 +272,7 @@ class Trip extends Component {
         <TouchableOpacity onPress={this._toRestaurant('home', home)} style={ss.restaurantsItem}>
           <Text note>{_T('home')}</Text>
           <Body style={ss.body}>
-            <Left style={{ flex: 2 }}>
+            <Left style={ss.left}>
               <Text style={ss.restaurantName}>{home.get('name')}</Text>
             </Left>
             <Right style={ss.right}>
@@ -266,6 +303,7 @@ class Trip extends Component {
     const launches = trip.get('lunches')
     const image = trip.get('image')
     const pax = getPax(trip)
+    const hotels = trip.get('hotels')
 
     const isFlight = transport ? transport.get('type') === 'flight' : false
     const isBus = transport ? transport.get('type') === 'bus' : false
@@ -289,6 +327,8 @@ class Trip extends Component {
           {isFlight && this._renderFlight(transport, pax)}
 
           {isBus && this._renderBus(transport)}
+
+          {!!hotels && this._renderHotels(hotels)}
 
           {!!launches && this._renderRestaurants(launches)}
           {this._renderFooter(pax)}
@@ -361,7 +401,10 @@ const ss = StyleSheet.create({
   headerRight: {
     flex: 0.5
   },
-
+  flightCon: {
+    paddingLeft: 10,
+    paddingTop: 15
+  },
   flightCard: {
     height: 150,
     marginHorizontal: 15,
@@ -405,5 +448,8 @@ const ss = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginRight: 10
+  },
+  left: {
+    flex: 2
   }
 })

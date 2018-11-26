@@ -1064,7 +1064,39 @@
       ],
       "platform": "A14",
       "departure": "08:10"
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   },
 
 
@@ -2133,7 +2165,39 @@
       ],
       "platform": "A14",
       "departure": "08:10"
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   },
 
 
@@ -3151,7 +3215,7 @@
         "zip": "US-10017",
         "city": "NEW YORK",
         "country": "Usa",
-        "phone": "",
+        "phone": "524568",
         "url": "https://www.lexingtonhotelnyc.com",
         "directions": null,
         "time": "2018-01-01T12:00",
@@ -3170,7 +3234,7 @@
         "zip": "1552",
         "city": "Köpenhamn",
         "country": "Danmark",
-        "phone": "",
+        "phone": "4589652",
         "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
         "directions": null,
         "time": "2018-01-01T12:00",
@@ -3202,7 +3266,39 @@
       ],
       "platform": "A14",
       "departure": "08:10"
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   },
 
 
@@ -4323,7 +4419,39 @@
           ]
         }
       ]
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   },
 
 
@@ -5392,6 +5520,38 @@
       ],
       "platform": "A14",
       "departure": "08:10"
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   }
 ]

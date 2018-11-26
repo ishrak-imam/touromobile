@@ -26,7 +26,8 @@ export default {
     lunchRestaurants: 'Lunch restaurants',
     textAllPax: 'Text message all passengers',
     home: 'Home',
-    out: 'Out'
+    out: 'Out',
+    hotels: 'Hotels'
   },
   PassengersScreen: {
     paxTitle: 'Passengers',

@@ -163,9 +163,9 @@ export default class RestaurantScreen extends Component {
         <Header left='back' title={restaurant.get('name')} navigation={navigation} brand={brand} />
         <ScrollView>
           <View style={ss.containerCard}>
-            {this._renderRestaurant(restaurant)}
-            {this._renderComs(restaurant)}
-            {this._renderMeals(meals)}
+            {!!restaurant && this._renderRestaurant(restaurant)}
+            {!!restaurant && this._renderComs(restaurant)}
+            {!!meals && this._renderMeals(meals)}
             {!!orders && this._renderOrders(orders.get(direction), restaurant)}
           </View>
         </ScrollView>
