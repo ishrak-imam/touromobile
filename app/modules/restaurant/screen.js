@@ -34,10 +34,23 @@ export default class RestaurantScreen extends Component {
             <Text>{address}</Text>
             <Text>{`${zip} ${city}`}</Text>
             <Text>{country}</Text>
-            <Text style={ss.sectionHeader}>{_T('routeDirections')}</Text>
-            <Text note>{directions}</Text>
-            <Text style={ss.sectionHeader}>{_T('bookedTime')}</Text>
-            <Text>{format(time, DATE_FORMAT)}</Text>
+
+            {
+              !!directions &&
+              <View>
+                <Text style={ss.sectionHeader}>{_T('routeDirections')}</Text>
+                <Text note>{directions}</Text>
+              </View>
+            }
+
+            {
+              !!time &&
+              <View>
+                <Text style={ss.sectionHeader}>{_T('bookedTime')}</Text>
+                <Text>{format(time, DATE_FORMAT)}</Text>
+              </View>
+            }
+
           </View>
           <Right style={ss.mapIcon}>
             <IconButton name='map' color='blue' onPress={() => map(location)} />
