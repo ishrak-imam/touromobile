@@ -57,15 +57,8 @@ class PaxItem extends Component {
 
   _renderAirport = airport => {
     return (
-      <View style={{
-        height: 20,
-        width: 37,
-        borderWidth: 1,
-        borderRadius: 2,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <Text style={{ fontSize: 12 }}>{airport}</Text>
+      <View style={ss.airportCon}>
+        <Text style={ss.airportText}>{airport}</Text>
       </View>
     )
   }
@@ -85,7 +78,7 @@ class PaxItem extends Component {
 
       let text = String(pax.get('initial'))
       if (groupBy === CONTEXT_OPTIONS[1].key) {
-        text = hotels.find(h => String(h.get('id') === text)).get('name')
+        text = hotels.find(h => String(h.get('id')) === text).get('name')
       }
 
       return (
@@ -183,7 +176,7 @@ class PaxList extends Component {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
 
-    let paxList = null // preparePaxData(sortedPax)
+    let paxList = null
     switch (groupBy) {
       case CONTEXT_OPTIONS[0].key:
         paxList = getPaxData(sortedPax)
@@ -202,7 +195,7 @@ class PaxList extends Component {
           keyboardShouldPersistTaps='always'
           immutableData={paxList}
           renderItem={this._renderPerson}
-          keyExtractor={(item, index) => String(index)}
+          keyExtractor={item => String(item.get('id'))}
         />
         : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
     )
@@ -266,5 +259,16 @@ const ss = StyleSheet.create({
   sectionText: {
     fontWeight: 'bold',
     color: Colors.silver
+  },
+  airportCon: {
+    height: 20,
+    width: 37,
+    borderWidth: 1,
+    borderRadius: 2,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  airportText: {
+    fontSize: 12
   }
 })

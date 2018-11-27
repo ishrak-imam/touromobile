@@ -51,53 +51,78 @@ const resolvers = {
 
   paxData: pax => {
     let initial = null
-    return pax.map(p => {
+    let tempList = getList([])
+    return pax.reduce((list, p, index) => {
       const paxId = String(p.get('id'))
       const paxInitial = p.get('firstName').charAt(0).toLowerCase()
       if (initial !== paxInitial) {
+        list = list.concat(tempList)
         initial = paxInitial
-        return getList([getMap({
+        tempList = getList([])
+        list = list.push(getMap({
           first: true,
           initial: paxInitial.toUpperCase(),
           id: `${paxInitial}-${paxId}`
-        }), p])
+        }))
       }
-      return getList([p])
-    }).flatten(1) // one level flatten
+      tempList = tempList.push(p)
+      if (index === pax.size - 1) {
+        list = list.concat(tempList)
+      }
+      return list
+    }, getList([]))
   },
 
   paxDataGroupByAirport: pax => {
     let initial = null
-    return pax.map(p => {
+    let tempList = getList([])
+    return pax.reduce((list, p, index) => {
       const paxId = String(p.get('id'))
       const paxInitial = p.get('airport')
       if (initial !== paxInitial) {
+        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+        list = list.concat(tempList)
         initial = paxInitial
-        return getList([getMap({
+        tempList = getList([])
+        list = list.push(getMap({
           first: true,
           initial: paxInitial,
           id: `${paxInitial}-${paxId}`
-        }), p])
+        }))
       }
-      return getList([p])
-    }).flatten(1) // one level flatten
+      tempList = tempList.push(p)
+      if (index === pax.size - 1) {
+        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+        list = list.concat(tempList)
+      }
+      return list
+    }, getList([]))
   },
 
   paxDataGroupByHotel: pax => {
     let initial = null
-    return pax.map(p => {
+    let tempList = getList([])
+    return pax.reduce((list, p, index) => {
       const paxId = String(p.get('id'))
       const paxInitial = p.get('hotel')
       if (initial !== paxInitial) {
+        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+        list = list.concat(tempList)
         initial = paxInitial
-        return getList([getMap({
+        tempList = getList([])
+        list = list.push(getMap({
           first: true,
           initial: paxInitial,
           id: `${paxInitial}-${paxId}`
-        }), p])
+        }))
       }
-      return getList([p])
-    }).flatten(1) // one level flatten
+      tempList = tempList.push(p)
+      if (index === pax.size - 1) {
+        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+        list = list.concat(tempList)
+      }
+      return list
+    }, getList([]))
   },
 
   paxDataGroupByBooking: pax => {
