@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text, ListItem, Body, Right
+  View, Text, ListItem, Body, Right, Left
 } from 'native-base'
 import {
   getSortedPax, getPaxData, getSortedPaxByAirport, getSortedPaxByHotel,
@@ -21,11 +21,11 @@ import ContextMenu from './contextMenu'
 
 const _T = Translator('PassengersScreen')
 
-const CONTEXT_OPTIONS = [
-  { text: 'name', key: 'NAME', icon: 'person' },
-  { text: 'hotel', key: 'HOTEL', icon: 'home' },
-  { text: 'airport', key: 'AIRPORT', icon: 'flight' }
-]
+const CONTEXT_OPTIONS = {
+  name: { text: 'name', key: 'NAME', icon: 'person' },
+  hotel: { text: 'hotel', key: 'HOTEL', icon: 'home' },
+  airport: { text: 'airport', key: 'AIRPORT', icon: 'flight' }
+}
 
 class PaxItem extends Component {
   constructor (props) {
@@ -63,21 +63,22 @@ class PaxItem extends Component {
     )
   }
 
-  _renderHotel = hotelId => {
+  _renderHotel = (hotelId, hotels) => {
+    let index = hotels.findIndex(h => String(h.get('id')) === hotelId)
     return (
-      <IonIcon name='home' />
+      <Text style={{ fontWeight: 'bold' }}>{`H${++index}`}</Text>
     )
   }
 
   render () {
-    const { pax, onItemPress } = this.props
+    const { pax, onItemPress, hotels } = this.props
     const { comment } = this.state
+    const isHotels = hotels && hotels.size
 
     if (pax.get('first')) {
-      const { groupBy, hotels } = this.props
-
+      const { groupBy } = this.props
       let text = String(pax.get('initial'))
-      if (groupBy === CONTEXT_OPTIONS[1].key) {
+      if (groupBy === CONTEXT_OPTIONS.hotel.key) {
         text = hotels.find(h => String(h.get('id')) === text).get('name')
       }
 
@@ -92,17 +93,19 @@ class PaxItem extends Component {
     const phone = pax.get('phone')
     const name = `${pax.get('firstName')} ${pax.get('lastName')}`
     const airport = pax.get('airport')
-    const hotelId = String(pax.get('hotel'))
+    const hotelId = pax.get('hotel')
     return (
       <ListItem style={{ marginLeft: 0, paddingRight: 5 }} onPress={onItemPress(pax)}>
+        <Left style={ss.itemLeft}>
+          {!!airport && this._renderAirport(airport)}
+          {!!hotelId && isHotels && this._renderHotel(String(hotelId), hotels)}
+        </Left>
         <Body style={ss.itemBody}>
           <Text numberOfLines={1}>{name}</Text>
           {/* <Text note>{pax.get('booking').get('id')}</Text> */}
           {comment && <Text note>{paxComment}</Text>}
         </Body>
         <Right style={ss.itemRight}>
-          {!!airport && this._renderAirport(airport)}
-          {!!hotelId && this._renderHotel(hotelId)}
           {!!paxComment && this._commentToggle()}
           {!!phone && this._renderPhone(phone)}
           {!!phone && this._renderSMS(phone)}
@@ -117,7 +120,7 @@ class PaxList extends Component {
     super(props)
     this.state = {
       searchText: '',
-      groupBy: CONTEXT_OPTIONS[0].key
+      groupBy: CONTEXT_OPTIONS.name.key
     }
   }
 
@@ -161,13 +164,13 @@ class PaxList extends Component {
 
     let sortedPax = null
     switch (groupBy) {
-      case CONTEXT_OPTIONS[0].key:
+      case CONTEXT_OPTIONS.name.key:
         sortedPax = getSortedPax(trip)
         break
-      case CONTEXT_OPTIONS[1].key:
+      case CONTEXT_OPTIONS.hotel.key:
         sortedPax = getSortedPaxByHotel(trip)
         break
-      case CONTEXT_OPTIONS[2].key:
+      case CONTEXT_OPTIONS.airport.key:
         sortedPax = getSortedPaxByAirport(trip)
         break
     }
@@ -178,13 +181,13 @@ class PaxList extends Component {
 
     let paxList = null
     switch (groupBy) {
-      case CONTEXT_OPTIONS[0].key:
+      case CONTEXT_OPTIONS.name.key:
         paxList = getPaxData(sortedPax)
         break
-      case CONTEXT_OPTIONS[1].key:
+      case CONTEXT_OPTIONS.hotel.key:
         paxList = getPaxDataGroupByHotel(sortedPax)
         break
-      case CONTEXT_OPTIONS[2].key:
+      case CONTEXT_OPTIONS.airport.key:
         paxList = getPaxDataGroupByAirport(sortedPax)
         break
     }
@@ -206,12 +209,25 @@ class PaxList extends Component {
   }
 
   _renderRight = () => {
+    const { trip } = this.props
+
+    let options = [CONTEXT_OPTIONS.name]
+
+    const hotels = trip.get('hotels')
+    const transport = trip.get('transport')
+
+    const isHotels = hotels && hotels.size
+    const isFlight = transport ? transport.get('type') === 'flight' : false
+
+    if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
+    if (isFlight) options.push(CONTEXT_OPTIONS.airport)
+
     return (
       <ContextMenu
         icon='sort'
         label='sortOrder'
         onSelect={this._onSelect}
-        options={CONTEXT_OPTIONS}
+        options={options}
       />
     )
   }
@@ -247,11 +263,16 @@ const ss = StyleSheet.create({
   container: {
     flex: 1
   },
+  itemLeft: {
+    flex: 1.5,
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
   itemBody: {
-    flex: 3
+    flex: 4
   },
   itemRight: {
-    flex: 3,
+    flex: 2,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'

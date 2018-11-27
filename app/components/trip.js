@@ -24,7 +24,6 @@ import { getMap } from '../utils/immutable'
 import OverlaySpinner from '../components/overlaySpinner'
 
 const _T = Translator('CurrentTripScreen')
-
 const DATE_FORMAT = 'DD/MM'
 
 class Trip extends Component {

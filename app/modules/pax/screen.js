@@ -11,10 +11,8 @@ import { currentTripSelector } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
 import Switch from '../../components/switch'
-const _T = Translator('PassengersScreen')
 
-let paxList = null
-let bookingList = null
+const _T = Translator('PassengersScreen')
 
 class PaxScreen extends Component {
   static navigationOptions = () => {
@@ -68,11 +66,6 @@ class PaxScreen extends Component {
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
 
-    if (!paxList) paxList = <PaxList trip={trip} navigation={navigation} />
-    if (!bookingList) bookingList = <BookingList trip={trip} navigation={navigation} />
-
-    const content = booking ? bookingList : paxList
-
     return (
       <Container>
         <Header
@@ -82,7 +75,8 @@ class PaxScreen extends Component {
           right={this._renderRight(brand)}
           brand={brand}
         />
-        {content}
+        {booking && <BookingList trip={trip} navigation={navigation} />}
+        {!booking && <PaxList trip={trip} navigation={navigation} />}
       </Container>
     )
   }
