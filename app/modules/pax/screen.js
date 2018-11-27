@@ -13,6 +13,9 @@ import BookingList from '../../components/bookingList'
 import Switch from '../../components/switch'
 const _T = Translator('PassengersScreen')
 
+let paxList = null
+let bookingList = null
+
 class PaxScreen extends Component {
   static navigationOptions = () => {
     return {
@@ -63,8 +66,12 @@ class PaxScreen extends Component {
     const { navigation, currentTrip } = this.props
     const { booking } = this.state
     const trip = currentTrip.get('trip')
-
     const brand = trip.get('brand')
+
+    if (!paxList) paxList = <PaxList trip={trip} navigation={navigation} />
+    if (!bookingList) bookingList = <BookingList trip={trip} navigation={navigation} />
+
+    const content = booking ? bookingList : paxList
 
     return (
       <Container>
@@ -75,11 +82,7 @@ class PaxScreen extends Component {
           right={this._renderRight(brand)}
           brand={brand}
         />
-        {
-          this.state.booking
-            ? <BookingList trip={trip} navigation={navigation} />
-            : <PaxList trip={trip} navigation={navigation} />
-        }
+        {content}
       </Container>
     )
   }
