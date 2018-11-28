@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  View, StyleSheet, TextInput, TouchableOpacity,
+  View, StyleSheet, TextInput,
   Keyboard
 } from 'react-native'
 import { IonIcon, Colors } from '../theme'

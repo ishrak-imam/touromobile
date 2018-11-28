@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { IonIcon, Colors } from '../theme'
 import {
   Header, Left, Body,
-  Title, Right
+  Title, Right, View
 } from 'native-base'
 import { StyleSheet, TouchableOpacity, Keyboard } from 'react-native'
 import isIOS from '../utils/isIOS'
@@ -36,10 +36,13 @@ export default class TMHeader extends Component {
   }
 
   _renderBody = () => {
-    const { title } = this.props
+    const { title, center } = this.props
     return (
       <Body style={ss.body}>
         <Title style={ss.title}>{title}</Title>
+        <View style={ss.center}>
+          {!!center && center}
+        </View>
       </Body>
     )
   }
@@ -89,8 +92,12 @@ const ss = StyleSheet.create({
     color: Colors.silver,
     paddingBottom: isIOS ? 4 : 3
   },
+  center: {
+    paddingBottom: isIOS ? 4 : 3
+  },
   right: {
     flex: 2,
-    marginRight: 2
+    marginRight: 2,
+    paddingBottom: isIOS ? 4 : 3
   }
 })

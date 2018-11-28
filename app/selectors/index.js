@@ -69,3 +69,7 @@ export const {
   getProfileUpdates,
   getUserInProfile
 } = require('./profile')
+
+export const {
+  getPresents
+} = require('./rollCall')

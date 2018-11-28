@@ -35,7 +35,7 @@ const getIconName = name => {
     bus: ['ios-bus', 'md-bus'],
     flight: ['ios-plane', 'md-plane'],
     warning: ['ios-warning', 'md-warning'],
-    refresh: ['ios-refresh', 'md-refresh'],
+    refresh: ['md-refresh', 'md-refresh'],
     delete: ['ios-trash', 'md-trash'],
     sort: ['ios-list', 'md-list'],
     checkFill: ['ios-checkbox', 'md-checkbox'],

@@ -424,9 +424,9 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   rollCallButton: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 5,
-    borderRadius: 5,
+    borderRadius: 4,
     backgroundColor: Colors.blue,
     marginRight: 20
   },

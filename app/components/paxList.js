@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text, ListItem, Body, Right, Left
+  View, Text, ListItem, Right, Left
 } from 'native-base'
 import {
   getSortedPax, getPaxData, getSortedPaxByAirport, getSortedPaxByHotel,
@@ -99,7 +99,7 @@ class PaxItem extends Component {
     const airport = pax.get('airport')
     const hotelId = pax.get('hotel')
     return (
-      <ListItem style={{ marginLeft: 0, paddingRight: 5 }} onPress={onItemPress(pax)}>
+      <ListItem style={ss.listItem} onPress={onItemPress(pax)}>
         <Left style={ss.itemLeft}>
           <View style={ss.iconCon}>
             {!!airport && this._renderAirport(airport)}
@@ -108,11 +108,10 @@ class PaxItem extends Component {
             {!!hotelId && isHotels && this._renderHotel(String(hotelId), hotels)}
           </View>
         </Left>
-        <Body style={ss.itemBody}>
+        <View style={ss.itemBody}>
           <Text numberOfLines={1}>{name}</Text>
-          {/* <Text note>{pax.get('booking').get('id')}</Text> */}
           {comment && <Text note>{paxComment}</Text>}
-        </Body>
+        </View>
         <Right style={ss.itemRight}>
           <View style={ss.iconCon}>
             {!!paxComment && this._commentToggle()}
@@ -281,13 +280,16 @@ const ss = StyleSheet.create({
   itemLeft: {
     flex: 2,
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginLeft: 5
   },
   itemBody: {
-    flex: 5
+    flex: 5,
+    justifyContent: 'center',
+    alignItems: 'flex-start'
   },
   itemRight: {
-    flex: 2.5,
+    flex: 3,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'
@@ -310,5 +312,9 @@ const ss = StyleSheet.create({
   iconCon: {
     height: 22,
     width: 22
+  },
+  listItem: {
+    marginLeft: 0,
+    paddingRight: 5
   }
 })

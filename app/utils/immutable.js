@@ -61,6 +61,10 @@ export const setHas = (set, item) => {
   return set.has(item)
 }
 
+export const clearSet = set => {
+  return set.clear()
+}
+
 /**
  * List methods
  */

@@ -28,7 +28,7 @@ export default {
     home: 'Home',
     out: 'Out',
     hotels: 'Hotels',
-    rollCall: 'Roll call'
+    rollCall: 'Head count'
   },
   PassengersScreen: {
     paxTitle: 'Passengers',
@@ -131,6 +131,7 @@ export default {
     sortOrder: 'Sort order',
     name: 'Name',
     hotel: 'Hotel',
-    airport: 'Airport'
+    airport: 'Airport',
+    booking: 'Booking'
   }
 }

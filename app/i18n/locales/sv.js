@@ -131,6 +131,7 @@ export default {
     sortOrder: 'Sorteringsordning',
     name: 'Namn',
     hotel: 'Hotel',
-    airport: 'Aeropuerto'
+    airport: 'Aeropuerto',
+    booking: 'Bokning'
   }
 }
