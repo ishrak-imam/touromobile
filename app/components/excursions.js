@@ -3,7 +3,7 @@ import {
   View, Text, Card,
   CardItem, Left, Body, Right
 } from 'native-base'
-import { IonIcon } from '../theme'
+import { IonIcon, Colors } from '../theme'
 import {
   getPax, getParticipants,
   getSortedExcursions, getModifiedPax,
@@ -63,8 +63,8 @@ class ExcursionCard extends Component {
             </Body>
           </CardItem>
           <CardItem footer>
-            <Button iconLeft style={ss.button} onPress={() => this._smsAll(pax, modifiedPax)}>
-              <IonIcon name='sms' color='white' />
+            <Button style={ss.button} onPress={() => this._smsAll(pax, modifiedPax)}>
+              <IonIcon name='sms' color={Colors.white} />
               <Text>{_T('textAllParticipants')}</Text>
             </Button>
           </CardItem>
@@ -138,6 +138,7 @@ const ss = StyleSheet.create({
   },
   button: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: Colors.blue
   }
 })

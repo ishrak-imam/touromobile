@@ -48,12 +48,12 @@ class ReportsScreen extends Component {
     const isLoading = reports.get('isLoading')
     return (
       <CardItem>
-        <Button iconLeft style={ss.footerButton} onPress={this._onUpload} disabled={isLoading}>
+        <Button style={ss.footerButton} onPress={this._onUpload} disabled={isLoading}>
           {
             isLoading
               ? <Spinner color={Colors.blue} />
               : <View style={ss.buttonItem}>
-                <IonIcon name='upload' color='white' style={ss.buttonIcon} />
+                <IonIcon name='upload' color={Colors.white} style={ss.buttonIcon} />
                 <Text style={ss.buttonText}>{_T('upload')}</Text>
               </View>
           }
@@ -97,7 +97,8 @@ export default connect(stateToProps, null)(ReportsScreen)
 const ss = StyleSheet.create({
   footerButton: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: Colors.blue
   },
   buttonItem: {
     flexDirection: 'row'

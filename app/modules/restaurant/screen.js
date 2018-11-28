@@ -8,7 +8,7 @@ import IconButton from '../../components/iconButton'
 import { format } from 'date-fns'
 import { StyleSheet, ScrollView } from 'react-native'
 import { call, sms, web, map } from '../../utils/comms'
-import { IonIcon } from '../../theme'
+import { IonIcon, Colors } from '../../theme'
 import isEmpty from '../../utils/isEmpty'
 import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
@@ -53,7 +53,7 @@ export default class RestaurantScreen extends Component {
 
           </View>
           <Right style={ss.mapIcon}>
-            <IconButton name='map' color='blue' onPress={() => map(location)} />
+            <IconButton name='map' color={Colors.blue} onPress={() => map(location)} />
           </Right>
         </Body>
       </CardItem>
@@ -66,9 +66,9 @@ export default class RestaurantScreen extends Component {
     return (
       <CardItem>
         <Body style={ss.comms}>
-          {!!url && <IconButton name='web' color='blue' onPress={() => web(url)} />}
-          {!!phone && <IconButton name='phone' color='green' onPress={() => call(phone)} />}
-          {!!phone && <IconButton name='sms' color='blue' onPress={() => sms(phone)} />}
+          {!!url && <IconButton name='web' color={Colors.blue} onPress={() => web(url)} />}
+          {!!phone && <IconButton name='phone' color={Colors.green} onPress={() => call(phone)} />}
+          {!!phone && <IconButton name='sms' color={Colors.blue} onPress={() => sms(phone)} />}
         </Body>
       </CardItem>
     )
@@ -87,8 +87,8 @@ export default class RestaurantScreen extends Component {
             const name = m.get('name')
             const adult = m.get('adult')
             const child = m.get('child')
-            const adultObj = adult === null ? <IonIcon name='x' color='red' size={14} /> : adult
-            const childObj = child === null ? <IonIcon name='x' color='red' size={14} /> : child
+            const adultObj = adult === null ? <IonIcon name='x' color={Colors.fire} size={14} /> : adult
+            const childObj = child === null ? <IonIcon name='x' color={Colors.fire} size={14} /> : child
             return (
               <Item key={id} style={ss.item}>
                 <Text style={ss.itemText}>{name}</Text>

@@ -7,6 +7,7 @@ import {
   filterBookingBySearchText, getPhoneNumbers
 } from '../selectors'
 import IconButton from '../components/iconButton'
+import { Colors } from '../theme'
 import { sms } from '../utils/comms'
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
@@ -43,7 +44,7 @@ class BookingItem extends Component {
           {paxNames}
         </Body>
         <Right>
-          {!!phones && <IconButton name='sms' color='blue' onPress={this._sms(phones)} />}
+          {!!phones && <IconButton name='sms' color={Colors.blue} onPress={this._sms(phones)} />}
         </Right>
       </ListItem>
     )

@@ -41,11 +41,11 @@ class PaxItem extends Component {
   }
 
   _renderPhone = number => (
-    <IonIcon name='phone' color='green' onPress={() => call(number)} />
+    <IonIcon name='phone' color={Colors.green} onPress={() => call(number)} />
   )
 
   _renderSMS = number => (
-    <IonIcon name='sms' color='blue' onPress={() => sms(number)} />
+    <IonIcon name='sms' color={Colors.blue} onPress={() => sms(number)} />
   )
 
   _commentToggle = () => {
@@ -53,7 +53,7 @@ class PaxItem extends Component {
     const name = comment ? 'up' : 'info'
     return (
       <IonIcon
-        name={name} color='black'
+        name={name} color={Colors.black}
         onPress={() => this.setState({ comment: !this.state.comment })}
       />
     )

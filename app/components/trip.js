@@ -34,11 +34,11 @@ class Trip extends Component {
   }
 
   _renderPhone = phone => (
-    <IconButton name='phone' color='green' onPress={() => call(phone)} />
+    <IconButton name='phone' color={Colors.green} onPress={() => call(phone)} />
   )
 
   _renderSMS = phone => (
-    <IconButton name='sms' color='blue' onPress={() => sms(phone)} />
+    <IconButton name='sms' color={Colors.blue} onPress={() => sms(phone)} />
   )
 
   _smsAll = pax => {
@@ -80,8 +80,15 @@ class Trip extends Component {
   _renderPaxCount = paxCount => {
     return (
       <CardItem>
-        <Body><Text style={ss.boldText}>{_T('pax')}</Text></Body>
-        <Right><Text style={ss.boldText}>{paxCount}</Text></Right>
+        <Body style={ss.paxCountBody}>
+          <Text style={ss.boldText}>{_T('pax')}</Text>
+        </Body>
+        <Right style={ss.paxCountRight}>
+          <TouchableOpacity style={ss.rollCallButton}>
+            <Text style={ss.rollCallText}>Roll call</Text>
+          </TouchableOpacity>
+          <Text style={ss.boldText}>{paxCount}</Text>
+        </Right>
       </CardItem>
     )
   }
@@ -191,7 +198,7 @@ class Trip extends Component {
                 <Text>{_T('pax')}: {flightPax.size}</Text>
               </View>
               <View style={ss.bottomRight}>
-                {!!numbers && <IconButton name='sms' color='blue' onPress={() => sms(numbers)} />}
+                {!!numbers && <IconButton name='sms' color={Colors.blue} onPress={() => sms(numbers)} />}
               </View>
             </View>
           </View>
@@ -288,8 +295,8 @@ class Trip extends Component {
   _renderFooter = pax => {
     return (
       <CardItem footer>
-        <Button iconLeft style={ss.footerButton} onPress={() => this._smsAll(pax)}>
-          <IonIcon name='sms' color='white' />
+        <Button style={ss.footerButton} onPress={() => this._smsAll(pax)}>
+          <IonIcon name='sms' color={Colors.white} />
           <Text>{_T('textAllPax')}</Text>
         </Button>
       </CardItem>
@@ -376,7 +383,8 @@ const ss = StyleSheet.create({
   },
   footerButton: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: Colors.blue
   },
   cardItem: {
     flexDirection: 'column',
@@ -399,6 +407,27 @@ const ss = StyleSheet.create({
   },
   headerRight: {
     flex: 0.5
+  },
+  paxCountBody: {
+    flex: 2,
+    justifyContent: 'center'
+  },
+  paxCountRight: {
+    flex: 4,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  rollCallButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderRadius: 5,
+    backgroundColor: Colors.blue,
+    marginRight: 20
+  },
+  rollCallText: {
+    color: Colors.white,
+    fontWeight: 'bold'
   },
   flightCon: {
     paddingLeft: 10,

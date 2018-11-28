@@ -83,8 +83,8 @@ class PaxCard extends Component {
   _renderPhone = phone => {
     const phnOnPress = phone ? () => call(phone) : () => {}
     const smsOnPress = phone ? () => sms(phone) : () => {}
-    const phnColor = phone ? 'green' : Colors.charcoal
-    const smsColor = phone ? 'blue' : Colors.charcoal
+    const phnColor = phone ? Colors.green : Colors.charcoal
+    const smsColor = phone ? Colors.blue : Colors.charcoal
 
     return (
       <CardItem>
@@ -118,7 +118,7 @@ class PaxCard extends Component {
       <CardItem>
         <Body>
           <Text>{_T('excursionPack')}</Text>
-          <IonIcon name='check' color='green' />
+          <IonIcon name='check' color={Colors.green} />
         </Body>
       </CardItem>
     )
