@@ -124,7 +124,7 @@ export default {
   },
   ContextMenu: {
     sortOrder: 'Sorteringsordning',
-    name: 'Nombre',
+    name: 'Namn',
     hotel: 'Hotel',
     airport: 'Aeropuerto'
   }
