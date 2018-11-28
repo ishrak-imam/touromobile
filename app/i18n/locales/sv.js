@@ -27,7 +27,8 @@ export default {
     textAllPax: 'SMS till alla passagerare',
     home: 'Hem',
     out: 'Ut',
-    hotels: 'Hotell'
+    hotels: 'Hotell',
+    rollCall: 'Upprop'
   },
   PassengersScreen: {
     paxTitle: 'Passagerare',
@@ -110,6 +111,9 @@ export default {
     email: 'E-post',
     backAccount: 'Bankkonto',
     showTabLabels: 'Visa fliketiketter'
+  },
+  RollCallScreen: {
+    title: 'Upprop'
   },
   NoData: {
     noMatch: 'Ingen matchning hittad',

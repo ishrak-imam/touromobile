@@ -77,6 +77,11 @@ class Trip extends Component {
     )
   }
 
+  _toRollCall = () => {
+    const { navigation } = this.props
+    navigation.navigate('RollCall')
+  }
+
   _renderPaxCount = paxCount => {
     return (
       <CardItem>
@@ -84,8 +89,8 @@ class Trip extends Component {
           <Text style={ss.boldText}>{_T('pax')}</Text>
         </Body>
         <Right style={ss.paxCountRight}>
-          <TouchableOpacity style={ss.rollCallButton}>
-            <Text style={ss.rollCallText}>Roll call</Text>
+          <TouchableOpacity style={ss.rollCallButton} onPress={this._toRollCall}>
+            <Text style={ss.rollCallText}>{_T('rollCall')}</Text>
           </TouchableOpacity>
           <Text style={ss.boldText}>{paxCount}</Text>
         </Right>

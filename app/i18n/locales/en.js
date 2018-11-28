@@ -27,7 +27,8 @@ export default {
     textAllPax: 'Text message all passengers',
     home: 'Home',
     out: 'Out',
-    hotels: 'Hotels'
+    hotels: 'Hotels',
+    rollCall: 'Roll call'
   },
   PassengersScreen: {
     paxTitle: 'Passengers',
@@ -110,6 +111,9 @@ export default {
     email: 'Email',
     backAccount: 'Bank account',
     showTabLabels: 'Show tab labels'
+  },
+  RollCallScreen: {
+    title: 'Roll call'
   },
   NoData: {
     noMatch: 'No match found',
