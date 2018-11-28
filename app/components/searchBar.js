@@ -18,9 +18,7 @@ export default class TMSearchBar extends Component {
   _renderCancel = (icon, text) => {
     return (
       text
-        ? <TouchableOpacity onPress={this._onCancel}>
-          <IonIcon style={ss.righIcon} name='circleX' color={Colors.black} />
-        </TouchableOpacity>
+        ? <IonIcon style={ss.righIcon} name='circleX' color={Colors.black} onPress={this._onCancel} />
         : <IonIcon style={ss.righIcon} name={icon} color={Colors.black} />
     )
   }

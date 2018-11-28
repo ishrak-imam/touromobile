@@ -113,7 +113,8 @@ export default {
     showTabLabels: 'Visa fliketiketter'
   },
   RollCallScreen: {
-    title: 'Upprop'
+    title: 'Upprop',
+    paxSearch: 'Sök passagerare'
   },
   NoData: {
     noMatch: 'Ingen matchning hittad',

@@ -113,7 +113,8 @@ export default {
     showTabLabels: 'Show tab labels'
   },
   RollCallScreen: {
-    title: 'Roll call'
+    title: 'Roll call',
+    paxSearch: 'Search passengers'
   },
   NoData: {
     noMatch: 'No match found',
