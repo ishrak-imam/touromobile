@@ -264,15 +264,16 @@ const ss = StyleSheet.create({
     flex: 1
   },
   itemLeft: {
-    flex: 1.5,
+    flex: 2,
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    paddingLeft: 5
   },
   itemBody: {
-    flex: 4
+    flex: 5
   },
   itemRight: {
-    flex: 2,
+    flex: 2.5,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'
