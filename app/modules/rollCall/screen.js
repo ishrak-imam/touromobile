@@ -46,7 +46,7 @@ class PaxItem extends Component {
     return (
       <ListItem style={ss.listItem} onPress={onItemPress(paxId)}>
         <Left style={{ flex: 1 }}>
-          <CheckBox checked={selected} />
+          <CheckBox disabled checked={selected} />
         </Left>
         <Body style={ss.itemBody}>
           <View style={{ flex: 1 }}>
