@@ -40,9 +40,13 @@ class PaxItem extends Component {
             nextState.comment !== this.state.comment
   }
 
-  _renderPhone = number => <IonIcon name='phone' color='green' onPress={() => call(number)} />
+  _renderPhone = number => (
+    <IonIcon name='phone' color='green' onPress={() => call(number)} />
+  )
 
-  _renderSMS = number => <IonIcon name='sms' color='blue' onPress={() => sms(number)} />
+  _renderSMS = number => (
+    <IonIcon name='sms' color='blue' onPress={() => sms(number)} />
+  )
 
   _commentToggle = () => {
     const { comment } = this.state
@@ -97,8 +101,12 @@ class PaxItem extends Component {
     return (
       <ListItem style={{ marginLeft: 0, paddingRight: 5 }} onPress={onItemPress(pax)}>
         <Left style={ss.itemLeft}>
-          {!!airport && this._renderAirport(airport)}
-          {!!hotelId && isHotels && this._renderHotel(String(hotelId), hotels)}
+          <View style={ss.iconCon}>
+            {!!airport && this._renderAirport(airport)}
+          </View>
+          <View style={ss.iconCon}>
+            {!!hotelId && isHotels && this._renderHotel(String(hotelId), hotels)}
+          </View>
         </Left>
         <Body style={ss.itemBody}>
           <Text numberOfLines={1}>{name}</Text>
@@ -106,9 +114,16 @@ class PaxItem extends Component {
           {comment && <Text note>{paxComment}</Text>}
         </Body>
         <Right style={ss.itemRight}>
-          {!!paxComment && this._commentToggle()}
-          {!!phone && this._renderPhone(phone)}
-          {!!phone && this._renderSMS(phone)}
+          <View style={ss.iconCon}>
+            {!!paxComment && this._commentToggle()}
+          </View>
+          <View style={ss.iconCon}>
+            {!!phone && this._renderPhone(phone)}
+          </View>
+          <View style={ss.iconCon}>
+            {!!phone && this._renderSMS(phone)}
+          </View>
+
         </Right>
       </ListItem>
     )
@@ -266,8 +281,7 @@ const ss = StyleSheet.create({
   itemLeft: {
     flex: 2,
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingLeft: 5
+    justifyContent: 'space-around'
   },
   itemBody: {
     flex: 5
@@ -283,8 +297,8 @@ const ss = StyleSheet.create({
     color: Colors.silver
   },
   airportCon: {
-    height: 20,
-    width: 37,
+    height: 22,
+    width: 30,
     borderWidth: 1,
     borderRadius: 2,
     alignItems: 'center',
@@ -292,5 +306,9 @@ const ss = StyleSheet.create({
   },
   airportText: {
     fontSize: 12
+  },
+  iconCon: {
+    height: 22,
+    width: 22
   }
 })
