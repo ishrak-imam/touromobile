@@ -28,7 +28,7 @@ export default {
     home: 'Home',
     out: 'Out',
     hotels: 'Hotels',
-    rollCall: 'Head count'
+    rollCall: 'Roll call'
   },
   PassengersScreen: {
     paxTitle: 'Passengers',

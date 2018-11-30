@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import {
   Container, View, ListItem, Left,
   CheckBox, Body, Text, Title
@@ -9,7 +9,6 @@ import { Colors, IonIcon } from '../../theme'
 import Header from '../../components/header'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import {
   getTrips, getSortedPax, getSortedPaxByHotel,
   getSortedPaxByAirport, filterPaxBySearchText,
@@ -17,11 +16,23 @@ import {
   getSortedPaxByBookingId, paxDataGroupByBooking,
   getPresents, getPax
 } from '../../selectors'
+import isIphoneX from '../../utils/isIphoneX'
 import SearchBar from '../../components/searchBar'
 import ContextMenu from '../../components/contextMenu'
 import NoData from '../../components/noData'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { addToPresent, removeFromPresent, resetPresent } from './action'
+import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
+
+const { width } = Dimensions.get('window')
+
+const dataProvider = new DataProvider((r1, r2) => {
+  return r1 !== r2
+})
+
+const layoutProvider = new LayoutProvider(
+  () => 'type', (_, dim) => { dim.width = width; dim.height = 53 }
+)
 
 const _T = Translator('RollCallScreen')
 
@@ -34,15 +45,15 @@ const CONTEXT_OPTIONS = {
 
 class PaxItem extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.pax.equals(this.props.pax) ||
+    return nextProps.pax.id !== this.props.pax.id ||
             nextProps.selected !== this.props.selected
   }
 
   render () {
     const { pax, selected, onItemPress } = this.props
-    const paxId = String(pax.get('id'))
-    const name = `${pax.get('firstName')} ${pax.get('lastName')}`
-    const bookingId = pax.get('booking').get('id')
+    const paxId = String(pax.id)
+    const name = `${pax.firstName} ${pax.lastName}`
+    const bookingId = pax.booking.id
     return (
       <ListItem style={ss.listItem} onPress={onItemPress(paxId)}>
         <Left style={{ flex: 1 }}>
@@ -112,14 +123,14 @@ class RollCallScreen extends Component {
     }
   }
 
-  _renderPerson = ({ item }) => {
+  _renderPerson = (type, item) => {
     const { trips, presents } = this.props
     const trip = trips.get('current').get('trip')
     const hotels = trip.get('hotels')
 
-    if (item.get('first')) {
+    if (item.first) {
       const { groupBy } = this.state
-      let text = String(item.get('initial'))
+      let text = String(item.initial)
       if (groupBy === CONTEXT_OPTIONS.hotel.key) {
         text = hotels.find(h => String(h.get('id')) === text).get('name')
       }
@@ -130,7 +141,7 @@ class RollCallScreen extends Component {
       )
     }
 
-    const paxId = String(item.get('id'))
+    const paxId = String(item.id)
     return (
       <PaxItem
         pax={item}
@@ -181,12 +192,11 @@ class RollCallScreen extends Component {
 
     return (
       paxList.size
-        ? <ImmutableVirtualizedList
-          contentContainerStyle={{ paddingBottom: 30 }}
-          keyboardShouldPersistTaps='always'
-          immutableData={paxList}
-          renderItem={this._renderPerson}
-          keyExtractor={item => String(item.get('id'))}
+        ? <RecyclerListView
+          contentContainerStyle={ss.listView}
+          dataProvider={dataProvider.cloneWithRows(paxList.toJS())}
+          rowRenderer={this._renderPerson}
+          layoutProvider={layoutProvider}
         />
         : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
     )
@@ -252,6 +262,9 @@ export default connect(stateToProps, null)(RollCallScreen)
 const ss = StyleSheet.create({
   container: {
     flex: 1
+  },
+  listView: {
+    paddingBottom: isIphoneX ? 30 : 10
   },
   sectionText: {
     fontWeight: 'bold',
