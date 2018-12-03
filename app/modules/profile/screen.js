@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import {
   Container, View, CheckBox,
-  Body, Left, CardItem, Text
+  Body, Left, Text, ListItem
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
@@ -26,17 +26,17 @@ class Settings extends Component {
     const { showLabel, toggleLabel, style } = this.props
     return (
       <View style={style}>
-        <CardItem>
+        <ListItem onPress={toggleLabel}>
           <Left style={ss.left}>
             <CheckBox
+              disabled
               checked={showLabel}
-              onPress={toggleLabel}
             />
           </Left>
           <Body style={ss.body}>
             <Text>{_T('showTabLabels')}</Text>
           </Body>
-        </CardItem>
+        </ListItem>
       </View>
     )
   }

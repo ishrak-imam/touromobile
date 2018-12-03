@@ -4,7 +4,6 @@ import {
   Text, Right
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
-import IconButton from '../components/iconButton'
 import { TouchableOpacity, StyleSheet, TextInput } from 'react-native'
 import { call, sms } from '../utils/comms'
 import Translator from '../utils/translator'
@@ -52,16 +51,16 @@ class PaxCard extends Component {
     const ssn = pax.get('ssn')
     return (
       <CardItem>
-        <Left style={{ flex: 4 }}>
+        <Left style={ss.nameLeft}>
           <IonIcon name='person' />
           <Body>
             <Text>{name}</Text>
             <Text note>{ssn}</Text>
           </Body>
         </Left>
-        <Right style={{ flex: 1 }}>
-          <IconButton name='edit' onPress={this._toggleEditMode} />
-        </Right>
+        <TouchableOpacity style={ss.nameRight} onPress={this._toggleEditMode}>
+          <IonIcon name='edit' />
+        </TouchableOpacity>
       </CardItem>
     )
   }
@@ -88,13 +87,13 @@ class PaxCard extends Component {
 
     return (
       <CardItem>
-        <Body style={{ flex: 3 }}>
+        <Body style={ss.phoneLeft}>
           <Text>{_T('phone')}</Text>
           {this._renderPhoneInput(phone)}
         </Body>
         <Right style={ss.comms}>
-          <IconButton name='phone' color={phnColor} onPress={phnOnPress} />
-          <IconButton name='sms' color={smsColor} onPress={smsOnPress} />
+          <IonIcon name='phone' color={phnColor} onPress={phnOnPress} />
+          <IonIcon name='sms' color={smsColor} onPress={smsOnPress} />
         </Right>
       </CardItem>
     )
@@ -235,7 +234,18 @@ const ss = StyleSheet.create({
 
   comms: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  nameLeft: {
+    flex: 5
+  },
+  nameRight: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  phoneLeft: {
+    flex: 3
   },
   booking: {
     paddingVertical: 5

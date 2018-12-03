@@ -1,14 +1,13 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text, Left,
-  Body, Right
+  View, Text, Left, Body
 } from 'native-base'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { StyleSheet } from 'react-native'
-import { Colors } from '../theme'
+import { StyleSheet, TouchableOpacity } from 'react-native'
+import { Colors, IonIcon } from '../theme'
 import FooterButtons from './footerButtons'
-import IconButton from './iconButton'
+// import IconButton from './iconButton'
 import TextInput from '../components/textinput'
 
 import { actionDispatcher } from '../utils/actionDispatcher'
@@ -86,13 +85,13 @@ export default class Profile extends Component {
 
   _renderHeader = () => {
     return (
-      <View style={ss.cardItem}>
-        <Left>
+      <View style={ss.topLabel}>
+        <Left style={ss.topLeft}>
           <Text style={ss.boldText}>{_T('details')}</Text>
         </Left>
-        <Right>
-          <IconButton name='edit' onPress={this._toggleEditMode} />
-        </Right>
+        <TouchableOpacity style={ss.topRight} onPress={this._toggleEditMode}>
+          <IonIcon name='edit' />
+        </TouchableOpacity>
       </View>
     )
   }
@@ -341,6 +340,18 @@ const ss = StyleSheet.create({
   },
   item: {
     marginBottom: 20
+  },
+  topLabel: {
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    paddingVertical: 20
+  },
+  topLeft: {
+    flex: 5
+  },
+  topRight: {
+    flex: 1,
+    alignItems: 'center'
   },
   cardItem: {
     flexDirection: 'row',
