@@ -116,6 +116,9 @@ export default {
     title: 'Roll call',
     paxSearch: 'Search passengers'
   },
+  OrdersScreen: {
+    title: 'Orders'
+  },
   NoData: {
     noMatch: 'No match found',
     noFutureTrips: 'No more future trips',

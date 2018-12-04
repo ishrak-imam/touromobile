@@ -31,14 +31,14 @@ class BookingItem extends Component {
   }
 
   render () {
-    const { booking, modifiedPax } = this.props
-    const id = booking.get('id')
+    const { booking, modifiedPax, onPress } = this.props
+    const id = String(booking.get('id'))
     const pax = booking.get('pax')
     const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
     const phones = getPhoneNumbers(getMap({ pax, modifiedPax }))
     return (
-      <ListItem>
+      <ListItem onPress={onPress(booking)}>
         <Body>
           <Text>{id}</Text>
           {paxNames}
@@ -59,12 +59,20 @@ class BookingList extends Component {
     }
   }
 
+  _toOrdersScreen = booking => {
+    const { navigation, trip } = this.props
+    const brand = trip.get('brand')
+    return () => {
+      navigation.navigate('Orders', { brand, booking })
+    }
+  }
+
   _renderBooking = ({ item }) => {
     const { modifiedPax } = this.props
     const pax = item.get('pax')
     const filteredModifiedPax = getModifiedPaxByBooking(getMap({ pax, modifiedPax }))
     return (
-      <BookingItem booking={item} modifiedPax={filteredModifiedPax} />
+      <BookingItem booking={item} modifiedPax={filteredModifiedPax} onPress={this._toOrdersScreen} />
     )
   }
 

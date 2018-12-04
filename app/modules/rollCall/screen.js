@@ -10,7 +10,7 @@ import Header from '../../components/header'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
 import {
-  getTrips, getSortedPax, getSortedPaxByHotel,
+  currentTripSelector, getSortedPax, getSortedPaxByHotel,
   getSortedPaxByAirport, filterPaxBySearchText,
   getPaxData, getPaxDataGroupByHotel, getPaxDataGroupByAirport,
   getSortedPaxByBookingId, paxDataGroupByBooking,
@@ -86,8 +86,8 @@ class RollCallScreen extends Component {
   }
 
   _renderRight = () => {
-    const { trips } = this.props
-    const trip = trips.get('current').get('trip')
+    const { currentTrip } = this.props
+    const trip = currentTrip.get('trip')
 
     let options = [CONTEXT_OPTIONS.name, CONTEXT_OPTIONS.booking]
 
@@ -124,8 +124,8 @@ class RollCallScreen extends Component {
   }
 
   _renderPerson = (type, item) => {
-    const { trips, presents } = this.props
-    const trip = trips.get('current').get('trip')
+    const { currentTrip, presents } = this.props
+    const trip = currentTrip.get('trip')
     const hotels = trip.get('hotels')
 
     if (item.first) {
@@ -223,8 +223,8 @@ class RollCallScreen extends Component {
   }
 
   render () {
-    const { navigation, trips } = this.props
-    const trip = trips.get('current').get('trip')
+    const { navigation, currentTrip } = this.props
+    const trip = currentTrip.get('trip')
     const bookings = trip.get('bookings')
     const brand = trip.get('brand')
 
@@ -253,7 +253,7 @@ class RollCallScreen extends Component {
 }
 
 const stateToProps = state => ({
-  trips: getTrips(state),
+  currentTrip: currentTripSelector(state),
   presents: getPresents(state)
 })
 

@@ -116,6 +116,9 @@ export default {
     title: 'Upprop',
     paxSearch: 'Sök passagerare'
   },
+  OrdersScreen: {
+    title: 'Order'
+  },
   NoData: {
     noMatch: 'Ingen matchning hittad',
     noFutureTrips: 'Inga fler framtida resor',

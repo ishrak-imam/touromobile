@@ -2481,6 +2481,93 @@
     "image": "https://picsum.photos/700/500/?image=574",
     "description": "Berlin Weekend",
     "brand": "SS",
+    "lunches": {
+      "out": {
+        "name": "Klassenzimmer, Hammoor",
+        "address": "Hauptstraße 14",
+        "zip": "22941",
+        "city": "Hammoor",
+        "country": "Tyskland",
+        "phone": "123123321",
+        "time": "2018-04-01T12:30",
+        "acceptsCard": true,
+        "url": "http://www.restaurant-klassenzimmer.de",
+        "directions": "Turn off the A1 on exit 27, Bargteheide. Aim for Hammoor. The restaurant is on the right side in the village.",
+        "meals": [
+          {
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
+          }
+        ]
+      },
+      "home": {
+        "name": "Der Alte Käse",
+        "address": "Jugend Strasse 123",
+        "zip": "DE-3431",
+        "city": "Potsdam",
+        "country": "Tyskland",
+        "phone": "423423432",
+        "time": "2018-04-03T13:30",
+        "meals": [
+          {
+            "id": 201,
+            "name": "Knödel",
+            "adult": 201,
+            "child": 101
+          },
+          {
+            "id": 202,
+            "name": "Wurst",
+            "adult": 151,
+            "child": 76
+          },
+          {
+            "id": 203,
+            "name": "Veggie",
+            "adult": 390,
+            "child": 200
+          }
+        ]
+      }
+    },
     "bookings": [
       {
         "id": "640062",
@@ -3616,45 +3703,34 @@
         "priceChild": 3500
       }
     ],
-    "lunches": {
-      "out": {
-        "name": "The Lexington Hotel New York City",
-        "address": "511 Lexington Avenue @ 48th Street",
-        "zip": "US-10017",
-        "city": "NEW YORK",
-        "country": "Usa",
-        "phone": "524568",
-        "url": "https://www.lexingtonhotelnyc.com",
-        "directions": null,
-        "time": "2018-01-01T12:00",
-        "meals": [
-          {
-            "id": 1,
-            "name": "Hamburger",
-            "adult": 125,
-            "child": 75
-          }
-        ]
-      },
-      "home": {
-        "name": "First Hotel Kong Frederik",
-        "address": "Vester Voldgade 25",
-        "zip": "1552",
-        "city": "Köpenhamn",
-        "country": "Danmark",
-        "phone": "4589652",
-        "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
-        "directions": null,
-        "time": "2018-01-01T12:00",
-        "meals": [
-          {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
-          }
-        ]
-      }
+    "orders": {
+      "out": [
+        {
+          "meal": 101,
+          "drink": 201,
+          "pax": 1,
+          "adult": true
+        },
+        {
+          "meal": 101,
+          "drink": 201,
+          "pax": 1,
+          "adult": true
+        },
+        {
+          "meal": 103,
+          "drink": 202,
+          "pax": 1,
+          "adult": true
+        },
+        {
+          "meal": 107,
+          "drink": 204,
+          "pax": 1,
+          "adult": false
+        }
+      ],
+      "home": []
     },
     "transport": {
       "type": "bus",

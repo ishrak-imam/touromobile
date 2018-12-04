@@ -10,8 +10,10 @@ import { StyleSheet, ScrollView } from 'react-native'
 import { call, sms, web, map } from '../../utils/comms'
 import { IonIcon, Colors } from '../../theme'
 import isEmpty from '../../utils/isEmpty'
+import isIphoneX from '../../utils/isIphoneX'
 import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
+import beverageList from '../../utils/beverages'
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
@@ -105,7 +107,8 @@ export default class RestaurantScreen extends Component {
 
   _renderOrders = (orders, restaurant) => {
     const meals = listToMap(restaurant.get('meals'), 'id')
-    const beverages = listToMap(restaurant.get('beverages'), 'id')
+    // const beverages = listToMap(restaurant.get('beverages'), 'id')
+    const beverages = listToMap(beverageList, 'id')
 
     let adultMealOrders = {}
     let childMealOrders = {}
@@ -174,7 +177,7 @@ export default class RestaurantScreen extends Component {
     return (
       <Container>
         <Header left='back' title={restaurant.get('name')} navigation={navigation} brand={brand} />
-        <ScrollView>
+        <ScrollView contentContainerStyle={ss.container}>
           <View style={ss.containerCard}>
             {!!restaurant && this._renderRestaurant(restaurant)}
             {!!restaurant && this._renderComs(restaurant)}
@@ -188,6 +191,9 @@ export default class RestaurantScreen extends Component {
 }
 
 const ss = StyleSheet.create({
+  container: {
+    paddingBottom: isIphoneX ? 20 : 0
+  },
   containerCard: {
     paddingBottom: 10
   },
