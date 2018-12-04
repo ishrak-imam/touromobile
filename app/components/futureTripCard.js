@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import FooterButtons from './footerButtons'
 import { connect } from 'react-redux'
+import OutHomeTab, { TABS } from './outHomeTab'
 import { getPax, getAaccept, getUser } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
 import { getMap } from '../utils/immutable'
@@ -43,9 +44,6 @@ const KEY_NAMES = getKeyNames()
 
 const DATE_FORMAT = 'DD/MM'
 
-const HOME = 'HOME'
-const OUT = 'OUT'
-
 class FutureTripCard extends Component {
   constructor (props) {
     super(props)
@@ -62,7 +60,7 @@ class FutureTripCard extends Component {
     }
 
     this.state = {
-      tab: OUT
+      tab: ''
     }
   }
 
@@ -140,34 +138,6 @@ class FutureTripCard extends Component {
         onSelect: this._onSelect
       }))
     }
-  }
-
-  _renderTabs = () => {
-    const { tab } = this.state
-    return (
-      <View style={ss.tabContainer}>
-        <TouchableOpacity
-          style={[ss.tab, {
-            backgroundColor: tab === OUT ? Colors.blue : Colors.steel,
-            borderTopLeftRadius: 3,
-            borderBottomLeftRadius: 3
-          }]}
-          onPress={this._onTabSwitch(OUT)}
-        >
-          <Text style={{ color: tab === OUT ? Colors.silver : Colors.black }}>{_T('out')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[ss.tab, {
-            backgroundColor: tab === HOME ? Colors.blue : Colors.steel,
-            borderTopRightRadius: 3,
-            borderBottomRightRadius: 3
-          }]}
-          onPress={this._onTabSwitch(HOME)}
-        >
-          <Text style={{ color: tab === HOME ? Colors.silver : Colors.black }}>{_T('home')}</Text>
-        </TouchableOpacity>
-      </View>
-    )
   }
 
   _renderSelector = options => {
@@ -347,9 +317,11 @@ class FutureTripCard extends Component {
           <Text style={ss.checkText}>{acceptText}</Text>
         </TouchableOpacity>
         <View style={ss.comboTabs}>
-          {this._renderTabs()}
-          {tab === OUT && this._renderOutCombos(transportType)}
-          {tab === HOME && this._renderHomeCombos(transportType)}
+          <View style={ss.outHomeTabs}>
+            <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
+          </View>
+          {tab === TABS.OUT && this._renderOutCombos(transportType)}
+          {tab === TABS.HOME && this._renderHomeCombos(transportType)}
         </View>
       </View>
     )
@@ -544,17 +516,6 @@ const ss = StyleSheet.create({
   footerButtons: {
     marginBottom: 5
   },
-  tabContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 10
-  },
-  tab: {
-    width: 70,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 4
-  },
   selectorBox: {
     flex: 4,
     justifyContent: 'center',
@@ -615,5 +576,8 @@ const ss = StyleSheet.create({
   },
   comboTabs: {
     flex: 5
+  },
+  outHomeTabs: {
+    marginBottom: 10
   }
 })

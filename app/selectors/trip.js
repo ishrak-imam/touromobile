@@ -215,6 +215,8 @@ export const pastTripsSelector = state => state.trips.get('past')
 
 export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpload')
 
+export const getLunches = state => state.trips.get('current').get('trip').get('lunches')
+
 let sortedTripsCache = null
 export const getSortedTrips = trips => {
   if (!sortedTripsCache) {

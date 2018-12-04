@@ -52,7 +52,9 @@ export default {
     transferCity: 'Anslutningsort',
     accommodation: 'Övernattning',
     bagPick: 'Väskhämtning',
-    bagDrop: 'Väskavlämning',
+    bagDrop: 'Väskavlämning'
+  },
+  OutHomeTab: {
     home: 'Hem',
     out: 'Ut'
   },

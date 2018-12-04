@@ -52,7 +52,9 @@ export default {
     transferCity: 'Transfer city',
     accommodation: 'Accommodation',
     bagPick: 'Bag pickup',
-    bagDrop: 'Bag dropoff',
+    bagDrop: 'Bag dropoff'
+  },
+  OutHomeTab: {
     home: 'Home',
     out: 'Out'
   },
