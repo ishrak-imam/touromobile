@@ -130,6 +130,8 @@ export default {
   ContextMenu: {
     sortOrder: 'Sort order',
     name: 'Name',
+    firstName: 'First name',
+    lastName: 'Last name',
     hotel: 'Hotel',
     airport: 'Airport',
     booking: 'Booking'
