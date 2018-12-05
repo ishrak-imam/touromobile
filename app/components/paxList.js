@@ -3,11 +3,19 @@ import React, { Component } from 'react'
 import {
   View, Text, ListItem, Right, Left
 } from 'native-base'
+
 import {
-  getSortedPax, getPaxData, getSortedPaxByAirport, getSortedPaxByHotel,
-  filterPaxBySearchText, getModifiedPax, getPaxDataGroupByAirport,
-  getPaxDataGroupByHotel
+
+  getSortedPaxByFirstName, getPaxDataGroupByFirstName,
+  getSortedPaxByLastName, getPaxDataGroupByLastName,
+  getSortedPaxByAirport, getPaxDataGroupByAirport,
+  getSortedPaxByHotel, getPaxDataGroupByHotel,
+  getSortedPaxByBookingId, getPaxDataGroupByBooking,
+
+  filterPaxBySearchText, getModifiedPax
+
 } from '../selectors'
+
 import { call, sms } from '../utils/comms'
 import { StyleSheet } from 'react-native'
 import SearchBar from '../components/searchBar'
@@ -22,9 +30,12 @@ import ContextMenu from './contextMenu'
 const _T = Translator('PassengersScreen')
 
 const CONTEXT_OPTIONS = {
-  name: { text: 'name', key: 'NAME', icon: 'person' },
+  firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },
+  lastName: { text: 'lastName', key: 'LAST_NAME', icon: 'person' },
+  // name: { text: 'name', key: 'NAME', icon: 'person' },
   hotel: { text: 'hotel', key: 'HOTEL', icon: 'home' },
-  airport: { text: 'airport', key: 'AIRPORT', icon: 'flight' }
+  airport: { text: 'airport', key: 'AIRPORT', icon: 'flight' },
+  booking: { text: 'booking', key: 'BOOKING', icon: 'booking' }
 }
 
 class PaxItem extends Component {
@@ -134,7 +145,7 @@ class PaxList extends Component {
     super(props)
     this.state = {
       searchText: '',
-      groupBy: CONTEXT_OPTIONS.name.key
+      groupBy: CONTEXT_OPTIONS.firstName.key
     }
   }
 
@@ -178,14 +189,20 @@ class PaxList extends Component {
 
     let sortedPax = null
     switch (groupBy) {
-      case CONTEXT_OPTIONS.name.key:
-        sortedPax = getSortedPax(trip)
+      case CONTEXT_OPTIONS.firstName.key:
+        sortedPax = getSortedPaxByFirstName(trip)
+        break
+      case CONTEXT_OPTIONS.lastName.key:
+        sortedPax = getSortedPaxByLastName(trip)
         break
       case CONTEXT_OPTIONS.hotel.key:
         sortedPax = getSortedPaxByHotel(trip)
         break
       case CONTEXT_OPTIONS.airport.key:
         sortedPax = getSortedPaxByAirport(trip)
+        break
+      case CONTEXT_OPTIONS.booking.key:
+        sortedPax = getSortedPaxByBookingId(trip)
         break
     }
 
@@ -195,14 +212,20 @@ class PaxList extends Component {
 
     let paxList = null
     switch (groupBy) {
-      case CONTEXT_OPTIONS.name.key:
-        paxList = getPaxData(sortedPax)
+      case CONTEXT_OPTIONS.firstName.key:
+        paxList = getPaxDataGroupByFirstName(sortedPax)
+        break
+      case CONTEXT_OPTIONS.lastName.key:
+        paxList = getPaxDataGroupByLastName(sortedPax)
         break
       case CONTEXT_OPTIONS.hotel.key:
         paxList = getPaxDataGroupByHotel(sortedPax)
         break
       case CONTEXT_OPTIONS.airport.key:
         paxList = getPaxDataGroupByAirport(sortedPax)
+        break
+      case CONTEXT_OPTIONS.booking.key:
+        paxList = getPaxDataGroupByBooking(sortedPax)
         break
     }
 
@@ -225,7 +248,11 @@ class PaxList extends Component {
   _renderRight = () => {
     const { trip } = this.props
 
-    let options = [CONTEXT_OPTIONS.name]
+    let options = [
+      CONTEXT_OPTIONS.firstName,
+      CONTEXT_OPTIONS.lastName,
+      CONTEXT_OPTIONS.booking
+    ]
 
     const hotels = trip.get('hotels')
     const transport = trip.get('transport')

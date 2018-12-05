@@ -9,7 +9,7 @@ import Header from '../../components/header'
 import {
   getSortedPax,
   currentTripSelector, getSortedPaxByBookingId,
-  getParticipants, filterPaxBySearchText, paxDataGroupByBooking
+  getParticipants, filterPaxBySearchText, getPaxDataGroupByBooking
 } from '../../selectors'
 import { StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
@@ -304,7 +304,7 @@ class ExcursionDetailsScreen extends Component {
     }
 
     if (groupByBooking) {
-      sortedPax = paxDataGroupByBooking(sortedPax)
+      sortedPax = getPaxDataGroupByBooking(sortedPax)
     }
 
     return (

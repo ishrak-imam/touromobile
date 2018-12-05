@@ -10,11 +10,15 @@ import Header from '../../components/header'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
 import {
-  currentTripSelector, getSortedPax, getSortedPaxByHotel,
-  getSortedPaxByAirport, filterPaxBySearchText,
-  getPaxData, getPaxDataGroupByHotel, getPaxDataGroupByAirport,
-  getSortedPaxByBookingId, paxDataGroupByBooking,
-  getPresents, getPax
+
+  currentTripSelector, getPax, getPresents,
+  getSortedPaxByFirstName, getPaxDataGroupByFirstName,
+  getSortedPaxByLastName, getPaxDataGroupByLastName,
+  getSortedPaxByAirport, getPaxDataGroupByAirport,
+  getSortedPaxByHotel, getPaxDataGroupByHotel,
+  getSortedPaxByBookingId, getPaxDataGroupByBooking,
+  filterPaxBySearchText
+
 } from '../../selectors'
 import isIphoneX from '../../utils/isIphoneX'
 import SearchBar from '../../components/searchBar'
@@ -37,7 +41,9 @@ const layoutProvider = new LayoutProvider(
 const _T = Translator('RollCallScreen')
 
 const CONTEXT_OPTIONS = {
-  name: { text: 'name', key: 'NAME', icon: 'person' },
+  firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },
+  lastName: { text: 'lastName', key: 'LAST_NAME', icon: 'person' },
+  // name: { text: 'name', key: 'NAME', icon: 'person' },
   hotel: { text: 'hotel', key: 'HOTEL', icon: 'home' },
   airport: { text: 'airport', key: 'AIRPORT', icon: 'flight' },
   booking: { text: 'booking', key: 'BOOKING', icon: 'booking' }
@@ -77,7 +83,7 @@ class RollCallScreen extends Component {
     super(props)
     this.state = {
       searchText: '',
-      groupBy: CONTEXT_OPTIONS.name.key
+      groupBy: CONTEXT_OPTIONS.firstName.key
     }
   }
 
@@ -89,7 +95,11 @@ class RollCallScreen extends Component {
     const { currentTrip } = this.props
     const trip = currentTrip.get('trip')
 
-    let options = [CONTEXT_OPTIONS.name, CONTEXT_OPTIONS.booking]
+    let options = [
+      CONTEXT_OPTIONS.firstName,
+      CONTEXT_OPTIONS.lastName,
+      CONTEXT_OPTIONS.booking
+    ]
 
     const hotels = trip.get('hotels')
     const transport = trip.get('transport')
@@ -156,8 +166,11 @@ class RollCallScreen extends Component {
 
     let sortedPax = null
     switch (groupBy) {
-      case CONTEXT_OPTIONS.name.key:
-        sortedPax = getSortedPax(trip)
+      case CONTEXT_OPTIONS.firstName.key:
+        sortedPax = getSortedPaxByFirstName(trip)
+        break
+      case CONTEXT_OPTIONS.lastName.key:
+        sortedPax = getSortedPaxByLastName(trip)
         break
       case CONTEXT_OPTIONS.hotel.key:
         sortedPax = getSortedPaxByHotel(trip)
@@ -176,8 +189,11 @@ class RollCallScreen extends Component {
 
     let paxList = null
     switch (groupBy) {
-      case CONTEXT_OPTIONS.name.key:
-        paxList = getPaxData(sortedPax)
+      case CONTEXT_OPTIONS.firstName.key:
+        paxList = getPaxDataGroupByFirstName(sortedPax)
+        break
+      case CONTEXT_OPTIONS.lastName.key:
+        paxList = getPaxDataGroupByLastName(sortedPax)
         break
       case CONTEXT_OPTIONS.hotel.key:
         paxList = getPaxDataGroupByHotel(sortedPax)
@@ -186,7 +202,7 @@ class RollCallScreen extends Component {
         paxList = getPaxDataGroupByAirport(sortedPax)
         break
       case CONTEXT_OPTIONS.booking.key:
-        paxList = paxDataGroupByBooking(sortedPax)
+        paxList = getPaxDataGroupByBooking(sortedPax)
         break
     }
 

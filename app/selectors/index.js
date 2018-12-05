@@ -19,10 +19,13 @@ export const {
   filterPaxBySearchText,
   filterBookingBySearchText,
   getSortedPax,
+  getSortedPaxByFirstName,
+  getSortedPaxByLastName,
   getSortedPaxByAirport,
   getSortedPaxByHotel,
   getSortedBookings,
-  getPaxData,
+  getPaxDataGroupByFirstName,
+  getPaxDataGroupByLastName,
   getPaxDataGroupByAirport,
   getPaxDataGroupByHotel,
   getPhoneNumbers,
@@ -34,7 +37,7 @@ export const {
   pendingStatsUploadCount,
   getFlightPaxPhones,
   getPaxWithExcursionPack,
-  paxDataGroupByBooking
+  getPaxDataGroupByBooking
 } = require('./trip')
 
 export const {
