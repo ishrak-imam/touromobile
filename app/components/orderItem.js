@@ -6,29 +6,14 @@ import {
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import OutHomeTab, { TABS } from './outHomeTab'
 import RadioButton from './radioButton'
 import { getLunches } from '../selectors'
 
 class OrderItem extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      tab: 'out'
-    }
-  }
-
-  _onTabSwitch = tab => {
-    return () => {
-      this.setState({ tab })
-    }
-  }
-
   render () {
-    const { tab } = this.state
-    const { lunches, pax } = this.props
+    const { lunches, pax, bookingId, direction } = this.props
     const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
-    const meals = lunches.get(tab).get('meals')
+    const meals = lunches.get(direction).get('meals')
     return (
       <View style={ss.orderItem}>
 
@@ -36,12 +21,9 @@ class OrderItem extends Component {
           <Left style={ss.headerLeft}>
             <Text style={{ fontWeight: 'bold' }}>{paxName}</Text>
           </Left>
-          <Right style={ss.headerRight}>
-            <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
-          </Right>
         </ListItem>
 
-        <RadioButton items={meals} label='Meals' direction={tab} />
+        <RadioButton items={meals} label='Meals' direction={direction} />
 
       </View>
     )
@@ -56,10 +38,11 @@ export default connect(stateToProps, null)(OrderItem)
 
 const ss = StyleSheet.create({
   orderItem: {
-    paddingLeft: 20,
-    marginBottom: 20
+    paddingLeft: 15,
+    marginBottom: 10
   },
   header: {
+    paddingBottom: 10,
     borderBottomWidth: 0,
     marginLeft: 0
   },

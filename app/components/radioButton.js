@@ -12,9 +12,7 @@ export default class RadioButton extends Component {
     const name = item.get('name')
     return (
       <ListItem style={ss.item} onPress={() => {}}>
-        <Left style={ss.left}>
-          <CheckBox disabled />
-        </Left>
+        <CheckBox disabled />
         <Body style={ss.right}>
           <Text>{name}</Text>
         </Body>
@@ -26,7 +24,7 @@ export default class RadioButton extends Component {
     const { items, direction, label } = this.props
     return (
       <View>
-        <Text note style={ss.label}>{label}</Text>
+        <Text note>{label}</Text>
         <ImmutableVirtualizedList
           immutableData={items}
           renderItem={this._renderItem}
@@ -38,14 +36,12 @@ export default class RadioButton extends Component {
 }
 
 const ss = StyleSheet.create({
-  label: {
-    marginLeft: 10
-  },
   item: {
     borderBottomWidth: 0,
     marginLeft: 0,
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    marginRight: 15
   },
   left: {
     flex: 0.5
