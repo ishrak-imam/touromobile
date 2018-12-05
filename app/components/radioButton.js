@@ -8,11 +8,26 @@ import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 export default class RadioButton extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      selected: null
+    }
+  }
+  _onSelect = item => {
+    return () => {
+      this.setState({ selected: item })
+    }
+  }
+
   _renderItem = ({ item }) => {
+    const { selected } = this.state
+    const isSelected = selected ? selected.get('id') === item.get('id') : false
     const name = item.get('name')
+
     return (
-      <ListItem style={ss.item} onPress={() => {}}>
-        <CheckBox disabled />
+      <ListItem style={ss.item} onPress={this._onSelect(item)}>
+        <CheckBox disabled checked={isSelected} />
         <Body style={ss.right}>
           <Text>{name}</Text>
         </Body>
@@ -21,7 +36,7 @@ export default class RadioButton extends Component {
   }
 
   render () {
-    const { items, direction, label } = this.props
+    const { items, direction, label, isChild } = this.props
     return (
       <View>
         <Text note>{label}</Text>
