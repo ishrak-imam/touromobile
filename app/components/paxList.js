@@ -280,11 +280,10 @@ const ss = StyleSheet.create({
   itemLeft: {
     flex: 2,
     alignItems: 'center',
-    justifyContent: 'space-around',
-    marginLeft: 5
+    justifyContent: 'space-around'
   },
   itemBody: {
-    flex: 5,
+    flex: 4,
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
@@ -300,9 +299,9 @@ const ss = StyleSheet.create({
   },
   airportCon: {
     height: 22,
-    width: 30,
+    width: 34,
     borderWidth: 1,
-    borderRadius: 2,
+    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center'
   },
