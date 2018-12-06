@@ -5,7 +5,7 @@ const BEVERAGES_LIST = [
   { 'id': 201, 'name': 'Beer' },
   { 'id': 202, 'name': 'Wine' },
   { 'id': 203, 'name': 'Fanta' },
-  { 'id': 204, 'name': 'Coca Cola' },
+  { 'id': 204, 'name': 'Coke' },
   { 'id': 205, 'name': 'Sprite' },
   { 'id': 206, 'name': 'Water' }
 ]

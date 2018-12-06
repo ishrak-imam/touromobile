@@ -11,6 +11,8 @@ import { getLunches, getOrder } from '../selectors'
 import { getMap } from '../utils/immutable'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { takeOrder } from '../modules/modifiedData/action'
+import BeverageSelection from './beverageSelection'
+import { Colors } from '../theme'
 
 class OrderItem extends Component {
   constructor (props) {
@@ -92,6 +94,8 @@ class OrderItem extends Component {
           />
         }
 
+        <BeverageSelection />
+
       </View>
     )
   }
@@ -111,20 +115,24 @@ export default connect(stateToProps, null)(OrderItem)
 
 const ss = StyleSheet.create({
   orderItem: {
-    paddingLeft: 15,
-    marginBottom: 10
+    marginLeft: 20,
+    marginRight: 15,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.steel
   },
   header: {
     paddingBottom: 10,
     borderBottomWidth: 0,
-    marginLeft: 0
+    marginLeft: 0,
+    paddingRight: 0
   },
   headerLeft: {
     flex: 4,
     alignItems: 'center'
   },
   headerRight: {
-    flex: 1
+    flex: 1.5
   },
   childCheck: {
     flex: 1,

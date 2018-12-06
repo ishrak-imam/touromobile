@@ -87,7 +87,7 @@ const ss = StyleSheet.create({
   header: {
     marginRight: 15,
     paddingBottom: 5,
-    borderBottomColor: Colors.black,
+    borderBottomColor: Colors.steel,
     borderBottomWidth: 1,
     paddingRight: 0,
     marginLeft: 15,

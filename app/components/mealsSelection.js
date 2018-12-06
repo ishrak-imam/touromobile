@@ -50,8 +50,7 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0,
     marginLeft: 0,
     paddingTop: 10,
-    paddingBottom: 10,
-    marginRight: 15
+    paddingBottom: 10
   },
   left: {
     flex: 0.5
