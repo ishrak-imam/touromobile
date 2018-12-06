@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import {
   Container, ListItem, Left, Right,
-  Text
+  Text, View
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
@@ -29,14 +29,21 @@ export default class OrdersScreen extends Component {
     }
   }
 
-  _renderItem = bookingId => {
+  _renderItem = (bookingId, departureId) => {
     const { tab } = this.state
     return ({ item }) => (
-      <OrderItem
-        bookingId={bookingId}
-        pax={item}
-        direction={tab}
-      />
+
+      /**
+       * TODO:
+       *
+       * Bad code.
+       * Had to do that to execute the constructor of <OrderItem />
+       * again when parent re-render.
+       */
+      <View>
+        {tab === TABS.HOME && <OrderItem bookingId={bookingId} departureId={departureId} pax={item} direction={tab} />}
+        {tab === TABS.OUT && <OrderItem bookingId={bookingId} departureId={departureId} pax={item} direction={tab} />}
+      </View>
     )
   }
 
@@ -45,6 +52,7 @@ export default class OrdersScreen extends Component {
     const { tab } = this.state
     const booking = navigation.getParam('booking')
     const brand = navigation.getParam('brand')
+    const departureId = navigation.getParam('departureId')
     const bookingId = String(booking.get('id'))
     const pax = booking.get('pax')
     const title = `${_T('title')} - ${bookingId}`
@@ -64,7 +72,7 @@ export default class OrdersScreen extends Component {
         <ImmutableVirtualizedList
           contentContainerStyle={ss.scroll}
           immutableData={pax}
-          renderItem={this._renderItem(bookingId)}
+          renderItem={this._renderItem(bookingId, departureId)}
           keyExtractor={item => String(item.get('id'))}
         />
       </Container>

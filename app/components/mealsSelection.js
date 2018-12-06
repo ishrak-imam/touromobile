@@ -1,28 +1,23 @@
 
 import React, { Component } from 'react'
 import {
-  ListItem, Left, Body, Text,
+  ListItem, Body, Text,
   CheckBox, View
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
-export default class RadioButton extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      selected: null
-    }
-  }
+export default class MealsSelection extends Component {
   _onSelect = item => {
+    const { onSelect } = this.props
     return () => {
-      this.setState({ selected: item })
+      onSelect(item)
     }
   }
 
   _renderItem = ({ item }) => {
-    const { selected } = this.state
-    const isSelected = selected ? selected.get('id') === item.get('id') : false
+    const { selected } = this.props
+    const isSelected = selected.get('id') === item.get('id')
     const name = item.get('name')
 
     return (
@@ -36,7 +31,7 @@ export default class RadioButton extends Component {
   }
 
   render () {
-    const { items, direction, label, isChild } = this.props
+    const { items, label } = this.props
     return (
       <View>
         <Text note>{label}</Text>

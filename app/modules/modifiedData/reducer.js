@@ -19,7 +19,9 @@ import {
   ACCEPT_TRIP_FAIL,
 
   PREPARE_CANCEL_DATA,
-  CANCEL_COMBO_VALUES
+  CANCEL_COMBO_VALUES,
+
+  TAKE_ORDER
 } from './action'
 
 import {
@@ -144,6 +146,20 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let modifiedData = readValue(payload.departureId, state)
     let prevAccept = readValue('prevAccept', modifiedData)
     modifiedData = setIntoMap(modifiedData, 'accept', prevAccept)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [TAKE_ORDER]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let orders = readValue('orders', modifiedData) || getMap({})
+    let orderForBooking = readValue(payload.bookingId, orders) || getMap({})
+    let orderForPax = readValue(payload.paxId, orderForBooking) || getMap({})
+    let orderForPaxDirection = readValue(payload.direction, orderForPax) || getMap({})
+    orderForPaxDirection = mergeMapShallow(orderForPaxDirection, payload.order)
+    orderForPax = setIntoMap(orderForPax, payload.direction, orderForPaxDirection)
+    orderForBooking = setIntoMap(orderForBooking, payload.paxId, orderForPax)
+    orders = setIntoMap(orders, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'orders', orders)
     return setIntoMap(state, payload.departureId, modifiedData)
   }
 

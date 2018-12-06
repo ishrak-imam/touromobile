@@ -20,3 +20,7 @@ export const getAaccept = (state, departureId) => {
 }
 
 export const getModifiedData = state => state.modifiedData
+
+export const getOrder = (state, departureId, bookingId, paxId) => {
+  return state.modifiedData.getIn([departureId, 'orders', bookingId, paxId]) || getMap({})
+}

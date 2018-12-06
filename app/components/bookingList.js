@@ -62,8 +62,9 @@ class BookingList extends Component {
   _toOrdersScreen = booking => {
     const { navigation, trip } = this.props
     const brand = trip.get('brand')
+    const departureId = String(trip.get('departureId'))
     return () => {
-      navigation.navigate('Orders', { brand, booking })
+      navigation.navigate('Orders', { brand, booking, departureId })
     }
   }
 

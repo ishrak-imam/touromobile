@@ -60,7 +60,7 @@ class FutureTripCard extends Component {
     }
 
     this.state = {
-      tab: ''
+      tab: 'out'
     }
   }
 
