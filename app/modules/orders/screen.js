@@ -79,7 +79,7 @@ export default class OrdersScreen extends Component {
             <View style={ss.invoicee}>
               <InvoiceeSelection
                 items={pax}
-                label={_T('selectInvoicee')}
+                label={_T('invoicee')}
                 bookingId={bookingId}
                 departureId={departureId}
               />

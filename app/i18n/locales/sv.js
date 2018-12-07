@@ -124,7 +124,7 @@ export default {
     meals: 'Måltider',
     child: 'Barn',
     beverages: 'Drycker',
-    selectInvoicee: 'Välj faktura'
+    invoicee: 'Fakturamottagare'
   },
   NoData: {
     noMatch: 'Ingen matchning hittad',
