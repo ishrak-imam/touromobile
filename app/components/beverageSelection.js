@@ -3,48 +3,44 @@ import React, { Component } from 'react'
 import {
   View, Text, CheckBox
 } from 'native-base'
+import { StyleSheet, TouchableOpacity } from 'react-native'
+import beverages from '../utils/beverages'
+import { chunkList } from '../utils/immutable'
 
-import { StyleSheet } from 'react-native'
+const chunkedBeverages = chunkList(beverages, 3)
 
 export default class BeverageSelection extends Component {
+  _onSelect = item => {
+    const { onSelect } = this.props
+    return () => {
+      onSelect(item)
+    }
+  }
+
+  _renderVeverages = () => {
+    const { selected } = this.props
+    return chunkedBeverages.map((row, index) => (
+      <View key={index} style={ss.row}>
+        {row.map(item => {
+          // && selected.get('adult') === !child
+          const isSelected = selected.get('drink') === item.get('id')
+          return (
+            <TouchableOpacity key={item.get('id')} style={ss.selection} onPress={this._onSelect(item)}>
+              <CheckBox disabled checked={isSelected} />
+              <Text style={ss.name}>{item.get('name')}</Text>
+            </TouchableOpacity>
+          )
+        })}
+      </View>
+    ))
+  }
+
   render () {
     return (
       <View style={ss.wrapper}>
-
         <View style={ss.container}>
-
           <Text note>Beverages</Text>
-
-          <View style={ss.row}>
-            <View style={ss.selection}>
-              <CheckBox />
-              <Text style={ss.name}>Beer</Text>
-            </View>
-            <View style={ss.selection}>
-              <CheckBox />
-              <Text style={ss.name}>Wine</Text>
-            </View>
-            <View style={ss.selection}>
-              <CheckBox />
-              <Text style={ss.name}>Fanta</Text>
-            </View>
-          </View>
-
-          <View style={ss.row}>
-            <View style={ss.selection}>
-              <CheckBox />
-              <Text style={ss.name}>Coke</Text>
-            </View>
-            <View style={ss.selection}>
-              <CheckBox />
-              <Text style={ss.name}>Sprite</Text>
-            </View>
-            <View style={ss.selection}>
-              <CheckBox />
-              <Text style={ss.name}>Water</Text>
-            </View>
-          </View>
-
+          {this._renderVeverages()}
         </View>
       </View>
     )

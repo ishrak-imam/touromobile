@@ -33,6 +33,13 @@ export const setIntoMapNested = (map, nest, val) => {
   return map.setIn(nest, val)
 }
 
+/**
+ * TODO:
+ *
+ * Need a version upgrade of immutable-js
+ * to use the following methods
+ */
+
 // export const deleteFromMap = (map, key) => {
 //   return map.delete(key)
 // }
@@ -95,4 +102,13 @@ export const readValue = (of, from) => {
 
 export const listToMap = (list, key) => {
   return list.reduce((map, item) => map.set(String(item.get(key)), item), getMap({}))
+}
+
+export const chunkList = (list, size) => {
+  let chunkedList = getList([])
+  const noOfChunks = Math.ceil(list.size / size)
+  for (let i = 0; i < noOfChunks; i++) {
+    chunkedList = chunkedList.push(list.slice(i * size, (i + 1) * size))
+  }
+  return chunkedList
 }

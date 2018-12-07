@@ -17,7 +17,7 @@ export default class MealsSelection extends Component {
 
   _renderItem = ({ item }) => {
     const { selected } = this.props
-    const isSelected = selected.get('id') === item.get('id')
+    const isSelected = selected.get('meal') === item.get('id')
     const name = item.get('name')
 
     return (

@@ -24,3 +24,7 @@ export const getModifiedData = state => state.modifiedData
 export const getOrder = (state, departureId, bookingId, paxId) => {
   return state.modifiedData.getIn([departureId, 'orders', bookingId, paxId]) || getMap({})
 }
+
+export const getInvoicee = (state, departureId, bookingId) => {
+  return state.modifiedData.getIn([departureId, 'orders', bookingId, 'invoicee'])
+}

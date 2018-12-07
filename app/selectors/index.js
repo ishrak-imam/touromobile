@@ -66,7 +66,8 @@ export const {
   getParticipants,
   getModifiedData,
   getAaccept,
-  getOrder
+  getOrder,
+  getInvoicee
 } = require('./modifiedData')
 
 export const {

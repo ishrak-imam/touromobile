@@ -12,6 +12,7 @@ import isIphoneX from '../../utils/isIphoneX'
 import OutHomeTab, { TABS } from '../../components/outHomeTab'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { Colors } from '../../theme'
+import InvoiceeSelection from '../../components/invoiceeSelection'
 
 const _T = Translator('OrdersScreen')
 
@@ -74,7 +75,18 @@ export default class OrdersScreen extends Component {
           immutableData={pax}
           renderItem={this._renderItem(bookingId, departureId)}
           keyExtractor={item => String(item.get('id'))}
+          ListFooterComponent={
+            <View style={ss.invoicee}>
+              <InvoiceeSelection
+                items={pax}
+                label='Select invoicee'
+                bookingId={bookingId}
+                departureId={departureId}
+              />
+            </View>
+          }
         />
+
       </Container>
     )
   }
@@ -101,5 +113,8 @@ const ss = StyleSheet.create({
   },
   headerText: {
     fontWeight: 'bold'
+  },
+  invoicee: {
+    margin: 20
   }
 })

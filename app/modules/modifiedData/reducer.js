@@ -21,7 +21,8 @@ import {
   PREPARE_CANCEL_DATA,
   CANCEL_COMBO_VALUES,
 
-  TAKE_ORDER
+  TAKE_ORDER,
+  SELECT_INVOICEE
 } from './action'
 
 import {
@@ -158,6 +159,16 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     orderForPaxDirection = mergeMapShallow(orderForPaxDirection, payload.order)
     orderForPax = setIntoMap(orderForPax, payload.direction, orderForPaxDirection)
     orderForBooking = setIntoMap(orderForBooking, payload.paxId, orderForPax)
+    orders = setIntoMap(orders, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'orders', orders)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SELECT_INVOICEE]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let orders = readValue('orders', modifiedData) || getMap({})
+    let orderForBooking = readValue(payload.bookingId, orders) || getMap({})
+    orderForBooking = setIntoMap(orderForBooking, 'invoicee', payload.paxId)
     orders = setIntoMap(orders, payload.bookingId, orderForBooking)
     modifiedData = setIntoMap(modifiedData, 'orders', orders)
     return setIntoMap(state, payload.departureId, modifiedData)

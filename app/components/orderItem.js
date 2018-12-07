@@ -34,13 +34,28 @@ class OrderItem extends Component {
     this.setState({ child: !this.state.child })
   }
 
-  _onSelect = item => {
+  _onMealSelect = item => {
     const { direction, pax, bookingId, departureId } = this.props
     const { child } = this.state
     const paxId = String(pax.get('id'))
 
     const order = getMap({
-      id: item.get('id'),
+      meal: item.get('id'),
+      pax: paxId,
+      adult: !child
+    })
+    actionDispatcher(takeOrder({
+      order, direction, bookingId, departureId, paxId
+    }))
+  }
+
+  _onBeverageSelect = item => {
+    const { direction, pax, bookingId, departureId } = this.props
+    const { child } = this.state
+    const paxId = String(pax.get('id'))
+
+    const order = getMap({
+      drink: item.get('id'),
       pax: paxId,
       adult: !child
     })
@@ -79,7 +94,7 @@ class OrderItem extends Component {
           <MealsSelection
             items={childMeals}
             label='Meals'
-            onSelect={this._onSelect}
+            onSelect={this._onMealSelect}
             selected={selected}
           />
         }
@@ -89,12 +104,15 @@ class OrderItem extends Component {
           <MealsSelection
             items={adultMeals}
             label='Meals'
-            onSelect={this._onSelect}
+            onSelect={this._onMealSelect}
             selected={selected}
           />
         }
 
-        <BeverageSelection />
+        <BeverageSelection
+          onSelect={this._onBeverageSelect}
+          selected={selected}
+        />
 
       </View>
     )
@@ -116,7 +134,7 @@ export default connect(stateToProps, null)(OrderItem)
 const ss = StyleSheet.create({
   orderItem: {
     marginLeft: 20,
-    marginRight: 15,
+    marginRight: 20,
     marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: Colors.steel
