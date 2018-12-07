@@ -119,7 +119,12 @@ export default {
     paxSearch: 'Sök passagerare'
   },
   OrdersScreen: {
-    title: 'Order'
+    title: 'Order',
+    header: 'Lunch order',
+    meals: 'Måltider',
+    child: 'Barn',
+    beverages: 'Drycker',
+    selectInvoicee: 'Välj faktura'
   },
   NoData: {
     noMatch: 'Ingen matchning hittad',

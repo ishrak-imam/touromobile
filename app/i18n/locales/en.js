@@ -119,7 +119,12 @@ export default {
     paxSearch: 'Search passengers'
   },
   OrdersScreen: {
-    title: 'Orders'
+    title: 'Orders',
+    header: 'Lunch orders',
+    meals: 'Meals',
+    child: 'Child',
+    beverages: 'Beverages',
+    selectInvoicee: 'Select invoicee'
   },
   NoData: {
     noMatch: 'No match found',

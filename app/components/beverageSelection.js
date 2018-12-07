@@ -36,10 +36,11 @@ export default class BeverageSelection extends Component {
   }
 
   render () {
+    const { label } = this.props
     return (
       <View style={ss.wrapper}>
         <View style={ss.container}>
-          <Text note>Beverages</Text>
+          <Text note>{label}</Text>
           {this._renderVeverages()}
         </View>
       </View>

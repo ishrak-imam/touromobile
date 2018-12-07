@@ -13,6 +13,9 @@ import { actionDispatcher } from '../utils/actionDispatcher'
 import { takeOrder } from '../modules/modifiedData/action'
 import BeverageSelection from './beverageSelection'
 import { Colors } from '../theme'
+import Translator from '../utils/translator'
+
+const _T = Translator('OrdersScreen')
 
 class OrderItem extends Component {
   constructor (props) {
@@ -83,7 +86,7 @@ class OrderItem extends Component {
           </Left>
           <Right style={ss.headerRight}>
             <TouchableOpacity style={ss.childCheck} onPress={this._toggleChild}>
-              <Text style={ss.boldText}>Child</Text>
+              <Text style={ss.boldText}>{_T('child')}</Text>
               <CheckBox disabled checked={child} />
             </TouchableOpacity>
           </Right>
@@ -93,7 +96,7 @@ class OrderItem extends Component {
           child &&
           <MealsSelection
             items={childMeals}
-            label='Meals'
+            label={_T('meals')}
             onSelect={this._onMealSelect}
             selected={selected}
           />
@@ -103,7 +106,7 @@ class OrderItem extends Component {
           !child &&
           <MealsSelection
             items={adultMeals}
-            label='Meals'
+            label={_T('meals')}
             onSelect={this._onMealSelect}
             selected={selected}
           />
@@ -112,6 +115,7 @@ class OrderItem extends Component {
         <BeverageSelection
           onSelect={this._onBeverageSelect}
           selected={selected}
+          label={_T('beverages')}
         />
 
       </View>

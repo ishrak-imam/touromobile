@@ -63,7 +63,7 @@ export default class OrdersScreen extends Component {
 
         <ListItem style={ss.header}>
           <Left style={ss.headerLeft}>
-            <Text style={ss.headerText}>Lunch orders</Text>
+            <Text style={ss.headerText}>{_T('header')}</Text>
           </Left>
           <Right style={ss.headerRight}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
@@ -79,7 +79,7 @@ export default class OrdersScreen extends Component {
             <View style={ss.invoicee}>
               <InvoiceeSelection
                 items={pax}
-                label='Select invoicee'
+                label={_T('selectInvoicee')}
                 bookingId={bookingId}
                 departureId={departureId}
               />
