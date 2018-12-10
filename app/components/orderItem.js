@@ -10,9 +10,9 @@ import MealsSelection from './mealsSelection'
 import { getLunches, getOrder } from '../selectors'
 import { getMap } from '../utils/immutable'
 import { actionDispatcher } from '../utils/actionDispatcher'
-import { takeOrder } from '../modules/modifiedData/action'
+import { takeOrder, resetPaxOrder } from '../modules/modifiedData/action'
 import BeverageSelection from './beverageSelection'
-import { Colors } from '../theme'
+import { Colors, IonIcon } from '../theme'
 import Translator from '../utils/translator'
 
 const _T = Translator('OrdersScreen')
@@ -67,6 +67,14 @@ class OrderItem extends Component {
     }))
   }
 
+  _resetPaxOrders = () => {
+    const { direction, pax, bookingId, departureId } = this.props
+    const paxId = String(pax.get('id'))
+    actionDispatcher(resetPaxOrder({
+      direction, departureId, bookingId, paxId
+    }))
+  }
+
   render () {
     const { child } = this.state
     const { lunches, pax, order, direction } = this.props
@@ -83,6 +91,9 @@ class OrderItem extends Component {
         <ListItem style={ss.header}>
           <Left style={ss.headerLeft}>
             <Text style={ss.boldText}>{paxName}</Text>
+            <TouchableOpacity style={ss.reset} onPress={this._resetPaxOrders}>
+              <IonIcon name='refresh' size={22} />
+            </TouchableOpacity>
           </Left>
           <Right style={ss.headerRight}>
             <TouchableOpacity style={ss.childCheck} onPress={this._toggleChild}>
@@ -165,5 +176,8 @@ const ss = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold'
+  },
+  reset: {
+    paddingHorizontal: 20
   }
 })

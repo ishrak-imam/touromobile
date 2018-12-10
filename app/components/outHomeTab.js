@@ -62,6 +62,6 @@ const ss = StyleSheet.create({
     width: 70,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 4
+    paddingVertical: 3.5
   }
 })

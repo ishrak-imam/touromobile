@@ -4,15 +4,17 @@ import {
   Container, ListItem, Left, Right,
   Text, View
 } from 'native-base'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import Header from '../../components/header'
 import Translator from '../../utils/translator'
 import OrderItem from '../../components/orderItem'
 import isIphoneX from '../../utils/isIphoneX'
 import OutHomeTab, { TABS } from '../../components/outHomeTab'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-import { Colors } from '../../theme'
+import { Colors, IonIcon } from '../../theme'
 import InvoiceeSelection from '../../components/invoiceeSelection'
+import { actionDispatcher } from '../../utils/actionDispatcher'
+import { resetAllOrder } from '../modifiedData/action'
 
 const _T = Translator('OrdersScreen')
 
@@ -48,6 +50,14 @@ export default class OrdersScreen extends Component {
     )
   }
 
+  _resetOrders = (departureId, bookingId) => {
+    return () => {
+      actionDispatcher(resetAllOrder({
+        departureId, bookingId
+      }))
+    }
+  }
+
   render () {
     const { navigation } = this.props
     const { tab } = this.state
@@ -64,6 +74,9 @@ export default class OrdersScreen extends Component {
         <ListItem style={ss.header}>
           <Left style={ss.headerLeft}>
             <Text style={ss.headerText}>{_T('header')}</Text>
+            <TouchableOpacity style={ss.reset} onPress={this._resetOrders(departureId, bookingId)}>
+              <IonIcon name='refresh' size={22} />
+            </TouchableOpacity>
           </Left>
           <Right style={ss.headerRight}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
@@ -116,5 +129,8 @@ const ss = StyleSheet.create({
   },
   invoicee: {
     margin: 20
+  },
+  reset: {
+    paddingHorizontal: 20
   }
 })

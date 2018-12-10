@@ -17,6 +17,9 @@ export const PREPARE_CANCEL_DATA = 'PREPARE_CANCEL_DATA'
 export const CANCEL_COMBO_VALUES = 'CANCEL_COMBO_VALUES'
 
 export const TAKE_ORDER = 'TAKE_ORDER'
+export const RESET_ALL_ORDERS = 'RESET_ALL_ORDERS'
+export const RESET_PAX_ORDER = 'RESET_PAX_ORDER'
+
 export const SELECT_INVOICEE = 'SELECT_INVOICEE'
 
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
@@ -35,4 +38,7 @@ export const prepareCancelData = createAction(PREPARE_CANCEL_DATA)
 export const cancelComboValues = createAction(CANCEL_COMBO_VALUES)
 
 export const takeOrder = createAction(TAKE_ORDER)
+export const resetAllOrder = createAction(RESET_ALL_ORDERS)
+export const resetPaxOrder = createAction(RESET_PAX_ORDER)
+
 export const selectInvoicee = createAction(SELECT_INVOICEE)
