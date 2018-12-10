@@ -1,4 +1,4 @@
-import { getMap } from '../utils/immutable'
+import { getMap, getList, isMap } from '../utils/immutable'
 
 export const getModifiedPax = (state, departureId) => {
   return state.modifiedData.get(departureId)
@@ -27,4 +27,22 @@ export const getOrder = (state, departureId, bookingId, paxId) => {
 
 export const getInvoicee = (state, departureId, bookingId) => {
   return state.modifiedData.getIn([departureId, 'orders', bookingId, 'invoicee'])
+}
+
+export const getOrders = (state, departureId, direction) => {
+  const orders = state.modifiedData.getIn([departureId, 'orders']) || getMap({})
+
+  if (orders.size === 0) {
+    return getMap({})
+  }
+
+  return orders.reduce((list, booking) => {
+    const bOrders = booking.reduce((bList, pax) => {
+      if (isMap(pax)) {
+        bList = bList.push(pax.get(direction))
+      }
+      return bList
+    }, getList([]))
+    return list.concat(bOrders)
+  }, getList([]))
 }

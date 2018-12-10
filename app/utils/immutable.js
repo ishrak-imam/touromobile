@@ -33,6 +33,10 @@ export const setIntoMapNested = (map, nest, val) => {
   return map.setIn(nest, val)
 }
 
+export const isMap = map => {
+  return Map.isMap(map)
+}
+
 /**
  * TODO:
  *

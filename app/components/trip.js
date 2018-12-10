@@ -214,10 +214,10 @@ class Trip extends Component {
 
   _toRestaurant = (direction, restaurant) => {
     const { trip, navigation } = this.props
-    const orders = trip.get('orders')
+    const departureId = String(trip.get('departureId'))
     const brand = trip.get('brand')
     return () => {
-      navigation.navigate('Restaurant', { orders, brand, direction, restaurant })
+      navigation.navigate('Restaurant', { departureId, brand, direction, restaurant })
     }
   }
 

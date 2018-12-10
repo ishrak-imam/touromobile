@@ -27,7 +27,7 @@ class PaxScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      booking: true
+      booking: false
     }
   }
 
