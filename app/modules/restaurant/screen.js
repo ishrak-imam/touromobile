@@ -15,7 +15,7 @@ import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
 import beverageList from '../../utils/beverages'
 import { connect } from 'react-redux'
-import { getOrders } from '../../selectors'
+import { getOrdersByDirection } from '../../selectors'
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
@@ -200,7 +200,7 @@ const stateToProps = (state, props) => {
   const departureId = navigation.getParam('departureId')
 
   return {
-    orders: getOrders(state, departureId, direction)
+    orders: getOrdersByDirection(state, departureId, direction)
   }
 }
 

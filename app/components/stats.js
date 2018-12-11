@@ -163,7 +163,8 @@ export default class Stats extends Component {
 
 const ss = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: 5
   },
   item: {
     marginLeft: 0,

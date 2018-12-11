@@ -68,7 +68,7 @@ export const {
   getAaccept,
   getOrder,
   getInvoicee,
-  getOrders
+  getOrdersByDirection
 } = require('./modifiedData')
 
 export const {

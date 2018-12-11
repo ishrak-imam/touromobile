@@ -3,21 +3,26 @@ import {
   Container, CardItem, Text,
   Spinner, View
 } from 'native-base'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { IonIcon, Colors } from '../../theme/'
 import Header from '../../components/header'
 import Translator from '../../utils/translator'
 import {
   currentTripSelector, getStatsData,
-  getParticipants, getTripExcursions, getReports
+  getParticipants, getTripExcursions
+  // getReports
 } from '../../selectors'
 import Stats from '../../components/stats'
+import OrderStats from '../../components/orderStats'
 import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { uploadStatsReq } from './action'
 import Button from '../../components/button'
 
 const _T = Translator('ReportsScreen')
+
+const EXCURSIONS = 'EXCURSIONS'
+const ORDERS = 'ORDERS'
 
 class ReportsScreen extends Component {
   static navigationOptions = () => {
@@ -26,6 +31,13 @@ class ReportsScreen extends Component {
         return <IonIcon name='stats' color={tintColor} />
       },
       tabBarLabel: _T('title')
+    }
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      tab: EXCURSIONS
     }
   }
 
@@ -44,38 +56,86 @@ class ReportsScreen extends Component {
     }))
   }
 
-  _renderUploadButton = reports => {
-    const isLoading = reports.get('isLoading')
+  // _renderUploadButton = reports => {
+  //   const isLoading = reports.get('isLoading')
+  //   return (
+  //     <CardItem>
+  //       <Button style={ss.footerButton} onPress={this._onUpload} disabled={isLoading}>
+  //         {
+  //           isLoading
+  //             ? <Spinner color={Colors.blue} />
+  //             : <View style={ss.buttonItem}>
+  //               <IonIcon name='upload' color={Colors.white} style={ss.buttonIcon} />
+  //               <Text style={ss.buttonText}>{_T('upload')}</Text>
+  //             </View>
+  //         }
+  //       </Button>
+  //     </CardItem>
+  //   )
+  // }
+
+  _onTabSwitch = tab => {
+    return () => {
+      this.setState({ tab })
+    }
+  }
+
+  _renderTabs = () => {
+    const { tab } = this.state
     return (
-      <CardItem>
-        <Button style={ss.footerButton} onPress={this._onUpload} disabled={isLoading}>
-          {
-            isLoading
-              ? <Spinner color={Colors.blue} />
-              : <View style={ss.buttonItem}>
-                <IonIcon name='upload' color={Colors.white} style={ss.buttonIcon} />
-                <Text style={ss.buttonText}>{_T('upload')}</Text>
-              </View>
-          }
-        </Button>
-      </CardItem>
+      <View style={ss.tabContainer}>
+        <TouchableOpacity
+          style={[ss.tab, {
+            backgroundColor: tab === EXCURSIONS ? Colors.blue : Colors.silver,
+            borderTopLeftRadius: 5,
+            borderBottomLeftRadius: 5
+          }]}
+          onPress={this._onTabSwitch(EXCURSIONS)}
+        >
+          <Text style={{ color: tab === EXCURSIONS ? Colors.silver : Colors.black }}>Excursions</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[ss.tab, {
+            backgroundColor: tab === ORDERS ? Colors.blue : Colors.silver,
+            borderTopRightRadius: 5,
+            borderBottomRightRadius: 5
+          }]}
+          onPress={this._onTabSwitch(ORDERS)}
+        >
+          <Text style={{ color: tab === ORDERS ? Colors.silver : Colors.black }}>Orders</Text>
+        </TouchableOpacity>
+      </View>
     )
   }
 
   render () {
-    const { currentTrip, participants, excursions, reports, navigation } = this.props
+    const { tab } = this.state
+    const { currentTrip, participants, excursions,
+      // reports,
+      navigation } = this.props
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
-        <Stats
-          participants={participants}
-          excursions={excursions}
-          trip={trip}
-          navigation={navigation}
-        />
-        {currentTrip.get('has') && this._renderUploadButton(reports)}
+        {this._renderTabs()}
+
+        {
+          tab === EXCURSIONS &&
+          <Stats
+            participants={participants}
+            excursions={excursions}
+            trip={trip}
+          />
+        }
+
+        {
+          tab === ORDERS &&
+          <OrderStats />
+        }
+
+        {/* {currentTrip.get('has') && this._renderUploadButton(reports)} */}
+
       </Container>
     )
   }
@@ -87,8 +147,8 @@ const stateToProps = state => {
   return {
     currentTrip,
     participants: getParticipants(state, departureId),
-    excursions: getTripExcursions(state),
-    reports: getReports(state)
+    excursions: getTripExcursions(state)
+    // reports: getReports(state)
   }
 }
 
@@ -110,5 +170,21 @@ const ss = StyleSheet.create({
     color: Colors.silver,
     marginTop: 2,
     marginLeft: 10
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 5,
+    marginHorizontal: 10,
+    // borderWidth: 2,
+    borderColor: Colors.blue,
+    padding: 2,
+    borderRadius: 5
+  },
+  tab: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 7
   }
 })
