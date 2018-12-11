@@ -255,6 +255,14 @@ export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpl
 
 export const getLunches = state => state.trips.get('current').get('trip').get('lunches')
 
+export const getMeals = state => {
+  const lunches = state.trips.get('current').get('trip').get('lunches')
+  return getMap({
+    out: lunches.get('out').get('meals'),
+    home: lunches.get('home').get('meals')
+  })
+}
+
 let sortedTripsCache = null
 export const getSortedTrips = trips => {
   if (!sortedTripsCache) {

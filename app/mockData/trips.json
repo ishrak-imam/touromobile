@@ -3703,35 +3703,6 @@
         "priceChild": 3500
       }
     ],
-    "orders": {
-      "out": [
-        {
-          "meal": 101,
-          "drink": 201,
-          "pax": 1,
-          "adult": true
-        },
-        {
-          "meal": 101,
-          "drink": 201,
-          "pax": 1,
-          "adult": true
-        },
-        {
-          "meal": 103,
-          "drink": 202,
-          "pax": 1,
-          "adult": true
-        },
-        {
-          "meal": 107,
-          "drink": 204,
-          "pax": 1,
-          "adult": false
-        }
-      ],
-      "home": []
-    },
     "transport": {
       "type": "bus",
       "size": "standard",

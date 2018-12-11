@@ -33,7 +33,7 @@ export const getOrdersByDirection = (state, departureId, direction) => {
   const orders = state.modifiedData.getIn([departureId, 'orders']) || getMap({})
 
   if (orders.size === 0) {
-    return getMap({})
+    return getList([])
   }
 
   return orders.reduce((list, booking) => {
@@ -45,4 +45,25 @@ export const getOrdersByDirection = (state, departureId, direction) => {
     }, getList([]))
     return list.concat(bOrders)
   }, getList([]))
+}
+
+export const getAllOrders = (state, departureId) => {
+  const orders = state.modifiedData.getIn([departureId, 'orders']) || getMap({})
+
+  if (orders.size === 0) {
+    return getMap({ out: getList([]), home: getList([]) })
+  }
+
+  return orders.reduce((map, booking) => {
+    const bOrders = booking.reduce((bMap, pax) => {
+      if (isMap(pax)) {
+        if (pax.get('out')) bMap = bMap.set('out', bMap.get('out').push(pax.get('out')))
+        if (pax.get('home')) bMap = bMap.set('home', bMap.get('home').push(pax.get('home')))
+      }
+      return bMap
+    }, getMap({ out: getList([]), home: getList([]) }))
+    map = map.set('out', map.get('out').concat(bOrders.get('out')))
+    map = map.set('home', map.get('home').concat(bOrders.get('home')))
+    return map
+  }, getMap({ out: getList([]), home: getList([]) }))
 }

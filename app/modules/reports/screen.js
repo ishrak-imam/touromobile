@@ -9,8 +9,9 @@ import Header from '../../components/header'
 import Translator from '../../utils/translator'
 import {
   currentTripSelector, getStatsData,
-  getParticipants, getTripExcursions
+  getParticipants, getTripExcursions,
   // getReports
+  getAllOrders, getPax, getMeals
 } from '../../selectors'
 import Stats from '../../components/stats'
 import OrderStats from '../../components/orderStats'
@@ -112,16 +113,19 @@ class ReportsScreen extends Component {
     const { tab } = this.state
     const { currentTrip, participants, excursions,
       // reports,
-      navigation } = this.props
+      navigation, orders, meals } = this.props
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
+
+    const isDataReady = currentTrip.get('has')
+
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
         {this._renderTabs()}
 
         {
-          tab === EXCURSIONS &&
+          tab === EXCURSIONS && isDataReady &&
           <Stats
             participants={participants}
             excursions={excursions}
@@ -130,8 +134,8 @@ class ReportsScreen extends Component {
         }
 
         {
-          tab === ORDERS &&
-          <OrderStats />
+          tab === ORDERS && isDataReady &&
+          <OrderStats orders={orders} pax={getPax(trip)} meals={meals} />
         }
 
         {/* {currentTrip.get('has') && this._renderUploadButton(reports)} */}
@@ -147,8 +151,10 @@ const stateToProps = state => {
   return {
     currentTrip,
     participants: getParticipants(state, departureId),
-    excursions: getTripExcursions(state)
+    excursions: getTripExcursions(state),
     // reports: getReports(state)
+    orders: getAllOrders(state, departureId),
+    meals: getMeals(state)
   }
 }
 

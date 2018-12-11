@@ -16,6 +16,7 @@ export const {
   getPastTrips,
   getFutureTrips,
   getPax,
+  getMeals,
   filterPaxBySearchText,
   filterBookingBySearchText,
   getSortedPax,
@@ -68,6 +69,7 @@ export const {
   getAaccept,
   getOrder,
   getInvoicee,
+  getAllOrders,
   getOrdersByDirection
 } = require('./modifiedData')
 
