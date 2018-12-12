@@ -10,6 +10,7 @@ import { Colors } from '../theme'
 import { listToMap, getSet } from '../utils/immutable'
 import beverageList from '../utils/beverages'
 import Translator from '../utils/translator'
+import PaxWithoutOrder from './paxWithoutOrder'
 
 const _T = Translator('ReportsScreen')
 
@@ -255,32 +256,18 @@ export default class OrderStats extends Component {
           </Right>
         </ListItem>
 
-        {
-          this.paxWithoutOrder.map(p => {
-            const paxId = p.get('id')
-            const paxName = `${p.get('firstName')} ${p.get('lastName')}`
-            const bookingId = p.get('booking').get('id')
-            return (
-              <ListItem style={ss.item} key={paxId}>
-                <Left style={ss.bottomLeft}>
-                  <Text>{paxName}</Text>
-                </Left>
-                <Right style={ss.bottomRight}>
-                  <Text>{bookingId}</Text>
-                </Right>
-              </ListItem>
-            )
-          })
-        }
+        <PaxWithoutOrder paxList={this.paxWithoutOrder} />
+
       </View>
     )
   }
 
   render () {
+    const { enableScrollViewScroll } = this.state
     return (
       <View style={ss.container}>
         {this._renderHeader()}
-        <ScrollView>
+        <ScrollView scrollEnabled={enableScrollViewScroll}>
           {this._renderMealOrders()}
           {this._renderBeverageOrders()}
           {this._renderWithoutOrder()}

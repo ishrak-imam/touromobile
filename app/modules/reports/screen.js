@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { uploadStatsReq } from './action'
 import Button from '../../components/button'
+import FloatingButton from '../../components/floatingButton'
 
 const _T = Translator('ReportsScreen')
 
@@ -139,6 +140,8 @@ class ReportsScreen extends Component {
         }
 
         {/* {currentTrip.get('has') && this._renderUploadButton(reports)} */}
+
+        <FloatingButton />
 
       </Container>
     )

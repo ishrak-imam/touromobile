@@ -71,7 +71,7 @@ export default {
     totalPax: 'Total passagerare',
     excursion: 'Utflykt',
     excursions: 'Utflykter',
-    orders: 'Order',
+    orders: 'Beställningar',
     orderSummary: 'Ordersammanfattning',
     meals: 'Måltider',
     adult: 'Vuxen',
