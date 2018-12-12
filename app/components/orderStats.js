@@ -8,6 +8,7 @@ import { StyleSheet, ScrollView } from 'react-native'
 import OutHomeTab from './outHomeTab'
 import { Colors } from '../theme'
 import { listToMap } from '../utils/immutable'
+import beverageList from '../utils/beverages'
 
 export default class OrderStats extends Component {
   constructor (props) {
@@ -25,19 +26,48 @@ export default class OrderStats extends Component {
     const mealsData = direction.reduce((map, order) => {
       const isAdult = order.get('adult')
       const mealId = String(order.get('meal'))
-      const item = map.orders[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
-      if (!map[mealId]) { // new meal
-        if (isAdult) map.total.adult = map.total.adult + 1
-        if (!isAdult) map.total.child = map.total.child + 1
+      if (mealId !== 'null') {
+        const item = map.orders[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
+        if (!map[mealId]) { // new meal
+          if (isAdult) map.total.adult = map.total.adult + 1
+          if (!isAdult) map.total.child = map.total.child + 1
+        }
+        if (isAdult) item.adultCount = item.adultCount + 1
+        if (!isAdult) item.childCount = item.childCount + 1
+        map.orders[mealId] = item
       }
-      if (isAdult) item.adultCount = item.adultCount + 1
-      if (!isAdult) item.childCount = item.childCount + 1
-      map.orders[mealId] = item
+
       return map
     }, { orders: {}, total: { adult: 0, child: 0 } })
 
     mealsData.meals = listToMap(meals.get(tab), 'id')
     return mealsData
+  }
+
+  get beveragesData () {
+    const { orders } = this.props
+    const { tab } = this.state
+    const direction = orders.get(tab)
+
+    const beveragesData = direction.reduce((map, order) => {
+      const isAdult = order.get('adult')
+      const drinkId = String(order.get('drink'))
+      if (drinkId !== 'null') {
+        const item = map.orders[drinkId] || { drink: drinkId, adultCount: 0, childCount: 0 }
+        if (!map[drinkId]) { // new drink
+          if (isAdult) map.total.adult = map.total.adult + 1
+          if (!isAdult) map.total.child = map.total.child + 1
+        }
+        if (isAdult) item.adultCount = item.adultCount + 1
+        if (!isAdult) item.childCount = item.childCount + 1
+        map.orders[drinkId] = item
+      }
+
+      return map
+    }, { orders: {}, total: { adult: 0, child: 0 } })
+
+    beveragesData.drinks = listToMap(beverageList, 'id')
+    return beveragesData
   }
 
   _onTabSwitch = tab => {
@@ -128,6 +158,9 @@ export default class OrderStats extends Component {
   }
 
   _renderBeverageOrders = () => {
+    const { pax } = this.props
+    const { orders, total, drinks } = this.beveragesData
+
     return (
       <View style={ss.mealItem}>
         <ListItem style={ss.header}>
@@ -149,59 +182,42 @@ export default class OrderStats extends Component {
           </Right>
         </ListItem>
 
-        <ListItem style={ss.item}>
-          <Left style={ss.itemLeft}>
-            <Text style={ss.itemName}>Coke</Text>
-          </Left>
-          <Right style={ss.itemRight}>
-
-            <View style={ss.cell}>
-              <Text>32</Text>
-            </View>
-
-            <View style={ss.cell}>
-              <Text>32</Text>
-            </View>
-
-            <View style={ss.cell}>
-              <Text>32</Text>
-            </View>
-
-          </Right>
-        </ListItem>
-
-        <ListItem style={ss.item}>
-          <Left style={ss.itemLeft}>
-            <Text style={ss.itemName}>Beer</Text>
-          </Left>
-          <Right style={ss.itemRight}>
-            <View style={ss.cell}>
-              <Text>32</Text>
-            </View>
-
-            <View style={ss.cell}>
-              <Text>32</Text>
-            </View>
-
-            <View style={ss.cell}>
-              <Text>32</Text>
-            </View>
-          </Right>
-        </ListItem>
+        {
+          Object.values(orders).map(o => {
+            return (
+              <ListItem style={ss.item} key={o.drink}>
+                <Left style={ss.itemLeft}>
+                  <Text style={ss.itemName}>{drinks.get(o.drink).get('name')}</Text>
+                </Left>
+                <Right style={ss.itemRight}>
+                  <View style={ss.cell}>
+                    <Text>{o.adultCount}</Text>
+                  </View>
+                  <View style={ss.cell}>
+                    <Text>{o.childCount}</Text>
+                  </View>
+                  <View style={ss.cell}>
+                    <Text>{o.adultCount + o.childCount}</Text>
+                  </View>
+                </Right>
+              </ListItem>
+            )
+          })
+        }
 
         <ListItem style={ss.item}>
           <Left style={ss.itemLeft} />
           <Right style={ss.itemRight}>
             <View style={ss.cell}>
-              <Text style={ss.boldText}>32</Text>
+              <Text style={ss.boldText}>{total.adult}</Text>
             </View>
 
             <View style={ss.cell}>
-              <Text style={ss.boldText}>32</Text>
+              <Text style={ss.boldText}>{total.child}</Text>
             </View>
 
             <View style={ss.cell}>
-              <Text style={ss.boldText}>32/100</Text>
+              <Text style={ss.boldText}>{`${total.adult + total.child}/${pax.size}`}</Text>
             </View>
           </Right>
         </ListItem>
@@ -243,23 +259,13 @@ export default class OrderStats extends Component {
   }
 
   render () {
-    // const { orders, pax, meals } = this.props
-    // const { tab } = this.state
-    // const direction = orders.get(tab)
-
-    // console.log(direction.toJS())
-    // console.log(pax.toJS())
-    // console.log(meals.toJS())
-
-    // console.log(this.mealsData)
-
     return (
       <View style={ss.container}>
         {this._renderHeader()}
         <ScrollView>
           {this._renderMealOrders()}
-          {/* {this._renderBeverageOrders()}
-          {this._renderWithoutOrder()} */}
+          {this._renderBeverageOrders()}
+          {/* {this._renderWithoutOrder()} */}
         </ScrollView>
       </View>
     )

@@ -33,6 +33,11 @@ class OrderItem extends Component {
     this.state = { child }
   }
 
+  get selected () {
+    const { order, direction } = this.props
+    return order.get(direction) ? order.get(direction) : getMap({})
+  }
+
   _toggleChild = () => {
     this.setState({ child: !this.state.child })
   }
@@ -42,13 +47,14 @@ class OrderItem extends Component {
     const { child } = this.state
     const paxId = String(pax.get('id'))
 
-    const order = getMap({
+    const o = getMap({
+      drink: this.selected.get('drink') || null,
       meal: item.get('id'),
       pax: paxId,
       adult: !child
     })
     actionDispatcher(takeOrder({
-      order, direction, bookingId, departureId, paxId
+      order: o, direction, bookingId, departureId, paxId
     }))
   }
 
@@ -58,6 +64,7 @@ class OrderItem extends Component {
     const paxId = String(pax.get('id'))
 
     const order = getMap({
+      meal: this.selected.get('meal') || null,
       drink: item.get('id'),
       pax: paxId,
       adult: !child
@@ -77,13 +84,11 @@ class OrderItem extends Component {
 
   render () {
     const { child } = this.state
-    const { lunches, pax, order, direction } = this.props
+    const { lunches, pax, direction } = this.props
     const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
     const meals = lunches.get(direction).get('meals')
     const childMeals = meals.filter(m => child && !!m.get('child'))
     const adultMeals = meals.filter(m => !!m.get('adult'))
-
-    const selected = order.get(direction) ? order.get(direction) : getMap({})
 
     return (
       <View style={ss.orderItem}>
@@ -109,7 +114,7 @@ class OrderItem extends Component {
             items={childMeals}
             label={_T('meals')}
             onSelect={this._onMealSelect}
-            selected={selected}
+            selected={this.selected}
           />
         }
 
@@ -119,13 +124,13 @@ class OrderItem extends Component {
             items={adultMeals}
             label={_T('meals')}
             onSelect={this._onMealSelect}
-            selected={selected}
+            selected={this.selected}
           />
         }
 
         <BeverageSelection
           onSelect={this._onBeverageSelect}
-          selected={selected}
+          selected={this.selected}
           label={_T('beverages')}
         />
 
