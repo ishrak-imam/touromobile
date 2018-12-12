@@ -93,7 +93,7 @@ class ReportsScreen extends Component {
           }]}
           onPress={this._onTabSwitch(EXCURSIONS)}
         >
-          <Text style={{ color: tab === EXCURSIONS ? Colors.silver : Colors.black }}>Excursions</Text>
+          <Text style={{ color: tab === EXCURSIONS ? Colors.silver : Colors.black }}>{_T('excursions')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[ss.tab, {
@@ -103,7 +103,7 @@ class ReportsScreen extends Component {
           }]}
           onPress={this._onTabSwitch(ORDERS)}
         >
-          <Text style={{ color: tab === ORDERS ? Colors.silver : Colors.black }}>Orders</Text>
+          <Text style={{ color: tab === ORDERS ? Colors.silver : Colors.black }}>{_T('orders')}</Text>
         </TouchableOpacity>
       </View>
     )

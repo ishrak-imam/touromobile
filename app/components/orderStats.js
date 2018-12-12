@@ -9,6 +9,9 @@ import OutHomeTab from './outHomeTab'
 import { Colors } from '../theme'
 import { listToMap } from '../utils/immutable'
 import beverageList from '../utils/beverages'
+import Translator from '../utils/translator'
+
+const _T = Translator('ReportsScreen')
 
 export default class OrderStats extends Component {
   constructor (props) {
@@ -81,7 +84,7 @@ export default class OrderStats extends Component {
     return (
       <ListItem style={ss.header}>
         <Left style={ss.headerLeft}>
-          <Text style={ss.headerText}>Order Summary</Text>
+          <Text style={ss.headerText}>{_T('orderSummary')}</Text>
         </Left>
         <Right style={ss.headerRight}>
           <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
@@ -97,19 +100,19 @@ export default class OrderStats extends Component {
       <View style={ss.mealItem}>
         <ListItem style={ss.header}>
           <Left style={ss.topLeft}>
-            <Text style={ss.boldText}>Meals</Text>
+            <Text style={ss.boldText}>{_T('meals')}</Text>
           </Left>
           <Right style={ss.topRight}>
             <View style={ss.cell}>
-              <Text style={ss.boldText}>Adult</Text>
+              <Text style={ss.boldText}>{_T('adult')}</Text>
             </View>
 
             <View style={ss.cell}>
-              <Text style={ss.boldText}>Child</Text>
+              <Text style={ss.boldText}>{_T('child')}</Text>
             </View>
 
             <View style={ss.cell}>
-              <Text style={ss.boldText}>Total</Text>
+              <Text style={ss.boldText}>{_T('total')}</Text>
             </View>
           </Right>
         </ListItem>
@@ -165,19 +168,19 @@ export default class OrderStats extends Component {
       <View style={ss.mealItem}>
         <ListItem style={ss.header}>
           <Left style={ss.topLeft}>
-            <Text style={ss.boldText}>Beverages</Text>
+            <Text style={ss.boldText}>{_T('beverages')}</Text>
           </Left>
           <Right style={ss.topRight}>
             <View style={ss.cell}>
-              <Text style={ss.boldText}>Adult</Text>
+              <Text style={ss.boldText}>{_T('adult')}</Text>
             </View>
 
             <View style={ss.cell}>
-              <Text style={ss.boldText}>Child</Text>
+              <Text style={ss.boldText}>{_T('child')}</Text>
             </View>
 
             <View style={ss.cell}>
-              <Text style={ss.boldText}>Total</Text>
+              <Text style={ss.boldText}>{_T('total')}</Text>
             </View>
           </Right>
         </ListItem>
@@ -230,10 +233,10 @@ export default class OrderStats extends Component {
       <View style={ss.mealItem}>
         <ListItem style={ss.header}>
           <Left style={ss.bottomLeft}>
-            <Text style={ss.boldText}>Passengers without order</Text>
+            <Text style={ss.boldText}>{_T('paxWithoutOrder')}</Text>
           </Left>
           <Right style={ss.bottomRight}>
-            <Text style={ss.boldText}>Booking</Text>
+            <Text style={ss.boldText}>{_T('booking')}</Text>
           </Right>
         </ListItem>
 
@@ -265,7 +268,7 @@ export default class OrderStats extends Component {
         <ScrollView>
           {this._renderMealOrders()}
           {this._renderBeverageOrders()}
-          {/* {this._renderWithoutOrder()} */}
+          {this._renderWithoutOrder()}
         </ScrollView>
       </View>
     )
