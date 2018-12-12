@@ -84,7 +84,7 @@ class RestaurantScreen extends Component {
         <Body>
           <Item style={ss.item}>
             <Text style={ss.boldText}>{_T('meals')}</Text>
-            <Right><Text>{`${_T('adult')}/${_T('child')}`}</Text></Right>
+            <Right><Text style={ss.boldText}>{`${_T('adult')}/${_T('child')}`}</Text></Right>
           </Item>
           {meals.map(m => {
             const id = m.get('id')
@@ -155,7 +155,7 @@ class RestaurantScreen extends Component {
         <Body>
           <Item style={ss.item}>
             <Text style={ss.boldText}>{_T('orders')}</Text>
-            <Right><Text>{_T('amount')}</Text></Right>
+            <Right><Text style={ss.boldText}>{_T('amount')}</Text></Right>
           </Item>
 
           {/* <Text note>{_T('meals')}</Text> */}
@@ -227,7 +227,8 @@ const ss = StyleSheet.create({
     paddingVertical: 5
   },
   itemRight: {
-    alignContent: 'center'
+    alignContent: 'center',
+    paddingRight: 10
   },
   itemText: {
     flex: 1

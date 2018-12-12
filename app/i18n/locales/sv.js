@@ -86,8 +86,8 @@ export default {
     adults: 'Vuxna',
     child: 'Barn',
     children: 'Barn',
-    orders: 'Order',
-    amount: 'Belopp',
+    orders: 'Beställningar',
+    amount: 'Antal',
     beverages: 'Drycker'
   },
   PaxDetailsScreen: {
