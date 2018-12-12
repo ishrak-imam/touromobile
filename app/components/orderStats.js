@@ -70,11 +70,20 @@ export default class OrderStats extends Component {
             <Text style={ss.boldText}>Meals</Text>
           </Left>
           <Right style={ss.topRight}>
-            <Text style={ss.boldText}>Adult</Text>
-            <Text style={ss.boldText}>Child</Text>
-            <Text style={ss.boldText}>Total</Text>
+            <View style={ss.cell}>
+              <Text style={ss.boldText}>Adult</Text>
+            </View>
+
+            <View style={ss.cell}>
+              <Text style={ss.boldText}>Child</Text>
+            </View>
+
+            <View style={ss.cell}>
+              <Text style={ss.boldText}>Total</Text>
+            </View>
           </Right>
         </ListItem>
+
         {
           Object.values(orders).map(o => {
             return (
@@ -83,20 +92,35 @@ export default class OrderStats extends Component {
                   <Text style={ss.itemName}>{meals.get(o.meal).get('name')}</Text>
                 </Left>
                 <Right style={ss.itemRight}>
-                  <Text>{o.adultCount}</Text>
-                  <Text>{o.childCount}</Text>
-                  <Text>{o.adultCount + o.childCount}</Text>
+                  <View style={ss.cell}>
+                    <Text>{o.adultCount}</Text>
+                  </View>
+                  <View style={ss.cell}>
+                    <Text>{o.childCount}</Text>
+                  </View>
+                  <View style={ss.cell}>
+                    <Text>{o.adultCount + o.childCount}</Text>
+                  </View>
                 </Right>
               </ListItem>
             )
           })
         }
+
         <ListItem style={ss.item}>
           <Left style={ss.itemLeft} />
           <Right style={ss.itemRight}>
-            <Text style={ss.boldText}>{total.adult}</Text>
-            <Text style={ss.boldText}>{total.child}</Text>
-            <Text style={ss.boldText}>{`${total.adult + total.child}/${pax.size}`}</Text>
+            <View style={ss.cell}>
+              <Text style={ss.boldText}>{total.adult}</Text>
+            </View>
+
+            <View style={ss.cell}>
+              <Text style={ss.boldText}>{total.child}</Text>
+            </View>
+
+            <View style={ss.cell}>
+              <Text style={ss.boldText}>{`${total.adult + total.child}/${pax.size}`}</Text>
+            </View>
           </Right>
         </ListItem>
       </View>
@@ -284,7 +308,7 @@ const ss = StyleSheet.create({
   topRight: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between'
   },
   itemLeft: {
     flex: 1
@@ -292,7 +316,7 @@ const ss = StyleSheet.create({
   itemRight: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between'
   },
   bottomLeft: {
     flex: 2
