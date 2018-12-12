@@ -11,7 +11,7 @@ import {
   currentTripSelector, getStatsData,
   getParticipants, getTripExcursions,
   // getReports
-  getAllOrders, getPax, getMeals
+  getAllOrders, getSortedPaxByFirstName, getMeals
 } from '../../selectors'
 import Stats from '../../components/stats'
 import OrderStats from '../../components/orderStats'
@@ -135,7 +135,7 @@ class ReportsScreen extends Component {
 
         {
           tab === ORDERS && isDataReady &&
-          <OrderStats orders={orders} pax={getPax(trip)} meals={meals} />
+          <OrderStats orders={orders} pax={getSortedPaxByFirstName(trip)} meals={meals} />
         }
 
         {/* {currentTrip.get('has') && this._renderUploadButton(reports)} */}

@@ -7,7 +7,7 @@ import {
 import { StyleSheet, ScrollView } from 'react-native'
 import OutHomeTab from './outHomeTab'
 import { Colors } from '../theme'
-import { listToMap } from '../utils/immutable'
+import { listToMap, getSet } from '../utils/immutable'
 import beverageList from '../utils/beverages'
 import Translator from '../utils/translator'
 
@@ -71,6 +71,21 @@ export default class OrderStats extends Component {
 
     beveragesData.drinks = listToMap(beverageList, 'id')
     return beveragesData
+  }
+
+  get paxWithoutOrder () {
+    const { orders, pax } = this.props
+    const { tab } = this.state
+    const direction = orders.get(tab)
+
+    const paxWithOrders = direction.reduce((set, o) => {
+      return set.add(o.get('pax'))
+    }, getSet([]))
+
+    return pax.filter(p => {
+      const paxId = String(p.get('id'))
+      return !paxWithOrders.has(paxId)
+    })
   }
 
   _onTabSwitch = tab => {
@@ -240,23 +255,23 @@ export default class OrderStats extends Component {
           </Right>
         </ListItem>
 
-        <ListItem style={ss.item}>
-          <Left style={ss.bottomLeft}>
-            <Text>Ishrak Imam</Text>
-          </Left>
-          <Right style={ss.bottomRight}>
-            <Text>123456</Text>
-          </Right>
-        </ListItem>
-
-        <ListItem style={ss.item}>
-          <Left style={ss.bottomLeft}>
-            <Text>Ishrak Imam</Text>
-          </Left>
-          <Right style={ss.bottomRight}>
-            <Text>123456</Text>
-          </Right>
-        </ListItem>
+        {
+          this.paxWithoutOrder.map(p => {
+            const paxId = p.get('id')
+            const paxName = `${p.get('firstName')} ${p.get('lastName')}`
+            const bookingId = p.get('booking').get('id')
+            return (
+              <ListItem style={ss.item} key={paxId}>
+                <Left style={ss.bottomLeft}>
+                  <Text>{paxName}</Text>
+                </Left>
+                <Right style={ss.bottomRight}>
+                  <Text>{bookingId}</Text>
+                </Right>
+              </ListItem>
+            )
+          })
+        }
       </View>
     )
   }
