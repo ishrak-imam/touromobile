@@ -34,7 +34,7 @@ const rootReduces = (state, action) => {
   // clean-up state on logout
   if (action.type === LOGOUT_SUCS || action.type === CLEAR_LOCAL_DATA) {
     const connection = state.connection
-    const modifiedData = state.modifiedData
+    // const modifiedData = state.modifiedData
     const imageCache = state.imageCache
     state = getInitialState()
     /**
@@ -42,7 +42,7 @@ const rootReduces = (state, action) => {
      * connection status, image cache
      */
     state.connection = connection
-    state.modifiedData = modifiedData
+    // state.modifiedData = modifiedData
     state.imageCache = imageCache
   }
   return allReducers(state, action)

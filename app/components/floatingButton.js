@@ -30,9 +30,9 @@ export default class FloatingButton extends Component {
 
 const ss = StyleSheet.create({
   button: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     position: 'absolute',
     left,
     right: 0,

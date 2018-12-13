@@ -87,6 +87,7 @@ class PastTripCard extends Component {
           isLoading
             ? <Spinner color={Colors.blue} size='small' style={{ paddingVertical: 10 }} />
             : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
+              <IonIcon name='upload' color={Colors.white} style={ss.uploadIcon} />
               <Text style={ss.uploadButtonText}>{_TPast('uploadReport')}</Text>
             </TouchableOpacity>
         }
@@ -236,6 +237,8 @@ const ss = StyleSheet.create({
     width: 200,
     paddingVertical: 10,
     borderRadius: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.blue
   },
@@ -247,5 +250,8 @@ const ss = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  uploadIcon: {
+    marginRight: 10
   }
 })
