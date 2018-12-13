@@ -9,7 +9,7 @@ import {
 
 import { getPendingStatsUpload } from '../trips/action'
 
-import { uploadStats } from './api'
+import { uploadStats, uploadOrderStats } from './api'
 
 export function * watchUploadState () {
   yield takeEvery(uploadStatsReq.getType(), workerUploadStats)
@@ -17,12 +17,13 @@ export function * watchUploadState () {
 
 function * workerUploadStats (action) {
   const {
-    departureId, statsData, jwt,
+    departureId, statsData, orderStats, jwt,
     showToast, sucsMsg, failMsg
   } = action.payload
 
   try {
     yield call(uploadStats, departureId, statsData, jwt)
+    yield call(uploadOrderStats, departureId, orderStats, jwt)
     yield put(uploadStatsSucs({
       toast: showToast,
       message: sucsMsg,

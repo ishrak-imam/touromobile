@@ -8,12 +8,15 @@ import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
-import { getPax, getStatsData, getTotalParticipantsCount } from '../selectors'
+import {
+  getPax, getStatsData, getAllOrders,
+  getTotalParticipantsCount, getOrderStats
+} from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
 import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
-
+import { connect } from 'react-redux'
 import Translator from '../utils/translator'
 
 const _T = Translator('ReportsScreen')
@@ -22,7 +25,7 @@ const _TPast = Translator('PastTripsScreen')
 
 const DATE_FORMAT = 'DD/MM'
 
-export default class PastTripCard extends Component {
+class PastTripCard extends Component {
   shouldComponentUpdate (nextProps) {
     const modifiedDataChanged = nextProps.modifiedTripData
       ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
@@ -60,12 +63,15 @@ export default class PastTripCard extends Component {
 
   _uploadStats = () => {
     const { trip, departureId, excursions, participants } = this.tripData
+    const { orders } = this.props
     const statsData = getStatsData(excursions, participants, trip)
+    const orderStats = getOrderStats(orders)
 
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
       statsData,
+      orderStats,
       showToast: true,
       sucsMsg: _T('statsSucs'),
       failMsg: _T('statsFail')
@@ -108,7 +114,6 @@ export default class PastTripCard extends Component {
 
   render () {
     const { trip } = this.props
-
     const brand = trip.get('brand')
     const name = trip.get('name')
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
@@ -147,6 +152,16 @@ export default class PastTripCard extends Component {
     )
   }
 }
+
+const stateToProps = (state, props) => {
+  const { trip } = props
+  const departureId = String(trip.get('departureId'))
+  return {
+    orders: getAllOrders(state, departureId)
+  }
+}
+
+export default connect(stateToProps, null)(PastTripCard)
 
 const ss = StyleSheet.create({
   card: {

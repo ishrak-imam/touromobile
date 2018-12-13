@@ -1,6 +1,6 @@
 
 import { getPax, getParticipatingPax, getActualParticipatingPax } from './trip'
-import { getMap } from '../utils/immutable'
+import { getMap, isMap } from '../utils/immutable'
 
 export const getReports = state => state.reports
 
@@ -21,6 +21,49 @@ export const getStatsData = (excursions, participants, trip) => {
     excursions: excursionPaxCounts,
     totalPassengers: pax.size
   }
+}
+
+export const getOrderStats = orders => {
+  return orders.reduce((list, bOrders, key) => {
+    const aggregated = {
+      booking: key,
+      invoicee: ''
+    }
+
+    const details = bOrders.reduce((map, pOrders, key) => {
+      if (key === 'invoicee') aggregated.invoicee = pOrders
+      else {
+        const out = pOrders.get('out')
+        if (out) {
+          const isAdult = out.get('adult')
+          const mealId = String(out.get('meal'))
+          if (mealId !== 'null') {
+            const item = map[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
+            if (isAdult) item.adultCount = item.adultCount + 1
+            if (!isAdult) item.childCount = item.childCount + 1
+            map[mealId] = item
+          }
+        }
+
+        const home = pOrders.get('home')
+        if (home) {
+          const isAdult = home.get('adult')
+          const mealId = String(home.get('meal'))
+          if (mealId !== 'null') {
+            const item = map[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
+            if (isAdult) item.adultCount = item.adultCount + 1
+            if (!isAdult) item.childCount = item.childCount + 1
+            map[mealId] = item
+          }
+        }
+      }
+      return map
+    }, {})
+
+    aggregated.details = Object.values(details)
+    list.push(aggregated)
+    return list
+  }, [])
 }
 
 export const getTotalParticipantsCount = (excursions, participants, trip) => {

@@ -58,6 +58,7 @@ export const {
 export const {
   getReports,
   getStatsData,
+  getOrderStats,
   getTotalParticipantsCount,
   getActualTotalParticipantsCount
 } = require('./reports')
@@ -70,6 +71,7 @@ export const {
   getOrder,
   getInvoicee,
   getAllOrders,
+  getOrders,
   getOrdersByDirection
 } = require('./modifiedData')
 

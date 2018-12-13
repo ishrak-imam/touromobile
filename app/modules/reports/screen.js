@@ -1,16 +1,12 @@
 import React, { Component } from 'react'
-import {
-  Container, CardItem, Text,
-  Spinner, View
-} from 'native-base'
+import { Container, Text, View } from 'native-base'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { IonIcon, Colors } from '../../theme/'
 import Header from '../../components/header'
 import Translator from '../../utils/translator'
 import {
-  currentTripSelector, getStatsData,
-  getParticipants, getTripExcursions,
-  // getReports
+  currentTripSelector, getStatsData, getOrderStats,
+  getParticipants, getTripExcursions, getReports, getOrders,
   getAllOrders, getSortedPaxByFirstName, getMeals
 } from '../../selectors'
 import Stats from '../../components/stats'
@@ -18,7 +14,6 @@ import OrderStats from '../../components/orderStats'
 import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { uploadStatsReq } from './action'
-import Button from '../../components/button'
 import FloatingButton from '../../components/floatingButton'
 
 const _T = Translator('ReportsScreen')
@@ -44,37 +39,21 @@ class ReportsScreen extends Component {
   }
 
   _onUpload = () => {
-    const { excursions, participants, currentTrip } = this.props
+    const { excursions, participants, currentTrip, allOrders } = this.props
     const trip = currentTrip.get('trip')
     const departureId = String(trip.get('departureId'))
     const statsData = getStatsData(excursions, participants, trip)
+    const orderStats = getOrderStats(allOrders)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
       statsData,
+      orderStats,
       showToast: true,
       sucsMsg: _T('statsSucs'),
       failMsg: _T('statsFail')
     }))
   }
-
-  // _renderUploadButton = reports => {
-  //   const isLoading = reports.get('isLoading')
-  //   return (
-  //     <CardItem>
-  //       <Button style={ss.footerButton} onPress={this._onUpload} disabled={isLoading}>
-  //         {
-  //           isLoading
-  //             ? <Spinner color={Colors.blue} />
-  //             : <View style={ss.buttonItem}>
-  //               <IonIcon name='upload' color={Colors.white} style={ss.buttonIcon} />
-  //               <Text style={ss.buttonText}>{_T('upload')}</Text>
-  //             </View>
-  //         }
-  //       </Button>
-  //     </CardItem>
-  //   )
-  // }
 
   _onTabSwitch = tab => {
     return () => {
@@ -112,9 +91,7 @@ class ReportsScreen extends Component {
 
   render () {
     const { tab } = this.state
-    const { currentTrip, participants, excursions,
-      // reports,
-      navigation, orders, meals } = this.props
+    const { currentTrip, participants, excursions, reports, navigation, orders, meals } = this.props
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
 
@@ -139,9 +116,7 @@ class ReportsScreen extends Component {
           <OrderStats orders={orders} pax={getSortedPaxByFirstName(trip)} meals={meals} />
         }
 
-        {/* {currentTrip.get('has') && this._renderUploadButton(reports)} */}
-
-        <FloatingButton />
+        <FloatingButton onPress={this._onUpload} loading={reports.get('isLoading')} />
 
       </Container>
     )
@@ -155,8 +130,9 @@ const stateToProps = state => {
     currentTrip,
     participants: getParticipants(state, departureId),
     excursions: getTripExcursions(state),
-    // reports: getReports(state)
-    orders: getAllOrders(state, departureId),
+    reports: getReports(state),
+    orders: getOrders(state, departureId),
+    allOrders: getAllOrders(state, departureId),
     meals: getMeals(state)
   }
 }
@@ -185,7 +161,7 @@ const ss = StyleSheet.create({
     justifyContent: 'space-around',
     marginVertical: 5,
     marginHorizontal: 10,
-    // borderWidth: 2,
+    // borderWidth: 1,
     borderColor: Colors.blue,
     padding: 2,
     borderRadius: 5

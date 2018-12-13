@@ -40,6 +40,7 @@ export default class PaxWithoutOrder extends Component {
     const { paxList } = this.props
     return (
       <ImmutableVirtualizedList
+        contentContainerStyle={ss.conStyle}
         keyboardShouldPersistTaps='always'
         immutableData={paxList}
         renderItem={this._renderItem}
@@ -50,6 +51,9 @@ export default class PaxWithoutOrder extends Component {
 }
 
 const ss = StyleSheet.create({
+  conStyle: {
+    marginBottom: 80
+  },
   item: {
     marginRight: 15,
     borderBottomWidth: 0,

@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react'
+import { Spinner } from 'native-base'
 import {
   StyleSheet, Dimensions,
   TouchableOpacity
@@ -17,9 +18,11 @@ if (isIphoneX) {
 
 export default class FloatingButton extends Component {
   render () {
+    const { onPress, loading } = this.props
     return (
-      <TouchableOpacity style={ss.button}>
-        <IonIcon name='upload' color={Colors.white} size={30} />
+      <TouchableOpacity style={ss.button} onPress={onPress}>
+        {!loading && <IonIcon name='upload' color={Colors.white} size={30} />}
+        {loading && <Spinner color={Colors.white} />}
       </TouchableOpacity>
     )
   }
@@ -39,8 +42,8 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8
   }
 })

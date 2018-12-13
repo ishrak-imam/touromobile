@@ -11,3 +11,12 @@ export const uploadStats = (departureId, statsData, jwt) => {
     ? mockUploadStats()
     : postRequest(`resources/departure/${departureId}/statistics`, statsData, headers)
 }
+
+export const uploadOrderStats = (departureId, OrderStats, jwt) => {
+  const headers = {
+    'Authorization': `Bearer ${jwt}`
+  }
+  return config.useMockData
+    ? mockUploadStats()
+    : postRequest(`resources/departure/${departureId}/invoiceDetails`, OrderStats, headers)
+}

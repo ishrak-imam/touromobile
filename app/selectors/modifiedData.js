@@ -47,7 +47,7 @@ export const getOrdersByDirection = (state, departureId, direction) => {
   }, getList([]))
 }
 
-export const getAllOrders = (state, departureId) => {
+export const getOrders = (state, departureId) => {
   const orders = state.modifiedData.getIn([departureId, 'orders']) || getMap({})
 
   if (orders.size === 0) {
@@ -59,6 +59,8 @@ export const getAllOrders = (state, departureId) => {
       if (isMap(pax)) {
         if (pax.get('out')) bMap = bMap.set('out', bMap.get('out').push(pax.get('out')))
         if (pax.get('home')) bMap = bMap.set('home', bMap.get('home').push(pax.get('home')))
+      } else {
+        bMap = bMap.set('invoicee', pax)
       }
       return bMap
     }, getMap({ out: getList([]), home: getList([]) }))
@@ -66,4 +68,8 @@ export const getAllOrders = (state, departureId) => {
     map = map.set('home', map.get('home').concat(bOrders.get('home')))
     return map
   }, getMap({ out: getList([]), home: getList([]) }))
+}
+
+export const getAllOrders = (state, departureId) => {
+  return state.modifiedData.getIn([departureId, 'orders']) || getMap({})
 }
