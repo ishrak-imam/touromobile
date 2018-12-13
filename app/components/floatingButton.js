@@ -15,8 +15,6 @@ if (isIphoneX) {
   top = height - 175
 }
 
-console.log(width, height)
-
 export default class FloatingButton extends Component {
   render () {
     return (
@@ -39,6 +37,10 @@ const ss = StyleSheet.create({
     bottom: 0,
     backgroundColor: Colors.blue,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8
   }
 })
