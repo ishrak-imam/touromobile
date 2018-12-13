@@ -244,23 +244,15 @@ export default class OrderStats extends Component {
     )
   }
 
-  _renderWithoutOrder = () => {
-    return (
-      <View style={ss.mealItem}>
-        <ListItem style={ss.header}>
-          <Left style={ss.bottomLeft}>
-            <Text style={ss.boldText}>{_T('paxWithoutOrder')}</Text>
-          </Left>
-          <Right style={ss.bottomRight}>
-            <Text style={ss.boldText}>{_T('booking')}</Text>
-          </Right>
-        </ListItem>
+  // _renderWithoutOrder = () => {
+  //   return (
+  //     <View style={ss.mealItem}>
 
-        <PaxWithoutOrder paxList={this.paxWithoutOrder} />
+  //       <PaxWithoutOrder paxList={this.paxWithoutOrder} />
 
-      </View>
-    )
-  }
+  //     </View>
+  //   )
+  // }
 
   render () {
     const { enableScrollViewScroll } = this.state
@@ -270,7 +262,8 @@ export default class OrderStats extends Component {
         <ScrollView scrollEnabled={enableScrollViewScroll}>
           {this._renderMealOrders()}
           {this._renderBeverageOrders()}
-          {this._renderWithoutOrder()}
+          {/* {this._renderWithoutOrder()} */}
+          <PaxWithoutOrder paxList={this.paxWithoutOrder} />
         </ScrollView>
       </View>
     )
@@ -328,13 +321,6 @@ const ss = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between'
-  },
-  bottomLeft: {
-    flex: 2
-  },
-  bottomRight: {
-    flex: 1,
-    paddingRight: 10
   },
   cell: {
     flex: 1,

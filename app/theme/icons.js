@@ -39,7 +39,9 @@ const getIconName = name => {
     delete: ['ios-trash', 'md-trash'],
     sort: ['ios-list', 'md-list'],
     checkFill: ['ios-checkbox', 'md-checkbox'],
-    checkOutline: ['ios-checkbox-outline', 'md-checkbox-outline']
+    checkOutline: ['ios-checkbox-outline', 'md-checkbox-outline'],
+    plus: ['ios-add', 'md-add'],
+    minus: ['ios-remove', 'md-remove']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]
