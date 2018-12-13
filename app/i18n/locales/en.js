@@ -79,6 +79,7 @@ export default {
     total: 'Total',
     beverages: 'Beverages',
     paxWithoutOrder: 'Passengers without order',
+    clickToExpand: 'Click the header to show the full list of passengers',
     booking: 'Booking',
     participants: 'Participants',
     sale: 'Sale',

@@ -129,6 +129,7 @@ export default class Stats extends Component {
 
     return (
       <ImmutableVirtualizedList
+        contentContainerStyle={{ paddingBottom: 95 }}
         immutableData={sortedExcursions}
         renderItem={this._renderExcursItem(pax)}
         keyExtractor={item => String(item.get('id'))}

@@ -79,6 +79,7 @@ export default {
     total: 'Total',
     beverages: 'Drycker',
     paxWithoutOrder: 'Passagerare utan order',
+    clickToExpand: 'Klicka på rubriken för att visa alla passagerare',
     booking: 'Bokning',
     participants: 'Deltagare',
     sale: 'Försäljning',

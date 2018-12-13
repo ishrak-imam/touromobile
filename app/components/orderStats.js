@@ -244,16 +244,6 @@ export default class OrderStats extends Component {
     )
   }
 
-  // _renderWithoutOrder = () => {
-  //   return (
-  //     <View style={ss.mealItem}>
-
-  //       <PaxWithoutOrder paxList={this.paxWithoutOrder} />
-
-  //     </View>
-  //   )
-  // }
-
   render () {
     const { enableScrollViewScroll } = this.state
     return (
@@ -262,7 +252,6 @@ export default class OrderStats extends Component {
         <ScrollView scrollEnabled={enableScrollViewScroll}>
           {this._renderMealOrders()}
           {this._renderBeverageOrders()}
-          {/* {this._renderWithoutOrder()} */}
           <PaxWithoutOrder paxList={this.paxWithoutOrder} />
         </ScrollView>
       </View>

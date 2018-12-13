@@ -10,9 +10,7 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Translator from '../utils/translator'
 
 const _T = Translator('ReportsScreen')
-
 const ITEM_HEIGHT = 45
-const DEFAULT_ITEM_TO_SHOW = 5
 
 class PaxItem extends Component {
   shouldComponentUpdate (nextProps) {
@@ -57,43 +55,55 @@ export default class PaxWithoutOrder extends Component {
   render () {
     const { paxList } = this.props
     const { isExpanded } = this.state
-
-    let size = DEFAULT_ITEM_TO_SHOW
-    if (paxList.size > DEFAULT_ITEM_TO_SHOW) {
-      size = paxList.size
-    }
-    const height = isExpanded ? ITEM_HEIGHT * size : ITEM_HEIGHT * DEFAULT_ITEM_TO_SHOW
     const icon = isExpanded ? 'up' : 'down'
 
     return (
       <View style={ss.melItem}>
         <ListItem style={ss.header} onPress={this._onHeaderPress}>
           <Left style={ss.bottomLeft}>
+            <IonIcon name={icon} style={ss.expandIcon} />
             <Text style={ss.boldText}>{_T('paxWithoutOrder')}</Text>
-            <IonIcon name={icon} style={ss.expadIcon} />
           </Left>
           <Right style={ss.bottomRight}>
             <Text style={ss.boldText}>{_T('booking')}</Text>
           </Right>
         </ListItem>
-        <View style={{ height, marginBottom: 90 }}>
-          <ImmutableVirtualizedList
-            scrollEnabled={false}
-            keyboardShouldPersistTaps='always'
-            immutableData={paxList}
-            renderItem={this._renderItem}
-            keyExtractor={item => String(item.get('id'))}
-            getItemLayout={(data, index) => (
-              { length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index }
-            )}
-          />
-        </View>
+
+        {
+          isExpanded
+
+            ? <ImmutableVirtualizedList
+              contentContainerStyle={{ marginBottom: 90 }}
+              scrollEnabled={false}
+              keyboardShouldPersistTaps='always'
+              immutableData={paxList}
+              renderItem={this._renderItem}
+              keyExtractor={item => String(item.get('id'))}
+              getItemLayout={(data, index) => (
+                { length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index }
+              )}
+            />
+
+            : <ListItem style={ss.expandItem}>
+              <Text style={ss.expandText}>{_T('clickToExpand')}</Text>
+            </ListItem>
+        }
+
       </View>
     )
   }
 }
 
 const ss = StyleSheet.create({
+  expandItem: {
+    borderBottomWidth: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 90
+  },
+  expandText: {
+    fontSize: 14
+  },
   header: {
     marginRight: 15,
     paddingBottom: 5,
@@ -120,8 +130,8 @@ const ss = StyleSheet.create({
   mealItem: {
     marginBottom: 20
   },
-  expadIcon: {
-    marginLeft: 10,
+  expandIcon: {
+    marginRight: 10,
     fontWeight: 'bold'
   },
   boldText: {
