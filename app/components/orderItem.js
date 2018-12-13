@@ -97,7 +97,7 @@ class OrderItem extends Component {
           <Left style={ss.headerLeft}>
             <Text style={ss.boldText}>{paxName}</Text>
             <TouchableOpacity style={ss.reset} onPress={this._resetPaxOrders}>
-              <IonIcon name='refresh' size={22} />
+              <IonIcon name='undo' size={22} />
             </TouchableOpacity>
           </Left>
           <Right style={ss.headerRight}>

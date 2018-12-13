@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
   CardItem, Left, Body,
-  Text, Right
+  Text, Right, View
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import { TouchableOpacity, StyleSheet, TextInput } from 'react-native'
@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { getModifiedPax } from '../selectors'
 import { mergeMapShallow } from '../utils/immutable'
 import FooterButtons from '../components/footerButtons'
+import PaxOrder from './paxOrder'
 const _T = Translator('PaxDetailsScreen')
 
 class PaxCard extends Component {
@@ -54,7 +55,7 @@ class PaxCard extends Component {
         <Left style={ss.nameLeft}>
           <IonIcon name='person' />
           <Body>
-            <Text>{name}</Text>
+            <Text style={ss.label}>{name}</Text>
             <Text note>{ssn}</Text>
           </Body>
         </Left>
@@ -88,7 +89,7 @@ class PaxCard extends Component {
     return (
       <CardItem>
         <Body style={ss.phoneLeft}>
-          <Text>{_T('phone')}</Text>
+          <Text style={ss.label}>{_T('phone')}</Text>
           {this._renderPhoneInput(phone)}
         </Body>
         <Right style={ss.comms}>
@@ -103,7 +104,7 @@ class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>{_T('booking')}</Text>
+          <Text style={ss.label}>{_T('booking')}</Text>
           <TouchableOpacity onPress={() => {}} style={ss.booking}>
             <Text style={ss.bookingText}>{booking.get('id')}</Text>
           </TouchableOpacity>
@@ -127,7 +128,7 @@ class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>{_T('travelsWith')}</Text>
+          <Text style={ss.label}>{_T('travelsWith')}</Text>
           {coPax.filter(p => p.get('id') !== pax.get('id')).map(p => {
             const name = `${p.get('firstName')} ${p.get('lastName')}`
             return (<Text key={p.get('id')} note>{name}</Text>)
@@ -157,7 +158,7 @@ class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>{_T('comment')}</Text>
+          <Text style={ss.label}>{_T('comment')}</Text>
           {this._renderCommentInput(comment)}
         </Body>
       </CardItem>
@@ -200,7 +201,9 @@ class PaxCard extends Component {
 
   render () {
     const { editMode, phone, comment } = this.state
+    const { departureId, pax } = this.props
     const booking = this.paxData.get('booking')
+    const bookingId = String(booking.get('id'))
     const excursion = this.paxData.get('excursionPack')
     const coPax = this.paxData.get('booking').get('pax')
     return (
@@ -216,6 +219,9 @@ class PaxCard extends Component {
         {!!coPax.size && this._renderCoPax(coPax, this.paxData)}
         {this._renderComment(comment)}
         {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
+        <View style={ss.paxOrder}>
+          <PaxOrder bookingId={bookingId} departureId={departureId} pax={pax} />
+        </View>
       </KeyboardAwareScrollView>
     )
   }
@@ -290,5 +296,9 @@ const ss = StyleSheet.create({
   },
   footerButton: {
     marginRight: 20
+  },
+  paxOrder: {
+    marginTop: 20,
+    marginHorizontal: 5
   }
 })
