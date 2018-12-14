@@ -2,7 +2,7 @@
 import { createReducer } from '../../utils/reduxHelpers'
 import {
   setIntoMap, readValue, getMap,
-  mergeMapShallow
+  mergeMapShallow, deleteFromMap
 } from '../../utils/immutable'
 
 import {
@@ -179,7 +179,7 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let orders = readValue('orders', modifiedData) || getMap({})
     let orderForBooking = readValue(payload.bookingId, orders) || getMap({})
     let orderForPax = readValue(payload.paxId, orderForBooking) || getMap({})
-    orderForPax = setIntoMap(orderForPax, payload.direction, getMap({}))
+    orderForPax = deleteFromMap(orderForPax, payload.direction)
     orderForBooking = setIntoMap(orderForBooking, payload.paxId, orderForPax)
     orders = setIntoMap(orders, payload.bookingId, orderForBooking)
     modifiedData = setIntoMap(modifiedData, 'orders', orders)

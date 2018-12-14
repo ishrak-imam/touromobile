@@ -55,7 +55,7 @@ class StatItem extends Component {
 export default class Stats extends Component {
   _renderTop = paxCount => {
     return (
-      <CardItem>
+      <CardItem style={ss.headerItem}>
         <Body><Text style={ss.totalPax}>{_T('totalPax')}: {paxCount}</Text></Body>
       </CardItem>
     )
@@ -164,8 +164,11 @@ export default class Stats extends Component {
 
 const ss = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: 5
+    flex: 1
+  },
+  headerItem: {
+    paddingTop: 5,
+    paddingBottom: 0
   },
   item: {
     marginLeft: 0,

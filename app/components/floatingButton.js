@@ -10,10 +10,10 @@ import isIphoneX from '../utils/isIphoneX'
 
 const { width, height } = Dimensions.get('window')
 
-let left = width - 95
-let top = height - 140
+let left = width - 85
+let top = height - 130
 if (isIphoneX) {
-  top = height - 175
+  top = height - 165
 }
 
 export default class FloatingButton extends Component {
@@ -30,9 +30,9 @@ export default class FloatingButton extends Component {
 
 const ss = StyleSheet.create({
   button: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
     position: 'absolute',
     left,
     right: 0,

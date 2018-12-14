@@ -37,20 +37,13 @@ export const isMap = map => {
   return Map.isMap(map)
 }
 
-/**
- * TODO:
- *
- * Need a version upgrade of immutable-js
- * to use the following methods
- */
+export const deleteFromMap = (map, key) => {
+  return map.delete(key)
+}
 
-// export const deleteFromMap = (map, key) => {
-//   return map.delete(key)
-// }
-
-// export const deleteAllFromMap = (map, keys) => {
-//   return map.deleteAll(keys)
-// }
+export const deleteAllFromMap = (map, keys) => {
+  return map.deleteAll(keys)
+}
 
 /**
  * Set methods
