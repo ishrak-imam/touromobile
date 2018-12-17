@@ -258,12 +258,12 @@ export const getLunches = state => state.trips.get('current').get('trip').get('l
 export const getMeals = state => {
   const currentTrip = state.trips.get('current')
   if (!currentTrip.get('has')) {
-    return getMap({
-      out: getList([]),
-      home: getList([])
-    })
+    return false
   }
   const lunches = currentTrip.get('trip').get('lunches')
+  if (!lunches) {
+    return false
+  }
   return getMap({
     out: lunches.get('out').get('meals'),
     home: lunches.get('home').get('meals')

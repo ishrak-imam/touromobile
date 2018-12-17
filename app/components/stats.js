@@ -167,8 +167,8 @@ const ss = StyleSheet.create({
     flex: 1
   },
   headerItem: {
-    paddingTop: 5,
-    paddingBottom: 0
+    paddingTop: 10,
+    paddingBottom: 5
   },
   item: {
     marginLeft: 0,

@@ -12,7 +12,7 @@ import isIOS from '../utils/isIOS'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { modifyPaxData } from '../modules/modifiedData/action'
 import { connect } from 'react-redux'
-import { getModifiedPax } from '../selectors'
+import { getModifiedPax, getMeals } from '../selectors'
 import { mergeMapShallow } from '../utils/immutable'
 import FooterButtons from '../components/footerButtons'
 import PaxOrder from './paxOrder'
@@ -199,9 +199,17 @@ class PaxCard extends Component {
     this.setState({ [field]: text })
   }
 
+  _renderPaxOrder = (bookingId, departureId, pax) => {
+    return (
+      <View style={ss.paxOrder}>
+        <PaxOrder bookingId={bookingId} departureId={departureId} pax={pax} />
+      </View>
+    )
+  }
+
   render () {
     const { editMode, phone, comment } = this.state
-    const { departureId, pax } = this.props
+    const { departureId, pax, meals } = this.props
     const booking = this.paxData.get('booking')
     const bookingId = String(booking.get('id'))
     const excursion = this.paxData.get('excursionPack')
@@ -219,9 +227,7 @@ class PaxCard extends Component {
         {!!coPax.size && this._renderCoPax(coPax, this.paxData)}
         {this._renderComment(comment)}
         {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
-        <View style={ss.paxOrder}>
-          <PaxOrder bookingId={bookingId} departureId={departureId} pax={pax} />
-        </View>
+        {!!meals && this._renderPaxOrder(bookingId, departureId, pax)}
       </KeyboardAwareScrollView>
     )
   }
@@ -230,7 +236,8 @@ class PaxCard extends Component {
 const stateToProps = (state, props) => {
   const { departureId } = props
   return {
-    modifiedPax: getModifiedPax(state, departureId)
+    modifiedPax: getModifiedPax(state, departureId),
+    meals: getMeals(state)
   }
 }
 

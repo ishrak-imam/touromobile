@@ -100,7 +100,8 @@ class ReportsScreen extends Component {
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
-        {this._renderTabs()}
+
+        {!!meals && this._renderTabs()}
 
         {
           tab === EXCURSIONS && isDataReady &&
@@ -112,7 +113,7 @@ class ReportsScreen extends Component {
         }
 
         {
-          tab === ORDERS && isDataReady &&
+          tab === ORDERS && isDataReady && !!meals &&
           <OrderStats orders={orders} pax={getSortedPaxByFirstName(trip)} meals={meals} />
         }
 
