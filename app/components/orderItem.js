@@ -86,9 +86,8 @@ class OrderItem extends Component {
     const { child } = this.state
     const { lunches, pax, direction } = this.props
     const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
-    const meals = lunches.get(direction).get('meals')
-    const childMeals = meals.filter(m => child && !!m.get('child'))
-    const adultMeals = meals.filter(m => !!m.get('adult'))
+    let meals = lunches.get(direction).get('meals')
+    meals = child ? meals.filter(m => child && !!m.get('child')) : meals.filter(m => !!m.get('adult'))
 
     return (
       <View style={ss.orderItem}>
@@ -108,25 +107,13 @@ class OrderItem extends Component {
           </Right>
         </ListItem>
 
-        {
-          child &&
-          <MealsSelection
-            items={childMeals}
-            label={_T('meals')}
-            onSelect={this._onMealSelect}
-            selected={this.selected}
-          />
-        }
-
-        {
-          !child &&
-          <MealsSelection
-            items={adultMeals}
-            label={_T('meals')}
-            onSelect={this._onMealSelect}
-            selected={this.selected}
-          />
-        }
+        <MealsSelection
+          items={meals}
+          label={_T('meals')}
+          onSelect={this._onMealSelect}
+          selected={this.selected}
+          isChild={child}
+        />
 
         <BeverageSelection
           onSelect={this._onBeverageSelect}
