@@ -8,7 +8,6 @@ import { StyleSheet, ScrollView } from 'react-native'
 import OutHomeTab from './outHomeTab'
 import { Colors } from '../theme'
 import { listToMap, getSet } from '../utils/immutable'
-import beverageList from '../utils/beverages'
 import Translator from '../utils/translator'
 import PaxWithoutOrder from './paxWithoutOrder'
 
@@ -49,7 +48,7 @@ export default class OrderStats extends Component {
   }
 
   get beveragesData () {
-    const { orders } = this.props
+    const { orders, beverages } = this.props
     const { tab } = this.state
     const direction = orders.get(tab)
 
@@ -70,7 +69,7 @@ export default class OrderStats extends Component {
       return map
     }, { orders: {}, total: { adult: 0, child: 0 } })
 
-    beveragesData.drinks = listToMap(beverageList, 'id')
+    beveragesData.drinks = listToMap(beverages.get(tab), 'id')
     return beveragesData
   }
 

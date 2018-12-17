@@ -4,10 +4,7 @@ import {
   View, Text, CheckBox
 } from 'native-base'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import beverages from '../utils/beverages'
 import { chunkList } from '../utils/immutable'
-
-const chunkedBeverages = chunkList(beverages, 3)
 
 export default class BeverageSelection extends Component {
   _onSelect = item => {
@@ -18,7 +15,8 @@ export default class BeverageSelection extends Component {
   }
 
   _renderVeverages = () => {
-    const { selected } = this.props
+    const { selected, items } = this.props
+    const chunkedBeverages = chunkList(items, 3)
     return chunkedBeverages.map((row, index) => (
       <View key={index} style={ss.row}>
         {row.map(item => {

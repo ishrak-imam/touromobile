@@ -4,7 +4,7 @@ import {
 } from 'native-base'
 import {
   getSortedBookings, getModifiedPax, getModifiedPaxByBooking,
-  filterBookingBySearchText, getPhoneNumbers, getMeals
+  filterBookingBySearchText, getPhoneNumbers
 } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Colors } from '../theme'
@@ -60,10 +60,12 @@ class BookingList extends Component {
   }
 
   _toOrdersScreen = booking => {
-    const { meals } = this.props
-    if (!meals) return () => {}
+    const { trip } = this.props
+    const transport = trip.get('transport')
+    const isFlight = transport ? transport.get('type') === 'flight' : false
+    if (isFlight) return () => {}
 
-    const { navigation, trip } = this.props
+    const { navigation } = this.props
     const brand = trip.get('brand')
     const departureId = String(trip.get('departureId'))
     return () => {
@@ -122,8 +124,7 @@ const stateToProps = (state, props) => {
   const { trip } = props
   const departureId = String(trip.get('departureId'))
   return {
-    modifiedPax: getModifiedPax(state, departureId),
-    meals: getMeals(state)
+    modifiedPax: getModifiedPax(state, departureId)
   }
 }
 

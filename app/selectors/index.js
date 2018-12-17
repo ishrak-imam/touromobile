@@ -16,7 +16,7 @@ export const {
   getPastTrips,
   getFutureTrips,
   getPax,
-  getMeals,
+  getFoods,
   filterPaxBySearchText,
   filterBookingBySearchText,
   getSortedPax,

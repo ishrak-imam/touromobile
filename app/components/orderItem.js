@@ -87,6 +87,7 @@ class OrderItem extends Component {
     const { lunches, pax, direction } = this.props
     const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
     let meals = lunches.get(direction).get('meals')
+    const beverages = lunches.get(direction).get('beverages')
     meals = child ? meals.filter(m => child && !!m.get('child')) : meals.filter(m => !!m.get('adult'))
 
     return (
@@ -116,9 +117,10 @@ class OrderItem extends Component {
         />
 
         <BeverageSelection
+          items={beverages}
+          label={_T('beverages')}
           onSelect={this._onBeverageSelect}
           selected={this.selected}
-          label={_T('beverages')}
         />
 
       </View>

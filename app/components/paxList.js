@@ -160,8 +160,11 @@ class PaxList extends Component {
     const { navigation, trip } = this.props
     const departureId = String(trip.get('departureId'))
     const brand = trip.get('brand')
+    const transport = trip.get('transport')
+
+    const isFlight = transport ? transport.get('type') === 'flight' : false
     return () => {
-      navigation.navigate('PaxDetails', { brand, pax, departureId })
+      navigation.navigate('PaxDetails', { brand, pax, departureId, isFlight })
     }
   }
 

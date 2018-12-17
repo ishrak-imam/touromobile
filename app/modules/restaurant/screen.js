@@ -13,7 +13,6 @@ import { IonIcon, Colors } from '../../theme'
 import isIphoneX from '../../utils/isIphoneX'
 import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
-import beverageList from '../../utils/beverages'
 import { connect } from 'react-redux'
 import { getOrdersByDirection } from '../../selectors'
 
@@ -109,8 +108,7 @@ class RestaurantScreen extends Component {
 
   _renderOrders = (orders, restaurant) => {
     const meals = listToMap(restaurant.get('meals'), 'id')
-    // const beverages = listToMap(restaurant.get('beverages'), 'id')
-    const beverages = listToMap(beverageList, 'id')
+    const beverages = listToMap(restaurant.get('beverages'), 'id')
 
     let adultMealOrders = {}
     let childMealOrders = {}

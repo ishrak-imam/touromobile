@@ -7,7 +7,7 @@ import Translator from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
   getParticipants, getTripExcursions, getReports, getOrders,
-  getAllOrders, getSortedPaxByFirstName, getMeals
+  getAllOrders, getSortedPaxByFirstName, getFoods
 } from '../../selectors'
 import Stats from '../../components/stats'
 import OrderStats from '../../components/orderStats'
@@ -91,17 +91,22 @@ class ReportsScreen extends Component {
 
   render () {
     const { tab } = this.state
-    const { currentTrip, participants, excursions, reports, navigation, orders, meals } = this.props
+    const {
+      currentTrip, participants, excursions,
+      reports, navigation, orders, meals, beverages
+    } = this.props
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
+    const transport = trip.get('transport')
 
     const isDataReady = currentTrip.get('has')
+    const isFlight = transport ? transport.get('type') === 'flight' : false
 
     return (
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
 
-        {!!meals && this._renderTabs()}
+        {!isFlight && this._renderTabs()}
 
         {
           tab === EXCURSIONS && isDataReady &&
@@ -113,8 +118,8 @@ class ReportsScreen extends Component {
         }
 
         {
-          tab === ORDERS && isDataReady && !!meals &&
-          <OrderStats orders={orders} pax={getSortedPaxByFirstName(trip)} meals={meals} />
+          tab === ORDERS && isDataReady && isFlight &&
+          <OrderStats orders={orders} pax={getSortedPaxByFirstName(trip)} meals={meals} beverages={beverages} />
         }
 
         <FloatingButton onPress={this._onUpload} loading={reports.get('isLoading')} />
@@ -134,7 +139,8 @@ const stateToProps = state => {
     reports: getReports(state),
     orders: getOrders(state, departureId),
     allOrders: getAllOrders(state, departureId),
-    meals: getMeals(state)
+    meals: getFoods(state, 'meals'),
+    beverages: getFoods(state, 'beverages')
   }
 }
 

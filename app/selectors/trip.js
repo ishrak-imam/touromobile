@@ -255,7 +255,7 @@ export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpl
 
 export const getLunches = state => state.trips.get('current').get('trip').get('lunches')
 
-export const getMeals = state => {
+export const getFoods = (state, type) => {
   const currentTrip = state.trips.get('current')
   if (!currentTrip.get('has')) {
     return false
@@ -265,8 +265,8 @@ export const getMeals = state => {
     return false
   }
   return getMap({
-    out: lunches.get('out').get('meals'),
-    home: lunches.get('home').get('meals')
+    out: lunches.get('out').get(type),
+    home: lunches.get('home').get(type)
   })
 }
 

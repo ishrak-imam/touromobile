@@ -1160,6 +1160,14 @@
             "adult": 125,
             "child": 75
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -1179,6 +1187,14 @@
             "adult": 90,
             "child": 60
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },
@@ -2397,6 +2413,14 @@
             "adult": 125,
             "child": 75
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -2416,6 +2440,14 @@
             "adult": 90,
             "child": 60
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },
@@ -4918,6 +4950,14 @@
             "adult": 125,
             "child": 75
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -4937,6 +4977,14 @@
             "adult": 90,
             "child": 60
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },
@@ -6207,6 +6255,14 @@
             "adult": 125,
             "child": 75
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -6226,6 +6282,14 @@
             "adult": 90,
             "child": 60
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },

@@ -341,7 +341,7 @@ class Trip extends Component {
 
           {!!hotels && this._renderHotels(hotels)}
 
-          {!!launches && this._renderRestaurants(launches)}
+          {!!launches && !isFlight && this._renderRestaurants(launches)}
           {this._renderFooter(pax)}
         </ScrollView>
       </View>

@@ -11,11 +11,12 @@ export default class PaxDetailsScreen extends Component {
     const pax = navigation.getParam('pax')
     const departureId = navigation.getParam('departureId')
     const brand = navigation.getParam('brand')
+    const isFlight = navigation.getParam('isFlight')
     const name = `${pax.get('firstName')} ${pax.get('lastName')}`
     return (
       <Container>
         <Header left='back' title={name} navigation={navigation} brand={brand} />
-        <PaxCard pax={pax} departureId={departureId} />
+        <PaxCard pax={pax} departureId={departureId} isFlight={isFlight} />
       </Container>
     )
   }
