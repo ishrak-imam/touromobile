@@ -2568,6 +2568,14 @@
             "adult": null,
             "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -2597,6 +2605,14 @@
             "adult": 390,
             "child": 200
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },

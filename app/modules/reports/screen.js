@@ -118,7 +118,7 @@ class ReportsScreen extends Component {
         }
 
         {
-          tab === ORDERS && isDataReady && isFlight &&
+          tab === ORDERS && isDataReady &&
           <OrderStats orders={orders} pax={getSortedPaxByFirstName(trip)} meals={meals} beverages={beverages} />
         }
 
