@@ -27,6 +27,9 @@
     },
     "android": {
       "package": "com.scandorama.touroguide",
+      "permissions": [
+        "READ_PHONE_STATE"
+      ],
       "versionCode": 3
     },
     "hooks": {
