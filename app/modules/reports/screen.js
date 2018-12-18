@@ -41,6 +41,8 @@ class ReportsScreen extends Component {
   _onUpload = () => {
     const { excursions, participants, currentTrip, allOrders } = this.props
     const trip = currentTrip.get('trip')
+    const transport = trip.get('transport')
+    const isFlight = transport ? transport.get('type') === 'flight' : false
     const departureId = String(trip.get('departureId'))
     const transportId = String(trip.get('transportId'))
     const statsData = getStatsData(excursions, participants, trip)
@@ -48,6 +50,7 @@ class ReportsScreen extends Component {
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
+      isFlight,
       statsData,
       orderStats,
       showToast: true,

@@ -17,13 +17,13 @@ export function * watchUploadState () {
 
 function * workerUploadStats (action) {
   const {
-    departureId, statsData, orderStats, jwt,
+    departureId, isFlight, statsData, orderStats, jwt,
     showToast, sucsMsg, failMsg
   } = action.payload
 
   try {
     yield call(uploadStats, departureId, statsData, jwt)
-    yield call(uploadOrderStats, departureId, orderStats, jwt)
+    if (!isFlight) yield call(uploadOrderStats, departureId, orderStats, jwt)
     yield put(uploadStatsSucs({
       toast: showToast,
       message: sucsMsg,
