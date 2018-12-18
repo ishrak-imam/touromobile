@@ -30,7 +30,7 @@
       "permissions": [
         "READ_PHONE_STATE"
       ],
-      "versionCode": 3
+      "versionCode": 4
     },
     "hooks": {
       "postPublish": [
