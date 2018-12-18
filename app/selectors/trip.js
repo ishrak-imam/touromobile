@@ -546,3 +546,13 @@ export const filterBookingBySearchText = (booking, text) => {
     return pax.size
   })
 }
+
+export const checkIfFlightTrip = trip => {
+  const transport = trip.get('transport')
+  return transport ? transport.get('type') === 'flight' : false
+}
+
+export const checkIfBusTrip = trip => {
+  const transport = trip.get('transport')
+  return transport ? transport.get('type') === 'bus' : false
+}

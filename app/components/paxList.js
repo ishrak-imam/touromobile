@@ -5,15 +5,13 @@ import {
 } from 'native-base'
 
 import {
-
   getSortedPaxByFirstName, getPaxDataGroupByFirstName,
   getSortedPaxByLastName, getPaxDataGroupByLastName,
   getSortedPaxByAirport, getPaxDataGroupByAirport,
   getSortedPaxByHotel, getPaxDataGroupByHotel,
   getSortedPaxByBookingId, getPaxDataGroupByBooking,
-
-  filterPaxBySearchText, getModifiedPax
-
+  filterPaxBySearchText, getModifiedPax,
+  checkIfFlightTrip
 } from '../selectors'
 
 import { call, sms } from '../utils/comms'
@@ -160,9 +158,7 @@ class PaxList extends Component {
     const { navigation, trip } = this.props
     const departureId = String(trip.get('departureId'))
     const brand = trip.get('brand')
-    const transport = trip.get('transport')
-
-    const isFlight = transport ? transport.get('type') === 'flight' : false
+    const isFlight = checkIfFlightTrip(trip)
     return () => {
       navigation.navigate('PaxDetails', { brand, pax, departureId, isFlight })
     }
@@ -258,10 +254,8 @@ class PaxList extends Component {
     ]
 
     const hotels = trip.get('hotels')
-    const transport = trip.get('transport')
-
     const isHotels = hotels && hotels.size
-    const isFlight = transport ? transport.get('type') === 'flight' : false
+    const isFlight = checkIfFlightTrip(trip)
 
     if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
     if (isFlight) options.push(CONTEXT_OPTIONS.airport)

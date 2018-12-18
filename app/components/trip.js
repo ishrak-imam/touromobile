@@ -13,8 +13,8 @@ import { IonIcon, Colors } from '../theme'
 import Translator from '../utils/translator'
 import { format } from 'date-fns'
 import {
-  getPax, getModifiedPax,
-  getPhoneNumbers, getFlightPaxPhones
+  getPax, getModifiedPax, checkIfFlightTrip,
+  getPhoneNumbers, getFlightPaxPhones, checkIfBusTrip
 } from '../selectors'
 import { call, sms } from '../utils/comms'
 import Button from '../components/button'
@@ -316,8 +316,8 @@ class Trip extends Component {
     const pax = getPax(trip)
     const hotels = trip.get('hotels')
 
-    const isFlight = transport ? transport.get('type') === 'flight' : false
-    const isBus = transport ? transport.get('type') === 'bus' : false
+    const isFlight = checkIfFlightTrip(trip)
+    const isBus = checkIfBusTrip(trip)
 
     return (
       <View style={ss.wrapper}>

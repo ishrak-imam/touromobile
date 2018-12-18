@@ -4,7 +4,7 @@ import {
 } from 'native-base'
 import {
   getSortedBookings, getModifiedPax, getModifiedPaxByBooking,
-  filterBookingBySearchText, getPhoneNumbers
+  filterBookingBySearchText, getPhoneNumbers, checkIfFlightTrip
 } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Colors } from '../theme'
@@ -61,8 +61,7 @@ class BookingList extends Component {
 
   _toOrdersScreen = booking => {
     const { trip } = this.props
-    const transport = trip.get('transport')
-    const isFlight = transport ? transport.get('type') === 'flight' : false
+    const isFlight = checkIfFlightTrip(trip)
     if (isFlight) return () => {}
 
     const { navigation } = this.props

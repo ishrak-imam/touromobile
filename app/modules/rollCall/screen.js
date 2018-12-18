@@ -17,7 +17,8 @@ import {
   getSortedPaxByAirport, getPaxDataGroupByAirport,
   getSortedPaxByHotel, getPaxDataGroupByHotel,
   getSortedPaxByBookingId, getPaxDataGroupByBooking,
-  filterPaxBySearchText
+  filterPaxBySearchText,
+  checkIfFlightTrip
 
 } from '../../selectors'
 import isIphoneX from '../../utils/isIphoneX'
@@ -102,10 +103,9 @@ class RollCallScreen extends Component {
     ]
 
     const hotels = trip.get('hotels')
-    const transport = trip.get('transport')
-
     const isHotels = hotels && hotels.size
-    const isFlight = transport ? transport.get('type') === 'flight' : false
+
+    const isFlight = checkIfFlightTrip(trip)
 
     if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
     if (isFlight) options.push(CONTEXT_OPTIONS.airport)

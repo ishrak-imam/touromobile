@@ -7,7 +7,7 @@ import Translator from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
   getParticipants, getTripExcursions, getReports, getOrders,
-  getAllOrders, getSortedPaxByFirstName, getFoods
+  getAllOrders, getSortedPaxByFirstName, getFoods, checkIfFlightTrip
 } from '../../selectors'
 import Stats from '../../components/stats'
 import OrderStats from '../../components/orderStats'
@@ -41,8 +41,7 @@ class ReportsScreen extends Component {
   _onUpload = () => {
     const { excursions, participants, currentTrip, allOrders } = this.props
     const trip = currentTrip.get('trip')
-    const transport = trip.get('transport')
-    const isFlight = transport ? transport.get('type') === 'flight' : false
+    const isFlight = checkIfFlightTrip(trip)
     const departureId = String(trip.get('departureId'))
     const transportId = String(trip.get('transportId'))
     const statsData = getStatsData(excursions, participants, trip)
@@ -101,10 +100,9 @@ class ReportsScreen extends Component {
     } = this.props
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
-    const transport = trip.get('transport')
 
     const isDataReady = currentTrip.get('has')
-    const isFlight = transport ? transport.get('type') === 'flight' : false
+    const isFlight = checkIfFlightTrip(trip)
 
     return (
       <Container>
