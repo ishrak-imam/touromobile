@@ -94,6 +94,10 @@ class FutureTripCard extends Component {
     return String(this.props.trip.get('departureId'))
   }
 
+  get transportId () {
+    return String(this.props.trip.get('transportId'))
+  }
+
   get shouldLockTrip () {
     return shouldLockTrip(this.props.trip.get('outDate'))
   }
@@ -334,8 +338,12 @@ class FutureTripCard extends Component {
       isNeedJwt: true,
       guideId: user.get('guideId'),
       departureId: this.departureId,
-      accept: {
-        isAccepted,
+      acceptData: {
+        transportId: this.transportId,
+        accept: isAccepted
+      },
+      reservationData: {
+        transportId: this.transportId,
         out: {
           location: out.get('location').get('key'),
           transfer: out.get('transfer').get('key'),

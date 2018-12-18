@@ -1,6 +1,6 @@
 
 import { getPax, getParticipatingPax, getActualParticipatingPax } from './trip'
-import { getMap, isMap } from '../utils/immutable'
+import { getMap } from '../utils/immutable'
 
 export const getReports = state => state.reports
 
@@ -10,6 +10,7 @@ export const getReports = state => state.reports
  */
 export const getStatsData = (excursions, participants, trip) => {
   const pax = getPax(trip)
+  const transportId = String(trip.get('transportId'))
   const excursionPaxCounts = excursions.reduce((m, e) => {
     const excursionId = e.get('id')
     const participatingPax = getParticipatingPax(getMap({ pax, participants: participants.get(String(excursionId)) }))
@@ -18,14 +19,16 @@ export const getStatsData = (excursions, participants, trip) => {
   }, [])
 
   return {
+    transportId,
     excursions: excursionPaxCounts,
     totalPassengers: pax.size
   }
 }
 
-export const getOrderStats = orders => {
+export const getOrderStats = (orders, transportId) => {
   return orders.reduce((list, bOrders, key) => {
     const aggregated = {
+      transportId,
       booking: key,
       invoicee: ''
     }

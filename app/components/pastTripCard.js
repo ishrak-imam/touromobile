@@ -46,6 +46,7 @@ class PastTripCard extends Component {
   get tripData () {
     const { trip, modifiedTripData } = this.props
     const departureId = String(trip.get('departureId'))
+    const transportId = String(trip.get('transportId'))
     const excursions = trip.get('excursions')
     const participants = modifiedTripData
       ? modifiedTripData.get('participants') ? modifiedTripData.get('participants') : getMap({})
@@ -55,6 +56,7 @@ class PastTripCard extends Component {
     return {
       trip,
       departureId,
+      transportId,
       excursions,
       participants,
       statsUploadedAt
@@ -62,10 +64,10 @@ class PastTripCard extends Component {
   }
 
   _uploadStats = () => {
-    const { trip, departureId, excursions, participants } = this.tripData
+    const { trip, departureId, transportId, excursions, participants } = this.tripData
     const { orders } = this.props
     const statsData = getStatsData(excursions, participants, trip)
-    const orderStats = getOrderStats(orders)
+    const orderStats = getOrderStats(orders, transportId)
 
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,

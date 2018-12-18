@@ -12,7 +12,7 @@ export const getTrips = (guideId, jwt) => {
     : getRequest(`resources/guide/${guideId}/overview`, headers)
 }
 
-export const acceptAssignment = (guideId, departureId, isAccepted, jwt) => {
+export const acceptAssignment = (guideId, departureId, data, jwt) => {
   const headers = {
     'Authorization': `Bearer ${jwt}`
   }
@@ -20,7 +20,7 @@ export const acceptAssignment = (guideId, departureId, isAccepted, jwt) => {
     ? mockAcceptAssignment()
     : postRequest(
       `resources/guide/${guideId}/trip/${departureId}/accept`,
-      { accept: isAccepted },
+      data,
       headers
     )
 }

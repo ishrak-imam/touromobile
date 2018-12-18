@@ -1,6 +1,7 @@
 [
   {
     "departureId": 20271,
+    "transportId": 20271,
     "outDate": "2018-05-05T05:03:22.1030847+02:00",
     "homeDate": "2018-05-20T05:03:22.1030847+02:00",
     "name": "berw16",
@@ -1254,6 +1255,7 @@
 
   {
     "departureId": 20272,
+    "transportId": 20272,
     "outDate": "2018-05-08T05:03:22.1030847+02:00",
     "homeDate": "2018-05-20T05:03:22.1030847+02:00",
     "name": "berw16",
@@ -2507,6 +2509,7 @@
 
   {
     "departureId": 20273,
+    "transportId": 20273,
     "outDate": "2018-11-15T05:03:22.1030847+02:00",
     "homeDate": "2018-12-16T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
@@ -3807,6 +3810,7 @@
 
   {
     "departureId": 20274,
+    "transportId": 20274,
     "outDate": "2018-12-11T05:03:22.1030847+02:00",
     "homeDate": "2018-12-30T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
@@ -5112,6 +5116,7 @@
 
   {
     "departureId": 20275,
+    "transportId": 20275,
     "outDate": "2019-11-26T05:03:22.1030847+02:00",
     "homeDate": "2019-11-30T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
