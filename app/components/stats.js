@@ -198,6 +198,6 @@ const ss = StyleSheet.create({
   },
   headerText: {
     fontWeight: 'bold',
-    fontSize: 12
+    fontSize: 10
   }
 })

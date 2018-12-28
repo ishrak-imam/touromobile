@@ -135,6 +135,7 @@ const ss = StyleSheet.create({
     fontWeight: 'bold'
   },
   boldText: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 13
   }
 })
