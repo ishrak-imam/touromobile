@@ -2,8 +2,8 @@
   {
     "departureId": 20271,
     "transportId": 20271,
-    "outDate": "2018-05-05T05:03:22.1030847+02:00",
-    "homeDate": "2018-05-20T05:03:22.1030847+02:00",
+    "outDate": "2019-01-01T05:03:22.1030847+02:00",
+    "homeDate": "2019-01-20T05:03:22.1030847+02:00",
     "name": "berw16",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "description": "Berlin Weekend",
@@ -1156,10 +1156,46 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 1,
-            "name": "Hamburger",
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
             "adult": 125,
-            "child": 75
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [
@@ -1183,10 +1219,46 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [
@@ -1256,8 +1328,8 @@
   {
     "departureId": 20272,
     "transportId": 20272,
-    "outDate": "2018-05-08T05:03:22.1030847+02:00",
-    "homeDate": "2018-05-20T05:03:22.1030847+02:00",
+    "outDate": "2019-01-25T05:03:22.1030847+02:00",
+    "homeDate": "2019-02-15T05:03:22.1030847+02:00",
     "name": "berw16",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "description": "Berlin Weekend",
@@ -2410,10 +2482,46 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 1,
-            "name": "Hamburger",
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
             "adult": 125,
-            "child": 75
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [
@@ -2437,10 +2545,46 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [
@@ -2510,10 +2654,10 @@
   {
     "departureId": 20273,
     "transportId": 20273,
-    "outDate": "2018-11-15T05:03:22.1030847+02:00",
-    "homeDate": "2018-12-30T05:03:22.1030847+02:00",
+    "outDate": "2019-02-20T05:03:22.1030847+02:00",
+    "homeDate": "2019-03-05T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
-    "image": "https://picsum.photos/700/500/?image=574",
+    "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "description": "Berlin Weekend",
     "brand": "SS",
     "lunches": {
@@ -2591,22 +2735,46 @@
         "time": "2018-04-03T13:30",
         "meals": [
           {
-            "id": 201,
-            "name": "Knödel",
-            "adult": 201,
-            "child": 101
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
           },
           {
-            "id": 202,
-            "name": "Wurst",
-            "adult": 151,
-            "child": 76
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
           },
           {
-            "id": 203,
-            "name": "Veggie",
-            "adult": 390,
-            "child": 200
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [
@@ -3811,8 +3979,8 @@
   {
     "departureId": 20274,
     "transportId": 20274,
-    "outDate": "2019-12-11T05:03:22.1030847+02:00",
-    "homeDate": "2019-12-30T05:03:22.1030847+02:00",
+    "outDate": "2019-03-07T05:03:22.1030847+02:00",
+    "homeDate": "2019-03-27T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
     "image": "https://picsum.photos/700/500/?image=524",
     "description": "Berlin Weekend",
@@ -4965,10 +5133,46 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 1,
-            "name": "Hamburger",
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
             "adult": 125,
-            "child": 75
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [
@@ -4992,10 +5196,46 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [
@@ -5117,8 +5357,8 @@
   {
     "departureId": 20275,
     "transportId": 20275,
-    "outDate": "2019-11-26T05:03:22.1030847+02:00",
-    "homeDate": "2019-11-30T05:03:22.1030847+02:00",
+    "outDate": "2019-04-02T05:03:22.1030847+02:00",
+    "homeDate": "2019-04-25T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
     "image": "https://picsum.photos/700/500/?image=444",
     "description": "Berlin Weekend",
@@ -6271,10 +6511,46 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 1,
-            "name": "Hamburger",
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
             "adult": 125,
-            "child": 75
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [
@@ -6298,10 +6574,46 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
         ],
         "beverages": [

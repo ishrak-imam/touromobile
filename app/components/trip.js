@@ -5,8 +5,7 @@ import {
   Body, Right, Text
 } from 'native-base'
 import {
-  StyleSheet, View, RefreshControl,
-  TouchableOpacity, ScrollView
+  StyleSheet, View, TouchableOpacity
 } from 'react-native'
 import IconButton from '../components/iconButton'
 import { IonIcon, Colors } from '../theme'
@@ -21,7 +20,6 @@ import Button from '../components/button'
 import ImageCache from './imageCache'
 import { connect } from 'react-redux'
 import { getMap } from '../utils/immutable'
-import OverlaySpinner from '../components/overlaySpinner'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'DD/MM'
@@ -309,7 +307,7 @@ class Trip extends Component {
   }
 
   render () {
-    const { trip, onRefresh, isRefreshing } = this.props
+    const { trip } = this.props
     const transport = trip.get('transport')
     const launches = trip.get('lunches')
     const image = trip.get('image')
@@ -321,29 +319,20 @@ class Trip extends Component {
 
     return (
       <View style={ss.wrapper}>
-        {isRefreshing && <OverlaySpinner />}
-        <ScrollView
-          contentContainerStyle={{ justifyContent: 'center' }}
-          refreshControl={
-            <RefreshControl
-              refreshing={false}
-              onRefresh={onRefresh}
-            />
-          }
-        >
-          {this._renderHeader(trip)}
-          {!!image && this._renderImage(image)}
-          {this._renderPaxCount(pax.size)}
 
-          {isFlight && this._renderFlight(transport, pax)}
+        {this._renderHeader(trip)}
+        {!!image && this._renderImage(image)}
+        {this._renderPaxCount(pax.size)}
 
-          {isBus && this._renderBus(transport)}
+        {isFlight && this._renderFlight(transport, pax)}
 
-          {!!hotels && this._renderHotels(hotels)}
+        {isBus && this._renderBus(transport)}
 
-          {!!launches && !isFlight && this._renderRestaurants(launches)}
-          {this._renderFooter(pax)}
-        </ScrollView>
+        {!!hotels && this._renderHotels(hotels)}
+
+        {!!launches && !isFlight && this._renderRestaurants(launches)}
+        {this._renderFooter(pax)}
+
       </View>
     )
   }

@@ -184,7 +184,7 @@ class RestaurantScreen extends Component {
             {!!restaurant && this._renderRestaurant(restaurant)}
             {!!restaurant && this._renderComs(restaurant)}
             {!!meals && this._renderMeals(meals)}
-            {!!orders && this._renderOrders(orders, restaurant)}
+            {orders.size && this._renderOrders(orders, restaurant)}
           </View>
         </ScrollView>
       </Container>

@@ -17,6 +17,8 @@ import {
 import Trip from '../../components/trip'
 import { getTrips, getUser } from '../../selectors'
 import NoData from '../../components/noData'
+import { ScrollView, RefreshControl } from 'react-native'
+import OverlaySpinner from '../../components/overlaySpinner'
 
 const _T = Translator('CurrentTripScreen')
 
@@ -83,18 +85,20 @@ class TripScreen extends Component {
           navigation={navigation}
           brand={brand}
         />
-        {
-          isLoading
-            ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
-            : current.get('has')
-              ? <Trip
-                trip={current.get('trip')}
-                navigation={navigation}
-                onRefresh={this._onRefresh}
-                isRefreshing={isRefreshing}
-              />
-              : <NoData text='noCurrentTrip' textStyle={{ marginTop: 30 }} />
-        }
+        {isRefreshing && <OverlaySpinner />}
+        <ScrollView
+          contentContainerStyle={{ justifyContent: 'center' }}
+          refreshControl={<RefreshControl refreshing={false} onRefresh={this._onRefresh} />}
+        >
+          {
+            isLoading
+              ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
+              : current.get('has')
+                ? <Trip trip={current.get('trip')} navigation={navigation} />
+                : <NoData text='noCurrentTrip' textStyle={{ marginTop: 30 }} />
+          }
+        </ScrollView>
+
       </Container>
 
     )
