@@ -78,8 +78,6 @@ export default {
     child: 'Barn',
     total: 'Total',
     beverages: 'Drycker',
-    paxWithoutOrder: 'Passagerare utan order',
-    clickToExpand: 'Klicka på rubriken för att visa alla passagerare',
     booking: 'Bokning',
     participants: 'Deltagare',
     sale: 'Försäljning',
@@ -155,6 +153,12 @@ export default {
     lastName: 'Efternamn',
     hotel: 'Hotel',
     airport: 'Aeropuerto',
+    booking: 'Bokning'
+  },
+  PaxWithoutOrder: {
+    paxWithoutOrder: 'Passagerare utan order',
+    paxInThisHotel: 'Passagerare på detta hotell',
+    clickToExpand: 'Klicka på rubriken för att visa alla passagerare',
     booking: 'Bokning'
   }
 }

@@ -78,9 +78,6 @@ export default {
     child: 'Child',
     total: 'Total',
     beverages: 'Beverages',
-    paxWithoutOrder: 'Passengers without order',
-    clickToExpand: 'Click the header to show the full list of passengers',
-    booking: 'Booking',
     participants: 'Participants',
     sale: 'Sale',
     share: 'Share',
@@ -155,6 +152,12 @@ export default {
     lastName: 'Last name',
     hotel: 'Hotel',
     airport: 'Airport',
+    booking: 'Booking'
+  },
+  PaxWithoutOrder: {
+    paxWithoutOrder: 'Passengers without order',
+    paxInThisHotel: 'Passengers in this hotel',
+    clickToExpand: 'Click the header to show the full list of passengers',
     booking: 'Booking'
   }
 }

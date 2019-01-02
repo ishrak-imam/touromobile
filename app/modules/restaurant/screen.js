@@ -14,7 +14,8 @@ import isIphoneX from '../../utils/isIphoneX'
 import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
 import { connect } from 'react-redux'
-import { getOrdersByDirection } from '../../selectors'
+import { getOrdersByDirection, getPaxByHotel } from '../../selectors'
+import PaxInThisHotel from '../../components/paxWithoutOrder'
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
@@ -171,7 +172,7 @@ class RestaurantScreen extends Component {
   }
 
   render () {
-    const { navigation, orders } = this.props
+    const { navigation, orders, paxByHotel } = this.props
     const restaurant = navigation.getParam('restaurant')
     const brand = navigation.getParam('brand')
     const meals = restaurant.get('meals')
@@ -185,6 +186,7 @@ class RestaurantScreen extends Component {
             {!!restaurant && this._renderComs(restaurant)}
             {!!meals && this._renderMeals(meals)}
             {!!orders.size && this._renderOrders(orders, restaurant)}
+            {!!paxByHotel.size && <PaxInThisHotel paxList={paxByHotel} label='paxInThisHotel' />}
           </View>
         </ScrollView>
       </Container>
@@ -196,9 +198,11 @@ const stateToProps = (state, props) => {
   const { navigation } = props
   const direction = navigation.getParam('direction')
   const departureId = navigation.getParam('departureId')
+  const restaurant = navigation.getParam('restaurant')
 
   return {
-    orders: getOrdersByDirection(state, departureId, direction)
+    orders: getOrdersByDirection(state, departureId, direction),
+    paxByHotel: getPaxByHotel(state, restaurant.get('id'))
   }
 }
 

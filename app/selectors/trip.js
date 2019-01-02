@@ -482,6 +482,17 @@ export const getPastTrips = state => {
   }
 }
 
+/**
+ * TODO:
+ * Find a way to cache the result
+ * note: Not immutable data
+ */
+export const getPaxByHotel = (state, hotelId) => {
+  const trip = state.trips.get('current').get('trip')
+  const pax = getSortedPax(trip)
+  return pax.filter(p => String(p.get('hotel')) === String(hotelId))
+}
+
 export const pendingStatsUpload = state => {
   const { has, trips } = getPastTrips(state)
   const modifiedData = state.modifiedData

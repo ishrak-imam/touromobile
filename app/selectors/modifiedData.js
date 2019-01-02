@@ -38,7 +38,7 @@ export const getOrdersByDirection = (state, departureId, direction) => {
 
   return orders.reduce((list, booking) => {
     const bOrders = booking.reduce((bList, pax) => {
-      if (isMap(pax)) {
+      if (isMap(pax) && pax.get(direction)) {
         bList = bList.push(pax.get(direction))
       }
       return bList

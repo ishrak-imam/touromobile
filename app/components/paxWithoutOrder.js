@@ -9,7 +9,7 @@ import { Colors, IonIcon } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Translator from '../utils/translator'
 
-const _T = Translator('ReportsScreen')
+const _T = Translator('PaxWithoutOrder')
 const ITEM_HEIGHT = 45
 
 class PaxItem extends Component {
@@ -53,7 +53,7 @@ export default class PaxWithoutOrder extends Component {
   _renderItem = ({ item }) => <PaxItem pax={item} />
 
   render () {
-    const { paxList } = this.props
+    const { paxList, label } = this.props
     const { isExpanded } = this.state
     const icon = isExpanded ? 'up' : 'down'
 
@@ -62,7 +62,7 @@ export default class PaxWithoutOrder extends Component {
         <ListItem style={ss.header} onPress={this._onHeaderPress}>
           <Left style={ss.bottomLeft}>
             <IonIcon name={icon} style={ss.expandIcon} />
-            <Text style={ss.boldText}>{_T('paxWithoutOrder')}</Text>
+            <Text style={ss.boldText}>{_T(label)}</Text>
           </Left>
           <Right style={ss.bottomRight}>
             <Text style={ss.boldText}>{_T('booking')}</Text>

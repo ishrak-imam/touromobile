@@ -251,7 +251,7 @@ export default class OrderStats extends Component {
         <ScrollView scrollEnabled={enableScrollViewScroll}>
           {this._renderMealOrders()}
           {this._renderBeverageOrders()}
-          <PaxWithoutOrder paxList={this.paxWithoutOrder} />
+          <PaxWithoutOrder paxList={this.paxWithoutOrder} label='paxWithoutOrder' />
         </ScrollView>
       </View>
     )
