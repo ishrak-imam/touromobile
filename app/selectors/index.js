@@ -18,6 +18,7 @@ export const {
   getPastTrips,
   getFutureTrips,
   getPax,
+  getPaxByHotel,
   getFoods,
   filterPaxBySearchText,
   filterBookingBySearchText,
@@ -41,7 +42,7 @@ export const {
   getFlightPaxPhones,
   getPaxWithExcursionPack,
   getPaxDataGroupByBooking,
-  getPaxByHotel
+  getTransportType
 } = require('./trip')
 
 export const {

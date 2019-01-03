@@ -567,3 +567,7 @@ export const checkIfBusTrip = trip => {
   const transport = trip.get('transport')
   return transport ? transport.get('type') === 'bus' : false
 }
+
+export const getTransportType = trip => {
+  return trip.getIn(['transport', 'type'])
+}

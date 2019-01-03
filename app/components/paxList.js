@@ -11,7 +11,7 @@ import {
   getSortedPaxByHotel, getPaxDataGroupByHotel,
   getSortedPaxByBookingId, getPaxDataGroupByBooking,
   filterPaxBySearchText, getModifiedPax,
-  checkIfFlightTrip
+  checkIfFlightTrip, getTransportType
 } from '../selectors'
 
 import { call, sms } from '../utils/comms'
@@ -46,7 +46,8 @@ class PaxItem extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return !nextProps.pax.equals(this.props.pax) ||
-            nextState.comment !== this.state.comment
+            nextState.comment !== this.state.comment ||
+            nextState.tripType !== this.props.tripType
   }
 
   _renderPhone = number => (
@@ -164,19 +165,22 @@ class PaxList extends Component {
     }
   }
 
-  _renderPerson = ({ item }) => {
+  _renderPerson = tripType => {
     const { modifiedPax, trip } = this.props
     const { groupBy } = this.state
-    const paxId = String(item.get('id'))
-    const pax = mergeMapShallow(item, modifiedPax.get(paxId))
-    return (
-      <PaxItem
-        pax={pax}
-        onItemPress={this._toPaxDetails}
-        groupBy={groupBy}
-        hotels={trip.get('hotels')}
-      />
-    )
+    return ({ item }) => {
+      const paxId = String(item.get('id'))
+      const pax = mergeMapShallow(item, modifiedPax.get(paxId))
+      return (
+        <PaxItem
+          pax={pax}
+          onItemPress={this._toPaxDetails}
+          groupBy={groupBy}
+          hotels={trip.get('hotels')}
+          tripType={tripType}
+        />
+      )
+    }
   }
 
   _onSearch = searchText => {
@@ -185,6 +189,7 @@ class PaxList extends Component {
 
   _renderList = trip => {
     const { searchText, groupBy } = this.state
+    const tripType = getTransportType(trip)
 
     let sortedPax = null
     switch (groupBy) {
@@ -233,7 +238,7 @@ class PaxList extends Component {
         ? <ImmutableVirtualizedList
           keyboardShouldPersistTaps='always'
           immutableData={paxList}
-          renderItem={this._renderPerson}
+          renderItem={this._renderPerson(tripType)}
           keyExtractor={item => String(item.get('id'))}
         />
         : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
