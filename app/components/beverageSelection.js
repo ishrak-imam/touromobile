@@ -7,10 +7,20 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 import { chunkList } from '../utils/immutable'
 
 export default class BeverageSelection extends Component {
+  shouldComponentUpdate (nextProps) {
+    /**
+     * No need to re-render beverage selection component if
+     * new meal selected or if drink id remains same
+     */
+    return nextProps.selected.get('drink') !== this.props.selected.get('drink')
+  }
+
   _onSelect = item => {
-    const { onSelect } = this.props
+    const { onSelect, selected } = this.props
     return () => {
-      onSelect(item)
+      if (selected.get('drink') !== item.get('id')) {
+        onSelect(item)
+      }
     }
   }
 

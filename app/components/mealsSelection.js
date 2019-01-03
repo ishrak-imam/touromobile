@@ -8,10 +8,24 @@ import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 export default class MealsSelection extends Component {
+  shouldComponentUpdate (nextProps) {
+    /**
+     * No need to re-render meal selection component if
+     * new drink selected or if meal id remains same
+     */
+    return nextProps.selected.get('meal') !== this.props.selected.get('meal')
+  }
+
   _onSelect = item => {
-    const { onSelect } = this.props
+    const { onSelect, selected } = this.props
     return () => {
-      onSelect(item)
+      /**
+       * no need to dispatch action if same meal
+       * is selected again
+       */
+      if (selected.get('meal') !== item.get('id')) {
+        onSelect(item)
+      }
     }
   }
 
