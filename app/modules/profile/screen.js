@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import { Container, View } from 'native-base'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native'
 import Header from '../../components/header'
 import { userDetailsReq, updateProfileReq } from './action'
 import {
@@ -12,7 +12,10 @@ import { getProfile, getUser } from '../../selectors'
 import { connect } from 'react-redux'
 import Profile from '../../components/profile'
 import Settings from '../../components/settings'
+import LunchOrderMode from '../../components/lunchOrderMode'
 import NoData from '../../components/noData'
+import isIphoneX from '../../utils/isIphoneX'
+import { Colors } from '../../theme'
 
 class ProfileScreen extends Component {
   componentDidMount () {
@@ -36,7 +39,7 @@ class ProfileScreen extends Component {
   _renderLoader () {
     return (
       <View style={ss.profile}>
-        <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
+        <NoData text='fetchingData' textStyle={ss.noData} />
       </View>
     )
   }
@@ -48,12 +51,16 @@ class ProfileScreen extends Component {
     return (
       <Container>
         <Header left='back' title={fullName} navigation={navigation} />
-        {
-          !userDetails.size
-            ? this._renderLoader()
-            : <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
-        }
-        <Settings />
+        <ScrollView contentContainerStyle={ss.scroll}>
+          {
+            !userDetails.size
+              ? this._renderLoader()
+              : <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
+          }
+
+          <Settings />
+          <LunchOrderMode />
+        </ScrollView>
       </Container>
     )
   }
@@ -68,6 +75,15 @@ export default connect(stateToProps, null)(ProfileScreen)
 
 const ss = StyleSheet.create({
   profile: {
-    flex: 5
+    flex: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.steel
+  },
+  scroll: {
+    paddingBottom: isIphoneX ? 20 : 10
+  },
+  noData: {
+    marginTop: 30,
+    marginBottom: 100
   }
 })

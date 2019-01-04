@@ -121,7 +121,8 @@ export default {
     phone: 'Telefon',
     email: 'E-post',
     backAccount: 'Bankkonto',
-    showTabLabels: 'Visa fliketiketter'
+    tabLabels: 'Fliketiketter',
+    showHideTabLabels: 'Visa/dölja fliketiketter'
   },
   RollCallScreen: {
     title: 'Upprop',

@@ -6,7 +6,7 @@ import {
 } from '../../utils/immutable'
 
 import {
-  TOGGLE_TAB_LABELS,
+  TOGGLE_TAB_LABELS, TOGGLE_ORDER_MODE,
   USER_DETAILS_REQ, USER_DETAILS_SUCS, USER_DETAILS_FAIL,
   EDIT_PROFILE_CANCEL, EDIT_PROFILE,
   UPDATE_PROFILE_REQ, UPDATE_PROFILE_SUCS, UPDATE_PROFILE_FAIL
@@ -18,6 +18,9 @@ export const profile = createReducer(PROFILE_INITIAL_STATE, {
   [TOGGLE_TAB_LABELS]: (state) => {
     const toggle = readValue('showLabel', state)
     return setIntoMap(state, 'showLabel', !toggle)
+  },
+  [TOGGLE_ORDER_MODE]: (state, payload) => {
+    return setIntoMap(state, 'orderMode', payload.mode)
   },
   [USER_DETAILS_REQ]: state => {
     return mergeMapShallow(state, getMap({ isLoading: true }))

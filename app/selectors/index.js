@@ -82,7 +82,8 @@ export const {
 export const {
   getProfile,
   getProfileUpdates,
-  getUserInProfile
+  getUserInProfile,
+  getOrderMode
 } = require('./profile')
 
 export const {

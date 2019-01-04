@@ -120,7 +120,8 @@ export default {
     phone: 'Phone',
     email: 'Email',
     backAccount: 'Bank account',
-    showTabLabels: 'Show tab labels'
+    tabLabels: 'Tab labels',
+    showHideTabLabels: 'Show/hide tab labels'
   },
   RollCallScreen: {
     title: 'Roll call',
