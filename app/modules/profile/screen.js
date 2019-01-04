@@ -1,46 +1,18 @@
 
 import React, { Component } from 'react'
-import {
-  Container, View, CheckBox,
-  Body, Left, Text, ListItem
-} from 'native-base'
+import { Container, View } from 'native-base'
 import { StyleSheet } from 'react-native'
 import Header from '../../components/header'
-import { toggleTabLabels, userDetailsReq, updateProfileReq } from './action'
+import { userDetailsReq, updateProfileReq } from './action'
 import {
   actionDispatcher,
   networkActionDispatcher
 } from '../../utils/actionDispatcher'
 import { getProfile, getUser } from '../../selectors'
 import { connect } from 'react-redux'
-import { Colors } from '../../theme'
 import Profile from '../../components/profile'
+import Settings from '../../components/settings'
 import NoData from '../../components/noData'
-
-import Translator from '../../utils/translator'
-
-const _T = Translator('ProfileScreen')
-
-class Settings extends Component {
-  render () {
-    const { showLabel, toggleLabel, style } = this.props
-    return (
-      <View style={style}>
-        <ListItem onPress={toggleLabel}>
-          <Left style={ss.left}>
-            <CheckBox
-              disabled
-              checked={showLabel}
-            />
-          </Left>
-          <Body style={ss.body}>
-            <Text>{_T('showTabLabels')}</Text>
-          </Body>
-        </ListItem>
-      </View>
-    )
-  }
-}
 
 class ProfileScreen extends Component {
   componentDidMount () {
@@ -50,10 +22,6 @@ class ProfileScreen extends Component {
         isNeedJwt: true, guideId: user.get('guideId')
       }))
     }
-  }
-
-  _toggleLabel = () => {
-    actionDispatcher(toggleTabLabels())
   }
 
   _updateProfile = data => {
@@ -76,7 +44,6 @@ class ProfileScreen extends Component {
   render () {
     const { navigation, profile, user } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
-    const showLabel = profile.get('showLabel')
     const userDetails = profile.get('user')
     return (
       <Container>
@@ -86,7 +53,7 @@ class ProfileScreen extends Component {
             ? this._renderLoader()
             : <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
         }
-        <Settings style={ss.settings} showLabel={showLabel} toggleLabel={this._toggleLabel} />
+        <Settings />
       </Container>
     )
   }
@@ -102,18 +69,5 @@ export default connect(stateToProps, null)(ProfileScreen)
 const ss = StyleSheet.create({
   profile: {
     flex: 5
-  },
-  settings: {
-    flex: 1,
-    borderTopWidth: 1,
-    borderTopColor: Colors.steel,
-    paddingVertical: 10
-  },
-  left: {
-    flex: 1
-  },
-  body: {
-    flex: 6,
-    justifyContent: 'flex-start'
   }
 })
