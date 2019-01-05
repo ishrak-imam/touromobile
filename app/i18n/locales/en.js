@@ -133,7 +133,8 @@ export default {
     meals: 'Meals',
     child: 'Child',
     beverages: 'Beverages',
-    invoicee: 'Invoicee'
+    invoicee: 'Invoicee',
+    selectInvoicee: 'Select invoicee'
   },
   NoData: {
     noMatch: 'No match found',

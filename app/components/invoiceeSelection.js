@@ -7,7 +7,7 @@ import {
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { actionDispatcher } from '../utils/actionDispatcher'
-import { selectInvoicee } from '../modules/modifiedData/action'
+import { selectInvoiceeIndividualMode } from '../modules/modifiedData/action'
 import { connect } from 'react-redux'
 import { getInvoicee } from '../selectors'
 
@@ -15,7 +15,7 @@ class InvoiceeSelection extends Component {
   _onSelect = paxId => {
     const { bookingId, departureId } = this.props
     return () => {
-      actionDispatcher(selectInvoicee({
+      actionDispatcher(selectInvoiceeIndividualMode({
         paxId, departureId, bookingId
       }))
     }

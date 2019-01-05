@@ -218,8 +218,8 @@ const DCW = [
 ]
 
 const LOCATIONS = {
-  out: { label: 'Boarding location', key: KEY_NAMES.LOCATION, direction: 'out' },
-  home: { label: 'Alighting location', key: KEY_NAMES.LOCATION, direction: 'home' },
+  out: { label: 'boardingLoc', key: KEY_NAMES.LOCATION, direction: 'out' },
+  home: { label: 'alightingLoc', key: KEY_NAMES.LOCATION, direction: 'home' },
 
   flight: [
     LOCATION_OPTIONS.BMA,
@@ -236,27 +236,27 @@ const LOCATIONS = {
 }
 
 const TRANSFERS = {
-  out: { label: 'Transfer', key: KEY_NAMES.TRANSFER, direction: 'out' },
-  home: { label: 'Transfer', key: KEY_NAMES.TRANSFER, direction: 'home' },
+  out: { label: 'transfer', key: KEY_NAMES.TRANSFER, direction: 'out' },
+  home: { label: 'transfer', key: KEY_NAMES.TRANSFER, direction: 'home' },
   flight: Object.values(TRANSFER_OPTIONS),
   bus: Object.values(TRANSFER_OPTIONS)
 }
 
 const TRANSFER_CITY = {
-  out: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'out' },
-  home: { label: 'Transfer city', key: KEY_NAMES.TRANSFER_CITY, direction: 'home' }
+  out: { label: 'transferCity', key: KEY_NAMES.TRANSFER_CITY, direction: 'out' },
+  home: { label: 'transferCity', key: KEY_NAMES.TRANSFER_CITY, direction: 'home' }
 }
 
 const ACCOMMODATIONS = {
-  out: { label: 'Accommodation', key: KEY_NAMES.ACCOMMODATION, direction: 'out' },
-  home: { label: 'Accommodation', key: KEY_NAMES.ACCOMMODATION, direction: 'home' },
+  out: { label: 'accommodation', key: KEY_NAMES.ACCOMMODATION, direction: 'out' },
+  home: { label: 'accommodation', key: KEY_NAMES.ACCOMMODATION, direction: 'home' },
   flight: Object.values(ACCOMMODATION_OPTIONS),
   bus: Object.values(ACCOMMODATION_OPTIONS)
 }
 
 const BAG = {
-  out: { label: 'Bag pickup', key: KEY_NAMES.BAG, direction: 'out' },
-  home: { label: 'Bag dropoff', key: KEY_NAMES.BAG, direction: 'home' },
+  out: { label: 'bagPick', key: KEY_NAMES.BAG, direction: 'out' },
+  home: { label: 'bagDrop', key: KEY_NAMES.BAG, direction: 'home' },
 
   flight: Object.values(BAG_OPTIONS),
 

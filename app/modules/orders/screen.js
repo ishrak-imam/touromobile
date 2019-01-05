@@ -10,11 +10,12 @@ import Translator from '../../utils/translator'
 import OrderItem from '../../components/orderItem'
 import isIphoneX from '../../utils/isIphoneX'
 import OutHomeTab, { TABS } from '../../components/outHomeTab'
+import SummaryOrderItem from '../../components/summaryOrderItem'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { Colors, IonIcon } from '../../theme'
 import InvoiceeSelection from '../../components/invoiceeSelection'
 import { actionDispatcher } from '../../utils/actionDispatcher'
-import { resetAllOrder } from '../modifiedData/action'
+import { resetAllOrderIndividualMode } from '../modifiedData/action'
 
 const _T = Translator('OrdersScreen')
 
@@ -52,7 +53,7 @@ export default class OrdersScreen extends Component {
 
   _resetOrders = (departureId, bookingId) => {
     return () => {
-      actionDispatcher(resetAllOrder({
+      actionDispatcher(resetAllOrderIndividualMode({
         departureId, bookingId
       }))
     }
@@ -83,7 +84,7 @@ export default class OrdersScreen extends Component {
           </Right>
         </ListItem>
 
-        <ImmutableVirtualizedList
+        {/* <ImmutableVirtualizedList
           contentContainerStyle={ss.scroll}
           immutableData={pax}
           renderItem={this._renderItem(bookingId, departureId)}
@@ -98,6 +99,13 @@ export default class OrdersScreen extends Component {
               />
             </View>
           }
+        /> */}
+
+        <SummaryOrderItem
+          direction={tab}
+          booking={booking}
+          bookingId={bookingId}
+          departureId={departureId}
         />
 
       </Container>

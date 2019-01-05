@@ -146,6 +146,14 @@ class FutureTripCard extends Component {
 
   _renderSelector = options => {
     const { selected, disabled } = options
+
+    const translatedOptions = Object.assign({}, options)
+    if (!disabled) {
+      const config = Object.assign({}, options.config)
+      config.label = _T(config.label)
+      translatedOptions.config = config
+    }
+
     const text = selected ? selected.get('value') : ''
     const backgroundColor = disabled ? Colors.steel : Colors.blue
     const iconColor = disabled ? Colors.charcoal : Colors.silver
@@ -156,7 +164,7 @@ class FutureTripCard extends Component {
         </View>
         <TouchableOpacity
           style={[ss.dropDown, { backgroundColor }]}
-          onPress={this._showSelections(options)}
+          onPress={this._showSelections(translatedOptions)}
           disabled={disabled}
         >
           <IonIcon name='down' color={iconColor} size={20} />
@@ -527,7 +535,7 @@ const ss = StyleSheet.create({
   selectorBox: {
     flex: 4,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingHorizontal: 5,
     borderWidth: 1,
     borderRightWidth: 0,

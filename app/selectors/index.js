@@ -74,6 +74,7 @@ export const {
   getAaccept,
   getOrder,
   getInvoicee,
+  getInvoiceeSummaryMode,
   getAllOrders,
   getOrders,
   getOrdersByDirection

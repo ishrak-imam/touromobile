@@ -13,7 +13,8 @@ export default class MealsSelection extends Component {
      * No need to re-render meal selection component if
      * new drink selected or if meal id remains same
      */
-    return nextProps.selected.get('meal') !== this.props.selected.get('meal')
+    return nextProps.selected.get('meal') !== this.props.selected.get('meal') ||
+          nextProps.isChild !== this.props.isChild
   }
 
   _onSelect = item => {

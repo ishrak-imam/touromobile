@@ -16,11 +16,14 @@ export const SET_DEFAULT_COMBOS = 'SET_DEFAULT_COMBOS'
 export const PREPARE_CANCEL_DATA = 'PREPARE_CANCEL_DATA'
 export const CANCEL_COMBO_VALUES = 'CANCEL_COMBO_VALUES'
 
-export const TAKE_ORDER = 'TAKE_ORDER'
-export const RESET_ALL_ORDERS = 'RESET_ALL_ORDERS'
+export const TAKE_ORDER_INDIVIDUAL_MODE = 'TAKE_ORDER_INDIVIDUAL_MODE'
+export const RESET_ALL_ORDERS_INDIVIDUAL_MODE = 'RESET_ALL_ORDERS_INDIVIDUAL_MODE'
 export const RESET_PAX_ORDER = 'RESET_PAX_ORDER'
+export const SELECT_INVOICEE_INDIVIDUAL_MODE = 'SELECT_INVOICEE_INDIVIDUAL_MODE'
 
-export const SELECT_INVOICEE = 'SELECT_INVOICEE'
+export const TAKE_ORDER_SUMMARY_MODE = 'TAKE_ORDER_SUMMARY_MODE'
+export const RESET_ALL_ORDERS_SUMMARY_MODE = 'RESET_ALL_ORDERS_SUMMARY_MODE'
+export const SELECT_INVOICEE_SUMMARY_MODE = 'SELECT_INVOICEE_SUMMARY_MODE'
 
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
 export const setParticipants = createAction(SET_PARTICIPANTS)
@@ -37,8 +40,11 @@ export const setDefaultCombos = createAction(SET_DEFAULT_COMBOS)
 export const prepareCancelData = createAction(PREPARE_CANCEL_DATA)
 export const cancelComboValues = createAction(CANCEL_COMBO_VALUES)
 
-export const takeOrder = createAction(TAKE_ORDER)
-export const resetAllOrder = createAction(RESET_ALL_ORDERS)
+export const takeOrderIndividualMode = createAction(TAKE_ORDER_INDIVIDUAL_MODE)
+export const resetAllOrderIndividualMode = createAction(RESET_ALL_ORDERS_INDIVIDUAL_MODE)
 export const resetPaxOrder = createAction(RESET_PAX_ORDER)
+export const selectInvoiceeIndividualMode = createAction(SELECT_INVOICEE_INDIVIDUAL_MODE)
 
-export const selectInvoicee = createAction(SELECT_INVOICEE)
+export const takeOrderSummaryMode = createAction(TAKE_ORDER_SUMMARY_MODE)
+export const resetAllOrderSummaryMode = createAction(RESET_ALL_ORDERS_SUMMARY_MODE)
+export const selectInvoiceeSummaryMode = createAction(SELECT_INVOICEE_SUMMARY_MODE)

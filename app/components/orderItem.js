@@ -10,7 +10,7 @@ import MealsSelection from './mealsSelection'
 import { getLunches, getOrder } from '../selectors'
 import { getMap } from '../utils/immutable'
 import { actionDispatcher } from '../utils/actionDispatcher'
-import { takeOrder, resetPaxOrder } from '../modules/modifiedData/action'
+import { takeOrderIndividualMode, resetPaxOrder } from '../modules/modifiedData/action'
 import BeverageSelection from './beverageSelection'
 import { Colors, IonIcon } from '../theme'
 import Translator from '../utils/translator'
@@ -53,7 +53,7 @@ class OrderItem extends Component {
       pax: paxId,
       adult: !child
     })
-    actionDispatcher(takeOrder({
+    actionDispatcher(takeOrderIndividualMode({
       order: o, direction, bookingId, departureId, paxId
     }))
   }
@@ -69,7 +69,7 @@ class OrderItem extends Component {
       pax: paxId,
       adult: !child
     })
-    actionDispatcher(takeOrder({
+    actionDispatcher(takeOrderIndividualMode({
       order, direction, bookingId, departureId, paxId
     }))
   }

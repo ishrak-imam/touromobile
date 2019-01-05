@@ -29,6 +29,10 @@ export const getInvoicee = (state, departureId, bookingId) => {
   return state.modifiedData.getIn([departureId, 'orders', bookingId, 'invoicee'])
 }
 
+export const getInvoiceeSummaryMode = (state, departureId, bookingId) => {
+  return state.modifiedData.getIn([departureId, 'ordersSummaryMode', bookingId, 'invoicee'])
+}
+
 export const getOrdersByDirection = (state, departureId, direction) => {
   const orders = state.modifiedData.getIn([departureId, 'orders']) || getMap({})
 
