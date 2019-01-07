@@ -9,7 +9,6 @@
     "version": "1.0.4",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/icon.png",
     "scheme": "touroguide",
     "splash": {
       "image": "./assets/splash.png",
@@ -22,11 +21,13 @@
       "**/*"
     ],
     "ios": {
+      "icon": "./assets/icon_ios.png",
       "supportsTablet": false,
       "bundleIdentifier": "com.scandorama.touroguide",
       "buildNumber": "1.0.4"
     },
     "android": {
+      "icon": "./assets/icon_android.png",
       "package": "com.scandorama.touroguide",
       "permissions": [
         "READ_PHONE_STATE"
