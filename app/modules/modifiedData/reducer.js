@@ -208,6 +208,20 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
     modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
     return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [TAKE_ORDER_SUMMARY_MODE]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let ordersSummaryMode = readValue('ordersSummaryMode', modifiedData) || getMap({})
+    let orderForBooking = readValue(payload.bookingId, ordersSummaryMode) || getMap({})
+    let orderForDirection = readValue(payload.direction, orderForBooking) || getMap({})
+    let orderForMealType = readValue(payload.mealType, orderForDirection) || getMap({})
+    orderForMealType = setIntoMap(orderForMealType, payload.mealId, getMap(payload.order))
+    orderForDirection = setIntoMap(orderForDirection, payload.mealType, orderForMealType)
+    orderForBooking = setIntoMap(orderForBooking, payload.direction, orderForDirection)
+    ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
+    return setIntoMap(state, payload.departureId, modifiedData)
   }
 
 })

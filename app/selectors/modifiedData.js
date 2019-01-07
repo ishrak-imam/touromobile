@@ -25,6 +25,10 @@ export const getOrder = (state, departureId, bookingId, paxId) => {
   return state.modifiedData.getIn([departureId, 'orders', bookingId, paxId]) || getMap({})
 }
 
+export const getOrderSummaryMode = (state, departureId, bookingId, direction, type, mealId) => {
+  return state.modifiedData.getIn([departureId, 'ordersSummaryMode', bookingId, direction, type, mealId]) || getMap({})
+}
+
 export const getInvoicee = (state, departureId, bookingId) => {
   return state.modifiedData.getIn([departureId, 'orders', bookingId, 'invoicee'])
 }
@@ -76,4 +80,8 @@ export const getOrders = (state, departureId) => {
 
 export const getAllOrders = (state, departureId) => {
   return state.modifiedData.getIn([departureId, 'orders']) || getMap({})
+}
+
+export const checkIfAnyOrderMade = (state, departureId) => {
+  return !!(state.modifiedData.getIn([departureId, 'orders']) || state.modifiedData.getIn([departureId, 'ordersSummaryMode']))
 }

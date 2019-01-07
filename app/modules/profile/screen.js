@@ -8,7 +8,7 @@ import {
   actionDispatcher,
   networkActionDispatcher
 } from '../../utils/actionDispatcher'
-import { getProfile, getUser } from '../../selectors'
+import { getProfile, getUser, checkIfAnyOrderMade } from '../../selectors'
 import { connect } from 'react-redux'
 import Profile from '../../components/profile'
 import Settings from '../../components/settings'
@@ -45,7 +45,7 @@ class ProfileScreen extends Component {
   }
 
   render () {
-    const { navigation, profile, user } = this.props
+    const { navigation, isAnyOrder, profile, user } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     const userDetails = profile.get('user')
     return (
@@ -59,17 +59,21 @@ class ProfileScreen extends Component {
           }
 
           <Settings />
-          <LunchOrderMode />
+          <LunchOrderMode isAnyOrder={isAnyOrder} />
         </ScrollView>
       </Container>
     )
   }
 }
 
-const stateToProps = state => ({
-  profile: getProfile(state),
-  user: getUser(state)
-})
+const stateToProps = (state, props) => {
+  const departureId = props.navigation.getParam('departureId')
+  return {
+    profile: getProfile(state),
+    user: getUser(state),
+    isAnyOrder: checkIfAnyOrderMade(state, departureId)
+  }
+}
 
 export default connect(stateToProps, null)(ProfileScreen)
 

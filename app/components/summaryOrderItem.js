@@ -1,8 +1,6 @@
 
 import React, { Component } from 'react'
-import {
-  View, Text, ListItem, Right, Left
-} from 'native-base'
+import { View, Text, ListItem } from 'native-base'
 import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
@@ -14,6 +12,7 @@ import { showModal } from '../modal/action'
 import { getMap } from '../utils/immutable'
 import { selectInvoiceeSummaryMode } from '../modules/modifiedData/action'
 import Translator from '../utils/translator'
+import FoodItem from './foodItem'
 
 const _T = Translator('OrdersScreen')
 
@@ -58,49 +57,23 @@ class SummaryOrderItem extends Component {
     )
   }
 
-  _renderMealItem = ({ item }) => {
-    return (
-      <ListItem style={ss.item}>
-        <Left style={ss.itemLeft}>
-          <Text>{item.get('name')}</Text>
-        </Left>
-        <Right style={ss.itemRight}>
-          <TouchableOpacity style={ss.minus}>
-            <Text style={ss.sign}>-</Text>
-          </TouchableOpacity>
-          <View style={ss.counter}>
-            <Text style={ss.count}>3</Text>
-          </View>
-          <TouchableOpacity style={ss.plus}>
-            <Text style={ss.sign}>+</Text>
-          </TouchableOpacity>
-        </Right>
-      </ListItem>
-    )
+  _renderFoodItem = (mealType, paxCount) => {
+    const { direction, bookingId, departureId } = this.props
+    return ({ item }) => {
+      return (
+        <FoodItem
+          meal={item}
+          direction={direction}
+          bookingId={bookingId}
+          departureId={departureId}
+          mealType={mealType}
+          paxCount={paxCount}
+        />
+      )
+    }
   }
 
-  _renderBeverageItem = ({ item }) => {
-    return (
-      <ListItem style={ss.item}>
-        <Left style={ss.itemLeft}>
-          <Text>{item.get('name')}</Text>
-        </Left>
-        <Right style={ss.itemRight}>
-          <TouchableOpacity style={ss.minus}>
-            <Text style={ss.sign}>-</Text>
-          </TouchableOpacity>
-          <View style={ss.counter}>
-            <Text style={ss.count}>3</Text>
-          </View>
-          <TouchableOpacity style={ss.plus}>
-            <Text style={ss.sign}>+</Text>
-          </TouchableOpacity>
-        </Right>
-      </ListItem>
-    )
-  }
-
-  _renderMeals = meals => {
+  _renderMeals = (meals, paxCount) => {
     return (
       <View style={ss.section}>
         <ListItem style={ss.header}>
@@ -110,14 +83,14 @@ class SummaryOrderItem extends Component {
         </ListItem>
         <ImmutableVirtualizedList
           immutableData={meals}
-          renderItem={this._renderMealItem}
+          renderItem={this._renderFoodItem('meal', paxCount)}
           keyExtractor={item => String(item.get('id'))}
         />
       </View>
     )
   }
 
-  _renderBeverages = beverages => {
+  _renderBeverages = (beverages, paxCount) => {
     return (
       <View style={ss.section}>
         <ListItem style={ss.header}>
@@ -127,7 +100,7 @@ class SummaryOrderItem extends Component {
         </ListItem>
         <ImmutableVirtualizedList
           immutableData={beverages}
-          renderItem={this._renderBeverageItem}
+          renderItem={this._renderFoodItem('drink', paxCount)}
           keyExtractor={item => String(item.get('id'))}
         />
       </View>
@@ -154,13 +127,14 @@ class SummaryOrderItem extends Component {
     const { booking, lunches, direction, invoicee } = this.props
     const meals = lunches.get(direction).get('meals')
     const beverages = lunches.get(direction).get('beverages')
-    const invoiceeOptions = this._getInvoiceeOptions(booking.get('pax'), direction, invoicee)
+    const pax = booking.get('pax')
+    const invoiceeOptions = this._getInvoiceeOptions(pax, direction, invoicee)
     return (
       <View style={ss.container}>
         {this._renderInvoiceeSelection(invoiceeOptions, invoicee)}
         <ScrollView style={ss.scroll} showsVerticalScrollIndicator={false}>
-          {this._renderMeals(meals)}
-          {this._renderBeverages(beverages)}
+          {this._renderMeals(meals, pax.size)}
+          {this._renderBeverages(beverages, pax.size)}
         </ScrollView>
       </View>
     )
@@ -237,49 +211,6 @@ const ss = StyleSheet.create({
   header: {
     paddingBottom: 5,
     marginLeft: 0
-  },
-  item: {
-    paddingBottom: 5,
-    paddingRight: 0,
-    marginLeft: 0,
-    borderBottomWidth: 0
-  },
-  itemLeft: {
-    flex: 1.5
-  },
-  itemRight: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around'
-  },
-  plus: {
-    height: 30,
-    width: 35,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.green,
-    borderRadius: 3
-  },
-  minus: {
-    height: 30,
-    width: 35,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.cancel,
-    borderRadius: 3
-  },
-  counter: {
-    height: 30,
-    width: 35,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  sign: {
-    fontWeight: 'bold',
-    color: Colors.white
-  },
-  count: {
-    fontWeight: 'bold'
   },
   scroll: {
     marginBottom: isIphoneX ? 20 : 10

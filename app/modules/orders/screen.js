@@ -16,10 +16,15 @@ import { Colors, IonIcon } from '../../theme'
 import InvoiceeSelection from '../../components/invoiceeSelection'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { resetAllOrderIndividualMode } from '../modifiedData/action'
+import { getOrderMode } from '../../selectors'
+import { connect } from 'react-redux'
 
 const _T = Translator('OrdersScreen')
 
-export default class OrdersScreen extends Component {
+const INDIVIDUAL_MODE = 'INDIVIDUAL'
+const SUMMARY_MODE = 'SUMMARY'
+
+class OrdersScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -60,7 +65,7 @@ export default class OrdersScreen extends Component {
   }
 
   render () {
-    const { navigation } = this.props
+    const { navigation, orderMode } = this.props
     const { tab } = this.state
     const booking = navigation.getParam('booking')
     const brand = navigation.getParam('brand')
@@ -84,34 +89,46 @@ export default class OrdersScreen extends Component {
           </Right>
         </ListItem>
 
-        {/* <ImmutableVirtualizedList
-          contentContainerStyle={ss.scroll}
-          immutableData={pax}
-          renderItem={this._renderItem(bookingId, departureId)}
-          keyExtractor={item => String(item.get('id'))}
-          ListFooterComponent={
-            <View style={ss.invoicee}>
-              <InvoiceeSelection
-                items={pax}
-                label={_T('invoicee')}
-                bookingId={bookingId}
-                departureId={departureId}
-              />
-            </View>
-          }
-        /> */}
+        {
+          orderMode === INDIVIDUAL_MODE &&
+          <ImmutableVirtualizedList
+            contentContainerStyle={ss.scroll}
+            immutableData={pax}
+            renderItem={this._renderItem(bookingId, departureId)}
+            keyExtractor={item => String(item.get('id'))}
+            ListFooterComponent={
+              <View style={ss.invoicee}>
+                <InvoiceeSelection
+                  items={pax}
+                  label={_T('invoicee')}
+                  bookingId={bookingId}
+                  departureId={departureId}
+                />
+              </View>
+            }
+          />
+        }
 
-        <SummaryOrderItem
-          direction={tab}
-          booking={booking}
-          bookingId={bookingId}
-          departureId={departureId}
-        />
+        {
+          orderMode === SUMMARY_MODE &&
+          <SummaryOrderItem
+            direction={tab}
+            booking={booking}
+            bookingId={bookingId}
+            departureId={departureId}
+          />
+        }
 
       </Container>
     )
   }
 }
+
+const stateToProps = state => ({
+  orderMode: getOrderMode(state)
+})
+
+export default connect(stateToProps, null)(OrdersScreen)
 
 const ss = StyleSheet.create({
   scroll: {

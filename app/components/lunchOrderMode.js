@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { getOrderMode } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { toggleOrderMode } from '../modules/profile/action'
+import DisableContent from '../components/disableContent'
 
 const INDIVIDUAL_MODE = 'INDIVIDUAL'
 const SUMMARY_MODE = 'SUMMARY'
@@ -20,9 +21,11 @@ class LunchOrderMode extends Component {
   }
 
   render () {
-    const { orderMode } = this.props
+    const { orderMode, isAnyOrder } = this.props
     return (
       <View style={ss.container}>
+
+        {isAnyOrder && <DisableContent />}
 
         <ListItem style={ss.header}>
           <View>

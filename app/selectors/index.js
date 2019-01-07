@@ -73,11 +73,13 @@ export const {
   getModifiedData,
   getAaccept,
   getOrder,
+  getOrderSummaryMode,
   getInvoicee,
   getInvoiceeSummaryMode,
   getAllOrders,
   getOrders,
-  getOrdersByDirection
+  getOrdersByDirection,
+  checkIfAnyOrderMade
 } = require('./modifiedData')
 
 export const {
