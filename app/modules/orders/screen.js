@@ -118,7 +118,7 @@ class OrdersScreen extends Component {
             pax={booking.get('pax')}
             bookingId={bookingId}
             departureId={departureId}
-            screen='pax'
+            screen='booking'
           />
         }
 

@@ -14,7 +14,7 @@ import isIphoneX from '../../utils/isIphoneX'
 import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
 import { connect } from 'react-redux'
-import { getOrdersByDirection, getPaxByHotel } from '../../selectors'
+import { getOrdersByDirection, getPaxByHotel, getOrderMode } from '../../selectors'
 import PaxInThisHotel from '../../components/paxWithoutOrder'
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
@@ -199,9 +199,9 @@ const stateToProps = (state, props) => {
   const direction = navigation.getParam('direction')
   const departureId = navigation.getParam('departureId')
   const restaurant = navigation.getParam('restaurant')
-
+  const orderMode = getOrderMode(state)
   return {
-    orders: getOrdersByDirection(state, departureId, direction),
+    orders: getOrdersByDirection(state, departureId, direction, orderMode),
     paxByHotel: getPaxByHotel(state, restaurant.get('id'))
   }
 }

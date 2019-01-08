@@ -37,22 +37,63 @@ export const getInvoiceeSummaryMode = (state, departureId, bookingId) => {
   return state.modifiedData.getIn([departureId, 'ordersSummaryMode', bookingId, 'invoicee'])
 }
 
-export const getOrdersByDirection = (state, departureId, direction) => {
-  const orders = state.modifiedData.getIn([departureId, 'orders']) || getMap({})
+export const getOrdersByDirection = (state, departureId, direction, orderMode) => {
+  const key = orderMode === 'SUMMARY' ? 'ordersSummaryMode' : 'orders'
+  const orders = state.modifiedData.getIn([departureId, key]) || getMap({})
 
   if (orders.size === 0) {
     return getList([])
   }
 
-  return orders.reduce((list, booking) => {
-    const bOrders = booking.reduce((bList, pax) => {
-      if (isMap(pax) && pax.get(direction)) {
-        bList = bList.push(pax.get(direction))
+  const formattedOrders = orderMode === 'SUMMARY'
+
+    ? orders.reduce((list, booking) => {
+      const bOrders = booking.get(direction)
+
+      if (bOrders && bOrders.size > 0) {
+        const meals = bOrders.get('meal')
+        if (meals && meals.size > 0) {
+          list = list.concat(meals.reduce((mList, meal) => {
+            for (let i = 0; i < meal.get('count'); i++) {
+              mList = mList.push(getMap({
+                meal: meal.get('mealId'),
+                drink: null,
+                adult: !meal.get('isChild')
+              }))
+            }
+            return mList
+          }, getList([])))
+        }
+
+        const drinks = bOrders.get('drink')
+        if (drinks && drinks.size > 0) {
+          list = list.concat(drinks.reduce((dList, drink) => {
+            for (let i = 0; i < drink.get('count'); i++) {
+              dList = dList.push(getMap({
+                drink: drink.get('drinkId'),
+                meal: null,
+                adult: !drink.get('isChild')
+              }))
+            }
+            return dList
+          }, getList([])))
+        }
       }
-      return bList
+
+      return list
     }, getList([]))
-    return list.concat(bOrders)
-  }, getList([]))
+
+    : orders.reduce((list, booking) => {
+      const bOrders = booking.reduce((bList, pax) => {
+        if (isMap(pax) && pax.get(direction)) {
+          bList = bList.push(pax.get(direction))
+        }
+        return bList
+      }, getList([]))
+      return list.concat(bOrders)
+    }, getList([]))
+
+  return formattedOrders
 }
 
 export const getOrders = (state, departureId) => {

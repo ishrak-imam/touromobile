@@ -27,7 +27,7 @@ class FoodItem extends Component {
       const newOrder = {
         [`${mealType}Id`]: mealId,
         count: newCount,
-        isChild: !!meal.get('adult')
+        isChild: !meal.get('adult')
       }
 
       actionDispatcher(takeOrderSummaryMode({
