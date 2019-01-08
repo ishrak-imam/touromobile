@@ -142,8 +142,8 @@ export default connect(stateToProps, null)(OrderItem)
 
 const ss = StyleSheet.create({
   orderItem: {
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 20,
+    marginRight: 20,
     marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: Colors.steel

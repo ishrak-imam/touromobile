@@ -19,7 +19,8 @@ class FoodItem extends Component {
       let newCount = 0
 
       if (sign === 'minus' && oldCount === 0) return null
-      if (sign === 'plus' && oldCount === paxCount) return null
+      if (sign === 'plus' && oldCount >= paxCount) return null
+
       if (sign === 'minus' && oldCount !== 0) newCount = oldCount - 1
       if (sign === 'plus') newCount = oldCount + 1
 

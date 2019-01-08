@@ -124,14 +124,16 @@ class SummaryOrderItem extends Component {
   }
 
   render () {
-    const { booking, lunches, direction, invoicee } = this.props
+    const { pax, lunches, direction, invoicee, screen } = this.props
     const meals = lunches.get(direction).get('meals')
     const beverages = lunches.get(direction).get('beverages')
-    const pax = booking.get('pax')
-    const invoiceeOptions = this._getInvoiceeOptions(pax, direction, invoicee)
+
     return (
       <View style={ss.container}>
-        {this._renderInvoiceeSelection(invoiceeOptions, invoicee)}
+        {
+          screen === 'booking' &&
+          this._renderInvoiceeSelection(this._getInvoiceeOptions(pax, direction, invoicee), invoicee)
+        }
         <ScrollView style={ss.scroll} showsVerticalScrollIndicator={false}>
           {this._renderMeals(meals, pax.size)}
           {this._renderBeverages(beverages, pax.size)}

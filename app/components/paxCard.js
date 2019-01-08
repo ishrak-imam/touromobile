@@ -304,7 +304,7 @@ const ss = StyleSheet.create({
     marginRight: 20
   },
   paxOrder: {
-    marginTop: 20,
-    marginHorizontal: 5
+    marginTop: 20
+    // marginHorizontal: 5
   }
 })
