@@ -15,7 +15,7 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { Colors, IonIcon } from '../../theme'
 import InvoiceeSelection from '../../components/invoiceeSelection'
 import { actionDispatcher } from '../../utils/actionDispatcher'
-import { resetAllOrderIndividualMode } from '../modifiedData/action'
+import { resetAllOrders } from '../modifiedData/action'
 import { getOrderMode } from '../../selectors'
 import { connect } from 'react-redux'
 
@@ -57,9 +57,11 @@ class OrdersScreen extends Component {
   }
 
   _resetOrders = (departureId, bookingId) => {
+    const { orderMode } = this.props
+    const key = orderMode === SUMMARY_MODE ? 'ordersSummaryMode' : 'orders'
     return () => {
-      actionDispatcher(resetAllOrderIndividualMode({
-        departureId, bookingId
+      actionDispatcher(resetAllOrders({
+        key, departureId, bookingId
       }))
     }
   }

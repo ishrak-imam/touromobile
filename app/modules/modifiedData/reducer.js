@@ -22,13 +22,13 @@ import {
   CANCEL_COMBO_VALUES,
 
   TAKE_ORDER_INDIVIDUAL_MODE,
-  RESET_ALL_ORDERS_INDIVIDUAL_MODE,
   RESET_PAX_ORDER,
   SELECT_INVOICEE_INDIVIDUAL_MODE,
 
   TAKE_ORDER_SUMMARY_MODE,
-  RESET_ALL_ORDERS_SUMMARY_MODE,
-  SELECT_INVOICEE_SUMMARY_MODE
+  SELECT_INVOICEE_SUMMARY_MODE,
+
+  RESET_ALL_ORDERS
 } from './action'
 
 import {
@@ -170,11 +170,11 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     return setIntoMap(state, payload.departureId, modifiedData)
   },
 
-  [RESET_ALL_ORDERS_INDIVIDUAL_MODE]: (state, payload) => {
+  [RESET_ALL_ORDERS]: (state, payload) => {
     let modifiedData = readValue(payload.departureId, state) || getMap({})
-    let orders = readValue('orders', modifiedData) || getMap({})
+    let orders = readValue(payload.key, modifiedData) || getMap({})
     orders = setIntoMap(orders, payload.bookingId, getMap({}))
-    modifiedData = setIntoMap(modifiedData, 'orders', orders)
+    modifiedData = setIntoMap(modifiedData, payload.key, orders)
     return setIntoMap(state, payload.departureId, modifiedData)
   },
 
