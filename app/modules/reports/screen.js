@@ -6,7 +6,7 @@ import Header from '../../components/header'
 import Translator from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
-  getParticipants, getTripExcursions, getReports, getOrders,
+  getParticipants, getTripExcursions, getReports, getOrders, getOrderMode,
   getAllOrders, getSortedPaxByFirstName, getFoods, checkIfFlightTrip
 } from '../../selectors'
 import Stats from '../../components/stats'
@@ -121,7 +121,12 @@ class ReportsScreen extends Component {
 
         {
           tab === ORDERS && isDataReady &&
-          <OrderStats orders={orders} pax={getSortedPaxByFirstName(trip)} meals={meals} beverages={beverages} />
+          <OrderStats
+            orders={orders}
+            pax={getSortedPaxByFirstName(trip)}
+            meals={meals}
+            beverages={beverages}
+          />
         }
 
         <FloatingButton onPress={this._onUpload} loading={reports.get('isLoading')} />
@@ -134,12 +139,13 @@ class ReportsScreen extends Component {
 const stateToProps = state => {
   const currentTrip = currentTripSelector(state)
   const departureId = String(currentTrip.get('trip').get('departureId'))
+  const orderMode = getOrderMode(state)
   return {
     currentTrip,
     participants: getParticipants(state, departureId),
     excursions: getTripExcursions(state),
     reports: getReports(state),
-    orders: getOrders(state, departureId),
+    orders: getOrders(state, departureId, orderMode),
     allOrders: getAllOrders(state, departureId),
     meals: getFoods(state, 'meals'),
     beverages: getFoods(state, 'beverages')

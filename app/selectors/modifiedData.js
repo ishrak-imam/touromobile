@@ -96,27 +96,97 @@ export const getOrdersByDirection = (state, departureId, direction, orderMode) =
   return formattedOrders
 }
 
-export const getOrders = (state, departureId) => {
-  const orders = state.modifiedData.getIn([departureId, 'orders']) || getMap({})
+export const getOrders = (state, departureId, orderMode) => {
+  const key = orderMode === 'SUMMARY' ? 'ordersSummaryMode' : 'orders'
+  const orders = state.modifiedData.getIn([departureId, key]) || getMap({})
 
   if (orders.size === 0) {
     return getMap({ out: getList([]), home: getList([]) })
   }
 
-  return orders.reduce((map, booking) => {
-    const bOrders = booking.reduce((bMap, pax) => {
-      if (isMap(pax)) {
-        if (pax.get('out')) bMap = bMap.set('out', bMap.get('out').push(pax.get('out')))
-        if (pax.get('home')) bMap = bMap.set('home', bMap.get('home').push(pax.get('home')))
-      } else {
-        bMap = bMap.set('invoicee', pax)
+  const formattedOrders = orderMode === 'SUMMARY'
+    ? orders.reduce((map, booking) => {
+      const outOrders = booking.get('out')
+      if (outOrders && outOrders.size > 0) {
+        const meals = outOrders.get('meal')
+        if (meals && meals.size > 0) {
+          map = map.set('out', map.get('out').concat(meals.reduce((list, meal) => {
+            for (let i = 0; i < meal.get('count'); i++) {
+              list = list.push(getMap({
+                meal: meal.get('mealId'),
+                drink: null,
+                adult: !meal.get('isChild')
+              }))
+            }
+            return list
+          }, getList([]))))
+        }
+
+        const drinks = outOrders.get('drink')
+        if (drinks && drinks.size > 0) {
+          map = map.set('out', map.get('out').concat(drinks.reduce((list, drink) => {
+            for (let i = 0; i < drink.get('count'); i++) {
+              list = list.push(getMap({
+                drink: drink.get('drinkId'),
+                meal: null,
+                adult: !drink.get('isChild')
+              }))
+            }
+            return list
+          }, getList([]))))
+        }
       }
-      return bMap
+
+      const homeOrders = booking.get('home')
+      if (homeOrders && homeOrders.size > 0) {
+        const meals = homeOrders.get('meal')
+        if (meals && meals.size) {
+          map = map.set('home', map.get('home').concat(meals.reduce((list, meal) => {
+            for (let i = 0; i < meal.get('count'); i++) {
+              list = list.push(getMap({
+                meal: meal.get('mealId'),
+                drink: null,
+                adult: !meal.get('isChild')
+              }))
+            }
+            return list
+          }, getList([]))))
+        }
+
+        const drinks = homeOrders.get('drink')
+        if (drinks && drinks.size) {
+          map = map.set('home', map.get('home').concat(drinks.reduce((list, drink) => {
+            for (let i = 0; i < drink.get('count'); i++) {
+              list = list.push(getMap({
+                drink: drink.get('drinkId'),
+                meal: null,
+                adult: !drink.get('isChild')
+              }))
+            }
+            return list
+          }, getList([]))))
+        }
+      }
+
+      return map
     }, getMap({ out: getList([]), home: getList([]) }))
-    map = map.set('out', map.get('out').concat(bOrders.get('out')))
-    map = map.set('home', map.get('home').concat(bOrders.get('home')))
-    return map
-  }, getMap({ out: getList([]), home: getList([]) }))
+
+    : orders.reduce((map, booking) => {
+      const bOrders = booking.reduce((bMap, pax) => {
+        if (isMap(pax)) {
+          if (pax.get('out')) bMap = bMap.set('out', bMap.get('out').push(pax.get('out')))
+          if (pax.get('home')) bMap = bMap.set('home', bMap.get('home').push(pax.get('home')))
+        } else {
+          bMap = bMap.set('invoicee', pax)
+        }
+        return bMap
+      }, getMap({ out: getList([]), home: getList([]) }))
+      map = map.set('out', map.get('out').concat(bOrders.get('out')))
+      map = map.set('home', map.get('home').concat(bOrders.get('home')))
+      return map
+    }, getMap({ out: getList([]), home: getList([]) }))
+
+  return formattedOrders
 }
 
 export const getAllOrders = (state, departureId) => {
