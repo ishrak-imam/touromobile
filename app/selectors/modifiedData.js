@@ -193,8 +193,9 @@ export const getOrders = (state, departureId, orderMode) => {
   return formattedOrders
 }
 
-export const getAllOrders = (state, departureId) => {
-  return state.modifiedData.getIn([departureId, 'orders']) || getMap({})
+export const getAllOrders = (state, departureId, orderMode) => {
+  const key = orderMode === 'SUMMARY' ? 'ordersSummaryMode' : 'orders'
+  return state.modifiedData.getIn([departureId, key]) || getMap({})
 }
 
 export const checkIfAnyOrderMade = (state, departureId) => {

@@ -9,8 +9,8 @@ import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import {
-  getPax, getStatsData, getAllOrders,
-  getTotalParticipantsCount, getOrderStats
+  getPax, getStatsData, getAllOrders, getOrderMode,
+  getTotalParticipantsCount, getOrderStats, checkIfFlightTrip
 } from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
@@ -65,13 +65,14 @@ class PastTripCard extends Component {
 
   _uploadStats = () => {
     const { trip, departureId, transportId, excursions, participants } = this.tripData
-    const { orders } = this.props
+    const { orders, orderMode } = this.props
     const statsData = getStatsData(excursions, participants, trip)
-    const orderStats = getOrderStats(orders, transportId)
-
+    const orderStats = getOrderStats(orders, transportId, orderMode)
+    const isFlight = checkIfFlightTrip(trip)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
+      isFlight,
       statsData,
       orderStats,
       showToast: true,
@@ -159,8 +160,10 @@ class PastTripCard extends Component {
 const stateToProps = (state, props) => {
   const { trip } = props
   const departureId = String(trip.get('departureId'))
+  const orderMode = getOrderMode(state)
   return {
-    orders: getAllOrders(state, departureId)
+    orders: getAllOrders(state, departureId, orderMode),
+    orderMode
   }
 }
 

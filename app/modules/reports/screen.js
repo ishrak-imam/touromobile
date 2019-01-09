@@ -40,13 +40,13 @@ class ReportsScreen extends Component {
   }
 
   _onUpload = () => {
-    const { excursions, participants, currentTrip, allOrders } = this.props
+    const { excursions, participants, currentTrip, allOrders, orderMode } = this.props
     const trip = currentTrip.get('trip')
     const isFlight = checkIfFlightTrip(trip)
     const departureId = String(trip.get('departureId'))
     const transportId = String(trip.get('transportId'))
     const statsData = getStatsData(excursions, participants, trip)
-    const orderStats = getOrderStats(allOrders, transportId)
+    const orderStats = getOrderStats(allOrders, transportId, orderMode)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
@@ -149,7 +149,7 @@ const stateToProps = state => {
     excursions: getTripExcursions(state),
     reports: getReports(state),
     orders: getOrders(state, departureId, orderMode),
-    allOrders: getAllOrders(state, departureId),
+    allOrders: getAllOrders(state, departureId, orderMode),
     meals: getFoods(state, 'meals'),
     beverages: getFoods(state, 'beverages'),
     orderMode

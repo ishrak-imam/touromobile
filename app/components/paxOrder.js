@@ -8,17 +8,17 @@ import { StyleSheet } from 'react-native'
 import { Colors } from '../theme'
 import OutHomeTab, { TABS } from './outHomeTab'
 import OrderItem from './orderItem'
+// import SummaryOrderItem from '../components/summaryOrderItem'
 import Translator from '../utils/translator'
 import isIphoneX from '../utils/isIphoneX'
-import SummaryOrderItem from '../components/summaryOrderItem'
 import { connect } from 'react-redux'
 import { getOrderMode } from '../selectors'
-import { getList } from '../utils/immutable'
+// import { getList } from '../utils/immutable'
 
 const _T = Translator('OrdersScreen')
 
 const INDIVIDUAL_MODE = 'INDIVIDUAL'
-const SUMMARY_MODE = 'SUMMARY'
+// const SUMMARY_MODE = 'SUMMARY'
 
 class PaxOrder extends Component {
   constructor (props) {
@@ -39,14 +39,18 @@ class PaxOrder extends Component {
     const { bookingId, departureId, pax, orderMode } = this.props
     return (
       <View style={ss.container}>
-        <ListItem style={ss.header}>
-          <Left style={ss.headerLeft}>
-            <Text style={ss.headerText}>{_T('header')}</Text>
-          </Left>
-          <Right style={ss.headerRight}>
-            <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
-          </Right>
-        </ListItem>
+
+        {
+          orderMode === INDIVIDUAL_MODE &&
+          <ListItem style={ss.header}>
+            <Left style={ss.headerLeft}>
+              <Text style={ss.headerText}>{_T('header')}</Text>
+            </Left>
+            <Right style={ss.headerRight}>
+              <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
+            </Right>
+          </ListItem>
+        }
 
         {
           orderMode === INDIVIDUAL_MODE &&
@@ -56,7 +60,7 @@ class PaxOrder extends Component {
           </View>
         }
 
-        {
+        {/* {
           orderMode === SUMMARY_MODE &&
           <SummaryOrderItem
             direction={tab}
@@ -65,7 +69,7 @@ class PaxOrder extends Component {
             departureId={departureId}
             screen='pax'
           />
-        }
+        } */}
 
       </View>
     )

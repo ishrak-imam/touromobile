@@ -25,7 +25,7 @@ export const getStatsData = (excursions, participants, trip) => {
   }
 }
 
-export const getOrderStats = (orders, transportId) => {
+export const getOrderStats = (orders, transportId, orderMode) => {
   return orders.reduce((list, bOrders, key) => {
     const aggregated = {
       transportId,
@@ -33,35 +33,73 @@ export const getOrderStats = (orders, transportId) => {
       invoicee: ''
     }
 
-    const details = bOrders.reduce((map, pOrders, key) => {
-      if (key === 'invoicee') aggregated.invoicee = pOrders
+    let details = {}
+    if (orderMode === 'SUMMARY') {
+      if (key === 'invoicee') aggregated.invoicee = bOrders.get('key')
       else {
-        const out = pOrders.get('out')
-        if (out) {
-          const isAdult = out.get('adult')
-          const mealId = String(out.get('meal'))
-          if (mealId !== 'null') {
-            const item = map[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
-            if (isAdult) item.adultCount = item.adultCount + 1
-            if (!isAdult) item.childCount = item.childCount + 1
-            map[mealId] = item
+        const out = bOrders.get('out')
+        if (out && out.size > 0) {
+          const meals = out.get('meal')
+          if (meals && meals.size > 0) {
+            meals.every((meal, mealId) => {
+              details[mealId] = {
+                meal: mealId,
+                adultCount: !meal.get('isChild') ? meal.get('count') : 0,
+                childCount: meal.get('isChild') ? meal.get('count') : 0
+              }
+              return true
+            })
           }
         }
 
-        const home = pOrders.get('home')
-        if (home) {
-          const isAdult = home.get('adult')
-          const mealId = String(home.get('meal'))
-          if (mealId !== 'null') {
-            const item = map[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
-            if (isAdult) item.adultCount = item.adultCount + 1
-            if (!isAdult) item.childCount = item.childCount + 1
-            map[mealId] = item
+        const home = bOrders.get('home')
+        if (home && home.size > 0) {
+          const meals = home.get('meal')
+          if (meals && meals.size > 0) {
+            meals.every((meal, mealId) => {
+              details[mealId] = {
+                meal: mealId,
+                adultCount: !meal.get('isChild') ? meal.get('count') : 0,
+                childCount: meal.get('isChild') ? meal.get('count') : 0
+              }
+              return true
+            })
           }
         }
       }
-      return map
-    }, {})
+    }
+
+    if (orderMode === 'INDIVIDUAL') {
+      details = bOrders.reduce((map, pOrders, key) => {
+        if (key === 'invoicee') aggregated.invoicee = pOrders
+        else {
+          const out = pOrders.get('out')
+          if (out && out.size > 0) {
+            const isAdult = out.get('adult')
+            const mealId = String(out.get('meal'))
+            if (mealId !== 'null') {
+              const item = map[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
+              if (isAdult) item.adultCount = item.adultCount + 1
+              if (!isAdult) item.childCount = item.childCount + 1
+              map[mealId] = item
+            }
+          }
+
+          const home = pOrders.get('home')
+          if (home && home.size > 0) {
+            const isAdult = home.get('adult')
+            const mealId = String(home.get('meal'))
+            if (mealId !== 'null') {
+              const item = map[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
+              if (isAdult) item.adultCount = item.adultCount + 1
+              if (!isAdult) item.childCount = item.childCount + 1
+              map[mealId] = item
+            }
+          }
+        }
+        return map
+      }, {})
+    }
 
     aggregated.details = Object.values(details)
     list.push(aggregated)
