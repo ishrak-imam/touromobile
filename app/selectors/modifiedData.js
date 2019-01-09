@@ -105,7 +105,7 @@ export const getOrders = (state, departureId, orderMode) => {
   }
 
   const formattedOrders = orderMode === 'SUMMARY'
-    ? orders.reduce((map, booking) => {
+    ? orders.reduce((map, booking, bookingId) => {
       const outOrders = booking.get('out')
       if (outOrders && outOrders.size > 0) {
         const meals = outOrders.get('meal')
@@ -115,7 +115,8 @@ export const getOrders = (state, departureId, orderMode) => {
               list = list.push(getMap({
                 meal: meal.get('mealId'),
                 drink: null,
-                adult: !meal.get('isChild')
+                adult: !meal.get('isChild'),
+                booking: bookingId
               }))
             }
             return list
@@ -129,7 +130,8 @@ export const getOrders = (state, departureId, orderMode) => {
               list = list.push(getMap({
                 drink: drink.get('drinkId'),
                 meal: null,
-                adult: !drink.get('isChild')
+                adult: !drink.get('isChild'),
+                booking: bookingId
               }))
             }
             return list
@@ -146,7 +148,8 @@ export const getOrders = (state, departureId, orderMode) => {
               list = list.push(getMap({
                 meal: meal.get('mealId'),
                 drink: null,
-                adult: !meal.get('isChild')
+                adult: !meal.get('isChild'),
+                booking: bookingId
               }))
             }
             return list
@@ -160,7 +163,8 @@ export const getOrders = (state, departureId, orderMode) => {
               list = list.push(getMap({
                 drink: drink.get('drinkId'),
                 meal: null,
-                adult: !drink.get('isChild')
+                adult: !drink.get('isChild'),
+                booking: bookingId
               }))
             }
             return list

@@ -7,7 +7,8 @@ import Translator from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
   getParticipants, getTripExcursions, getReports, getOrders, getOrderMode,
-  getAllOrders, getSortedPaxByFirstName, getFoods, checkIfFlightTrip
+  getAllOrders, getSortedPaxByFirstName, getFoods, checkIfFlightTrip,
+  getSortedBookings
 } from '../../selectors'
 import Stats from '../../components/stats'
 import OrderStats from '../../components/orderStats'
@@ -95,7 +96,7 @@ class ReportsScreen extends Component {
   render () {
     const { tab } = this.state
     const {
-      currentTrip, participants, excursions,
+      currentTrip, participants, excursions, orderMode,
       reports, navigation, orders, meals, beverages
     } = this.props
     const trip = currentTrip.get('trip')
@@ -122,7 +123,9 @@ class ReportsScreen extends Component {
         {
           tab === ORDERS && isDataReady &&
           <OrderStats
+            orderMode={orderMode}
             orders={orders}
+            bookings={getSortedBookings(trip)}
             pax={getSortedPaxByFirstName(trip)}
             meals={meals}
             beverages={beverages}
@@ -148,7 +151,8 @@ const stateToProps = state => {
     orders: getOrders(state, departureId, orderMode),
     allOrders: getAllOrders(state, departureId),
     meals: getFoods(state, 'meals'),
-    beverages: getFoods(state, 'beverages')
+    beverages: getFoods(state, 'beverages'),
+    orderMode
   }
 }
 

@@ -156,8 +156,9 @@ export default {
     airport: 'Airport',
     booking: 'Booking'
   },
-  PaxWithoutOrder: {
+  WithoutOrder: {
     paxWithoutOrder: 'Passengers without order',
+    bookingsWithoutOrder: 'Bookings without order',
     paxInThisHotel: 'Passengers in this hotel',
     clickToExpand: 'Click the header to show the full list of passengers',
     booking: 'Booking'

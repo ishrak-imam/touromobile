@@ -1,40 +1,34 @@
 
 import React, { Component } from 'react'
-import {
-  ListItem, Left, Text,
-  Right
-} from 'native-base'
+import { ListItem, Left, Text } from 'native-base'
 import { View, StyleSheet } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import Translator from '../utils/translator'
 
 const _T = Translator('WithoutOrder')
-const ITEM_HEIGHT = 45
 
-class PaxItem extends Component {
+class BookingItem extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.pax.equals(this.props.pax)
+    return !nextProps.booking.equals(this.props.booking)
   }
   render () {
-    const { pax } = this.props
-    const paxId = pax.get('id')
-    const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
-    const bookingId = pax.get('booking').get('id')
+    const { booking } = this.props
+    const bookingId = booking.get('id')
+    const paxNames = booking.get('pax').reduce((str, p) => {
+      str = `${p.get('firstName')} ${p.get('lastName')}, ${str}`
+      return str
+    }, '')
     return (
-      <ListItem style={ss.item} key={paxId}>
-        <Left style={ss.bottomLeft}>
-          <Text>{paxName}</Text>
-        </Left>
-        <Right style={ss.bottomRight}>
-          <Text>{bookingId}</Text>
-        </Right>
-      </ListItem>
+      <View style={ss.item}>
+        <Text style={ss.boldText}>{bookingId}</Text>
+        <Text note>{paxNames.replace(/,\s*$/, '.')}</Text>
+      </View>
     )
   }
 }
 
-export default class PaxWithoutOrder extends Component {
+export default class BookingsWithoutOrder extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -42,7 +36,7 @@ export default class PaxWithoutOrder extends Component {
     }
   }
   shouldComponentUpdate (nextProps, nextState) {
-    return !nextProps.paxList.equals(this.props.paxList) ||
+    return !nextProps.bookingsList.equals(this.props.bookingsList) ||
               nextState.isExpanded !== this.state.isExpanded
   }
 
@@ -50,10 +44,10 @@ export default class PaxWithoutOrder extends Component {
     this.setState({ isExpanded: !this.state.isExpanded })
   }
 
-  _renderItem = ({ item }) => <PaxItem pax={item} />
+  _renderItem = ({ item }) => <BookingItem booking={item} />
 
   render () {
-    const { paxList, label } = this.props
+    const { bookingsList, label } = this.props
     const { isExpanded } = this.state
     const icon = isExpanded ? 'up' : 'down'
 
@@ -62,11 +56,8 @@ export default class PaxWithoutOrder extends Component {
         <ListItem style={ss.header} onPress={this._onHeaderPress}>
           <Left style={ss.bottomLeft}>
             <IonIcon name={icon} style={ss.expandIcon} />
-            <Text style={ss.boldText}>{_T(label)}</Text>
+            <Text style={ss.label}>{_T(label)}</Text>
           </Left>
-          <Right style={ss.bottomRight}>
-            <Text style={ss.label}>{_T('booking')}</Text>
-          </Right>
         </ListItem>
 
         {
@@ -76,12 +67,9 @@ export default class PaxWithoutOrder extends Component {
               contentContainerStyle={{ marginBottom: 90 }}
               scrollEnabled={false}
               keyboardShouldPersistTaps='always'
-              immutableData={paxList}
+              immutableData={bookingsList}
               renderItem={this._renderItem}
               keyExtractor={item => String(item.get('id'))}
-              getItemLayout={(data, index) => (
-                { length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index }
-              )}
             />
 
             : <ListItem style={ss.expandItem}>
@@ -99,7 +87,8 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 90
+    marginBottom: 90,
+    marginLeft: 15
   },
   expandText: {
     fontSize: 14
@@ -114,18 +103,13 @@ const ss = StyleSheet.create({
     marginBottom: 10
   },
   item: {
-    height: ITEM_HEIGHT,
-    marginRight: 15,
-    borderBottomWidth: 0,
-    paddingRight: 0,
-    marginLeft: 15
-  },
-  bottomLeft: {
-    flex: 2
-  },
-  bottomRight: {
     flex: 1,
-    paddingRight: 10
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginRight: 15,
+    marginLeft: 20,
+    marginVertical: 10
   },
   container: {
     marginBottom: 20
@@ -137,5 +121,8 @@ const ss = StyleSheet.create({
   label: {
     fontWeight: 'bold',
     fontSize: 13
+  },
+  boldText: {
+    fontWeight: 'bold'
   }
 })

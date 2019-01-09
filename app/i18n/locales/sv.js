@@ -157,8 +157,9 @@ export default {
     airport: 'Aeropuerto',
     booking: 'Bokning'
   },
-  PaxWithoutOrder: {
+  WithoutOrder: {
     paxWithoutOrder: 'Passagerare utan order',
+    bookingsWithoutOrder: 'Bokningar utan order',
     paxInThisHotel: 'Passagerare på detta hotell',
     clickToExpand: 'Klicka på rubriken för att visa alla passagerare',
     booking: 'Bokning'

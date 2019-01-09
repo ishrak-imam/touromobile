@@ -10,8 +10,12 @@ import { Colors } from '../theme'
 import { listToMap, getSet } from '../utils/immutable'
 import Translator from '../utils/translator'
 import PaxWithoutOrder from './paxWithoutOrder'
+import BookingsWithoutOrder from './bookingsWithoutOrder'
 
 const _T = Translator('ReportsScreen')
+
+const INDIVIDUAL_MODE = 'INDIVIDUAL'
+const SUMMARY_MODE = 'SUMMARY'
 
 export default class OrderStats extends Component {
   constructor (props) {
@@ -85,6 +89,21 @@ export default class OrderStats extends Component {
     return pax.filter(p => {
       const paxId = String(p.get('id'))
       return !paxWithOrders.has(paxId)
+    })
+  }
+
+  get bookingsWithoutOrder () {
+    const { orders, bookings } = this.props
+    const { tab } = this.state
+    const direction = orders.get(tab)
+
+    const bookingWithOrders = direction.reduce((set, o) => {
+      return set.add(o.get('booking'))
+    }, getSet([]))
+
+    return bookings.filter(b => {
+      const bookingId = String(b.get('id'))
+      return !bookingWithOrders.has(bookingId)
     })
   }
 
@@ -245,13 +264,24 @@ export default class OrderStats extends Component {
 
   render () {
     const { enableScrollViewScroll } = this.state
+    const { orderMode } = this.props
     return (
       <View style={ss.container}>
         {this._renderHeader()}
         <ScrollView scrollEnabled={enableScrollViewScroll}>
           {this._renderMealOrders()}
           {this._renderBeverageOrders()}
-          <PaxWithoutOrder paxList={this.paxWithoutOrder} label='paxWithoutOrder' />
+
+          {
+            orderMode === SUMMARY_MODE &&
+            <BookingsWithoutOrder bookingsList={this.bookingsWithoutOrder} label='bookingsWithoutOrder' />
+          }
+
+          {
+            orderMode === INDIVIDUAL_MODE &&
+            <PaxWithoutOrder paxList={this.paxWithoutOrder} label='paxWithoutOrder' />
+          }
+
         </ScrollView>
       </View>
     )
