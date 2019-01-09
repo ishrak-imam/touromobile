@@ -11,14 +11,23 @@ import { actionDispatcher } from '../utils/actionDispatcher'
 import { takeOrderSummaryMode } from '../modules/modifiedData/action'
 
 class FoodItem extends Component {
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.order.equals(this.props.order)
+  }
+
   _onFoodSelect = sign => {
-    const { departureId, bookingId, direction, meal, order, mealType, paxCount } = this.props
+    const {
+      departureId, bookingId, direction,
+      meal, order, mealType, paxCount
+    } = this.props
     return () => {
+      const { totalOrder } = this.props
       const mealId = String(meal.get('id'))
       const oldCount = order.get('count') || 0
       let newCount = 0
 
       if (sign === 'minus' && oldCount === 0) return null
+      if (sign === 'plus' && totalOrder === paxCount) return null
       if (sign === 'plus' && oldCount >= paxCount) return null
 
       if (sign === 'minus' && oldCount !== 0) newCount = oldCount - 1

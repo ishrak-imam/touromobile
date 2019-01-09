@@ -4,7 +4,10 @@ import { View, Text, ListItem } from 'native-base'
 import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
-import { getLunches, getInvoiceeSummaryMode } from '../selectors'
+import {
+  getLunches, getInvoiceeSummaryMode,
+  getOrderForBookingSummaryMode
+} from '../selectors'
 import isIphoneX from '../utils/isIphoneX'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { actionDispatcher } from '../utils/actionDispatcher'
@@ -57,7 +60,7 @@ class SummaryOrderItem extends Component {
     )
   }
 
-  _renderFoodItem = (mealType, paxCount) => {
+  _renderFoodItem = (mealType, paxCount, totalOrder) => {
     const { direction, bookingId, departureId } = this.props
     return ({ item }) => {
       return (
@@ -68,9 +71,36 @@ class SummaryOrderItem extends Component {
           departureId={departureId}
           mealType={mealType}
           paxCount={paxCount}
+          totalOrder={totalOrder}
         />
       )
     }
+  }
+
+  get totalMealOrder () {
+    const { orderForBooking } = this.props
+    let count = 0
+    const meals = orderForBooking.get('meal')
+    if (meals && meals.size > 0) {
+      meals.every((meal) => {
+        count = count + meal.get('count')
+        return true
+      })
+    }
+    return count
+  }
+
+  get totalDrinkOrder () {
+    const { orderForBooking } = this.props
+    let count = 0
+    const drinks = orderForBooking.get('drink')
+    if (drinks && drinks.size > 0) {
+      drinks.every((drink) => {
+        count = count + drink.get('count')
+        return true
+      })
+    }
+    return count
   }
 
   _renderMeals = (meals, paxCount) => {
@@ -83,7 +113,7 @@ class SummaryOrderItem extends Component {
         </ListItem>
         <ImmutableVirtualizedList
           immutableData={meals}
-          renderItem={this._renderFoodItem('meal', paxCount)}
+          renderItem={this._renderFoodItem('meal', paxCount, this.totalMealOrder)}
           keyExtractor={item => String(item.get('id'))}
         />
       </View>
@@ -100,7 +130,7 @@ class SummaryOrderItem extends Component {
         </ListItem>
         <ImmutableVirtualizedList
           immutableData={beverages}
-          renderItem={this._renderFoodItem('drink', paxCount)}
+          renderItem={this._renderFoodItem('drink', paxCount, this.totalDrinkOrder)}
           keyExtractor={item => String(item.get('id'))}
         />
       </View>
@@ -144,10 +174,11 @@ class SummaryOrderItem extends Component {
 }
 
 const stateToProps = (state, props) => {
-  const { departureId, bookingId } = props
+  const { departureId, bookingId, direction } = props
   return {
     invoicee: getInvoiceeSummaryMode(state, departureId, bookingId),
-    lunches: getLunches(state)
+    lunches: getLunches(state),
+    orderForBooking: getOrderForBookingSummaryMode(state, departureId, bookingId, direction)
   }
 }
 

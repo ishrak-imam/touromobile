@@ -79,7 +79,8 @@ export const {
   getAllOrders,
   getOrders,
   getOrdersByDirection,
-  checkIfAnyOrderMade
+  checkIfAnyOrderMade,
+  getOrderForBookingSummaryMode
 } = require('./modifiedData')
 
 export const {
