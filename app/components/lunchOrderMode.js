@@ -9,6 +9,9 @@ import { getOrderMode } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { toggleOrderMode } from '../modules/profile/action'
 import DisableContent from '../components/disableContent'
+import Translator from '../utils/translator'
+
+const _T = Translator('ProfileScreen')
 
 const INDIVIDUAL_MODE = 'INDIVIDUAL'
 const SUMMARY_MODE = 'SUMMARY'
@@ -29,9 +32,9 @@ class LunchOrderMode extends Component {
 
         <ListItem style={ss.header}>
           <View>
-            <Text style={ss.boldText}>Lunch order mode</Text>
+            <Text style={ss.boldText}>{_T('lunchOrderMode')}</Text>
             <Text note style={ss.italic}>
-              Once at least one order is placed, mode switching will be disabled
+              {_T('modeText')}
             </Text>
           </View>
         </ListItem>
@@ -40,14 +43,14 @@ class LunchOrderMode extends Component {
           <ListItem style={ss.item} onPress={this._toggleOrderMode(INDIVIDUAL_MODE)}>
             <CheckBox disabled checked={orderMode === INDIVIDUAL_MODE} />
             <Body style={ss.right}>
-              <Text>Individual passengers. Place order for each passengers individually.</Text>
+              <Text>{_T('individualMode')}</Text>
             </Body>
           </ListItem>
 
           <ListItem style={ss.item} onPress={this._toggleOrderMode(SUMMARY_MODE)}>
             <CheckBox disabled checked={orderMode === SUMMARY_MODE} />
             <Body style={ss.right}>
-              <Text>Summary mode. Extra explanatory text for this mode.</Text>
+              <Text>{_T('summaryMode')}</Text>
             </Body>
           </ListItem>
         </View>

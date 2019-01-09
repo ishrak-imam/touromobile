@@ -62,7 +62,7 @@ export default class PaxWithoutOrder extends Component {
         <ListItem style={ss.header} onPress={this._onHeaderPress}>
           <Left style={ss.bottomLeft}>
             <IonIcon name={icon} style={ss.expandIcon} />
-            <Text style={ss.boldText}>{_T(label)}</Text>
+            <Text style={ss.label}>{_T(label)}</Text>
           </Left>
           <Right style={ss.bottomRight}>
             <Text style={ss.label}>{_T('booking')}</Text>

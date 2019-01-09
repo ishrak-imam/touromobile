@@ -122,7 +122,11 @@ export default {
     email: 'E-post',
     backAccount: 'Bankkonto',
     tabLabels: 'Fliketiketter',
-    showHideTabLabels: 'Visa/dölja fliketiketter'
+    showHideTabLabels: 'Visa/dölja fliketiketter',
+    lunchOrderMode: 'Lunchbeställningar',
+    modeText: 'När minst en beställning har gorts, kan inställningen inte ändras för den pågående resan.',
+    individualMode: 'Passagerare. Beställningar skapas för varje passagerare.',
+    summaryMode: 'Bokning. Beställningar är gemensamma för alla passagerare på samma bokning.'
   },
   RollCallScreen: {
     title: 'Upprop',
@@ -135,7 +139,8 @@ export default {
     child: 'Barn',
     beverages: 'Drycker',
     invoicee: 'Fakturamottagare',
-    selectInvoicee: 'Välj fakturamottagare'
+    selectInvoicee: 'Välj fakturamottagare',
+    invoiceeSelection: 'Fakturaval'
   },
   NoData: {
     noMatch: 'Ingen matchning hittad',

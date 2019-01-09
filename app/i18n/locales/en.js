@@ -121,7 +121,11 @@ export default {
     email: 'Email',
     backAccount: 'Bank account',
     tabLabels: 'Tab labels',
-    showHideTabLabels: 'Show/hide tab labels'
+    showHideTabLabels: 'Show/hide tab labels',
+    lunchOrderMode: 'Lunch order mode',
+    modeText: 'Once at least one order is placed, mode switching will be disabled.',
+    individualMode: 'Individual mode. Place order for each passengers individually.',
+    summaryMode: 'Summary mode. Place order for all passengers in a booking.'
   },
   RollCallScreen: {
     title: 'Roll call',
@@ -134,7 +138,8 @@ export default {
     child: 'Child',
     beverages: 'Beverages',
     invoicee: 'Invoicee',
-    selectInvoicee: 'Select invoicee'
+    selectInvoicee: 'Select invoicee',
+    invoiceeSelection: 'Invoicee selection'
   },
   NoData: {
     noMatch: 'No match found',

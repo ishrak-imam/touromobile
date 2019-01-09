@@ -78,7 +78,7 @@ class SummaryOrderItem extends Component {
       <View style={ss.section}>
         <ListItem style={ss.header}>
           <View>
-            <Text style={ss.boldText}>Meals</Text>
+            <Text style={ss.boldText}>{_T('meals')}</Text>
           </View>
         </ListItem>
         <ImmutableVirtualizedList
@@ -95,7 +95,7 @@ class SummaryOrderItem extends Component {
       <View style={ss.section}>
         <ListItem style={ss.header}>
           <View>
-            <Text style={ss.boldText}>Beverages</Text>
+            <Text style={ss.boldText}>{_T('beverages')}</Text>
           </View>
         </ListItem>
         <ImmutableVirtualizedList
@@ -109,7 +109,7 @@ class SummaryOrderItem extends Component {
 
   _getInvoiceeOptions = (pax, direction, selected) => {
     const config = {
-      label: 'Invoicee selection',
+      label: _T('invoiceeSelection'),
       key: 'invoicee',
       direction
     }
