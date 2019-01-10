@@ -21,7 +21,7 @@ class BookingItem extends Component {
     }, '')
     return (
       <View style={ss.item}>
-        <Text style={ss.boldText}>{bookingId}</Text>
+        <Text>{bookingId}</Text>
         <Text note>{paxNames.replace(/,\s*$/, '.')}</Text>
       </View>
     )

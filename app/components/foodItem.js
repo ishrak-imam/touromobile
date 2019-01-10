@@ -16,12 +16,9 @@ class FoodItem extends Component {
   }
 
   _onFoodSelect = sign => {
-    const {
-      departureId, bookingId, direction,
-      meal, order, mealType, paxCount
-    } = this.props
+    const { departureId, bookingId, meal, mealType, paxCount } = this.props
     return () => {
-      const { totalOrder } = this.props
+      const { direction, totalOrder, order } = this.props
       const mealId = String(meal.get('id'))
       const oldCount = order.get('count') || 0
       let newCount = 0
