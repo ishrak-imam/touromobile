@@ -20,3 +20,7 @@ export const getImageName = url => {
   const hash = getHash(url)
   return `${hash}.jpg`
 }
+
+export const stringShorten = (str, limit) => {
+  return `${str.substring(0, limit)} ...`
+}

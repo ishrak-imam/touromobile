@@ -1,8 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  Container, ListItem, Left,
-  CheckBox, Body, Text, Right
+  Container, ListItem, Left, Body, Text, Right
 } from 'native-base'
 import SearchBar from '../../components/searchBar'
 import Header from '../../components/header'
@@ -21,6 +20,7 @@ import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
 import Switch from '../../components/switch'
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
+import CheckBox from '../../components/checkBox'
 
 const { width } = Dimensions.get('window')
 
@@ -29,7 +29,7 @@ const dataProvider = new DataProvider((r1, r2) => {
 })
 
 const layoutProvider = new LayoutProvider(
-  () => 'type', (_, dim) => { dim.width = width; dim.height = 53 }
+  () => 'type', (_, dim) => { dim.width = width; dim.height = 55 }
 )
 
 const PARTICIPATING = 'PARTICIPATING'
@@ -52,9 +52,9 @@ class PaxListItem extends Component {
     const name = `${pax.firstName} ${pax.lastName}`
 
     return (
-      <ListItem onPress={onPress(paxId, checked)}>
+      <ListItem style={ss.item} onPress={onPress(paxId, checked)}>
         <Left style={{ flex: 1 }}>
-          <CheckBox disabled checked={checked || selected} />
+          <CheckBox checked={checked || selected} />
         </Left>
         <Body style={ss.itemBody}>
           <View style={{ flex: 1 }}>
@@ -386,5 +386,8 @@ const ss = StyleSheet.create({
   sectionText: {
     fontWeight: 'bold',
     paddingLeft: 20
+  },
+  item: {
+    paddingTop: 5
   }
 })

@@ -1,10 +1,9 @@
 
 import React, { Component } from 'react'
-import {
-  View, Text, CheckBox
-} from 'native-base'
+import { View, Text } from 'native-base'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { chunkList } from '../utils/immutable'
+import CheckBox from './checkBox'
 
 export default class BeverageSelection extends Component {
   shouldComponentUpdate (nextProps) {
@@ -34,7 +33,7 @@ export default class BeverageSelection extends Component {
           const isSelected = selected.get('drink') === item.get('id')
           return (
             <TouchableOpacity key={item.get('id')} style={ss.selection} onPress={this._onSelect(item)}>
-              <CheckBox disabled checked={isSelected} />
+              <CheckBox checked={isSelected} />
               <Text style={ss.name}>{item.get('name')}</Text>
             </TouchableOpacity>
           )
@@ -69,14 +68,14 @@ const ss = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginLeft: -10
+    alignItems: 'center'
+    // marginLeft: -10
   },
   row: {
     flex: 1,
     flexDirection: 'row'
   },
   name: {
-    marginLeft: 20
+    marginLeft: 15
   }
 })

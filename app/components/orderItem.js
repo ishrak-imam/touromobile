@@ -1,8 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  View, ListItem, Left, Text,
-  Right, CheckBox
+  View, ListItem, Left, Text, Right
 } from 'native-base'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
@@ -14,6 +13,8 @@ import { takeOrderIndividualMode, resetPaxOrder } from '../modules/modifiedData/
 import BeverageSelection from './beverageSelection'
 import { Colors, IonIcon } from '../theme'
 import Translator from '../utils/translator'
+import CheckBox from './checkBox'
+import { stringShorten } from '../utils/stringHelpers'
 
 const _T = Translator('OrdersScreen')
 
@@ -85,7 +86,10 @@ class OrderItem extends Component {
   render () {
     const { child } = this.state
     const { lunches, pax, direction } = this.props
-    const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
+    let paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
+    if (paxName.length > 17) {
+      paxName = stringShorten(paxName, 17)
+    }
     let meals = lunches.get(direction).get('meals')
     const beverages = lunches.get(direction).get('beverages')
     meals = child ? meals.filter(m => child && !!m.get('child')) : meals.filter(m => !!m.get('adult'))
@@ -99,11 +103,12 @@ class OrderItem extends Component {
             <TouchableOpacity style={ss.reset} onPress={this._resetPaxOrders}>
               <IonIcon name='undo' size={22} />
             </TouchableOpacity>
+
           </Left>
           <Right style={ss.headerRight}>
             <TouchableOpacity style={ss.childCheck} onPress={this._toggleChild}>
-              <Text style={ss.boldText}>{_T('child')}</Text>
-              <CheckBox disabled checked={child} />
+              <Text style={ss.childText}>{_T('child')}</Text>
+              <CheckBox checked={child} />
             </TouchableOpacity>
           </Right>
         </ListItem>
@@ -155,7 +160,7 @@ const ss = StyleSheet.create({
     paddingRight: 0
   },
   headerLeft: {
-    flex: 4,
+    flex: 3,
     alignItems: 'center'
   },
   headerRight: {
@@ -166,12 +171,16 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingRight: 15
+    paddingRight: 5
+  },
+  childText: {
+    marginRight: 10,
+    fontWeight: 'bold'
   },
   boldText: {
     fontWeight: 'bold'
   },
   reset: {
-    paddingHorizontal: 20
+    marginHorizontal: 15
   }
 })

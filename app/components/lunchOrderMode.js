@@ -1,15 +1,15 @@
 
 import React, { Component } from 'react'
 import {
-  View, ListItem, Text, CheckBox, Body
+  View, ListItem, Text, Body
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { getOrderMode } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { toggleOrderMode } from '../modules/profile/action'
-import DisableContent from '../components/disableContent'
 import Translator from '../utils/translator'
+import CheckBox from './checkBox'
 
 const _T = Translator('ProfileScreen')
 
@@ -28,8 +28,6 @@ class LunchOrderMode extends Component {
     return (
       <View style={ss.container}>
 
-        {isAnyOrder && <DisableContent />}
-
         <ListItem style={ss.header}>
           <View>
             <Text style={ss.boldText}>{_T('lunchOrderMode')}</Text>
@@ -40,15 +38,15 @@ class LunchOrderMode extends Component {
         </ListItem>
 
         <View style={ss.options}>
-          <ListItem style={ss.item} onPress={this._toggleOrderMode(INDIVIDUAL_MODE)}>
-            <CheckBox disabled checked={orderMode === INDIVIDUAL_MODE} />
+          <ListItem style={ss.item} disabled={isAnyOrder} onPress={this._toggleOrderMode(INDIVIDUAL_MODE)}>
+            <CheckBox disabled={isAnyOrder} checked={orderMode === INDIVIDUAL_MODE} />
             <Body style={ss.right}>
               <Text>{_T('individualMode')}</Text>
             </Body>
           </ListItem>
 
-          <ListItem style={ss.item} onPress={this._toggleOrderMode(SUMMARY_MODE)}>
-            <CheckBox disabled checked={orderMode === SUMMARY_MODE} />
+          <ListItem style={ss.item} disabled={isAnyOrder} onPress={this._toggleOrderMode(SUMMARY_MODE)}>
+            <CheckBox disabled={isAnyOrder} checked={orderMode === SUMMARY_MODE} />
             <Body style={ss.right}>
               <Text>{_T('summaryMode')}</Text>
             </Body>

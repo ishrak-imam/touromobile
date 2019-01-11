@@ -38,11 +38,12 @@ const getIconName = name => {
     refresh: ['md-refresh', 'md-refresh'],
     delete: ['ios-trash', 'md-trash'],
     sort: ['ios-list', 'md-list'],
-    checkFill: ['ios-checkbox', 'md-checkbox'],
-    checkOutline: ['ios-checkbox-outline', 'md-checkbox-outline'],
+    checkFill: ['ios-checkmark-circle', 'md-checkmark-circle'],
+    checkOutline: ['ios-checkmark-circle-outline', 'md-checkmark-circle-outline'],
     plus: ['ios-add', 'md-add'],
     minus: ['ios-remove', 'md-remove'],
-    undo: ['ios-undo', 'md-undo']
+    undo: ['ios-undo', 'md-undo'],
+    radioOff: ['ios-radio-button-off', 'md-radio-button-off']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]

@@ -2,15 +2,13 @@
 import React, { Component } from 'react'
 import { StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import {
-  Container, View, ListItem, Left,
-  CheckBox, Body, Text, Title
+  Container, View, ListItem, Left, Body, Text, Title
 } from 'native-base'
 import { Colors, IonIcon } from '../../theme'
 import Header from '../../components/header'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
 import {
-
   currentTripSelector, getPax, getPresents,
   getSortedPaxByFirstName, getPaxDataGroupByFirstName,
   getSortedPaxByLastName, getPaxDataGroupByLastName,
@@ -19,7 +17,6 @@ import {
   getSortedPaxByBookingId, getPaxDataGroupByBooking,
   filterPaxBySearchText,
   checkIfFlightTrip
-
 } from '../../selectors'
 import isIphoneX from '../../utils/isIphoneX'
 import SearchBar from '../../components/searchBar'
@@ -28,6 +25,7 @@ import NoData from '../../components/noData'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { addToPresent, removeFromPresent, resetPresent } from './action'
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
+import CheckBox from '../../components/checkBox'
 
 const { width } = Dimensions.get('window')
 
@@ -64,7 +62,7 @@ class PaxItem extends Component {
     return (
       <ListItem style={ss.listItem} onPress={onItemPress(paxId)}>
         <Left style={{ flex: 1 }}>
-          <CheckBox disabled checked={selected} />
+          <CheckBox checked={selected} />
         </Left>
         <Body style={ss.itemBody}>
           <View style={{ flex: 1 }}>

@@ -1,15 +1,13 @@
 
 import React, { Component } from 'react'
-import {
-  View, CheckBox,
-  Body, Text, ListItem
-} from 'native-base'
+import { View, Body, Text, ListItem } from 'native-base'
 import { StyleSheet } from 'react-native'
 import { toggleTabLabels } from '../modules/profile/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { getProfile } from '../selectors'
 import { connect } from 'react-redux'
 import Translator from '../utils/translator'
+import CheckBox from './checkBox'
 
 const _T = Translator('ProfileScreen')
 
@@ -34,7 +32,7 @@ class Settings extends Component {
         </ListItem>
         <View style={ss.options}>
           <ListItem style={ss.item} onPress={this._toggleLabel}>
-            <CheckBox disabled checked={showLabel} />
+            <CheckBox checked={showLabel} />
             <Body style={ss.right}>
               <Text>{_T('showHideTabLabels')}</Text>
             </Body>
@@ -65,7 +63,7 @@ const ss = StyleSheet.create({
   },
   item: {
     borderBottomWidth: 0,
-    paddingTop: 10,
+    paddingTop: 5,
     paddingBottom: 10
   },
   options: {

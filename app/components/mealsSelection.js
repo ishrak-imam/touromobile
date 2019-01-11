@@ -1,11 +1,11 @@
 
 import React, { Component } from 'react'
 import {
-  ListItem, Body, Text,
-  CheckBox, View
+  ListItem, Body, Text, View
 } from 'native-base'
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import CheckBox from './checkBox'
 
 export default class MealsSelection extends Component {
   shouldComponentUpdate (nextProps) {
@@ -37,7 +37,7 @@ export default class MealsSelection extends Component {
 
     return (
       <ListItem style={ss.item} onPress={this._onSelect(item)}>
-        <CheckBox disabled checked={isSelected} />
+        <CheckBox checked={isSelected} />
         <Body style={ss.right}>
           <Text>{name}</Text>
         </Body>
