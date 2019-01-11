@@ -47,7 +47,7 @@ class PaxItem extends Component {
   shouldComponentUpdate (nextProps, nextState) {
     return !nextProps.pax.equals(this.props.pax) ||
             nextState.comment !== this.state.comment ||
-            nextState.tripType !== this.props.tripType
+            nextProps.tripType !== this.props.tripType
   }
 
   _renderPhone = number => (

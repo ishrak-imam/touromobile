@@ -21,7 +21,7 @@ const _T = Translator('PassengersScreen')
 class BookingItem extends Component {
   shouldComponentUpdate (nextProps) {
     return !nextProps.booking.equals(this.props.booking) ||
-            !nextProps.modifiedPax.equals(this.props.modifiedPax)
+           !nextProps.modifiedPax.equals(this.props.modifiedPax)
   }
 
   _sms = phones => {
