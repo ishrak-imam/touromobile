@@ -16,7 +16,3 @@ export const networkActionDispatcher = action => {
 export const actionDispatcher = action => {
   dispatch(action)
 }
-
-export const toastDispatcher = message => {
-  dispatch(showToast({ message }))
-}

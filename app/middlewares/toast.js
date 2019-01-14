@@ -1,9 +1,10 @@
 
-import { toastDispatcher } from '../utils/actionDispatcher'
+import { showToast } from '../toast/action'
 
 const toast = store => next => action => {
   if (action.payload && action.payload.toast) {
-    toastDispatcher(action.payload.message)
+    const { message } = action.payload
+    store.dispatch(showToast({ message }))
   }
   next(action)
 }
