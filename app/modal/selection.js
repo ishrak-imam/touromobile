@@ -56,7 +56,7 @@ class SelectionModal extends Component {
     )
   }
 
-  _renderItems = (items, config, selected) => {
+  _renderItems = (items, config) => {
     return (
       <ImmutableVirtualizedList
         style={{ marginVertical: 10 }}
@@ -74,7 +74,6 @@ class SelectionModal extends Component {
     const options = selection.get('options')
     const config = options ? options.get('config') : null
     const items = options ? options.get('items') : null
-    const selected = options ? options.get('selected') : null
     return (
       <Modal
         animationType='slide'
@@ -91,7 +90,7 @@ class SelectionModal extends Component {
               </TouchableOpacity>
             </View>
             <View style={ss.body}>
-              {!!items && this._renderItems(items, config, selected)}
+              {!!items && this._renderItems(items, config)}
             </View>
           </View>
         </View>

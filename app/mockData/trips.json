@@ -1,8 +1,9 @@
 [
   {
     "departureId": 20271,
-    "outDate": "2018-05-05T05:03:22.1030847+02:00",
-    "homeDate": "2018-05-09T05:03:22.1030847+02:00",
+    "transportId": 20271,
+    "outDate": "2019-01-01T05:03:22.1030847+02:00",
+    "homeDate": "2019-01-20T05:03:22.1030847+02:00",
     "name": "berw16",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "description": "Berlin Weekend",
@@ -25,7 +26,9 @@
             "ssn": "1948-01-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 646331,
@@ -34,7 +37,9 @@
             "ssn": "2002-08-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 663869,
@@ -43,7 +48,9 @@
             "ssn": "4911018986",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -64,7 +71,9 @@
             "ssn": "1989-05-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 643059,
@@ -73,7 +82,9 @@
             "ssn": "1989-12-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -94,7 +105,9 @@
             "ssn": "1983-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649715,
@@ -103,7 +116,9 @@
             "ssn": "1954-01-26",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649716,
@@ -112,7 +127,9 @@
             "ssn": "2005-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -133,7 +150,9 @@
             "ssn": "4610134035",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 654139,
@@ -142,7 +161,9 @@
             "ssn": "5402170269",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -163,7 +184,9 @@
             "ssn": "197203172452",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642059,
@@ -172,7 +195,9 @@
             "ssn": "2000-10-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642060,
@@ -181,7 +206,9 @@
             "ssn": "1964-11-16",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642061,
@@ -190,7 +217,9 @@
             "ssn": "2002-11-21",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -211,7 +240,9 @@
             "ssn": "1973-11-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 667712,
@@ -220,7 +251,9 @@
             "ssn": "1965-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -241,7 +274,9 @@
             "ssn": "6802104643",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 645314,
@@ -250,7 +285,9 @@
             "ssn": "9510161525",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655445,
@@ -259,7 +296,9 @@
             "ssn": "0205176407",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656499,
@@ -268,7 +307,9 @@
             "ssn": "6810124617",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656500,
@@ -277,7 +318,9 @@
             "ssn": "9903207695",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -298,7 +341,9 @@
             "ssn": "5102153615",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 664325,
@@ -307,7 +352,9 @@
             "ssn": "5601073504",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -339,7 +386,9 @@
             "ssn": "1961-01-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 644119,
@@ -348,7 +397,9 @@
             "ssn": "1968-02-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -369,7 +420,9 @@
             "ssn": "1955-03-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 650435,
@@ -378,7 +431,9 @@
             "ssn": "1955-01-27",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -399,7 +454,9 @@
             "ssn": "4910124413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 669265,
@@ -408,7 +465,9 @@
             "ssn": "5803013563",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -429,7 +488,9 @@
             "ssn": "6403082776",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 658655,
@@ -438,7 +499,9 @@
             "ssn": "6503022706",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -459,7 +522,9 @@
             "ssn": "1962-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 648181,
@@ -468,7 +533,9 @@
             "ssn": "1964-12-19",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -489,7 +556,9 @@
             "ssn": "1960-05-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 653140,
@@ -498,7 +567,9 @@
             "ssn": "1962-12-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -519,7 +590,9 @@
             "ssn": "1957-07-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -540,7 +613,9 @@
             "ssn": "4103271906",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661289,
@@ -549,7 +624,9 @@
             "ssn": "4201298413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -570,7 +647,9 @@
             "ssn": "328999",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -591,7 +670,9 @@
             "ssn": "1942-04-29",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 651078,
@@ -600,7 +681,9 @@
             "ssn": "1941-09-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -621,7 +704,9 @@
             "ssn": "1937-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661562,
@@ -630,7 +715,9 @@
             "ssn": "1937-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -651,7 +738,9 @@
             "ssn": "1977-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646382,
@@ -660,7 +749,9 @@
             "ssn": "1971-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646443,
@@ -669,7 +760,9 @@
             "ssn": "2007-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 650942,
@@ -678,7 +771,9 @@
             "ssn": "20151205",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -699,7 +794,9 @@
             "ssn": "1976-11-03",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649468,
@@ -708,7 +805,9 @@
             "ssn": "1972-03-07",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649469,
@@ -717,7 +816,9 @@
             "ssn": "1968-09-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649470,
@@ -726,7 +827,9 @@
             "ssn": "1960-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -747,7 +850,9 @@
             "ssn": "1941-01-09",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 664250,
@@ -756,7 +861,9 @@
             "ssn": "1940-05-06",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -777,7 +884,9 @@
             "ssn": "1959-08-15",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 662029,
@@ -786,7 +895,9 @@
             "ssn": "1937-03-28",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -807,7 +918,9 @@
             "ssn": "1972-08-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655773,
@@ -816,7 +929,9 @@
             "ssn": "1974-01-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655774,
@@ -825,7 +940,9 @@
             "ssn": "2006-10-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655775,
@@ -834,7 +951,9 @@
             "ssn": "2003-04-08",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -855,7 +974,9 @@
             "ssn": "1950-02-03",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 648942,
@@ -864,7 +985,9 @@
             "ssn": "1958-08-24",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -885,7 +1008,9 @@
             "ssn": "1955-09-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 659207,
@@ -894,7 +1019,9 @@
             "ssn": "5207304030",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -915,7 +1042,9 @@
             "ssn": "4206214662",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 628230,
@@ -924,7 +1053,9 @@
             "ssn": "4406062770",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -945,7 +1076,9 @@
             "ssn": "1953-07-17",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636160,
@@ -954,7 +1087,9 @@
             "ssn": "1986-08-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636161,
@@ -963,7 +1098,9 @@
             "ssn": "1985-06-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       }
@@ -1019,11 +1156,55 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 1,
-            "name": "Hamburger",
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
             "adult": 125,
-            "child": 75
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -1038,11 +1219,55 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },
@@ -1064,14 +1289,47 @@
       ],
       "platform": "A14",
       "departure": "08:10"
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "The Lexington Hotel New York City",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "First Hotel Kong Frederik",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   },
 
 
   {
     "departureId": 20272,
-    "outDate": "2018-10-08T05:03:22.1030847+02:00",
-    "homeDate": "2018-11-20T05:03:22.1030847+02:00",
+    "transportId": 20272,
+    "outDate": "2019-01-25T05:03:22.1030847+02:00",
+    "homeDate": "2019-02-15T05:03:22.1030847+02:00",
     "name": "berw16",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "description": "Berlin Weekend",
@@ -1094,7 +1352,9 @@
             "ssn": "1948-01-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 646331,
@@ -1103,7 +1363,9 @@
             "ssn": "2002-08-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 663869,
@@ -1112,7 +1374,9 @@
             "ssn": "4911018986",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -1133,7 +1397,9 @@
             "ssn": "1989-05-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 643059,
@@ -1142,7 +1408,9 @@
             "ssn": "1989-12-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -1163,7 +1431,9 @@
             "ssn": "1983-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649715,
@@ -1172,7 +1442,9 @@
             "ssn": "1954-01-26",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649716,
@@ -1181,7 +1453,9 @@
             "ssn": "2005-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -1202,7 +1476,9 @@
             "ssn": "4610134035",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 654139,
@@ -1211,7 +1487,9 @@
             "ssn": "5402170269",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -1232,7 +1510,9 @@
             "ssn": "197203172452",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642059,
@@ -1241,7 +1521,9 @@
             "ssn": "2000-10-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642060,
@@ -1250,7 +1532,9 @@
             "ssn": "1964-11-16",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642061,
@@ -1259,7 +1543,9 @@
             "ssn": "2002-11-21",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -1280,7 +1566,9 @@
             "ssn": "1973-11-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 667712,
@@ -1289,7 +1577,9 @@
             "ssn": "1965-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -1310,7 +1600,9 @@
             "ssn": "6802104643",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 645314,
@@ -1319,7 +1611,9 @@
             "ssn": "9510161525",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655445,
@@ -1328,7 +1622,9 @@
             "ssn": "0205176407",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656499,
@@ -1337,7 +1633,9 @@
             "ssn": "6810124617",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656500,
@@ -1346,7 +1644,9 @@
             "ssn": "9903207695",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -1367,7 +1667,9 @@
             "ssn": "5102153615",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 664325,
@@ -1376,7 +1678,9 @@
             "ssn": "5601073504",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -1408,7 +1712,9 @@
             "ssn": "1961-01-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 644119,
@@ -1417,7 +1723,9 @@
             "ssn": "1968-02-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -1438,7 +1746,9 @@
             "ssn": "1955-03-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 650435,
@@ -1447,7 +1757,9 @@
             "ssn": "1955-01-27",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -1468,7 +1780,9 @@
             "ssn": "4910124413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 669265,
@@ -1477,7 +1791,9 @@
             "ssn": "5803013563",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -1498,7 +1814,9 @@
             "ssn": "6403082776",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 658655,
@@ -1507,7 +1825,9 @@
             "ssn": "6503022706",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -1528,7 +1848,9 @@
             "ssn": "1962-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 648181,
@@ -1537,7 +1859,9 @@
             "ssn": "1964-12-19",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -1558,7 +1882,9 @@
             "ssn": "1960-05-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 653140,
@@ -1567,7 +1893,9 @@
             "ssn": "1962-12-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -1588,7 +1916,9 @@
             "ssn": "1957-07-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -1609,7 +1939,9 @@
             "ssn": "4103271906",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661289,
@@ -1618,7 +1950,9 @@
             "ssn": "4201298413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -1639,7 +1973,9 @@
             "ssn": "328999",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -1660,7 +1996,9 @@
             "ssn": "1942-04-29",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 651078,
@@ -1669,7 +2007,9 @@
             "ssn": "1941-09-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -1690,7 +2030,9 @@
             "ssn": "1937-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661562,
@@ -1699,7 +2041,9 @@
             "ssn": "1937-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -1720,7 +2064,9 @@
             "ssn": "1977-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646382,
@@ -1729,7 +2075,9 @@
             "ssn": "1971-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646443,
@@ -1738,7 +2086,9 @@
             "ssn": "2007-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 650942,
@@ -1747,7 +2097,9 @@
             "ssn": "20151205",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -1768,7 +2120,9 @@
             "ssn": "1976-11-03",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649468,
@@ -1777,7 +2131,9 @@
             "ssn": "1972-03-07",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649469,
@@ -1786,7 +2142,9 @@
             "ssn": "1968-09-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649470,
@@ -1795,7 +2153,9 @@
             "ssn": "1960-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -1816,7 +2176,9 @@
             "ssn": "1941-01-09",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 664250,
@@ -1825,7 +2187,9 @@
             "ssn": "1940-05-06",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -1846,7 +2210,9 @@
             "ssn": "1959-08-15",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 662029,
@@ -1855,7 +2221,9 @@
             "ssn": "1937-03-28",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -1876,7 +2244,9 @@
             "ssn": "1972-08-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655773,
@@ -1885,7 +2255,9 @@
             "ssn": "1974-01-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655774,
@@ -1894,7 +2266,9 @@
             "ssn": "2006-10-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655775,
@@ -1903,7 +2277,9 @@
             "ssn": "2003-04-08",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -1924,7 +2300,9 @@
             "ssn": "1950-02-03",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 648942,
@@ -1933,7 +2311,9 @@
             "ssn": "1958-08-24",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -1954,7 +2334,9 @@
             "ssn": "1955-09-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 659207,
@@ -1963,7 +2345,9 @@
             "ssn": "5207304030",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -1984,7 +2368,9 @@
             "ssn": "4206214662",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 628230,
@@ -1993,7 +2379,9 @@
             "ssn": "4406062770",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -2014,7 +2402,9 @@
             "ssn": "1953-07-17",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636160,
@@ -2023,7 +2413,9 @@
             "ssn": "1986-08-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636161,
@@ -2032,7 +2424,9 @@
             "ssn": "1985-06-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       }
@@ -2088,11 +2482,55 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 1,
-            "name": "Hamburger",
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
             "adult": 125,
-            "child": 75
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -2107,11 +2545,55 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },
@@ -2133,18 +2615,178 @@
       ],
       "platform": "A14",
       "departure": "08:10"
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "The Lexington Hotel New York City",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "First Hotel Kong Frederik",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   },
 
 
   {
     "departureId": 20273,
-    "outDate": "2018-11-15T05:03:22.1030847+02:00",
-    "homeDate": "2018-12-16T05:03:22.1030847+02:00",
+    "transportId": 20273,
+    "outDate": "2019-02-20T05:03:22.1030847+02:00",
+    "homeDate": "2019-03-05T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
-    "image": "https://picsum.photos/700/500/?image=574",
+    "image": "https://touro.scandorama.se/api/v1/resources/trip/2436/image",
     "description": "Berlin Weekend",
     "brand": "SS",
+    "lunches": {
+      "out": {
+        "name": "Klassenzimmer, Hammoor",
+        "address": "Hauptstraße 14",
+        "zip": "22941",
+        "city": "Hammoor",
+        "country": "Tyskland",
+        "phone": "123123321",
+        "time": "2018-04-01T12:30",
+        "acceptsCard": true,
+        "url": "http://www.restaurant-klassenzimmer.de",
+        "directions": "Turn off the A1 on exit 27, Bargteheide. Aim for Hammoor. The restaurant is on the right side in the village.",
+        "meals": [
+          {
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
+          }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
+        ]
+      },
+      "home": {
+        "name": "Der Alte Käse",
+        "address": "Jugend Strasse 123",
+        "zip": "DE-3431",
+        "city": "Potsdam",
+        "country": "Tyskland",
+        "phone": "423423432",
+        "time": "2018-04-03T13:30",
+        "meals": [
+          {
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
+          }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
+        ]
+      }
+    },
     "bookings": [
       {
         "id": "640062",
@@ -2163,7 +2805,9 @@
             "ssn": "1948-01-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 646331,
@@ -2172,7 +2816,9 @@
             "ssn": "2002-08-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 663869,
@@ -2181,7 +2827,9 @@
             "ssn": "4911018986",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -2202,7 +2850,9 @@
             "ssn": "1989-05-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 643059,
@@ -2211,7 +2861,9 @@
             "ssn": "1989-12-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -2232,7 +2884,9 @@
             "ssn": "1983-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649715,
@@ -2241,7 +2895,9 @@
             "ssn": "1954-01-26",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649716,
@@ -2250,7 +2906,9 @@
             "ssn": "2005-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -2271,7 +2929,9 @@
             "ssn": "4610134035",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 654139,
@@ -2280,7 +2940,9 @@
             "ssn": "5402170269",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -2301,7 +2963,9 @@
             "ssn": "197203172452",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642059,
@@ -2310,7 +2974,9 @@
             "ssn": "2000-10-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642060,
@@ -2319,7 +2985,9 @@
             "ssn": "1964-11-16",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642061,
@@ -2328,7 +2996,9 @@
             "ssn": "2002-11-21",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -2349,7 +3019,9 @@
             "ssn": "1973-11-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 667712,
@@ -2358,7 +3030,9 @@
             "ssn": "1965-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -2379,7 +3053,9 @@
             "ssn": "6802104643",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 645314,
@@ -2388,7 +3064,9 @@
             "ssn": "9510161525",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655445,
@@ -2397,7 +3075,9 @@
             "ssn": "0205176407",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656499,
@@ -2406,7 +3086,9 @@
             "ssn": "6810124617",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656500,
@@ -2415,7 +3097,9 @@
             "ssn": "9903207695",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -2436,7 +3120,9 @@
             "ssn": "5102153615",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 664325,
@@ -2445,7 +3131,9 @@
             "ssn": "5601073504",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -2477,7 +3165,9 @@
             "ssn": "1961-01-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 644119,
@@ -2486,7 +3176,9 @@
             "ssn": "1968-02-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -2507,7 +3199,9 @@
             "ssn": "1955-03-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 650435,
@@ -2516,7 +3210,9 @@
             "ssn": "1955-01-27",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -2537,7 +3233,9 @@
             "ssn": "4910124413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 669265,
@@ -2546,7 +3244,9 @@
             "ssn": "5803013563",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -2567,7 +3267,9 @@
             "ssn": "6403082776",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 658655,
@@ -2576,7 +3278,9 @@
             "ssn": "6503022706",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -2597,7 +3301,9 @@
             "ssn": "1962-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 648181,
@@ -2606,7 +3312,9 @@
             "ssn": "1964-12-19",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -2627,7 +3335,9 @@
             "ssn": "1960-05-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 653140,
@@ -2636,7 +3346,9 @@
             "ssn": "1962-12-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -2657,7 +3369,9 @@
             "ssn": "1957-07-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -2678,7 +3392,9 @@
             "ssn": "4103271906",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661289,
@@ -2687,7 +3403,9 @@
             "ssn": "4201298413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -2708,7 +3426,9 @@
             "ssn": "328999",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -2729,7 +3449,9 @@
             "ssn": "1942-04-29",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 651078,
@@ -2738,7 +3460,9 @@
             "ssn": "1941-09-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -2759,7 +3483,9 @@
             "ssn": "1937-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661562,
@@ -2768,7 +3494,9 @@
             "ssn": "1937-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -2789,7 +3517,9 @@
             "ssn": "1977-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646382,
@@ -2798,7 +3528,9 @@
             "ssn": "1971-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646443,
@@ -2807,7 +3539,9 @@
             "ssn": "2007-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 650942,
@@ -2816,7 +3550,9 @@
             "ssn": "20151205",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -2837,7 +3573,9 @@
             "ssn": "1976-11-03",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649468,
@@ -2846,7 +3584,9 @@
             "ssn": "1972-03-07",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649469,
@@ -2855,7 +3595,9 @@
             "ssn": "1968-09-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649470,
@@ -2864,7 +3606,9 @@
             "ssn": "1960-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -2885,7 +3629,9 @@
             "ssn": "1941-01-09",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 664250,
@@ -2894,7 +3640,9 @@
             "ssn": "1940-05-06",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -2915,7 +3663,9 @@
             "ssn": "1959-08-15",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 662029,
@@ -2924,7 +3674,9 @@
             "ssn": "1937-03-28",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -2945,7 +3697,9 @@
             "ssn": "1972-08-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655773,
@@ -2954,7 +3708,9 @@
             "ssn": "1974-01-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655774,
@@ -2963,7 +3719,9 @@
             "ssn": "2006-10-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655775,
@@ -2972,7 +3730,9 @@
             "ssn": "2003-04-08",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -2993,7 +3753,9 @@
             "ssn": "1950-02-03",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 648942,
@@ -3002,7 +3764,9 @@
             "ssn": "1958-08-24",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -3023,7 +3787,9 @@
             "ssn": "1955-09-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 659207,
@@ -3032,7 +3798,9 @@
             "ssn": "5207304030",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -3053,7 +3821,9 @@
             "ssn": "4206214662",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 628230,
@@ -3062,7 +3832,9 @@
             "ssn": "4406062770",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -3083,7 +3855,9 @@
             "ssn": "1953-07-17",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636160,
@@ -3092,7 +3866,9 @@
             "ssn": "1986-08-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636161,
@@ -3101,7 +3877,9 @@
             "ssn": "1985-06-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       }
@@ -3144,46 +3922,6 @@
         "priceChild": 3500
       }
     ],
-    "lunches": {
-      "out": {
-        "name": "The Lexington Hotel New York City",
-        "address": "511 Lexington Avenue @ 48th Street",
-        "zip": "US-10017",
-        "city": "NEW YORK",
-        "country": "Usa",
-        "phone": "",
-        "url": "https://www.lexingtonhotelnyc.com",
-        "directions": null,
-        "time": "2018-01-01T12:00",
-        "meals": [
-          {
-            "id": 1,
-            "name": "Hamburger",
-            "adult": 125,
-            "child": 75
-          }
-        ]
-      },
-      "home": {
-        "name": "First Hotel Kong Frederik",
-        "address": "Vester Voldgade 25",
-        "zip": "1552",
-        "city": "Köpenhamn",
-        "country": "Danmark",
-        "phone": "",
-        "url": "https://www.firsthotels.dk/hoteller/danmark/kobenhavn/first-hotel-kong-frederik/",
-        "directions": null,
-        "time": "2018-01-01T12:00",
-        "meals": [
-          {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
-          }
-        ]
-      }
-    },
     "transport": {
       "type": "bus",
       "size": "standard",
@@ -3202,14 +3940,47 @@
       ],
       "platform": "A14",
       "departure": "08:10"
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "The Lexington Hotel New York City",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "First Hotel Kong Frederik",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   },
 
 
   {
     "departureId": 20274,
-    "outDate": "2018-12-11T05:03:22.1030847+02:00",
-    "homeDate": "2018-12-30T05:03:22.1030847+02:00",
+    "transportId": 20274,
+    "outDate": "2019-03-07T05:03:22.1030847+02:00",
+    "homeDate": "2019-03-27T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
     "image": "https://picsum.photos/700/500/?image=524",
     "description": "Berlin Weekend",
@@ -3232,7 +4003,9 @@
             "ssn": "1948-01-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 646331,
@@ -3241,7 +4014,9 @@
             "ssn": "2002-08-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 663869,
@@ -3250,7 +4025,9 @@
             "ssn": "4911018986",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -3271,7 +4048,9 @@
             "ssn": "1989-05-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 643059,
@@ -3280,7 +4059,9 @@
             "ssn": "1989-12-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -3301,7 +4082,9 @@
             "ssn": "1983-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649715,
@@ -3310,7 +4093,9 @@
             "ssn": "1954-01-26",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649716,
@@ -3319,7 +4104,9 @@
             "ssn": "2005-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -3340,7 +4127,9 @@
             "ssn": "4610134035",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 654139,
@@ -3349,7 +4138,9 @@
             "ssn": "5402170269",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -3370,7 +4161,9 @@
             "ssn": "197203172452",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642059,
@@ -3379,7 +4172,9 @@
             "ssn": "2000-10-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642060,
@@ -3388,7 +4183,9 @@
             "ssn": "1964-11-16",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642061,
@@ -3397,7 +4194,9 @@
             "ssn": "2002-11-21",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -3418,7 +4217,9 @@
             "ssn": "1973-11-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 667712,
@@ -3427,7 +4228,9 @@
             "ssn": "1965-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -3448,7 +4251,9 @@
             "ssn": "6802104643",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 645314,
@@ -3457,7 +4262,9 @@
             "ssn": "9510161525",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655445,
@@ -3466,7 +4273,9 @@
             "ssn": "0205176407",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656499,
@@ -3475,7 +4284,9 @@
             "ssn": "6810124617",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656500,
@@ -3484,7 +4295,9 @@
             "ssn": "9903207695",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -3505,7 +4318,9 @@
             "ssn": "5102153615",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 664325,
@@ -3514,7 +4329,9 @@
             "ssn": "5601073504",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -3546,7 +4363,9 @@
             "ssn": "1961-01-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 644119,
@@ -3555,7 +4374,9 @@
             "ssn": "1968-02-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -3576,7 +4397,9 @@
             "ssn": "1955-03-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 650435,
@@ -3585,7 +4408,9 @@
             "ssn": "1955-01-27",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -3606,7 +4431,9 @@
             "ssn": "4910124413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 669265,
@@ -3615,7 +4442,9 @@
             "ssn": "5803013563",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -3636,7 +4465,9 @@
             "ssn": "6403082776",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 658655,
@@ -3645,7 +4476,9 @@
             "ssn": "6503022706",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -3666,7 +4499,9 @@
             "ssn": "1962-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 648181,
@@ -3675,7 +4510,9 @@
             "ssn": "1964-12-19",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -3696,7 +4533,9 @@
             "ssn": "1960-05-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 653140,
@@ -3705,7 +4544,9 @@
             "ssn": "1962-12-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -3726,7 +4567,9 @@
             "ssn": "1957-07-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -3747,7 +4590,9 @@
             "ssn": "4103271906",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661289,
@@ -3756,7 +4601,9 @@
             "ssn": "4201298413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -3777,7 +4624,9 @@
             "ssn": "328999",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -3798,7 +4647,9 @@
             "ssn": "1942-04-29",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 651078,
@@ -3807,7 +4658,9 @@
             "ssn": "1941-09-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -3828,7 +4681,9 @@
             "ssn": "1937-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661562,
@@ -3837,7 +4692,9 @@
             "ssn": "1937-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -3858,7 +4715,9 @@
             "ssn": "1977-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646382,
@@ -3867,7 +4726,9 @@
             "ssn": "1971-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646443,
@@ -3876,7 +4737,9 @@
             "ssn": "2007-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 650942,
@@ -3885,7 +4748,9 @@
             "ssn": "20151205",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -3906,7 +4771,9 @@
             "ssn": "1976-11-03",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649468,
@@ -3915,7 +4782,9 @@
             "ssn": "1972-03-07",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649469,
@@ -3924,7 +4793,9 @@
             "ssn": "1968-09-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649470,
@@ -3933,7 +4804,9 @@
             "ssn": "1960-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -3954,7 +4827,9 @@
             "ssn": "1941-01-09",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 664250,
@@ -3963,7 +4838,9 @@
             "ssn": "1940-05-06",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -3984,7 +4861,9 @@
             "ssn": "1959-08-15",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 662029,
@@ -3993,7 +4872,9 @@
             "ssn": "1937-03-28",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -4014,7 +4895,9 @@
             "ssn": "1972-08-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655773,
@@ -4023,7 +4906,9 @@
             "ssn": "1974-01-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655774,
@@ -4032,7 +4917,9 @@
             "ssn": "2006-10-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655775,
@@ -4041,7 +4928,9 @@
             "ssn": "2003-04-08",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -4062,7 +4951,9 @@
             "ssn": "1950-02-03",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 648942,
@@ -4071,7 +4962,9 @@
             "ssn": "1958-08-24",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -4092,7 +4985,9 @@
             "ssn": "1955-09-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 659207,
@@ -4101,7 +4996,9 @@
             "ssn": "5207304030",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -4122,7 +5019,9 @@
             "ssn": "4206214662",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 628230,
@@ -4131,7 +5030,9 @@
             "ssn": "4406062770",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -4152,7 +5053,9 @@
             "ssn": "1953-07-17",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636160,
@@ -4161,7 +5064,9 @@
             "ssn": "1986-08-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636161,
@@ -4170,7 +5075,9 @@
             "ssn": "1985-06-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       }
@@ -4226,11 +5133,55 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 1,
-            "name": "Hamburger",
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
             "adult": 125,
-            "child": 75
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -4245,11 +5196,55 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },
@@ -4323,14 +5318,47 @@
           ]
         }
       ]
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "The Lexington Hotel New York City",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "First Hotel Kong Frederik",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   },
 
 
   {
     "departureId": 20275,
-    "outDate": "2019-11-26T05:03:22.1030847+02:00",
-    "homeDate": "2019-11-30T05:03:22.1030847+02:00",
+    "transportId": 20275,
+    "outDate": "2019-04-02T05:03:22.1030847+02:00",
+    "homeDate": "2019-04-25T05:03:22.1030847+02:00",
     "name": "Berlin Weekend",
     "image": "https://picsum.photos/700/500/?image=444",
     "description": "Berlin Weekend",
@@ -4353,7 +5381,9 @@
             "ssn": "1948-01-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 646331,
@@ -4362,7 +5392,9 @@
             "ssn": "2002-08-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "BMA"
           },
           {
             "id": 663869,
@@ -4371,7 +5403,9 @@
             "ssn": "4911018986",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -4392,7 +5426,9 @@
             "ssn": "1989-05-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 643059,
@@ -4401,7 +5437,9 @@
             "ssn": "1989-12-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -4422,7 +5460,9 @@
             "ssn": "1983-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649715,
@@ -4431,7 +5471,9 @@
             "ssn": "1954-01-26",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           },
           {
             "id": 649716,
@@ -4440,7 +5482,9 @@
             "ssn": "2005-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "CPH"
           }
         ]
       },
@@ -4461,7 +5505,9 @@
             "ssn": "4610134035",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 654139,
@@ -4470,7 +5516,9 @@
             "ssn": "5402170269",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -4491,7 +5539,9 @@
             "ssn": "197203172452",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642059,
@@ -4500,7 +5550,9 @@
             "ssn": "2000-10-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642060,
@@ -4509,7 +5561,9 @@
             "ssn": "1964-11-16",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 642061,
@@ -4518,7 +5572,9 @@
             "ssn": "2002-11-21",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -4539,7 +5595,9 @@
             "ssn": "1973-11-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 667712,
@@ -4548,7 +5606,9 @@
             "ssn": "1965-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -4569,7 +5629,9 @@
             "ssn": "6802104643",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 645314,
@@ -4578,7 +5640,9 @@
             "ssn": "9510161525",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655445,
@@ -4587,7 +5651,9 @@
             "ssn": "0205176407",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656499,
@@ -4596,7 +5662,9 @@
             "ssn": "6810124617",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 656500,
@@ -4605,7 +5673,9 @@
             "ssn": "9903207695",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -4626,7 +5696,9 @@
             "ssn": "5102153615",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 664325,
@@ -4635,7 +5707,9 @@
             "ssn": "5601073504",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -4667,7 +5741,9 @@
             "ssn": "1961-01-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 644119,
@@ -4676,7 +5752,9 @@
             "ssn": "1968-02-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -4697,7 +5775,9 @@
             "ssn": "1955-03-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 650435,
@@ -4706,7 +5786,9 @@
             "ssn": "1955-01-27",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -4727,7 +5809,9 @@
             "ssn": "4910124413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 669265,
@@ -4736,7 +5820,9 @@
             "ssn": "5803013563",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -4757,7 +5843,9 @@
             "ssn": "6403082776",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           },
           {
             "id": 658655,
@@ -4766,7 +5854,9 @@
             "ssn": "6503022706",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "ARN"
           }
         ]
       },
@@ -4787,7 +5877,9 @@
             "ssn": "1962-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 648181,
@@ -4796,7 +5888,9 @@
             "ssn": "1964-12-19",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -4817,7 +5911,9 @@
             "ssn": "1960-05-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 653140,
@@ -4826,7 +5922,9 @@
             "ssn": "1962-12-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -4847,7 +5945,9 @@
             "ssn": "1957-07-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -4868,7 +5968,9 @@
             "ssn": "4103271906",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661289,
@@ -4877,7 +5979,9 @@
             "ssn": "4201298413",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -4898,7 +6002,9 @@
             "ssn": "328999",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -4919,7 +6025,9 @@
             "ssn": "1942-04-29",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 651078,
@@ -4928,7 +6036,9 @@
             "ssn": "1941-09-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -4949,7 +6059,9 @@
             "ssn": "1937-05-30",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 661562,
@@ -4958,7 +6070,9 @@
             "ssn": "1937-04-20",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -4979,7 +6093,9 @@
             "ssn": "1977-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646382,
@@ -4988,7 +6104,9 @@
             "ssn": "1971-12-02",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 646443,
@@ -4997,7 +6115,9 @@
             "ssn": "2007-04-22",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           },
           {
             "id": 650942,
@@ -5006,7 +6126,9 @@
             "ssn": "20151205",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 12,
+            "airport": "BMA"
           }
         ]
       },
@@ -5027,7 +6149,9 @@
             "ssn": "1976-11-03",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649468,
@@ -5036,7 +6160,9 @@
             "ssn": "1972-03-07",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649469,
@@ -5045,7 +6171,9 @@
             "ssn": "1968-09-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 649470,
@@ -5054,7 +6182,9 @@
             "ssn": "1960-07-18",
             "phone": null,
             "comment": null,
-            "excursionPack": true
+            "excursionPack": true,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -5075,7 +6205,9 @@
             "ssn": "1941-01-09",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 664250,
@@ -5084,7 +6216,9 @@
             "ssn": "1940-05-06",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -5105,7 +6239,9 @@
             "ssn": "1959-08-15",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 662029,
@@ -5114,7 +6250,9 @@
             "ssn": "1937-03-28",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -5135,7 +6273,9 @@
             "ssn": "1972-08-01",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655773,
@@ -5144,7 +6284,9 @@
             "ssn": "1974-01-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655774,
@@ -5153,7 +6295,9 @@
             "ssn": "2006-10-04",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 655775,
@@ -5162,7 +6306,9 @@
             "ssn": "2003-04-08",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -5183,7 +6329,9 @@
             "ssn": "1950-02-03",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 648942,
@@ -5192,7 +6340,9 @@
             "ssn": "1958-08-24",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -5213,7 +6363,9 @@
             "ssn": "1955-09-13",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 659207,
@@ -5222,7 +6374,9 @@
             "ssn": "5207304030",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           }
         ]
       },
@@ -5243,7 +6397,9 @@
             "ssn": "4206214662",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 11,
+            "airport": "CPH"
           },
           {
             "id": 628230,
@@ -5252,7 +6408,9 @@
             "ssn": "4406062770",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       },
@@ -5273,7 +6431,9 @@
             "ssn": "1953-07-17",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636160,
@@ -5282,7 +6442,9 @@
             "ssn": "1986-08-23",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           },
           {
             "id": 636161,
@@ -5291,7 +6453,9 @@
             "ssn": "1985-06-25",
             "phone": null,
             "comment": null,
-            "excursionPack": false
+            "excursionPack": false,
+            "hotel": 13,
+            "airport": "BMA"
           }
         ]
       }
@@ -5347,11 +6511,55 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 1,
-            "name": "Hamburger",
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
             "adult": 125,
-            "child": 75
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       },
       "home": {
@@ -5366,11 +6574,55 @@
         "time": "2018-01-01T12:00",
         "meals": [
           {
-            "id": 2,
-            "name": "Pizza",
-            "adult": 90,
-            "child": 60
+            "id": 101,
+            "name": "Grilled chicken with tomato mash, pasta and cheese gravy",
+            "adult": 125,
+            "child": null
+          },
+          {
+            "id": 102,
+            "name": "Cheese sallat, ham and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 103,
+            "name": "Pasta med tomato sauce, vegetables and cheese",
+            "adult": 120,
+            "child": null
+          },
+          {
+            "id": 104,
+            "name": "Tuna sallat with egg and bread",
+            "adult": 115,
+            "child": null
+          },
+          {
+            "id": 105,
+            "name": "(Child) Pasta with tomato sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 106,
+            "name": "(Child) Pasta with cheese sauce",
+            "adult": null,
+            "child": 85
+          },
+          {
+            "id": 107,
+            "name": "(Child) French fries with tomato ketchup and mayo",
+            "adult": null,
+            "child": 70
           }
+        ],
+        "beverages": [
+          { "id": 201, "name": "Beer" },
+          { "id": 202, "name": "Wine" },
+          { "id": 203, "name": "Fanta" },
+          { "id": 204, "name": "Coke" },
+          { "id": 205, "name": "Sprite" },
+          { "id": 206, "name": "Water" }
         ]
       }
     },
@@ -5392,6 +6644,38 @@
       ],
       "platform": "A14",
       "departure": "08:10"
-    }
+    },
+    "hotels": [
+      {
+        "id": "11",
+        "name": "Buena Vista Hotel",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "12",
+        "name": "The Lexington Hotel New York City",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      },
+      {
+        "id": "13",
+        "name": "First Hotel Kong Frederik",
+        "address": "Street 1",
+        "zip": "12312",
+        "city": "Hamburg",
+        "country": "Germany",
+        "phone": "12312313",
+        "url": "http://www.wired.com"
+      }
+    ]
   }
 ]

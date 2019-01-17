@@ -19,8 +19,9 @@ import Badge from '../components/badge'
 import {
   getLogin,
   getNavigation,
-  pendingStatsUploadCount
+  pendingStatsUploadCount,
   // getTrips,
+  currentTripSelector
 } from '../selectors'
 import Translator from '../utils/translator'
 import config from '../utils/config'
@@ -50,8 +51,9 @@ class TMDrawer extends Component {
   }
 
   _toProfile = () => {
-    const { navigation } = this.props
-    navigation.navigate('Profile')
+    const { navigation, currentTrip } = this.props
+    const departureId = String(currentTrip.get('trip').get('departureId'))
+    navigation.navigate('Profile', { departureId })
   }
 
   _renderHeader = () => {
@@ -190,8 +192,9 @@ class TMDrawer extends Component {
 const stateToProps = state => ({
   user: getLogin(state).get('user'),
   nav: getNavigation(state),
-  pendingUploadCount: pendingStatsUploadCount(state)
+  pendingUploadCount: pendingStatsUploadCount(state),
   // trips: getTrips(state)
+  currentTrip: currentTripSelector(state)
 })
 
 export default connect(stateToProps, null)(TMDrawer)

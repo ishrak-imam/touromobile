@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import {
   CardItem, Left, Body,
-  Text, Right
+  Text, Right, View
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
-import IconButton from '../components/iconButton'
 import { TouchableOpacity, StyleSheet, TextInput } from 'react-native'
 import { call, sms } from '../utils/comms'
 import Translator from '../utils/translator'
@@ -16,6 +15,7 @@ import { connect } from 'react-redux'
 import { getModifiedPax } from '../selectors'
 import { mergeMapShallow } from '../utils/immutable'
 import FooterButtons from '../components/footerButtons'
+import PaxOrder from './paxOrder'
 const _T = Translator('PaxDetailsScreen')
 
 class PaxCard extends Component {
@@ -52,16 +52,16 @@ class PaxCard extends Component {
     const ssn = pax.get('ssn')
     return (
       <CardItem>
-        <Left style={{ flex: 4 }}>
+        <Left style={ss.nameLeft}>
           <IonIcon name='person' />
           <Body>
-            <Text>{name}</Text>
+            <Text style={ss.label}>{name}</Text>
             <Text note>{ssn}</Text>
           </Body>
         </Left>
-        <Right style={{ flex: 1 }}>
-          <IconButton name='edit' onPress={this._toggleEditMode} />
-        </Right>
+        <TouchableOpacity style={ss.nameRight} onPress={this._toggleEditMode}>
+          <IonIcon name='edit' />
+        </TouchableOpacity>
       </CardItem>
     )
   }
@@ -83,18 +83,18 @@ class PaxCard extends Component {
   _renderPhone = phone => {
     const phnOnPress = phone ? () => call(phone) : () => {}
     const smsOnPress = phone ? () => sms(phone) : () => {}
-    const phnColor = phone ? 'green' : Colors.charcoal
-    const smsColor = phone ? 'blue' : Colors.charcoal
+    const phnColor = phone ? Colors.green : Colors.charcoal
+    const smsColor = phone ? Colors.blue : Colors.charcoal
 
     return (
       <CardItem>
-        <Body style={{ flex: 3 }}>
-          <Text>{_T('phone')}</Text>
+        <Body style={ss.phoneLeft}>
+          <Text style={ss.label}>{_T('phone')}</Text>
           {this._renderPhoneInput(phone)}
         </Body>
         <Right style={ss.comms}>
-          <IconButton name='phone' color={phnColor} onPress={phnOnPress} />
-          <IconButton name='sms' color={smsColor} onPress={smsOnPress} />
+          <IonIcon name='phone' color={phnColor} onPress={phnOnPress} />
+          <IonIcon name='sms' color={smsColor} onPress={smsOnPress} />
         </Right>
       </CardItem>
     )
@@ -104,7 +104,7 @@ class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>{_T('booking')}</Text>
+          <Text style={ss.label}>{_T('booking')}</Text>
           <TouchableOpacity onPress={() => {}} style={ss.booking}>
             <Text style={ss.bookingText}>{booking.get('id')}</Text>
           </TouchableOpacity>
@@ -118,7 +118,7 @@ class PaxCard extends Component {
       <CardItem>
         <Body>
           <Text>{_T('excursionPack')}</Text>
-          <IonIcon name='check' color='green' />
+          <IonIcon name='check' color={Colors.green} />
         </Body>
       </CardItem>
     )
@@ -128,7 +128,7 @@ class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>{_T('travelsWith')}</Text>
+          <Text style={ss.label}>{_T('travelsWith')}</Text>
           {coPax.filter(p => p.get('id') !== pax.get('id')).map(p => {
             const name = `${p.get('firstName')} ${p.get('lastName')}`
             return (<Text key={p.get('id')} note>{name}</Text>)
@@ -158,7 +158,7 @@ class PaxCard extends Component {
     return (
       <CardItem>
         <Body>
-          <Text>{_T('comment')}</Text>
+          <Text style={ss.label}>{_T('comment')}</Text>
           {this._renderCommentInput(comment)}
         </Body>
       </CardItem>
@@ -199,9 +199,19 @@ class PaxCard extends Component {
     this.setState({ [field]: text })
   }
 
+  _renderPaxOrder = (bookingId, departureId, pax) => {
+    return (
+      <View style={ss.paxOrder}>
+        <PaxOrder bookingId={bookingId} departureId={departureId} pax={pax} />
+      </View>
+    )
+  }
+
   render () {
     const { editMode, phone, comment } = this.state
+    const { departureId, pax, isFlight } = this.props
     const booking = this.paxData.get('booking')
+    const bookingId = String(booking.get('id'))
     const excursion = this.paxData.get('excursionPack')
     const coPax = this.paxData.get('booking').get('pax')
     return (
@@ -217,6 +227,7 @@ class PaxCard extends Component {
         {!!coPax.size && this._renderCoPax(coPax, this.paxData)}
         {this._renderComment(comment)}
         {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
+        {!isFlight && this._renderPaxOrder(bookingId, departureId, pax)}
       </KeyboardAwareScrollView>
     )
   }
@@ -235,7 +246,18 @@ const ss = StyleSheet.create({
 
   comms: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  nameLeft: {
+    flex: 5
+  },
+  nameRight: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  phoneLeft: {
+    flex: 3
   },
   booking: {
     paddingVertical: 5
@@ -280,5 +302,9 @@ const ss = StyleSheet.create({
   },
   footerButton: {
     marginRight: 20
+  },
+  paxOrder: {
+    marginTop: 20
+    // marginHorizontal: 5
   }
 })

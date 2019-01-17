@@ -8,21 +8,23 @@ import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
-import { getPax, getStatsData, getTotalParticipantsCount } from '../selectors'
+import {
+  getPax, getStatsData, getAllOrders, getOrderMode,
+  getTotalParticipantsCount, getOrderStats, checkIfFlightTrip
+} from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
 import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
-
+import { connect } from 'react-redux'
 import Translator from '../utils/translator'
+import { tripNameFormatter } from '../utils/stringHelpers'
 
 const _T = Translator('ReportsScreen')
-
 const _TPast = Translator('PastTripsScreen')
-
 const DATE_FORMAT = 'DD/MM'
 
-export default class PastTripCard extends Component {
+class PastTripCard extends Component {
   shouldComponentUpdate (nextProps) {
     const modifiedDataChanged = nextProps.modifiedTripData
       ? !nextProps.modifiedTripData.equals(this.props.modifiedTripData)
@@ -43,6 +45,7 @@ export default class PastTripCard extends Component {
   get tripData () {
     const { trip, modifiedTripData } = this.props
     const departureId = String(trip.get('departureId'))
+    const transportId = String(trip.get('transportId'))
     const excursions = trip.get('excursions')
     const participants = modifiedTripData
       ? modifiedTripData.get('participants') ? modifiedTripData.get('participants') : getMap({})
@@ -52,6 +55,7 @@ export default class PastTripCard extends Component {
     return {
       trip,
       departureId,
+      transportId,
       excursions,
       participants,
       statsUploadedAt
@@ -59,13 +63,17 @@ export default class PastTripCard extends Component {
   }
 
   _uploadStats = () => {
-    const { trip, departureId, excursions, participants } = this.tripData
+    const { trip, departureId, transportId, excursions, participants } = this.tripData
+    const { orders, orderMode } = this.props
     const statsData = getStatsData(excursions, participants, trip)
-
+    const orderStats = getOrderStats(orders, transportId, orderMode)
+    const isFlight = checkIfFlightTrip(trip)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
       departureId,
+      isFlight,
       statsData,
+      orderStats,
       showToast: true,
       sucsMsg: _T('statsSucs'),
       failMsg: _T('statsFail')
@@ -81,6 +89,7 @@ export default class PastTripCard extends Component {
           isLoading
             ? <Spinner color={Colors.blue} size='small' style={{ paddingVertical: 10 }} />
             : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
+              <IonIcon name='upload' color={Colors.white} style={ss.uploadIcon} />
               <Text style={ss.uploadButtonText}>{_TPast('uploadReport')}</Text>
             </TouchableOpacity>
         }
@@ -92,7 +101,10 @@ export default class PastTripCard extends Component {
     const { trip, excursions, participants, statsUploadedAt } = this.tripData
     const pax = getPax(trip)
     const totalParticipants = getTotalParticipantsCount(excursions, participants, trip)
-    const share = percentage(totalParticipants, pax.size * excursions.size)
+    let share = 0
+    if (excursions.size) {
+      share = percentage(totalParticipants, pax.size * excursions.size)
+    }
 
     return (
       <View style={ss.pastTripCardTop}>
@@ -108,22 +120,32 @@ export default class PastTripCard extends Component {
 
   render () {
     const { trip } = this.props
-
-    const brand = trip.get('brand')
+    let brand = trip.get('brand')
+    if (brand === 'OL') brand = 'OH'
     const name = trip.get('name')
+    const { title, subtitle } = tripNameFormatter(name, 15)
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     const transport = trip.get('transport')
     const image = trip.get('image')
     const pax = getPax(trip)
+    const paddingBottom = subtitle ? 0 : 7
 
     return (
       <View style={ss.card}>
 
-        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
-          <Text style={ss.brandText}>{brand}</Text>
-          <Text>{`${name}    ${outDate} - ${homeDate}`}</Text>
-          {transport && <IonIcon name={transport.get('type')} />}
+        <View>
+          <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
+            <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
+            <Text>{`${outDate} - ${homeDate}`}</Text>
+            {transport && <IonIcon name={transport.get('type')} />}
+          </View>
+          {
+            !!subtitle &&
+            <View style={[ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }]}>
+              <Text numberOfLines={1} style={ss.subtitle}>{subtitle}</Text>
+            </View>
+          }
         </View>
 
         <View style={ss.imageContainer}>
@@ -148,9 +170,21 @@ export default class PastTripCard extends Component {
   }
 }
 
+const stateToProps = (state, props) => {
+  const { trip } = props
+  const departureId = String(trip.get('departureId'))
+  const orderMode = getOrderMode(state)
+  return {
+    orders: getAllOrders(state, departureId, orderMode),
+    orderMode
+  }
+}
+
+export default connect(stateToProps, null)(PastTripCard)
+
 const ss = StyleSheet.create({
   card: {
-    height: 250,
+    height: 270,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },
@@ -163,6 +197,15 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  subtitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    paddingBottom: 7
+  },
+  subtitle: {
+    fontSize: 13
   },
   imageContainer: {
     borderWidth: 0,
@@ -221,6 +264,8 @@ const ss = StyleSheet.create({
     width: 200,
     paddingVertical: 10,
     borderRadius: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.blue
   },
@@ -232,5 +277,8 @@ const ss = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  uploadIcon: {
+    marginRight: 10
   }
 })

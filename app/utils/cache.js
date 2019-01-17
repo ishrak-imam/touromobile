@@ -22,7 +22,7 @@
 
 // export default Cache
 
-const Cache = (resolver) => {
+const Cache = resolver => {
   let prev = null
   let computed = null
 

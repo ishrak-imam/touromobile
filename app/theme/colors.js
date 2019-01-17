@@ -15,7 +15,8 @@ const Colors = {
   black: '#000000',
   SCBrand: '#6EADD7',
   OHBrand: '#CE7F9E',
-  SSBrand: '#D7C58F'
+  SSBrand: '#D7C58F',
+  GKBrand: '#6BC477'
 }
 
 export default Colors

@@ -4,6 +4,7 @@ import { takeFirst } from '../../utils/sagaHelpers'
 import {
   downloadImage,
   downloadImageSucs,
+  downloadImageFail,
   clearImageCache,
   createCacheDir
 } from './action'
@@ -31,7 +32,7 @@ function * workerDownloadImage (action) {
     }
     yield put(downloadImageSucs({ imageName }))
   } catch (e) {
-    console.log('DOWNLOAD_IMAGE_ERROR ::: ', e)
+    yield put(downloadImageFail(e))
   }
 }
 

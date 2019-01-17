@@ -1,4 +1,6 @@
 
+/* eslint-disable */
+
 import { FileSystem } from 'expo'
 
 const BASE_DIR = FileSystem.cacheDirectory
@@ -17,8 +19,13 @@ export const createDirectory = () => {
   return FileSystem.makeDirectoryAsync(IMAGE_CACHE_DIR, { intermediates: true })
 }
 
-export const downloadFile = (uri, name) => {
-  return FileSystem.downloadAsync(uri, `${IMAGE_CACHE_DIR}${name}`)
+export const downloadFile = async (uri, name) => {
+  const { status } = await FileSystem.downloadAsync(uri, `${IMAGE_CACHE_DIR}${name}`)
+  if (status !== 200) {
+    await FileSystem.deleteAsync(`${IMAGE_CACHE_DIR}${name}`)
+    return Promise.reject('fail')
+  }
+  return Promise.resolve('success')
 }
 
 export const clearCache = async () => {

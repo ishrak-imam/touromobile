@@ -11,6 +11,7 @@ import {
   getActualTotalParticipantsCount, getPaxWithExcursionPack
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import NoData from './noData'
 import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
 import Translator from '../utils/translator'
@@ -55,7 +56,7 @@ class StatItem extends Component {
 export default class Stats extends Component {
   _renderTop = paxCount => {
     return (
-      <CardItem>
+      <CardItem style={ss.headerItem}>
         <Body><Text style={ss.totalPax}>{_T('totalPax')}: {paxCount}</Text></Body>
       </CardItem>
     )
@@ -127,8 +128,13 @@ export default class Stats extends Component {
     const { trip } = this.props
     const sortedExcursions = getSortedExcursions(trip)
 
+    if (!sortedExcursions.size) {
+      return null
+    }
+
     return (
       <ImmutableVirtualizedList
+        contentContainerStyle={{ paddingBottom: 95 }}
         immutableData={sortedExcursions}
         renderItem={this._renderExcursItem(pax)}
         keyExtractor={item => String(item.get('id'))}
@@ -155,7 +161,11 @@ export default class Stats extends Component {
 
     return (
       <View style={ss.container}>
-        {!!excursions && excursions.size && this._renderStats()}
+        {
+          excursions && excursions.size
+            ? this._renderStats()
+            : <NoData text='noExcursions' textStyle={{ marginTop: 30 }} />
+        }
       </View>
     )
   }
@@ -164,6 +174,10 @@ export default class Stats extends Component {
 const ss = StyleSheet.create({
   container: {
     flex: 1
+  },
+  headerItem: {
+    paddingTop: 10,
+    paddingBottom: 5
   },
   item: {
     marginLeft: 0,
@@ -193,6 +207,6 @@ const ss = StyleSheet.create({
   },
   headerText: {
     fontWeight: 'bold',
-    fontSize: 12
+    fontSize: 10
   }
 })

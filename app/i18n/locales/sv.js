@@ -26,7 +26,9 @@ export default {
     lunchRestaurants: 'Lunchrestauranger',
     textAllPax: 'SMS till alla passagerare',
     home: 'Hem',
-    out: 'Ut'
+    out: 'Ut',
+    hotels: 'Hotell',
+    rollCall: 'Upprop'
   },
   PassengersScreen: {
     paxTitle: 'Passagerare',
@@ -50,7 +52,9 @@ export default {
     transferCity: 'Anslutningsort',
     accommodation: 'Övernattning',
     bagPick: 'Väskhämtning',
-    bagDrop: 'Väskavlämning',
+    bagDrop: 'Väskavlämning'
+  },
+  OutHomeTab: {
     home: 'Hem',
     out: 'Ut'
   },
@@ -64,8 +68,17 @@ export default {
     title: 'Rapporter',
     statsSucs: 'Rapportuppladdning klar',
     statsFail: 'Rapportuppladdning misslyckades',
-    totalPax: 'Totalt passagerare',
+    totalPax: 'Total passagerare',
     excursion: 'Utflykt',
+    excursions: 'Utflykter',
+    orders: 'Beställningar',
+    orderSummary: 'Ordersammanfattning',
+    meals: 'Måltider',
+    adult: 'Vuxen',
+    child: 'Barn',
+    total: 'Total',
+    beverages: 'Drycker',
+    booking: 'Bokning',
     participants: 'Deltagare',
     sale: 'Försäljning',
     share: 'Andel',
@@ -82,8 +95,8 @@ export default {
     adults: 'Vuxna',
     child: 'Barn',
     children: 'Barn',
-    orders: 'Order',
-    amount: 'Belopp',
+    orders: 'Beställningar',
+    amount: 'Antal',
     beverages: 'Drycker'
   },
   PaxDetailsScreen: {
@@ -108,17 +121,56 @@ export default {
     phone: 'Telefon',
     email: 'E-post',
     backAccount: 'Bankkonto',
-    showTabLabels: 'Visa fliketiketter'
+    tabLabels: 'Fliketiketter',
+    showHideTabLabels: 'Visa/dölja fliketiketter',
+    lunchOrderMode: 'Lunchbeställningar',
+    modeText: 'När minst en beställning har gorts, kan inställningen inte ändras för den pågående resan.',
+    individualMode: 'Passagerare. Beställningar skapas för varje passagerare.',
+    summaryMode: 'Bokning. Beställningar är gemensamma för alla passagerare på samma bokning.'
+  },
+  RollCallScreen: {
+    title: 'Upprop',
+    paxSearch: 'Sök passagerare'
+  },
+  OrdersScreen: {
+    title: 'Order',
+    header: 'Lunch order',
+    meals: 'Måltider',
+    child: 'Barn',
+    beverages: 'Drycker',
+    invoicee: 'Fakturamottagare',
+    selectInvoicee: 'Välj fakturamottagare',
+    invoiceeSelection: 'Fakturaval'
   },
   NoData: {
     noMatch: 'Ingen matchning hittad',
     noFutureTrips: 'Inga fler framtida resor',
     noPastTrips: 'Inga fler tidigare resor',
     fetchingData: 'Hämtar data från Touro...',
-    noCurrentTrip: 'Ingen pågående resa'
+    noCurrentTrip: 'Ingen pågående resa',
+    noExcursions: 'Inga utflykter hittades för den här resan',
+    flightTripNoOrder: 'Flygresor har inga måltidsbeställningar',
+    noMealData: 'Inga måltider hittades',
+    noBeverageData: 'Inga drycker hittades'
   },
   FooterButtons: {
     cancel: 'Avbryt',
     save: 'Spara'
+  },
+  ContextMenu: {
+    sortOrder: 'Sorteringsordning',
+    name: 'Namn',
+    firstName: 'Förnamn',
+    lastName: 'Efternamn',
+    hotel: 'Hotel',
+    airport: 'Aeropuerto',
+    booking: 'Bokning'
+  },
+  WithoutOrder: {
+    paxWithoutOrder: 'Passagerare utan order',
+    bookingsWithoutOrder: 'Bokningar utan order',
+    paxInThisHotel: 'Passagerare på detta hotell',
+    clickToExpand: 'Klicka på rubriken för att visa alla passagerare',
+    booking: 'Bokning'
   }
 }

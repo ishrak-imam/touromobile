@@ -21,10 +21,40 @@ const resolvers = {
     }).flatten(1).sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
   },
 
+  sortedPaxByFirstName: data => {
+    const bookings = data.get('bookings')
+    return bookings.map(b => {
+      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+    }).flatten(1).sortBy(p => p.get('firstName'))
+  },
+
+  sortedPaxByLastName: data => {
+    const bookings = data.get('bookings')
+    return bookings.map(b => {
+      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+    }).flatten(1).sortBy(p => p.get('lastName'))
+  },
+
+  sortedPaxByAirport: data => {
+    const bookings = data.get('bookings')
+    return bookings.map(b => {
+      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+    }).flatten(1).sortBy(p => p.get('airport'))
+  },
+
+  sortedPaxByHotel: data => {
+    const bookings = data.get('bookings')
+    return bookings.map(b => {
+      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+    }).flatten(1).sortBy(p => p.get('hotel'))
+  },
+
   sortedPaxByBookingId: data => {
     const bookings = data.get('bookings')
     return bookings.sortBy(b => b.get('id')).map(b => {
-      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+      return b.get('pax')
+        .map(p => setIntoMap(p, 'booking', b))
+        .sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     }).flatten(1)
   },
 
@@ -33,16 +63,116 @@ const resolvers = {
     return bookings.sortBy(b => b.get('id'))
   },
 
-  paxData: pax => {
+  paxDataGroupByFirstName: pax => {
     let initial = null
-    return pax.map(p => {
+    let tempList = getList([])
+    return pax.reduce((list, p, index) => {
+      const paxId = String(p.get('id'))
       const paxInitial = p.get('firstName').charAt(0).toLowerCase()
       if (initial !== paxInitial) {
+        list = list.concat(tempList)
         initial = paxInitial
-        return getList([getMap({ first: true, initial: paxInitial.toUpperCase() }), p])
+        tempList = getList([])
+        list = list.push(getMap({
+          first: true,
+          initial: paxInitial.toUpperCase(),
+          id: `${paxInitial}-${paxId}`
+        }))
+      }
+      tempList = tempList.push(p)
+      if (index === pax.size - 1) {
+        list = list.concat(tempList)
+      }
+      return list
+    }, getList([]))
+  },
+
+  paxDataGroupByLastName: pax => {
+    let initial = null
+    let tempList = getList([])
+    return pax.reduce((list, p, index) => {
+      const paxId = String(p.get('id'))
+      const paxInitial = p.get('lastName').charAt(0).toLowerCase()
+      if (initial !== paxInitial) {
+        list = list.concat(tempList)
+        initial = paxInitial
+        tempList = getList([])
+        list = list.push(getMap({
+          first: true,
+          initial: paxInitial.toUpperCase(),
+          id: `${paxInitial}-${paxId}`
+        }))
+      }
+      tempList = tempList.push(p)
+      if (index === pax.size - 1) {
+        list = list.concat(tempList)
+      }
+      return list
+    }, getList([]))
+  },
+
+  paxDataGroupByAirport: pax => {
+    let initial = null
+    let tempList = getList([])
+    return pax.reduce((list, p, index) => {
+      const paxId = String(p.get('id'))
+      const paxInitial = p.get('airport')
+      if (initial !== paxInitial) {
+        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+        list = list.concat(tempList)
+        initial = paxInitial
+        tempList = getList([])
+        list = list.push(getMap({
+          first: true,
+          initial: paxInitial,
+          id: `${paxInitial}-${paxId}`
+        }))
+      }
+      tempList = tempList.push(p)
+      if (index === pax.size - 1) {
+        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+        list = list.concat(tempList)
+      }
+      return list
+    }, getList([]))
+  },
+
+  paxDataGroupByHotel: pax => {
+    let initial = null
+    let tempList = getList([])
+    return pax.reduce((list, p, index) => {
+      const paxId = String(p.get('id'))
+      const paxInitial = p.get('hotel')
+      if (initial !== paxInitial) {
+        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+        list = list.concat(tempList)
+        initial = paxInitial
+        tempList = getList([])
+        list = list.push(getMap({
+          first: true,
+          initial: paxInitial,
+          id: `${paxInitial}-${paxId}`
+        }))
+      }
+      tempList = tempList.push(p)
+      if (index === pax.size - 1) {
+        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+        list = list.concat(tempList)
+      }
+      return list
+    }, getList([]))
+  },
+
+  paxDataGroupByBooking: pax => {
+    let initial = null
+    return pax.map(p => {
+      const paxInitial = String(p.get('booking').get('id'))
+      if (initial !== paxInitial) {
+        initial = paxInitial
+        return getList([getMap({ first: true, initial: paxInitial, id: paxInitial }), p])
       }
       return getList([p])
-    }).flatten(1) // one level flatten
+    }).flatten(1)
   },
 
   phoneNumbers: data => {
@@ -65,12 +195,14 @@ const resolvers = {
     const modifiedPax = data.get('modifiedPax')
     const paxMap = listToMap(pax, 'id')
 
-    return flightPax.reduce((numbers, fp) => {
-      const paxId = String(fp)
+    let numbers = flightPax.reduce((numbers, flightPax) => {
+      const paxId = String(flightPax.get('id'))
       const pax = modifiedPax.get(paxId) || paxMap.get(paxId)
       numbers = pax.get('phone') ? numbers + ',' + pax.get('phone') : numbers
       return numbers
     }, '')
+    numbers = numbers.replace(/^,/, '')
+    return numbers
   },
 
   participatingPax: data => {
@@ -123,6 +255,23 @@ export const pastTripsSelector = state => state.trips.get('past')
 
 export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpload')
 
+export const getLunches = state => state.trips.get('current').get('trip').get('lunches')
+
+export const getFoods = (state, type) => {
+  const currentTrip = state.trips.get('current')
+  if (!currentTrip.get('has')) {
+    return false
+  }
+  const lunches = currentTrip.get('trip').get('lunches')
+  if (!lunches) {
+    return false
+  }
+  return getMap({
+    out: lunches.get('out').get(type),
+    home: lunches.get('home').get(type)
+  })
+}
+
 let sortedTripsCache = null
 export const getSortedTrips = trips => {
   if (!sortedTripsCache) {
@@ -147,6 +296,38 @@ export const getSortedPax = trip => {
   return sortedPaxCache(trip)
 }
 
+let sortedPaxByFirstNameCache = null
+export const getSortedPaxByFirstName = trip => {
+  if (!sortedPaxByFirstNameCache) {
+    sortedPaxByFirstNameCache = Cache(resolvers.sortedPaxByFirstName)
+  }
+  return sortedPaxByFirstNameCache(trip)
+}
+
+let sortedPaxByLastNameCache = null
+export const getSortedPaxByLastName = trip => {
+  if (!sortedPaxByLastNameCache) {
+    sortedPaxByLastNameCache = Cache(resolvers.sortedPaxByLastName)
+  }
+  return sortedPaxByLastNameCache(trip)
+}
+
+let sortedPaxByAirportCache = null
+export const getSortedPaxByAirport = trip => {
+  if (!sortedPaxByAirportCache) {
+    sortedPaxByAirportCache = Cache(resolvers.sortedPaxByAirport)
+  }
+  return sortedPaxByAirportCache(trip)
+}
+
+let sortedPaxByHotelCache = null
+export const getSortedPaxByHotel = trip => {
+  if (!sortedPaxByHotelCache) {
+    sortedPaxByHotelCache = Cache(resolvers.sortedPaxByHotel)
+  }
+  return sortedPaxByHotelCache(trip)
+}
+
 let sortedPaxByBookingIdCache = null
 export const getSortedPaxByBookingId = trip => {
   if (!sortedPaxByBookingIdCache) {
@@ -163,12 +344,44 @@ export const getSortedBookings = trip => {
   return sortedBookingCache(trip)
 }
 
-let paxDataCache = null
-export const preparePaxData = pax => {
-  if (!paxDataCache) {
-    paxDataCache = Cache(resolvers.paxData)
+let paxDataGroupByFirstName = null
+export const getPaxDataGroupByFirstName = pax => {
+  if (!paxDataGroupByFirstName) {
+    paxDataGroupByFirstName = Cache(resolvers.paxDataGroupByFirstName)
   }
-  return paxDataCache(pax)
+  return paxDataGroupByFirstName(pax)
+}
+
+let paxDataGroupByLastName = null
+export const getPaxDataGroupByLastName = pax => {
+  if (!paxDataGroupByLastName) {
+    paxDataGroupByLastName = Cache(resolvers.paxDataGroupByLastName)
+  }
+  return paxDataGroupByLastName(pax)
+}
+
+let paxDataGroupByAirportCache
+export const getPaxDataGroupByAirport = pax => {
+  if (!paxDataGroupByAirportCache) {
+    paxDataGroupByAirportCache = Cache(resolvers.paxDataGroupByAirport)
+  }
+  return paxDataGroupByAirportCache(pax)
+}
+
+let paxDataGroupByHotelCache = null
+export const getPaxDataGroupByHotel = pax => {
+  if (!paxDataGroupByHotelCache) {
+    paxDataGroupByHotelCache = Cache(resolvers.paxDataGroupByHotel)
+  }
+  return paxDataGroupByHotelCache(pax)
+}
+
+let paxDataGroupByBookingCache = null
+export const getPaxDataGroupByBooking = pax => {
+  if (!paxDataGroupByBookingCache) {
+    paxDataGroupByBookingCache = Cache(resolvers.paxDataGroupByBooking)
+  }
+  return paxDataGroupByBookingCache(pax)
 }
 
 let phoneNumbersCache = null
@@ -228,9 +441,16 @@ export const getModifiedPaxByBooking = data => {
 export const getCurrentTrip = state => {
   const dateNow = new Date()
   const trips = getSortedTrips(state.trips.get('data'))
-  const trip = trips.find(trip => {
+  let trip = trips.find(trip => {
     return isWithinRange(dateNow, trip.get('outDate'), trip.get('homeDate'))
   })
+
+  if (trip) {
+    let brand = trip.get('brand')
+    if (brand === 'OL') {
+      trip = trip.set('brand', 'OH')
+    }
+  }
   return {
     has: !!trip,
     trip: trip || {}
@@ -269,6 +489,28 @@ export const getPastTrips = state => {
     has: !!trips.size,
     trips
   }
+}
+
+/**
+ * TODO:
+ * Find a way to cache the result
+ * note: Not immutable data
+ */
+export const getPaxByHotel = (state, hotelId) => {
+  const trip = state.trips.get('current').get('trip')
+  const pax = getSortedPax(trip)
+  return pax.filter(p => String(p.get('hotel')) === String(hotelId))
+}
+
+/**
+ * TODO:
+ * Find a way to cache the result
+ * note: Not immutable data
+ */
+export const getFlightPax = (pax, key) => {
+  return pax.filter((pax) => {
+    return pax.get('airport') === key
+  })
 }
 
 export const pendingStatsUpload = state => {
@@ -334,4 +576,18 @@ export const filterBookingBySearchText = (booking, text) => {
     const pax = filterPaxBySearchText(b.get('pax'), text)
     return pax.size
   })
+}
+
+export const checkIfFlightTrip = trip => {
+  const transport = trip.get('transport')
+  return transport ? transport.get('type') === 'flight' : false
+}
+
+export const checkIfBusTrip = trip => {
+  const transport = trip.get('transport')
+  return transport ? transport.get('type') === 'bus' : false
+}
+
+export const getTransportType = trip => {
+  return trip.getIn(['transport', 'type'])
 }

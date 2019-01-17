@@ -20,3 +20,30 @@ export const getImageName = url => {
   const hash = getHash(url)
   return `${hash}.jpg`
 }
+
+export const stringShorten = (str, limit) => {
+  return `${str.substring(0, limit)} ...`
+}
+
+export const tripNameFormatter = (str, limit) => {
+  const splitted = str.split(' ')
+  let title = ''
+  let subtitle = ''
+  let count = 0
+
+  for (let i = 0; i < splitted.length; i++) {
+    const temp = `${title}${splitted[i]} `
+    if (temp.length > limit) break
+    count = i
+    title = temp
+  }
+
+  for (let i = count + 1; i < splitted.length; i++) {
+    subtitle = `${subtitle}${splitted[i]} `
+  }
+
+  return {
+    title: title.replace('/', ''),
+    subtitle: subtitle
+  }
+}

@@ -3,7 +3,7 @@ import {
   View, Text, Card,
   CardItem, Left, Body, Right
 } from 'native-base'
-import { IonIcon } from '../theme'
+import { IonIcon, Colors } from '../theme'
 import {
   getPax, getParticipants,
   getSortedExcursions, getModifiedPax,
@@ -17,6 +17,7 @@ import Button from '../components/button'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { connect } from 'react-redux'
 import { getMap } from '../utils/immutable'
+import NoData from './noData'
 
 const _T = Translator('ExcursionsScreen')
 
@@ -63,8 +64,8 @@ class ExcursionCard extends Component {
             </Body>
           </CardItem>
           <CardItem footer>
-            <Button iconLeft style={ss.button} onPress={() => this._smsAll(pax, modifiedPax)}>
-              <IonIcon name='sms' color='white' />
+            <Button style={ss.button} onPress={() => this._smsAll(pax, modifiedPax)}>
+              <IonIcon name='sms' color={Colors.white} />
               <Text>{_T('textAllParticipants')}</Text>
             </Button>
           </CardItem>
@@ -112,7 +113,11 @@ class Excursions extends Component {
     const excursions = trip.get('excursions')
     return (
       <View style={ss.container}>
-        {!!excursions && excursions.size && this._renderExcursions()}
+        {
+          excursions && excursions.size
+            ? this._renderExcursions()
+            : <NoData text='noExcursions' textStyle={{ marginTop: 30 }} />
+        }
       </View>
     )
   }
@@ -138,6 +143,7 @@ const ss = StyleSheet.create({
   },
   button: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: Colors.blue
   }
 })

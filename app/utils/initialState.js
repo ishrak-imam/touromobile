@@ -10,6 +10,7 @@ import { MODAL_INITIAL_STATE } from '../modal/immutable'
 import { REPORTS_INITIAL_STATE } from '../modules/reports/immutable'
 import { MODIFIED_DATA_INITIAL_STATE } from '../modules/modifiedData/immutable'
 import { PROFILE_INITIAL_STATE } from '../modules/profile/immutable'
+import { ROLL_CALL_INITIAL_STATE } from '../modules/rollCall/immutable'
 
 export const getInitialState = () => {
   // return getMap({
@@ -29,6 +30,7 @@ export const getInitialState = () => {
     modal: MODAL_INITIAL_STATE,
     reports: REPORTS_INITIAL_STATE,
     modifiedData: MODIFIED_DATA_INITIAL_STATE,
-    profile: PROFILE_INITIAL_STATE
+    profile: PROFILE_INITIAL_STATE,
+    rollCall: ROLL_CALL_INITIAL_STATE
   }
 }

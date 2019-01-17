@@ -12,8 +12,6 @@ import { navigateToScene } from '../../navigation/action'
 import localStore, { USER } from '../../utils/persist'
 import { login, forgotPass } from './api'
 
-import { setSentryUser } from '../../utils/sentry'
-
 export function * watchInit () {
   yield takeFirst(init.getType(), workerInit)
 }
@@ -23,15 +21,6 @@ function * workerInit () {
     const user = yield call(localStore.get, USER)
     if (user.accessToken) {
       yield put(loginSucs(user))
-
-      /**
-       * TODO:
-       * setting sentry user context.
-       * Can be moved to a separate middleware
-       */
-      const { fullName, id } = user
-      setSentryUser({ fullName, id })
-
       yield put(navigateToScene({ routeName: 'App' }))
     } else {
       yield put(navigateToScene({ routeName: 'Auth' }))

@@ -11,6 +11,7 @@ import { currentTripSelector } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
 import Switch from '../../components/switch'
+
 const _T = Translator('PassengersScreen')
 
 class PaxScreen extends Component {
@@ -63,7 +64,6 @@ class PaxScreen extends Component {
     const { navigation, currentTrip } = this.props
     const { booking } = this.state
     const trip = currentTrip.get('trip')
-
     const brand = trip.get('brand')
 
     return (
@@ -75,11 +75,8 @@ class PaxScreen extends Component {
           right={this._renderRight(brand)}
           brand={brand}
         />
-        {
-          this.state.booking
-            ? <BookingList trip={trip} navigation={navigation} />
-            : <PaxList trip={trip} navigation={navigation} />
-        }
+        {booking && <BookingList trip={trip} navigation={navigation} />}
+        {!booking && <PaxList trip={trip} navigation={navigation} />}
       </Container>
     )
   }
