@@ -15,6 +15,7 @@ import { getPax, getAaccept, getUser } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
 import { getMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
+import { tripNameFormatter } from '../utils/stringHelpers'
 import {
   setAcceptTrip,
   setAcceptTripCombos,
@@ -382,21 +383,32 @@ class FutureTripCard extends Component {
   render () {
     const { trip } = this.props
     const { dirty, isLoading } = this.acceptData
-    const brand = trip.get('brand')
+    let brand = trip.get('brand')
+    if (brand === 'OL') brand = 'OH'
     const name = trip.get('name')
-    const outDate = trip.get('outDate')
-    const homeDate = trip.get('homeDate')
+    const { title, subtitle } = tripNameFormatter(name, 15)
+    const outDate = format(trip.get('outDate'), DATE_FORMAT)
+    const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     const transport = trip.get('transport')
     const image = trip.get('image')
     const pax = getPax(trip)
+    const paddingBottom = subtitle ? 0 : 7
 
     return (
       <View style={ss.card}>
 
-        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
-          <Text style={ss.brandText}>{brand}</Text>
-          <Text>{`${name}    ${format(outDate, DATE_FORMAT)} - ${format(homeDate, DATE_FORMAT)}`}</Text>
-          {transport && <IonIcon name={transport.get('type')} />}
+        <View>
+          <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
+            <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
+            <Text>{`${outDate} - ${homeDate}`}</Text>
+            {transport && <IonIcon name={transport.get('type')} />}
+          </View>
+          {
+            !!subtitle &&
+            <View style={[ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }]}>
+              <Text numberOfLines={1} style={ss.subtitle}>{subtitle}</Text>
+            </View>
+          }
         </View>
 
         <View style={ss.imageContainer}>
@@ -442,7 +454,7 @@ export default connect(stateToProps, null)(FutureTripCard)
 
 const ss = StyleSheet.create({
   card: {
-    height: 400,
+    height: 420,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },
@@ -455,6 +467,12 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  subtitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    paddingBottom: 7
   },
   imageContainer: {
     // borderWidth: 0,

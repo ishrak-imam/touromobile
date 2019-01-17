@@ -10,6 +10,7 @@ import { Colors } from '../theme'
 import { listToMap, getSet } from '../utils/immutable'
 import Translator from '../utils/translator'
 import PaxWithoutOrder from './paxWithoutOrder'
+import NoData from './noData'
 import BookingsWithoutOrder from './bookingsWithoutOrder'
 
 const _T = Translator('ReportsScreen')
@@ -262,11 +263,11 @@ export default class OrderStats extends Component {
     )
   }
 
-  render () {
+  _renderOrderStats = () => {
     const { enableScrollViewScroll } = this.state
     const { orderMode } = this.props
     return (
-      <View style={ss.container}>
+      <View>
         {this._renderHeader()}
         <ScrollView scrollEnabled={enableScrollViewScroll}>
           {this._renderMealOrders()}
@@ -283,6 +284,19 @@ export default class OrderStats extends Component {
           }
 
         </ScrollView>
+      </View>
+    )
+  }
+
+  render () {
+    const { isFlight } = this.props
+    return (
+      <View style={ss.container}>
+        {
+          isFlight
+            ? <NoData text='flightTripNoOrder' textStyle={{ marginTop: 30 }} />
+            : this._renderOrderStats()
+        }
       </View>
     )
   }

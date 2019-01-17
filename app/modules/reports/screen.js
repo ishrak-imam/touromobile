@@ -101,7 +101,6 @@ class ReportsScreen extends Component {
     } = this.props
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
-
     const isDataReady = currentTrip.get('has')
     const isFlight = checkIfFlightTrip(trip)
 
@@ -109,7 +108,7 @@ class ReportsScreen extends Component {
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
 
-        {!isFlight && this._renderTabs()}
+        {this._renderTabs()}
 
         {
           tab === EXCURSIONS && isDataReady &&
@@ -129,6 +128,7 @@ class ReportsScreen extends Component {
             pax={getSortedPaxByFirstName(trip)}
             meals={meals}
             beverages={beverages}
+            isFlight={isFlight}
           />
         }
 

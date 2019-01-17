@@ -147,7 +147,11 @@ export default {
     noFutureTrips: 'Inga fler framtida resor',
     noPastTrips: 'Inga fler tidigare resor',
     fetchingData: 'Hämtar data från Touro...',
-    noCurrentTrip: 'Ingen pågående resa'
+    noCurrentTrip: 'Ingen pågående resa',
+    noExcursions: 'Inga utflykter hittades för den här resan',
+    flightTripNoOrder: 'Flygresor har inga måltidsbeställningar',
+    noMealData: 'Inga måltider hittades',
+    noBeverageData: 'Inga drycker hittades'
   },
   FooterButtons: {
     cancel: 'Avbryt',

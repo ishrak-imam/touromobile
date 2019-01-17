@@ -146,7 +146,11 @@ export default {
     noFutureTrips: 'No more future trips',
     noPastTrips: 'No more past trips',
     fetchingData: 'Fetching data from Touro...',
-    noCurrentTrip: 'No current trip'
+    noCurrentTrip: 'No current trip',
+    noExcursions: 'No excursions found for this trip',
+    flightTripNoOrder: 'Flight trip doesn\'t have meal orders',
+    noMealData: 'No meals found',
+    noBeverageData: 'No beverages found'
   },
   FooterButtons: {
     cancel: 'Cancel',

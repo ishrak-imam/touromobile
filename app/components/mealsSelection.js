@@ -6,6 +6,7 @@ import {
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import CheckBox from './checkBox'
+import NoData from './noData'
 
 export default class MealsSelection extends Component {
   shouldComponentUpdate (nextProps) {
@@ -50,11 +51,15 @@ export default class MealsSelection extends Component {
     return (
       <View>
         <Text note>{label}</Text>
-        <ImmutableVirtualizedList
-          immutableData={items}
-          renderItem={this._renderItem}
-          keyExtractor={item => String(item.get('id'))}
-        />
+        {
+          items.size
+            ? <ImmutableVirtualizedList
+              immutableData={items}
+              renderItem={this._renderItem}
+              keyExtractor={item => String(item.get('id'))}
+            />
+            : <NoData text='noMealData' textStyle={{ marginTop: 30 }} />
+        }
       </View>
     )
   }

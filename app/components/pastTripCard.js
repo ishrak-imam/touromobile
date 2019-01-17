@@ -18,11 +18,10 @@ import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
 import { connect } from 'react-redux'
 import Translator from '../utils/translator'
+import { tripNameFormatter } from '../utils/stringHelpers'
 
 const _T = Translator('ReportsScreen')
-
 const _TPast = Translator('PastTripsScreen')
-
 const DATE_FORMAT = 'DD/MM'
 
 class PastTripCard extends Component {
@@ -102,7 +101,10 @@ class PastTripCard extends Component {
     const { trip, excursions, participants, statsUploadedAt } = this.tripData
     const pax = getPax(trip)
     const totalParticipants = getTotalParticipantsCount(excursions, participants, trip)
-    const share = percentage(totalParticipants, pax.size * excursions.size)
+    let share = 0
+    if (excursions.size) {
+      share = percentage(totalParticipants, pax.size * excursions.size)
+    }
 
     return (
       <View style={ss.pastTripCardTop}>
@@ -118,21 +120,32 @@ class PastTripCard extends Component {
 
   render () {
     const { trip } = this.props
-    const brand = trip.get('brand')
+    let brand = trip.get('brand')
+    if (brand === 'OL') brand = 'OH'
     const name = trip.get('name')
+    const { title, subtitle } = tripNameFormatter(name, 15)
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     const transport = trip.get('transport')
     const image = trip.get('image')
     const pax = getPax(trip)
+    const paddingBottom = subtitle ? 0 : 7
 
     return (
       <View style={ss.card}>
 
-        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
-          <Text style={ss.brandText}>{brand}</Text>
-          <Text>{`${name}    ${outDate} - ${homeDate}`}</Text>
-          {transport && <IonIcon name={transport.get('type')} />}
+        <View>
+          <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
+            <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
+            <Text>{`${outDate} - ${homeDate}`}</Text>
+            {transport && <IonIcon name={transport.get('type')} />}
+          </View>
+          {
+            !!subtitle &&
+            <View style={[ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }]}>
+              <Text numberOfLines={1} style={ss.subtitle}>{subtitle}</Text>
+            </View>
+          }
         </View>
 
         <View style={ss.imageContainer}>
@@ -171,7 +184,7 @@ export default connect(stateToProps, null)(PastTripCard)
 
 const ss = StyleSheet.create({
   card: {
-    height: 250,
+    height: 270,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },
@@ -184,6 +197,15 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  subtitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    paddingBottom: 7
+  },
+  subtitle: {
+    fontSize: 13
   },
   imageContainer: {
     borderWidth: 0,

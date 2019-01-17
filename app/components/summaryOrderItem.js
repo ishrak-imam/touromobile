@@ -16,6 +16,7 @@ import { getMap } from '../utils/immutable'
 import { selectInvoiceeSummaryMode } from '../modules/modifiedData/action'
 import Translator from '../utils/translator'
 import FoodItem from './foodItem'
+import NoData from './noData'
 
 const _T = Translator('OrdersScreen')
 
@@ -111,11 +112,15 @@ class SummaryOrderItem extends Component {
             <Text style={ss.boldText}>{_T('meals')}</Text>
           </View>
         </ListItem>
-        <ImmutableVirtualizedList
-          immutableData={meals}
-          renderItem={this._renderFoodItem('meal', paxCount, this.totalMealOrder)}
-          keyExtractor={item => String(item.get('id'))}
-        />
+        {
+          meals.size
+            ? <ImmutableVirtualizedList
+              immutableData={meals}
+              renderItem={this._renderFoodItem('meal', paxCount, this.totalMealOrder)}
+              keyExtractor={item => String(item.get('id'))}
+            />
+            : <NoData text='noMealData' textStyle={{ marginTop: 30 }} />
+        }
       </View>
     )
   }
@@ -128,11 +133,15 @@ class SummaryOrderItem extends Component {
             <Text style={ss.boldText}>{_T('beverages')}</Text>
           </View>
         </ListItem>
-        <ImmutableVirtualizedList
-          immutableData={beverages}
-          renderItem={this._renderFoodItem('drink', paxCount, this.totalDrinkOrder)}
-          keyExtractor={item => String(item.get('id'))}
-        />
+        {
+          beverages.size
+            ? <ImmutableVirtualizedList
+              immutableData={beverages}
+              renderItem={this._renderFoodItem('drink', paxCount, this.totalDrinkOrder)}
+              keyExtractor={item => String(item.get('id'))}
+            />
+            : <NoData text='noBeverageData' textStyle={{ marginTop: 30 }} />
+        }
       </View>
     )
   }

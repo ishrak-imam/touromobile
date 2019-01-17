@@ -8,7 +8,10 @@ import {
   actionDispatcher,
   networkActionDispatcher
 } from '../../utils/actionDispatcher'
-import { getProfile, getUser, checkIfAnyOrderMade } from '../../selectors'
+import {
+  getProfile, getUser, checkIfAnyOrderMade,
+  checkIfBusTrip, currentTripSelector
+} from '../../selectors'
 import { connect } from 'react-redux'
 import Profile from '../../components/profile'
 import Settings from '../../components/settings'
@@ -45,9 +48,12 @@ class ProfileScreen extends Component {
   }
 
   render () {
-    const { navigation, isAnyOrder, profile, user } = this.props
+    const { navigation, isAnyOrder, profile, user, currentTrip } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     const userDetails = profile.get('user')
+    const trip = currentTrip.get('trip')
+    const isBusTrip = checkIfBusTrip(trip)
+
     return (
       <Container>
         <Header left='back' title={fullName} navigation={navigation} />
@@ -59,7 +65,7 @@ class ProfileScreen extends Component {
           }
 
           <Settings />
-          <LunchOrderMode isAnyOrder={isAnyOrder} />
+          {isBusTrip && <LunchOrderMode isAnyOrder={isAnyOrder} />}
         </ScrollView>
       </Container>
     )
@@ -71,7 +77,8 @@ const stateToProps = (state, props) => {
   return {
     profile: getProfile(state),
     user: getUser(state),
-    isAnyOrder: checkIfAnyOrderMade(state, departureId)
+    isAnyOrder: checkIfAnyOrderMade(state, departureId),
+    currentTrip: currentTripSelector(state)
   }
 }
 

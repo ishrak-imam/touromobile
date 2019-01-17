@@ -4,6 +4,7 @@ import { View, Text } from 'native-base'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { chunkList } from '../utils/immutable'
 import CheckBox from './checkBox'
+import NoData from './noData'
 
 export default class BeverageSelection extends Component {
   shouldComponentUpdate (nextProps) {
@@ -26,20 +27,24 @@ export default class BeverageSelection extends Component {
   _renderVeverages = () => {
     const { selected, items } = this.props
     const chunkedBeverages = chunkList(items, 3)
-    return chunkedBeverages.map((row, index) => (
-      <View key={index} style={ss.row}>
-        {row.map(item => {
+
+    return items.size
+      ? chunkedBeverages.map((row, index) => (
+        <View key={index} style={ss.row}>
+          {row.map(item => {
           // && selected.get('adult') === !child
-          const isSelected = selected.get('drink') === item.get('id')
-          return (
-            <TouchableOpacity key={item.get('id')} style={ss.selection} onPress={this._onSelect(item)}>
-              <CheckBox checked={isSelected} />
-              <Text style={ss.name}>{item.get('name')}</Text>
-            </TouchableOpacity>
-          )
-        })}
-      </View>
-    ))
+            const isSelected = selected.get('drink') === item.get('id')
+            return (
+              <TouchableOpacity key={item.get('id')} style={ss.selection} onPress={this._onSelect(item)}>
+                <CheckBox checked={isSelected} />
+                <Text style={ss.name}>{item.get('name')}</Text>
+              </TouchableOpacity>
+            )
+          })}
+        </View>
+      ))
+
+      : <NoData text='noBeverageData' textStyle={{ marginTop: 30 }} />
   }
 
   render () {

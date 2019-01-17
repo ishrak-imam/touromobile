@@ -33,7 +33,7 @@ const getIconName = name => {
     pastTrips: ['ios-time', 'md-time'],
     star: ['ios-star', 'md-star'],
     bus: ['ios-bus', 'md-bus'],
-    flight: ['ios-plane', 'md-plane'],
+    flight: ['ios-airplane', 'md-airplane'],
     warning: ['ios-warning', 'md-warning'],
     refresh: ['md-refresh', 'md-refresh'],
     delete: ['ios-trash', 'md-trash'],
