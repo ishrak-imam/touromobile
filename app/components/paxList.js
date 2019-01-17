@@ -111,9 +111,13 @@ class PaxItem extends Component {
     return (
       <ListItem style={ss.listItem} onPress={onItemPress(pax)}>
         <Left style={ss.itemLeft}>
-          <View style={ss.iconCon}>
-            {(!!airport && tripType === 'flight') && this._renderAirport(airport)}
-          </View>
+          {
+            (!!airport && tripType === 'flight') &&
+            <View style={ss.iconCon}>
+              {/* {(!!airport && tripType === 'flight') && this._renderAirport(airport)} */}
+              {this._renderAirport(airport)}
+            </View>
+          }
           <View style={ss.iconCon}>
             {!!hotelId && isHotels && this._renderHotel(String(hotelId), hotels)}
           </View>
