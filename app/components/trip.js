@@ -60,7 +60,7 @@ class Trip extends Component {
 
     return (
       <View>
-        <View style={StyleSheet.flatten([ss.titleContainer, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }])}>
+        <View style={[ss.titleContainer, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
           <View style={ss.headerLeft}>
             <Text numberOfLines={1} style={ss.headerLeftText}>{brand}   {title}</Text>
           </View>
@@ -73,7 +73,7 @@ class Trip extends Component {
         </View>
         {
           !!subtitle &&
-          <View style={StyleSheet.flatten([ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }])}>
+          <View style={[ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }]}>
             <Text numberOfLines={1} style={ss.subtitle}>{subtitle}</Text>
           </View>
         }
@@ -422,7 +422,7 @@ const ss = StyleSheet.create({
   subtitleContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingHorizontal: 9,
+    paddingHorizontal: 8,
     paddingBottom: 7
   },
   subtitle: {

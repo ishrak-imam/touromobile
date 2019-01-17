@@ -209,9 +209,9 @@ class PaxCard extends Component {
 
   render () {
     const { editMode, phone, comment } = this.state
-    const { departureId, pax, isFlight } = this.props
+    // const { departureId, pax, isFlight } = this.props
     const booking = this.paxData.get('booking')
-    const bookingId = String(booking.get('id'))
+    // const bookingId = String(booking.get('id'))
     const excursion = this.paxData.get('excursionPack')
     const coPax = this.paxData.get('booking').get('pax')
     return (
@@ -227,7 +227,7 @@ class PaxCard extends Component {
         {!!coPax.size && this._renderCoPax(coPax, this.paxData)}
         {this._renderComment(comment)}
         {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
-        {!isFlight && this._renderPaxOrder(bookingId, departureId, pax)}
+        {/* {!isFlight && this._renderPaxOrder(bookingId, departureId, pax)} */}
       </KeyboardAwareScrollView>
     )
   }
