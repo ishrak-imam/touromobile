@@ -4,7 +4,7 @@ import {
 } from 'native-base'
 import {
   getSortedBookings, getModifiedPax, getModifiedPaxByBooking,
-  filterBookingBySearchText, getPhoneNumbers
+  filterBookingBySearchText, getPhoneNumbers, checkIfFlightTrip
 } from '../selectors'
 import IconButton from '../components/iconButton'
 import { Colors } from '../theme'
@@ -21,7 +21,7 @@ const _T = Translator('PassengersScreen')
 class BookingItem extends Component {
   shouldComponentUpdate (nextProps) {
     return !nextProps.booking.equals(this.props.booking) ||
-            !nextProps.modifiedPax.equals(this.props.modifiedPax)
+           !nextProps.modifiedPax.equals(this.props.modifiedPax)
   }
 
   _sms = phones => {
@@ -31,14 +31,14 @@ class BookingItem extends Component {
   }
 
   render () {
-    const { booking, modifiedPax } = this.props
-    const id = booking.get('id')
+    const { booking, modifiedPax, onPress } = this.props
+    const id = String(booking.get('id'))
     const pax = booking.get('pax')
     const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
     const paxNames = sortedPax.map(p => <Text note key={p.get('id')}>{`${p.get('firstName')} ${p.get('lastName')}`}</Text>)
     const phones = getPhoneNumbers(getMap({ pax, modifiedPax }))
     return (
-      <ListItem>
+      <ListItem onPress={onPress(booking)}>
         <Body>
           <Text>{id}</Text>
           {paxNames}
@@ -59,12 +59,25 @@ class BookingList extends Component {
     }
   }
 
+  _toOrdersScreen = booking => {
+    const { trip } = this.props
+    const isFlight = checkIfFlightTrip(trip)
+    if (isFlight) return () => {}
+
+    const { navigation } = this.props
+    const brand = trip.get('brand')
+    const departureId = String(trip.get('departureId'))
+    return () => {
+      navigation.navigate('Orders', { brand, booking, departureId })
+    }
+  }
+
   _renderBooking = ({ item }) => {
     const { modifiedPax } = this.props
     const pax = item.get('pax')
     const filteredModifiedPax = getModifiedPaxByBooking(getMap({ pax, modifiedPax }))
     return (
-      <BookingItem booking={item} modifiedPax={filteredModifiedPax} />
+      <BookingItem booking={item} modifiedPax={filteredModifiedPax} onPress={this._toOrdersScreen} />
     )
   }
 

@@ -5,26 +5,27 @@ import {
   Body, Right, Text
 } from 'native-base'
 import {
-  StyleSheet, View, RefreshControl,
-  TouchableOpacity, ScrollView
+  StyleSheet, View, TouchableOpacity
 } from 'react-native'
 import IconButton from '../components/iconButton'
 import { IonIcon, Colors } from '../theme'
 import Translator from '../utils/translator'
-import { format } from 'date-fns'
+import { format, isSameDay } from 'date-fns'
 import {
-  getPax, getModifiedPax,
-  getPhoneNumbers, getFlightPaxPhones
+  getPax, getModifiedPax, checkIfFlightTrip, getPhoneNumbers,
+  getFlightPax, getFlightPaxPhones, checkIfBusTrip
 } from '../selectors'
 import { call, sms } from '../utils/comms'
 import Button from '../components/button'
 import ImageCache from './imageCache'
 import { connect } from 'react-redux'
 import { getMap } from '../utils/immutable'
-import OverlaySpinner from '../components/overlaySpinner'
+import { tripNameFormatter } from '../utils/stringHelpers'
 
 const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'DD/MM'
+const FLIGHT_TIME_FORMAT = 'HH:mm'
+const FLIGHT_TIME_FORMAT_LONG = 'YY/MM/DD HH:mm'
 
 class Trip extends Component {
   shouldComponentUpdate (nextProps) {
@@ -49,23 +50,34 @@ class Trip extends Component {
 
   _renderHeader = trip => {
     const name = trip.get('name')
+    const { title, subtitle } = tripNameFormatter(name, 15)
     const outDate = format(trip.get('outDate'), DATE_FORMAT)
     const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     const brand = trip.get('brand')
     const transport = trip.get('transport')
     const iconName = transport ? transport.get('type') : null
+    const paddingBottom = subtitle ? 0 : 7
+
     return (
-      <CardItem style={{ backgroundColor: Colors[`${brand}Brand`], borderRadius: 0 }}>
-        <Left style={ss.headerLeft}>
-          <Text numberOfLines={1} style={ss.headerLeftText}>{brand}  {name}</Text>
-        </Left>
-        <Body style={ss.headerBody}>
-          <Text>{`${outDate} - ${homeDate}`}</Text>
-        </Body>
-        <Right style={ss.headerRight}>
-          {iconName && <IonIcon name={iconName} />}
-        </Right>
-      </CardItem>
+      <View>
+        <View style={StyleSheet.flatten([ss.titleContainer, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }])}>
+          <View style={ss.headerLeft}>
+            <Text numberOfLines={1} style={ss.headerLeftText}>{brand}   {title}</Text>
+          </View>
+          <View style={ss.headerBody}>
+            <Text>{`${outDate} - ${homeDate}`}</Text>
+          </View>
+          <View style={ss.headeRight}>
+            {iconName && <IonIcon name={iconName} />}
+          </View>
+        </View>
+        {
+          !!subtitle &&
+          <View style={StyleSheet.flatten([ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }])}>
+            <Text numberOfLines={1} style={ss.subtitle}>{subtitle}</Text>
+          </View>
+        }
+      </View>
     )
   }
 
@@ -170,14 +182,24 @@ class Trip extends Component {
       const out = f.get('out')
       const home = f.get('home')
 
-      const outTime = `${out.get('departure')} - ${out.get('arrival')}`
-      const homeTime = `${home.get('departure')} - ${home.get('arrival')}`
+      const outDep = out.get('departure')
+      const outArr = out.get('arrival')
+      let outTime = `${format(out.get('departure'), FLIGHT_TIME_FORMAT)} - ${format(out.get('arrival'), FLIGHT_TIME_FORMAT_LONG)}`
+      if (isSameDay(outDep, outArr)) {
+        outTime = `${format(out.get('departure'), FLIGHT_TIME_FORMAT)} - ${format(out.get('arrival'), FLIGHT_TIME_FORMAT)}`
+      }
+
+      const homeDep = home.get('departure')
+      const homeArr = home.get('arrival')
+      let homeTime = `${format(home.get('departure'), FLIGHT_TIME_FORMAT)} - ${format(home.get('arrival'), FLIGHT_TIME_FORMAT_LONG)}`
+      if (isSameDay(homeDep, homeArr)) {
+        homeTime = `${format(home.get('departure'), FLIGHT_TIME_FORMAT)} - ${format(home.get('arrival'), FLIGHT_TIME_FORMAT)}`
+      }
 
       const outFlight = out.get('flightNo')
-      const homeFlight = out.get('flightNo')
+      const homeFlight = home.get('flightNo')
 
-      const flightPax = f.get('passengers')
-
+      const flightPax = getFlightPax(pax, key)
       const numbers = getFlightPaxPhones(getMap({ pax, flightPax, modifiedPax }))
 
       return (
@@ -190,11 +212,13 @@ class Trip extends Component {
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
               <View style={ss.flightCon}>
+                <Text note>{_T('out')}</Text>
                 <Text>
-                  <Text style={ss.boldText}>{_T('out')}:</Text>       <Text>{outTime}</Text>      <Text style={ss.boldText}>{outFlight}</Text>
+                  <Text style={ss.boldText}>{outFlight}:</Text>  <Text>{outTime}</Text>
                 </Text>
+                <Text note style={{ marginTop: 10 }}>{_T('home')}</Text>
                 <Text>
-                  <Text style={ss.boldText}>{_T('home')}:</Text>   <Text>{homeTime}</Text>      <Text style={ss.boldText}>{homeFlight}</Text>
+                  <Text style={ss.boldText}>{homeFlight}:</Text>  <Text>{homeTime}</Text>
                 </Text>
               </View>
             </View>
@@ -214,10 +238,10 @@ class Trip extends Component {
 
   _toRestaurant = (direction, restaurant) => {
     const { trip, navigation } = this.props
-    const orders = trip.get('orders')
+    const departureId = String(trip.get('departureId'))
     const brand = trip.get('brand')
     return () => {
-      navigation.navigate('Restaurant', { orders, brand, direction, restaurant })
+      navigation.navigate('Restaurant', { departureId, brand, direction, restaurant })
     }
   }
 
@@ -309,41 +333,32 @@ class Trip extends Component {
   }
 
   render () {
-    const { trip, onRefresh, isRefreshing } = this.props
+    const { trip } = this.props
     const transport = trip.get('transport')
     const launches = trip.get('lunches')
     const image = trip.get('image')
     const pax = getPax(trip)
     const hotels = trip.get('hotels')
 
-    const isFlight = transport ? transport.get('type') === 'flight' : false
-    const isBus = transport ? transport.get('type') === 'bus' : false
+    const isFlight = checkIfFlightTrip(trip)
+    const isBus = checkIfBusTrip(trip)
 
     return (
       <View style={ss.wrapper}>
-        {isRefreshing && <OverlaySpinner />}
-        <ScrollView
-          contentContainerStyle={{ justifyContent: 'center' }}
-          refreshControl={
-            <RefreshControl
-              refreshing={false}
-              onRefresh={onRefresh}
-            />
-          }
-        >
-          {this._renderHeader(trip)}
-          {!!image && this._renderImage(image)}
-          {this._renderPaxCount(pax.size)}
 
-          {isFlight && this._renderFlight(transport, pax)}
+        {this._renderHeader(trip)}
+        {!!image && this._renderImage(image)}
+        {this._renderPaxCount(pax.size)}
 
-          {isBus && this._renderBus(transport)}
+        {isFlight && this._renderFlight(transport, pax)}
 
-          {!!hotels && this._renderHotels(hotels)}
+        {isBus && this._renderBus(transport)}
 
-          {!!launches && this._renderRestaurants(launches)}
-          {this._renderFooter(pax)}
-        </ScrollView>
+        {!!hotels && this._renderHotels(hotels)}
+
+        {!!launches && !isFlight && this._renderRestaurants(launches)}
+        {this._renderFooter(pax)}
+
       </View>
     )
   }
@@ -398,8 +413,25 @@ const ss = StyleSheet.create({
   restaurantName: {
     color: Colors.blue
   },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 7
+  },
+  subtitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 9,
+    paddingBottom: 7
+  },
+  subtitle: {
+    fontSize: 13
+  },
   headerLeft: {
-    flex: 3
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'flex-start'
   },
   headerLeftText: {
     fontWeight: 'bold',
@@ -411,7 +443,9 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   headerRight: {
-    flex: 0.5
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   paxCountBody: {
     flex: 2,
@@ -439,7 +473,7 @@ const ss = StyleSheet.create({
     paddingTop: 15
   },
   flightCard: {
-    height: 150,
+    height: 180,
     marginHorizontal: 15,
     borderRadius: 15,
     borderWidth: 1,

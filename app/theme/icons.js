@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 const getIconName = name => {
   const icons = {
-    upload: ['ios-cloud-upload', 'md-cloud-upload'],
+    upload: ['md-cloud-upload', 'md-cloud-upload'],
     menu: ['ios-menu', 'md-menu'],
     home: ['ios-home', 'md-home'],
     people: ['ios-people', 'md-people'],
@@ -33,13 +33,17 @@ const getIconName = name => {
     pastTrips: ['ios-time', 'md-time'],
     star: ['ios-star', 'md-star'],
     bus: ['ios-bus', 'md-bus'],
-    flight: ['ios-plane', 'md-plane'],
+    flight: ['ios-airplane', 'md-airplane'],
     warning: ['ios-warning', 'md-warning'],
     refresh: ['md-refresh', 'md-refresh'],
     delete: ['ios-trash', 'md-trash'],
     sort: ['ios-list', 'md-list'],
-    checkFill: ['ios-checkbox', 'md-checkbox'],
-    checkOutline: ['ios-checkbox-outline', 'md-checkbox-outline']
+    checkFill: ['ios-checkmark-circle', 'md-checkmark-circle'],
+    checkOutline: ['ios-checkmark-circle-outline', 'md-checkmark-circle-outline'],
+    plus: ['ios-add', 'md-add'],
+    minus: ['ios-remove', 'md-remove'],
+    undo: ['ios-undo', 'md-undo'],
+    radioOff: ['ios-radio-button-off', 'md-radio-button-off']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]

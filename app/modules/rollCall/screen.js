@@ -2,23 +2,21 @@
 import React, { Component } from 'react'
 import { StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import {
-  Container, View, ListItem, Left,
-  CheckBox, Body, Text, Title
+  Container, View, ListItem, Left, Body, Text, Title
 } from 'native-base'
 import { Colors, IonIcon } from '../../theme'
 import Header from '../../components/header'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
 import {
-
-  getTrips, getPax, getPresents,
+  currentTripSelector, getPax, getPresents,
   getSortedPaxByFirstName, getPaxDataGroupByFirstName,
   getSortedPaxByLastName, getPaxDataGroupByLastName,
   getSortedPaxByAirport, getPaxDataGroupByAirport,
   getSortedPaxByHotel, getPaxDataGroupByHotel,
   getSortedPaxByBookingId, getPaxDataGroupByBooking,
-  filterPaxBySearchText
-
+  filterPaxBySearchText,
+  checkIfFlightTrip
 } from '../../selectors'
 import isIphoneX from '../../utils/isIphoneX'
 import SearchBar from '../../components/searchBar'
@@ -27,6 +25,7 @@ import NoData from '../../components/noData'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { addToPresent, removeFromPresent, resetPresent } from './action'
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
+import CheckBox from '../../components/checkBox'
 
 const { width } = Dimensions.get('window')
 
@@ -63,7 +62,7 @@ class PaxItem extends Component {
     return (
       <ListItem style={ss.listItem} onPress={onItemPress(paxId)}>
         <Left style={{ flex: 1 }}>
-          <CheckBox disabled checked={selected} />
+          <CheckBox checked={selected} />
         </Left>
         <Body style={ss.itemBody}>
           <View style={{ flex: 1 }}>
@@ -92,8 +91,8 @@ class RollCallScreen extends Component {
   }
 
   _renderRight = () => {
-    const { trips } = this.props
-    const trip = trips.get('current').get('trip')
+    const { currentTrip } = this.props
+    const trip = currentTrip.get('trip')
 
     let options = [
       CONTEXT_OPTIONS.firstName,
@@ -102,10 +101,9 @@ class RollCallScreen extends Component {
     ]
 
     const hotels = trip.get('hotels')
-    const transport = trip.get('transport')
-
     const isHotels = hotels && hotels.size
-    const isFlight = transport ? transport.get('type') === 'flight' : false
+
+    const isFlight = checkIfFlightTrip(trip)
 
     if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
     if (isFlight) options.push(CONTEXT_OPTIONS.airport)
@@ -134,8 +132,8 @@ class RollCallScreen extends Component {
   }
 
   _renderPerson = (type, item) => {
-    const { trips, presents } = this.props
-    const trip = trips.get('current').get('trip')
+    const { currentTrip, presents } = this.props
+    const trip = currentTrip.get('trip')
     const hotels = trip.get('hotels')
 
     if (item.first) {
@@ -239,8 +237,8 @@ class RollCallScreen extends Component {
   }
 
   render () {
-    const { navigation, trips } = this.props
-    const trip = trips.get('current').get('trip')
+    const { navigation, currentTrip } = this.props
+    const trip = currentTrip.get('trip')
     const bookings = trip.get('bookings')
     const brand = trip.get('brand')
 
@@ -269,7 +267,7 @@ class RollCallScreen extends Component {
 }
 
 const stateToProps = state => ({
-  trips: getTrips(state),
+  currentTrip: currentTripSelector(state),
   presents: getPresents(state)
 })
 

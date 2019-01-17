@@ -18,6 +18,7 @@ import AttachJwt from '../middlewares/attachJwt'
 import Toast from '../middlewares/toast'
 import ClearTransferCity from '../middlewares/clearTransferCity'
 import ClearBag from '../middlewares/clearBag'
+import SetSentryUser from '../middlewares/setSentryUser'
 
 
 /**
@@ -26,7 +27,10 @@ import ClearBag from '../middlewares/clearBag'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './rootSaga'
 const SagaMiddleware = createSagaMiddleware()
-const middlewares = [SagaMiddleware, AttachJwt, Toast, ClearTransferCity, ClearBag]
+const middlewares = [
+  SagaMiddleware, AttachJwt, Toast, ClearTransferCity, ClearBag,
+  SetSentryUser
+]
 if (__DEV__) {
   middlewares.push(Logger)
 }

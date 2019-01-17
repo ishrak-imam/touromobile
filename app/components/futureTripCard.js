@@ -10,10 +10,12 @@ import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import FooterButtons from './footerButtons'
 import { connect } from 'react-redux'
+import OutHomeTab, { TABS } from './outHomeTab'
 import { getPax, getAaccept, getUser } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
 import { getMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
+import { tripNameFormatter } from '../utils/stringHelpers'
 import {
   setAcceptTrip,
   setAcceptTripCombos,
@@ -43,9 +45,6 @@ const KEY_NAMES = getKeyNames()
 
 const DATE_FORMAT = 'DD/MM'
 
-const HOME = 'HOME'
-const OUT = 'OUT'
-
 class FutureTripCard extends Component {
   constructor (props) {
     super(props)
@@ -62,7 +61,7 @@ class FutureTripCard extends Component {
     }
 
     this.state = {
-      tab: OUT
+      tab: 'out'
     }
   }
 
@@ -94,6 +93,10 @@ class FutureTripCard extends Component {
 
   get departureId () {
     return String(this.props.trip.get('departureId'))
+  }
+
+  get transportId () {
+    return String(this.props.trip.get('transportId'))
   }
 
   get shouldLockTrip () {
@@ -142,36 +145,16 @@ class FutureTripCard extends Component {
     }
   }
 
-  _renderTabs = () => {
-    const { tab } = this.state
-    return (
-      <View style={ss.tabContainer}>
-        <TouchableOpacity
-          style={[ss.tab, {
-            backgroundColor: tab === OUT ? Colors.blue : Colors.steel,
-            borderTopLeftRadius: 3,
-            borderBottomLeftRadius: 3
-          }]}
-          onPress={this._onTabSwitch(OUT)}
-        >
-          <Text style={{ color: tab === OUT ? Colors.silver : Colors.black }}>{_T('out')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[ss.tab, {
-            backgroundColor: tab === HOME ? Colors.blue : Colors.steel,
-            borderTopRightRadius: 3,
-            borderBottomRightRadius: 3
-          }]}
-          onPress={this._onTabSwitch(HOME)}
-        >
-          <Text style={{ color: tab === HOME ? Colors.silver : Colors.black }}>{_T('home')}</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
   _renderSelector = options => {
     const { selected, disabled } = options
+
+    const translatedOptions = Object.assign({}, options)
+    if (!disabled) {
+      const config = Object.assign({}, options.config)
+      config.label = _T(config.label)
+      translatedOptions.config = config
+    }
+
     const text = selected ? selected.get('value') : ''
     const backgroundColor = disabled ? Colors.steel : Colors.blue
     const iconColor = disabled ? Colors.charcoal : Colors.silver
@@ -182,7 +165,7 @@ class FutureTripCard extends Component {
         </View>
         <TouchableOpacity
           style={[ss.dropDown, { backgroundColor }]}
-          onPress={this._showSelections(options)}
+          onPress={this._showSelections(translatedOptions)}
           disabled={disabled}
         >
           <IonIcon name='down' color={iconColor} size={20} />
@@ -347,9 +330,11 @@ class FutureTripCard extends Component {
           <Text style={ss.checkText}>{acceptText}</Text>
         </TouchableOpacity>
         <View style={ss.comboTabs}>
-          {this._renderTabs()}
-          {tab === OUT && this._renderOutCombos(transportType)}
-          {tab === HOME && this._renderHomeCombos(transportType)}
+          <View style={ss.outHomeTabs}>
+            <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
+          </View>
+          {tab === TABS.OUT && this._renderOutCombos(transportType)}
+          {tab === TABS.HOME && this._renderHomeCombos(transportType)}
         </View>
       </View>
     )
@@ -362,8 +347,12 @@ class FutureTripCard extends Component {
       isNeedJwt: true,
       guideId: user.get('guideId'),
       departureId: this.departureId,
-      accept: {
-        isAccepted,
+      acceptData: {
+        transportId: this.transportId,
+        accept: isAccepted
+      },
+      reservationData: {
+        transportId: this.transportId,
         out: {
           location: out.get('location').get('key'),
           transfer: out.get('transfer').get('key'),
@@ -394,21 +383,32 @@ class FutureTripCard extends Component {
   render () {
     const { trip } = this.props
     const { dirty, isLoading } = this.acceptData
-    const brand = trip.get('brand')
+    let brand = trip.get('brand')
+    if (brand === 'OL') brand = 'OH'
     const name = trip.get('name')
-    const outDate = trip.get('outDate')
-    const homeDate = trip.get('homeDate')
+    const { title, subtitle } = tripNameFormatter(name, 15)
+    const outDate = format(trip.get('outDate'), DATE_FORMAT)
+    const homeDate = format(trip.get('homeDate'), DATE_FORMAT)
     const transport = trip.get('transport')
     const image = trip.get('image')
     const pax = getPax(trip)
+    const paddingBottom = subtitle ? 0 : 7
 
     return (
       <View style={ss.card}>
 
-        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
-          <Text style={ss.brandText}>{brand}</Text>
-          <Text>{`${name}    ${format(outDate, DATE_FORMAT)} - ${format(homeDate, DATE_FORMAT)}`}</Text>
-          {transport && <IonIcon name={transport.get('type')} />}
+        <View>
+          <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
+            <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
+            <Text>{`${outDate} - ${homeDate}`}</Text>
+            {transport && <IonIcon name={transport.get('type')} />}
+          </View>
+          {
+            !!subtitle &&
+            <View style={[ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }]}>
+              <Text numberOfLines={1} style={ss.subtitle}>{subtitle}</Text>
+            </View>
+          }
         </View>
 
         <View style={ss.imageContainer}>
@@ -454,7 +454,7 @@ export default connect(stateToProps, null)(FutureTripCard)
 
 const ss = StyleSheet.create({
   card: {
-    height: 400,
+    height: 420,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },
@@ -467,6 +467,12 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  subtitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    paddingBottom: 7
   },
   imageContainer: {
     // borderWidth: 0,
@@ -544,21 +550,10 @@ const ss = StyleSheet.create({
   footerButtons: {
     marginBottom: 5
   },
-  tabContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 10
-  },
-  tab: {
-    width: 70,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 4
-  },
   selectorBox: {
     flex: 4,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingHorizontal: 5,
     borderWidth: 1,
     borderRightWidth: 0,
@@ -615,5 +610,8 @@ const ss = StyleSheet.create({
   },
   comboTabs: {
     flex: 5
+  },
+  outHomeTabs: {
+    marginBottom: 10
   }
 })

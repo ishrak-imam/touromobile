@@ -1,18 +1,13 @@
 
 import React, { Component } from 'react'
-import {
-  View, Text, Left, Body
-} from 'native-base'
+import { View, Text, Left, Body } from 'native-base'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import FooterButtons from './footerButtons'
-// import IconButton from './iconButton'
 import TextInput from '../components/textinput'
-
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { editProfile, editProfileCancel } from '../modules/profile/action'
-
 import Translator from '../utils/translator'
 
 const _T = Translator('ProfileScreen')

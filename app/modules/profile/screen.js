@@ -1,46 +1,24 @@
 
 import React, { Component } from 'react'
-import {
-  Container, View, CheckBox,
-  Body, Left, Text, ListItem
-} from 'native-base'
-import { StyleSheet } from 'react-native'
+import { Container, View } from 'native-base'
+import { StyleSheet, ScrollView } from 'react-native'
 import Header from '../../components/header'
-import { toggleTabLabels, userDetailsReq, updateProfileReq } from './action'
+import { userDetailsReq, updateProfileReq } from './action'
 import {
   actionDispatcher,
   networkActionDispatcher
 } from '../../utils/actionDispatcher'
-import { getProfile, getUser } from '../../selectors'
+import {
+  getProfile, getUser, checkIfAnyOrderMade,
+  checkIfBusTrip, currentTripSelector
+} from '../../selectors'
 import { connect } from 'react-redux'
-import { Colors } from '../../theme'
 import Profile from '../../components/profile'
+import Settings from '../../components/settings'
+import LunchOrderMode from '../../components/lunchOrderMode'
 import NoData from '../../components/noData'
-
-import Translator from '../../utils/translator'
-
-const _T = Translator('ProfileScreen')
-
-class Settings extends Component {
-  render () {
-    const { showLabel, toggleLabel, style } = this.props
-    return (
-      <View style={style}>
-        <ListItem onPress={toggleLabel}>
-          <Left style={ss.left}>
-            <CheckBox
-              disabled
-              checked={showLabel}
-            />
-          </Left>
-          <Body style={ss.body}>
-            <Text>{_T('showTabLabels')}</Text>
-          </Body>
-        </ListItem>
-      </View>
-    )
-  }
-}
+import isIphoneX from '../../utils/isIphoneX'
+import { Colors } from '../../theme'
 
 class ProfileScreen extends Component {
   componentDidMount () {
@@ -50,10 +28,6 @@ class ProfileScreen extends Component {
         isNeedJwt: true, guideId: user.get('guideId')
       }))
     }
-  }
-
-  _toggleLabel = () => {
-    actionDispatcher(toggleTabLabels())
   }
 
   _updateProfile = data => {
@@ -68,52 +42,59 @@ class ProfileScreen extends Component {
   _renderLoader () {
     return (
       <View style={ss.profile}>
-        <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
+        <NoData text='fetchingData' textStyle={ss.noData} />
       </View>
     )
   }
 
   render () {
-    const { navigation, profile, user } = this.props
+    const { navigation, isAnyOrder, profile, user, currentTrip } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
-    const showLabel = profile.get('showLabel')
     const userDetails = profile.get('user')
+    const trip = currentTrip.get('trip')
+    const isBusTrip = checkIfBusTrip(trip)
+
     return (
       <Container>
         <Header left='back' title={fullName} navigation={navigation} />
-        {
-          !userDetails.size
-            ? this._renderLoader()
-            : <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
-        }
-        <Settings style={ss.settings} showLabel={showLabel} toggleLabel={this._toggleLabel} />
+        <ScrollView contentContainerStyle={ss.scroll}>
+          {
+            !userDetails.size
+              ? this._renderLoader()
+              : <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
+          }
+
+          <Settings />
+          {isBusTrip && <LunchOrderMode isAnyOrder={isAnyOrder} />}
+        </ScrollView>
       </Container>
     )
   }
 }
 
-const stateToProps = state => ({
-  profile: getProfile(state),
-  user: getUser(state)
-})
+const stateToProps = (state, props) => {
+  const departureId = props.navigation.getParam('departureId')
+  return {
+    profile: getProfile(state),
+    user: getUser(state),
+    isAnyOrder: checkIfAnyOrderMade(state, departureId),
+    currentTrip: currentTripSelector(state)
+  }
+}
 
 export default connect(stateToProps, null)(ProfileScreen)
 
 const ss = StyleSheet.create({
   profile: {
-    flex: 5
+    flex: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.steel
   },
-  settings: {
-    flex: 1,
-    borderTopWidth: 1,
-    borderTopColor: Colors.steel,
-    paddingVertical: 10
+  scroll: {
+    paddingBottom: isIphoneX ? 20 : 10
   },
-  left: {
-    flex: 1
-  },
-  body: {
-    flex: 6,
-    justifyContent: 'flex-start'
+  noData: {
+    marginTop: 30,
+    marginBottom: 100
   }
 })

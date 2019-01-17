@@ -27,6 +27,7 @@ import ExcursionDetailsScreen from '../modules/excursions/detailsScreen'
 import PaxDetailsScreen from '../modules/pax/detailsScreen'
 import ProfileScreen from '../modules/profile/screen'
 import RollCallScreen from '../modules/rollCall/screen'
+import OrdersScreen from '../modules/orders/screen'
 
 const authStack = createStackNavigator(
   {
@@ -65,7 +66,8 @@ const appStack = createStackNavigator(
     FutureTrips: { screen: FutureTripsScreen },
     PastTrips: { screen: PastTripsScreen },
     Profile: { screen: ProfileScreen },
-    RollCall: { screen: RollCallScreen }
+    RollCall: { screen: RollCallScreen },
+    Orders: { screen: OrdersScreen }
   },
   {
     initialRouteName: 'Home',

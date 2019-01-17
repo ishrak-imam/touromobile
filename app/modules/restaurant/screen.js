@@ -9,15 +9,19 @@ import { format } from 'date-fns'
 import { StyleSheet, ScrollView } from 'react-native'
 import { call, sms, web, map } from '../../utils/comms'
 import { IonIcon, Colors } from '../../theme'
-import isEmpty from '../../utils/isEmpty'
+// import isEmpty from '../../utils/isEmpty'
+import isIphoneX from '../../utils/isIphoneX'
 import Translator from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
+import { connect } from 'react-redux'
+import { getOrdersByDirection, getPaxByHotel, getOrderMode } from '../../selectors'
+import PaxInThisHotel from '../../components/paxWithoutOrder'
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
 const _T = Translator('RestaurantScreen')
 
-export default class RestaurantScreen extends Component {
+class RestaurantScreen extends Component {
   _renderRestaurant = restaurant => {
     const address = restaurant.get('address')
     const zip = restaurant.get('zip')
@@ -80,7 +84,7 @@ export default class RestaurantScreen extends Component {
         <Body>
           <Item style={ss.item}>
             <Text style={ss.boldText}>{_T('meals')}</Text>
-            <Right><Text>{`${_T('adult')}/${_T('child')}`}</Text></Right>
+            <Right><Text style={ss.boldText}>{`${_T('adult')}/${_T('child')}`}</Text></Right>
           </Item>
           {meals.map(m => {
             const id = m.get('id')
@@ -112,19 +116,23 @@ export default class RestaurantScreen extends Component {
     let beverageOrders = {}
 
     orders.map(o => {
-      const mealCount = o.get('adult')
-        ? adultMealOrders[o.get('meal')] || 0
-        : childMealOrders[o.get('meal')] || 0
+      if (o.get('meal')) {
+        const mealCount = o.get('adult')
+          ? adultMealOrders[o.get('meal')] || 0
+          : childMealOrders[o.get('meal')] || 0
 
-      o.get('adult')
-        ? adultMealOrders[o.get('meal')] = mealCount + 1
-        : childMealOrders[o.get('meal')] = mealCount + 1
+        o.get('adult')
+          ? adultMealOrders[o.get('meal')] = mealCount + 1
+          : childMealOrders[o.get('meal')] = mealCount + 1
+      }
 
-      const beverageCount = beverageOrders[o.get('drink')] || 0
-      beverageOrders[o.get('drink')] = beverageCount + 1
+      if (o.get('drink')) {
+        const beverageCount = beverageOrders[o.get('drink')] || 0
+        beverageOrders[o.get('drink')] = beverageCount + 1
+      }
     })
 
-    const showAge = !isEmpty(childMealOrders)
+    // const showAge = !isEmpty(childMealOrders)
 
     const renderOrder = (id, name, right) => {
       return (
@@ -146,17 +154,17 @@ export default class RestaurantScreen extends Component {
         <Body>
           <Item style={ss.item}>
             <Text style={ss.boldText}>{_T('orders')}</Text>
-            <Right><Text>{_T('amount')}</Text></Right>
+            <Right><Text style={ss.boldText}>{_T('amount')}</Text></Right>
           </Item>
 
-          <Text note>{_T('meals')}</Text>
-          {showAge && <Text note>{_T('adults')}</Text>}
+          {/* <Text note>{_T('meals')}</Text> */}
+          <Text note style={ss.label}>{_T('adults')}</Text>
           {renderOrderSummary(adultMealOrders, meals)}
 
-          {showAge && <Text note>{_T('children')}</Text>}
+          <Text note style={ss.label}>{_T('children')}</Text>
           {renderOrderSummary(childMealOrders, meals)}
 
-          <Text note>{_T('beverages')}</Text>
+          <Text note style={ss.label}>{_T('beverages')}</Text>
           {renderOrderSummary(beverageOrders, beverages)}
         </Body>
       </CardItem>
@@ -164,22 +172,21 @@ export default class RestaurantScreen extends Component {
   }
 
   render () {
-    const { navigation } = this.props
-    const direction = navigation.getParam('direction')
+    const { navigation, orders, paxByHotel } = this.props
     const restaurant = navigation.getParam('restaurant')
-    const orders = navigation.getParam('orders')
     const brand = navigation.getParam('brand')
     const meals = restaurant.get('meals')
 
     return (
       <Container>
         <Header left='back' title={restaurant.get('name')} navigation={navigation} brand={brand} />
-        <ScrollView>
+        <ScrollView contentContainerStyle={ss.container}>
           <View style={ss.containerCard}>
             {!!restaurant && this._renderRestaurant(restaurant)}
             {!!restaurant && this._renderComs(restaurant)}
             {!!meals && this._renderMeals(meals)}
-            {!!orders && this._renderOrders(orders.get(direction), restaurant)}
+            {!!orders.size && this._renderOrders(orders, restaurant)}
+            {!!paxByHotel.size && <PaxInThisHotel paxList={paxByHotel} label='paxInThisHotel' />}
           </View>
         </ScrollView>
       </Container>
@@ -187,7 +194,24 @@ export default class RestaurantScreen extends Component {
   }
 }
 
+const stateToProps = (state, props) => {
+  const { navigation } = props
+  const direction = navigation.getParam('direction')
+  const departureId = navigation.getParam('departureId')
+  const restaurant = navigation.getParam('restaurant')
+  const orderMode = getOrderMode(state)
+  return {
+    orders: getOrdersByDirection(state, departureId, direction, orderMode),
+    paxByHotel: getPaxByHotel(state, restaurant.get('id'))
+  }
+}
+
+export default connect(stateToProps, null)(RestaurantScreen)
+
 const ss = StyleSheet.create({
+  container: {
+    paddingBottom: isIphoneX ? 20 : 0
+  },
   containerCard: {
     paddingBottom: 10
   },
@@ -205,7 +229,8 @@ const ss = StyleSheet.create({
     paddingVertical: 5
   },
   itemRight: {
-    alignContent: 'center'
+    alignContent: 'center',
+    paddingRight: 10
   },
   itemText: {
     flex: 1
@@ -215,5 +240,8 @@ const ss = StyleSheet.create({
   },
   mapIcon: {
     alignSelf: 'flex-start'
+  },
+  label: {
+    marginTop: 15
   }
 })

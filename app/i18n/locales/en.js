@@ -52,7 +52,9 @@ export default {
     transferCity: 'Transfer city',
     accommodation: 'Accommodation',
     bagPick: 'Bag pickup',
-    bagDrop: 'Bag dropoff',
+    bagDrop: 'Bag dropoff'
+  },
+  OutHomeTab: {
     home: 'Home',
     out: 'Out'
   },
@@ -68,6 +70,14 @@ export default {
     statsFail: 'Reports upload failed',
     totalPax: 'Total passengers',
     excursion: 'Excursion',
+    excursions: 'Excursions',
+    orders: 'Orders',
+    orderSummary: 'Order summary',
+    meals: 'Meals',
+    adult: 'Adult',
+    child: 'Child',
+    total: 'Total',
+    beverages: 'Beverages',
     participants: 'Participants',
     sale: 'Sale',
     share: 'Share',
@@ -110,18 +120,37 @@ export default {
     phone: 'Phone',
     email: 'Email',
     backAccount: 'Bank account',
-    showTabLabels: 'Show tab labels'
+    tabLabels: 'Tab labels',
+    showHideTabLabels: 'Show/hide tab labels',
+    lunchOrderMode: 'Lunch order mode',
+    modeText: 'Once at least one order is placed, mode switching will be disabled.',
+    individualMode: 'Individual mode. Place order for each passengers individually.',
+    summaryMode: 'Summary mode. Place order for all passengers in a booking.'
   },
   RollCallScreen: {
     title: 'Roll call',
     paxSearch: 'Search passengers'
+  },
+  OrdersScreen: {
+    title: 'Orders',
+    header: 'Lunch orders',
+    meals: 'Meals',
+    child: 'Child',
+    beverages: 'Beverages',
+    invoicee: 'Invoicee',
+    selectInvoicee: 'Select invoicee',
+    invoiceeSelection: 'Invoicee selection'
   },
   NoData: {
     noMatch: 'No match found',
     noFutureTrips: 'No more future trips',
     noPastTrips: 'No more past trips',
     fetchingData: 'Fetching data from Touro...',
-    noCurrentTrip: 'No current trip'
+    noCurrentTrip: 'No current trip',
+    noExcursions: 'No excursions found for this trip',
+    flightTripNoOrder: 'Flight trip doesn\'t have meal orders',
+    noMealData: 'No meals found',
+    noBeverageData: 'No beverages found'
   },
   FooterButtons: {
     cancel: 'Cancel',
@@ -134,6 +163,13 @@ export default {
     lastName: 'Last name',
     hotel: 'Hotel',
     airport: 'Airport',
+    booking: 'Booking'
+  },
+  WithoutOrder: {
+    paxWithoutOrder: 'Passengers without order',
+    bookingsWithoutOrder: 'Bookings without order',
+    paxInThisHotel: 'Passengers in this hotel',
+    clickToExpand: 'Click the header to show the full list of passengers',
     booking: 'Booking'
   }
 }

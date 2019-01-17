@@ -5,15 +5,13 @@ import {
 } from 'native-base'
 
 import {
-
   getSortedPaxByFirstName, getPaxDataGroupByFirstName,
   getSortedPaxByLastName, getPaxDataGroupByLastName,
   getSortedPaxByAirport, getPaxDataGroupByAirport,
   getSortedPaxByHotel, getPaxDataGroupByHotel,
   getSortedPaxByBookingId, getPaxDataGroupByBooking,
-
-  filterPaxBySearchText, getModifiedPax
-
+  filterPaxBySearchText, getModifiedPax,
+  checkIfFlightTrip, getTransportType
 } from '../selectors'
 
 import { call, sms } from '../utils/comms'
@@ -48,7 +46,8 @@ class PaxItem extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return !nextProps.pax.equals(this.props.pax) ||
-            nextState.comment !== this.state.comment
+            nextState.comment !== this.state.comment ||
+            nextProps.tripType !== this.props.tripType
   }
 
   _renderPhone = number => (
@@ -160,24 +159,28 @@ class PaxList extends Component {
     const { navigation, trip } = this.props
     const departureId = String(trip.get('departureId'))
     const brand = trip.get('brand')
+    const isFlight = checkIfFlightTrip(trip)
     return () => {
-      navigation.navigate('PaxDetails', { brand, pax, departureId })
+      navigation.navigate('PaxDetails', { brand, pax, departureId, isFlight })
     }
   }
 
-  _renderPerson = ({ item }) => {
+  _renderPerson = tripType => {
     const { modifiedPax, trip } = this.props
     const { groupBy } = this.state
-    const paxId = String(item.get('id'))
-    const pax = mergeMapShallow(item, modifiedPax.get(paxId))
-    return (
-      <PaxItem
-        pax={pax}
-        onItemPress={this._toPaxDetails}
-        groupBy={groupBy}
-        hotels={trip.get('hotels')}
-      />
-    )
+    return ({ item }) => {
+      const paxId = String(item.get('id'))
+      const pax = mergeMapShallow(item, modifiedPax.get(paxId))
+      return (
+        <PaxItem
+          pax={pax}
+          onItemPress={this._toPaxDetails}
+          groupBy={groupBy}
+          hotels={trip.get('hotels')}
+          tripType={tripType}
+        />
+      )
+    }
   }
 
   _onSearch = searchText => {
@@ -186,6 +189,7 @@ class PaxList extends Component {
 
   _renderList = trip => {
     const { searchText, groupBy } = this.state
+    const tripType = getTransportType(trip)
 
     let sortedPax = null
     switch (groupBy) {
@@ -234,7 +238,7 @@ class PaxList extends Component {
         ? <ImmutableVirtualizedList
           keyboardShouldPersistTaps='always'
           immutableData={paxList}
-          renderItem={this._renderPerson}
+          renderItem={this._renderPerson(tripType)}
           keyExtractor={item => String(item.get('id'))}
         />
         : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
@@ -255,10 +259,8 @@ class PaxList extends Component {
     ]
 
     const hotels = trip.get('hotels')
-    const transport = trip.get('transport')
-
     const isHotels = hotels && hotels.size
-    const isFlight = transport ? transport.get('type') === 'flight' : false
+    const isFlight = checkIfFlightTrip(trip)
 
     if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
     if (isFlight) options.push(CONTEXT_OPTIONS.airport)

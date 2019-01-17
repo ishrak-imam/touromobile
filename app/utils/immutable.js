@@ -33,13 +33,17 @@ export const setIntoMapNested = (map, nest, val) => {
   return map.setIn(nest, val)
 }
 
-// export const deleteFromMap = (map, key) => {
-//   return map.delete(key)
-// }
+export const isMap = map => {
+  return Map.isMap(map)
+}
 
-// export const deleteAllFromMap = (map, keys) => {
-//   return map.deleteAll(keys)
-// }
+export const deleteFromMap = (map, key) => {
+  return map.delete(key)
+}
+
+export const deleteAllFromMap = (map, keys) => {
+  return map.deleteAll(keys)
+}
 
 /**
  * Set methods
@@ -95,4 +99,13 @@ export const readValue = (of, from) => {
 
 export const listToMap = (list, key) => {
   return list.reduce((map, item) => map.set(String(item.get(key)), item), getMap({}))
+}
+
+export const chunkList = (list, size) => {
+  let chunkedList = getList([])
+  const noOfChunks = Math.ceil(list.size / size)
+  for (let i = 0; i < noOfChunks; i++) {
+    chunkedList = chunkedList.push(list.slice(i * size, (i + 1) * size))
+  }
+  return chunkedList
 }

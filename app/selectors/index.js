@@ -7,7 +7,10 @@ export const getJwt = state => state.login.getIn(['user', 'accessToken'])
 export const getImageCache = state => state.imageCache
 
 export const {
+  checkIfFlightTrip,
+  checkIfBusTrip,
   getTrips,
+  getLunches,
   currentTripSelector,
   futureTripsSelector,
   pastTripsSelector,
@@ -15,6 +18,8 @@ export const {
   getPastTrips,
   getFutureTrips,
   getPax,
+  getPaxByHotel,
+  getFoods,
   filterPaxBySearchText,
   filterBookingBySearchText,
   getSortedPax,
@@ -34,9 +39,11 @@ export const {
   getSortedPaxByBookingId,
   pendingStatsUpload,
   pendingStatsUploadCount,
+  getFlightPax,
   getFlightPaxPhones,
   getPaxWithExcursionPack,
-  getPaxDataGroupByBooking
+  getPaxDataGroupByBooking,
+  getTransportType
 } = require('./trip')
 
 export const {
@@ -56,6 +63,7 @@ export const {
 export const {
   getReports,
   getStatsData,
+  getOrderStats,
   getTotalParticipantsCount,
   getActualTotalParticipantsCount
 } = require('./reports')
@@ -64,13 +72,23 @@ export const {
   getModifiedPax,
   getParticipants,
   getModifiedData,
-  getAaccept
+  getAaccept,
+  getOrder,
+  getOrderSummaryMode,
+  getInvoicee,
+  getInvoiceeSummaryMode,
+  getAllOrders,
+  getOrders,
+  getOrdersByDirection,
+  checkIfAnyOrderMade,
+  getOrderForBookingSummaryMode
 } = require('./modifiedData')
 
 export const {
   getProfile,
   getProfileUpdates,
-  getUserInProfile
+  getUserInProfile,
+  getOrderMode
 } = require('./profile')
 
 export const {

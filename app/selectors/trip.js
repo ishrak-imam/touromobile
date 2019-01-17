@@ -195,12 +195,14 @@ const resolvers = {
     const modifiedPax = data.get('modifiedPax')
     const paxMap = listToMap(pax, 'id')
 
-    return flightPax.reduce((numbers, fp) => {
-      const paxId = String(fp)
+    let numbers = flightPax.reduce((numbers, flightPax) => {
+      const paxId = String(flightPax.get('id'))
       const pax = modifiedPax.get(paxId) || paxMap.get(paxId)
       numbers = pax.get('phone') ? numbers + ',' + pax.get('phone') : numbers
       return numbers
     }, '')
+    numbers = numbers.replace(/^,/, '')
+    return numbers
   },
 
   participatingPax: data => {
@@ -252,6 +254,23 @@ export const futureTripsSelector = state => state.trips.get('future')
 export const pastTripsSelector = state => state.trips.get('past')
 
 export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpload')
+
+export const getLunches = state => state.trips.get('current').get('trip').get('lunches')
+
+export const getFoods = (state, type) => {
+  const currentTrip = state.trips.get('current')
+  if (!currentTrip.get('has')) {
+    return false
+  }
+  const lunches = currentTrip.get('trip').get('lunches')
+  if (!lunches) {
+    return false
+  }
+  return getMap({
+    out: lunches.get('out').get(type),
+    home: lunches.get('home').get(type)
+  })
+}
 
 let sortedTripsCache = null
 export const getSortedTrips = trips => {
@@ -422,9 +441,16 @@ export const getModifiedPaxByBooking = data => {
 export const getCurrentTrip = state => {
   const dateNow = new Date()
   const trips = getSortedTrips(state.trips.get('data'))
-  const trip = trips.find(trip => {
+  let trip = trips.find(trip => {
     return isWithinRange(dateNow, trip.get('outDate'), trip.get('homeDate'))
   })
+
+  if (trip) {
+    let brand = trip.get('brand')
+    if (brand === 'OL') {
+      trip = trip.set('brand', 'OH')
+    }
+  }
   return {
     has: !!trip,
     trip: trip || {}
@@ -463,6 +489,28 @@ export const getPastTrips = state => {
     has: !!trips.size,
     trips
   }
+}
+
+/**
+ * TODO:
+ * Find a way to cache the result
+ * note: Not immutable data
+ */
+export const getPaxByHotel = (state, hotelId) => {
+  const trip = state.trips.get('current').get('trip')
+  const pax = getSortedPax(trip)
+  return pax.filter(p => String(p.get('hotel')) === String(hotelId))
+}
+
+/**
+ * TODO:
+ * Find a way to cache the result
+ * note: Not immutable data
+ */
+export const getFlightPax = (pax, key) => {
+  return pax.filter((pax) => {
+    return pax.get('airport') === key
+  })
 }
 
 export const pendingStatsUpload = state => {
@@ -528,4 +576,18 @@ export const filterBookingBySearchText = (booking, text) => {
     const pax = filterPaxBySearchText(b.get('pax'), text)
     return pax.size
   })
+}
+
+export const checkIfFlightTrip = trip => {
+  const transport = trip.get('transport')
+  return transport ? transport.get('type') === 'flight' : false
+}
+
+export const checkIfBusTrip = trip => {
+  const transport = trip.get('transport')
+  return transport ? transport.get('type') === 'bus' : false
+}
+
+export const getTransportType = trip => {
+  return trip.getIn(['transport', 'type'])
 }
