@@ -5,7 +5,7 @@ import {
 } from 'native-base'
 import Header from '../../components/header'
 import IconButton from '../../components/iconButton'
-import { format } from 'date-fns'
+// import { format } from 'date-fns'
 import { StyleSheet, ScrollView } from 'react-native'
 import { call, sms, web, map } from '../../utils/comms'
 import { IonIcon, Colors } from '../../theme'
@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { getOrdersByDirection, getPaxByHotel, getOrderMode } from '../../selectors'
 import PaxInThisHotel from '../../components/paxWithoutOrder'
 
-const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
+// const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
 const _T = Translator('RestaurantScreen')
 
@@ -28,7 +28,7 @@ class RestaurantScreen extends Component {
     const city = restaurant.get('city')
     const country = restaurant.get('country')
     const directions = restaurant.get('directions')
-    const time = restaurant.get('time')
+    // const time = restaurant.get('time')
     const location = `${address}, ${zip}, ${city}, ${country}`
     return (
       <CardItem>
@@ -47,13 +47,13 @@ class RestaurantScreen extends Component {
               </View>
             }
 
-            {
+            {/* {
               !!time &&
               <View>
                 <Text style={ss.sectionHeader}>{_T('bookedTime')}</Text>
                 <Text>{format(time, DATE_FORMAT)}</Text>
               </View>
-            }
+            } */}
 
           </View>
           <Right style={ss.mapIcon}>
