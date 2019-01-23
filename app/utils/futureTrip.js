@@ -19,11 +19,11 @@ const TRANSFER_OPTIONS = {
 }
 
 const BAG_OPTIONS = {
-  HOTEL: { key: 'HOTEL', value: 'Övernattningshotell Malmö' },
+  HOTEL: { key: 'H', value: 'Övernattningshotell Malmö' },
   OT: { key: 'OT', value: 'Öresundsterminalen' },
-  OFFICE: { key: 'OFFICE', value: 'Kontoret' },
-  MAIL: { key: 'MAIL', value: 'Post' },
-  EDTRIP: { key: 'EDTRIP', value: 'Utbildningsresa (ingen väska)' }
+  OFFICE: { key: 'O', value: 'Kontoret' },
+  MAIL: { key: 'M', value: 'Post' },
+  EDTRIP: { key: 'ET', value: 'Utbildningsresa (ingen väska)' }
 }
 
 const ACCOMMODATION_OPTIONS = {

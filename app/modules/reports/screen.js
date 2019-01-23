@@ -108,7 +108,7 @@ class ReportsScreen extends Component {
       <Container>
         <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
 
-        {/* {this._renderTabs()} */}
+        {this._renderTabs()}
 
         {
           tab === EXCURSIONS && isDataReady &&

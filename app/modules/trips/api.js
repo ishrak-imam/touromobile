@@ -19,7 +19,7 @@ export const acceptAssignment = (guideId, departureId, data, jwt) => {
   return config.useMockData
     ? mockAcceptAssignment()
     : postRequest(
-      `resources/guide/${guideId}/trip/${departureId}/accept`,
+      `resources/guide/${guideId}/departure/${departureId}/accept`,
       data,
       headers
     )
@@ -32,7 +32,7 @@ export const confirmReservations = (guideId, departureId, data, jwt) => {
   return config.useMockData
     ? mockConfirmReservations()
     : postRequest(
-      `resources/guide/${guideId}/trip/${departureId}/reservation`,
+      `resources/guide/${guideId}/departure/${departureId}/reservation`,
       data,
       headers
     )

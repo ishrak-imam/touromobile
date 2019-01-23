@@ -10,13 +10,13 @@ import {
 } from '../../utils/actionDispatcher'
 import {
   getProfile, getUser, checkIfAnyOrderMade,
-  // checkIfBusTrip,
+  checkIfBusTrip,
   currentTripSelector
 } from '../../selectors'
 import { connect } from 'react-redux'
 import Profile from '../../components/profile'
 import Settings from '../../components/settings'
-// import LunchOrderMode from '../../components/lunchOrderMode'
+import LunchOrderMode from '../../components/lunchOrderMode'
 import NoData from '../../components/noData'
 import isIphoneX from '../../utils/isIphoneX'
 import { Colors } from '../../theme'
@@ -50,13 +50,13 @@ class ProfileScreen extends Component {
 
   render () {
     const {
-      navigation, profile, user
-      // currentTrip, isAnyOrder
+      navigation, profile, user,
+      currentTrip, isAnyOrder
     } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     const userDetails = profile.get('user')
-    // const trip = currentTrip.get('trip')
-    // const isBusTrip = checkIfBusTrip(trip)
+    const trip = currentTrip.get('trip')
+    const isBusTrip = checkIfBusTrip(trip)
 
     return (
       <Container>
@@ -69,7 +69,7 @@ class ProfileScreen extends Component {
           }
 
           <Settings />
-          {/* {isBusTrip && <LunchOrderMode isAnyOrder={isAnyOrder} />} */}
+          {isBusTrip && <LunchOrderMode isAnyOrder={isAnyOrder} />}
         </ScrollView>
       </Container>
     )
