@@ -20,7 +20,7 @@ class ImageCache extends Component {
   }
 
   _resolveProps = props => {
-    const { uri, style, imageCache } = props
+    const { uri, style, imageCache, transportType } = props
     // const imageName = `${getHash(uri)}.${getExtension(uri)}`
     const imageName = getImageName(uri)
     const isInCache = imageCache.get('data').has(imageName)
@@ -29,7 +29,7 @@ class ImageCache extends Component {
       imagePath = `${IMAGE_CACHE_DIR}${imageName}`
     }
     return {
-      uri, style, isInCache, imagePath
+      transportType, uri, style, isInCache, imagePath
     }
   }
 
@@ -47,9 +47,9 @@ class ImageCache extends Component {
   }
 
   render () {
-    const { style, imagePath } = this._resolveProps(this.props)
+    const { style, imagePath, transportType } = this._resolveProps(this.props)
     this.state.gotImageOnce = !!imagePath
-    const image = imagePath ? { uri: imagePath } : Images.loading
+    const image = imagePath ? { uri: imagePath } : Images[transportType]
     return (
       <Image source={image} style={style} resizeMode='cover' />
     )

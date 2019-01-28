@@ -81,10 +81,10 @@ class Trip extends Component {
     )
   }
 
-  _renderImage = image => {
+  _renderImage = (image, transportType) => {
     return (
       <CardItem cardBody>
-        <ImageCache uri={image} style={ss.tripImage} />
+        <ImageCache uri={image} style={ss.tripImage} transportType={transportType} />
       </CardItem>
     )
   }
@@ -343,11 +343,13 @@ class Trip extends Component {
     const isFlight = checkIfFlightTrip(trip)
     const isBus = checkIfBusTrip(trip)
 
+    const transportType = transport ? transport.get('type') : ''
+
     return (
       <View style={ss.wrapper}>
 
         {this._renderHeader(trip)}
-        {!!image && this._renderImage(image)}
+        {!!image && this._renderImage(image, transportType)}
         {this._renderPaxCount(pax.size)}
 
         {isFlight && this._renderFlight(transport, pax)}

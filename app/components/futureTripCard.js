@@ -393,6 +393,7 @@ class FutureTripCard extends Component {
     const image = trip.get('image')
     const pax = getPax(trip)
     const paddingBottom = subtitle ? 0 : 7
+    const transportType = transport ? transport.get('type') : ''
 
     return (
       <View style={ss.card}>
@@ -401,7 +402,7 @@ class FutureTripCard extends Component {
           <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
             <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
             <Text>{`${outDate} - ${homeDate}`}</Text>
-            {transport && <IonIcon name={transport.get('type')} />}
+            {transportType && <IonIcon name={transportType} />}
           </View>
           {
             !!subtitle &&
@@ -412,12 +413,12 @@ class FutureTripCard extends Component {
         </View>
 
         <View style={ss.imageContainer}>
-          <ImageCache uri={image} style={ss.cardImage} />
+          <ImageCache uri={image} style={ss.cardImage} transportType={transportType} />
           {/* {this._renderGradient()} */}
           {isLoading && <OverlaySpinner />}
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
-              {transport && this._renderCardTop(transport.get('type'))}
+              {transport && this._renderCardTop(transportType)}
             </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
