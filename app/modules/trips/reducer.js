@@ -1,11 +1,15 @@
 
 import { createReducer } from '../../utils/reduxHelpers'
-import { mergeMapShallow, getMap, getImmutableObject, setIntoMap } from '../../utils/immutable'
+import {
+  mergeMapShallow, getMap, getImmutableObject,
+  setIntoMap, readValue, getList
+} from '../../utils/immutable'
 
 import {
   TRIPS_REQ, TRIPS_SUCS, TRIPS_FAIL,
   SET_CURRENT_TRIP, SET_FUTURE_TRIPS, SET_PAST_TRIPS,
-  SET_PENDING_STATS_UPLOAD
+  SET_PENDING_STATS_UPLOAD,
+  CONNECTIONS_SUCS
 } from './action'
 
 import { TRIPS_INITIAL_STATE } from './immutable'
@@ -28,5 +32,13 @@ export const trips = createReducer(TRIPS_INITIAL_STATE, {
   [SET_FUTURE_TRIPS]: (state, payload) => setIntoMap(state, 'future', getImmutableObject(payload)),
   [SET_PAST_TRIPS]: (state, payload) => setIntoMap(state, 'past', getImmutableObject(payload)),
 
-  [SET_PENDING_STATS_UPLOAD]: (state, payload) => setIntoMap(state, 'pendingStatsUpload', payload.count)
+  [SET_PENDING_STATS_UPLOAD]: (state, payload) => setIntoMap(state, 'pendingStatsUpload', payload.count),
+
+  [CONNECTIONS_SUCS]: (state, payload) => {
+    let connections = readValue('connections', state)
+    connections = setIntoMap(connections, 'direct', getList(payload.direct))
+    connections = setIntoMap(connections, 'directWinter', getList(payload.directWinter))
+    connections = setIntoMap(connections, 'overnight', getList(payload.overnight))
+    return setIntoMap(state, 'connections', connections)
+  }
 })

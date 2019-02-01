@@ -17,7 +17,11 @@ import {
   setPastTrips,
 
   getPendingStatsUpload,
-  setPendingStatsUpload
+  setPendingStatsUpload,
+
+  connectionsReq,
+  connectionsSucs,
+  connectionsFail
 } from './action'
 
 import {
@@ -29,7 +33,8 @@ import {
 import { showModal } from '../../modal/action'
 
 import {
-  getTrips, acceptAssignment, confirmReservations
+  getTrips, acceptAssignment, confirmReservations,
+  getConnections
 } from './api'
 
 import {
@@ -38,6 +43,8 @@ import {
   getPastTrips as gptSelector,
   pendingStatsUpload
 } from '../../selectors'
+
+import { getMap } from '../../utils/immutable'
 
 export function * watchGetTrips () {
   yield takeFirst(tripsReq.getType(), workerGetTrips)
@@ -131,5 +138,32 @@ function * workerAcceptTrip (action) {
       message: failMsg,
       departureId
     }))
+  }
+}
+
+function formatConnections (connections) {
+  return connections.reduce((map, connection) => {
+    const conn = {
+      key: connection.id,
+      value: connection.location
+    }
+    if (connection.direct && !connection.winter) map.direct.push(getMap(conn))
+    if (connection.direct && connection.winter) map.directWinter.push(getMap(conn))
+    if (connection.overnight) map.overnight.push(getMap(conn))
+    return map
+  }, { direct: [], directWinter: [], overnight: [] })
+}
+
+export function * watchGetConnections () {
+  yield takeFirst(connectionsReq.getType(), workerGetConnections)
+}
+
+function * workerGetConnections (action) {
+  const { jwt } = action.payload
+  try {
+    const connections = yield call(getConnections, jwt)
+    yield put(connectionsSucs(formatConnections(connections)))
+  } catch (e) {
+    console.log(connectionsFail.getType(), e)
   }
 }

@@ -111,3 +111,9 @@ export const mockConfirmReservations = () => new Promise(resolve => {
     return resolve({ ok: true })
   }, 2000)
 })
+
+export const mockConnections = () => new Promise(resolve => {
+  setTimeout(() => {
+    return resolve(require('./connections.json'))
+  }, 2000)
+})

@@ -11,7 +11,7 @@ import { format } from 'date-fns'
 import FooterButtons from './footerButtons'
 import { connect } from 'react-redux'
 import OutHomeTab, { TABS } from './outHomeTab'
-import { getPax, getAaccept, getUser } from '../selectors'
+import { getPax, getAaccept, getUser, getConnections } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
 import { getMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
@@ -184,6 +184,7 @@ class FutureTripCard extends Component {
 
   _renderOutCombos = transportType => {
     const { out, home } = this.acceptData
+    const { connections } = this.props
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
@@ -210,6 +211,7 @@ class FutureTripCard extends Component {
           {this._renderComboLabel('transferCity')}
           {this._renderSelector(getTransferCities({
             direction: 'out',
+            connections,
             transportType,
             transfer: out.get(KEY_NAMES.TRANSFER),
             selected: out.get(KEY_NAMES.TRANSFER_CITY),
@@ -243,6 +245,7 @@ class FutureTripCard extends Component {
 
   _renderHomeCombos = transportType => {
     const { out, home } = this.acceptData
+    const { connections } = this.props
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
@@ -269,6 +272,7 @@ class FutureTripCard extends Component {
           {this._renderComboLabel('transferCity')}
           {this._renderSelector(getTransferCities({
             direction: 'home',
+            connections,
             transportType,
             transfer: home.get(KEY_NAMES.TRANSFER),
             selected: home.get(KEY_NAMES.TRANSFER_CITY),
@@ -447,7 +451,8 @@ const stateToProps = (state, props) => {
   const departureId = String(props.trip.get('departureId'))
   return {
     accept: getAaccept(state, departureId),
-    user: getUser(state)
+    user: getUser(state),
+    connections: getConnections(state)
   }
 }
 

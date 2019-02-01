@@ -257,6 +257,8 @@ export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpl
 
 export const getLunches = state => state.trips.get('current').get('trip').get('lunches')
 
+export const getConnections = state => state.trips.get('connections')
+
 export const getFoods = (state, type) => {
   const currentTrip = state.trips.get('current')
   if (!currentTrip.get('has')) {

@@ -17,5 +17,10 @@ export const TRIPS_INITIAL_STATE = getMap({
     trips: getList([]),
     has: false
   }),
-  pendingStatsUpload: 0
+  pendingStatsUpload: 0,
+  connections: getMap({
+    direct: getList([]),
+    directWinter: getList([]),
+    overnight: getList([])
+  })
 })

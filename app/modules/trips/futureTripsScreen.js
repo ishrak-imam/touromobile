@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { getUser, getTrips } from '../../selectors/index'
 import Translator from '../../utils/translator'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
-import { tripsReq } from './action'
+import { tripsReq, connectionsReq } from './action'
 // import NoData from '../../components/noData'
 
 const _T = Translator('FutureTripsScreen')
@@ -23,6 +23,9 @@ class FutureTripsScreen extends Component {
     const { user } = this.props
     networkActionDispatcher(tripsReq({
       isNeedJwt: true, guideId: user.get('guideId')
+    }))
+    networkActionDispatcher(connectionsReq({
+      isNeedJwt: true
     }))
   }
 

@@ -9,7 +9,8 @@ import {
   getCurrentTrip,
   getFutureTrips,
   getPastTrips,
-  getPendingStatsUpload
+  getPendingStatsUpload,
+  connectionsReq
 } from './action'
 import {
   networkActionDispatcher, actionDispatcher
@@ -55,6 +56,12 @@ class TripScreen extends Component {
         onOk: this._pendingModalOk
       }))
     }
+    const connections = trips.get('connections')
+    const direct = connections.get('direct').size
+    const overnight = connections.get('overnight').size
+    if (!direct || !overnight) {
+      this._requestConnections()
+    }
   }
 
   _requestTrips = isRefreshing => {
@@ -66,8 +73,15 @@ class TripScreen extends Component {
     }))
   }
 
+  _requestConnections = () => {
+    networkActionDispatcher(connectionsReq({
+      isNeedJwt: true
+    }))
+  }
+
   _onRefresh = () => {
     this._requestTrips(true)
+    this._requestConnections()
   }
 
   render () {

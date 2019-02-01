@@ -1,7 +1,10 @@
 
 import config from '../../utils/config'
 import { getRequest, postRequest } from '../../utils/request'
-import { mockTrips, mockAcceptAssignment, mockConfirmReservations } from '../../mockData'
+import {
+  mockTrips, mockAcceptAssignment,
+  mockConfirmReservations, mockConnections
+} from '../../mockData'
 
 export const getTrips = (guideId, jwt) => {
   const headers = {
@@ -36,4 +39,14 @@ export const confirmReservations = (guideId, departureId, data, jwt) => {
       data,
       headers
     )
+}
+
+export const getConnections = (jwt) => {
+  const headers = {
+    'Authorization': `Bearer ${jwt}`
+  }
+
+  return config.useMockData
+    ? mockConnections()
+    : getRequest('resources/connection', headers)
 }
