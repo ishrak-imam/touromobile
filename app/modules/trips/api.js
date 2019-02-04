@@ -48,5 +48,5 @@ export const getConnections = (jwt) => {
 
   return config.useMockData
     ? mockConnections()
-    : getRequest('resources/connection', headers)
+    : getRequest('resources/connectionlocation', headers)
 }

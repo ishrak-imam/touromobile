@@ -147,8 +147,8 @@ function formatConnections (connections) {
       key: connection.id,
       value: connection.location
     }
-    if (connection.direct && !connection.winter) map.direct.push(getMap(conn))
-    if (connection.direct && connection.winter) map.directWinter.push(getMap(conn))
+    if (connection.direct) map.direct.push(getMap(conn))
+    if (connection.directWinter) map.directWinter.push(getMap(conn))
     if (connection.overnight) map.overnight.push(getMap(conn))
     return map
   }, { direct: [], directWinter: [], overnight: [] })
