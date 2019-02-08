@@ -27,7 +27,7 @@ const isDevice = Constants.isDevice
 const deviceName = Constants.deviceName
 const deviceId = Constants.deviceId
 
-const useMockData = !isProduction && !isStaging
+const useMockData = false // !isProduction && !isStaging
 
 const config = {
   ...allConfigs[environment],

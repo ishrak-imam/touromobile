@@ -132,7 +132,7 @@ class ReportsScreen extends Component {
           />
         }
 
-        <FloatingButton onPress={this._onUpload} loading={reports.get('isLoading')} />
+        {isDataReady && <FloatingButton onPress={this._onUpload} loading={reports.get('isLoading')} />}
 
       </Container>
     )
