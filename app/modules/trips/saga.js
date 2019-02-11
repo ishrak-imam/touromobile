@@ -135,7 +135,7 @@ function * workerAcceptTrip (action) {
   } catch (e) {
     yield put(acceptTripFail({
       toast: showToast,
-      message: failMsg,
+      message: e || failMsg,
       departureId
     }))
   }

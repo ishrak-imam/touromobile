@@ -3,25 +3,19 @@
 
 import config from '../utils/config'
 const SERVER_URL = config.SERVER_URL
+const REQUEST_TIMEOUT = 30000
+
+const errorHandler = error => {
+  if(error === 'TIMEOUT') return Promise.reject('Request timeout')
+  return Promise.reject(error)
+}
 
 const responseHandler = response => {
-  if (response.status === 200 || response.status === 201) {
-    return response.json();
-  }
-  if(response.status === 204) {
-    return Promise.resolve()
-  }
-  if(response.status === 401) {
-    return response.text().then(errMsg => {
-      return Promise.reject(errMsg)
-    })
-  }
-  if(response.status === 404) {
-    return Promise.reject('404 not found')
-  }
-  if(response.status === 500) {
-    return Promise.reject('Something went wrong')
-  }
+  if (response.status === 200 || response.status === 201) return response.json();
+  if(response.status === 204) return Promise.resolve()
+  if(response.status === 401) return response.text().then(errMsg => Promise.reject(errMsg))
+  if(response.status === 404) return Promise.reject('404 not found')
+  if(response.status === 500) return Promise.reject('Something went wrong')
   return response.json().then(e => {
     const {code, message, name} = e;
     return Promise.reject({code, message, name});
@@ -29,38 +23,48 @@ const responseHandler = response => {
 };
 
 export const postRequest = (endPoint, data, headers = {}) => {
-  return fetch(`${SERVER_URL}${endPoint}`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }).then(responseHandler);
+  return Promise.race([
+    fetch(`${SERVER_URL}${endPoint}`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }),
+    new Promise((_, reject) => setTimeout(() => reject('TIMEOUT'), REQUEST_TIMEOUT))
+  ]).then(responseHandler).catch(errorHandler)
+
 }
 
 export const putRequest = (endPoint, data, headers = {}) => {
-  return fetch(`${SERVER_URL}${endPoint}`, {
-    method: 'PUT',
-    headers: {
-      ...headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }).then(responseHandler);
+  return Promise.race([
+    fetch(`${SERVER_URL}${endPoint}`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }),
+    new Promise((_, reject) => setTimeout(() => reject('TIMEOUT'), REQUEST_TIMEOUT))
+  ]).then(responseHandler).catch(errorHandler)
 }
 
 export const getRequest = (url, headers = {}) => {
-  return fetch(`${SERVER_URL}${url}`, {
-    method: 'GET',
-    headers: {
-      ...headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }).then(responseHandler);
+  return Promise.race([
+    fetch(`${SERVER_URL}${url}`, {
+      method: 'GET',
+      headers: {
+        ...headers,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }),
+    new Promise((_, reject) => setTimeout(() => reject('TIMEOUT'), REQUEST_TIMEOUT))
+  ]).then(responseHandler).catch(errorHandler)
 }
 
 // function buildUrl (endPoint, obj) {
