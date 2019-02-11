@@ -8,7 +8,7 @@ import {
   currentTripSelector, getStatsData, getOrderStats,
   getParticipants, getTripExcursions, getReports, getOrders, getOrderMode,
   getAllOrders, getSortedPaxByFirstName, getFoods, checkIfFlightTrip,
-  getSortedBookings, getUser
+  getSortedBookings, getUser, getModifiedPax
 } from '../../selectors'
 import Stats from '../../components/stats'
 import OrderStats from '../../components/orderStats'
@@ -40,13 +40,13 @@ class ReportsScreen extends Component {
   }
 
   _onUpload = () => {
-    const { excursions, participants, currentTrip, allOrders, user, orderMode } = this.props
+    const { excursions, participants, currentTrip, allOrders, user, modifiedPax, orderMode } = this.props
     const trip = currentTrip.get('trip')
     const isFlight = checkIfFlightTrip(trip)
     const guideId = user.get('guideId')
     const departureId = String(trip.get('departureId'))
     const transportId = String(trip.get('transportId'))
-    const statsData = getStatsData(excursions, participants, trip)
+    const statsData = getStatsData(excursions, modifiedPax, participants, trip)
     const orderStats = getOrderStats(allOrders, transportId, orderMode)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
@@ -155,6 +155,7 @@ const stateToProps = state => {
     meals: getFoods(state, 'meals'),
     beverages: getFoods(state, 'beverages'),
     user: getUser(state),
+    modifiedPax: getModifiedPax(state, departureId),
     orderMode
   }
 }

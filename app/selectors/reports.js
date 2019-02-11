@@ -1,6 +1,6 @@
 
 import { getPax, getParticipatingPax, getActualParticipatingPax } from './trip'
-import { getMap } from '../utils/immutable'
+import { getMap, mergeMapShallow } from '../utils/immutable'
 
 export const getReports = state => state.reports
 
@@ -8,15 +8,17 @@ export const getReports = state => state.reports
  * TODO:
  * see if possible to add caching
  */
-export const getStatsData = (excursions, participants, trip) => {
+export const getStatsData = (excursions, modifiedPax, participants, trip) => {
   const pax = getPax(trip)
   const transportId = String(trip.get('transportId'))
   const excursionPaxCounts = excursions.reduce((m, e) => {
     const excursionId = e.get('id')
     const participatingPax = getParticipatingPax(getMap({ pax, participants: participants.get(String(excursionId)) }))
     const { adults, children } = participatingPax.reduce((map, pax) => {
-      if (pax.get('adult')) map.adults += 1
-      if (!pax.get('adult')) map.children += 1
+      const paxId = String(pax.get('id'))
+      const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
+      if (mPax.get('adult')) map.adults += 1
+      if (!mPax.get('adult')) map.children += 1
       return map
     }, { adults: 0, children: 0 })
     m.push({ id: excursionId, adults, children })

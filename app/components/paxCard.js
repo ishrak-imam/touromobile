@@ -14,7 +14,8 @@ import { modifyPaxData } from '../modules/modifiedData/action'
 import { connect } from 'react-redux'
 import { getModifiedPax } from '../selectors'
 import { mergeMapShallow } from '../utils/immutable'
-import FooterButtons from '../components/footerButtons'
+import FooterButtons from './footerButtons'
+import CheckBox from './checkBox'
 import PaxOrder from './paxOrder'
 const _T = Translator('PaxDetailsScreen')
 
@@ -24,7 +25,8 @@ class PaxCard extends Component {
     this.state = {
       editMode: false,
       phone: this.paxData.get('phone'),
-      comment: this.paxData.get('comment')
+      comment: this.paxData.get('comment'),
+      adult: this.paxData.get('adult')
     }
   }
 
@@ -43,7 +45,8 @@ class PaxCard extends Component {
     this.setState({
       editMode: !this.state.editMode,
       phone: this.paxData.get('phone'),
-      comment: this.paxData.get('comment')
+      comment: this.paxData.get('comment'),
+      adult: this.paxData.get('adult')
     })
   }
 
@@ -165,6 +168,20 @@ class PaxCard extends Component {
     )
   }
 
+  _renderAdult = () => {
+    const { editMode, adult } = this.state
+    return (
+      <CardItem>
+        <View style={ss.adultCon}>
+          <Text style={ss.label}>Adult</Text>
+          <TouchableOpacity style={ss.adultCheck} disabled={!editMode} onPress={this._onAdultToggle}>
+            <CheckBox checked={adult} />
+          </TouchableOpacity>
+        </View>
+      </CardItem>
+    )
+  }
+
   _onCancel = () => {
     this.setState({
       editMode: false,
@@ -175,7 +192,7 @@ class PaxCard extends Component {
 
   _onSave = () => {
     const { pax, departureId } = this.props
-    const { phone, comment } = this.state
+    const { phone, comment, adult } = this.state
 
     // if (!phone && !comment) return
     // const update = {}
@@ -185,18 +202,23 @@ class PaxCard extends Component {
     actionDispatcher(modifyPaxData({
       departureId,
       paxId: String(pax.get('id')),
-      pax: { phone, comment }
+      pax: { phone, comment, adult }
     }))
 
     this.setState({
       editMode: false,
       phone,
-      comment
+      comment,
+      adult
     })
   }
 
   _onChangeText = field => text => {
     this.setState({ [field]: text })
+  }
+
+  _onAdultToggle = () => {
+    this.setState({ adult: !this.state.adult })
   }
 
   _renderPaxOrder = (bookingId, departureId, pax) => {
@@ -226,6 +248,7 @@ class PaxCard extends Component {
         {!!excursion && this._renderExcursion()}
         {!!coPax.size && this._renderCoPax(coPax, this.paxData)}
         {this._renderComment(comment)}
+        {this._renderAdult()}
         {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
         {!isFlight && this._renderPaxOrder(bookingId, departureId, pax)}
       </KeyboardAwareScrollView>
@@ -243,7 +266,6 @@ const stateToProps = (state, props) => {
 export default connect(stateToProps, null)(PaxCard)
 
 const ss = StyleSheet.create({
-
   comms: {
     flex: 1,
     flexDirection: 'row',
@@ -276,6 +298,15 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center'
+  },
+  adultCon: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  adultCheck: {
+    marginLeft: 10,
+    paddingHorizontal: 20,
+    paddingBottom: 5
   },
   label: {
     marginBottom: 5,
