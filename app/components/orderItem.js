@@ -121,12 +121,15 @@ class OrderItem extends Component {
           isChild={child}
         />
 
-        <BeverageSelection
-          items={beverages}
-          label={_T('beverages')}
-          onSelect={this._onBeverageSelect}
-          selected={this.selected}
-        />
+        {
+          beverages && beverages.size &&
+          <BeverageSelection
+            items={beverages}
+            label={_T('beverages')}
+            onSelect={this._onBeverageSelect}
+            selected={this.selected}
+          />
+        }
 
       </View>
     )

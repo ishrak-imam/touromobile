@@ -265,13 +265,13 @@ export default class OrderStats extends Component {
 
   _renderOrderStats = () => {
     const { enableScrollViewScroll } = this.state
-    const { orderMode } = this.props
+    const { orderMode, beverages } = this.props
     return (
       <View>
         {this._renderHeader()}
         <ScrollView scrollEnabled={enableScrollViewScroll}>
           {this._renderMealOrders()}
-          {this._renderBeverageOrders()}
+          {beverages.get('out') && beverages.get('home') && this._renderBeverageOrders()}
 
           {
             orderMode === SUMMARY_MODE &&
