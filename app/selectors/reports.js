@@ -14,7 +14,12 @@ export const getStatsData = (excursions, participants, trip) => {
   const excursionPaxCounts = excursions.reduce((m, e) => {
     const excursionId = e.get('id')
     const participatingPax = getParticipatingPax(getMap({ pax, participants: participants.get(String(excursionId)) }))
-    m.push({ [excursionId]: participatingPax.size })
+    const { adults, children } = participatingPax.reduce((map, pax) => {
+      if (pax.get('adult')) map.adults += 1
+      if (!pax.get('adult')) map.children += 1
+      return map
+    }, { adults: 0, children: 0 })
+    m.push({ id: excursionId, adults, children })
     return m
   }, [])
 
