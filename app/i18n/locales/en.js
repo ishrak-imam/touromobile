@@ -171,5 +171,8 @@ export default {
     paxInThisHotel: 'Passengers in this hotel',
     clickToExpand: 'Click the header to show the full list of passengers',
     booking: 'Booking'
+  },
+  NoTrips: {
+    title: 'No Trips'
   }
 }

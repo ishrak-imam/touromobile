@@ -21,7 +21,9 @@ import {
 
   connectionsReq,
   connectionsSucs,
-  connectionsFail
+  connectionsFail,
+
+  navigateToOtherTripScreen
 } from './action'
 
 import {
@@ -46,25 +48,41 @@ import {
 
 import { getMap } from '../../utils/immutable'
 
+import { navigate } from '../../navigation/service'
+
 export function * watchGetTrips () {
   yield takeFirst(tripsReq.getType(), workerGetTrips)
 }
 
 function * workerGetTrips (action) {
   try {
-    const { guideId, jwt } = action.payload
+    const { guideId, jwt, pendingModal } = action.payload
     const data = yield call(getTrips, guideId, jwt)
     yield put(tripsSucs(data))
     yield put(getCurrentTrip())
     yield put(getFutureTrips())
     yield put(getPastTrips())
-    yield put(getPendingStatsUpload({
-      showWarning: false,
-      msg: '',
-      onOk: null
-    }))
+    yield put(getPendingStatsUpload(pendingModal))
+    yield put(navigateToOtherTripScreen())
   } catch (e) {
     yield put(tripsFail(e))
+  }
+}
+
+export function * watchTripNavigation () {
+  yield takeFirst(navigateToOtherTripScreen.getType(), workerTripNavigation)
+}
+
+function * workerTripNavigation () {
+  const currentTrip = yield select(gctSelector)
+  if (!currentTrip.has) {
+    const futureTrips = yield select(gftSelector)
+    if (futureTrips.has) navigate('FutureTrips')
+    else {
+      const pastTrips = yield select(gptSelector)
+      if (pastTrips.has) navigate('PastTrips')
+      else navigate('NoTrips')
+    }
   }
 }
 

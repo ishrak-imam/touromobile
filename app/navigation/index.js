@@ -21,6 +21,7 @@ import ExcursionsScreen from '../modules/excursions/screen'
 import ReportsScreen from '../modules/reports/screen'
 import FutureTripsScreen from '../modules/trips/futureTripsScreen'
 import PastTripsScreen from '../modules/trips/pastTripsScreen'
+import NoTripsScreen from '../modules/trips/noTrips'
 
 import RestaurantScreen from '../modules/restaurant/screen'
 import ExcursionDetailsScreen from '../modules/excursions/detailsScreen'
@@ -65,6 +66,7 @@ const appStack = createStackNavigator(
     PaxDetails: { screen: PaxDetailsScreen },
     FutureTrips: { screen: FutureTripsScreen },
     PastTrips: { screen: PastTripsScreen },
+    NoTrips: { screen: NoTripsScreen },
     Profile: { screen: ProfileScreen },
     RollCall: { screen: RollCallScreen },
     Orders: { screen: OrdersScreen }

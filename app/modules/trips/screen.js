@@ -69,7 +69,12 @@ class TripScreen extends Component {
     networkActionDispatcher(tripsReq({
       isNeedJwt: true,
       guideId: user.get('guideId'),
-      isRefreshing
+      isRefreshing,
+      pendingModal: {
+        showWarning: false,
+        msg: _T('pendingStats'),
+        onOk: this._pendingModalOk
+      }
     }))
   }
 

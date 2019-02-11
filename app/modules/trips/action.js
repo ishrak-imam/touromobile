@@ -20,6 +20,8 @@ export const CONNECTIONS_REQ = 'CONNECTIONS_REQ'
 export const CONNECTIONS_SUCS = 'CONNECTIONS_SUCS'
 export const CONNECTIONS_FAIL = 'CONNECTIONS_FAIL'
 
+export const NAVIGATE_TO_OTHER_TRIP_SCREEN = 'NAVIGATE_TO_OTHER_TRIP_SCREEN'
+
 export const tripsReq = createAction(TRIPS_REQ)
 export const tripsSucs = createAction(TRIPS_SUCS)
 export const tripsFail = createAction(TRIPS_FAIL)
@@ -39,3 +41,5 @@ export const setPendingStatsUpload = createAction(SET_PENDING_STATS_UPLOAD)
 export const connectionsReq = createAction(CONNECTIONS_REQ)
 export const connectionsSucs = createAction(CONNECTIONS_SUCS)
 export const connectionsFail = createAction(CONNECTIONS_FAIL)
+
+export const navigateToOtherTripScreen = createAction(NAVIGATE_TO_OTHER_TRIP_SCREEN)

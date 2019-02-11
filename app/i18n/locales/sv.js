@@ -172,5 +172,8 @@ export default {
     paxInThisHotel: 'Passagerare på detta hotell',
     clickToExpand: 'Klicka på rubriken för att visa alla passagerare',
     booking: 'Bokning'
+  },
+  NoTrips: {
+    title: 'Inga resor'
   }
 }
