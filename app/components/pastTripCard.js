@@ -10,7 +10,8 @@ import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import {
   getPax, getStatsData, getAllOrders, getOrderMode, getUser,
-  getTotalParticipantsCount, getOrderStats, checkIfFlightTrip
+  getTotalParticipantsCount, getOrderStats, checkIfFlightTrip,
+  getModifiedPax
 } from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
@@ -64,9 +65,9 @@ class PastTripCard extends Component {
 
   _uploadStats = () => {
     const { trip, departureId, transportId, excursions, participants } = this.tripData
-    const { orders, user, orderMode } = this.props
+    const { orders, user, modifiedPax, orderMode } = this.props
     const guideId = user.get('guideId')
-    const statsData = getStatsData(excursions, participants, trip)
+    const statsData = getStatsData(excursions, modifiedPax, participants, trip)
     const orderStats = getOrderStats(orders, transportId, orderMode)
     const isFlight = checkIfFlightTrip(trip)
     networkActionDispatcher(uploadStatsReq({
@@ -180,6 +181,7 @@ const stateToProps = (state, props) => {
   return {
     orders: getAllOrders(state, departureId, orderMode),
     user: getUser(state),
+    modifiedPax: getModifiedPax(state, departureId),
     orderMode
   }
 }

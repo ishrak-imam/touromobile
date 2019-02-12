@@ -23,7 +23,7 @@ function * workerUploadStats (action) {
 
   try {
     yield call(uploadStats, guideId, departureId, statsData, jwt)
-    if (!isFlight) yield call(uploadOrderStats, guideId, departureId, orderStats, jwt)
+    // if (!isFlight) yield call(uploadOrderStats, guideId, departureId, orderStats, jwt)
     yield put(uploadStatsSucs({
       toast: showToast,
       message: sucsMsg,
