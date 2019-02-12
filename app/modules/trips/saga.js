@@ -143,7 +143,7 @@ function * workerAcceptTrip (action) {
   } = action.payload
   try {
     yield call(acceptAssignment, guideId, departureId, acceptData, jwt)
-    // yield call(confirmReservations, guideId, departureId, reservationData, jwt)
+    yield call(confirmReservations, guideId, departureId, reservationData, jwt)
     yield put(acceptTripSucs({
       toast: showToast,
       message: sucsMsg,
