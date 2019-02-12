@@ -21,7 +21,7 @@ class LoadingScreen extends Component {
   render () {
     return (
       <View style={ss.container}>
-        <Spinner size='large' color={Colors.blue} />
+        <Spinner size='large' color={Colors.white} />
       </View>
     )
   }
@@ -33,6 +33,7 @@ const ss = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: Colors.blue
   }
 })

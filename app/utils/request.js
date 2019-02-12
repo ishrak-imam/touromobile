@@ -11,10 +11,7 @@ const errorHandler = error => {
 }
 
 const responseHandler = response => {
-  if (response.status === 200 || response.status === 201) {
-    if(!response._bodyText) return Promise.resolve('Success')
-    return response.json()
-  }
+  if (response.status === 200 || response.status === 201) return response.json()
   if(response.status === 204) return Promise.resolve()
   if(response.status === 401) return response.text().then(errMsg => Promise.reject(errMsg))
   if(response.status === 404) return Promise.reject('404 not found')
