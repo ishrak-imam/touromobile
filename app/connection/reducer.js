@@ -1,6 +1,6 @@
 
 import { createReducer } from '../utils/reduxHelpers'
-import { mergeMapDeep, getMap } from '../utils/immutable'
+import { setIntoMap } from '../utils/immutable'
 
 import {
   CONNECTION_STATUS,
@@ -10,6 +10,7 @@ import {
 import { CONNECTION_INITIAL_STATE } from './immutable'
 
 export const connection = createReducer(CONNECTION_INITIAL_STATE, {
-  [CONNECTION_STATUS]: (state, payload) => mergeMapDeep(state, getMap({ online: payload })),
-  [CONNECTION_TYPE]: (state, payload) => mergeMapDeep(state, getMap({ type: payload }))
+  [CONNECTION_STATUS]: (state, payload) => setIntoMap(state, 'online', payload),
+  [CONNECTION_TYPE]: (state, payload) => setIntoMap(state, 'type', payload)
+
 })

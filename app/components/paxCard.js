@@ -186,7 +186,8 @@ class PaxCard extends Component {
     this.setState({
       editMode: false,
       phone: this.paxData.get('phone'),
-      comment: this.paxData.get('comment')
+      comment: this.paxData.get('comment'),
+      adult: this.paxData.get('adult')
     })
   }
 

@@ -175,7 +175,7 @@ class SummaryOrderItem extends Component {
         }
         <ScrollView style={ss.scroll} showsVerticalScrollIndicator={false}>
           {this._renderMeals(meals, pax.size)}
-          {beverages && beverages.size && this._renderBeverages(beverages, pax.size)}
+          {beverages && this._renderBeverages(beverages, pax.size)}
         </ScrollView>
       </View>
     )

@@ -122,7 +122,7 @@ class OrderItem extends Component {
         />
 
         {
-          beverages && beverages.size &&
+          beverages &&
           <BeverageSelection
             items={beverages}
             label={_T('beverages')}
