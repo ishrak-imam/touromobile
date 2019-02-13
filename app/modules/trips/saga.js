@@ -121,7 +121,6 @@ function * workerGetPendingStatsUpload (action) {
   const { showWarning, msg, onOk } = action.payload
   const count = yield select(pendingStatsUpload)
   yield put(setPendingStatsUpload({ count }))
-
   if (count > 0 && showWarning) {
     yield put(showModal({
       type: 'warning',

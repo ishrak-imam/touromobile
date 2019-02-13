@@ -22,7 +22,9 @@ class FutureTripsScreen extends Component {
   _onRefresh = () => {
     const { user } = this.props
     networkActionDispatcher(tripsReq({
-      isNeedJwt: true, guideId: user.get('guideId')
+      isNeedJwt: true,
+      guideId: user.get('guideId'),
+      pendingModal: {}
     }))
     networkActionDispatcher(connectionsReq({
       isNeedJwt: true
