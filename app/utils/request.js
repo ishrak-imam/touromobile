@@ -4,6 +4,10 @@
 import config from '../utils/config'
 const SERVER_URL = config.SERVER_URL
 const REQUEST_TIMEOUT = 30000
+const COMMON_HEADERS = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+}
 
 const errorHandler = error => {
   if(error === 'TIMEOUT') return Promise.reject('Request timeout')
@@ -25,48 +29,37 @@ const responseHandler = response => {
   });
 };
 
+const createFetchPromise = (endPoint, method, data, headers) => {
+  const options = {
+    method,
+    headers: {...headers, ...COMMON_HEADERS},
+  }
+  if(method !== 'GET') options.body = JSON.stringify(data)
+  return fetch(`${SERVER_URL}${endPoint}`, options)
+}
+
+const createTimeoutPromise = () => {
+  return new Promise((_, reject) => setTimeout(() => reject('TIMEOUT'), REQUEST_TIMEOUT))
+}
+
 export const postRequest = (endPoint, data, headers = {}) => {
   return Promise.race([
-    fetch(`${SERVER_URL}${endPoint}`, {
-      method: 'POST',
-      headers: {
-        ...headers,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }),
-    new Promise((_, reject) => setTimeout(() => reject('TIMEOUT'), REQUEST_TIMEOUT))
+    createFetchPromise(endPoint, 'POST', data, headers),
+    createTimeoutPromise()
   ]).then(responseHandler).catch(errorHandler)
-
 }
 
 export const putRequest = (endPoint, data, headers = {}) => {
   return Promise.race([
-    fetch(`${SERVER_URL}${endPoint}`, {
-      method: 'PUT',
-      headers: {
-        ...headers,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }),
-    new Promise((_, reject) => setTimeout(() => reject('TIMEOUT'), REQUEST_TIMEOUT))
+    createFetchPromise(endPoint, 'PUT', data, headers),
+    createTimeoutPromise()
   ]).then(responseHandler).catch(errorHandler)
 }
 
-export const getRequest = (url, headers = {}) => {
+export const getRequest = (endPoint, headers = {}) => {
   return Promise.race([
-    fetch(`${SERVER_URL}${url}`, {
-      method: 'GET',
-      headers: {
-        ...headers,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }),
-    new Promise((_, reject) => setTimeout(() => reject('TIMEOUT'), REQUEST_TIMEOUT))
+    createFetchPromise(endPoint, 'GET', {}, headers),
+    createTimeoutPromise()
   ]).then(responseHandler).catch(errorHandler)
 }
 
