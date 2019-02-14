@@ -104,7 +104,8 @@ export default {
     booking: 'Bokning',
     excursionPack: 'Utflyktspaket',
     travelsWith: 'Åker med',
-    comment: 'Kommentar'
+    comment: 'Kommentar',
+    adult: 'Vuxen'
   },
   ExcursionDetailsScreen: {
     paxSearch: 'Sök passagerare',
@@ -163,7 +164,7 @@ export default {
     firstName: 'Förnamn',
     lastName: 'Efternamn',
     hotel: 'Hotel',
-    airport: 'Aeropuerto',
+    airport: 'Flygplats',
     booking: 'Bokning'
   },
   WithoutOrder: {

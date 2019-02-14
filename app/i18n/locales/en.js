@@ -103,7 +103,8 @@ export default {
     booking: 'Booking',
     excursionPack: 'Excursion pack',
     travelsWith: 'Travels with',
-    comment: 'Comment'
+    comment: 'Comment',
+    adult: 'Adult'
   },
   ExcursionDetailsScreen: {
     paxSearch: 'Search passengers',

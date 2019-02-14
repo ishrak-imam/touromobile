@@ -173,7 +173,7 @@ class PaxCard extends Component {
     return (
       <CardItem>
         <View style={ss.adultCon}>
-          <Text style={ss.label}>Adult</Text>
+          <Text style={ss.label}>{_T('adult')}</Text>
           <TouchableOpacity style={ss.adultCheck} disabled={!editMode} onPress={this._onAdultToggle}>
             <CheckBox checked={adult} />
           </TouchableOpacity>
