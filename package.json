@@ -8,16 +8,12 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-
     "publish-staging": "expo publish --release-channel staging",
     "publish-prod": "expo publish --release-channel prod-v1",
-
     "build-android-staging": "expo build:android --release-channel staging",
     "build-android-prod": "expo build:android --release-channel prod-v1",
-
     "build-ios-staging": "expo build:ios --release-channel staging",
     "build-ios-prod": "expo build:ios --release-channel prod-v1"
-
   },
   "standard": {
     "parser": "babel-eslint"
@@ -44,5 +40,7 @@
     "redux-saga": "^0.16.0",
     "sentry-expo": "~1.9.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-plugin-transform-remove-console": "^6.9.4"
+  }
 }
