@@ -20,6 +20,7 @@ import {
   getLogin,
   getNavigation,
   pendingStatsUploadCount,
+  remainingFutureTripsCount,
   // getTrips,
   currentTripSelector
 } from '../selectors'
@@ -102,7 +103,7 @@ class TMDrawer extends Component {
   }
 
   _renderMenuItems = () => {
-    const { pendingUploadCount } = this.props
+    const { pendingUploadCount, remainingFutureTrips } = this.props
     // const hasFutureTrips = trips.getIn(['future', 'has'])
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
@@ -136,6 +137,10 @@ class TMDrawer extends Component {
             {
               (routeName === 'PastTrips' && !!pendingUploadCount) &&
               <Badge type='warning'><Text style={ss.badgeText}>{pendingUploadCount}</Text></Badge>
+            }
+            {
+              (routeName === 'FutureTrips' && !!remainingFutureTrips) &&
+              <Badge type='warning'><Text style={ss.badgeText}>{remainingFutureTrips}</Text></Badge>
             }
           </Right>
         </ListItem>
@@ -193,6 +198,7 @@ const stateToProps = state => ({
   user: getLogin(state).get('user'),
   nav: getNavigation(state),
   pendingUploadCount: pendingStatsUploadCount(state),
+  remainingFutureTrips: remainingFutureTripsCount(state),
   // trips: getTrips(state)
   currentTrip: currentTripSelector(state)
 })

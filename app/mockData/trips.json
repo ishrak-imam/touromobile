@@ -3839,8 +3839,8 @@
 
   {
     "departureId": 43552,
-    "outDate": "2018-11-14T00:00:00",
-    "homeDate": "2018-11-15T00:00:00",
+    "outDate": "2019-11-14T00:00:00",
+    "homeDate": "2019-11-15T00:00:00",
     "name": "Prag med Nytta och Nöje - buss 3",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/3840/image",
     "description": "Prag med Nytta och Nöje - buss 3",
@@ -4817,8 +4817,8 @@
 
   {
     "departureId": 47777,
-    "outDate": "2018-10-25T00:00:00",
-    "homeDate": "2018-10-28T00:00:00",
+    "outDate": "2019-10-25T00:00:00",
+    "homeDate": "2019-10-28T00:00:00",
     "name": "Berlin Weekend",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/3493/image",
     "description": "Berlin Weekend",

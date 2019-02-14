@@ -13,7 +13,8 @@ import {
   getCurrentTrip,
   getFutureTrips,
   getPastTrips,
-  getPendingStatsUpload
+  getPendingStatsUpload,
+  getRemainingFutureTrips
 } from '../trips/action'
 
 import { getUser } from '../../selectors'
@@ -46,11 +47,8 @@ function * createAppStateSubscription (action) {
         yield put(getCurrentTrip())
         yield put(getFutureTrips())
         yield put(getPastTrips())
-        yield put(getPendingStatsUpload({
-          showWarning: false,
-          msg: '',
-          onOk: null
-        }))
+        yield put(getPendingStatsUpload({}))
+        yield put(getRemainingFutureTrips())
       }
     }
   })

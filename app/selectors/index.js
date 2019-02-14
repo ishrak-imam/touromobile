@@ -40,6 +40,8 @@ export const {
   getSortedPaxByBookingId,
   pendingStatsUpload,
   pendingStatsUploadCount,
+  remainingFutureTrips,
+  remainingFutureTripsCount,
   getFlightPax,
   getFlightPaxPhones,
   getPaxWithExcursionPack,

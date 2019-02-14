@@ -15,7 +15,7 @@ export const UPDATE_PROFILE_REQ = 'UPDATE_PROFILE_REQ'
 export const UPDATE_PROFILE_SUCS = 'UPDATE_PROFILE_SUCS'
 export const UPDATE_PROFILE_FAIL = 'UPDATE_PROFILE_FAIL'
 
-export const SYNC_PENDING_UPDATES = 'SYNC_PENDING_UPDATES'
+export const SYNC_PENDING_PROFILE_UPDATE = 'SYNC_PENDING_PROFILE_UPDATE'
 
 export const toggleTabLabels = createAction(TOGGLE_TAB_LABELS)
 export const toggleOrderMode = createAction(TOGGLE_ORDER_MODE)
@@ -31,4 +31,4 @@ export const updateProfileReq = createAction(UPDATE_PROFILE_REQ)
 export const updateProfileSucs = createAction(UPDATE_PROFILE_SUCS)
 export const updateProfileFail = createAction(UPDATE_PROFILE_FAIL)
 
-export const syncPendingUpdates = createAction(SYNC_PENDING_UPDATES)
+export const syncPendingProfileUpdate = createAction(SYNC_PENDING_PROFILE_UPDATE)

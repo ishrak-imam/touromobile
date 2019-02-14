@@ -11,7 +11,7 @@ import {
 } from './action'
 
 import {
-  syncPendingUpdates
+  syncPendingProfileUpdate
 } from '../modules/profile/action'
 
 import { getUser } from '../selectors'
@@ -56,7 +56,7 @@ function * createConnectionSubscription (action) {
       const user = yield select(getUser)
       const isLoggedIn = user.get('accessToken')
       if (isLoggedIn) {
-        yield put(syncPendingUpdates())
+        yield put(syncPendingProfileUpdate())
       }
     } else {
       yield put(connectionStatus(false))

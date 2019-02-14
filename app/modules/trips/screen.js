@@ -10,6 +10,7 @@ import {
   getFutureTrips,
   getPastTrips,
   getPendingStatsUpload,
+  getRemainingFutureTrips,
   connectionsReq
 } from './action'
 import {
@@ -55,6 +56,7 @@ class TripScreen extends Component {
         msg: _T('pendingStats'),
         onOk: this._pendingModalOk
       }))
+      actionDispatcher(getRemainingFutureTrips())
     }
     const connections = trips.get('connections')
     const direct = connections.get('direct').size

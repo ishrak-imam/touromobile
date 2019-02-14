@@ -11,7 +11,7 @@ import {
   updateProfileSucs,
   updateProfileFail,
 
-  syncPendingUpdates
+  syncPendingProfileUpdate
 } from './action'
 
 import {
@@ -74,7 +74,7 @@ function * workerUpdateProfile (action) {
 }
 
 export function * watchPendingProfileUpdate () {
-  yield takeFirst(syncPendingUpdates.getType(), workerPendingProfileUpdate)
+  yield takeFirst(syncPendingProfileUpdate.getType(), workerPendingProfileUpdate)
 }
 
 function * workerPendingProfileUpdate () {

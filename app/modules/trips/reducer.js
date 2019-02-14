@@ -8,7 +8,7 @@ import {
 import {
   TRIPS_REQ, TRIPS_SUCS, TRIPS_FAIL,
   SET_CURRENT_TRIP, SET_FUTURE_TRIPS, SET_PAST_TRIPS,
-  SET_PENDING_STATS_UPLOAD,
+  SET_PENDING_STATS_UPLOAD, SET_REMAINING_FUTURE_TRIPS,
   CONNECTIONS_SUCS
 } from './action'
 
@@ -32,7 +32,8 @@ export const trips = createReducer(TRIPS_INITIAL_STATE, {
   [SET_FUTURE_TRIPS]: (state, payload) => setIntoMap(state, 'future', getImmutableObject(payload)),
   [SET_PAST_TRIPS]: (state, payload) => setIntoMap(state, 'past', getImmutableObject(payload)),
 
-  [SET_PENDING_STATS_UPLOAD]: (state, payload) => setIntoMap(state, 'pendingStatsUpload', payload.count),
+  [SET_PENDING_STATS_UPLOAD]: (state, payload) => setIntoMap(state, 'pendingStatsUpload', payload),
+  [SET_REMAINING_FUTURE_TRIPS]: (state, payload) => setIntoMap(state, 'remainingFutureTrips', payload),
 
   [CONNECTIONS_SUCS]: (state, payload) => {
     let connections = readValue('connections', state)

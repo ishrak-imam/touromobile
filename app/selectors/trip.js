@@ -255,6 +255,8 @@ export const pastTripsSelector = state => state.trips.get('past')
 
 export const pendingStatsUploadCount = state => state.trips.get('pendingStatsUpload')
 
+export const remainingFutureTripsCount = state => state.trips.get('remainingFutureTrips')
+
 export const getLunches = state => state.trips.get('current').get('trip').get('lunches')
 
 export const getConnections = state => state.trips.get('connections')
@@ -519,18 +521,31 @@ export const pendingStatsUpload = state => {
   const { has, trips } = getPastTrips(state)
   const modifiedData = state.modifiedData
   let count = 0
-  if (!has) {
-    return count
-  }
+  if (!has) return count
 
   count = trips.reduce((count, trip) => {
     const departureId = String(trip.get('departureId'))
-    if (!modifiedData.get(departureId) || !modifiedData.get(departureId).get('statsUploadedAt')) {
+    if (!modifiedData.getIn([departureId, 'statsUploadedAt'])) {
       count = count + 1
     }
     return count
   }, count)
+  return count
+}
 
+export const remainingFutureTrips = state => {
+  const { has, trips } = getFutureTrips(state)
+  const modifiedData = state.modifiedData
+  let count = 0
+  if (!has) return count
+
+  count = trips.reduce((count, trip) => {
+    const departureId = String(trip.get('departureId'))
+    if (!modifiedData.getIn([departureId, 'accept', 'acceptedAt'])) {
+      count = count + 1
+    }
+    return count
+  }, count)
   return count
 }
 

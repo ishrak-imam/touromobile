@@ -19,6 +19,9 @@ import {
   getPendingStatsUpload,
   setPendingStatsUpload,
 
+  getRemainingFutureTrips,
+  setRemainingFutureTrips,
+
   connectionsReq,
   connectionsSucs,
   connectionsFail,
@@ -43,7 +46,8 @@ import {
   getCurrentTrip as gctSelector,
   getFutureTrips as gftSelector,
   getPastTrips as gptSelector,
-  pendingStatsUpload
+  pendingStatsUpload,
+  remainingFutureTrips
 } from '../../selectors'
 
 import { getMap } from '../../utils/immutable'
@@ -63,6 +67,7 @@ function * workerGetTrips (action) {
     yield put(getFutureTrips())
     yield put(getPastTrips())
     yield put(getPendingStatsUpload(pendingModal))
+    yield put(getRemainingFutureTrips())
     yield put(navigateToOtherTripScreen())
   } catch (e) {
     yield put(tripsFail(e))
@@ -120,7 +125,7 @@ export function * watchGetPendingStatsUpload () {
 function * workerGetPendingStatsUpload (action) {
   const { showWarning, msg, onOk } = action.payload
   const count = yield select(pendingStatsUpload)
-  yield put(setPendingStatsUpload({ count }))
+  yield put(setPendingStatsUpload(count))
   if (count > 0 && showWarning) {
     yield put(showModal({
       type: 'warning',
@@ -128,6 +133,15 @@ function * workerGetPendingStatsUpload (action) {
       onOk
     }))
   }
+}
+
+export function * watchGetRemainingFutureTrips () {
+  yield takeFirst(getRemainingFutureTrips.getType(), workerGetRemainingFutureTrips)
+}
+
+function * workerGetRemainingFutureTrips () {
+  const count = yield select(remainingFutureTrips)
+  yield put(setRemainingFutureTrips(count))
 }
 
 export function * watchAcceptTrip () {
@@ -149,6 +163,7 @@ function * workerAcceptTrip (action) {
       departureId,
       time: new Date().toISOString()
     }))
+    yield put(getRemainingFutureTrips())
   } catch (e) {
     yield put(acceptTripFail({
       toast: showToast,

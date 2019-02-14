@@ -18,6 +18,7 @@ export const TRIPS_INITIAL_STATE = getMap({
     has: false
   }),
   pendingStatsUpload: 0,
+  remainingFutureTrips: 0,
   connections: getMap({
     direct: getList([]),
     directWinter: getList([]),
