@@ -32,7 +32,7 @@ export default {
   },
   PassengersScreen: {
     paxTitle: 'Passagerare',
-    bookingTitle: 'Bokning',
+    bookingTitle: 'Bokningar',
     paxSearch: 'Sök passagerare',
     bookingSearch: 'Sök bokningar'
   },

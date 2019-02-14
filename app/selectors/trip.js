@@ -292,6 +292,8 @@ export const getPax = trip => {
   return paxCache(trip)
 }
 
+export const getBookings = trip => trip.get('bookings')
+
 let sortedPaxCache = null
 export const getSortedPax = trip => {
   if (!sortedPaxCache) {

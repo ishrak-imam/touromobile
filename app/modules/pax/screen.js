@@ -7,7 +7,7 @@ import Header from '../../components/header'
 import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
-import { currentTripSelector } from '../../selectors'
+import { currentTripSelector, getPax, getBookings } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
 import Switch from '../../components/switch'
@@ -65,12 +65,17 @@ class PaxScreen extends Component {
     const { booking } = this.state
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
+    const paxList = getPax(trip)
+    const bookings = getBookings(trip)
+    const title = booking
+      ? `${_T('bookingTitle')} (${bookings.size})`
+      : `${_T('paxTitle')} (${paxList.size})`
 
     return (
       <Container>
         <Header
           left='menu'
-          title={booking ? _T('bookingTitle') : _T('paxTitle')}
+          title={title}
           navigation={navigation}
           right={this._renderRight(brand)}
           brand={brand}

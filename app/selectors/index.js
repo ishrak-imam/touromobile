@@ -28,6 +28,7 @@ export const {
   getSortedPaxByLastName,
   getSortedPaxByAirport,
   getSortedPaxByHotel,
+  getBookings,
   getSortedBookings,
   getPaxDataGroupByFirstName,
   getPaxDataGroupByLastName,
