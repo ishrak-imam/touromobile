@@ -9,6 +9,7 @@ const resolvers = {
 
   pax: data => {
     const bookings = data.get('bookings')
+    if (!bookings) return getList([])
     return bookings.map(b => {
       return b.get('pax').map(p => setIntoMap(p, 'booking', b))
     }).flatten(1) // one level deep flatten
@@ -292,7 +293,9 @@ export const getPax = trip => {
   return paxCache(trip)
 }
 
-export const getBookings = trip => trip.get('bookings')
+export const getBookings = trip => {
+  return trip.get('bookings') || getList([])
+}
 
 let sortedPaxCache = null
 export const getSortedPax = trip => {
