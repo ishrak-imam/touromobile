@@ -23,6 +23,31 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 const _T = Translator('RestaurantScreen')
 
 class RestaurantScreen extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      showMeals: false,
+      showOrders: false
+    }
+  }
+
+  componentDidMount () {
+    /**
+     * Screen transition optimization
+     * by delayed rendering.
+     */
+    this._showMeals()
+    this._showOrders()
+  }
+
+  _showMeals = () => {
+    setTimeout(() => this.setState({ showMeals: true }), 500)
+  }
+
+  _showOrders = () => {
+    setTimeout(() => this.setState({ showOrders: true }), 1000)
+  }
+
   _renderRestaurant = restaurant => {
     const address = restaurant.get('address')
     const zip = restaurant.get('zip')
@@ -184,6 +209,7 @@ class RestaurantScreen extends Component {
   }
 
   render () {
+    const { showMeals, showOrders } = this.state
     const { navigation, orders, paxByHotel } = this.props
     const restaurant = navigation.getParam('restaurant')
     const brand = navigation.getParam('brand')
@@ -196,8 +222,8 @@ class RestaurantScreen extends Component {
           <View style={ss.containerCard}>
             {!!restaurant && this._renderRestaurant(restaurant)}
             {!!restaurant && this._renderComs(restaurant)}
-            {!!meals && this._renderMeals(meals)}
-            {!!orders.size && this._renderOrders(orders, restaurant)}
+            {showMeals && !!meals && this._renderMeals(meals)}
+            {showOrders && !!orders.size && this._renderOrders(orders, restaurant)}
             {!!paxByHotel.size && <PaxInThisHotel paxList={paxByHotel} label='paxInThisHotel' />}
           </View>
         </ScrollView>
