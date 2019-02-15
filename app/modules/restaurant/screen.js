@@ -6,7 +6,7 @@ import {
 import Header from '../../components/header'
 import IconButton from '../../components/iconButton'
 // import { format } from 'date-fns'
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView, FlatList } from 'react-native'
 import { call, sms, web, map } from '../../utils/comms'
 import { IonIcon, Colors } from '../../theme'
 // import isEmpty from '../../utils/isEmpty'
@@ -16,6 +16,7 @@ import { listToMap } from '../../utils/immutable'
 import { connect } from 'react-redux'
 import { getOrdersByDirection, getPaxByHotel, getOrderMode } from '../../selectors'
 import PaxInThisHotel from '../../components/paxWithoutOrder'
+import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 // const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
@@ -78,33 +79,51 @@ class RestaurantScreen extends Component {
     )
   }
 
+  _renderMealItem = ({ item }) => {
+    const name = item.get('name')
+    const adult = item.get('adult')
+    const child = item.get('child')
+    const adultObj = adult === null ? <IonIcon name='x' color={Colors.fire} size={14} /> : adult
+    const childObj = child === null ? <IonIcon name='x' color={Colors.fire} size={14} /> : child
+    return (
+      <Item style={ss.item}>
+        <Text style={ss.itemText}>{name}</Text>
+        <Right style={ss.itemRight}>
+          <Text>{adultObj} / {childObj}</Text>
+        </Right>
+      </Item>
+    )
+  }
+
   _renderMeals = meals => {
     return (
-      <CardItem>
-        <Body>
-          <Item style={ss.item}>
-            <Text style={ss.boldText}>{_T('meals')}</Text>
-            <Right><Text style={ss.boldText}>{`${_T('adult')}/${_T('child')}`}</Text></Right>
-          </Item>
-          {meals.map(m => {
-            const id = m.get('id')
-            const name = m.get('name')
-            const adult = m.get('adult')
-            const child = m.get('child')
-            const adultObj = adult === null ? <IonIcon name='x' color={Colors.fire} size={14} /> : adult
-            const childObj = child === null ? <IonIcon name='x' color={Colors.fire} size={14} /> : child
-            return (
-              <Item key={id} style={ss.item}>
-                <Text style={ss.itemText}>{name}</Text>
-                <Right style={ss.itemRight}>
-                  <Text>{adultObj} / {childObj}</Text>
-                </Right>
-              </Item>
-            )
-          })}
-        </Body>
-      </CardItem>
+      <View style={ss.mealContainer}>
+        <Item style={ss.item}>
+          <Text style={ss.boldText}>{_T('meals')}</Text>
+          <Right><Text style={ss.boldText}>{`${_T('adult')}/${_T('child')}`}</Text></Right>
+        </Item>
+        <ImmutableVirtualizedList
+          immutableData={meals}
+          renderItem={this._renderMealItem}
+          keyExtractor={item => String(item.get('id'))}
+        />
+      </View>
     )
+  }
+
+  _renderOrder = (lookup, orders) => {
+    return ({ item }) => {
+      const name = lookup.get(item).get('name')
+      const count = orders[item]
+      return (
+        <Item style={ss.item}>
+          <Text style={ss.itemText}>{name}</Text>
+          <Right style={ss.itemRight}>
+            <Text>{count}</Text>
+          </Right>
+        </Item>
+      )
+    }
   }
 
   _renderOrders = (orders, restaurant) => {
@@ -132,42 +151,35 @@ class RestaurantScreen extends Component {
       }
     })
 
-    // const showAge = !isEmpty(childMealOrders)
-
-    const renderOrder = (id, name, right) => {
-      return (
-        <Item key={id} style={ss.item}>
-          <Text style={ss.itemText}>{name}</Text>
-          <Right style={ss.itemRight}>
-            <Text>{right}</Text>
-          </Right>
-        </Item>
-      )
-    }
-
-    const renderOrderSummary = (orders, lookup) => {
-      return Object.keys(orders).map(k => renderOrder(k, lookup.get(k).get('name'), orders[k]))
-    }
-
     return (
-      <CardItem>
-        <Body>
-          <Item style={ss.item}>
-            <Text style={ss.boldText}>{_T('orders')}</Text>
-            <Right><Text style={ss.boldText}>{_T('amount')}</Text></Right>
-          </Item>
+      <View style={ss.orderContainer}>
+        <Item style={ss.item}>
+          <Text style={ss.boldText}>{_T('orders')}</Text>
+          <Right><Text style={ss.boldText}>{_T('amount')}</Text></Right>
+        </Item>
 
-          {/* <Text note>{_T('meals')}</Text> */}
-          <Text note style={ss.label}>{_T('adults')}</Text>
-          {renderOrderSummary(adultMealOrders, meals)}
+        {/* <Text note>{_T('meals')}</Text> */}
+        <Text note style={ss.label}>{_T('adult')}</Text>
+        <FlatList
+          data={Object.keys(adultMealOrders)}
+          keyExtractor={item => item}
+          renderItem={this._renderOrder(meals, adultMealOrders)}
+        />
 
-          <Text note style={ss.label}>{_T('children')}</Text>
-          {renderOrderSummary(childMealOrders, meals)}
+        <Text note style={ss.label}>{_T('children')}</Text>
+        <FlatList
+          data={Object.keys(childMealOrders)}
+          keyExtractor={item => item}
+          renderItem={this._renderOrder(meals, childMealOrders)}
+        />
 
-          <Text note style={ss.label}>{_T('beverages')}</Text>
-          {renderOrderSummary(beverageOrders, beverages)}
-        </Body>
-      </CardItem>
+        <Text note style={ss.label}>{_T('beverages')}</Text>
+        <FlatList
+          data={Object.keys(beverageOrders)}
+          keyExtractor={item => item}
+          renderItem={this._renderOrder(beverages, beverageOrders)}
+        />
+      </View>
     )
   }
 
@@ -224,6 +236,12 @@ const ss = StyleSheet.create({
   sectionHeader: {
     fontWeight: 'bold',
     marginTop: 12
+  },
+  mealContainer: {
+    margin: 10
+  },
+  orderContainer: {
+    margin: 10
   },
   item: {
     paddingVertical: 5
