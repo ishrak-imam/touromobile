@@ -12,27 +12,22 @@ import {
   downloadFile, clearCache, checkIfExistsDir,
   checkIfExistsImage, createDirectory
 } from './service'
-import {
-  // getHash, getExtension,
-  getImageName
-} from '../../utils/stringHelpers'
 
 export function * watchDownloadImage () {
   yield takeEvery(downloadImage.getType(), workerDownloadImage)
 }
 
 function * workerDownloadImage (action) {
+  const { uri, imageName } = action.payload
   try {
-    const { uri } = action.payload
     // const imageName = `${getHash(uri)}.${getExtension(uri)}`
-    const imageName = getImageName(uri)
     const { exists } = yield call(checkIfExistsImage, imageName)
     if (!exists) {
       yield call(downloadFile, uri, imageName)
     }
     yield put(downloadImageSucs({ imageName }))
   } catch (e) {
-    yield put(downloadImageFail(e))
+    yield put(downloadImageFail({ imageName }))
   }
 }
 

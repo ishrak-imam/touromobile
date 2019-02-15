@@ -23,13 +23,20 @@ class ImageCache extends Component {
     const { uri, style, imageCache, transportType } = props
     // const imageName = `${getHash(uri)}.${getExtension(uri)}`
     const imageName = getImageName(uri)
-    const isInCache = imageCache.get('data').has(imageName)
+    const image = imageCache.get(imageName)
+    let isLoading = true
+    let isInCache = false
+    let sucs = 'PENDING'
     let imagePath = ''
-    if (isInCache) {
-      imagePath = `${IMAGE_CACHE_DIR}${imageName}`
+    if (image) {
+      isLoading = image.get('loading')
+      isInCache = true
+      sucs = image.get('sucs')
+      if (sucs) imagePath = `${IMAGE_CACHE_DIR}${imageName}`
     }
+
     return {
-      transportType, uri, style, isInCache, imagePath
+      transportType, uri, style, isLoading, isInCache, sucs, imagePath, imageName
     }
   }
 
@@ -40,16 +47,16 @@ class ImageCache extends Component {
   }
 
   componentDidMount () {
-    const { uri, isInCache } = this._resolveProps(this.props)
-    if (!isInCache) {
-      this.props.dispatch(downloadImage({ uri }))
+    const { uri, imageName, isInCache, sucs } = this._resolveProps(this.props)
+    if (!isInCache || !sucs) {
+      this.props.dispatch(downloadImage({ uri, imageName }))
     }
   }
 
   render () {
-    const { style, imagePath, transportType } = this._resolveProps(this.props)
-    this.state.gotImageOnce = !!imagePath
-    const image = imagePath ? { uri: imagePath } : Images[transportType]
+    const { style, isLoading, imagePath, transportType } = this._resolveProps(this.props)
+    this.state.gotImageOnce = !!imagePath || !isLoading
+    const image = isLoading ? Images.loading : imagePath ? { uri: imagePath } : Images[transportType]
     return (
       <Image source={image} style={style} resizeMode='cover' />
     )
