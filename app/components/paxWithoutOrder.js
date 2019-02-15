@@ -58,7 +58,7 @@ export default class PaxWithoutOrder extends Component {
     const icon = isExpanded ? 'up' : 'down'
 
     return (
-      <View style={ss.container}>
+      <View>
         <ListItem style={ss.header} onPress={this._onHeaderPress}>
           <Left style={ss.bottomLeft}>
             <IonIcon name={icon} style={ss.expandIcon} />
@@ -73,7 +73,6 @@ export default class PaxWithoutOrder extends Component {
           isExpanded
 
             ? <ImmutableVirtualizedList
-              contentContainerStyle={{ marginBottom: 90 }}
               scrollEnabled={false}
               keyboardShouldPersistTaps='always'
               immutableData={paxList}
@@ -98,8 +97,7 @@ const ss = StyleSheet.create({
   expandItem: {
     borderBottomWidth: 0,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 90
+    alignItems: 'center'
   },
   expandText: {
     fontSize: 14
@@ -126,9 +124,6 @@ const ss = StyleSheet.create({
   bottomRight: {
     flex: 1,
     paddingRight: 10
-  },
-  container: {
-    marginBottom: 20
   },
   expandIcon: {
     marginRight: 10,

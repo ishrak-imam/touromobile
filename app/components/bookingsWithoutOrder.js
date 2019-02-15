@@ -64,7 +64,6 @@ export default class BookingsWithoutOrder extends Component {
           isExpanded
 
             ? <ImmutableVirtualizedList
-              contentContainerStyle={{ marginBottom: 90 }}
               scrollEnabled={false}
               keyboardShouldPersistTaps='always'
               immutableData={bookingsList}
@@ -87,7 +86,6 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 90,
     marginLeft: 15
   },
   expandText: {
