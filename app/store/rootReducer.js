@@ -30,7 +30,7 @@ const allReducers = combineReducers({
   ...rollCallReducer
 })
 
-const rootReduces = (state, action) => {
+const rootReducer = (state, action) => {
   // clean-up state on logout
   if (action.type === LOGOUT_SUCS || action.type === CLEAR_LOCAL_DATA) {
     const connection = state.connection
@@ -48,4 +48,4 @@ const rootReduces = (state, action) => {
   return allReducers(state, action)
 }
 
-export default rootReduces
+export default rootReducer
