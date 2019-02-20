@@ -2,7 +2,7 @@
 
   {
     "departureId": 48764,
-    "outDate": "2019-02-22T00:00:00",
+    "outDate": "2019-02-27T00:00:00",
     "homeDate": "2019-03-03T00:00:00",
     "name": "Indien / Indien med LAND / Indien med LAND",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/3771/image",
@@ -1195,7 +1195,7 @@
   {
     "departureId": 47672,
     "outDate": "2019-01-01T00:00:00",
-    "homeDate": "2019-02-16T00:00:00",
+    "homeDate": "2019-02-26T00:00:00",
     "name": "Julmarknad i Berlin",
     "image": "https://touro.scandorama.se/api/v1/resources/trip/3695/image",
     "description": "Julmarknad i Berlin",

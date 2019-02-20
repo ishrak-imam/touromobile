@@ -27,7 +27,8 @@ class RestaurantScreen extends Component {
     super(props)
     this.state = {
       showMeals: false,
-      showOrders: false
+      showOrders: false,
+      showPaxInHotel: false
     }
   }
 
@@ -38,14 +39,19 @@ class RestaurantScreen extends Component {
      */
     this._showMeals()
     this._showOrders()
+    this._showPaxInHotel()
   }
 
   _showMeals = () => {
-    setTimeout(() => this.setState({ showMeals: true }), 500)
+    setTimeout(() => this.setState({ showMeals: true }), 250)
   }
 
   _showOrders = () => {
-    setTimeout(() => this.setState({ showOrders: true }), 1000)
+    setTimeout(() => this.setState({ showOrders: true }), 500)
+  }
+
+  _showPaxInHotel = () => {
+    setTimeout(() => this.setState({ showPaxInHotel: true }), 250)
   }
 
   _renderRestaurant = restaurant => {
@@ -209,7 +215,7 @@ class RestaurantScreen extends Component {
   }
 
   render () {
-    const { showMeals, showOrders } = this.state
+    const { showMeals, showOrders, showPaxInHotel } = this.state
     const { navigation, orders, paxByHotel } = this.props
     const restaurant = navigation.getParam('restaurant')
     const brand = navigation.getParam('brand')
@@ -224,7 +230,10 @@ class RestaurantScreen extends Component {
             {!!restaurant && this._renderComs(restaurant)}
             {showMeals && !!meals && this._renderMeals(meals)}
             {showOrders && !!orders.size && this._renderOrders(orders, restaurant)}
-            {!!paxByHotel.size && <PaxInThisHotel paxList={paxByHotel} label='paxInThisHotel' />}
+            {
+              showPaxInHotel && !!paxByHotel.size &&
+              <PaxInThisHotel paxList={paxByHotel} label='paxInThisHotel' />
+            }
           </View>
         </ScrollView>
       </Container>
