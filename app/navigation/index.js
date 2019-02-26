@@ -86,6 +86,7 @@ const drawerNav = createDrawerNavigator(
     App: { screen: appStack }
   },
   {
+    // drawerWidth: 270,
     contentComponent: props => <DrawerComponent {...props} />
   }
 )

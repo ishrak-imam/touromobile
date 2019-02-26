@@ -57,11 +57,20 @@ class TMDrawer extends Component {
     navigation.navigate('Profile', { departureId })
   }
 
+  _renderVersionNumber = () => {
+    return (
+      <View style={ss.version}>
+        <Text style={ss.versionText}>{config.version}</Text>
+      </View>
+    )
+  }
+
   _renderHeader = () => {
     const { user } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     return (
       <View style={ss.header}>
+        {this._renderVersionNumber()}
         <View style={ss.headerContent}>
           <Image
             style={ss.drawerImage}
@@ -218,10 +227,21 @@ const ss = StyleSheet.create({
     marginLeft: 10
   },
   headerContent: {
-    flex: 1,
+    flex: 5,
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingTop: 50
+  },
+  version: {
+    position: 'absolute',
+    top: isIphoneX ? 40 : 30,
+    bottom: 0,
+    left: 10,
+    right: 0
+  },
+  versionText: {
+    fontSize: 12,
+    color: Colors.white
   },
   footer: {
     backgroundColor: Colors.snow,
