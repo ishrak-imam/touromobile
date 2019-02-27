@@ -147,7 +147,8 @@ export default {
     noMatch: 'Ingen matchning hittad',
     noFutureTrips: 'Inga fler framtida resor',
     noPastTrips: 'Inga fler tidigare resor',
-    fetchingData: 'Hämtar data från Touro...',
+    fetchingData: 'Hämtar data från Touro ...',
+    fetchingDataSucs: 'Hämtar data slutförd',
     noCurrentTrip: 'Ingen pågående resa',
     noExcursions: 'Inga utflykter hittades för den här resan',
     flightTripNoOrder: 'Flygresor har inga måltidsbeställningar',
@@ -174,7 +175,8 @@ export default {
     clickToExpand: 'Klicka på rubriken för att visa alla passagerare',
     booking: 'Bokning'
   },
-  NoTrips: {
-    title: 'Inga resor'
+  NoTripsScreen: {
+    title: 'Inga resor',
+    text: 'Du har ingen pågående, genomförd, eller framtida resa. Vänligen kontakta Pier eller IT om du tror att detta är fel.'
   }
 }

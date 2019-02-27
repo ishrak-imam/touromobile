@@ -112,14 +112,14 @@ class TMDrawer extends Component {
   }
 
   _renderMenuItems = () => {
-    const { pendingUploadCount, remainingFutureTrips } = this.props
-    // const hasFutureTrips = trips.getIn(['future', 'has'])
+    const { pendingUploadCount, remainingFutureTrips, currentTrip } = this.props
+    const hasCurrentTrip = currentTrip.get('has')
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
       const currentRoute = this.props.nav.get('screen')
 
       const isSelected = routeName === currentRoute
-      // const isDisabled = !hasFutureTrips && routeName === 'FutureTrips'
+      const isDisabled = !hasCurrentTrip && routeName === 'Trip'
 
       let backgroundColor = 'transparent'
       let color = Colors.black
@@ -130,11 +130,11 @@ class TMDrawer extends Component {
         color = Colors.silver
       }
 
-      // if (isDisabled) {
-      //   backgroundColor = 'transparent'
-      //   color = Colors.loginBg
-      //   onPress = null
-      // }
+      if (isDisabled) {
+        backgroundColor = 'transparent'
+        color = Colors.steel
+        onPress = null
+      }
 
       return (
         <ListItem style={[ss.menuItem, { backgroundColor }]} key={index} onPress={onPress}>

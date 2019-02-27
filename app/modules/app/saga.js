@@ -9,13 +9,7 @@ import {
   clearLocalData
 } from './action'
 
-import {
-  getCurrentTrip,
-  getFutureTrips,
-  getPastTrips,
-  getPendingStatsUpload,
-  getRemainingFutureTrips
-} from '../trips/action'
+import { tripsActionsOnSuccess } from '../trips/action'
 
 import { getUser } from '../../selectors'
 
@@ -44,11 +38,9 @@ function * createAppStateSubscription (action) {
       const user = yield select(getUser)
       const isLoggedIn = user.get('accessToken')
       if (isLoggedIn) {
-        yield put(getCurrentTrip())
-        yield put(getFutureTrips())
-        yield put(getPastTrips())
-        yield put(getPendingStatsUpload({}))
-        yield put(getRemainingFutureTrips())
+        yield put(tripsActionsOnSuccess({
+          pendingModal: {}
+        }))
       }
     }
   })

@@ -5,10 +5,11 @@ import {
 } from 'react-native'
 import { Colors } from '../theme'
 
-const OverlaySpinner = () => {
+const OverlaySpinner = ({ spinnerColor }) => {
+  const color = spinnerColor || Colors.blue
   return (
     <View style={ss.view}>
-      <ActivityIndicator size='large' color={Colors.blue} />
+      <ActivityIndicator size='large' color={color} />
     </View>
   )
 }

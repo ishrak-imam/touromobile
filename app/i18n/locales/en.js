@@ -146,7 +146,8 @@ export default {
     noMatch: 'No match found',
     noFutureTrips: 'No more future trips',
     noPastTrips: 'No more past trips',
-    fetchingData: 'Fetching data from Touro...',
+    fetchingData: 'Fetching data from Touro ...',
+    fetchingDataSucs: 'Fetching data completed',
     noCurrentTrip: 'No current trip',
     noExcursions: 'No excursions found for this trip',
     flightTripNoOrder: 'Flight trip doesn\'t have meal orders',
@@ -173,7 +174,8 @@ export default {
     clickToExpand: 'Click the header to show the full list of passengers',
     booking: 'Booking'
   },
-  NoTrips: {
-    title: 'No Trips'
+  NoTripsScreen: {
+    title: 'No Trips',
+    text: 'You have no current, past, or future trips. Please contact Pier or IT if you believe this is wrong.'
   }
 }

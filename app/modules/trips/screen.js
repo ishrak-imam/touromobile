@@ -6,15 +6,10 @@ import { connect } from 'react-redux'
 import Translator from '../../utils/translator'
 import {
   tripsReq,
-  getCurrentTrip,
-  getFutureTrips,
-  getPastTrips,
-  getPendingStatsUpload,
-  getRemainingFutureTrips,
   connectionsReq
 } from './action'
 import {
-  networkActionDispatcher, actionDispatcher
+  networkActionDispatcher
 } from '../../utils/actionDispatcher'
 import Trip from '../../components/trip'
 import { getTrips, getUser } from '../../selectors'
@@ -25,6 +20,15 @@ import OverlaySpinner from '../../components/overlaySpinner'
 const _T = Translator('CurrentTripScreen')
 
 class TripScreen extends Component {
+  constructor (props) {
+    super(props)
+    this.pendingModal = {
+      showWarning: false,
+      msg: _T('pendingStats'),
+      onOk: this._pendingModalOk
+    }
+  }
+
   static navigationOptions = () => {
     return {
       tabBarIcon: ({ focused, tintColor }) => {
@@ -42,41 +46,14 @@ class TripScreen extends Component {
     this.props.navigation.navigate('PastTrips')
   }
 
-  componentDidMount () {
-    const { trips } = this.props
-    const hasLocalData = trips.get('data').size > 0
-    if (!hasLocalData) {
-      this._requestTrips(false)
-    } else {
-      actionDispatcher(getCurrentTrip())
-      actionDispatcher(getFutureTrips())
-      actionDispatcher(getPastTrips())
-      actionDispatcher(getPendingStatsUpload({
-        showWarning: false,
-        msg: _T('pendingStats'),
-        onOk: this._pendingModalOk
-      }))
-      actionDispatcher(getRemainingFutureTrips())
-    }
-    const connections = trips.get('connections')
-    const direct = connections.get('direct').size
-    const overnight = connections.get('overnight').size
-    if (!direct || !overnight) {
-      this._requestConnections()
-    }
-  }
-
   _requestTrips = isRefreshing => {
+    console.log('is refreshing :: ', isRefreshing)
     const { user } = this.props
     networkActionDispatcher(tripsReq({
       isNeedJwt: true,
       guideId: user.get('guideId'),
       isRefreshing,
-      pendingModal: {
-        showWarning: false,
-        msg: _T('pendingStats'),
-        onOk: this._pendingModalOk
-      }
+      pendingModal: this.pendingModal
     }))
   }
 

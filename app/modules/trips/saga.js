@@ -5,6 +5,7 @@ import { takeFirst } from '../../utils/sagaHelpers'
 import {
   tripsReq,
   tripsSucs,
+  tripsActionsOnSuccess,
   tripsFail,
 
   getCurrentTrip,
@@ -63,15 +64,24 @@ function * workerGetTrips (action) {
     const { guideId, jwt, pendingModal } = action.payload
     const data = yield call(getTrips, guideId, jwt)
     yield put(tripsSucs(data))
-    yield put(getCurrentTrip())
-    yield put(getFutureTrips())
-    yield put(getPastTrips())
-    yield put(getPendingStatsUpload(pendingModal))
-    yield put(getRemainingFutureTrips())
+    yield put(tripsActionsOnSuccess({ pendingModal }))
     yield put(navigateToOtherTripScreen())
   } catch (e) {
     yield put(tripsFail(e))
   }
+}
+
+export function * watchTripsActionsOnSuccess () {
+  yield takeFirst(tripsActionsOnSuccess.getType(), workerTripsActionsOnSuccess)
+}
+
+function * workerTripsActionsOnSuccess (action) {
+  const { pendingModal } = action.payload
+  yield put(getCurrentTrip())
+  yield put(getFutureTrips())
+  yield put(getPastTrips())
+  yield put(getPendingStatsUpload(pendingModal))
+  yield put(getRemainingFutureTrips())
 }
 
 export function * watchTripNavigation () {
@@ -80,6 +90,7 @@ export function * watchTripNavigation () {
 
 function * workerTripNavigation () {
   const currentTrip = yield select(gctSelector)
+  if (currentTrip.has) navigate('Home')
   if (!currentTrip.has) {
     const futureTrips = yield select(gftSelector)
     if (futureTrips.has) navigate('FutureTrips')
