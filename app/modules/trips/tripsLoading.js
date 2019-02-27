@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react'
 import { RefreshControl, StyleSheet, ScrollView, View } from 'react-native'
-import { Colors } from '../../theme'
 import { connect } from 'react-redux'
 import {
   networkActionDispatcher, actionDispatcher
@@ -101,14 +100,11 @@ export default connect(stateToProps, null)(TripsLoading)
 const ss = StyleSheet.create({
   screen: {
     flex: 1
-    // backgroundColor: Colors.blue
   },
   container: {
     flex: 1
-    // backgroundColor: Colors.blue
   },
   textStyle: {
-    // color: Colors.white,
     marginTop: 30
   }
 })
