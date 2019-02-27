@@ -52,7 +52,8 @@ export default {
     transferCity: 'Transfer city',
     accommodation: 'Accommodation',
     bagPick: 'Bag pickup',
-    bagDrop: 'Bag dropoff'
+    bagDrop: 'Bag dropoff',
+    tripDisabled: 'Saving is disabled! It\'s less than 10 days to departure. Please contact the office if you need to maje any changes.'
   },
   OutHomeTab: {
     home: 'Home',

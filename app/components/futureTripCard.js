@@ -398,25 +398,24 @@ class FutureTripCard extends Component {
     const pax = getPax(trip)
     const paddingBottom = subtitle ? 0 : 7
     const transportType = transport ? transport.get('type') : ''
+    const isDisabled = this.shouldLockTrip
+    const cardHeight = isDisabled ? 460 : 420
+    const imageConHeight = isDisabled ? 400 : 350
 
     return (
-      <View style={ss.card}>
-
-        <View>
-          <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
-            <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
-            <Text>{`${outDate} - ${homeDate}`}</Text>
-            {transportType && <IonIcon name={transportType} />}
-          </View>
-          {
-            !!subtitle &&
+      <View style={[ss.card, { height: cardHeight }]}>
+        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
+          <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
+          <Text>{`${outDate} - ${homeDate}`}</Text>
+          {transportType && <IonIcon name={transportType} />}
+        </View>
+        {
+          !!subtitle &&
             <View style={[ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }]}>
               <Text numberOfLines={1} style={ss.subtitle}>{subtitle}</Text>
             </View>
-          }
-        </View>
-
-        <View style={ss.imageContainer}>
+        }
+        <View style={[ss.imageContainer, { height: imageConHeight }]}>
           <ImageCache uri={image} style={ss.cardImage} transportType={transportType} />
           {/* {this._renderGradient()} */}
           {isLoading && <OverlaySpinner />}
@@ -424,6 +423,11 @@ class FutureTripCard extends Component {
             <View style={ss.cardTop}>
               {transport && this._renderCardTop(transportType)}
             </View>
+            {isDisabled &&
+              <View style={ss.cardMiddle}>
+                <Text style={ss.disabledText}>{_T('tripDisabled')}</Text>
+              </View>
+            }
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
                 <IonIcon name='people' color={Colors.black} size={30} />
@@ -441,7 +445,6 @@ class FutureTripCard extends Component {
             </View>
           </View>
         </View>
-
       </View>
     )
   }
@@ -460,7 +463,6 @@ export default connect(stateToProps, null)(FutureTripCard)
 
 const ss = StyleSheet.create({
   card: {
-    height: 420,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },
@@ -481,8 +483,6 @@ const ss = StyleSheet.create({
     paddingBottom: 7
   },
   imageContainer: {
-    // borderWidth: 0,
-    height: 350,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     overflow: 'hidden'// needed for iOS
@@ -509,9 +509,17 @@ const ss = StyleSheet.create({
   cardBody: {
     flex: 1
   },
+  disabledText: {
+    fontSize: 13,
+    fontStyle: 'italic'
+  },
   cardTop: {
     flex: 5
-    // backgroundColor: 'red'
+  },
+  cardMiddle: {
+    flex: 1,
+    justifyContent: 'center',
+    marginHorizontal: 10
   },
   cardBottom: {
     flex: 1,

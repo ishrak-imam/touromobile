@@ -47,6 +47,7 @@ export default class FutureTrips extends Component {
 
 const ss = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginBottom: 20
   }
 })

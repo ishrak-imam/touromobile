@@ -52,7 +52,8 @@ export default {
     transferCity: 'Anslutningsort',
     accommodation: 'Övernattning',
     bagPick: 'Väskhämtning',
-    bagDrop: 'Väskavlämning'
+    bagDrop: 'Väskavlämning',
+    tripDisabled: 'Ändringar är låsta eftersom det är mindre än 10 dagar till avgång. Vänligen kontakta kontoret om du måste göra någon ändring.'
   },
   OutHomeTab: {
     home: 'Hem',
