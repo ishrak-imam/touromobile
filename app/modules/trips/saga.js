@@ -61,11 +61,11 @@ export function * watchGetTrips () {
 
 function * workerGetTrips (action) {
   try {
-    const { guideId, jwt, pendingModal } = action.payload
+    const { guideId, jwt, pendingModal, refreshFromFutureTrip } = action.payload
     const data = yield call(getTrips, guideId, jwt)
     yield put(tripsSucs(data))
     yield put(tripsActionsOnSuccess({ pendingModal }))
-    yield put(navigateToOtherTripScreen())
+    yield put(navigateToOtherTripScreen({ refreshFromFutureTrip }))
   } catch (e) {
     yield put(tripsFail(e))
   }
@@ -88,9 +88,10 @@ export function * watchTripNavigation () {
   yield takeFirst(navigateToOtherTripScreen.getType(), workerTripNavigation)
 }
 
-function * workerTripNavigation () {
+function * workerTripNavigation (action) {
+  const { refreshFromFutureTrip } = action.payload
   const currentTrip = yield select(gctSelector)
-  if (currentTrip.has) navigate('Home')
+  if (currentTrip.has && !refreshFromFutureTrip) navigate('Home')
   if (!currentTrip.has) {
     const futureTrips = yield select(gftSelector)
     if (futureTrips.has) navigate('FutureTrips')
@@ -207,6 +208,6 @@ function * workerGetConnections (action) {
     const connections = yield call(getConnections, jwt)
     yield put(connectionsSucs(formatConnections(connections)))
   } catch (e) {
-    console.log(connectionsFail.getType(), e)
+    yield put(connectionsFail())
   }
 }

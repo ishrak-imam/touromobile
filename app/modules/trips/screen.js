@@ -47,7 +47,6 @@ class TripScreen extends Component {
   }
 
   _requestTrips = isRefreshing => {
-    console.log('is refreshing :: ', isRefreshing)
     const { user } = this.props
     networkActionDispatcher(tripsReq({
       isNeedJwt: true,

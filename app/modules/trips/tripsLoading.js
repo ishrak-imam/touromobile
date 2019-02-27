@@ -35,7 +35,9 @@ class TripsLoading extends Component {
       actionDispatcher(tripsActionsOnSuccess({
         pendingModal: this.pendingModal
       }))
-      actionDispatcher(navigateToOtherTripScreen())
+      actionDispatcher(navigateToOtherTripScreen({
+        refreshFromFutureTrip: false
+      }))
     }
     const connections = trips.get('connections')
     const direct = connections.get('direct').size

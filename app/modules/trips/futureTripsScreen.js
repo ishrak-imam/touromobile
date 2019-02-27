@@ -24,6 +24,7 @@ class FutureTripsScreen extends Component {
     networkActionDispatcher(tripsReq({
       isNeedJwt: true,
       guideId: user.get('guideId'),
+      refreshFromFutureTrip: true,
       pendingModal: {}
     }))
     networkActionDispatcher(connectionsReq({
