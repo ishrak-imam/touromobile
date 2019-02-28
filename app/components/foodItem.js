@@ -18,22 +18,51 @@ class FoodItem extends Component {
   _onFoodSelect = sign => {
     const { departureId, bookingId, meal, mealType, paxCount } = this.props
     return () => {
+      let newOrder = null
       const { direction, totalOrder, order } = this.props
       const mealId = String(meal.get('id'))
-      const oldCount = order.get('count') || 0
-      let newCount = 0
 
-      if (sign === 'minus' && oldCount === 0) return null
-      if (sign === 'plus' && totalOrder === paxCount) return null
-      if (sign === 'plus' && oldCount >= paxCount) return null
+      if (mealType === 'meal') {
+        const isAdult = meal.get('adult')
+        const isChild = meal.get('child')
+        let adultCount = order.get('adultCount') || 0
+        let childCount = order.get('childCount') || 0
 
-      if (sign === 'minus' && oldCount !== 0) newCount = oldCount - 1
-      if (sign === 'plus') newCount = oldCount + 1
+        if (sign === 'minus' && isAdult && adultCount === 0) return null
+        if (sign === 'minus' && isChild && childCount === 0) return null
 
-      const newOrder = {
-        [`${mealType}Id`]: mealId,
-        count: newCount,
-        isChild: !meal.get('adult') && (mealType === 'meal')
+        if (sign === 'plus' && totalOrder === paxCount) return null
+        if (sign === 'plus' && (adultCount >= paxCount || childCount >= paxCount)) return null
+
+        if (sign === 'minus' && isAdult && adultCount !== 0) adultCount--
+        if (sign === 'minus' && isChild && childCount !== 0) childCount--
+
+        if (sign === 'plus' && isAdult) adultCount++
+        if (sign === 'plus' && isChild) childCount++
+
+        newOrder = {
+          [`${mealType}Id`]: mealId,
+          adultCount,
+          childCount
+        }
+      }
+
+      if (mealType === 'drink') {
+        const oldCount = order.get('count') || 0
+        let newCount = 0
+
+        if (sign === 'minus' && oldCount === 0) return null
+        if (sign === 'plus' && totalOrder === paxCount) return null
+        if (sign === 'plus' && oldCount >= paxCount) return null
+
+        if (sign === 'minus' && oldCount !== 0) newCount = oldCount - 1
+        if (sign === 'plus') newCount = oldCount + 1
+
+        newOrder = {
+          [`${mealType}Id`]: mealId,
+          count: newCount,
+          isChild: !meal.get('adult') && (mealType === 'meal')
+        }
       }
 
       actionDispatcher(takeOrderSummaryMode({
@@ -43,8 +72,14 @@ class FoodItem extends Component {
   }
 
   render () {
-    const { meal, order } = this.props
-    const count = order.get('count') || 0
+    const { meal, order, mealType } = this.props
+    let count = 0
+    if (mealType === 'meal') {
+      const isAdult = meal.get('adult')
+      count = isAdult ? order.get('adultCount') || 0 : order.get('childCount') || 0
+    }
+    if (mealType === 'drink') count = order.get('count') || 0
+
     return (
       <ListItem style={ss.item}>
         <Left style={ss.itemLeft}>

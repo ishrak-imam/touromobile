@@ -42,36 +42,35 @@ export const getOrderStats = (orders, transportId, orderMode) => {
 
     let details = {}
     if (orderMode === 'SUMMARY') {
-      if (key === 'invoicee') aggregated.invoicee = bOrders.get('key')
-      else {
-        const out = bOrders.get('out')
-        if (out && out.size > 0) {
-          const meals = out.get('meal')
-          if (meals && meals.size > 0) {
-            meals.every((meal, mealId) => {
-              details[mealId] = {
-                meal: mealId,
-                adultCount: !meal.get('isChild') ? meal.get('count') : 0,
-                childCount: meal.get('isChild') ? meal.get('count') : 0
-              }
-              return true
-            })
-          }
+      aggregated.invoicee = bOrders.getIn(['invoicee', 'key'])
+      const out = bOrders.get('out')
+      if (out && out.size > 0) {
+        const meals = out.get('meal')
+        if (meals && meals.size > 0) {
+          meals.every((meal, mealId) => {
+            const m = details[mealId]
+            details[mealId] = {
+              meal: mealId,
+              adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
+              childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
+            }
+            return true
+          })
         }
-
-        const home = bOrders.get('home')
-        if (home && home.size > 0) {
-          const meals = home.get('meal')
-          if (meals && meals.size > 0) {
-            meals.every((meal, mealId) => {
-              details[mealId] = {
-                meal: mealId,
-                adultCount: !meal.get('isChild') ? meal.get('count') : 0,
-                childCount: meal.get('isChild') ? meal.get('count') : 0
-              }
-              return true
-            })
-          }
+      }
+      const home = bOrders.get('home')
+      if (home && home.size > 0) {
+        const meals = home.get('meal')
+        if (meals && meals.size > 0) {
+          meals.every((meal, mealId) => {
+            const m = details[mealId]
+            details[mealId] = {
+              meal: mealId,
+              adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
+              childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
+            }
+            return true
+          })
         }
       }
     }

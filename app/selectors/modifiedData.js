@@ -50,11 +50,18 @@ export const getOrdersByDirection = (state, departureId, direction, orderMode) =
         const meals = bOrders.get('meal')
         if (meals && meals.size > 0) {
           list = list.concat(meals.reduce((mList, meal) => {
-            for (let i = 0; i < meal.get('count'); i++) {
+            for (let i = 0; i < meal.get('adultCount'); i++) {
               mList = mList.push(getMap({
                 meal: meal.get('mealId'),
                 drink: null,
-                adult: !meal.get('isChild')
+                adult: true
+              }))
+            }
+            for (let i = 0; i < meal.get('childCount'); i++) {
+              mList = mList.push(getMap({
+                meal: meal.get('mealId'),
+                drink: null,
+                adult: false
               }))
             }
             return mList
@@ -107,11 +114,19 @@ export const getOrders = (state, departureId, orderMode) => {
         const meals = outOrders.get('meal')
         if (meals && meals.size > 0) {
           map = map.set('out', map.get('out').concat(meals.reduce((list, meal) => {
-            for (let i = 0; i < meal.get('count'); i++) {
+            for (let i = 0; i < meal.get('adultCount'); i++) {
               list = list.push(getMap({
                 meal: meal.get('mealId'),
                 drink: null,
-                adult: !meal.get('isChild'),
+                adult: true,
+                booking: bookingId
+              }))
+            }
+            for (let i = 0; i < meal.get('childCount'); i++) {
+              list = list.push(getMap({
+                meal: meal.get('mealId'),
+                drink: null,
+                adult: false,
                 booking: bookingId
               }))
             }
@@ -140,11 +155,19 @@ export const getOrders = (state, departureId, orderMode) => {
         const meals = homeOrders.get('meal')
         if (meals && meals.size) {
           map = map.set('home', map.get('home').concat(meals.reduce((list, meal) => {
-            for (let i = 0; i < meal.get('count'); i++) {
+            for (let i = 0; i < meal.get('adultCount'); i++) {
               list = list.push(getMap({
                 meal: meal.get('mealId'),
                 drink: null,
-                adult: !meal.get('isChild'),
+                adult: true,
+                booking: bookingId
+              }))
+            }
+            for (let i = 0; i < meal.get('childCount'); i++) {
+              list = list.push(getMap({
+                meal: meal.get('mealId'),
+                drink: null,
+                adult: false,
                 booking: bookingId
               }))
             }
