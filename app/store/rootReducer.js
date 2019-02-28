@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 import { combineReducers } from 'redux'
 import { getInitialState } from '../utils/initialState'
@@ -31,19 +32,16 @@ const allReducers = combineReducers({
 })
 
 const rootReducer = (state, action) => {
-  // clean-up state on logout
   if (action.type === LOGOUT_SUCS || action.type === CLEAR_LOCAL_DATA) {
     const connection = state.connection
     const modifiedData = state.modifiedData
     const imageCache = state.imageCache
     state = getInitialState()
-    /**
-     * keep some data as it is, like
-     * connection status, image cache
-     */
+    if (!__DEV__) {
+      state.modifiedData = modifiedData
+      state.imageCache = imageCache
+    }
     state.connection = connection
-    state.modifiedData = modifiedData
-    state.imageCache = imageCache
   }
   return allReducers(state, action)
 }

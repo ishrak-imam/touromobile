@@ -65,7 +65,7 @@ const ss = StyleSheet.create({
     marginTop: 10
   },
   container: {
-    height: 100,
+    // height: 100,
     width: '100%',
     paddingRight: 15
   },
@@ -78,7 +78,8 @@ const ss = StyleSheet.create({
   },
   row: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginVertical: 2
   },
   name: {
     marginLeft: 15
