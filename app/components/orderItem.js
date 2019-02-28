@@ -103,7 +103,6 @@ class OrderItem extends Component {
             <TouchableOpacity style={ss.reset} onPress={this._resetPaxOrders}>
               <IonIcon name='undo' size={22} />
             </TouchableOpacity>
-
           </Left>
           <Right style={ss.headerRight}>
             <TouchableOpacity style={ss.childCheck} onPress={this._toggleChild}>

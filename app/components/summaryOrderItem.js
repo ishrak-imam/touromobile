@@ -21,15 +21,32 @@ import NoData from './noData'
 const _T = Translator('OrdersScreen')
 
 class SummaryOrderItem extends Component {
-  _onSelectInvoicee = () => {
-    const { departureId, bookingId } = this.props
-    return selection => {
-      actionDispatcher(selectInvoiceeSummaryMode({
-        departureId,
-        bookingId,
-        invoicee: selection.value
-      }))
+  componentDidMount () {
+    const { pax } = this.props
+    this._prefillInvoicee(pax)
+  }
+
+  _prefillInvoicee = pax => {
+    if (pax.size === 1) {
+      const selection = {
+        key: String(pax.get(0).get('id')),
+        value: `${pax.get(0).get('firstName')} ${pax.get(0).get('lastName')}`
+      }
+      this._selectInvoicee(selection)
     }
+  }
+
+  _onSelectInvoicee = selection => {
+    this._selectInvoicee(selection.value)
+  }
+
+  _selectInvoicee = invoicee => {
+    const { departureId, bookingId } = this.props
+    actionDispatcher(selectInvoiceeSummaryMode({
+      departureId,
+      bookingId,
+      invoicee
+    }))
   }
 
   _showSelections = options => {
@@ -37,7 +54,7 @@ class SummaryOrderItem extends Component {
       actionDispatcher(showModal({
         type: 'selection',
         options,
-        onSelect: this._onSelectInvoicee()
+        onSelect: this._onSelectInvoicee
       }))
     }
   }
