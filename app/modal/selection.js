@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet,
   TouchableOpacity, Modal, Dimensions
 } from 'react-native'
+import NoData from '../components/noData'
 import { ListItem } from 'native-base'
 import { Colors, IonIcon } from '../theme'
 import { connect } from 'react-redux'
@@ -58,14 +59,16 @@ class SelectionModal extends Component {
 
   _renderItems = (items, config) => {
     return (
-      <ImmutableVirtualizedList
-        style={{ marginVertical: 10 }}
-        immutableData={items}
-        renderItem={this._renderItem}
-        keyExtractor={item => String(item.get('key'))}
-        windowSize={3}
-        initialNumToRender={10}
-      />
+      items.size
+        ? <ImmutableVirtualizedList
+          style={{ marginVertical: 10 }}
+          immutableData={items}
+          renderItem={this._renderItem}
+          keyExtractor={item => String(item.get('key'))}
+          windowSize={3}
+          initialNumToRender={10}
+        />
+        : <NoData text='noOptionsFound' textStyle={{ marginTop: 30 }} />
     )
   }
 

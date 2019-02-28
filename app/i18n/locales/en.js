@@ -144,16 +144,17 @@ export default {
     invoiceeSelection: 'Invoicee selection'
   },
   NoData: {
-    noMatch: 'No match found',
-    noFutureTrips: 'No more future trips',
-    noPastTrips: 'No more past trips',
+    noMatch: 'No match found.',
+    noFutureTrips: 'No more future trips.',
+    noPastTrips: 'No more past trips.',
     fetchingData: 'Fetching data from Touro ...',
-    fetchingDataSucs: 'Fetching data completed',
-    noCurrentTrip: 'No current trip',
-    noExcursions: 'No excursions found for this trip',
-    flightTripNoOrder: 'Flight trip doesn\'t have meal orders',
-    noMealData: 'No meals found',
-    noBeverageData: 'No beverages found'
+    fetchingDataSucs: 'Fetching data completed.',
+    noCurrentTrip: 'No current trip.',
+    noExcursions: 'No excursions found for this trip.',
+    flightTripNoOrder: 'Flight trip doesn\'t have meal orders.',
+    noMealData: 'No meals found.',
+    noBeverageData: 'No beverages found.',
+    noOptionsFound: 'No options found.'
   },
   FooterButtons: {
     cancel: 'Cancel',

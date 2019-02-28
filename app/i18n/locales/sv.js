@@ -145,16 +145,17 @@ export default {
     invoiceeSelection: 'Fakturaval'
   },
   NoData: {
-    noMatch: 'Ingen matchning hittad',
-    noFutureTrips: 'Inga fler framtida resor',
-    noPastTrips: 'Inga fler tidigare resor',
+    noMatch: 'Ingen matchning hittad.',
+    noFutureTrips: 'Inga fler framtida resor.',
+    noPastTrips: 'Inga fler tidigare resor.',
     fetchingData: 'Hämtar data från Touro ...',
-    fetchingDataSucs: 'Hämtar data slutförd',
-    noCurrentTrip: 'Ingen pågående resa',
-    noExcursions: 'Inga utflykter hittades för den här resan',
-    flightTripNoOrder: 'Flygresor har inga måltidsbeställningar',
-    noMealData: 'Inga måltider hittades',
-    noBeverageData: 'Inga drycker hittades'
+    fetchingDataSucs: 'Hämtar data slutförd.',
+    noCurrentTrip: 'Ingen pågående resa.',
+    noExcursions: 'Inga utflykter hittades för den här resan.',
+    flightTripNoOrder: 'Flygresor har inga måltidsbeställningar.',
+    noMealData: 'Inga måltider hittades.',
+    noBeverageData: 'Inga drycker hittades.',
+    noOptionsFound: 'Inga alternativ hittades.'
   },
   FooterButtons: {
     cancel: 'Avbryt',
