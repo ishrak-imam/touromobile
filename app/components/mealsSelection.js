@@ -7,6 +7,9 @@ import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import CheckBox from './checkBox'
 import NoData from './noData'
+import Translator from '../utils/translator'
+
+const _T = Translator('OrdersScreen')
 
 export default class MealsSelection extends Component {
   shouldComponentUpdate (nextProps) {
@@ -35,12 +38,13 @@ export default class MealsSelection extends Component {
     const { selected, isChild } = this.props
     const isSelected = selected.get('meal') === item.get('id') && selected.get('adult') !== isChild
     const name = item.get('name')
+    const prefix = isChild ? `(${_T('child')}) ` : ''
 
     return (
       <ListItem style={ss.item} onPress={this._onSelect(item)}>
         <CheckBox checked={isSelected} />
         <Body style={ss.right}>
-          <Text>{name}</Text>
+          <Text>{prefix}{name}</Text>
         </Body>
       </ListItem>
     )

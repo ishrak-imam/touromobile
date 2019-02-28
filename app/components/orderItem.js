@@ -92,7 +92,7 @@ class OrderItem extends Component {
     }
     let meals = lunches.get(direction).get('meals')
     const beverages = lunches.get(direction).get('beverages')
-    meals = child ? meals.filter(m => child && !!m.get('child')) : meals.filter(m => !!m.get('adult'))
+    meals = child ? meals.filter(m => !!m.get('child')) : meals.filter(m => !!m.get('adult'))
 
     return (
       <View style={ss.orderItem}>
