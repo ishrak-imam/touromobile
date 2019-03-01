@@ -2,16 +2,20 @@
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { View } from 'native-base'
-import NoData from '../components/noData'
 import PastTripCard from './pastTripCard'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { connect } from 'react-redux'
 import { getModifiedData } from '../selectors'
+import OverlaySpinner from './overlaySpinner'
+import Translator from '../utils/translator'
+
+const _T = Translator('PastTripsScreen')
 
 class PastTrips extends Component {
   shouldComponentUpdate (nextProps) {
     return !nextProps.pastTrips.equals(this.props.pastTrips) ||
-           !nextProps.modifiedData.equals(this.props.modifiedData)
+           !nextProps.modifiedData.equals(this.props.modifiedData) ||
+           nextProps.refreshing !== this.props.refreshing
   }
 
   _renderTripCard = ({ item }) => {
@@ -21,25 +25,29 @@ class PastTrips extends Component {
     return <PastTripCard trip={item} modifiedTripData={modifiedTripData} />
   }
 
-  _renderPastTrips = pastTrips => {
+  _renderPastTrips = () => {
+    const { pastTrips, onRefresh } = this.props
     return (
-      pastTrips.get('has')
-        ? <ImmutableVirtualizedList
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
-          immutableData={pastTrips.get('trips')}
-          renderItem={this._renderTripCard}
-          keyExtractor={item => String(item.get('departureId'))}
-        />
-        : <NoData text='noPastTrips' textStyle={{ marginTop: 30 }} />
+      <ImmutableVirtualizedList
+        onRefresh={onRefresh}
+        refreshing={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
+        immutableData={pastTrips.get('trips')}
+        renderItem={this._renderTripCard}
+        keyExtractor={item => String(item.get('departureId'))}
+        renderEmptyInList={_T('noPastTrips')}
+      />
     )
   }
 
   render () {
-    const { pastTrips } = this.props
+    const { refreshing } = this.props
+    console.log(refreshing)
     return (
       <View style={ss.container}>
-        {this._renderPastTrips(pastTrips)}
+        {refreshing && <OverlaySpinner />}
+        {this._renderPastTrips()}
       </View>
     )
   }

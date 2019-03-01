@@ -1,16 +1,13 @@
 
 import React, { Component } from 'react'
 import { Container } from 'native-base'
-// import { StyleSheet, TouchableOpacity } from 'react-native'
 import Header from '../../components/header'
-// import { IonIcon, Colors } from '../../theme'
 import FutureTrips from '../../components/futureTrips'
 import { connect } from 'react-redux'
 import { getUser, getTrips } from '../../selectors/index'
 import Translator from '../../utils/translator'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { tripsReq, connectionsReq } from './action'
-// import NoData from '../../components/noData'
 
 const _T = Translator('FutureTripsScreen')
 
@@ -32,34 +29,15 @@ class FutureTripsScreen extends Component {
     }))
   }
 
-  // _renderRight = () => {
-  //   const iconColor = Colors.silver
-  //   const iconSize = 30
-  //   return (
-  //     <TouchableOpacity style={ss.headerRight} onPress={this._onRefresh}>
-  //       <IonIcon
-  //         name='refresh'
-  //         color={iconColor}
-  //         size={iconSize}
-  //         style={{ paddingRight: 5 }}
-  //       />
-  //     </TouchableOpacity>
-  //   )
-  // }
-
   render () {
     const { navigation, trips } = this.props
     const futureTrips = trips.get('future')
     const isLoading = trips.get('isLoading')
+    const left = navigation.getParam('left') || 'back'
 
     return (
       <Container>
-        <Header
-          left='back'
-          title={_T('title')}
-          navigation={navigation}
-          // right={this._renderRight()}
-        />
+        <Header left={left} title={_T('title')} navigation={navigation} />
         <FutureTrips
           futureTrips={futureTrips}
           refreshing={isLoading}

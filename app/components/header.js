@@ -28,9 +28,12 @@ export default class TMHeader extends Component {
     const { left } = this.props
     return (
       <Left style={ss.left}>
-        <TouchableOpacity style={ss.leftTouchable} onPress={this._navigate(left)}>
-          <IonIcon name={left} color={Colors.silver} />
-        </TouchableOpacity>
+        {
+          left &&
+          <TouchableOpacity style={ss.leftTouchable} onPress={this._navigate(left)}>
+            <IonIcon name={left} color={Colors.silver} />
+          </TouchableOpacity>
+        }
       </Left>
     )
   }

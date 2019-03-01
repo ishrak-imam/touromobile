@@ -6,29 +6,53 @@ import {
 import Header from '../../components/header'
 import PastTrips from '../../components/pastTrips'
 import { connect } from 'react-redux'
-import { pastTripsSelector } from '../../selectors/index'
+import { getUser, getTrips } from '../../selectors/index'
 import Translator from '../../utils/translator'
+import { networkActionDispatcher } from '../../utils/actionDispatcher'
+import { tripsReq, connectionsReq } from './action'
 
 const _T = Translator('PastTripsScreen')
 
 class PastTripsScreen extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.pastTrips.equals(this.props.pastTrips)
+    return !nextProps.trips.equals(this.props.trips)
+  }
+
+  _onRefresh = () => {
+    const { user } = this.props
+    networkActionDispatcher(tripsReq({
+      isNeedJwt: true,
+      guideId: user.get('guideId'),
+      refreshFromPastTrip: true,
+      pendingModal: {}
+    }))
+    networkActionDispatcher(connectionsReq({
+      isNeedJwt: true
+    }))
   }
 
   render () {
-    const { navigation, pastTrips } = this.props
+    const { navigation, trips } = this.props
+    const pastTrips = trips.get('past')
+    const isLoading = trips.get('isLoading')
+    const left = navigation.getParam('left') || 'back'
+
     return (
       <Container>
-        <Header left='back' title={_T('title')} navigation={navigation} />
-        <PastTrips pastTrips={pastTrips} />
+        <Header left={left} title={_T('title')} navigation={navigation} />
+        <PastTrips
+          pastTrips={pastTrips}
+          refreshing={isLoading}
+          onRefresh={this._onRefresh}
+        />
       </Container>
     )
   }
 }
 
 const stateToProps = state => ({
-  pastTrips: pastTripsSelector(state)
+  trips: getTrips(state),
+  user: getUser(state)
 })
 
 export default connect(stateToProps, null)(PastTripsScreen)

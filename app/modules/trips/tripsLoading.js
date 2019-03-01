@@ -1,12 +1,11 @@
 
 import React, { Component } from 'react'
-import { RefreshControl, StyleSheet, ScrollView, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
 import {
   networkActionDispatcher, actionDispatcher
 } from '../../utils/actionDispatcher'
 import { getTrips, getUser } from '../../selectors'
-import OverlaySpinner from '../../components/overlaySpinner'
 import NoData from '../../components/noData'
 import {
   tripsReq,
@@ -57,36 +56,22 @@ class TripsLoading extends Component {
     }))
   }
 
-  _pendingModalOk = () => {
-    this.props.navigation.navigate('PastTrips')
-  }
-
   _requestConnections = () => {
     networkActionDispatcher(connectionsReq({
       isNeedJwt: true
     }))
   }
 
-  _onRefresh = () => {
-    this._requestTrips(true)
-    this._requestConnections()
-  }
-
   render () {
-    const { trips, navigation } = this.props
+    const { trips } = this.props
     const isLoading = trips.get('isLoading')
-    const isRefreshing = trips.get('isRefreshing')
     const text = isLoading ? 'fetchingData' : 'fetchingDataSucs'
     return (
-      <View style={ss.screen}>
-        <Header left='menu' navigation={navigation} />
-        {isRefreshing && <OverlaySpinner />}
-        <ScrollView
-          contentContainerStyle={ss.container}
-          refreshControl={<RefreshControl refreshing={false} onRefresh={this._onRefresh} />}
-        >
+      <View>
+        <Header />
+        <View style={ss.screen}>
           <NoData text={text} textStyle={ss.textStyle} />
-        </ScrollView>
+        </View>
       </View>
     )
   }
@@ -101,10 +86,9 @@ export default connect(stateToProps, null)(TripsLoading)
 
 const ss = StyleSheet.create({
   screen: {
-    flex: 1
-  },
-  container: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center'
   },
   textStyle: {
     marginTop: 30

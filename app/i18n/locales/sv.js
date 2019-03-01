@@ -53,6 +53,7 @@ export default {
     accommodation: 'Övernattning',
     bagPick: 'Väskhämtning',
     bagDrop: 'Väskavlämning',
+    noFutureTrips: 'Inga fler framtida resor.',
     tripDisabled: 'Ändringar är låsta eftersom det är mindre än 10 dagar till avgång. Vänligen kontakta kontoret om du måste göra någon ändring.'
   },
   OutHomeTab: {
@@ -63,7 +64,8 @@ export default {
     title: 'Tidigare resor',
     uploadReport: 'Ladda upp rapport',
     participantShare: 'Deltagarandel',
-    uploadedAt: 'Rapport uppladdad'
+    uploadedAt: 'Rapport uppladdad',
+    noPastTrips: 'Inga fler tidigare resor.'
   },
   ReportsScreen: {
     title: 'Rapporter',
@@ -146,10 +148,8 @@ export default {
   },
   NoData: {
     noMatch: 'Ingen matchning hittad.',
-    noFutureTrips: 'Inga fler framtida resor.',
-    noPastTrips: 'Inga fler tidigare resor.',
     fetchingData: 'Hämtar data från Touro ...',
-    fetchingDataSucs: 'Hämtar data slutförd.',
+    fetchingDataSucs: 'Hämtning av data slutförd.',
     noCurrentTrip: 'Ingen pågående resa.',
     noExcursions: 'Inga utflykter hittades för den här resan.',
     flightTripNoOrder: 'Flygresor har inga måltidsbeställningar.',

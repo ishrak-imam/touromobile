@@ -53,6 +53,7 @@ export default {
     accommodation: 'Accommodation',
     bagPick: 'Bag pickup',
     bagDrop: 'Bag dropoff',
+    noFutureTrips: 'No more future trips.',
     tripDisabled: 'Saving is disabled! It\'s less than 10 days to departure. Please contact the office if you need to maje any changes.'
   },
   OutHomeTab: {
@@ -63,7 +64,8 @@ export default {
     title: 'Past trips',
     uploadReport: 'Upload report',
     participantShare: 'Participant share',
-    uploadedAt: 'Report uploaded at'
+    uploadedAt: 'Report uploaded at',
+    noPastTrips: 'No more past trips.'
   },
   ReportsScreen: {
     title: 'Reports',
@@ -145,8 +147,6 @@ export default {
   },
   NoData: {
     noMatch: 'No match found.',
-    noFutureTrips: 'No more future trips.',
-    noPastTrips: 'No more past trips.',
     fetchingData: 'Fetching data from Touro ...',
     fetchingDataSucs: 'Fetching data completed.',
     noCurrentTrip: 'No current trip.',

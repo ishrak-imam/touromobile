@@ -2,10 +2,12 @@
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { View } from 'native-base'
-import NoData from '../components/noData'
 import FutureTripCard from './futureTripCard'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import OverlaySpinner from './overlaySpinner'
+import Translator from '../utils/translator'
+
+const _T = Translator('FutureTripsScreen')
 
 export default class FutureTrips extends Component {
   shouldComponentUpdate (nextProps) {
@@ -20,17 +22,16 @@ export default class FutureTrips extends Component {
   _renderFutureTrips = () => {
     const { futureTrips, onRefresh } = this.props
     return (
-      futureTrips.get('has')
-        ? <ImmutableVirtualizedList
-          onRefresh={onRefresh}
-          refreshing={false}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
-          immutableData={futureTrips.get('trips')}
-          renderItem={this._renderTripCard}
-          keyExtractor={item => String(item.get('departureId'))}
-        />
-        : <NoData text='noFutureTrips' textStyle={{ marginTop: 30 }} />
+      <ImmutableVirtualizedList
+        onRefresh={onRefresh}
+        refreshing={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
+        immutableData={futureTrips.get('trips')}
+        renderItem={this._renderTripCard}
+        keyExtractor={item => String(item.get('departureId'))}
+        renderEmptyInList={_T('noFutureTrips')}
+      />
     )
   }
 
@@ -47,7 +48,6 @@ export default class FutureTrips extends Component {
 
 const ss = StyleSheet.create({
   container: {
-    flex: 1,
-    marginBottom: 20
+    flex: 1
   }
 })

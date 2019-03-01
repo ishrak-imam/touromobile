@@ -61,11 +61,11 @@ export function * watchGetTrips () {
 
 function * workerGetTrips (action) {
   try {
-    const { guideId, jwt, pendingModal, refreshFromFutureTrip } = action.payload
+    const { guideId, jwt, pendingModal, refreshFromFutureTrip, refreshFromPastTrip } = action.payload
     const data = yield call(getTrips, guideId, jwt)
     yield put(tripsSucs(data))
     yield put(tripsActionsOnSuccess({ pendingModal }))
-    yield put(navigateToOtherTripScreen({ refreshFromFutureTrip }))
+    yield put(navigateToOtherTripScreen({ refreshFromFutureTrip, refreshFromPastTrip }))
   } catch (e) {
     yield put(tripsFail(e))
   }
@@ -89,16 +89,20 @@ export function * watchTripNavigation () {
 }
 
 function * workerTripNavigation (action) {
-  const { refreshFromFutureTrip } = action.payload
+  const { refreshFromFutureTrip, refreshFromPastTrip } = action.payload
   const currentTrip = yield select(gctSelector)
-  if (currentTrip.has && !refreshFromFutureTrip) navigate('Home')
+  if (currentTrip.has && (!refreshFromFutureTrip || !refreshFromPastTrip)) navigate('Home')
   if (!currentTrip.has) {
     const futureTrips = yield select(gftSelector)
-    if (futureTrips.has) navigate('FutureTrips')
+    if (futureTrips.has) navigate('FutureTrips', { left: 'menu' })
     else {
       const pastTrips = yield select(gptSelector)
-      if (pastTrips.has) navigate('PastTrips')
-      else navigate('NoTrips')
+      if (pastTrips.has) navigate('PastTrips', { left: 'menu' })
+      else {
+        if (!refreshFromFutureTrip && !refreshFromPastTrip) {
+          navigate('NoTrips')
+        }
+      }
     }
   }
 }
