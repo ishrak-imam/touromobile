@@ -6,13 +6,13 @@ import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
 import {
   getLunches, getInvoiceeSummaryMode,
-  getOrderForBookingSummaryMode
+  getOrderForBookingSummaryMode, getFormattedMealsData
 } from '../selectors'
 import isIphoneX from '../utils/isIphoneX'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { showModal } from '../modal/action'
-import { getMap, getList } from '../utils/immutable'
+import { getMap } from '../utils/immutable'
 import { selectInvoiceeSummaryMode } from '../modules/modifiedData/action'
 import Translator from '../utils/translator'
 import FoodItem from './foodItem'
@@ -121,29 +121,8 @@ class SummaryOrderItem extends Component {
     return count
   }
 
-  /**
-   * TODO:
-   * Try to cache this function result
-   */
-  _formatMeals = meals => {
-    return meals.reduce((list, meal) => {
-      if (meal.get('child') && meal.get('adult')) {
-        list = list
-          .push(meal.set('child', null))
-          .push(meal.set('name', `(${_T('child')}) ${meal.get('name')}`).set('adult', null))
-      }
-      if (meal.get('child') && !meal.get('adult')) {
-        list = list.push(meal.set('name', `(${_T('child')}) ${meal.get('name')}`))
-      }
-      if (!meal.get('child') && meal.get('adult')) {
-        list = list.push(meal)
-      }
-      return list
-    }, getList([]))
-  }
-
   _renderMeals = (meals, paxCount) => {
-    const formattedMeals = this._formatMeals(meals)
+    const formattedMeals = getFormattedMealsData(meals, _T('child'))
     return (
       <View style={ss.section}>
         <ListItem style={ss.header}>

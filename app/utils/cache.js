@@ -30,13 +30,13 @@ const Cache = resolver => {
     return value.equals(prev) && !!computed
   }
 
-  return value => {
+  return (value, extra = {}) => {
     if (_shouldHitCache(value)) {
       return computed
     }
 
     prev = value
-    computed = resolver(value)
+    computed = resolver(value, extra)
     return computed
   }
 }

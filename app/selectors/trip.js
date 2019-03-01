@@ -242,6 +242,23 @@ const resolvers = {
       }
       return m
     }, getMap({}))
+  },
+
+  formatMealsData: (meals, extra) => {
+    return meals.reduce((list, meal) => {
+      if (meal.get('child') && meal.get('adult')) {
+        list = list
+          .push(meal.set('child', null))
+          .push(meal.set('name', `(${extra}) ${meal.get('name')}`).set('adult', null))
+      }
+      if (meal.get('child') && !meal.get('adult')) {
+        list = list.push(meal.set('name', `(${extra}) ${meal.get('name')}`))
+      }
+      if (!meal.get('child') && meal.get('adult')) {
+        list = list.push(meal)
+      }
+      return list
+    }, getList([]))
   }
 
 }
@@ -440,6 +457,14 @@ export const getModifiedPaxByBooking = data => {
     modifiedPaxByBookingCache = Cache(resolvers.modifiedPaxByBooking)
   }
   return modifiedPaxByBookingCache(data)
+}
+
+let formattedMealsDataCache = null
+export const getFormattedMealsData = (meals, extra) => {
+  if (!formattedMealsDataCache) {
+    formattedMealsDataCache = Cache(resolvers.formatMealsData)
+  }
+  return formattedMealsDataCache(meals, extra)
 }
 
 /**
