@@ -84,8 +84,7 @@ export const mockForgetPass = () => new Promise(resolve => {
 
 export const mockTrips = () => new Promise(resolve => {
   setTimeout(() => {
-    // return resolve(require('./trips.json'))
-    return resolve([])
+    return resolve(require('./trips.json'))
   }, 2000)
 })
 
