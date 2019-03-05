@@ -48,7 +48,8 @@ export const {
   getPaxWithExcursionPack,
   getPaxDataGroupByBooking,
   getTransportType,
-  getFormattedMealsData
+  getFormattedMealsData,
+  getExcursions
 } = require('./trip')
 
 export const {

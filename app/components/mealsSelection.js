@@ -76,9 +76,6 @@ const ss = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10
   },
-  left: {
-    flex: 0.5
-  },
   right: {
     flex: 4
   }

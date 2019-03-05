@@ -138,7 +138,8 @@ export default {
   },
   OrdersScreen: {
     title: 'Order',
-    header: 'Lunch order',
+    lunchOrders: 'Lunch order',
+    excursionOrders: 'Utflykter order',
     meals: 'Måltider',
     child: 'Barn',
     beverages: 'Drycker',

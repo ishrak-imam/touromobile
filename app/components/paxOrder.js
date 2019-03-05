@@ -14,6 +14,7 @@ import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { getOrderMode } from '../selectors'
 // import { getList } from '../utils/immutable'
+import ExcursionOrderIndividualMode from './excursionOrderIndividualMode'
 
 const _T = Translator('OrdersScreen')
 
@@ -44,7 +45,7 @@ class PaxOrder extends Component {
           orderMode === INDIVIDUAL_MODE &&
           <ListItem style={ss.header}>
             <Left style={ss.headerLeft}>
-              <Text style={ss.headerText}>{_T('header')}</Text>
+              <Text style={ss.headerText}>{_T('lunchOrders')}</Text>
             </Left>
             <Right style={ss.headerRight}>
               <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
@@ -58,6 +59,15 @@ class PaxOrder extends Component {
             {tab === TABS.HOME && <OrderItem bookingId={bookingId} departureId={departureId} pax={pax} direction={tab} />}
             {tab === TABS.OUT && <OrderItem bookingId={bookingId} departureId={departureId} pax={pax} direction={tab} />}
           </View>
+        }
+
+        {
+          orderMode === INDIVIDUAL_MODE &&
+          <ExcursionOrderIndividualMode
+            bookingId={bookingId}
+            departureId={departureId}
+            pax={pax}
+          />
         }
 
         {/* {
@@ -84,15 +94,15 @@ export default connect(stateToProps, null)(PaxOrder)
 
 const ss = StyleSheet.create({
   container: {
-    marginBottom: isIphoneX ? 20 : 10
+    marginBottom: isIphoneX ? 30 : 20
   },
   header: {
+    marginLeft: 15,
     marginRight: 15,
     paddingBottom: 5,
     borderBottomColor: Colors.steel,
     borderBottomWidth: 1,
     paddingRight: 0,
-    marginLeft: 15,
     marginBottom: 10
   },
   headerLeft: {

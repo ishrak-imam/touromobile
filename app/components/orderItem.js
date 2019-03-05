@@ -11,7 +11,7 @@ import { getMap } from '../utils/immutable'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { takeOrderIndividualMode, resetPaxOrder } from '../modules/modifiedData/action'
 import BeverageSelection from './beverageSelection'
-import { Colors, IonIcon } from '../theme'
+import { IonIcon } from '../theme'
 import Translator from '../utils/translator'
 import CheckBox from './checkBox'
 import { stringShorten } from '../utils/stringHelpers'
@@ -149,11 +149,10 @@ export default connect(stateToProps, null)(OrderItem)
 
 const ss = StyleSheet.create({
   orderItem: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.steel
+    marginHorizontal: 15,
+    marginBottom: 10
+    // borderBottomWidth: 1,
+    // borderBottomColor: Colors.steel
   },
   header: {
     paddingBottom: 10,

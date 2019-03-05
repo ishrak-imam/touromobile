@@ -337,6 +337,5 @@ const ss = StyleSheet.create({
   },
   paxOrder: {
     marginTop: 20
-    // marginHorizontal: 5
   }
 })

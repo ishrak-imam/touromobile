@@ -279,6 +279,8 @@ export const getLunches = state => state.trips.get('current').get('trip').get('l
 
 export const getConnections = state => state.trips.get('connections')
 
+export const getExcursions = state => state.trips.get('current').get('trip').get('excursions')
+
 export const getFoods = (state, type) => {
   const currentTrip = state.trips.get('current')
   if (!currentTrip.get('has')) {
