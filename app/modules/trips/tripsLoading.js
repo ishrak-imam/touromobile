@@ -67,9 +67,9 @@ class TripsLoading extends Component {
     const isLoading = trips.get('isLoading')
     const text = isLoading ? 'fetchingData' : 'fetchingDataSucs'
     return (
-      <View>
+      <View style={ss.screen}>
         <Header />
-        <View style={ss.screen}>
+        <View style={ss.container}>
           <NoData text={text} textStyle={ss.textStyle} />
         </View>
       </View>
@@ -86,6 +86,9 @@ export default connect(stateToProps, null)(TripsLoading)
 
 const ss = StyleSheet.create({
   screen: {
+    flex: 1
+  },
+  container: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center'
