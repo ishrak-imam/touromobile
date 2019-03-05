@@ -17,6 +17,7 @@ import { mergeMapShallow } from '../utils/immutable'
 import FooterButtons from './footerButtons'
 import CheckBox from './checkBox'
 import PaxOrder from './paxOrder'
+import { navigate } from '../navigation/service'
 const _T = Translator('PaxDetailsScreen')
 
 class PaxCard extends Component {
@@ -103,12 +104,22 @@ class PaxCard extends Component {
     )
   }
 
+  _toOrdersScreen = booking => {
+    const { brand, isFlight } = this.props
+    if (isFlight) return () => {}
+
+    const { departureId } = this.props
+    return () => {
+      navigate('Orders', { brand, booking, departureId })
+    }
+  }
+
   _renderBooking = booking => {
     return (
       <CardItem>
         <Body>
           <Text style={ss.label}>{_T('booking')}</Text>
-          <TouchableOpacity onPress={() => {}} style={ss.booking}>
+          <TouchableOpacity onPress={this._toOrdersScreen(booking)} style={ss.booking}>
             <Text style={ss.bookingText}>{booking.get('id')}</Text>
           </TouchableOpacity>
         </Body>

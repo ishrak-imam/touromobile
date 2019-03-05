@@ -51,19 +51,17 @@ export default class MealsSelection extends Component {
   }
 
   render () {
-    const { items, label } = this.props
+    const { items, label, listKey } = this.props
     return (
       <View>
         <Text note>{label}</Text>
-        {
-          items.size
-            ? <ImmutableVirtualizedList
-              immutableData={items}
-              renderItem={this._renderItem}
-              keyExtractor={item => String(item.get('id'))}
-            />
-            : <NoData text='noMealData' textStyle={{ marginTop: 30 }} />
-        }
+        <ImmutableVirtualizedList
+          listKey={listKey}
+          immutableData={items}
+          renderItem={this._renderItem}
+          keyExtractor={item => String(item.get('id'))}
+          renderEmpty={_T('noMealData')}
+        />
       </View>
     )
   }

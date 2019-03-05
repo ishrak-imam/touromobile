@@ -144,7 +144,8 @@ export default {
     beverages: 'Beverages',
     invoicee: 'Invoicee',
     selectInvoicee: 'Select invoicee',
-    invoiceeSelection: 'Invoicee selection'
+    invoiceeSelection: 'Invoicee selection',
+    noMealData: 'No meals found.'
   },
   NoData: {
     noMatch: 'No match found.',
@@ -153,7 +154,6 @@ export default {
     noCurrentTrip: 'No current trip.',
     noExcursions: 'No excursions found for this trip.',
     flightTripNoOrder: 'Flight trip doesn\'t have meal orders.',
-    noMealData: 'No meals found.',
     noBeverageData: 'No beverages found.',
     noOptionsFound: 'No options found.'
   },

@@ -18,6 +18,7 @@ import { actionDispatcher } from '../../utils/actionDispatcher'
 import { resetAllOrders } from '../modifiedData/action'
 import { getOrderMode } from '../../selectors'
 import { connect } from 'react-redux'
+import ExcursionOrderIndividualMode from '../../components/excursionOrderIndividualMode'
 
 const _T = Translator('OrdersScreen')
 
@@ -40,20 +41,50 @@ class OrdersScreen extends Component {
 
   _renderItem = (bookingId, departureId) => {
     const { tab } = this.state
-    return ({ item }) => (
-
-      /**
-       * TODO:
-       *
-       * Bad code.
-       * Had to do that to execute the constructor of <OrderItem />
-       * again when parent re-render.
-       */
-      <View>
-        {tab === TABS.HOME && <OrderItem bookingId={bookingId} departureId={departureId} pax={item} direction={tab} />}
-        {tab === TABS.OUT && <OrderItem bookingId={bookingId} departureId={departureId} pax={item} direction={tab} />}
-      </View>
-    )
+    return ({ item }) => {
+      const paxId = String(item.get('id'))
+      const orderKey = `order-${paxId}`
+      const excursionKey = `excursion-${paxId}`
+      return (
+        (
+          /**
+           * TODO:
+           *
+           * Bad code.
+           * Had to do that to execute the constructor of <OrderItem />
+           * again when parent re-render.
+           */
+          <View>
+            {
+              tab === TABS.HOME &&
+              <OrderItem
+                listKey={orderKey}
+                bookingId={bookingId}
+                departureId={departureId}
+                pax={item}
+                direction={tab}
+              />
+            }
+            {
+              tab === TABS.OUT &&
+              <OrderItem
+                listKey={orderKey}
+                bookingId={bookingId}
+                departureId={departureId}
+                pax={item}
+                direction={tab}
+              />
+            }
+            <ExcursionOrderIndividualMode
+              listKey={excursionKey}
+              bookingId={bookingId}
+              departureId={departureId}
+              pax={item}
+            />
+          </View>
+        )
+      )
+    }
   }
 
   _resetOrders = (departureId, bookingId) => {
@@ -81,7 +112,7 @@ class OrdersScreen extends Component {
 
         <ListItem style={ss.header}>
           <Left style={ss.headerLeft}>
-            <Text style={ss.headerText}>{_T('header')}</Text>
+            <Text style={ss.headerText}>{_T('lunchOrders')}</Text>
             <TouchableOpacity style={ss.reset} onPress={this._resetOrders(departureId, bookingId)}>
               <IonIcon name='undo' size={22} />
             </TouchableOpacity>

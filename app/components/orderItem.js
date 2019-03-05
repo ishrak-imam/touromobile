@@ -85,7 +85,7 @@ class OrderItem extends Component {
 
   render () {
     const { child } = this.state
-    const { lunches, pax, direction } = this.props
+    const { lunches, pax, direction, listKey } = this.props
     let paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
     if (paxName.length > 17) {
       paxName = stringShorten(paxName, 17)
@@ -113,6 +113,7 @@ class OrderItem extends Component {
         </ListItem>
 
         <MealsSelection
+          listKey={listKey}
           items={meals}
           label={_T('meals')}
           onSelect={this._onMealSelect}

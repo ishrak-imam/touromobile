@@ -16,7 +16,7 @@ export default class PaxDetailsScreen extends Component {
     return (
       <Container>
         <Header left='back' title={name} navigation={navigation} brand={brand} />
-        <PaxCard pax={pax} departureId={departureId} isFlight={isFlight} />
+        <PaxCard brand={brand} pax={pax} departureId={departureId} isFlight={isFlight} />
       </Container>
     )
   }

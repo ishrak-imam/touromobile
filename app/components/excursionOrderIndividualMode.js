@@ -49,9 +49,10 @@ class ExcursionOrderIndividualMode extends Component {
   }
 
   _renderExcursions = (excursions, pax) => {
-    const { participants } = this.props
+    const { participants, listKey } = this.props
     return (
       <ImmutableVirtualizedList
+        listKey={listKey}
         immutableData={excursions}
         renderItem={this._renderItem(participants, pax)}
         keyExtractor={item => String(item.get('id'))}

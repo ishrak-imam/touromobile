@@ -145,7 +145,8 @@ export default {
     beverages: 'Drycker',
     invoicee: 'Fakturamottagare',
     selectInvoicee: 'Välj fakturamottagare',
-    invoiceeSelection: 'Fakturaval'
+    invoiceeSelection: 'Fakturaval',
+    noMealData: 'Inga måltider hittades.'
   },
   NoData: {
     noMatch: 'Ingen matchning hittad.',
@@ -154,7 +155,6 @@ export default {
     noCurrentTrip: 'Ingen pågående resa.',
     noExcursions: 'Inga utflykter hittades för den här resan.',
     flightTripNoOrder: 'Flygresor har inga måltidsbeställningar.',
-    noMealData: 'Inga måltider hittades.',
     noBeverageData: 'Inga drycker hittades.',
     noOptionsFound: 'Inga alternativ hittades.'
   },

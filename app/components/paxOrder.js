@@ -56,14 +56,33 @@ class PaxOrder extends Component {
         {
           orderMode === INDIVIDUAL_MODE &&
           <View>
-            {tab === TABS.HOME && <OrderItem bookingId={bookingId} departureId={departureId} pax={pax} direction={tab} />}
-            {tab === TABS.OUT && <OrderItem bookingId={bookingId} departureId={departureId} pax={pax} direction={tab} />}
+            {
+              tab === TABS.HOME &&
+              <OrderItem
+                listKey='mealOrders'
+                bookingId={bookingId}
+                departureId={departureId}
+                pax={pax}
+                direction={tab}
+              />
+            }
+            {
+              tab === TABS.OUT &&
+              <OrderItem
+                listKey='mealOrders'
+                bookingId={bookingId}
+                departureId={departureId}
+                pax={pax}
+                direction={tab}
+              />
+            }
           </View>
         }
 
         {
           orderMode === INDIVIDUAL_MODE &&
           <ExcursionOrderIndividualMode
+            listKey='excursionOrders'
             bookingId={bookingId}
             departureId={departureId}
             pax={pax}
