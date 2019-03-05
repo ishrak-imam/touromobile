@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { View, Text, ListItem } from 'native-base'
+import { View, Text, ListItem, Left, Right } from 'native-base'
 import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
@@ -13,14 +13,29 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { showModal } from '../modal/action'
 import { getMap } from '../utils/immutable'
-import { selectInvoiceeSummaryMode } from '../modules/modifiedData/action'
+import { selectInvoiceeSummaryMode, resetAllOrders } from '../modules/modifiedData/action'
 import Translator from '../utils/translator'
 import FoodItem from './foodItem'
 import NoData from './noData'
+import OutHomeTab from './outHomeTab'
 
 const _T = Translator('OrdersScreen')
 
 class SummaryOrderItem extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      lunchOrders: false,
+      tab: 'out'
+    }
+  }
+
+  _viewToggle = section => () => {
+    this.setState({
+      [section]: !this.state[section]
+    })
+  }
+
   componentDidMount () {
     const { pax } = this.props
     this._prefillInvoicee(pax)
@@ -79,7 +94,8 @@ class SummaryOrderItem extends Component {
   }
 
   _renderFoodItem = (mealType, paxCount, totalOrder) => {
-    const { direction, bookingId, departureId } = this.props
+    const direction = this.state.tab
+    const { bookingId, departureId } = this.props
     return ({ item }) => {
       return (
         <FoodItem
@@ -96,9 +112,10 @@ class SummaryOrderItem extends Component {
   }
 
   get totalMealOrder () {
+    const { tab } = this.state
     const { orderForBooking } = this.props
     let count = 0
-    const meals = orderForBooking.get('meal')
+    const meals = orderForBooking.getIn([tab, 'meal'])
     if (meals && meals.size > 0) {
       meals.every((meal) => {
         count = count + meal.get('adultCount') + meal.get('childCount')
@@ -109,9 +126,10 @@ class SummaryOrderItem extends Component {
   }
 
   get totalDrinkOrder () {
+    const { tab } = this.state
     const { orderForBooking } = this.props
     let count = 0
-    const drinks = orderForBooking.get('drink')
+    const drinks = orderForBooking.getIn([tab, 'drink'])
     if (drinks && drinks.size > 0) {
       drinks.every((drink) => {
         count = count + drink.get('count')
@@ -180,32 +198,85 @@ class SummaryOrderItem extends Component {
     }
   }
 
+  _resetOrders = (departureId, bookingId) => {
+    return () => {
+      actionDispatcher(resetAllOrders({
+        key: 'ordersSummaryMode', departureId, bookingId
+      }))
+    }
+  }
+
+  _onTabSwitch = tab => {
+    return () => {
+      this.setState({ tab })
+    }
+  }
+
+  _renderLunchOrders = () => {
+    const { lunchOrders, tab } = this.state
+    const { pax, lunches, departureId, bookingId } = this.props
+    const meals = lunches.getIn([tab, 'meals'])
+    const beverages = lunches.getIn([tab, 'beverages'])
+    const icon = lunchOrders ? 'minus' : 'plus'
+
+    return (
+      <View>
+        <ListItem style={ss.topHeader} onPress={this._viewToggle('lunchOrders')}>
+          <Left style={ss.headerLeft}>
+            <View style={ss.sectionIcon}>
+              <IonIcon name={icon} size={22} />
+            </View>
+            <Text style={ss.headerText}>{_T('lunchOrders')}</Text>
+            {
+              lunchOrders &&
+              <TouchableOpacity style={ss.reset} onPress={this._resetOrders(departureId, bookingId)}>
+                <IonIcon name='undo' size={22} />
+              </TouchableOpacity>
+            }
+          </Left>
+          <Right style={ss.headerRight} />
+        </ListItem>
+        {
+          lunchOrders &&
+          <View>
+            <View style={ss.tabContainer}>
+              <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
+            </View>
+            {this._renderMeals(meals, pax.size)}
+            {beverages && this._renderBeverages(beverages, pax.size)}
+          </View>
+        }
+      </View>
+    )
+  }
+
   render () {
-    const { pax, lunches, direction, invoicee, screen } = this.props
-    const meals = lunches.get(direction).get('meals')
-    const beverages = lunches.get(direction).get('beverages')
+    const { pax, invoicee, screen } = this.props
+    const direction = this.state.tab
 
     return (
       <View style={ss.container}>
+
         {
           screen === 'booking' &&
           this._renderInvoiceeSelection(this._getInvoiceeOptions(pax, direction, invoicee), invoicee)
         }
+
         <ScrollView style={ss.scroll} showsVerticalScrollIndicator={false}>
-          {this._renderMeals(meals, pax.size)}
-          {beverages && this._renderBeverages(beverages, pax.size)}
+          {this._renderLunchOrders()}
         </ScrollView>
+
       </View>
     )
   }
 }
 
 const stateToProps = (state, props) => {
-  const { departureId, bookingId, direction } = props
+  const { departureId, bookingId } = props
   return {
     invoicee: getInvoiceeSummaryMode(state, departureId, bookingId),
     lunches: getLunches(state),
-    orderForBooking: getOrderForBookingSummaryMode(state, departureId, bookingId, direction)
+    orderForBooking: getOrderForBookingSummaryMode(state, departureId, bookingId)
   }
 }
 
@@ -270,9 +341,38 @@ const ss = StyleSheet.create({
   },
   header: {
     paddingBottom: 5,
-    marginLeft: 0
+    marginLeft: 0,
+    borderBottomWidth: 0
   },
   scroll: {
     marginBottom: isIphoneX ? 20 : 10
+  },
+  topHeader: {
+    marginLeft: 0,
+    paddingBottom: 5,
+    borderBottomColor: Colors.steel,
+    borderBottomWidth: 0,
+    paddingRight: 0,
+    marginBottom: 10
+  },
+  headerLeft: {
+    flex: 3
+  },
+  headerRight: {
+    flex: 2
+  },
+  headerText: {
+    fontWeight: 'bold',
+    marginBottom: 3
+  },
+  reset: {
+    paddingHorizontal: 20
+  },
+  sectionIcon: {
+    marginRight: 5
+  },
+  tabContainer: {
+    width: '100%',
+    marginTop: 5
   }
 })

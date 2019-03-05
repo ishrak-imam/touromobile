@@ -139,6 +139,7 @@ export default {
     title: 'Orders',
     lunchOrders: 'Lunch orders',
     excursionOrders: 'Excursion orders',
+    extraOrders: 'Extra orders',
     meals: 'Meals',
     child: 'Child',
     beverages: 'Beverages',
