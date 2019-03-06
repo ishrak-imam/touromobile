@@ -38,7 +38,6 @@ export const getStatsData = (excursions, modifiedPax, participants, trip) => {
 }
 
 export const prepareParticipantsData = (excursions, modifiedPax, participants, trip, bookingId) => {
-  console.log(participants.toJS())
   const pax = trip.get('bookings').find(b => String(b.get('id')) === bookingId).get('pax')
   return excursions.reduce((m, e) => {
     const excursionId = String(e.get('id'))

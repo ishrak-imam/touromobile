@@ -48,7 +48,6 @@ class PaxListItem extends Component {
   }
 
   render () {
-    console.log('render')
     const { pax, selected, onPress } = this.props
     const paxId = String(pax.get('id'))
     const checked = pax.get('excursionPack')
