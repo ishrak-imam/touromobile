@@ -18,6 +18,7 @@ import Translator from '../utils/translator'
 import FoodItem from './foodItem'
 import NoData from './noData'
 import OutHomeTab from './outHomeTab'
+import ExcursionOrderSummaryMode from './excursionOrderSummaryMode'
 
 const _T = Translator('OrdersScreen')
 
@@ -26,6 +27,7 @@ class SummaryOrderItem extends Component {
     super(props)
     this.state = {
       lunchOrders: false,
+      excursionOrders: false,
       tab: 'out'
     }
   }
@@ -149,13 +151,12 @@ class SummaryOrderItem extends Component {
           </View>
         </ListItem>
         {
-          formattedMeals.size
-            ? <ImmutableVirtualizedList
-              immutableData={formattedMeals}
-              renderItem={this._renderFoodItem('meal', paxCount, this.totalMealOrder)}
-              keyExtractor={item => `${item.get('id')}${item.get('adult') || item.get('child')}`}
-            />
-            : <NoData text='noMealData' textStyle={{ marginTop: 30 }} />
+          <ImmutableVirtualizedList
+            immutableData={formattedMeals}
+            renderItem={this._renderFoodItem('meal', paxCount, this.totalMealOrder)}
+            keyExtractor={item => `${item.get('id')}${item.get('adult') || item.get('child')}`}
+            renderEmpty={_T('noMealData')}
+          />
         }
       </View>
     )
@@ -250,6 +251,32 @@ class SummaryOrderItem extends Component {
     )
   }
 
+  _renderExcursionOrders = () => {
+    const { excursionOrders } = this.state
+    const { pax, departureId } = this.props
+    const icon = excursionOrders ? 'minus' : 'plus'
+    return (
+      <View>
+        <ListItem style={ss.topHeader} onPress={this._viewToggle('excursionOrders')}>
+          <Left style={ss.headerLeft}>
+            <View style={ss.sectionIcon}>
+              <IonIcon name={icon} size={22} />
+            </View>
+            <Text style={ss.headerText}>{_T('excursionOrders')}</Text>
+          </Left>
+          <Right style={ss.headerRight} />
+        </ListItem>
+        {
+          excursionOrders &&
+          <ExcursionOrderSummaryMode
+            pax={pax}
+            departureId={departureId}
+          />
+        }
+      </View>
+    )
+  }
+
   render () {
     const { pax, invoicee, screen } = this.props
     const direction = this.state.tab
@@ -264,6 +291,7 @@ class SummaryOrderItem extends Component {
 
         <ScrollView style={ss.scroll} showsVerticalScrollIndicator={false}>
           {this._renderLunchOrders()}
+          {this._renderExcursionOrders()}
         </ScrollView>
 
       </View>
@@ -345,6 +373,7 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0
   },
   scroll: {
+    marginTop: 10,
     marginBottom: isIphoneX ? 20 : 10
   },
   topHeader: {

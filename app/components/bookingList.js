@@ -13,7 +13,6 @@ import { sms } from '../utils/comms'
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import SearchBar from '../components/searchBar'
-import NoData from '../components/noData'
 import { connect } from 'react-redux'
 import Translator from '../utils/translator'
 import { getMap } from '../utils/immutable'
@@ -89,14 +88,13 @@ class BookingList extends Component {
       bookings = filterBookingBySearchText(bookings, searchText)
     }
     return (
-      bookings.size
-        ? <ImmutableVirtualizedList
-          keyboardShouldPersistTaps='always'
-          immutableData={bookings}
-          renderItem={this._renderBooking}
-          keyExtractor={item => String(item.get('id'))}
-        />
-        : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
+      <ImmutableVirtualizedList
+        keyboardShouldPersistTaps='always'
+        immutableData={bookings}
+        renderItem={this._renderBooking}
+        keyExtractor={item => String(item.get('id'))}
+        renderEmpty={_T('noMatch')}
+      />
     )
   }
 

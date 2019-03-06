@@ -133,14 +133,13 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _onSectionHeaderPress = bookingId => {
+  _onSectionHeaderPress = (isAllSelected, pax) => {
     const { currentTrip, navigation } = this.props
     const { participants } = this.state
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
     const departureId = String(currentTrip.get('departureId'))
     return () => {
-      const { isAllSelected, pax } = this._getBookingData(bookingId)
       this.state.participants = pax.reduce((participants, p) => {
         const paxId = String(p.get('id'))
         if (!p.get('excursionPack')) {
@@ -161,8 +160,8 @@ class ExcursionDetailsScreen extends Component {
       const { groupByBooking } = this.state
       if (item.first && groupByBooking) {
         const bookingId = item.initial
-        const { isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId)
-        const onPress = isAllHasPack ? null : this._onSectionHeaderPress(bookingId)
+        const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId)
+        const onPress = isAllHasPack ? null : this._onSectionHeaderPress(isAllSelected, pax)
 
         let iconName = 'checkOutline'
         let iconColor = Colors.black
@@ -176,8 +175,7 @@ class ExcursionDetailsScreen extends Component {
         return (
           <TouchableOpacity style={ss.sectionHeader} onPress={onPress}>
             <Text style={ss.sectionText}>{bookingId}</Text>
-            {/* <CheckBox checked={isAllSelected || isAllHasPack} /> */}
-            <IonIcon name={iconName} color={iconColor} size={25} />
+            <IonIcon name={iconName} color={iconColor} size={27} />
           </TouchableOpacity>
         )
       }

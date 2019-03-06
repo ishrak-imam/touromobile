@@ -34,11 +34,13 @@ export default {
     paxTitle: 'Passagerare',
     bookingTitle: 'Bokningar',
     paxSearch: 'Sök passagerare',
-    bookingSearch: 'Sök bokningar'
+    bookingSearch: 'Sök bokningar',
+    noMatch: 'Ingen matchning hittad.'
   },
   ExcursionsScreen: {
     title: 'Utflykter',
-    textAllParticipants: 'SMS till alla deltagare'
+    textAllParticipants: 'SMS till alla deltagare',
+    noExcursions: 'Inga utflykter hittades för den här resan.'
   },
   FutureTripsScreen: {
     title: 'Framtida resor',
@@ -86,7 +88,8 @@ export default {
     sale: 'Försäljning',
     share: 'Andel',
     totals: 'Total',
-    upload: 'Ladda upp'
+    upload: 'Ladda upp',
+    noExcursions: 'Inga utflykter hittades för den här resan.'
   },
   RestaurantScreen: {
     address: 'Adress',
@@ -100,7 +103,8 @@ export default {
     children: 'Barn',
     orders: 'Beställningar',
     amount: 'Antal',
-    beverages: 'Drycker'
+    beverages: 'Drycker',
+    noMealData: 'Inga måltider hittades.'
   },
   PaxDetailsScreen: {
     phone: 'Telefon',
@@ -147,14 +151,13 @@ export default {
     invoicee: 'Fakturamottagare',
     selectInvoicee: 'Välj fakturamottagare',
     invoiceeSelection: 'Fakturaval',
-    noMealData: 'Inga måltider hittades.'
+    noMealData: 'Inga måltider hittades.',
+    noExcursions: 'Inga utflykter hittades för den här resan.'
   },
   NoData: {
-    noMatch: 'Ingen matchning hittad.',
     fetchingData: 'Hämtar data från Touro ...',
     fetchingDataSucs: 'Hämtning av data slutförd.',
     noCurrentTrip: 'Ingen pågående resa.',
-    noExcursions: 'Inga utflykter hittades för den här resan.',
     flightTripNoOrder: 'Flygresor har inga måltidsbeställningar.',
     noBeverageData: 'Inga drycker hittades.',
     noOptionsFound: 'Inga alternativ hittades.'

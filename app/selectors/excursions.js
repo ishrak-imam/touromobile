@@ -1,12 +1,13 @@
 
 import Cache from '../utils/cache'
+import { getList } from '../utils/immutable'
 
 export const getTripExcursions = state => state.trips.getIn(['current', 'trip', 'excursions'])
 
 const resolvers = {
   sortedExcursions: trip => {
     const ex = trip.get('excursions')
-    return ex.sortBy(e => e.get('start'))
+    return ex ? ex.sortBy(e => e.get('start')) : getList([])
   }
 }
 

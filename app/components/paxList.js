@@ -20,7 +20,6 @@ import SearchBar from '../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { Colors, IonIcon } from '../theme'
 import Translator from '../utils/translator'
-import NoData from '../components/noData'
 import { connect } from 'react-redux'
 import { mergeMapShallow } from '../utils/immutable'
 import ContextMenu from './contextMenu'
@@ -238,14 +237,13 @@ class PaxList extends Component {
     }
 
     return (
-      paxList.size
-        ? <ImmutableVirtualizedList
-          keyboardShouldPersistTaps='always'
-          immutableData={paxList}
-          renderItem={this._renderPerson(tripType)}
-          keyExtractor={item => String(item.get('id'))}
-        />
-        : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
+      <ImmutableVirtualizedList
+        keyboardShouldPersistTaps='always'
+        immutableData={paxList}
+        renderItem={this._renderPerson(tripType)}
+        keyExtractor={item => String(item.get('id'))}
+        renderEmpty={_T('noMatch')}
+      />
     )
   }
 

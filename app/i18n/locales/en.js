@@ -34,11 +34,13 @@ export default {
     paxTitle: 'Passengers',
     bookingTitle: 'Bookings',
     paxSearch: 'Search passengers',
-    bookingSearch: 'Search bookings'
+    bookingSearch: 'Search bookings',
+    noMatch: 'No match found.'
   },
   ExcursionsScreen: {
     title: 'Excursions',
-    textAllParticipants: 'Text message all participants'
+    textAllParticipants: 'Text message all participants',
+    noExcursions: 'No excursions found for this trip.'
   },
   FutureTripsScreen: {
     title: 'Future trips',
@@ -85,7 +87,8 @@ export default {
     sale: 'Sale',
     share: 'Share',
     totals: 'Totals',
-    upload: 'Upload'
+    upload: 'Upload',
+    noExcursions: 'No excursions found for this trip.'
   },
   RestaurantScreen: {
     address: 'Address',
@@ -99,7 +102,8 @@ export default {
     children: 'Children',
     orders: 'Orders',
     amount: 'Amount',
-    beverages: 'Beverages'
+    beverages: 'Beverages',
+    noMealData: 'No meals found.'
   },
   PaxDetailsScreen: {
     phone: 'Phone',
@@ -146,14 +150,13 @@ export default {
     invoicee: 'Invoicee',
     selectInvoicee: 'Select invoicee',
     invoiceeSelection: 'Invoicee selection',
-    noMealData: 'No meals found.'
+    noMealData: 'No meals found.',
+    noExcursions: 'No excursions found for this trip.'
   },
   NoData: {
-    noMatch: 'No match found.',
     fetchingData: 'Fetching data from Touro ...',
     fetchingDataSucs: 'Fetching data completed.',
     noCurrentTrip: 'No current trip.',
-    noExcursions: 'No excursions found for this trip.',
     flightTripNoOrder: 'Flight trip doesn\'t have meal orders.',
     noBeverageData: 'No beverages found.',
     noOptionsFound: 'No options found.'

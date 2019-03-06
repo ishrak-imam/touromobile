@@ -137,6 +137,7 @@ class RestaurantScreen extends Component {
           immutableData={meals}
           renderItem={this._renderMealItem}
           keyExtractor={item => String(item.get('id'))}
+          renderEmpty={_T('noMealData')}
         />
       </View>
     )

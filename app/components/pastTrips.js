@@ -43,7 +43,6 @@ class PastTrips extends Component {
 
   render () {
     const { refreshing } = this.props
-    console.log(refreshing)
     return (
       <View style={ss.container}>
         {refreshing && <OverlaySpinner />}

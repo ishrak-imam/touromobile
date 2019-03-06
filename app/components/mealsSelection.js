@@ -6,7 +6,6 @@ import {
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import CheckBox from './checkBox'
-import NoData from './noData'
 import Translator from '../utils/translator'
 
 const _T = Translator('OrdersScreen')

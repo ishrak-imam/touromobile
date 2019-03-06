@@ -11,7 +11,6 @@ import {
   getActualTotalParticipantsCount, getPaxWithExcursionPack
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-import NoData from './noData'
 import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
 import Translator from '../utils/translator'
@@ -128,10 +127,6 @@ export default class Stats extends Component {
     const { trip } = this.props
     const sortedExcursions = getSortedExcursions(trip)
 
-    if (!sortedExcursions.size) {
-      return null
-    }
-
     return (
       <ImmutableVirtualizedList
         contentContainerStyle={{ paddingBottom: 95 }}
@@ -139,6 +134,7 @@ export default class Stats extends Component {
         renderItem={this._renderExcursItem(pax)}
         keyExtractor={item => String(item.get('id'))}
         ListFooterComponent={this._renderListFooter(pax)}
+        renderEmpty={_T('noExcursions')}
       />
     )
   }
@@ -156,16 +152,9 @@ export default class Stats extends Component {
   }
 
   render () {
-    const { trip } = this.props
-    const excursions = trip.get('excursions')
-
     return (
       <View style={ss.container}>
-        {
-          excursions && excursions.size
-            ? this._renderStats()
-            : <NoData text='noExcursions' textStyle={{ marginTop: 30 }} />
-        }
+        {this._renderStats()}
       </View>
     )
   }

@@ -17,7 +17,6 @@ import Button from '../components/button'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { connect } from 'react-redux'
 import { getMap } from '../utils/immutable'
-import NoData from './noData'
 
 const _T = Translator('ExcursionsScreen')
 
@@ -104,20 +103,15 @@ class Excursions extends Component {
         immutableData={sortedExcursions}
         renderItem={this._renderExcursionCard}
         keyExtractor={item => String(item.get('id'))}
+        renderEmpty={_T('noExcursions')}
       />
     )
   }
 
   render () {
-    const { trip } = this.props
-    const excursions = trip.get('excursions')
     return (
       <View style={ss.container}>
-        {
-          excursions && excursions.size
-            ? this._renderExcursions()
-            : <NoData text='noExcursions' textStyle={{ marginTop: 30 }} />
-        }
+        {this._renderExcursions()}
       </View>
     )
   }
