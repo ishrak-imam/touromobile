@@ -19,6 +19,7 @@ import FoodItem from './foodItem'
 import NoData from './noData'
 import OutHomeTab from './outHomeTab'
 import ExcursionOrderSummaryMode from './excursionOrderSummaryMode'
+import ExtraOrderSummaryMode from './extraOrderSummaryMode'
 
 const _T = Translator('OrdersScreen')
 
@@ -28,6 +29,7 @@ class SummaryOrderItem extends Component {
     this.state = {
       lunchOrders: false,
       excursionOrders: false,
+      extraOrders: false,
       tab: 'out'
     }
   }
@@ -253,7 +255,7 @@ class SummaryOrderItem extends Component {
 
   _renderExcursionOrders = () => {
     const { excursionOrders } = this.state
-    const { pax, departureId } = this.props
+    const { pax, departureId, bookingId } = this.props
     const icon = excursionOrders ? 'minus' : 'plus'
     return (
       <View>
@@ -271,7 +273,30 @@ class SummaryOrderItem extends Component {
           <ExcursionOrderSummaryMode
             pax={pax}
             departureId={departureId}
+            bookingId={bookingId}
           />
+        }
+      </View>
+    )
+  }
+
+  _renderExtraOrders = () => {
+    const { extraOrders } = this.state
+    const icon = extraOrders ? 'minus' : 'plus'
+    return (
+      <View>
+        <ListItem style={ss.topHeader} onPress={this._viewToggle('extraOrders')}>
+          <Left style={ss.headerLeft}>
+            <View style={ss.sectionIcon}>
+              <IonIcon name={icon} size={22} />
+            </View>
+            <Text style={ss.headerText}>{_T('extraOrders')}</Text>
+          </Left>
+          <Right style={ss.headerRight} />
+        </ListItem>
+        {
+          extraOrders &&
+          <ExtraOrderSummaryMode />
         }
       </View>
     )
@@ -292,6 +317,7 @@ class SummaryOrderItem extends Component {
         <ScrollView style={ss.scroll} showsVerticalScrollIndicator={false}>
           {this._renderLunchOrders()}
           {this._renderExcursionOrders()}
+          {this._renderExtraOrders()}
         </ScrollView>
 
       </View>

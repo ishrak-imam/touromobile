@@ -19,10 +19,11 @@ const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
 class ExcursionOrderSummaryMode extends Component {
   _onSelect = (excursionId, participants, paxId, method) => {
-    const { departureId } = this.props
+    const { departureId, bookingId } = this.props
     return () => {
       actionDispatcher(setParticipants({
         departureId,
+        bookingId,
         excursionId,
         participants: participants[method](paxId)
       }))
@@ -38,13 +39,14 @@ class ExcursionOrderSummaryMode extends Component {
   }
 
   _onBatchSelect = (excursionId, exParticipants, pax, isAllSelected, isAnySelected) => {
-    const { departureId } = this.props
+    const { departureId, bookingId } = this.props
     return () => {
       let participants = exParticipants
       if (isAllSelected) participants = this._operateOnParticipantSet(pax, exParticipants, 'remove')
       else participants = this._operateOnParticipantSet(pax, exParticipants, 'add')
       actionDispatcher(setParticipants({
         departureId,
+        bookingId,
         excursionId,
         participants
       }))
@@ -72,8 +74,10 @@ class ExcursionOrderSummaryMode extends Component {
   }
 
   _renderExcursionItem = (paxList, participants) => ({ item }) => {
+    if (item.get('name') === 'UP') return null
+    const { bookingId } = this.props
     const excursionId = String(item.get('id'))
-    const exParticipants = participants.get(excursionId) || getSet([])
+    const exParticipants = participants.getIn([excursionId, bookingId]) || getSet([])
     const { isAllSelected, isAllHasPack, isAnySelected } = this._getExcursionData(paxList, exParticipants)
     const onPress = isAllHasPack ? null : this._onBatchSelect(excursionId, exParticipants, paxList, isAllSelected, isAnySelected)
 

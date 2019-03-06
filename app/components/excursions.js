@@ -16,7 +16,7 @@ import { sms } from '../utils/comms'
 import Button from '../components/button'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { connect } from 'react-redux'
-import { getMap } from '../utils/immutable'
+import { getMap, getSet } from '../utils/immutable'
 
 const _T = Translator('ExcursionsScreen')
 
@@ -34,13 +34,18 @@ class ExcursionCard extends Component {
 
   render () {
     const { excursion, onPress, trip, participants, modifiedPax } = this.props
-    const id = excursion.get('id')
+    const id = String(excursion.get('id'))
     const name = excursion.get('name')
     const description = excursion.get('description')
     const start = excursion.get('start')
     const pax = getPax(trip)
     const brand = trip.get('brand')
-    const participatingPax = getParticipatingPax(getMap({ pax, participants }))
+
+    const exParticipants = participants.reduce((set, par) => {
+      return set.merge(par)
+    }, getSet([]))
+
+    const participatingPax = getParticipatingPax(getMap({ pax, participants: exParticipants }))
 
     return (
       <TouchableOpacity onPress={onPress(excursion, brand)} key={id}>
@@ -83,13 +88,16 @@ class Excursions extends Component {
   }
 
   _renderExcursionCard = ({ item }) => {
+    if (item.get('name') === 'UP') return null
     const { trip, participants, modifiedPax } = this.props
+    const excursionId = String(item.get('id'))
+    const exParticipants = participants.get(excursionId) || getMap({})
     return (
       <ExcursionCard
         excursion={item}
         onPress={this._toDetails}
         trip={trip}
-        participants={participants.get(String(item.get('id')))}
+        participants={exParticipants}
         modifiedPax={modifiedPax}
       />
     )

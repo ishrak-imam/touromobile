@@ -47,7 +47,7 @@ class ReportsScreen extends Component {
     const departureId = String(trip.get('departureId'))
     const transportId = String(trip.get('transportId'))
     const statsData = getStatsData(excursions, modifiedPax, participants, trip)
-    const orderStats = getOrderStats(allOrders, transportId, orderMode)
+    const orderStats = getOrderStats(allOrders, transportId, orderMode, excursions, modifiedPax, participants, trip)
 
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,

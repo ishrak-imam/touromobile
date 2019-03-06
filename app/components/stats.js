@@ -11,7 +11,7 @@ import {
   getActualTotalParticipantsCount, getPaxWithExcursionPack
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-import { getMap } from '../utils/immutable'
+import { getMap, getSet } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
 import Translator from '../utils/translator'
 const _T = Translator('ReportsScreen')
@@ -26,7 +26,12 @@ class StatItem extends Component {
   render () {
     const { excursion, pax, participants, backgroundColor } = this.props
     const name = excursion.get('name')
-    const data = getMap({ pax, participants })
+
+    const exParticipants = participants.reduce((set, par) => {
+      return set.merge(par)
+    }, getSet([]))
+
+    const data = getMap({ pax, participants: exParticipants })
     const participatingPax = getParticipatingPax(data)
     const actualParticipatingPax = getActualParticipatingPax(data)
     const total = pax.size
@@ -112,10 +117,12 @@ export default class Stats extends Component {
   _renderExcursItem = pax => {
     const { participants } = this.props
     return ({ item, index }) => {
+      const excursionId = String(item.get('id'))
+      const exParticipants = participants.get(excursionId) || getMap({})
       return (
         <StatItem
           excursion={item}
-          participants={participants.get(String(item.get('id')))}
+          participants={exParticipants}
           pax={pax}
           backgroundColor={bgColors[index % bgColors.length]}
         />

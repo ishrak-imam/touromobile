@@ -68,7 +68,8 @@ class PastTripCard extends Component {
     const { orders, user, modifiedPax, orderMode } = this.props
     const guideId = user.get('guideId')
     const statsData = getStatsData(excursions, modifiedPax, participants, trip)
-    const orderStats = getOrderStats(orders, transportId, orderMode)
+    const orderStats = getOrderStats(orders, transportId, orderMode, excursions, modifiedPax, participants, trip)
+
     const isFlight = checkIfFlightTrip(trip)
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,

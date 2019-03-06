@@ -10,27 +10,31 @@ import {
   currentTripSelector, getSortedPaxByBookingId,
   getParticipants, filterPaxBySearchText, getPaxDataGroupByBooking
 } from '../../selectors'
-import { StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native'
+import {
+  StyleSheet, TouchableOpacity, View
+  // Dimensions
+} from 'react-native'
 import { connect } from 'react-redux'
-import { getSet } from '../../utils/immutable'
+import { getSet, getMap } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { setParticipants } from '../modifiedData/action'
 import { IonIcon, Colors } from '../../theme'
 import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
 import Switch from '../../components/switch'
-import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
+// import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
+import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import CheckBox from '../../components/checkBox'
 
-const { width } = Dimensions.get('window')
+// const { width } = Dimensions.get('window')
 
-const dataProvider = new DataProvider((r1, r2) => {
-  return r1 !== r2
-})
+// const dataProvider = new DataProvider((r1, r2) => {
+//   return r1 !== r2
+// })
 
-const layoutProvider = new LayoutProvider(
-  () => 'type', (_, dim) => { dim.width = width; dim.height = 55 }
-)
+// const layoutProvider = new LayoutProvider(
+//   () => 'type', (_, dim) => { dim.width = width; dim.height = 55 }
+// )
 
 const PARTICIPATING = 'PARTICIPATING'
 const ALL = 'ALL'
@@ -38,21 +42,24 @@ const ALL = 'ALL'
 const _T = Translator('ExcursionDetailsScreen')
 
 class PaxListItem extends Component {
-  shouldComponentUpdate (nextProps) {
-    return nextProps.pax.id !== this.props.pax.id ||
-            nextProps.selected !== this.props.selected
-  }
+  /**
+   * TODO:
+   * fix should component update
+   */
+  // shouldComponentUpdate (nextProps) {
+  //   return nextProps.selected !== this.props.selected
+  // }
 
   render () {
     const { pax, selected, onPress } = this.props
-    const paxId = String(pax.id)
-    const checked = pax.excursionPack
-    const bookingId = pax.booking.id
+    const paxId = String(pax.get('id'))
+    const checked = pax.get('excursionPack')
+    const bookingId = pax.getIn(['booking', 'id'])
     // const key = `${paxId}${bookingId}`
-    const name = `${pax.firstName} ${pax.lastName}`
+    const name = `${pax.get('firstName')} ${pax.get('lastName')}`
 
     return (
-      <ListItem style={ss.item} onPress={onPress(paxId, checked)}>
+      <ListItem style={ss.item} onPress={onPress(paxId, bookingId, checked)}>
         <Left style={{ flex: 1 }}>
           <CheckBox checked={checked || selected} />
         </Left>
@@ -75,45 +82,42 @@ class PaxListItem extends Component {
 class ExcursionDetailsScreen extends Component {
   constructor (props) {
     super(props)
-    const { navigation, participants } = props
-    const excursion = navigation.getParam('excursion')
-    const excursionId = String(excursion.get('id'))
-    const exParticipants = participants.get(excursionId)
     this.state = {
-      participants: exParticipants || getSet([]),
       searchText: '',
       filter: PARTICIPATING,
       groupByBooking: false
     }
   }
 
-  _onPress = (paxId, checked) => {
-    const { navigation, currentTrip } = this.props
+  _onPress = (paxId, bookingId, checked) => {
+    const { navigation, currentTrip, participants } = this.props
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
     const departureId = String(currentTrip.get('departureId'))
+    const exParticipants = participants.get(excursionId) || getMap({})
+    let bParticipants = exParticipants.get(bookingId) || getSet([])
     return () => {
       if (!checked) {
-        const { participants } = this.state
-        this.state.participants = participants.has(paxId) ? participants.remove(paxId) : participants.add(paxId)
+        bParticipants = bParticipants.has(paxId) ? bParticipants.remove(paxId) : bParticipants.add(paxId)
         actionDispatcher(setParticipants({
           departureId,
+          bookingId,
           excursionId,
-          participants: this.state.participants
+          participants: bParticipants
         }))
       }
     }
   }
 
-  _getBookingData = bookingId => {
-    const { participants } = this.state
+  _getBookingData = (bookingId, participants) => {
     const { currentTrip } = this.props
     const bookings = currentTrip.get('bookings')
     const pax = bookings.find(b => b.get('id') === bookingId).get('pax')
+    const bParticipants = participants.get(bookingId) || getSet([])
 
     const isAllSelected = pax.reduce((flag, p) => {
       const paxId = String(p.get('id'))
-      return (flag && participants.has(paxId)) || p.get('excursionPack')
+      return (flag && bParticipants.has(paxId)) || p.get('excursionPack')
     }, true)
 
     const isAllHasPack = pax.reduce((flag, p) => {
@@ -122,7 +126,7 @@ class ExcursionDetailsScreen extends Component {
 
     const isAnySelected = pax.some(p => {
       const paxId = String(p.get('id'))
-      return participants.has(paxId)
+      return bParticipants.has(paxId)
     })
 
     return {
@@ -133,35 +137,36 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _onSectionHeaderPress = (isAllSelected, pax) => {
+  _onSectionHeaderPress = (isAllSelected, pax, participants, bookingId) => {
     const { currentTrip, navigation } = this.props
-    const { participants } = this.state
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
     const departureId = String(currentTrip.get('departureId'))
+    let bParticipants = participants.get(bookingId) || getSet([])
     return () => {
-      this.state.participants = pax.reduce((participants, p) => {
+      bParticipants = pax.reduce((participants, p) => {
         const paxId = String(p.get('id'))
         if (!p.get('excursionPack')) {
           participants = isAllSelected ? participants.remove(paxId) : participants.add(paxId)
         }
         return participants
-      }, participants)
+      }, bParticipants)
       actionDispatcher(setParticipants({
         departureId,
+        bookingId,
         excursionId,
-        participants: this.state.participants
+        participants: bParticipants
       }))
     }
   }
 
   _renderItem = participants => {
-    return (type, item) => {
+    return ({ item }) => {
       const { groupByBooking } = this.state
-      if (item.first && groupByBooking) {
-        const bookingId = item.initial
-        const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId)
-        const onPress = isAllHasPack ? null : this._onSectionHeaderPress(isAllSelected, pax)
+      if (item.get('first') && groupByBooking) {
+        const bookingId = item.get('initial')
+        const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId, participants)
+        const onPress = isAllHasPack ? null : this._onSectionHeaderPress(isAllSelected, pax, participants, bookingId)
 
         let iconName = 'checkOutline'
         let iconColor = Colors.black
@@ -180,8 +185,10 @@ class ExcursionDetailsScreen extends Component {
         )
       }
 
-      const paxId = String(item.id)
-      const selected = participants ? participants.has(paxId) : false
+      const paxId = String(item.get('id'))
+      const bookingId = String(item.getIn(['booking', 'id']))
+      const bParticipants = participants.get(bookingId) || getSet([])
+      const selected = bParticipants.has(paxId)
       return (
         <PaxListItem
           pax={item}
@@ -194,13 +201,22 @@ class ExcursionDetailsScreen extends Component {
 
   _renderPersons = (pax, participants) => {
     return (
+      // pax.size
+      //   ? <RecyclerListView
+      //     dataProvider={dataProvider.cloneWithRows(pax.toJS())}
+      //     rowRenderer={this._renderItem(participants)}
+      //     layoutProvider={layoutProvider}
+      //   />
+      //   : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
       pax.size
-        ? <RecyclerListView
-          dataProvider={dataProvider.cloneWithRows(pax.toJS())}
-          rowRenderer={this._renderItem(participants)}
-          layoutProvider={layoutProvider}
+        ? <ImmutableVirtualizedList
+          contentContainerStyle={{ paddingBottom: 20 }}
+          immutableData={pax}
+          renderItem={this._renderItem(participants)}
+          keyExtractor={item => String(item.get('id'))}
         />
         : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
+
     )
   }
 
@@ -245,7 +261,9 @@ class ExcursionDetailsScreen extends Component {
   _findParticipatingPax = (pax, participants) => {
     return pax.filter(p => {
       const paxId = String(p.get('id'))
-      const selected = participants ? participants.has(paxId) : false
+      const bookingId = String(p.getIn(['booking', 'id']))
+      const bParticipants = participants.get(bookingId) || getSet([])
+      const selected = bParticipants.has(paxId)
       return selected || p.get('excursionPack')
     })
   }
@@ -290,7 +308,7 @@ class ExcursionDetailsScreen extends Component {
     const excursion = navigation.getParam('excursion')
     const brand = navigation.getParam('brand')
     const excursionId = String(excursion.get('id'))
-    const exParticipants = participants.get(excursionId)
+    const exParticipants = participants.get(excursionId) || getMap({})
 
     let sortedPax = groupByBooking ? getSortedPaxByBookingId(currentTrip) : getSortedPax(currentTrip)
     if (searchText) {
