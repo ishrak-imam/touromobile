@@ -38,7 +38,8 @@ export const getStatsData = (excursions, modifiedPax, participants, trip) => {
 }
 
 export const prepareParticipantsData = (excursions, modifiedPax, participants, trip, bookingId) => {
-  const pax = getPax(trip)
+  console.log(participants.toJS())
+  const pax = trip.get('bookings').find(b => String(b.get('id')) === bookingId).get('pax')
   return excursions.reduce((m, e) => {
     const excursionId = String(e.get('id'))
     let exParticipants = participants.get(excursionId) || getMap({})
@@ -142,6 +143,24 @@ export const getOrderStats = (orders, transportId, orderMode, excursions, modifi
       return list
     }, [])
   }
+
+  if (participants.size) {
+    const exParticipants = participants.flatten(1)
+    return exParticipants.reduce((list, _, key) => {
+      const aggregated = {
+        transportId,
+        booking: key,
+        invoicee: '',
+        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key)
+      }
+
+      aggregated.details = []
+      list.push(aggregated)
+      return list
+    }, [])
+  }
+
+  return []
 }
 
 export const getTotalParticipantsCount = (excursions, participants, trip) => {

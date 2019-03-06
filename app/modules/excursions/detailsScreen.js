@@ -42,15 +42,13 @@ const ALL = 'ALL'
 const _T = Translator('ExcursionDetailsScreen')
 
 class PaxListItem extends Component {
-  /**
-   * TODO:
-   * fix should component update
-   */
-  // shouldComponentUpdate (nextProps) {
-  //   return nextProps.selected !== this.props.selected
-  // }
+  shouldComponentUpdate (nextProps) {
+    return nextProps.selected !== this.props.selected ||
+            nextProps.pax.get('id') !== this.props.pax.get('id')
+  }
 
   render () {
+    console.log('render')
     const { pax, selected, onPress } = this.props
     const paxId = String(pax.get('id'))
     const checked = pax.get('excursionPack')
