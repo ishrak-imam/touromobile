@@ -14,14 +14,14 @@ export const getStatsData = (excursions, modifiedPax, participants, trip) => {
   const excursionPaxCounts = excursions.reduce((m, e) => {
     const excursionId = e.get('id')
     const participatingPax = getParticipatingPax(getMap({ pax, participants: participants.get(String(excursionId)) }))
-    const { adults, children } = participatingPax.reduce((map, pax) => {
+    const { adultCount, childCount } = participatingPax.reduce((map, pax) => {
       const paxId = String(pax.get('id'))
       const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
-      if (mPax.get('adult')) map.adults += 1
-      if (!mPax.get('adult')) map.children += 1
+      if (mPax.get('adult')) map.adultCount += 1
+      if (!mPax.get('adult')) map.childCount += 1
       return map
-    }, { adults: 0, children: 0 })
-    m.push({ id: excursionId, adults, children })
+    }, { adultCount: 0, childCount: 0 })
+    m.push({ id: excursionId, adultCount, childCount })
     return m
   }, [])
 
