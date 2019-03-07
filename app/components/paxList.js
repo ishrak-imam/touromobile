@@ -285,7 +285,7 @@ class PaxList extends Component {
         <SearchBar
           onSearch={this._onSearch}
           icon='people'
-          placeholder={_T('paxSearch')}
+          placeholder={_T('search')}
           right={this._renderRight()}
         />
         {!!bookings && this._renderList(trip)}

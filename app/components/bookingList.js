@@ -110,7 +110,7 @@ class BookingList extends Component {
         <SearchBar
           onSearch={this._onSearch}
           icon='booking'
-          placeholder={_T('bookingSearch')}
+          placeholder={_T('search')}
         />
         {!!bookings && this._renderList(trip)}
       </View>

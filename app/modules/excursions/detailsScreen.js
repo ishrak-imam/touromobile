@@ -309,7 +309,7 @@ class ExcursionDetailsScreen extends Component {
           right={this._renderRight(brand)}
           brand={brand}
         />
-        <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('paxSearch')} />
+        <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('search')} />
         {this._renderTabs()}
         {this._renderPersons(sortedPax, exParticipants)}
       </Container>

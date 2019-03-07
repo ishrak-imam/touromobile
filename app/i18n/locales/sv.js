@@ -33,8 +33,7 @@ export default {
   PassengersScreen: {
     paxTitle: 'Passagerare',
     bookingTitle: 'Bokningar',
-    paxSearch: 'Sök passagerare',
-    bookingSearch: 'Sök bokningar',
+    search: 'Sök',
     noMatch: 'Ingen matchning hittad.'
   },
   ExcursionsScreen: {
@@ -115,7 +114,7 @@ export default {
     adult: 'Vuxen'
   },
   ExcursionDetailsScreen: {
-    paxSearch: 'Sök passagerare',
+    search: 'Sök',
     participating: 'Deltagare',
     all: 'Alla'
   },
