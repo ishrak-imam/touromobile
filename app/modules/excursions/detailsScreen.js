@@ -6,13 +6,13 @@ import {
 import SearchBar from '../../components/searchBar'
 import Header from '../../components/header'
 import {
-  getSortedPax,
-  currentTripSelector, getSortedPaxByBookingId,
-  getParticipants, filterPaxBySearchText, getPaxDataGroupByBooking
+  getSortedPax, getSortedPaxByBookingId,
+  currentTripSelector, getPaxDataGroupByBooking,
+  getParticipants, filterPaxBySearchText
 } from '../../selectors'
 import {
-  StyleSheet, TouchableOpacity, View
-  // Dimensions
+  StyleSheet, View,
+  TouchableOpacity, Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
 import { getSet, getMap } from '../../utils/immutable'
@@ -22,19 +22,18 @@ import { IonIcon, Colors } from '../../theme'
 import Translator from '../../utils/translator'
 import NoData from '../../components/noData'
 import Switch from '../../components/switch'
-// import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
-import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
 import CheckBox from '../../components/checkBox'
 
-// const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
-// const dataProvider = new DataProvider((r1, r2) => {
-//   return r1 !== r2
-// })
+const dataProvider = new DataProvider((r1, r2) => {
+  return r1 !== r2
+})
 
-// const layoutProvider = new LayoutProvider(
-//   () => 'type', (_, dim) => { dim.width = width; dim.height = 55 }
-// )
+const layoutProvider = new LayoutProvider(
+  () => 'type', (_, dim) => { dim.width = width; dim.height = 55 }
+)
 
 const PARTICIPATING = 'PARTICIPATING'
 const ALL = 'ALL'
@@ -44,16 +43,16 @@ const _T = Translator('ExcursionDetailsScreen')
 class PaxListItem extends Component {
   shouldComponentUpdate (nextProps) {
     return nextProps.selected !== this.props.selected ||
-            nextProps.pax.get('id') !== this.props.pax.get('id')
+            nextProps.pax.id !== this.props.pax.id
   }
 
   render () {
     const { pax, selected, onPress } = this.props
-    const paxId = String(pax.get('id'))
-    const checked = pax.get('excursionPack')
-    const bookingId = pax.getIn(['booking', 'id'])
+    const paxId = String(pax.id)
+    const checked = pax.excursionPack
+    const bookingId = String(pax.booking.id)
     // const key = `${paxId}${bookingId}`
-    const name = `${pax.get('firstName')} ${pax.get('lastName')}`
+    const name = `${pax.firstName} ${pax.lastName}`
 
     return (
       <ListItem style={ss.item} onPress={onPress(paxId, bookingId, checked)}>
@@ -87,14 +86,15 @@ class ExcursionDetailsScreen extends Component {
   }
 
   _onPress = (paxId, bookingId, checked) => {
-    const { navigation, currentTrip, participants } = this.props
+    const { navigation, currentTrip } = this.props
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
     const departureId = String(currentTrip.get('departureId'))
-    const exParticipants = participants.get(excursionId) || getMap({})
-    let bParticipants = exParticipants.get(bookingId) || getSet([])
     return () => {
       if (!checked) {
+        const { participants } = this.props
+        const exParticipants = participants.get(excursionId) || getMap({})
+        let bParticipants = exParticipants.get(bookingId) || getSet([])
         bParticipants = bParticipants.has(paxId) ? bParticipants.remove(paxId) : bParticipants.add(paxId)
         actionDispatcher(setParticipants({
           departureId,
@@ -158,10 +158,10 @@ class ExcursionDetailsScreen extends Component {
   }
 
   _renderItem = participants => {
-    return ({ item }) => {
+    return (type, item) => {
       const { groupByBooking } = this.state
-      if (item.get('first') && groupByBooking) {
-        const bookingId = item.get('initial')
+      if (item.first && groupByBooking) {
+        const bookingId = item.initial
         const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId, participants)
         const onPress = isAllHasPack ? null : this._onSectionHeaderPress(isAllSelected, pax, participants, bookingId)
 
@@ -182,8 +182,8 @@ class ExcursionDetailsScreen extends Component {
         )
       }
 
-      const paxId = String(item.get('id'))
-      const bookingId = String(item.getIn(['booking', 'id']))
+      const paxId = String(item.id)
+      const bookingId = String(item.booking.id)
       const bParticipants = participants.get(bookingId) || getSet([])
       const selected = bParticipants.has(paxId)
       return (
@@ -198,22 +198,13 @@ class ExcursionDetailsScreen extends Component {
 
   _renderPersons = (pax, participants) => {
     return (
-      // pax.size
-      //   ? <RecyclerListView
-      //     dataProvider={dataProvider.cloneWithRows(pax.toJS())}
-      //     rowRenderer={this._renderItem(participants)}
-      //     layoutProvider={layoutProvider}
-      //   />
-      //   : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
       pax.size
-        ? <ImmutableVirtualizedList
-          contentContainerStyle={{ paddingBottom: 20 }}
-          immutableData={pax}
-          renderItem={this._renderItem(participants)}
-          keyExtractor={item => String(item.get('id'))}
+        ? <RecyclerListView
+          dataProvider={dataProvider.cloneWithRows(pax.toJS())}
+          rowRenderer={this._renderItem(participants)}
+          layoutProvider={layoutProvider}
         />
         : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
-
     )
   }
 
@@ -273,10 +264,6 @@ class ExcursionDetailsScreen extends Component {
     return (
       <View style={ss.headerRight}>
         <IonIcon name='people' color={iconColor} size={iconSize} style={{ paddingRight: 5 }} />
-        {/* <View style={{ paddingRight: 5 }}>
-          <Text style={ss.sortText}>A</Text>
-          <Text style={ss.sortText}>Z</Text>
-        </View> */}
         <Switch
           isOn={groupByBooking}
           onColor={switchColor}
@@ -284,10 +271,6 @@ class ExcursionDetailsScreen extends Component {
           onToggle={this._onToggle}
         />
         <IonIcon name='booking' color={iconColor} size={iconSize} style={{ paddingLeft: 5 }} />
-        {/* <View style={{ paddingLeft: 5 }}>
-          <Text style={ss.sortText}>1</Text>
-          <Text style={ss.sortText}>9</Text>
-        </View> */}
       </View>
     )
   }
@@ -298,10 +281,7 @@ class ExcursionDetailsScreen extends Component {
 
   render () {
     const { navigation, currentTrip, participants } = this.props
-    const {
-      searchText, filter,
-      groupByBooking
-    } = this.state
+    const { searchText, filter, groupByBooking } = this.state
     const excursion = navigation.getParam('excursion')
     const brand = navigation.getParam('brand')
     const excursionId = String(excursion.get('id'))
