@@ -26,6 +26,7 @@ import { actionDispatcher } from '../../utils/actionDispatcher'
 import { addToPresent, removeFromPresent, resetPresent } from './action'
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
 import CheckBox from '../../components/checkBox'
+import { showModal } from '../../modal/action'
 
 const { width } = Dimensions.get('window')
 
@@ -217,6 +218,14 @@ class RollCallScreen extends Component {
   }
 
   _onHeaderRightPress = () => {
+    actionDispatcher(showModal({
+      type: 'warning',
+      text: _T('resetWarning'),
+      onOk: this._onWarningModalOk
+    }))
+  }
+
+  _onWarningModalOk = () => {
     actionDispatcher(resetPresent())
   }
 
@@ -256,7 +265,7 @@ class RollCallScreen extends Component {
           <SearchBar
             onSearch={this._onSearch}
             icon='people'
-            placeholder={_T('paxSearch')}
+            placeholder={_T('search')}
             right={this._renderRight()}
           />
           {!!bookings && this._renderList(trip)}

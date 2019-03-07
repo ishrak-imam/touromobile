@@ -138,7 +138,8 @@ export default {
   },
   RollCallScreen: {
     title: 'Upprop',
-    paxSearch: 'Sök passagerare'
+    search: 'Sök',
+    resetWarning: 'Är du säker på att du vill rensa uppslagsförteckningen?'
   },
   OrdersScreen: {
     title: 'Order',

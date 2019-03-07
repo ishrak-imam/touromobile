@@ -137,7 +137,8 @@ export default {
   },
   RollCallScreen: {
     title: 'Roll call',
-    paxSearch: 'Search passengers'
+    search: 'Search',
+    resetWarning: 'Are you sure you want to clear the reference list?'
   },
   OrdersScreen: {
     title: 'Orders',
