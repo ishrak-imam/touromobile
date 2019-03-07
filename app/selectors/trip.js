@@ -1,5 +1,5 @@
 
-import { isWithinRange, isAfter, isBefore } from 'date-fns'
+import { isWithinRange, isAfter, isBefore, subDays, addDays } from 'date-fns'
 import { setIntoMap, getMap, getSet, getList, listToMap } from '../utils/immutable'
 import Cache from '../utils/cache'
 
@@ -474,28 +474,29 @@ export const getFormattedMealsData = (meals, extra) => {
  */
 export const getCurrentTrip = state => {
   const dateNow = new Date()
-  const trips = getSortedTrips(state.trips.get('data'))
-  let trip = trips.find(trip => {
-    return isWithinRange(dateNow, trip.get('outDate'), trip.get('homeDate'))
+  let trips = getSortedTrips(state.trips.get('data'))
+  trips = trips.filter(trip => {
+    const start = subDays(trip.get('outDate'), 3)
+    const end = addDays(trip.get('homeDate'), 2)
+    return isWithinRange(dateNow, start, end)
   })
-
-  if (trip) {
-    let brand = trip.get('brand')
-    if (brand === 'OL') {
-      trip = trip.set('brand', 'OH')
-    }
+  return {
+    has: !!trips.size,
+    trips
   }
+}
 
+export const formatCurrentTrip = trip => {
+  let brand = trip.get('brand')
+  if (brand === 'OL') {
+    trip = trip.set('brand', 'OH')
+  }
   const excursions = trip.get('excursions')
   if (excursions && excursions.size) {
     const filteredEx = excursions.filter(e => e.get('name') !== 'UP')
     trip = trip.set('excursions', filteredEx)
   }
-
-  return {
-    has: !!trip,
-    trip: trip || {}
-  }
+  return trip
 }
 
 /**

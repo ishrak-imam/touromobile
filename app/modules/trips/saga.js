@@ -9,7 +9,7 @@ import {
   tripsFail,
 
   getCurrentTrip,
-  setCurrentTrip,
+  setCurrentTrips,
 
   getFutureTrips,
   setFutureTrips,
@@ -48,7 +48,8 @@ import {
   getFutureTrips as gftSelector,
   getPastTrips as gptSelector,
   pendingStatsUpload,
-  remainingFutureTrips
+  remainingFutureTrips,
+  formatCurrentTrip
 } from '../../selectors'
 
 import { getMap } from '../../utils/immutable'
@@ -90,8 +91,15 @@ export function * watchTripNavigation () {
 
 function * workerTripNavigation (action) {
   const { refreshFromFutureTrip, refreshFromPastTrip } = action.payload
-  const currentTrip = yield select(gctSelector)
-  if (currentTrip.has && (!refreshFromFutureTrip || !refreshFromPastTrip)) navigate('Home')
+  let currentTrip = yield select(gctSelector)
+  if (currentTrip.has && (!refreshFromFutureTrip || !refreshFromPastTrip)) {
+    const trips = currentTrip.trips
+    if (trips.size === 1) {
+      navigate('Home', { left: 'menu' })
+    } else if (trips.size > 1) {
+      navigate('CurrentTrips')
+    }
+  }
   if (!currentTrip.has) {
     const futureTrips = yield select(gftSelector)
     if (futureTrips.has) navigate('FutureTrips', { left: 'menu' })
@@ -112,8 +120,12 @@ export function * watchGetCurrentTrip () {
 }
 
 function * workerGetCurrentTrip (action) {
-  const trip = yield select(gctSelector)
-  yield put(setCurrentTrip(trip))
+  const currentTrip = yield select(gctSelector)
+  if (currentTrip.has && currentTrip.trips.size === 1) {
+    const trip = currentTrip.trips.get(0)
+    currentTrip.trip = formatCurrentTrip(trip)
+  }
+  yield put(setCurrentTrips(currentTrip))
 }
 
 export function * watchGetFutureTrips () {

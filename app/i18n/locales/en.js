@@ -17,6 +17,7 @@ export default {
   },
   CurrentTripScreen: {
     title: 'Current trip',
+    currentTrips: 'Current Trips',
     pendingStats: 'pending statistics upload',
     pax: 'Passengers',
     departureTime: 'Departure time',

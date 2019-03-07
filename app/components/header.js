@@ -7,6 +7,7 @@ import {
 } from 'native-base'
 import { StyleSheet, TouchableOpacity, Keyboard } from 'react-native'
 import isIOS from '../utils/isIOS'
+import { NavigationActions } from 'react-navigation'
 
 export default class TMHeader extends Component {
   _navigate = type => {
@@ -18,7 +19,8 @@ export default class TMHeader extends Component {
           navigation.openDrawer()
           break
         case 'back':
-          navigation.goBack()
+          // navigation.goBack()
+          navigation.dispatch(NavigationActions.back())
           break
       }
     }

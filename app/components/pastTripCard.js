@@ -122,8 +122,12 @@ class PastTripCard extends Component {
     )
   }
 
+  _onTripPress = trip => () => {
+    this.props.onTripPress(trip)
+  }
+
   render () {
-    const { trip } = this.props
+    const { trip, screen, onTripPress } = this.props
     let brand = trip.get('brand')
     if (brand === 'OL') brand = 'OH'
     const name = trip.get('name')
@@ -137,7 +141,7 @@ class PastTripCard extends Component {
     const transportType = transport ? transport.get('type') : ''
 
     return (
-      <View style={ss.card}>
+      <TouchableOpacity style={ss.card} disabled={!onTripPress} onPress={this._onTripPress(trip)}>
 
         <View>
           <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
@@ -158,7 +162,7 @@ class PastTripCard extends Component {
           {/* {this._renderGradient()} */}
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
-              {this._renderCardTop()}
+              {screen !== 'CURRENT_TRIPS' && this._renderCardTop()}
             </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
@@ -170,7 +174,7 @@ class PastTripCard extends Component {
           </View>
         </View>
 
-      </View>
+      </TouchableOpacity>
     )
   }
 }

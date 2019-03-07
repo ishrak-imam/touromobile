@@ -17,6 +17,7 @@ export default {
   },
   CurrentTripScreen: {
     title: 'Pågående resa',
+    currentTrip: 'Pågående resor',
     pendingStats: 'väntar på statistikuppladdning',
     pax: 'Passagerare',
     departureTime: 'Avgångstid',

@@ -31,12 +31,20 @@ class TripsLoading extends Component {
     if (!hasLocalData) {
       this._requestTrips(false)
     } else {
+      /**
+       * TODO:
+       * remove setTimeout
+       * >> make a separate saga composed of
+       * following two sagas
+       */
       actionDispatcher(tripsActionsOnSuccess({
         pendingModal: this.pendingModal
       }))
-      actionDispatcher(navigateToOtherTripScreen({
-        refreshFromFutureTrip: false
-      }))
+      setTimeout(() => {
+        actionDispatcher(navigateToOtherTripScreen({
+          refreshFromFutureTrip: false
+        }))
+      }, 0)
     }
     const connections = trips.get('connections')
     const direct = connections.get('direct').size

@@ -22,11 +22,22 @@ const _T = Translator('CurrentTripScreen')
 class TripScreen extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      showContent: false
+    }
     this.pendingModal = {
       showWarning: false,
       msg: _T('pendingStats'),
       onOk: this._pendingModalOk
     }
+  }
+
+  componentDidMount () {
+    this._showContent()
+  }
+
+  _showContent = () => {
+    setTimeout(() => this.setState({ showContent: true }), 10)
   }
 
   static navigationOptions = () => {
@@ -38,8 +49,9 @@ class TripScreen extends Component {
     }
   }
 
-  shouldComponentUpdate (nextProps) {
-    return !nextProps.trips.equals(this.props.trips)
+  shouldComponentUpdate (nextProps, nextState) {
+    return !nextProps.trips.equals(this.props.trips) ||
+            nextState.showContent !== this.state.showContent
   }
 
   _pendingModalOk = () => {
@@ -68,36 +80,40 @@ class TripScreen extends Component {
   }
 
   render () {
+    const { showContent } = this.state
     const { navigation, trips } = this.props
     const isLoading = trips.get('isLoading')
     const isRefreshing = trips.get('isRefreshing')
     const current = trips.get('current')
     const brand = current.get('trip').get('brand')
+    const left = navigation.getParam('left')
 
     return (
       <Container>
         <Header
-          left='menu'
+          left={left}
           title={_T('title')}
           navigation={navigation}
           brand={brand}
         />
         {isRefreshing && <OverlaySpinner />}
-        <ScrollView
-          contentContainerStyle={{ justifyContent: 'center' }}
-          refreshControl={<RefreshControl refreshing={false} onRefresh={this._onRefresh} />}
-        >
-          {
-            isLoading
-              ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
-              : current.get('has')
-                ? <Trip trip={current.get('trip')} navigation={navigation} />
-                : <NoData text='noCurrentTrip' textStyle={{ marginTop: 30 }} />
-          }
-        </ScrollView>
+        {
+          showContent &&
+          <ScrollView
+            contentContainerStyle={{ justifyContent: 'center' }}
+            refreshControl={<RefreshControl refreshing={false} onRefresh={this._onRefresh} />}
+          >
+            {
+              isLoading
+                ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
+                : current.get('has')
+                  ? <Trip trip={current.get('trip')} navigation={navigation} />
+                  : <NoData text='noCurrentTrip' textStyle={{ marginTop: 30 }} />
+            }
+          </ScrollView>
+        }
 
       </Container>
-
     )
   }
 }

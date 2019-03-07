@@ -7,7 +7,8 @@ import {
 
 import {
   TRIPS_REQ, TRIPS_SUCS, TRIPS_FAIL,
-  SET_CURRENT_TRIP, SET_FUTURE_TRIPS, SET_PAST_TRIPS,
+  SET_CURRENT_TRIP,
+  SET_CURRENT_TRIPS, SET_FUTURE_TRIPS, SET_PAST_TRIPS,
   SET_PENDING_STATS_UPLOAD, SET_REMAINING_FUTURE_TRIPS,
   CONNECTIONS_SUCS
 } from './action'
@@ -28,7 +29,14 @@ export const trips = createReducer(TRIPS_INITIAL_STATE, {
 
   [TRIPS_FAIL]: state => mergeMapShallow(state, getMap({ isLoading: false, isRefreshing: false })),
 
-  [SET_CURRENT_TRIP]: (state, payload) => setIntoMap(state, 'current', getImmutableObject(payload)),
+  [SET_CURRENT_TRIPS]: (state, payload) => setIntoMap(state, 'current', getImmutableObject(payload)),
+
+  [SET_CURRENT_TRIP]: (state, payload) => {
+    let currentTrip = readValue('current', state)
+    currentTrip = setIntoMap(currentTrip, 'trip', payload)
+    return setIntoMap(state, 'current', currentTrip)
+  },
+
   [SET_FUTURE_TRIPS]: (state, payload) => setIntoMap(state, 'future', getImmutableObject(payload)),
   [SET_PAST_TRIPS]: (state, payload) => setIntoMap(state, 'past', getImmutableObject(payload)),
 

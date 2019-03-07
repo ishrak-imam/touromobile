@@ -19,10 +19,15 @@ class PastTrips extends Component {
   }
 
   _renderTripCard = ({ item }) => {
-    const { modifiedData } = this.props
+    const { modifiedData, screen, onTripPress } = this.props
     const departureId = String(item.get('departureId'))
     const modifiedTripData = modifiedData.get(departureId)
-    return <PastTripCard trip={item} modifiedTripData={modifiedTripData} />
+    return <PastTripCard
+      screen={screen}
+      trip={item}
+      modifiedTripData={modifiedTripData}
+      onTripPress={onTripPress}
+    />
   }
 
   _renderPastTrips = () => {

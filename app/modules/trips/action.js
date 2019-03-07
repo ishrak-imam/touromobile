@@ -6,6 +6,7 @@ export const TRIPS_ACTIONS_ON_SUCS = 'TRIPS_ACTIONS_ON_SUCS'
 export const TRIPS_FAIL = 'TRIPS_FAIL'
 
 export const GET_CURRENT_TRIP = 'GET_CURRENT_TRIP'
+export const SET_CURRENT_TRIPS = 'SET_CURRENT_TRIPS'
 export const SET_CURRENT_TRIP = 'SET_CURRENT_TRIP'
 
 export const GET_FUTURE_TRIPS = 'GET_FUTURE_TRIPS'
@@ -32,6 +33,7 @@ export const tripsActionsOnSuccess = createAction(TRIPS_ACTIONS_ON_SUCS)
 export const tripsFail = createAction(TRIPS_FAIL)
 
 export const getCurrentTrip = createAction(GET_CURRENT_TRIP)
+export const setCurrentTrips = createAction(SET_CURRENT_TRIPS)
 export const setCurrentTrip = createAction(SET_CURRENT_TRIP)
 
 export const getFutureTrips = createAction(GET_FUTURE_TRIPS)

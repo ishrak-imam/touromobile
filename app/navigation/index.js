@@ -16,6 +16,7 @@ import DrawerComponent from '../components/drawer'
 import LoadingScreen from '../modules/auth/loadingScreen'
 import TripsLoadingScreen from '../modules/trips/tripsLoading'
 import Login from '../modules/auth/login'
+import CurrentTripsScreen from '../modules/trips/currentTripsScreen'
 import TripScreen from '../modules/trips/screen'
 import PaxScreen from '../modules/pax/screen'
 import ExcursionsScreen from '../modules/excursions/screen'
@@ -67,6 +68,7 @@ const appStack = createStackNavigator(
     Restaurant: { screen: RestaurantScreen },
     ExcursionDetails: { screen: ExcursionDetailsScreen },
     PaxDetails: { screen: PaxDetailsScreen },
+    CurrentTrips: { screen: CurrentTripsScreen },
     FutureTrips: { screen: FutureTripsScreen },
     PastTrips: { screen: PastTripsScreen },
     Profile: { screen: ProfileScreen },

@@ -7,7 +7,8 @@ export const TRIPS_INITIAL_STATE = getMap({
   data: [],
   current: getMap({
     trip: getMap({}),
-    has: false
+    has: false,
+    trips: getList([])
   }),
   future: getMap({
     trips: getList([]),
