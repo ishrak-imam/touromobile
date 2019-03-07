@@ -74,7 +74,6 @@ class ExcursionOrderSummaryMode extends Component {
   }
 
   _renderExcursionItem = (paxList, participants) => ({ item }) => {
-    if (item.get('name') === 'UP') return null
     const { bookingId } = this.props
     const excursionId = String(item.get('id'))
     const exParticipants = participants.getIn([excursionId, bookingId]) || getSet([])

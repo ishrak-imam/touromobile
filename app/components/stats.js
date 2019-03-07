@@ -34,20 +34,20 @@ class StatItem extends Component {
     const data = getMap({ pax, participants: exParticipants })
     const participatingPax = getParticipatingPax(data)
     const actualParticipatingPax = getActualParticipatingPax(data)
-    const total = pax.size
-    const participating = participatingPax.size
+    const paxWithExcursionPack = participatingPax.size - actualParticipatingPax.size
+    const paxWithoutExcursionPack = pax.size - paxWithExcursionPack
 
-    const share = percentage(participating, total)
+    const share = percentage(actualParticipatingPax.size, paxWithoutExcursionPack)
     return (
       <ListItem style={[ss.item, { backgroundColor }]}>
         <Left style={ss.name}>
           <Text>{name}</Text>
         </Left>
         <Body style={ss.participants}>
-          <Text>{participating}/{total}</Text>
+          <Text>{participatingPax.size}/{pax.size}</Text>
         </Body>
         <Body style={ss.sale}>
-          <Text>{actualParticipatingPax.size}/{total}</Text>
+          <Text>{actualParticipatingPax.size}/{paxWithoutExcursionPack}</Text>
         </Body>
         <Right style={ss.share}>
           <Text>{share}%</Text>
@@ -85,9 +85,9 @@ export default class Stats extends Component {
     )
   }
 
-  _renderListFooter = () => {
+  _renderListFooter = pax => {
     const { excursions, participants, trip } = this.props
-    const pax = getPax(trip)
+
     const totalParticipants = getTotalParticipantsCount(excursions, participants, trip)
     const actualTotalParticipants = getActualTotalParticipantsCount(excursions, participants, trip)
     const paxWithExcursionPack = getPaxWithExcursionPack(pax)

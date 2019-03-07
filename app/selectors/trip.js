@@ -487,6 +487,13 @@ export const getCurrentTrip = state => {
       trip = trip.set('brand', 'OH')
     }
   }
+
+  const excursions = trip.get('excursions')
+  if (excursions && excursions.size) {
+    const filteredEx = excursions.filter(e => e.get('name') !== 'UP')
+    trip = trip.set('excursions', filteredEx)
+  }
+
   return {
     has: !!trip,
     trip: trip || {}

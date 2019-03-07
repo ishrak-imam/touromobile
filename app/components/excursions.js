@@ -88,7 +88,6 @@ class Excursions extends Component {
   }
 
   _renderExcursionCard = ({ item }) => {
-    if (item.get('name') === 'UP') return null
     const { trip, participants, modifiedPax } = this.props
     const excursionId = String(item.get('id'))
     const exParticipants = participants.get(excursionId) || getMap({})

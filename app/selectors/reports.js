@@ -166,7 +166,10 @@ export const getTotalParticipantsCount = (excursions, participants, trip) => {
   const pax = getPax(trip)
   return excursions.reduce((aggr, e) => {
     const excursionId = String(e.get('id'))
-    const participatingPax = getParticipatingPax(getMap({ pax, participants: participants.get(excursionId) }))
+    let exParticipants = participants.get(excursionId).reduce((set, par) => {
+      return set.merge(par)
+    }, getSet([]))
+    const participatingPax = getParticipatingPax(getMap({ pax, participants: exParticipants }))
     aggr = aggr + participatingPax.size
     return aggr
   }, 0)
@@ -176,7 +179,10 @@ export const getActualTotalParticipantsCount = (excursions, participants, trip) 
   const pax = getPax(trip)
   return excursions.reduce((aggr, e) => {
     const excursionId = String(e.get('id'))
-    const participatingPax = getActualParticipatingPax(getMap({ pax, participants: participants.get(excursionId) }))
+    let exParticipants = participants.get(excursionId).reduce((set, par) => {
+      return set.merge(par)
+    }, getSet([]))
+    const participatingPax = getActualParticipatingPax(getMap({ pax, participants: exParticipants }))
     aggr = aggr + participatingPax.size
     return aggr
   }, 0)
