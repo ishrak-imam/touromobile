@@ -27,8 +27,7 @@ class ExcursionCard extends Component {
     return !!nexProps.participants && !nexProps.participants.equals(this.props.participants)
   }
   _smsAll = (pax, modifiedPax) => {
-    const data = getMap({ pax, modifiedPax })
-    const numbers = getPhoneNumbers(data)
+    const numbers = getPhoneNumbers(getMap({ pax, modifiedPax }))
     sms(numbers)
   }
 
