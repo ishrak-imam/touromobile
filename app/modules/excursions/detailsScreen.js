@@ -6,9 +6,11 @@ import {
 import SearchBar from '../../components/searchBar'
 import Header from '../../components/header'
 import {
-  getSortedPax, getSortedPaxByBookingId,
+  getSortedPaxByBookingId,
   currentTripSelector, getPaxDataGroupByBooking,
-  getParticipants, filterPaxBySearchText
+  getParticipants, filterPaxBySearchText,
+  getSortedPaxByFirstName, getSortedPaxByLastName,
+  getPaxDataGroupByFirstName, getPaxDataGroupByLastName
 } from '../../selectors'
 import {
   StyleSheet, View,
@@ -24,6 +26,7 @@ import NoData from '../../components/noData'
 import Switch from '../../components/switch'
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
 import CheckBox from '../../components/checkBox'
+import ContextMenu from '../../components/contextMenu'
 
 const { width } = Dimensions.get('window')
 
@@ -39,6 +42,11 @@ const PARTICIPATING = 'PARTICIPATING'
 const ALL = 'ALL'
 
 const _T = Translator('ExcursionDetailsScreen')
+
+const CONTEXT_OPTIONS = {
+  firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },
+  lastName: { text: 'lastName', key: 'LAST_NAME', icon: 'person' }
+}
 
 class PaxListItem extends Component {
   shouldComponentUpdate (nextProps) {
@@ -81,7 +89,8 @@ class ExcursionDetailsScreen extends Component {
     this.state = {
       searchText: '',
       filter: PARTICIPATING,
-      groupByBooking: false
+      groupByBooking: false,
+      groupBy: CONTEXT_OPTIONS.firstName.key
     }
   }
 
@@ -160,24 +169,29 @@ class ExcursionDetailsScreen extends Component {
   _renderItem = participants => {
     return (type, item) => {
       const { groupByBooking } = this.state
-      if (item.first && groupByBooking) {
+      if (item.first) {
         const bookingId = item.initial
-        const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId, participants)
-        const onPress = isAllHasPack ? null : this._onSectionHeaderPress(isAllSelected, pax, participants, bookingId)
 
-        let iconName = 'checkOutline'
-        let iconColor = Colors.black
-        if (isAllSelected || isAnySelected || isAllHasPack) {
-          iconColor = Colors.blue
-          if (isAllSelected || isAllHasPack) {
-            iconName = 'checkFill'
+        let onPress = null
+        let iconName = null
+        let iconColor = null
+        if (groupByBooking) {
+          const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId, participants)
+          if (!isAllHasPack) onPress = this._onSectionHeaderPress(isAllSelected, pax, participants, bookingId)
+          iconName = 'checkOutline'
+          iconColor = Colors.black
+          if (isAllSelected || isAnySelected || isAllHasPack) {
+            iconColor = Colors.blue
+            if (isAllSelected || isAllHasPack) {
+              iconName = 'checkFill'
+            }
           }
         }
 
         return (
-          <TouchableOpacity style={ss.sectionHeader} onPress={onPress}>
+          <TouchableOpacity style={ss.sectionHeader} onPress={onPress} disabled={!groupByBooking}>
             <Text style={ss.sectionText}>{bookingId}</Text>
-            <IonIcon name={iconName} color={iconColor} size={27} />
+            {groupByBooking && <IonIcon name={iconName} color={iconColor} size={27} />}
           </TouchableOpacity>
         )
       }
@@ -256,6 +270,10 @@ class ExcursionDetailsScreen extends Component {
     })
   }
 
+  _onSelect = option => {
+    this.setState({ groupBy: option.key })
+  }
+
   _renderRight = brand => {
     const { groupByBooking } = this.state
     const iconColor = Colors.silver
@@ -276,28 +294,63 @@ class ExcursionDetailsScreen extends Component {
   }
 
   _onToggle = groupByBooking => {
-    this.setState({ groupByBooking })
+    this.setState({
+      groupByBooking,
+      groupBy: groupByBooking ? null : CONTEXT_OPTIONS.firstName.key
+    })
+  }
+
+  _renderSearchRight = () => {
+    let options = [
+      CONTEXT_OPTIONS.firstName,
+      CONTEXT_OPTIONS.lastName
+    ]
+
+    return (
+      <ContextMenu
+        icon='sort'
+        label='sortOrder'
+        onSelect={this._onSelect}
+        options={options}
+      />
+    )
   }
 
   render () {
     const { navigation, currentTrip, participants } = this.props
-    const { searchText, filter, groupByBooking } = this.state
+    const { searchText, filter, groupByBooking, groupBy } = this.state
     const excursion = navigation.getParam('excursion')
     const brand = navigation.getParam('brand')
     const excursionId = String(excursion.get('id'))
     const exParticipants = participants.get(excursionId) || getMap({})
+    const right = groupByBooking ? null : this._renderSearchRight()
 
-    let sortedPax = groupByBooking ? getSortedPaxByBookingId(currentTrip) : getSortedPax(currentTrip)
+    let sortedPax = null
+    if (groupByBooking) {
+      sortedPax = getSortedPaxByBookingId(currentTrip)
+    }
+    if (groupBy === CONTEXT_OPTIONS.firstName.key) {
+      sortedPax = getSortedPaxByFirstName(currentTrip)
+    }
+    if (groupBy === CONTEXT_OPTIONS.lastName.key) {
+      sortedPax = getSortedPaxByLastName(currentTrip)
+    }
+
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
-
     if (filter === PARTICIPATING) {
       sortedPax = this._findParticipatingPax(sortedPax, exParticipants)
     }
 
     if (groupByBooking) {
       sortedPax = getPaxDataGroupByBooking(sortedPax)
+    }
+    if (groupBy === CONTEXT_OPTIONS.firstName.key) {
+      sortedPax = getPaxDataGroupByFirstName(sortedPax)
+    }
+    if (groupBy === CONTEXT_OPTIONS.lastName.key) {
+      sortedPax = getPaxDataGroupByLastName(sortedPax)
     }
 
     return (
@@ -309,7 +362,12 @@ class ExcursionDetailsScreen extends Component {
           right={this._renderRight(brand)}
           brand={brand}
         />
-        <SearchBar onSearch={this._onSearch} icon='people' placeholder={_T('search')} />
+        <SearchBar
+          onSearch={this._onSearch}
+          icon='people'
+          placeholder={_T('search')}
+          right={right}
+        />
         {this._renderTabs()}
         {this._renderPersons(sortedPax, exParticipants)}
       </Container>

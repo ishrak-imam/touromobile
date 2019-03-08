@@ -217,29 +217,29 @@ class PaxList extends Component {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
 
-    let paxList = null
+    // let paxList = null
     switch (groupBy) {
       case CONTEXT_OPTIONS.firstName.key:
-        paxList = getPaxDataGroupByFirstName(sortedPax)
+        sortedPax = getPaxDataGroupByFirstName(sortedPax)
         break
       case CONTEXT_OPTIONS.lastName.key:
-        paxList = getPaxDataGroupByLastName(sortedPax)
+        sortedPax = getPaxDataGroupByLastName(sortedPax)
         break
       case CONTEXT_OPTIONS.hotel.key:
-        paxList = getPaxDataGroupByHotel(sortedPax)
+        sortedPax = getPaxDataGroupByHotel(sortedPax)
         break
       case CONTEXT_OPTIONS.airport.key:
-        paxList = getPaxDataGroupByAirport(sortedPax)
+        sortedPax = getPaxDataGroupByAirport(sortedPax)
         break
       case CONTEXT_OPTIONS.booking.key:
-        paxList = getPaxDataGroupByBooking(sortedPax)
+        sortedPax = getPaxDataGroupByBooking(sortedPax)
         break
     }
 
     return (
       <ImmutableVirtualizedList
         keyboardShouldPersistTaps='always'
-        immutableData={paxList}
+        immutableData={sortedPax}
         renderItem={this._renderPerson(tripType)}
         keyExtractor={item => String(item.get('id'))}
         renderEmpty={_T('noMatch')}
