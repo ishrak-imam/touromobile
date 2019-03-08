@@ -21,12 +21,11 @@ export default class OutLineButton extends Component {
 
 const ss = StyleSheet.create({
   button: {
-    paddingHorizontal: 5,
     paddingVertical: 7,
     alignItems: 'center',
     justifyContent: 'center',
     width: 90,
     borderRadius: 3,
-    marginLeft: 15
+    marginLeft: 5
   }
 })

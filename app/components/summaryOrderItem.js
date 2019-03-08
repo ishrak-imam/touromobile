@@ -1,14 +1,13 @@
 
 import React, { Component } from 'react'
 import { View, Text, ListItem, Left, Right } from 'native-base'
-import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
+import { TouchableOpacity, StyleSheet } from 'react-native'
 import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
 import {
   getLunches, getInvoiceeSummaryMode,
   getOrderForBookingSummaryMode, getFormattedMealsData
 } from '../selectors'
-import isIphoneX from '../utils/isIphoneX'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { showModal } from '../modal/action'
@@ -20,6 +19,9 @@ import NoData from './noData'
 import OutHomeTab from './outHomeTab'
 import ExcursionOrderSummaryMode from './excursionOrderSummaryMode'
 import ExtraOrderSummaryMode from './extraOrderSummaryMode'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import isIOS from '../utils/isIOS'
+import isIphoneX from '../utils/isIphoneX'
 
 const _T = Translator('OrdersScreen')
 
@@ -281,6 +283,7 @@ class SummaryOrderItem extends Component {
   }
 
   _renderExtraOrders = () => {
+    const { departureId, bookingId } = this.props
     const { extraOrders } = this.state
     const icon = extraOrders ? 'minus' : 'plus'
     return (
@@ -296,7 +299,10 @@ class SummaryOrderItem extends Component {
         </ListItem>
         {
           extraOrders &&
-          <ExtraOrderSummaryMode />
+          <ExtraOrderSummaryMode
+            departureId={departureId}
+            bookingId={bookingId}
+          />
         }
       </View>
     )
@@ -314,11 +320,18 @@ class SummaryOrderItem extends Component {
           this._renderInvoiceeSelection(this._getInvoiceeOptions(pax, direction, invoicee), invoicee)
         }
 
-        <ScrollView style={ss.scroll} showsVerticalScrollIndicator={false}>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          style={ss.scroll}
+          extraScrollHeight={isIOS ? 40 : 150}
+          enableOnAndroid
+          keyboardShouldPersistTaps='always'
+        >
           {this._renderLunchOrders()}
           {this._renderExcursionOrders()}
           {this._renderExtraOrders()}
-        </ScrollView>
+
+        </KeyboardAwareScrollView>
 
       </View>
     )
@@ -399,8 +412,8 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0
   },
   scroll: {
-    marginTop: 10,
-    marginBottom: isIphoneX ? 20 : 10
+    marginTop: 5,
+    marginBottom: isIphoneX ? 30 : 20
   },
   topHeader: {
     marginLeft: 0,

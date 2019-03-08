@@ -19,6 +19,7 @@
     "parser": "babel-eslint"
   },
   "dependencies": {
+    "buffer": "^5.2.1",
     "date-fns": "^1.29.0",
     "expo": "^31.0.4",
     "immutable": "^4.0.0-rc.12",
@@ -30,6 +31,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.7.2",
     "react-native-openanything": "^0.0.3",
     "react-native-popup-menu": "^0.14.1",
+    "react-native-uuid": "^1.4.9",
     "react-navigation": "^2.18.2",
     "react-navigation-tabs": "^0.6.0",
     "react-redux": "^5.0.7",

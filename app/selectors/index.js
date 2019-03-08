@@ -88,7 +88,8 @@ export const {
   getOrders,
   getOrdersByDirection,
   checkIfAnyOrderMade,
-  getOrderForBookingSummaryMode
+  getOrderForBookingSummaryMode,
+  getExtraOrdersSummaryMode
 } = require('./modifiedData')
 
 export const {

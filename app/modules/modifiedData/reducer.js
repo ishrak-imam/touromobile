@@ -28,6 +28,8 @@ import {
   TAKE_ORDER_SUMMARY_MODE,
   SELECT_INVOICEE_SUMMARY_MODE,
 
+  TAKE_EXTRA_ORDERS_SUMMARY_MODE,
+
   RESET_ALL_ORDERS
 } from './action'
 
@@ -209,6 +211,14 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     orderForBooking = setIntoMap(orderForBooking, 'invoicee', getMap(payload.invoicee))
     ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
     modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [TAKE_EXTRA_ORDERS_SUMMARY_MODE]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let extraOrders = readValue('extraOrdersSummaryMode', modifiedData) || getMap({})
+    extraOrders = setIntoMap(extraOrders, payload.bookingId, payload.extraOrders)
+    modifiedData = setIntoMap(modifiedData, 'extraOrdersSummaryMode', extraOrders)
     return setIntoMap(state, payload.departureId, modifiedData)
   },
 
