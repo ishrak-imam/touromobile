@@ -60,14 +60,26 @@ export const prepareParticipantsData = (excursions, modifiedPax, participants, t
   }, [])
 }
 
-export const getOrderStats = (orders, transportId, orderMode, excursions, modifiedPax, participants, trip) => {
+export const prepareExtraData = (extraOrders, bookingId) => {
+  const orders = extraOrders.get(bookingId) || getMap({})
+  return orders.reduce((list, order) => {
+    list.push({
+      text: order.get('text'),
+      amount: order.get('amount')
+    })
+    return list
+  }, [])
+}
+
+export const getOrderStats = (orders, extraOrders, transportId, orderMode, excursions, modifiedPax, participants, trip) => {
   if (orders.size) {
     return orders.reduce((list, bOrders, key) => {
       const aggregated = {
         transportId,
         booking: key,
         invoicee: '',
-        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key)
+        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
+        extra: prepareExtraData(extraOrders, key)
       }
 
       let details = {}
@@ -150,7 +162,24 @@ export const getOrderStats = (orders, transportId, orderMode, excursions, modifi
         transportId,
         booking: key,
         invoicee: '',
-        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key)
+        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
+        extra: prepareExtraData(extraOrders, key)
+      }
+
+      aggregated.details = []
+      list.push(aggregated)
+      return list
+    }, [])
+  }
+
+  if (extraOrders.size) {
+    return extraOrders.reduce((list, bOrders, key) => {
+      const aggregated = {
+        transportId,
+        booking: key,
+        invoicee: '',
+        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
+        extra: prepareExtraData(extraOrders, key)
       }
 
       aggregated.details = []

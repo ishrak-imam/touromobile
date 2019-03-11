@@ -48,7 +48,13 @@ class ExtraOrderSummaryMode extends Component {
   }
 
   _onCancel = () => {
-    const { extraOrders } = this.props
+    let { extraOrders } = this.props
+    if (extraOrders.size === 0) {
+      const id = uuid.v1()
+      extraOrders = getMap({
+        [id]: getMap({ id })
+      })
+    }
     this.setState({ extraOrders })
   }
 

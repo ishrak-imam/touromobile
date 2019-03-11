@@ -11,7 +11,7 @@ import { format } from 'date-fns'
 import {
   getPax, getStatsData, getAllOrders, getOrderMode, getUser,
   getTotalParticipantsCount, getOrderStats, checkIfFlightTrip,
-  getModifiedPax
+  getModifiedPax, getAllExtraOrdersSummaryMode
 } from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
@@ -65,10 +65,10 @@ class PastTripCard extends Component {
 
   _uploadStats = () => {
     const { trip, departureId, transportId, excursions, participants } = this.tripData
-    const { orders, user, modifiedPax, orderMode } = this.props
+    const { orders, extraOrders, user, modifiedPax, orderMode } = this.props
     const guideId = user.get('guideId')
     const statsData = getStatsData(excursions, modifiedPax, participants, trip)
-    const orderStats = getOrderStats(orders, transportId, orderMode, excursions, modifiedPax, participants, trip)
+    const orderStats = getOrderStats(orders, extraOrders, transportId, orderMode, excursions, modifiedPax, participants, trip)
 
     const isFlight = checkIfFlightTrip(trip)
     networkActionDispatcher(uploadStatsReq({
@@ -187,7 +187,8 @@ const stateToProps = (state, props) => {
     orders: getAllOrders(state, departureId, orderMode),
     user: getUser(state),
     modifiedPax: getModifiedPax(state, departureId),
-    orderMode
+    orderMode,
+    extraOrders: getAllExtraOrdersSummaryMode(state, departureId)
   }
 }
 

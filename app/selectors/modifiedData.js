@@ -216,6 +216,10 @@ export const getExtraOrdersSummaryMode = (state, departureId, bookingId) => {
   return state.modifiedData.getIn([departureId, 'extraOrdersSummaryMode', bookingId]) || getMap({})
 }
 
+export const getAllExtraOrdersSummaryMode = (state, departureId) => {
+  return state.modifiedData.getIn([departureId, 'extraOrdersSummaryMode']) || getMap({})
+}
+
 export const getAllOrders = (state, departureId, orderMode) => {
   const key = orderMode === 'SUMMARY' ? 'ordersSummaryMode' : 'orders'
   return state.modifiedData.getIn([departureId, key]) || getMap({})
