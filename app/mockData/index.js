@@ -117,3 +117,9 @@ export const mockConnections = () => new Promise(resolve => {
     return resolve(require('./connections.json'))
   }, 2000)
 })
+
+export const mockSyncData = () => new Promise(resolve => {
+  setTimeout(() => {
+    return resolve({ ok: true })
+  }, 2000)
+})

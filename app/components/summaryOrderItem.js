@@ -323,7 +323,7 @@ class SummaryOrderItem extends Component {
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           style={ss.scroll}
-          extraScrollHeight={isIOS ? 40 : 150}
+          extraScrollHeight={isIOS ? 40 : 200}
           enableOnAndroid
           keyboardShouldPersistTaps='always'
         >

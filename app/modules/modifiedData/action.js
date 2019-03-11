@@ -27,6 +27,10 @@ export const TAKE_EXTRA_ORDERS_SUMMARY_MODE = 'TAKE_EXTRA_ORDERS_SUMMARY_MODE'
 
 export const RESET_ALL_ORDERS = 'RESET_ALL_ORDER'
 
+export const SYNC_MODIFIED_DATA = 'SYNC_MODIFIED_DATA'
+export const SYNC_MODIFIED_DATA_SUCS = 'SYNC_MODIFIED_DATA_SUCS'
+export const SYNC_MODIFIED_DATA_FAIL = 'SYNC_MODIFIED_DATA_FAIL'
+
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
 export const setParticipants = createAction(SET_PARTICIPANTS)
 
@@ -52,3 +56,7 @@ export const takeOrderSummaryMode = createAction(TAKE_ORDER_SUMMARY_MODE)
 export const selectInvoiceeSummaryMode = createAction(SELECT_INVOICEE_SUMMARY_MODE)
 
 export const resetAllOrders = createAction(RESET_ALL_ORDERS)
+
+export const syncModifiedData = createAction(SYNC_MODIFIED_DATA)
+export const syncModifiedDataSucs = createAction(SYNC_MODIFIED_DATA_SUCS)
+export const syncModifiedDataFail = createAction(SYNC_MODIFIED_DATA_FAIL)

@@ -14,6 +14,7 @@ import {
   connectionsReq
 } from './action'
 import Header from '../../components/header'
+import syncDataWorker from '../../utils/modifiedDataSync'
 
 class TripsLoading extends Component {
   constructor (props) {
@@ -52,6 +53,8 @@ class TripsLoading extends Component {
     if (!direct || !overnight) {
       this._requestConnections()
     }
+
+    syncDataWorker()
   }
 
   _requestTrips = isRefreshing => {

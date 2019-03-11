@@ -30,7 +30,9 @@ import {
 
   TAKE_EXTRA_ORDERS_SUMMARY_MODE,
 
-  RESET_ALL_ORDERS
+  RESET_ALL_ORDERS,
+
+  SYNC_MODIFIED_DATA_SUCS
 } from './action'
 
 import {
@@ -234,6 +236,10 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
     modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
     return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SYNC_MODIFIED_DATA_SUCS]: (state, payload) => {
+    return setIntoMap(state, 'lastSyncedTime', payload)
   }
 
 })
