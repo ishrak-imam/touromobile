@@ -17,9 +17,9 @@ export const mergeMapShallow = (map1, map2) => {
   return map1.merge(map2)
 }
 
-// export const mergeMapDeep = (map1, map2) => {
-//   return map1.mergeDeep(map2)
-// }
+export const mergeMapDeep = (map1, map2) => {
+  return map1.mergeDeep(map2)
+}
 
 export const updateMap = (map, key, updater) => {
   return map.update(key, updater)

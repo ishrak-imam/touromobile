@@ -2,6 +2,7 @@
 import { isBefore } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
+import { getImmutableObject, mergeMapDeep } from '../../utils/immutable'
 
 import {
   userDetailsReq,
@@ -31,7 +32,8 @@ import {
   getUser,
   getProfileUpdates,
   getUserInProfile,
-  getLastSyncedTime
+  getLastSyncedTime,
+  getModifiedData
 } from '../../selectors'
 
 export function * watchGetUserDetails () {
@@ -112,7 +114,11 @@ function * workerDownloadAppData (action) {
     const { lastSyncedTime, data } = yield call(downloadAppData, guideId, jwt)
     const lastSyncedTimeLocal = yield select(getLastSyncedTime)
     if (!lastSyncedTimeLocal || isBefore(lastSyncedTimeLocal, lastSyncedTime)) {
-      yield put(setDownloadedModifiedData({ lastSyncedTime, ...data }))
+      const modifiedData = yield select(getModifiedData)
+      yield put(setDownloadedModifiedData(mergeMapDeep(
+        modifiedData,
+        getImmutableObject({ lastSyncedTime, ...data })
+      )))
     }
     yield put(downloadAppDataSucs({
       toast: showToast,

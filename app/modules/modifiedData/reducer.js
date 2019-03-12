@@ -243,8 +243,6 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     return setIntoMap(state, 'lastSyncedTime', payload)
   },
 
-  [SET_DOWNLOADED_MODIFIED_DATA]: (state, payload) => {
-    return getImmutableObject(payload)
-  }
+  [SET_DOWNLOADED_MODIFIED_DATA]: (state, payload) => payload
 
 })
