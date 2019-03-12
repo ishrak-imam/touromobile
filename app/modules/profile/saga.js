@@ -109,10 +109,10 @@ export function * watchDownloadAppData () {
 function * workerDownloadAppData (action) {
   const { guideId, jwt, showToast, sucsMsg, failMsg } = action.payload
   try {
-    const appData = yield call(downloadAppData, guideId, jwt)
-    const lastSyncedTime = yield select(getLastSyncedTime)
-    if (!lastSyncedTime || isBefore(lastSyncedTime, appData.lastSyncedTime)) {
-      yield put(setDownloadedModifiedData(appData))
+    const { lastSyncedTime, data } = yield call(downloadAppData, guideId, jwt)
+    const lastSyncedTimeLocal = yield select(getLastSyncedTime)
+    if (!lastSyncedTimeLocal || isBefore(lastSyncedTimeLocal, lastSyncedTime)) {
+      yield put(setDownloadedModifiedData({ lastSyncedTime, ...data }))
     }
     yield put(downloadAppDataSucs({
       toast: showToast,

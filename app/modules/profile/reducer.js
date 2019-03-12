@@ -7,7 +7,8 @@ import {
 
 import {
   TOGGLE_TAB_LABELS, TOGGLE_ORDER_MODE,
-  USER_DETAILS_REQ, USER_DETAILS_SUCS, USER_DETAILS_FAIL,
+  // USER_DETAILS_REQ,
+  USER_DETAILS_SUCS, USER_DETAILS_FAIL,
   EDIT_PROFILE_CANCEL, EDIT_PROFILE,
   UPDATE_PROFILE_REQ, UPDATE_PROFILE_SUCS, UPDATE_PROFILE_FAIL,
   DOWNLOAD_APP_DATA_REQ, DOWNLOAD_APP_DATA_SUCS, DOWNLOAD_APP_DATA_FAIL
@@ -23,9 +24,9 @@ export const profile = createReducer(PROFILE_INITIAL_STATE, {
   [TOGGLE_ORDER_MODE]: (state, payload) => {
     return setIntoMap(state, 'orderMode', payload.mode)
   },
-  [USER_DETAILS_REQ]: state => {
-    return mergeMapShallow(state, getMap({ isLoading: true }))
-  },
+  // [USER_DETAILS_REQ]: state => {
+  //   return mergeMapShallow(state, getMap({ isLoading: true }))
+  // },
   [USER_DETAILS_SUCS]: (state, payload) => {
     return mergeMapShallow(state, getMap({ isLoading: false, user: getMap(payload) }))
   },
