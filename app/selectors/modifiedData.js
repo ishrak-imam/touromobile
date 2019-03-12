@@ -228,3 +228,7 @@ export const getAllOrders = (state, departureId, orderMode) => {
 export const checkIfAnyOrderMade = (state, departureId) => {
   return !!(state.modifiedData.getIn([departureId, 'orders']) || state.modifiedData.getIn([departureId, 'ordersSummaryMode']))
 }
+
+export const getLastSyncedTime = state => {
+  return state.modifiedData.get('lastSyncedTime')
+}

@@ -1,4 +1,5 @@
 
+import { isBefore } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 
@@ -11,18 +12,26 @@ import {
   updateProfileSucs,
   updateProfileFail,
 
-  syncPendingProfileUpdate
+  syncPendingProfileUpdate,
+
+  downloadAppDataReq,
+  downloadAppDataSucs,
+  downloadAppDataFail
 } from './action'
+
+import { setDownloadedModifiedData } from '../modifiedData/action'
 
 import {
   getUserDetails,
-  updateProfile
+  updateProfile,
+  downloadAppData
 } from './api'
 
 import {
   getUser,
   getProfileUpdates,
-  getUserInProfile
+  getUserInProfile,
+  getLastSyncedTime
 } from '../../selectors'
 
 export function * watchGetUserDetails () {
@@ -89,6 +98,30 @@ function * workerPendingProfileUpdate () {
       changes: changes.toJS(),
       profile,
       jwt
+    }))
+  }
+}
+
+export function * watchDownloadAppData () {
+  yield takeFirst(downloadAppDataReq.getType(), workerDownloadAppData)
+}
+
+function * workerDownloadAppData (action) {
+  const { guideId, jwt, showToast, sucsMsg, failMsg } = action.payload
+  try {
+    const appData = yield call(downloadAppData, guideId, jwt)
+    const lastSyncedTime = yield select(getLastSyncedTime)
+    if (!lastSyncedTime || isBefore(lastSyncedTime, appData.lastSyncedTime)) {
+      yield put(setDownloadedModifiedData(appData))
+    }
+    yield put(downloadAppDataSucs({
+      toast: showToast,
+      message: sucsMsg
+    }))
+  } catch (e) {
+    yield put(downloadAppDataFail({
+      toast: showToast,
+      message: failMsg
     }))
   }
 }

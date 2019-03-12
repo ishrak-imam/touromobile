@@ -17,6 +17,10 @@ export const UPDATE_PROFILE_FAIL = 'UPDATE_PROFILE_FAIL'
 
 export const SYNC_PENDING_PROFILE_UPDATE = 'SYNC_PENDING_PROFILE_UPDATE'
 
+export const DOWNLOAD_APP_DATA_REQ = 'DOWNLOAD_APP_DATA_REQ'
+export const DOWNLOAD_APP_DATA_SUCS = 'DOWNLOAD_APP_DATA_SUCS'
+export const DOWNLOAD_APP_DATA_FAIL = 'DOWNLOAD_APP_DATA_FAIL'
+
 export const toggleTabLabels = createAction(TOGGLE_TAB_LABELS)
 export const toggleOrderMode = createAction(TOGGLE_ORDER_MODE)
 
@@ -32,3 +36,7 @@ export const updateProfileSucs = createAction(UPDATE_PROFILE_SUCS)
 export const updateProfileFail = createAction(UPDATE_PROFILE_FAIL)
 
 export const syncPendingProfileUpdate = createAction(SYNC_PENDING_PROFILE_UPDATE)
+
+export const downloadAppDataReq = createAction(DOWNLOAD_APP_DATA_REQ)
+export const downloadAppDataSucs = createAction(DOWNLOAD_APP_DATA_SUCS)
+export const downloadAppDataFail = createAction(DOWNLOAD_APP_DATA_FAIL)

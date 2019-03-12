@@ -138,7 +138,7 @@ class ReportsScreen extends Component {
 
         {
           isDataReady && excursions && !!excursions.size &&
-          <FloatingButton onPress={this._onUpload} loading={reports.get('isLoading')} />
+          <FloatingButton topOffset={130} icon='upload' onPress={this._onUpload} loading={reports.get('isLoading')} />
         }
 
       </Container>

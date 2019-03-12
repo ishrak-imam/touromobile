@@ -5,7 +5,7 @@ import { getConnection } from '../selectors'
 import { syncModifiedData } from '../modules/modifiedData/action'
 
 const syncData = () => {
-  setInterval(() => {
+  return setInterval(() => {
     const connection = getConnection(store.getState())
     const isOnline = readValue('online', connection)
     if (isOnline) {

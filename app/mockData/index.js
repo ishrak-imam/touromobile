@@ -123,3 +123,12 @@ export const mockSyncData = () => new Promise(resolve => {
     return resolve({ ok: true })
   }, 2000)
 })
+
+export const mockDownloadAppData = () => new Promise(resolve => {
+  setTimeout(() => {
+    return resolve({
+      lastSyncedTime: new Date().getTime(),
+      data: {}
+    })
+  }, 2000)
+})

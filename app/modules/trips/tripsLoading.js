@@ -24,6 +24,7 @@ class TripsLoading extends Component {
       msg: '',
       onOk: null
     }
+    this.syncDataTimer = null
   }
 
   componentDidMount () {
@@ -54,7 +55,11 @@ class TripsLoading extends Component {
       this._requestConnections()
     }
 
-    syncDataWorker()
+    this.syncDataTimer = syncDataWorker()
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.syncDataTimer)
   }
 
   _requestTrips = isRefreshing => {

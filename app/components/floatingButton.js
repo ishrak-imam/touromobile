@@ -11,17 +11,20 @@ import isIphoneX from '../utils/isIphoneX'
 const { width, height } = Dimensions.get('window')
 
 let left = width - 85
-let top = height - 130
-if (isIphoneX) {
-  top = height - 165
-}
+// let top = height - 80 // 130
+// if (isIphoneX) {
+//   top = height - 115 // 165
+// }
 
 export default class FloatingButton extends Component {
   render () {
-    const { onPress, loading } = this.props
+    let { onPress, loading, icon, topOffset } = this.props
+
+    const top = isIphoneX ? height - (topOffset + 35) : height - topOffset
+
     return (
-      <TouchableOpacity style={ss.button} onPress={onPress}>
-        {!loading && <IonIcon name='upload' color={Colors.white} size={30} />}
+      <TouchableOpacity style={[ss.button, { top }]} onPress={onPress}>
+        {!loading && <IonIcon name={icon} color={Colors.white} size={30} />}
         {loading && <Spinner color={Colors.white} />}
       </TouchableOpacity>
     )
@@ -36,7 +39,7 @@ const ss = StyleSheet.create({
     position: 'absolute',
     left,
     right: 0,
-    top,
+    // top,
     bottom: 0,
     backgroundColor: Colors.blue,
     justifyContent: 'center',

@@ -133,7 +133,9 @@ export default {
     lunchOrderMode: 'Lunch order mode',
     modeText: 'Once at least one order is placed, mode switching will be disabled.',
     individualMode: 'Individual mode. Place order for each passengers individually.',
-    summaryMode: 'Summary mode. Place order for all passengers in a booking.'
+    summaryMode: 'Summary mode. Place order for all passengers in a booking.',
+    dataSyncSucs: 'Data sync successful.',
+    dataSyncFail: 'Data sync failed.'
   },
   RollCallScreen: {
     title: 'Roll call',

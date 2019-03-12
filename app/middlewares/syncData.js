@@ -3,7 +3,7 @@ import { getJwt } from '../selectors'
 import { SYNC_MODIFIED_DATA } from '../modules/modifiedData/action'
 
 const syncData = store => next => action => {
-  if (action.type === SYNC_MODIFIED_DATA) {
+  if (action.payload && action.type === SYNC_MODIFIED_DATA) {
     const state = store.getState()
     const { lastSyncedTime, ...modifiedData } = state.modifiedData.toJS()
 

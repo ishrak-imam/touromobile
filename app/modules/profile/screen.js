@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Container, View } from 'native-base'
 import { StyleSheet, ScrollView } from 'react-native'
 import Header from '../../components/header'
-import { userDetailsReq, updateProfileReq } from './action'
+import { userDetailsReq, updateProfileReq, downloadAppDataReq } from './action'
 import {
   actionDispatcher,
   networkActionDispatcher
@@ -20,6 +20,10 @@ import Settings from '../../components/settings'
 import NoData from '../../components/noData'
 import isIphoneX from '../../utils/isIphoneX'
 import { Colors } from '../../theme'
+import FloatingButton from '../../components/floatingButton'
+import Translator from '../../utils/translator'
+
+const _T = Translator('ProfileScreen')
 
 class ProfileScreen extends Component {
   componentDidMount () {
@@ -48,6 +52,16 @@ class ProfileScreen extends Component {
     )
   }
 
+  _onDownloadData = guideId => () => {
+    actionDispatcher(downloadAppDataReq({
+      guideId,
+      isNeedJwt: true,
+      showToast: true,
+      sucsMsg: _T('dataSyncSucs'),
+      failMsg: _T('dataSyncFail')
+    }))
+  }
+
   render () {
     const {
       navigation, profile, user
@@ -55,8 +69,10 @@ class ProfileScreen extends Component {
     } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     const userDetails = profile.get('user')
+    const isLoading = profile.get('isLoading')
     // const trip = currentTrip.get('trip')
     // const isBusTrip = checkIfBusTrip(trip)
+    const guideId = user.get('guideId')
 
     return (
       <Container>
@@ -71,6 +87,12 @@ class ProfileScreen extends Component {
           <Settings />
           {/* {isBusTrip && <LunchOrderMode isAnyOrder={isAnyOrder} />} */}
         </ScrollView>
+        <FloatingButton
+          topOffset={80}
+          icon='download'
+          onPress={this._onDownloadData(guideId)}
+          loading={isLoading}
+        />
       </Container>
     )
   }

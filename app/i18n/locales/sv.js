@@ -134,7 +134,9 @@ export default {
     lunchOrderMode: 'Lunchbeställningar',
     modeText: 'När minst en beställning har gorts, kan inställningen inte ändras för den pågående resan.',
     individualMode: 'Passagerare. Beställningar skapas för varje passagerare.',
-    summaryMode: 'Bokning. Beställningar är gemensamma för alla passagerare på samma bokning.'
+    summaryMode: 'Bokning. Beställningar är gemensamma för alla passagerare på samma bokning.',
+    dataSyncSucs: 'Datasynkronisering lyckades.',
+    dataSyncFail: 'Datasynkronisering misslyckades.'
   },
   RollCallScreen: {
     title: 'Upprop',
