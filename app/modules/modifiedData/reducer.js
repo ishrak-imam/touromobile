@@ -2,7 +2,7 @@
 import { createReducer } from '../../utils/reduxHelpers'
 import {
   setIntoMap, readValue, getMap,
-  mergeMapShallow, deleteFromMap, getImmutableObject
+  mergeMapShallow, deleteFromMap
 } from '../../utils/immutable'
 
 import {
@@ -34,6 +34,8 @@ import {
 
   SYNC_MODIFIED_DATA_SUCS,
   SET_DOWNLOADED_MODIFIED_DATA
+
+  // DELETE_MODIFIED_DATA
 } from './action'
 
 import {
@@ -244,5 +246,9 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
   },
 
   [SET_DOWNLOADED_MODIFIED_DATA]: (state, payload) => payload
+
+  // [DELETE_MODIFIED_DATA]: (state, payload) => {
+  //   return deleteFromMap(state, payload.departureId)
+  // }
 
 })

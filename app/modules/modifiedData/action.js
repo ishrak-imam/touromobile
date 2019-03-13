@@ -33,6 +33,8 @@ export const SYNC_MODIFIED_DATA_FAIL = 'SYNC_MODIFIED_DATA_FAIL'
 
 export const SET_DOWNLOADED_MODIFIED_DATA = 'SET_DOWNLOADED_MODIFIED_DATA'
 
+// export const DELETE_MODIFIED_DATA = 'DELETE_MODIFIED_DATA'
+
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
 export const setParticipants = createAction(SET_PARTICIPANTS)
 
@@ -64,3 +66,5 @@ export const syncModifiedDataSucs = createAction(SYNC_MODIFIED_DATA_SUCS)
 export const syncModifiedDataFail = createAction(SYNC_MODIFIED_DATA_FAIL)
 
 export const setDownloadedModifiedData = createAction(SET_DOWNLOADED_MODIFIED_DATA)
+
+// export const deleteModifiedData = createAction(DELETE_MODIFIED_DATA)

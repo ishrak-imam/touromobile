@@ -183,10 +183,9 @@ const resolvers = {
       const paxId = String(p.get('id'))
       const mp = modifiedPax.get(paxId) || p
       const phone = mp.get('phone')
-      if (phone) set = set.add(phone)
+      if (phone) set = set.push({ paxId, phone })
       return set
-    }, getSet([]))
-    // .join(',')
+    }, getList([]))
   },
 
   paxId: pax => {
@@ -203,9 +202,9 @@ const resolvers = {
       const paxId = String(flightPax.get('id'))
       const pax = modifiedPax.get(paxId) || paxMap.get(paxId)
       const phone = pax.get('phone')
-      if (phone) numbers = numbers.add(phone)
+      if (phone) numbers = numbers.push({ paxId, phone })
       return numbers
-    }, getSet([]))
+    }, getList([]))
   },
 
   participatingPax: data => {
