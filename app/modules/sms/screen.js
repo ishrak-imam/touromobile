@@ -13,6 +13,7 @@ import OverlaySpinner from '../../components/overlaySpinner'
 import Translator from '../../utils/translator'
 import { showModal } from '../../modal/action'
 import uuid from 'react-native-uuid'
+import { getMap } from '../../utils/immutable'
 
 const _T = Translator('SMSScreen')
 
@@ -54,10 +55,12 @@ class SMSScreen extends Component {
         }))
         actionDispatcher(storePendingSms({
           key: this._messageId,
-          smsPayload: {
+          smsPayload: getMap({
+            isLoading: false,
+            sent: false,
             message,
             recipients: numbers
-          }
+          })
         }))
       }
     }
