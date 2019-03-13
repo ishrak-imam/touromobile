@@ -188,5 +188,11 @@ export default {
   NoTripsScreen: {
     title: 'Inga resor',
     text: 'Du har ingen pågående, genomförd, eller framtida resa. Vänligen kontakta Pier eller IT om du tror att detta är fel.'
+  },
+  SMSScreen: {
+    title: 'SMS',
+    message: 'Meddelande',
+    enterText: 'Skriv text...',
+    send: 'Skicka'
   }
 }

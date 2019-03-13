@@ -5,7 +5,6 @@ export const getLogin = state => state.login
 export const getUser = state => state.login.get('user')
 export const getJwt = state => state.login.getIn(['user', 'accessToken'])
 export const getImageCache = state => state.imageCache
-export const getSms = state => state.sms
 
 export const {
   getConnections,
@@ -65,6 +64,7 @@ export const {
 } = require('./navigation')
 
 export const {
+  getInfoModal,
   getWarningModal,
   getSelectionModal
 } = require('./modal')
@@ -106,3 +106,8 @@ export const {
 export const {
   getPresents
 } = require('./rollCall')
+
+export const {
+  getSmsLoading,
+  getPendingSms
+} = require('./sms')

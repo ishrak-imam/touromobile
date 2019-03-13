@@ -187,5 +187,11 @@ export default {
   NoTripsScreen: {
     title: 'No Trips',
     text: 'You have no current, past, or future trips. Please contact Pier or IT if you believe this is wrong.'
+  },
+  SMSScreen: {
+    title: 'SMS',
+    message: 'Message',
+    enterText: 'Enter text...',
+    send: 'Send'
   }
 }

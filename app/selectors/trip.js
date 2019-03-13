@@ -1,6 +1,6 @@
 
 import { isWithinRange, isAfter, isBefore, subDays, addDays } from 'date-fns'
-import { setIntoMap, getMap, getSet, getList, listToMap } from '../utils/immutable'
+import { setIntoMap, getMap, getList, listToMap } from '../utils/immutable'
 import Cache from '../utils/cache'
 
 const resolvers = {
@@ -183,7 +183,7 @@ const resolvers = {
       const paxId = String(p.get('id'))
       const mp = modifiedPax.get(paxId) || p
       const phone = mp.get('phone')
-      if (phone) set = set.push({ paxId, phone })
+      if (phone) set = set.push(getMap({ paxId, phone }))
       return set
     }, getList([]))
   },
@@ -202,7 +202,7 @@ const resolvers = {
       const paxId = String(flightPax.get('id'))
       const pax = modifiedPax.get(paxId) || paxMap.get(paxId)
       const phone = pax.get('phone')
-      if (phone) numbers = numbers.push({ paxId, phone })
+      if (phone) numbers = numbers.push(getMap({ paxId, phone }))
       return numbers
     }, getList([]))
   },
