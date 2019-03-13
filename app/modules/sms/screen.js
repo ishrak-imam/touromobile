@@ -60,6 +60,7 @@ class SMSScreen extends Component {
             value={message}
             style={ss.input}
             onChangeText={this._onChangeText}
+            multiline
           />
           <View style={ss.footer}>
             <OutLineButton
