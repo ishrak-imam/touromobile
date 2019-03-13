@@ -12,11 +12,12 @@ import {
 import Translator from '../utils/translator'
 import { format } from 'date-fns'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { sms } from '../utils/comms'
+// import { sms } from '../utils/comms'
 import Button from '../components/button'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { connect } from 'react-redux'
 import { getMap, getSet } from '../utils/immutable'
+import { navigate } from '../navigation/service'
 
 const _T = Translator('ExcursionsScreen')
 
@@ -26,9 +27,9 @@ class ExcursionCard extends Component {
   shouldComponentUpdate (nexProps) {
     return !!nexProps.participants && !nexProps.participants.equals(this.props.participants)
   }
-  _smsAll = (pax, modifiedPax) => {
+  _smsAll = (pax, modifiedPax, brand) => {
     const numbers = getPhoneNumbers(getMap({ pax, modifiedPax }))
-    sms(numbers)
+    navigate('SMS', { numbers, brand })
   }
 
   render () {
@@ -67,7 +68,7 @@ class ExcursionCard extends Component {
             </Body>
           </CardItem>
           <CardItem footer>
-            <Button style={ss.button} onPress={() => this._smsAll(pax, modifiedPax)}>
+            <Button style={ss.button} onPress={() => this._smsAll(pax, modifiedPax, brand)}>
               <IonIcon name='sms' color={Colors.white} />
               <Text>{_T('textAllParticipants')}</Text>
             </Button>

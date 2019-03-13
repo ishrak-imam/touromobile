@@ -11,6 +11,7 @@ import * as tripsSaga from '../modules/trips/saga'
 import * as reportsSaga from '../modules/reports/saga'
 import * as profileSaga from '../modules/profile/saga'
 import * as modifiedDataSaga from '../modules/modifiedData/saga'
+import * as smsSaga from '../modules/sms/saga'
 
 const sagas = {
   ...toastSaga,
@@ -22,7 +23,8 @@ const sagas = {
   ...tripsSaga,
   ...reportsSaga,
   ...profileSaga,
-  ...modifiedDataSaga
+  ...modifiedDataSaga,
+  ...smsSaga
 }
 
 const forkedSagas = Object.keys(sagas).map(key => fork(sagas[key]))

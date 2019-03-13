@@ -11,3 +11,7 @@ export const navigate = (routeName, params = {}) => {
     routeName, params
   }))
 }
+
+export const navigateBack = () => {
+  _navigator.dispatch(NavigationActions.back())
+}

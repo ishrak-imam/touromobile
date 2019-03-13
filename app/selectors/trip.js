@@ -185,7 +185,12 @@ const resolvers = {
       const phone = mp.get('phone')
       if (phone) set = set.add(phone)
       return set
-    }, getSet([])).join(',')
+    }, getSet([]))
+    // .join(',')
+  },
+
+  paxId: pax => {
+    return pax.map(p => String(p.get('id')))
   },
 
   flightPaxPhones: data => {
@@ -194,14 +199,13 @@ const resolvers = {
     const modifiedPax = data.get('modifiedPax')
     const paxMap = listToMap(pax, 'id')
 
-    let numbers = flightPax.reduce((numbers, flightPax) => {
+    return flightPax.reduce((numbers, flightPax) => {
       const paxId = String(flightPax.get('id'))
       const pax = modifiedPax.get(paxId) || paxMap.get(paxId)
-      numbers = pax.get('phone') ? numbers + ',' + pax.get('phone') : numbers
+      const phone = pax.get('phone')
+      if (phone) numbers = numbers.add(phone)
       return numbers
-    }, '')
-    numbers = numbers.replace(/^,/, '')
-    return numbers
+    }, getSet([]))
   },
 
   participatingPax: data => {
@@ -416,6 +420,14 @@ export const getPhoneNumbers = data => {
     phoneNumbersCache = Cache(resolvers.phoneNumbers)
   }
   return phoneNumbersCache(data)
+}
+
+let paxIdCache = null
+export const getPaxIds = pax => {
+  if (!paxIdCache) {
+    paxIdCache = Cache(resolvers.paxId)
+  }
+  return paxIdCache(pax)
 }
 
 let flightPaxPhonesCache = null

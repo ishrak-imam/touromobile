@@ -132,3 +132,9 @@ export const mockDownloadAppData = () => new Promise(resolve => {
     })
   }, 2000)
 })
+
+export const mockSendSms = () => new Promise(resolve => {
+  setTimeout(() => {
+    return resolve({ ok: true })
+  }, 2000)
+})

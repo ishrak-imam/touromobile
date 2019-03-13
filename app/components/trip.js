@@ -42,10 +42,16 @@ class Trip extends Component {
     <IconButton name='sms' color={Colors.blue} onPress={() => sms(phone)} />
   )
 
-  _smsAll = pax => {
+  _smsAll = (pax, brand) => {
     const { modifiedPax } = this.props
     const numbers = getPhoneNumbers(getMap({ pax, modifiedPax }))
-    sms(numbers)
+    const { navigation } = this.props
+    navigation.navigate('SMS', { numbers, brand })
+  }
+
+  _smsFlightPax = (numbers, brand) => () => {
+    const { navigation } = this.props
+    navigation.navigate('SMS', { numbers, brand })
   }
 
   _renderHeader = trip => {
@@ -171,7 +177,7 @@ class Trip extends Component {
   //   sms(numbers)
   // }
 
-  _renderFlight = (transport, pax) => {
+  _renderFlight = (transport, pax, brand) => {
     const { modifiedPax } = this.props
     const flights = transport.get('flights')
 
@@ -227,7 +233,7 @@ class Trip extends Component {
                 <Text>{_T('pax')}: {flightPax.size}</Text>
               </View>
               <View style={ss.bottomRight}>
-                {!!numbers && <IconButton name='sms' color={Colors.blue} onPress={() => sms(numbers)} />}
+                {!!numbers.size && <IconButton name='sms' color={Colors.blue} onPress={this._smsFlightPax(numbers, brand)} />}
               </View>
             </View>
           </View>
@@ -321,10 +327,10 @@ class Trip extends Component {
     )
   }
 
-  _renderFooter = pax => {
+  _renderFooter = (pax, brand) => {
     return (
       <CardItem footer>
-        <Button style={ss.footerButton} onPress={() => this._smsAll(pax)}>
+        <Button style={ss.footerButton} onPress={() => this._smsAll(pax, brand)}>
           <IonIcon name='sms' color={Colors.white} />
           <Text>{_T('textAllPax')}</Text>
         </Button>
@@ -339,6 +345,7 @@ class Trip extends Component {
     const image = trip.get('image')
     const pax = getPax(trip)
     const hotels = trip.get('hotels')
+    const brand = trip.get('brand')
 
     const isFlight = checkIfFlightTrip(trip)
     const isBus = checkIfBusTrip(trip)
@@ -352,14 +359,14 @@ class Trip extends Component {
         {!!image && this._renderImage(image, transportType)}
         {this._renderPaxCount(pax.size)}
 
-        {isFlight && this._renderFlight(transport, pax)}
+        {isFlight && this._renderFlight(transport, pax, brand)}
 
         {isBus && this._renderBus(transport)}
 
         {!!hotels && this._renderHotels(hotels)}
 
         {!!launches && !isFlight && this._renderRestaurants(launches)}
-        {this._renderFooter(pax)}
+        {this._renderFooter(pax, brand)}
 
       </View>
     )

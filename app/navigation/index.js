@@ -31,6 +31,7 @@ import PaxDetailsScreen from '../modules/pax/detailsScreen'
 import ProfileScreen from '../modules/profile/screen'
 import RollCallScreen from '../modules/rollCall/screen'
 import OrdersScreen from '../modules/orders/screen'
+import SMSScreen from '../modules/sms/screen'
 
 const authStack = createStackNavigator(
   {
@@ -73,7 +74,8 @@ const appStack = createStackNavigator(
     PastTrips: { screen: PastTripsScreen },
     Profile: { screen: ProfileScreen },
     RollCall: { screen: RollCallScreen },
-    Orders: { screen: OrdersScreen }
+    Orders: { screen: OrdersScreen },
+    SMS: { screen: SMSScreen }
   },
   {
     initialRouteName: 'TripsLoading',

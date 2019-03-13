@@ -250,7 +250,7 @@ class PaxCard extends Component {
     const coPax = this.paxData.get('booking').get('pax')
     return (
       <KeyboardAwareScrollView
-        extraScrollHeight={isIOS ? 0 : 200}
+        extraScrollHeight={isIOS ? 50 : 200}
         enableOnAndroid
         keyboardShouldPersistTaps='always'
       >

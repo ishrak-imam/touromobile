@@ -16,6 +16,7 @@ import * as reportsReducer from '../modules/reports/reducer'
 import * as modifiedDataReducer from '../modules/modifiedData/reducer'
 import * as profileReducer from '../modules/profile/reducer'
 import * as rollCallReducer from '../modules/rollCall/reducer'
+import * as smsReducer from '../modules/sms/reducer'
 
 const allReducers = combineReducers({
   ...navReducers,
@@ -28,7 +29,8 @@ const allReducers = combineReducers({
   ...reportsReducer,
   ...modifiedDataReducer,
   ...profileReducer,
-  ...rollCallReducer
+  ...rollCallReducer,
+  ...smsReducer
 })
 
 const rootReducer = (state, action) => {
