@@ -192,6 +192,10 @@ export default {
     title: 'SMS',
     message: 'Message',
     enterText: 'Enter text...',
-    send: 'Send'
+    send: 'Send',
+    sucsMsg: 'Sending message successful.',
+    failMsg: 'Sending message failed.',
+    header: 'Internet connection is not available.',
+    body: 'The group SMS could not be sent. The SMS message is stored under "Pending SMS". When the internet connection is back you can go to the "Pending SMS" view and send any stored message.'
   }
 }

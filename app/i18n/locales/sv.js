@@ -193,6 +193,10 @@ export default {
     title: 'SMS',
     message: 'Meddelande',
     enterText: 'Skriv text...',
-    send: 'Skicka'
+    send: 'Skicka',
+    sucsMsg: 'Skickar meddelandet framgångsrikt.',
+    failMsg: 'Skickar meddelandet misslyckades.',
+    header: 'Internet är inte tillgängligt.',
+    body: 'Ditt grupp-SMS kunde inte skickas. Meddelandet lagras under "Väntande SMS". När internetuppkopplingen är tillbaka kan du gå till "Väntande SMS" och skicka dina sparade meddelanden.'
   }
 }

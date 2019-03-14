@@ -35,7 +35,7 @@ class SMSScreen extends Component {
     return () => {
       Keyboard.dismiss()
       const { message } = this.state
-      if (connection.get('online')) {
+      if (!connection.get('online')) {
         actionDispatcher(sendSmsReq({
           smsPayload: {
             message,
@@ -43,14 +43,14 @@ class SMSScreen extends Component {
           },
           isNeedJwt: true,
           showToast: true,
-          sucsMsg: 'Sending message successful.',
-          failMsg: 'Sending message failed.'
+          sucsMsg: _T('sucsMsg'),
+          failMsg: _T('failMsg')
         }))
       } else {
         actionDispatcher(showModal({
           type: 'info',
-          header: 'Internet connection is not available.',
-          body: 'The group SMS could not be sent. The SMS message is stored under "Pending SMS". When the internet connection is back you can go to the "Pending SMS" view and send any stored message.',
+          header: _T('header'),
+          body: _T('body'),
           onOk: () => {}
         }))
         actionDispatcher(storePendingSms({

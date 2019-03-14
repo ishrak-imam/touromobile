@@ -44,7 +44,7 @@ class BookingItem extends Component {
           {paxNames}
         </Body>
         <Right>
-          {!!phones && <IconButton name='sms' color={Colors.blue} onPress={this._sms(phones)} />}
+          {!!phones.size && <IconButton name='sms' color={Colors.blue} onPress={this._sms(phones)} />}
         </Right>
       </ListItem>
     )
