@@ -1,0 +1,261 @@
+[
+
+  {
+    "type":"login",
+    "method":"POST",
+    "url":"/token",
+    "payload":{
+      "user":"ishrak@cefalo.com",
+      "password":"123456"
+    }
+  },
+
+  {
+    "type":"getTrips",
+    "method":"GET",
+    "url":"/resources/guide/{guideId}/overview",
+    "payload":{}
+  },
+
+  {
+    "type":"getConnections",
+    "method":"GET",
+    "url":"/resources/connectionlocation",
+    "payload":{}
+  },
+
+  {
+    "type":"acceptAssignment",
+    "method":"POST",
+    "url":"/resources/guide/{guideId}/departure/{departureId}/accept",
+    "payload":{
+      "transportId":"undefined",
+      "accept":true
+    }
+  },
+
+  {
+    "type":"confirmReservations",
+    "method":"POST",
+    "url":"/resources/guide/{guideId}/departure/{departureId}/reservation",
+    "payload":{
+      "transportId":"undefined",
+      "out":{
+        "location":"OT",
+        "transfer":"D",
+        "transferCity":"201",
+        "accommodation":"NA",
+        "bag":"OT"
+      },
+      "home":{
+        "location":"OT",
+        "transfer":"D",
+        "transferCity":"201",
+        "accommodation":"NA",
+        "bag":"OT"
+      }
+    }
+  },
+
+  {
+    "type": "uploadStats",
+    "method": "POST",
+    "url": "/resources/departure/{departureId}/guide/{guideId}/statistics",
+    "payload": {
+      "transportId": "undefined",
+      "excursions": [
+        {
+          "id": "122716",
+          "adultCount": 0,
+          "childCount": 16
+        },
+        {
+          "id": "122717",
+          "adultCount": 0,
+          "childCount": 12
+        },
+        {
+          "id": "122718",
+          "adultCount": 0,
+          "childCount": 16
+        }
+      ],
+      "totalPassengers": 45
+    }
+  },
+
+  {
+    "type": "uploadOrderStats",
+    "method": "POST",
+    "url": "/resources/departure/{departureId}/guide/{guideId}/invoiceDetails",
+    "payload": [
+      {
+        "transportId": "undefined",
+        "booking": "665410",
+        "invoicee": "740594",
+        "excursions": [
+          {
+            "id": "122716",
+            "adultCount": 0,
+            "childCount": 2
+          },
+          {
+            "id": "122717",
+            "adultCount": 0,
+            "childCount": 2
+          },
+          {
+            "id": "122718",
+            "adultCount": 0,
+            "childCount": 2
+          }
+        ],
+        "extra": [
+          {
+            "text": "Taxi",
+            "amount": "55"
+          },
+          {
+            "text": "Bus",
+            "amount": "96"
+          }
+        ],
+        "details": [
+          {
+            "meal": "101",
+            "adultCount": 1,
+            "childCount": 1
+          },
+          {
+            "meal": "102",
+            "adultCount": 1,
+            "childCount": 0
+          },
+          {
+            "meal": "105",
+            "adultCount": 0,
+            "childCount": 1
+          }
+        ]
+      },
+      {
+        "transportId": "undefined",
+        "booking": "665709",
+        "invoicee": "741726",
+        "excursions": [
+          {
+            "id": "122716",
+            "adultCount": 0,
+            "childCount": 4
+          },
+          {
+            "id": "122717",
+            "adultCount": 0,
+            "childCount": 0
+          },
+          {
+            "id": "122718",
+            "adultCount": 0,
+            "childCount": 4
+          }
+        ],
+        "extra": [
+          {
+            "text": "Taxi",
+            "amount": "99"
+          },
+          {
+            "text": "Hello",
+            "amount": "45"
+          }
+        ],
+        "details": [
+          {
+            "meal": "102",
+            "adultCount": 1,
+            "childCount": 0
+          },
+          {
+            "meal": "103",
+            "adultCount": 1,
+            "childCount": 0
+          },
+          {
+            "meal": "104",
+            "adultCount": 1,
+            "childCount": 0
+          },
+          {
+            "meal": "105",
+            "adultCount": 0,
+            "childCount": 2
+          },
+          {
+            "meal": "106",
+            "adultCount": 0,
+            "childCount": 2
+          },
+          {
+            "meal": "107",
+            "adultCount": 0,
+            "childCount": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "type": "getUserDetails",
+    "method": "GET",
+    "url": "/resources/guide/{userId}",
+    "payload": {}
+  },
+
+  {
+    "type": "updateProfile",
+    "method": "POST",
+    "url": "/resources/guide/{userId}",
+    "payload": [
+      {
+        "column": "address",
+        "old": "",
+        "new": "83/1, East Rajabazar"
+      },
+      {
+        "column": "city",
+        "old": "",
+        "new": "Dhaka"
+      },
+      {
+        "column": "zip",
+        "old": "",
+        "new": "1209"
+      },
+      {
+        "column": "phone",
+        "old": "",
+        "new": "+8801675120609"
+      }
+    ]
+  },
+
+  {
+    "type":"downloadAppData",
+    "method":"GET",
+    "url":"/resources/guide/{guideId}/appdata",
+    "payload":{}
+  },
+
+  {
+    "type": "syncData",
+    "method": "POST",
+    "url": "/resources/guide/{guideId}/appdata",
+    "payload": {
+      "data": {},
+      "lastSyncedTime": 1552542373340
+    }
+  }
+
+
+]

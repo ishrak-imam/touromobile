@@ -5,11 +5,13 @@ import {
   mockTrips, mockAcceptAssignment,
   mockConfirmReservations, mockConnections
 } from '../../mockData'
+// import { createDoc } from '../../../api_doc/docCreator'
 
 export const getTrips = (guideId, jwt) => {
   const headers = {
     'Authorization': `Bearer ${jwt}`
   }
+  // createDoc('GET', '/resources/guide/{guideId}/overview', {}, 'getTrips')
   return config.useMockData
     ? mockTrips()
     : getRequest(`resources/guide/${guideId}/overview`, headers)
@@ -19,6 +21,7 @@ export const acceptAssignment = (guideId, departureId, data, jwt) => {
   const headers = {
     'Authorization': `Bearer ${jwt}`
   }
+  // createDoc('POST', '/resources/guide/{guideId}/departure/{departureId}/accept', data, 'acceptAssignment')
   return config.useMockData
     ? mockAcceptAssignment()
     : postRequest(
@@ -32,6 +35,7 @@ export const confirmReservations = (guideId, departureId, data, jwt) => {
   const headers = {
     'Authorization': `Bearer ${jwt}`
   }
+  // createDoc('POST', '/resources/guide/{guideId}/departure/{departureId}/reservation', data, 'confirmReservations')
   return config.useMockData
     ? mockConfirmReservations()
     : postRequest(
@@ -45,7 +49,7 @@ export const getConnections = (jwt) => {
   const headers = {
     'Authorization': `Bearer ${jwt}`
   }
-
+  // createDoc('GET', '/resources/connectionlocation', {}, 'getConnections')
   return config.useMockData
     ? mockConnections()
     : getRequest('resources/connectionlocation', headers)
