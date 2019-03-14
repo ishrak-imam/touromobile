@@ -44,7 +44,8 @@ const getIconName = name => {
     plus: ['ios-add', 'md-add'],
     minus: ['ios-remove', 'md-remove'],
     undo: ['ios-undo', 'md-undo'],
-    radioOff: ['ios-radio-button-off', 'md-radio-button-off']
+    radioOff: ['ios-radio-button-off', 'md-radio-button-off'],
+    globe: ['md-globe', 'md-globe']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]

@@ -13,7 +13,8 @@ export default {
     logout: 'Log out',
     currentTrip: 'Current trip',
     futureTrips: 'Future trips',
-    pastTrips: 'Past trips'
+    pastTrips: 'Past trips',
+    pendingSms: 'Pending SMS'
   },
   CurrentTripScreen: {
     title: 'Current trip',
@@ -197,5 +198,14 @@ export default {
     failMsg: 'Sending message failed.',
     header: 'Internet connection is not available.',
     body: 'The group SMS could not be sent. The SMS message is stored under "Pending SMS". When the internet connection is back you can go to the "Pending SMS" view and send any stored message.'
+  },
+  PendingSmsScreen: {
+    title: 'Pending SMS',
+    sucsMsg: 'Sending message successful.',
+    failMsg: 'Sending message failed.',
+    send: 'Send',
+    enterText: 'Enter text...',
+    warning: 'Are you sure you want to delete the SMS?',
+    noMoreSms: 'No more SMS'
   }
 }

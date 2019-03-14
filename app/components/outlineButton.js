@@ -2,18 +2,22 @@
 import React, { Component } from 'react'
 import {
   TouchableOpacity, Text,
-  StyleSheet
+  StyleSheet, ActivityIndicator
 } from 'react-native'
 import { Colors } from '../theme'
 
 export default class OutLineButton extends Component {
   render () {
-    const { onPress, text, disabled, color } = this.props
+    const { onPress, text, disabled, color, isLoading } = this.props
     const backgroundColor = disabled ? Colors.steel : color
     const textColor = disabled ? Colors.charcoal : Colors.silver
     return (
       <TouchableOpacity style={[ss.button, { backgroundColor }]} onPress={onPress} disabled={disabled}>
-        <Text style={{ color: textColor }}>{text}</Text>
+        {
+          isLoading
+            ? <ActivityIndicator size='small' color={Colors.blue} />
+            : <Text style={{ color: textColor }}>{text}</Text>
+        }
       </TouchableOpacity>
     )
   }

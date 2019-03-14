@@ -35,7 +35,7 @@ class SMSScreen extends Component {
     return () => {
       Keyboard.dismiss()
       const { message } = this.state
-      if (!connection.get('online')) {
+      if (connection.get('online')) {
         actionDispatcher(sendSmsReq({
           smsPayload: {
             message,
@@ -56,10 +56,12 @@ class SMSScreen extends Component {
         actionDispatcher(storePendingSms({
           key: this._messageId,
           smsPayload: getMap({
+            id: this._messageId,
             isLoading: false,
             sent: false,
             message,
-            recipients: numbers
+            recipients: numbers,
+            createdAt: new Date().toISOString()
           })
         }))
       }
@@ -88,6 +90,7 @@ class SMSScreen extends Component {
             style={ss.input}
             onChangeText={this._onChangeText}
             multiline
+            autoCorrect={false}
           />
           <View style={ss.footer}>
             <OutLineButton
@@ -126,7 +129,8 @@ const ss = StyleSheet.create({
     borderColor: Colors.charcoal,
     borderRadius: 2,
     padding: 5,
-    marginTop: 20
+    marginTop: 20,
+    textAlignVertical: 'top'
   },
   footer: {
     height: 50,

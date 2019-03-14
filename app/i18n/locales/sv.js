@@ -13,7 +13,8 @@ export default {
     logout: 'Logga ut',
     currentTrip: 'Pågående resa',
     futureTrips: 'Framtida resor',
-    pastTrips: 'Tidigare resor'
+    pastTrips: 'Tidigare resor',
+    pendingSms: 'Väntande SMS'
   },
   CurrentTripScreen: {
     title: 'Pågående resa',
@@ -198,5 +199,14 @@ export default {
     failMsg: 'Skickar meddelandet misslyckades.',
     header: 'Internet är inte tillgängligt.',
     body: 'Ditt grupp-SMS kunde inte skickas. Meddelandet lagras under "Väntande SMS". När internetuppkopplingen är tillbaka kan du gå till "Väntande SMS" och skicka dina sparade meddelanden.'
+  },
+  PendingSmsScreen: {
+    title: 'Väntande SMS',
+    sucsMsg: 'Skickar meddelandet framgångsrikt.',
+    failMsg: 'Skickar meddelandet misslyckades.',
+    send: 'Skicka',
+    enterText: 'Skriv text...',
+    warning: 'Är du säker på att du vill radera SMS?',
+    noMoreSms: 'Inget mer SMS'
   }
 }

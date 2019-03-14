@@ -22,7 +22,8 @@ import {
   pendingStatsUploadCount,
   remainingFutureTripsCount,
   // getTrips,
-  currentTripSelector
+  currentTripSelector,
+  pendingSmsCount
 } from '../selectors'
 import Translator from '../utils/translator'
 import config from '../utils/config'
@@ -34,7 +35,8 @@ const _T = Translator('DrawerScreen')
 const menuItems = [
   { routeName: 'Trip', text: 'currentTrip', icon: 'home' },
   { routeName: 'FutureTrips', text: 'futureTrips', icon: 'futureTrips' },
-  { routeName: 'PastTrips', text: 'pastTrips', icon: 'pastTrips' }
+  { routeName: 'PastTrips', text: 'pastTrips', icon: 'pastTrips' },
+  { routeName: 'PendingSms', text: 'pendingSms', icon: 'sms' }
 ]
 
 class TMDrawer extends Component {
@@ -112,14 +114,15 @@ class TMDrawer extends Component {
   }
 
   _renderMenuItems = () => {
-    const { pendingUploadCount, remainingFutureTrips, currentTrip } = this.props
+    const { pendingUploadCount, remainingFutureTrips, pendingSmsCount, currentTrip } = this.props
     const hasCurrentTrip = currentTrip.get('has')
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
       const currentRoute = this.props.nav.get('screen')
 
       const isSelected = routeName === currentRoute
-      const isDisabled = !hasCurrentTrip && routeName === 'Trip'
+      const isDisabled = (!hasCurrentTrip && routeName === 'Trip') ||
+                          (!pendingSmsCount && routeName === 'PendingSms')
 
       let backgroundColor = 'transparent'
       let color = Colors.black
@@ -150,6 +153,10 @@ class TMDrawer extends Component {
             {
               (routeName === 'FutureTrips' && !!remainingFutureTrips) &&
               <Badge type='warning'><Text style={ss.badgeText}>{remainingFutureTrips}</Text></Badge>
+            }
+            {
+              (routeName === 'PendingSms' && !!pendingSmsCount) &&
+              <Badge type='warning'><Text style={ss.badgeText}>{pendingSmsCount}</Text></Badge>
             }
           </Right>
         </ListItem>
@@ -207,6 +214,7 @@ const stateToProps = state => ({
   user: getLogin(state).get('user'),
   nav: getNavigation(state),
   pendingUploadCount: pendingStatsUploadCount(state),
+  pendingSmsCount: pendingSmsCount(state),
   remainingFutureTrips: remainingFutureTripsCount(state),
   // trips: getTrips(state)
   currentTrip: currentTripSelector(state)

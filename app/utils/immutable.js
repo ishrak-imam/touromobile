@@ -101,6 +101,12 @@ export const listToMap = (list, key) => {
   return list.reduce((map, item) => map.set(String(item.get(key)), item), getMap({}))
 }
 
+export const mapToList = map => {
+  return map.reduce((list, m) => {
+    return list.push(m)
+  }, getList([]))
+}
+
 export const chunkList = (list, size) => {
   let chunkedList = getList([])
   const noOfChunks = Math.ceil(list.size / size)
