@@ -153,7 +153,8 @@ class OrdersScreen extends Component {
         {
           orderMode === SUMMARY_MODE &&
           <SummaryOrderItem
-            direction='out'
+            // direction='out'
+            booking={booking}
             pax={booking.get('pax')}
             bookingId={bookingId}
             departureId={departureId}
