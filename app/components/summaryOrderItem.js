@@ -242,17 +242,6 @@ class SummaryOrderItem extends Component {
     return (
       <View style={ss.container}>
 
-        {
-          screen === 'booking' &&
-          <SelectInvoiceeSummaryMode
-            booking={booking}
-            pax={pax}
-            direction={direction}
-            bookingId={bookingId}
-            departureId={departureId}
-          />
-        }
-
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           style={ss.scroll}
@@ -260,6 +249,17 @@ class SummaryOrderItem extends Component {
           enableOnAndroid
           keyboardShouldPersistTaps='always'
         >
+          {
+            screen === 'booking' &&
+            <SelectInvoiceeSummaryMode
+              booking={booking}
+              pax={pax}
+              direction={direction}
+              bookingId={bookingId}
+              departureId={departureId}
+            />
+          }
+
           {this._renderLunchOrders()}
           {this._renderExcursionOrders()}
           {this._renderExtraOrders()}
@@ -284,7 +284,7 @@ export default connect(stateToProps, null)(SummaryOrderItem)
 const ss = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 10,
+    // marginTop: 10,
     marginHorizontal: 15
   },
   boldText: {
@@ -299,7 +299,7 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0
   },
   scroll: {
-    marginTop: 5,
+    // marginTop: 5,
     marginBottom: isIphoneX ? 30 : 20
   },
   topHeader: {

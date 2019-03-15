@@ -77,14 +77,23 @@ export const getOrderStats = (orders, extraOrders, transportId, orderMode, excur
       const aggregated = {
         transportId,
         booking: key,
-        invoicee: '',
+        invoicee: {},
         excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
         extra: prepareExtraData(extraOrders, key)
       }
 
       let details = {}
       if (orderMode === 'SUMMARY') {
-        aggregated.invoicee = bOrders.getIn(['invoicee', 'key'])
+        const invoicee = bOrders.get('invoicee')
+        // aggregated.invoicee = bOrders.getIn(['invoicee', 'key'])
+        aggregated.invoicee = {
+          address: invoicee.get('address'),
+          city: invoicee.get('city'),
+          zip: invoicee.get('zip'),
+          ssn: invoicee.get('ssn'),
+          name: invoicee.get('name'),
+          id: invoicee.get('id')
+        }
         const out = bOrders.get('out')
         if (out && out.size > 0) {
           const meals = out.get('meal')
@@ -161,7 +170,7 @@ export const getOrderStats = (orders, extraOrders, transportId, orderMode, excur
       const aggregated = {
         transportId,
         booking: key,
-        invoicee: '',
+        invoicee: {},
         excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
         extra: prepareExtraData(extraOrders, key)
       }
@@ -177,7 +186,7 @@ export const getOrderStats = (orders, extraOrders, transportId, orderMode, excur
       const aggregated = {
         transportId,
         booking: key,
-        invoicee: '',
+        invoicee: {},
         excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
         extra: prepareExtraData(extraOrders, key)
       }

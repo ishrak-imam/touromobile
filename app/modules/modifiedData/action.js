@@ -33,7 +33,9 @@ export const SYNC_MODIFIED_DATA_FAIL = 'SYNC_MODIFIED_DATA_FAIL'
 
 export const SET_DOWNLOADED_MODIFIED_DATA = 'SET_DOWNLOADED_MODIFIED_DATA'
 
-// export const DELETE_MODIFIED_DATA = 'DELETE_MODIFIED_DATA'
+export const SSN_DATA_REQ = 'SSN_DATA_REQ'
+export const SSN_DATA_SUCS = 'SSN_DATA_SUCS'
+export const SSN_DATA_FAIL = 'SSN_DATA_FAIL'
 
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
 export const setParticipants = createAction(SET_PARTICIPANTS)
@@ -67,4 +69,6 @@ export const syncModifiedDataFail = createAction(SYNC_MODIFIED_DATA_FAIL)
 
 export const setDownloadedModifiedData = createAction(SET_DOWNLOADED_MODIFIED_DATA)
 
-// export const deleteModifiedData = createAction(DELETE_MODIFIED_DATA)
+export const ssnDataReq = createAction(SSN_DATA_REQ)
+export const ssnDataSucs = createAction(SSN_DATA_SUCS)
+export const ssnDataFail = createAction(SSN_DATA_FAIL)

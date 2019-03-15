@@ -138,3 +138,16 @@ export const mockSendSms = () => new Promise(resolve => {
     return resolve({ ok: true })
   }, 2000)
 })
+
+export const mockSSNData = () => new Promise(resolve => {
+  setTimeout(() => {
+    return resolve({
+      FirstName: 'Ishrak',
+      LastName: 'Ibne Imam',
+      Address: '83/1 East Rajabazar, Farmgate',
+      Zip: '1209',
+      City: 'Dhaka',
+      Email: 'ishrak@cefalo.com'
+    })
+  }, 2000)
+})

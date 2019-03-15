@@ -1,13 +1,18 @@
 
 import { call, put, takeEvery } from 'redux-saga/effects'
+import { takeFirst } from '../../utils/sagaHelpers'
 
 import {
   syncModifiedData,
   syncModifiedDataSucs,
-  syncModifiedDataFail
+  syncModifiedDataFail,
+
+  ssnDataReq,
+  ssnDataSucs,
+  ssnDataFail
 } from './action'
 
-import { syncData } from './api'
+import { syncData, getSSNdata } from './api'
 
 export function * watchSyncModifiedData () {
   yield takeEvery(syncModifiedData.getType(), workerSyncModifiedData)
@@ -20,5 +25,29 @@ function * workerSyncModifiedData (action) {
     yield put(syncModifiedDataSucs(lastSyncedTime))
   } catch (e) {
     yield put(syncModifiedDataFail(e))
+  }
+}
+
+export function * watchSsnDataReq () {
+  yield takeFirst(ssnDataReq.getType(), workerSsnDataReq)
+}
+
+function * workerSsnDataReq (action) {
+  const { ssn, departureId, bookingId } = action.payload
+  try {
+    const ssnData = yield call(getSSNdata, ssn)
+    const invoicee = {
+      address: ssnData.Address,
+      city: ssnData.City,
+      ssn,
+      zip: ssnData.Zip
+    }
+    yield put(ssnDataSucs({
+      departureId,
+      bookingId,
+      invoicee
+    }))
+  } catch (e) {
+    yield put(ssnDataFail(e))
   }
 }

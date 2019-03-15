@@ -89,7 +89,7 @@ class ProfileScreen extends Component {
         </ScrollView>
         <FloatingButton
           topOffset={80}
-          icon='download'
+          icon='cloudDownload'
           onPress={this._onDownloadData(guideId)}
           loading={isLoading}
         />

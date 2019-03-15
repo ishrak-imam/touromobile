@@ -33,9 +33,11 @@ import {
   RESET_ALL_ORDERS,
 
   SYNC_MODIFIED_DATA_SUCS,
-  SET_DOWNLOADED_MODIFIED_DATA
+  SET_DOWNLOADED_MODIFIED_DATA,
 
-  // DELETE_MODIFIED_DATA
+  SSN_DATA_REQ,
+  SSN_DATA_SUCS,
+  SSN_DATA_FAIL
 } from './action'
 
 import {
@@ -245,10 +247,43 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     return setIntoMap(state, 'lastSyncedTime', payload)
   },
 
-  [SET_DOWNLOADED_MODIFIED_DATA]: (state, payload) => payload
+  [SET_DOWNLOADED_MODIFIED_DATA]: (state, payload) => payload,
 
-  // [DELETE_MODIFIED_DATA]: (state, payload) => {
-  //   return deleteFromMap(state, payload.departureId)
-  // }
+  [SSN_DATA_REQ]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let ordersSummaryMode = readValue('ordersSummaryMode', modifiedData) || getMap({})
+    let orderForBooking = readValue(payload.bookingId, ordersSummaryMode) || getMap({})
+    let invoicee = readValue('invoicee', orderForBooking)
+    invoicee = setIntoMap(invoicee, 'isLoading', true)
+    orderForBooking = setIntoMap(orderForBooking, 'invoicee', invoicee)
+    ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SSN_DATA_SUCS]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let ordersSummaryMode = readValue('ordersSummaryMode', modifiedData) || getMap({})
+    let orderForBooking = readValue(payload.bookingId, ordersSummaryMode) || getMap({})
+    let invoicee = readValue('invoicee', orderForBooking)
+    invoicee = mergeMapShallow(invoicee, getMap(payload.invoicee))
+    invoicee = setIntoMap(invoicee, 'isLoading', false)
+    orderForBooking = setIntoMap(orderForBooking, 'invoicee', invoicee)
+    ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SSN_DATA_FAIL]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let ordersSummaryMode = readValue('ordersSummaryMode', modifiedData) || getMap({})
+    let orderForBooking = readValue(payload.bookingId, ordersSummaryMode) || getMap({})
+    let invoicee = readValue('invoicee', orderForBooking)
+    invoicee = setIntoMap(invoicee, 'isLoading', false)
+    orderForBooking = setIntoMap(orderForBooking, 'invoicee', invoicee)
+    ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  }
 
 })

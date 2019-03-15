@@ -5,7 +5,8 @@ import { Ionicons } from '@expo/vector-icons'
 const getIconName = name => {
   const icons = {
     upload: ['md-cloud-upload', 'md-cloud-upload'],
-    download: ['md-cloud-download', 'md-cloud-download'],
+    cloudDownload: ['md-cloud-download', 'md-cloud-download'],
+    download: ['md-download', 'md-download'],
     menu: ['ios-menu', 'md-menu'],
     home: ['ios-home', 'md-home'],
     people: ['ios-people', 'md-people'],

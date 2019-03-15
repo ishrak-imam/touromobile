@@ -155,7 +155,12 @@ export default {
     selectInvoicee: 'Select invoicee',
     invoiceeSelection: 'Invoicee selection',
     noMealData: 'No meals found.',
-    noExcursions: 'No excursions found for this trip.'
+    noExcursions: 'No excursions found for this trip.',
+    ssnHeader: 'Get address details from the passenger',
+    ssn: 'SSN',
+    address: 'Address',
+    city: 'City',
+    zip: 'zip'
   },
   NoData: {
     fetchingData: 'Fetching data from Touro ...',

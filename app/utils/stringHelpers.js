@@ -47,3 +47,8 @@ export const tripNameFormatter = (str, limit) => {
     subtitle: subtitle
   }
 }
+
+export const checkSSN = ssn => {
+  const re = /^(19|20)?(\d{6}(-|\s)\d{4}|(?!19|20)\d{10})$/
+  return re.test(String(ssn))
+}

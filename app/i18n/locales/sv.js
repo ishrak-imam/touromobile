@@ -156,7 +156,12 @@ export default {
     selectInvoicee: 'Välj fakturamottagare',
     invoiceeSelection: 'Fakturaval',
     noMealData: 'Inga måltider hittades.',
-    noExcursions: 'Inga utflykter hittades för den här resan.'
+    noExcursions: 'Inga utflykter hittades för den här resan.',
+    ssnHeader: 'Be om resenärens adressuppgifter',
+    ssn: 'PNR',
+    address: 'Address',
+    city: 'Ort',
+    zip: 'Postnummer'
   },
   NoData: {
     fetchingData: 'Hämtar data från Touro ...',
