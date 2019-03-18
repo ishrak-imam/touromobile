@@ -77,12 +77,16 @@ export function * watchTripsActionsOnSuccess () {
 }
 
 function * workerTripsActionsOnSuccess (action) {
-  const { pendingModal } = action.payload
-  yield put(getCurrentTrip())
-  yield put(getFutureTrips())
-  yield put(getPastTrips())
-  yield put(getPendingStatsUpload(pendingModal))
-  yield put(getRemainingFutureTrips())
+  try {
+    const { pendingModal } = action.payload
+    yield put(getCurrentTrip())
+    yield put(getFutureTrips())
+    yield put(getPastTrips())
+    yield put(getPendingStatsUpload(pendingModal))
+    yield put(getRemainingFutureTrips())
+  } catch (e) {
+    console.log('TRIPS_ACTION_ON_SUCCESS_FAIL', e)
+  }
 }
 
 export function * watchTripNavigation () {

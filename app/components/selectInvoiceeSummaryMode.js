@@ -24,9 +24,10 @@ class SelectInvoiceeSummaryMode extends Component {
     super(props)
     const { booking, invoicee } = props
     const customer = booking.get('customer')
+    const ssn = invoicee.get('ssn') || customer.get('ssn') || ''
     this.state = {
-      isValidSSN: false,
-      ssn: invoicee.get('ssn') || customer.get('ssn') || '',
+      isValidSSN: !!ssn,
+      ssn,
       address: invoicee.get('address') || customer.get('address') || '',
       zip: invoicee.get('zip') || customer.get('zip') || '',
       city: invoicee.get('city') || customer.get('city') || ''
