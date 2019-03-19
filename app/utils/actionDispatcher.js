@@ -11,6 +11,7 @@ export const networkActionDispatcher = action => {
   const connection = getConnection(store.getState())
   const isOnline = readValue('online', connection)
   isOnline ? dispatch(action) : dispatch(notOnline)
+  // dispatch(action)
 }
 
 export const actionDispatcher = action => {

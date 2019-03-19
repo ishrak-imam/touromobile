@@ -48,6 +48,9 @@ function * workerSsnDataReq (action) {
       invoicee
     }))
   } catch (e) {
-    yield put(ssnDataFail(e))
+    yield put(ssnDataFail({
+      departureId,
+      bookingId
+    }))
   }
 }
