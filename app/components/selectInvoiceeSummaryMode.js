@@ -22,17 +22,42 @@ const _T = Translator('OrdersScreen')
 class SelectInvoiceeSummaryMode extends Component {
   constructor (props) {
     super(props)
-    const { booking, invoicee } = props
-    const customer = booking.get('customer')
-    const ssn = invoicee.get('ssn') || customer.get('ssn') || ''
+
+    const { invoicee } = props
+    const ssn = invoicee.get('ssn')
+    const address = invoicee.get('address')
+    const city = invoicee.get('city')
+    const zip = invoicee.get('zip')
     this.state = {
+      dirty: false,
       isValidSSN: !!ssn,
       ssn,
-      address: invoicee.get('address') || customer.get('address') || '',
-      zip: invoicee.get('zip') || customer.get('zip') || '',
-      city: invoicee.get('city') || customer.get('city') || ''
+      address,
+      city,
+      zip
     }
+    // actionDispatcher(ssnDataSucs({
+    //   departureId,
+    //   bookingId,
+    //   invoicee: {
+    //     ssn, address, city, zip
+    //   }
+    // }))
+
     this._checkSSNDebounce = debounce(this._checkSSN, 200)
+  }
+
+  _onCancel = () => {
+    const { invoicee } = this.props
+    const ssn = invoicee.get('ssn')
+    this.setState({
+      dirty: false,
+      isValidSSN: !!ssn,
+      ssn,
+      address: invoicee.get('address'),
+      zip: invoicee.get('zip'),
+      city: invoicee.get('city')
+    })
   }
 
   componentDidMount () {
@@ -41,13 +66,37 @@ class SelectInvoiceeSummaryMode extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { booking } = this.props
-    const customer = booking.get('customer')
-    const { invoicee } = nextProps
+    const { invoicee, bookingId, departureId } = nextProps
+    const prevInvoicee = this.props.invoicee
+    const customer = this.props.booking.get('customer')
+    const customerName = `${customer.get('firstName')} ${customer.get('lastName')}`
+    let addressDetails = null
+    if (customerName === invoicee.get('name') && invoicee.get('id') !== prevInvoicee.get('id')) {
+      const ssn = customer.get('ssn')
+      const address = customer.get('address')
+      const city = customer.get('city')
+      const zip = customer.get('zip')
+      addressDetails = {
+        ssn, zip, city, address
+      }
+      actionDispatcher(ssnDataSucs({
+        departureId,
+        bookingId,
+        invoicee: {
+          ssn, address, city, zip
+        }
+      }))
+    } else {
+      addressDetails = {
+        ssn: invoicee.get('ssn'),
+        address: invoicee.get('address'),
+        city: invoicee.get('city'),
+        zip: invoicee.get('zip')
+      }
+    }
+
     this.setState({
-      address: invoicee.get('address') || customer.get('address') || '',
-      zip: invoicee.get('zip') || customer.get('zip') || '',
-      city: invoicee.get('city') || customer.get('city') || ''
+      ...addressDetails
     })
   }
 
@@ -129,7 +178,7 @@ class SelectInvoiceeSummaryMode extends Component {
   }
 
   _onChangeText = field => text => {
-    this.setState({ [field]: text }, () => {
+    this.setState({ [field]: text, dirty: true }, () => {
       if (field === 'ssn') this._checkSSNDebounce()
     })
   }
@@ -138,6 +187,7 @@ class SelectInvoiceeSummaryMode extends Component {
     Keyboard.dismiss()
     const { ssn } = this.state
     const { bookingId, departureId } = this.props
+    this.setState({ dirty: false })
     networkActionDispatcher(ssnDataReq({
       ssn,
       bookingId,
@@ -151,19 +201,23 @@ class SelectInvoiceeSummaryMode extends Component {
   }
 
   _onSave = () => {
+    Keyboard.dismiss()
     const { ssn, address, city, zip } = this.state
     const { departureId, bookingId } = this.props
+    this.setState({ dirty: false })
     actionDispatcher(ssnDataSucs({
       departureId,
       bookingId,
       invoicee: {
         ssn, address, city, zip
-      }
+      },
+      toast: true,
+      message: _T('sucsMsg')
     }))
   }
 
   _renderAddressInput = () => {
-    const { isValidSSN, ssn, address, zip, city } = this.state
+    const { dirty, isValidSSN, ssn, address, zip, city } = this.state
     const { invoicee } = this.props
     const isLoading = invoicee.get('isLoading')
 
@@ -258,7 +312,7 @@ class SelectInvoiceeSummaryMode extends Component {
         </View>
 
         <View style={ss.footer}>
-          <FooterButtons onSave={this._onSave} hideCancel />
+          <FooterButtons disabled={!dirty} onSave={this._onSave} onCancel={this._onCancel} />
         </View>
 
       </View>

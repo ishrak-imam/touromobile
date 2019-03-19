@@ -160,7 +160,8 @@ export default {
     ssn: 'SSN',
     address: 'Address',
     city: 'City',
-    zip: 'zip'
+    zip: 'zip',
+    sucsMsg: 'Information saved successfully'
   },
   NoData: {
     fetchingData: 'Fetching data from Touro ...',

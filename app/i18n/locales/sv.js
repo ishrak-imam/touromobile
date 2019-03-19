@@ -161,7 +161,8 @@ export default {
     ssn: 'PNR',
     address: 'Address',
     city: 'Ort',
-    zip: 'Postnummer'
+    zip: 'Postnummer',
+    sucsMsg: 'Informationen sparas framgångsrikt'
   },
   NoData: {
     fetchingData: 'Hämtar data från Touro ...',
