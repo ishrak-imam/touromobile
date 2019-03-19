@@ -55,7 +55,7 @@ function * workerLogin (action) {
     yield call(localStore.set, USER, formatUserData(result))
     yield put(init())
   } catch (e) {
-    yield put(loginFail({ msg: e || failMsg }))
+    yield put(loginFail({ msg: failMsg }))
   }
 }
 
@@ -69,7 +69,7 @@ function * workerForgotPass (action) {
     yield call(forgotPass, user)
     yield put(forgotPassSucs({ msg: sucsMsg }))
   } catch (e) {
-    yield put(forgotPassFail({ msg: e || failMsg }))
+    yield put(forgotPassFail({ msg: failMsg }))
   }
 }
 

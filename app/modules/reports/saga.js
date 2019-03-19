@@ -35,7 +35,7 @@ function * workerUploadStats (action) {
     yield put(uploadStatsFail({
       departureId,
       toast: showToast,
-      message: e || failMsg
+      message: failMsg
     }))
   }
 }
