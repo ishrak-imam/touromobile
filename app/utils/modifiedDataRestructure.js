@@ -4,20 +4,27 @@ import { getMap, getList, getSet } from '../utils/immutable'
 import { getPax } from '../selectors'
 
 export const restructureData = (modifiedData, allTrips, currentVersion) => {
-  const caseName = findCaseName(currentVersion || '0.0.0', config.version)
-  return restructurar(modifiedData, allTrips, caseName)
+  const caseNames = findCaseNames(currentVersion || 0, config.structureVersion)
+  let restructuredData = modifiedData
+  caseNames.forEach(caseName => {
+    restructuredData = restructurar(modifiedData, allTrips, caseName)
+  })
+  return restructuredData
 }
 
-function findCaseName (from, to) {
-  const fromV = from.split('.')[2]
-  const toV = to.split('.')[2]
-  return `_${fromV}-to-${toV}`
+function findCaseNames (from, to) {
+  let caseNames = []
+  for (let i = from; i < to; i++) {
+    let val = i
+    caseNames.push(`_${val}-to-${++val}`)
+  }
+  return caseNames
 }
 
 function restructurar (modifiedData, allTrips, caseName) {
   switch (caseName) {
-    case '_0-to-5':
-      return _0To5(modifiedData, allTrips)
+    case '_5-to-6':
+      return _5To6(modifiedData, allTrips)
     default:
       return modifiedData
   }
@@ -49,7 +56,7 @@ function findBookingIdWithPaxId (paxId, trip) {
   return String(p.get('booking').get('id'))
 }
 
-function _0To5 (modifiedData, allTrips) {
+function _5To6 (modifiedData, allTrips) {
   return modifiedData.reduce((map, tripOrder, key) => {
     if (key === 'lastSyncedTime') map = map.set('lastSyncedTime', modifiedData.get('lastSyncedTime'))
     else {
@@ -102,7 +109,7 @@ function _0To5 (modifiedData, allTrips) {
 
       map = map.set(departureId, newTripOrder)
     }
-    map = map.set('structureVersion', config.version)
+    map = map.set('structureVersion', config.structureVersion)
     return map
   }, getMap({}))
 }
