@@ -20,7 +20,7 @@ import {
   downloadAppDataFail
 } from './action'
 
-import { setDownloadedModifiedData } from '../modifiedData/action'
+import { setDownloadedModifiedData, restructureModifiedData } from '../modifiedData/action'
 
 import {
   getUserDetails,
@@ -119,6 +119,7 @@ function * workerDownloadAppData (action) {
         modifiedData,
         getImmutableObject({ lastSyncedTime, ...data })
       )))
+      yield put(restructureModifiedData())
     }
     yield put(downloadAppDataSucs({
       toast: showToast,

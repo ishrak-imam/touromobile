@@ -37,6 +37,8 @@ export const SSN_DATA_REQ = 'SSN_DATA_REQ'
 export const SSN_DATA_SUCS = 'SSN_DATA_SUCS'
 export const SSN_DATA_FAIL = 'SSN_DATA_FAIL'
 
+export const RESTRUCTURE_MODIFIED_DATA = 'RESTRUCTURE_MODIFIED_DATA'
+
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
 export const setParticipants = createAction(SET_PARTICIPANTS)
 
@@ -72,3 +74,5 @@ export const setDownloadedModifiedData = createAction(SET_DOWNLOADED_MODIFIED_DA
 export const ssnDataReq = createAction(SSN_DATA_REQ)
 export const ssnDataSucs = createAction(SSN_DATA_SUCS)
 export const ssnDataFail = createAction(SSN_DATA_FAIL)
+
+export const restructureModifiedData = createAction(RESTRUCTURE_MODIFIED_DATA)

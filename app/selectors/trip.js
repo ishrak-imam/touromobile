@@ -266,6 +266,8 @@ const resolvers = {
 
 export const getTrips = state => state.trips
 
+export const getTripsData = state => state.trips.get('data')
+
 export const currentTripSelector = state => state.trips.get('current')
 
 export const futureTripsSelector = state => state.trips.get('future')

@@ -7,6 +7,7 @@ export const getJwt = state => state.login.getIn(['user', 'accessToken'])
 export const getImageCache = state => state.imageCache
 
 export const {
+  getTripsData,
   getConnections,
   checkIfFlightTrip,
   checkIfBusTrip,

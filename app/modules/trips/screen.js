@@ -9,13 +9,14 @@ import {
   connectionsReq
 } from './action'
 import {
-  networkActionDispatcher
+  networkActionDispatcher, actionDispatcher
 } from '../../utils/actionDispatcher'
 import Trip from '../../components/trip'
 import { getTrips, getUser } from '../../selectors'
 import NoData from '../../components/noData'
 import { ScrollView, RefreshControl } from 'react-native'
 import OverlaySpinner from '../../components/overlaySpinner'
+import { restructureModifiedData } from '../modifiedData/action'
 
 const _T = Translator('CurrentTripScreen')
 
@@ -33,6 +34,7 @@ class TripScreen extends Component {
   }
 
   componentDidMount () {
+    actionDispatcher(restructureModifiedData())
     this._showContent()
   }
 

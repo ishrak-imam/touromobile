@@ -1,5 +1,5 @@
 
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 
 import {
@@ -9,10 +9,18 @@ import {
 
   ssnDataReq,
   ssnDataSucs,
-  ssnDataFail
+  ssnDataFail,
+
+  setDownloadedModifiedData,
+
+  restructureModifiedData
 } from './action'
 
 import { syncData, getSSNdata } from './api'
+
+import { getModifiedData, getTripsData } from '../../selectors'
+
+import { restructureData } from '../../utils/modifiedDataRestructure'
 
 export function * watchSyncModifiedData () {
   yield takeEvery(syncModifiedData.getType(), workerSyncModifiedData)
@@ -53,4 +61,15 @@ function * workerSsnDataReq (action) {
       bookingId
     }))
   }
+}
+
+export function * watchRestructureModifiedData () {
+  yield takeFirst(restructureModifiedData.getType(), workerRestructureModifiedData)
+}
+
+function * workerRestructureModifiedData () {
+  let modifiedData = yield select(getModifiedData)
+  const allTrips = yield select(getTripsData)
+  modifiedData = restructureData(modifiedData, allTrips, modifiedData.get('structureVersion'))
+  yield put(setDownloadedModifiedData(modifiedData))
 }
