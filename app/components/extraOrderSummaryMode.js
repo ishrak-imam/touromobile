@@ -22,6 +22,7 @@ class ExtraOrderSummaryMode extends Component {
       })
     }
     this.state = {
+      dirty: false,
       extraOrders
     }
   }
@@ -43,6 +44,7 @@ class ExtraOrderSummaryMode extends Component {
   _onChangeText = (key, property) => value => {
     const { extraOrders } = this.state
     this.setState({
+      dirty: true,
       extraOrders: extraOrders.setIn([key, property], value)
     })
   }
@@ -55,7 +57,7 @@ class ExtraOrderSummaryMode extends Component {
         [id]: getMap({ id })
       })
     }
-    this.setState({ extraOrders })
+    this.setState({ diry: false, extraOrders })
   }
 
   _onSave = () => {
@@ -67,7 +69,7 @@ class ExtraOrderSummaryMode extends Component {
         bookingId,
         extraOrders: this._filterOutEmptyOrders(extraOrders)
       }))
-      this.setState({ extraOrders })
+      this.setState({ dirty: false, extraOrders })
     }
   }
 
@@ -82,7 +84,7 @@ class ExtraOrderSummaryMode extends Component {
   }
 
   render () {
-    const { extraOrders } = this.state
+    const { dirty, extraOrders } = this.state
 
     return (
       <View style={ss.container}>
@@ -119,7 +121,7 @@ class ExtraOrderSummaryMode extends Component {
           <TouchableOpacity style={ss.plus} onPress={this._onAddItem}>
             <Text style={ss.sign}>+</Text>
           </TouchableOpacity>
-          <FooterButtons onSave={this._onSave} onCancel={this._onCancel} />
+          <FooterButtons disabled={!dirty} onSave={this._onSave} onCancel={this._onCancel} />
         </View>
       </View>
     )
