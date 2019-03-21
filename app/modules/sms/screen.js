@@ -21,23 +21,26 @@ class SMSScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      message: ''
+      message: '',
+      subject: ''
     }
     this._messageId = uuid.v1()
   }
 
-  _onChangeText = message => {
-    this.setState({ message })
+  _onChangeText = field => text => {
+    this.setState({ [field]: text })
   }
 
-  _onSend = numbers => {
+  _onSend = (numbers, brand) => {
     const { connection } = this.props
     return () => {
       Keyboard.dismiss()
-      const { message } = this.state
-      if (connection.get('online')) {
+      const { subject, message } = this.state
+      if (!connection.get('online')) {
         actionDispatcher(sendSmsReq({
           smsPayload: {
+            brand,
+            subject,
             message,
             recipients: numbers.toJS()
           },
@@ -59,8 +62,10 @@ class SMSScreen extends Component {
             id: this._messageId,
             isLoading: false,
             sent: false,
+            subject,
+            brand,
             message,
-            recipients: numbers,
+            to: numbers,
             createdAt: new Date().toISOString()
           })
         }))
@@ -69,7 +74,7 @@ class SMSScreen extends Component {
   }
 
   render () {
-    const { message } = this.state
+    const { subject, message } = this.state
     const { navigation, smsLoading } = this.props
     const numbers = navigation.getParam('numbers')
     const brand = navigation.getParam('brand')
@@ -82,22 +87,35 @@ class SMSScreen extends Component {
           brand={brand}
         />
         <View style={ss.messageContainer}>
-          <Text style={ss.headerText}>{_T('message')}</Text>
+
+          <Text style={ss.headerText}>{_T('subject')}:</Text>
+          <TextInput
+            underlineColorAndroid='transparent'
+            placeholder={_T('enterSub')}
+            value={subject}
+            style={[ss.input, { height: 50 }]}
+            onChangeText={this._onChangeText('subject')}
+            multiline
+            autoCorrect={false}
+          />
+
+          <Text style={ss.headerText}>{_T('message')}:</Text>
           <TextInput
             underlineColorAndroid='transparent'
             placeholder={_T('enterText')}
             value={message}
-            style={ss.input}
-            onChangeText={this._onChangeText}
+            style={[ss.input, { height: 200 }]}
+            onChangeText={this._onChangeText('message')}
             multiline
             autoCorrect={false}
           />
+
           <View style={ss.footer}>
             <OutLineButton
-              disabled={!message}
+              disabled={!message || !subject}
               text={_T('send')}
               color={Colors.green}
-              onPress={this._onSend(numbers)}
+              onPress={this._onSend(numbers, brand)}
             />
           </View>
         </View>
@@ -116,20 +134,20 @@ export default connect(stateToProps, null)(SMSScreen)
 
 const ss = StyleSheet.create({
   messageContainer: {
-    margin: 15,
-    marginTop: 20
+    marginHorizontal: 15
+    // marginTop: 20
   },
   headerText: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginTop: 20
   },
   input: {
-    height: 200,
     width: '100%',
     borderWidth: 1,
     borderColor: Colors.charcoal,
     borderRadius: 2,
     padding: 5,
-    marginTop: 20,
+    marginTop: 10,
     textAlignVertical: 'top'
   },
   footer: {

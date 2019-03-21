@@ -197,8 +197,10 @@ export default {
   },
   SMSScreen: {
     title: 'SMS',
+    subject: 'Subject',
     message: 'Message',
     enterText: 'Enter text...',
+    enterSub: 'Enter subject...',
     send: 'Send',
     sucsMsg: 'Sending message successful.',
     failMsg: 'Sending message failed.',
@@ -210,8 +212,12 @@ export default {
     sucsMsg: 'Sending message successful.',
     failMsg: 'Sending message failed.',
     send: 'Send',
+    subject: 'Subject',
+    message: 'Message',
     enterText: 'Enter text...',
+    enterSub: 'Enter subject...',
     warning: 'Are you sure you want to delete the SMS?',
-    noMoreSms: 'No more SMS'
+    noMoreSms: 'No more SMS',
+    createdAt: 'Created at'
   }
 }

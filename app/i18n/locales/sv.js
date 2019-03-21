@@ -198,8 +198,10 @@ export default {
   },
   SMSScreen: {
     title: 'SMS',
+    subject: 'Ämne',
     message: 'Meddelande',
     enterText: 'Skriv text...',
+    enterSub: 'Skriv ämne...',
     send: 'Skicka',
     sucsMsg: 'Skickar meddelandet framgångsrikt.',
     failMsg: 'Skickar meddelandet misslyckades.',
@@ -211,8 +213,12 @@ export default {
     sucsMsg: 'Skickar meddelandet framgångsrikt.',
     failMsg: 'Skickar meddelandet misslyckades.',
     send: 'Skicka',
+    subject: 'Ämne',
+    message: 'Meddelande',
     enterText: 'Skriv text...',
+    enterSub: 'Skriv ämne...',
     warning: 'Är du säker på att du vill radera SMS?',
-    noMoreSms: 'Inget mer SMS'
+    noMoreSms: 'Inget mer SMS',
+    createdAt: 'Skapad på'
   }
 }

@@ -22,6 +22,7 @@ export const getImageName = url => {
 }
 
 export const stringShorten = (str, limit) => {
+  if (str.length < limit) return str
   return `${str.substring(0, limit)} ...`
 }
 

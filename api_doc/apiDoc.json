@@ -255,6 +255,21 @@
       "data": {},
       "lastSyncedTime": 1552542373340
     }
+  },
+
+  {
+    "type": "sms",
+    "method": "POST",
+    "url": "/functions/sms",
+    "payload": {
+      "brand": "SC",
+      "subject": "Some subject",
+      "message": "Some Message",
+      "to": [
+        "12563",
+        "12563454"
+      ]
+    }
   }
 
 

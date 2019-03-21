@@ -28,12 +28,13 @@ class SMSItem extends Component {
     const { sms } = props
     this.state = {
       editMode: false,
+      subject: sms.get('subject'),
       message: sms.get('message')
     }
   }
 
-  _onChangeText = message => {
-    this.setState({ message })
+  _onChangeText = field => text => {
+    this.setState({ [field]: text })
   }
 
   _toggleEditMode = () => {
@@ -57,10 +58,12 @@ class SMSItem extends Component {
   }
 
   _onSend = sms => () => {
-    const { message } = this.state
+    const { subject, message } = this.state
     const smsPayload = {
+      brand: sms.get('brand'),
+      subject,
       message,
-      recipients: sms.get('recipients').toJS()
+      to: sms.get('to').toJS()
     }
     const smsId = sms.get('id')
     actionDispatcher(sendPendingSmsReq({
@@ -75,35 +78,54 @@ class SMSItem extends Component {
 
   render () {
     const { sms, isOnline } = this.props
-    const { message, editMode } = this.state
+    const { subject, message, editMode } = this.state
     const time = format(sms.get('createdAt'), DATE_FORMAT)
     const smsId = sms.get('id')
     const isLoading = sms.get('isLoading')
+    const brand = sms.get('brand')
 
     return (
       <View style={ss.item}>
         <View style={ss.container}>
-          <View style={ss.header}>
-            <Text style={ss.headerText}>SMS Created {time}</Text>
+          <View style={[ss.header, { backgroundColor: Colors[`${brand}Brand`] }]}>
+            <Text style={ss.headerText}>{_T('createdAt')} {time}</Text>
             <TouchableOpacity onPress={this._onDelete(smsId)}>
-              <IonIcon name='x' color={Colors.cancel} size={30} />
+              <IonIcon name='x' color={Colors.white} size={30} />
             </TouchableOpacity>
           </View>
           <View style={ss.body}>
             <View style={ss.bodyText}>
+
+              <Text style={ss.subHeader}>{_T('subject')}:</Text>
+              {
+                editMode
+                  ? <TextInput
+                    underlineColorAndroid='transparent'
+                    placeholder={_T('enterSub')}
+                    value={subject}
+                    style={[ss.input, { height: 35 }]}
+                    onChangeText={this._onChangeText('subject')}
+                    multiline
+                    autoCorrect={false}
+                  />
+                  : <Text>{stringShorten(subject, 50)}</Text>
+              }
+
+              <Text style={[ss.subHeader, { marginTop: 10 }]}>{_T('message')}:</Text>
               {
                 editMode
                   ? <TextInput
                     underlineColorAndroid='transparent'
                     placeholder={_T('enterText')}
                     value={message}
-                    style={ss.input}
-                    onChangeText={this._onChangeText}
+                    style={[ss.input, { height: 75 }]}
+                    onChangeText={this._onChangeText('message')}
                     multiline
                     autoCorrect={false}
                   />
                   : <Text>{stringShorten(message, 120)}</Text>
               }
+
             </View>
             <View style={ss.editIcon}>
               <TouchableOpacity style={ss.edit} onPress={this._toggleEditMode}>
@@ -188,9 +210,9 @@ const ss = StyleSheet.create({
     paddingBottom: isIphoneX ? 25 : 10
   },
   item: {
-    height: 180,
+    height: 280,
     width: '100%',
-    marginBottom: 30
+    marginBottom: 20
   },
   container: {
     marginHorizontal: 20,
@@ -200,6 +222,7 @@ const ss = StyleSheet.create({
     height: 40,
     width: '100%',
     borderWidth: 1,
+    borderBottomWidth: 0,
     borderTopLeftRadius: 7,
     borderTopRightRadius: 7,
     flexDirection: 'row',
@@ -208,12 +231,16 @@ const ss = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 15
   },
+  subHeader: {
+    marginBottom: 5,
+    fontWeight: 'bold'
+  },
   headerText: {
     fontSize: 16,
     fontWeight: 'bold'
   },
   body: {
-    height: 100,
+    height: 180,
     width: '100%',
     borderLeftWidth: 1,
     borderRightWidth: 1,
@@ -224,7 +251,7 @@ const ss = StyleSheet.create({
   bodyText: {
     flex: 3,
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'flex-start'
   },
   editIcon: {
     flex: 0.5,
@@ -249,7 +276,6 @@ const ss = StyleSheet.create({
   },
   input: {
     width: '100%',
-    height: 85,
     borderWidth: 1,
     borderColor: Colors.charcoal,
     borderRadius: 2,
