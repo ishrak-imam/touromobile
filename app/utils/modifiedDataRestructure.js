@@ -37,7 +37,7 @@ function findTrip (excursionId, allTrips) {
   })
 }
 
-function formatMeal0To5 (meal) {
+function formatMeal5To6 (meal) {
   return meal.reduce((map, m, key) => {
     const mealId = key
     let newM = map.get('mealId') || getMap({ mealId, adultCount: 0, childCount: 0 })
@@ -94,7 +94,7 @@ function _5To6 (modifiedData, allTrips) {
           if (order.get('out')) {
             let out = order.get('out')
             let outMeal = out.get('meal')
-            outMeal = formatMeal0To5(outMeal)
+            outMeal = formatMeal5To6(outMeal)
             out = out.set('meal', outMeal)
             newOrder = newOrder.set('out', out)
           }
@@ -102,7 +102,7 @@ function _5To6 (modifiedData, allTrips) {
           if (order.get('home')) {
             let home = order.get('home')
             let homeMeal = home.get('meal')
-            homeMeal = formatMeal0To5(homeMeal)
+            homeMeal = formatMeal5To6(homeMeal)
             home = home.set('meal', homeMeal)
             newOrder = newOrder.set('home', home)
           }

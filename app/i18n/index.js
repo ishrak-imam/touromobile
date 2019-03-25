@@ -3,9 +3,9 @@ import { Localization } from 'expo'
 import en from './locales/en'
 import sv from './locales/sv'
 
-I18n.initAsync = async () => {
+I18n.initAsync = () => {
   const locale = Localization.locale
-  I18n.locale = (locale) ? locale.replace(/_/, '-') : ''
+  I18n.locale = locale ? locale.split('-')[0] : ''
 }
 
 I18n.fallbacks = true

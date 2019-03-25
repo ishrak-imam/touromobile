@@ -9,27 +9,58 @@ const COMMON_HEADERS = {
   'Content-Type': 'application/json'
 }
 
+
+const isRemoteDebuggingEnabled = (typeof atob !== 'undefined')
+logResponse = (method, endPoint, payload, response) => {
+  if(__DEV__ && isRemoteDebuggingEnabled) {
+    console.groupCollapsed('%c REQUEST', 'color: #B22222  ', method, endPoint)
+    console.log('%c STATUS     :: ', 'color: green', response.status)
+    console.log('%c PAYLOAD    :: ', 'color: green', payload)
+    console.log('%c RESPONSE   :: ', 'color: green', response)
+    console.groupEnd()
+  }
+}
+
+
+
 const errorHandler = error => {
-  if(error === 'TIMEOUT') return Promise.reject('Request timeout')
+
+  if(error === 'TIMEOUT') return Promise.reject({
+    status: 'REQ_TIMEOUT',
+    msg: 'Request timeout'
+  })
+
   return Promise.reject(error)
 }
 
-const responseHandler = response => {
+const responseHandler = (method, endPoint, payload = {}) => response => {
+
+  logResponse(method, endPoint, payload, response)
+
   if (response.status === 200 || response.status === 201) {
     if(!response._bodyText) return Promise.resolve()
     return response.json()
   }
+  
   if(response.status === 204) return Promise.resolve()
-  if(response.status === 401) return response.text().then(errMsg => Promise.reject(errMsg))
-  if(response.status === 404) return Promise.reject('404 not found')
-  if(response.status === 500) return Promise.reject('Something went wrong')
-  return response.json().then(e => {
-    const {code, message, name} = e;
-    return Promise.reject({code, message, name});
-  });
+
+  if(response.status === 401) return response.text().then(errMsg => Promise.reject({
+    status: 401,
+    msg: errMsg
+  }))
+
+  if(response.status === 404) return Promise.reject({
+    status: 404,
+    msg: '404 not found'
+  })
+
+  if(response.status === 500) return Promise.reject({
+    status: 500,
+    msg: 'Something went wrong'
+  })
 };
 
-const createFetchPromise = (endPoint, method, data, headers) => {
+const createFetchPromise = (method, endPoint, data, headers) => {
   const options = {
     method,
     headers: {...headers, ...COMMON_HEADERS},
@@ -43,24 +74,27 @@ const createTimeoutPromise = () => {
 }
 
 export const postRequest = (endPoint, data, headers = {}) => {
+  const r = responseHandler('POST', endPoint, data)
   return Promise.race([
-    createFetchPromise(endPoint, 'POST', data, headers),
+    createFetchPromise('POST', endPoint, data, headers),
     createTimeoutPromise()
-  ]).then(responseHandler).catch(errorHandler)
+  ]).then(r).catch(errorHandler)
 }
 
 export const putRequest = (endPoint, data, headers = {}) => {
+  const r = responseHandler('PUT', endPoint, data)
   return Promise.race([
-    createFetchPromise(endPoint, 'PUT', data, headers),
+    createFetchPromise('PUT', endPoint, data, headers),
     createTimeoutPromise()
-  ]).then(responseHandler).catch(errorHandler)
+  ]).then(r).catch(errorHandler)
 }
 
 export const getRequest = (endPoint, headers = {}) => {
+  const r = responseHandler('GET', endPoint)
   return Promise.race([
-    createFetchPromise(endPoint, 'GET', {}, headers),
+    createFetchPromise('GET', endPoint, {}, headers),
     createTimeoutPromise()
-  ]).then(responseHandler).catch(errorHandler)
+  ]).then(r).catch(errorHandler)
 }
 
 // function buildUrl (endPoint, obj) {

@@ -94,28 +94,32 @@ export function * watchTripNavigation () {
 }
 
 function * workerTripNavigation (action) {
-  const { refreshFromFutureTrip, refreshFromPastTrip } = action.payload
-  let currentTrip = yield select(gctSelector)
-  if (currentTrip.has && (!refreshFromFutureTrip || !refreshFromPastTrip)) {
-    const trips = currentTrip.trips
-    if (trips.size === 1) {
-      navigate('Home', { left: 'menu' })
-    } else if (trips.size > 1) {
-      navigate('CurrentTrips')
+  try {
+    const { refreshFromFutureTrip, refreshFromPastTrip } = action.payload
+    let currentTrip = yield select(gctSelector)
+    if (currentTrip.has && (!refreshFromFutureTrip || !refreshFromPastTrip)) {
+      const trips = currentTrip.trips
+      if (trips.size === 1) {
+        navigate('Home', { left: 'menu' })
+      } else if (trips.size > 1) {
+        navigate('CurrentTrips')
+      }
     }
-  }
-  if (!currentTrip.has) {
-    const futureTrips = yield select(gftSelector)
-    if (futureTrips.has) navigate('FutureTrips', { left: 'menu' })
-    else {
-      const pastTrips = yield select(gptSelector)
-      if (pastTrips.has) navigate('PastTrips', { left: 'menu' })
+    if (!currentTrip.has) {
+      const futureTrips = yield select(gftSelector)
+      if (futureTrips.has) navigate('FutureTrips', { left: 'menu' })
       else {
-        if (!refreshFromFutureTrip && !refreshFromPastTrip) {
-          navigate('NoTrips')
+        const pastTrips = yield select(gptSelector)
+        if (pastTrips.has) navigate('PastTrips', { left: 'menu' })
+        else {
+          if (!refreshFromFutureTrip && !refreshFromPastTrip) {
+            navigate('NoTrips')
+          }
         }
       }
     }
+  } catch (e) {
+    console.log(e)
   }
 }
 
@@ -124,12 +128,16 @@ export function * watchGetCurrentTrip () {
 }
 
 function * workerGetCurrentTrip (action) {
-  const currentTrip = yield select(gctSelector)
-  if (currentTrip.has && currentTrip.trips.size === 1) {
-    const trip = currentTrip.trips.get(0)
-    currentTrip.trip = formatCurrentTrip(trip)
+  try {
+    const currentTrip = yield select(gctSelector)
+    if (currentTrip.has && currentTrip.trips.size === 1) {
+      const trip = currentTrip.trips.get(0)
+      currentTrip.trip = formatCurrentTrip(trip)
+    }
+    yield put(setCurrentTrips(currentTrip))
+  } catch (e) {
+    console.log(e)
   }
-  yield put(setCurrentTrips(currentTrip))
 }
 
 export function * watchGetFutureTrips () {
@@ -137,8 +145,12 @@ export function * watchGetFutureTrips () {
 }
 
 function * workerGetFutureTrips (action) {
-  const trips = yield select(gftSelector)
-  yield put(setFutureTrips(trips))
+  try {
+    const trips = yield select(gftSelector)
+    yield put(setFutureTrips(trips))
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export function * watchGetPastTrips () {
@@ -146,8 +158,12 @@ export function * watchGetPastTrips () {
 }
 
 function * workerGetPastTrips (action) {
-  const trips = yield select(gptSelector)
-  yield put(setPastTrips(trips))
+  try {
+    const trips = yield select(gptSelector)
+    yield put(setPastTrips(trips))
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export function * watchGetPendingStatsUpload () {
