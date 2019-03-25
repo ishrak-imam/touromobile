@@ -91,17 +91,21 @@ function _5To6 (modifiedData, allTrips) {
         let ordersSummaryMode = tripOrder.get('ordersSummaryMode')
         ordersSummaryMode = ordersSummaryMode.map(order => {
           let newOrder = order
-          let out = order.get('out')
-          let outMeal = out.get('meal')
-          outMeal = formatMeal0To5(outMeal)
-          out = out.set('meal', outMeal)
-          newOrder = newOrder.set('out', out)
+          if (order.get('out')) {
+            let out = order.get('out')
+            let outMeal = out.get('meal')
+            outMeal = formatMeal0To5(outMeal)
+            out = out.set('meal', outMeal)
+            newOrder = newOrder.set('out', out)
+          }
 
-          let home = order.get('home')
-          let homeMeal = home.get('meal')
-          homeMeal = formatMeal0To5(homeMeal)
-          home = home.set('meal', homeMeal)
-          newOrder = newOrder.set('home', home)
+          if (order.get('home')) {
+            let home = order.get('home')
+            let homeMeal = home.get('meal')
+            homeMeal = formatMeal0To5(homeMeal)
+            home = home.set('meal', homeMeal)
+            newOrder = newOrder.set('home', home)
+          }
           return newOrder
         })
         newTripOrder = newTripOrder.set('ordersSummaryMode', ordersSummaryMode)
