@@ -68,8 +68,12 @@ export function * watchRestructureModifiedData () {
 }
 
 function * workerRestructureModifiedData () {
-  let modifiedData = yield select(getModifiedData)
-  const allTrips = yield select(getTripsData)
-  modifiedData = restructureData(modifiedData, allTrips, modifiedData.get('structureVersion'))
-  yield put(setDownloadedModifiedData(modifiedData))
+  try {
+    let modifiedData = yield select(getModifiedData)
+    const allTrips = yield select(getTripsData)
+    modifiedData = restructureData(modifiedData, allTrips, modifiedData.get('structureVersion'))
+    yield put(setDownloadedModifiedData(modifiedData))
+  } catch (e) {
+    console.log('MODIFIED_DATA_RESTRUCTURE_FAIL', e)
+  }
 }

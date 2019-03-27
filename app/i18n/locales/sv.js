@@ -4,7 +4,7 @@ export default {
     username: 'Användare',
     password: 'Lösenord',
     login: 'Logga in',
-    forgotPass: 'Jag har glömt mitt lösenord',
+    forgotPass: 'Ny användare/Glömt lösenord',
     loginFail: 'Ogiltigt användarnamn eller lösenord',
     passResetSucs: 'Kontrollera din email för ett nytt lösenord',
     passResetFail: 'Lösenordsåterställning misslyckades'
@@ -137,7 +137,10 @@ export default {
     individualMode: 'Passagerare. Beställningar skapas för varje passagerare.',
     summaryMode: 'Bokning. Beställningar är gemensamma för alla passagerare på samma bokning.',
     dataSyncSucs: 'Datasynkronisering lyckades.',
-    dataSyncFail: 'Datasynkronisering misslyckades.'
+    dataSyncFail: 'Datasynkronisering misslyckades.',
+    appData: 'Lokalt lagrad app-data',
+    dataSyncText: 'Appen synkroniserar sparad data som beställda måltider och utflykter mot Touro. Om din telefon försvinner, eller om du av någon annan anledning måste fortsätta ditt arbete på en annan telefon, så kan du göra det utan att förlora någon data.',
+    syncNow: 'Synkronisera nu'
   },
   RollCallScreen: {
     title: 'Upprop',
@@ -162,7 +165,7 @@ export default {
     address: 'Address',
     city: 'Ort',
     zip: 'Postnummer',
-    sucsMsg: 'Informationen sparas framgångsrikt'
+    sucsMsg: 'Ändringen sparades'
   },
   NoData: {
     fetchingData: 'Hämtar data från Touro ...',

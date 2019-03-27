@@ -136,7 +136,10 @@ export default {
     individualMode: 'Individual mode. Place order for each passengers individually.',
     summaryMode: 'Summary mode. Place order for all passengers in a booking.',
     dataSyncSucs: 'Data sync successful.',
-    dataSyncFail: 'Data sync failed.'
+    dataSyncFail: 'Data sync failed.',
+    appData: 'App data',
+    dataSyncText: 'The app periodically synchronizes local data like meal and excursion orders to Touro, If your phone is lost or you for any reason need to continue your work on another phone, you can do so without losing any saved data.',
+    syncNow: 'Synchronize now'
   },
   RollCallScreen: {
     title: 'Roll call',

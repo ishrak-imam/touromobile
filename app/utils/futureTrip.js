@@ -82,13 +82,18 @@ const BAG = {
   out: { label: 'bagPick', key: KEY_NAMES.BAG, direction: 'out' },
   home: { label: 'bagDrop', key: KEY_NAMES.BAG, direction: 'home' },
 
-  flight: Object.values(BAG_OPTIONS),
+  flightout: Object.values(BAG_OPTIONS),
+  flighthome: Object.values(BAG_OPTIONS),
 
-  bus: [
+  busout: [
     BAG_OPTIONS.HOTEL,
     BAG_OPTIONS.OT,
     BAG_OPTIONS.OFFICE,
     BAG_OPTIONS.EDTRIP
+  ],
+
+  bushome: [
+    BAG_OPTIONS.OT
   ]
 }
 
@@ -225,7 +230,7 @@ export const getBagLocations = basedOn => {
   return {
     selected,
     config: BAG[direction],
-    items: BAG[transportType]
+    items: BAG[`${transportType}${direction}`]
   }
 }
 

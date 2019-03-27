@@ -23,7 +23,9 @@ logResponse = (method, endPoint, payload, response) => {
 
 
 
-const errorHandler = error => {
+const errorHandler = (method, endPoint, payload = {}) => error => {
+
+  logResponse(method, endPoint, payload, {status: 'REQ_TIMEOUT'})
 
   if(error === 'TIMEOUT') return Promise.reject({
     status: 'REQ_TIMEOUT',
@@ -75,26 +77,29 @@ const createTimeoutPromise = () => {
 
 export const postRequest = (endPoint, data, headers = {}) => {
   const r = responseHandler('POST', endPoint, data)
+  const e = errorHandler('POST', endPoint, data)
   return Promise.race([
     createFetchPromise('POST', endPoint, data, headers),
     createTimeoutPromise()
-  ]).then(r).catch(errorHandler)
+  ]).then(r).catch(e)
 }
 
 export const putRequest = (endPoint, data, headers = {}) => {
   const r = responseHandler('PUT', endPoint, data)
+  const e = errorHandler('PUT', endPoint, data)
   return Promise.race([
     createFetchPromise('PUT', endPoint, data, headers),
     createTimeoutPromise()
-  ]).then(r).catch(errorHandler)
+  ]).then(r).catch(e)
 }
 
 export const getRequest = (endPoint, headers = {}) => {
   const r = responseHandler('GET', endPoint)
+  const e = errorHandler('GET', endPoint)
   return Promise.race([
     createFetchPromise('GET', endPoint, {}, headers),
     createTimeoutPromise()
-  ]).then(r).catch(errorHandler)
+  ]).then(r).catch(e)
 }
 
 // function buildUrl (endPoint, obj) {

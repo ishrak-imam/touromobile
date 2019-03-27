@@ -3,7 +3,10 @@ import React, { Component } from 'react'
 import { Container, View } from 'native-base'
 import { StyleSheet, ScrollView } from 'react-native'
 import Header from '../../components/header'
-import { userDetailsReq, updateProfileReq, downloadAppDataReq } from './action'
+import {
+  userDetailsReq, updateProfileReq,
+  downloadAppDataReq
+} from './action'
 import {
   actionDispatcher,
   networkActionDispatcher
@@ -20,7 +23,7 @@ import Settings from '../../components/settings'
 import NoData from '../../components/noData'
 import isIphoneX from '../../utils/isIphoneX'
 import { Colors } from '../../theme'
-import FloatingButton from '../../components/floatingButton'
+import AppDataSync from '../../components/appDataSync'
 import Translator from '../../utils/translator'
 
 const _T = Translator('ProfileScreen')
@@ -86,13 +89,8 @@ class ProfileScreen extends Component {
 
           <Settings />
           {/* {isBusTrip && <LunchOrderMode isAnyOrder={isAnyOrder} />} */}
+          <AppDataSync onSync={this._onDownloadData(guideId)} isLoading={isLoading} />
         </ScrollView>
-        <FloatingButton
-          topOffset={80}
-          icon='cloudDownload'
-          onPress={this._onDownloadData(guideId)}
-          loading={isLoading}
-        />
       </Container>
     )
   }
@@ -103,7 +101,7 @@ const stateToProps = (state, props) => {
   return {
     profile: getProfile(state),
     user: getUser(state),
-    isAnyOrder: checkIfAnyOrderMade(state, departureId),
+    isAnyOrder: departureId ? checkIfAnyOrderMade(state, departureId) : false,
     currentTrip: currentTripSelector(state)
   }
 }

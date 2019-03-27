@@ -55,7 +55,7 @@ class TMDrawer extends Component {
 
   _toProfile = () => {
     const { navigation, currentTrip } = this.props
-    const departureId = String(currentTrip.get('trip').get('departureId'))
+    const departureId = currentTrip.get('has') ? String(currentTrip.get('trip').get('departureId')) : null
     navigation.navigate('Profile', { departureId })
   }
 
