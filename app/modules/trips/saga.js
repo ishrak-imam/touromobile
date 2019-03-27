@@ -54,7 +54,7 @@ import {
 
 import { getMap } from '../../utils/immutable'
 
-import { navigate } from '../../navigation/service'
+import { resetToScene } from '../../navigation/service'
 
 export function * watchGetTrips () {
   yield takeFirst(tripsReq.getType(), workerGetTrips)
@@ -100,26 +100,26 @@ function * workerTripNavigation (action) {
     if (currentTrip.has && (!refreshFromFutureTrip || !refreshFromPastTrip)) {
       const trips = currentTrip.trips
       if (trips.size === 1) {
-        navigate('Home', { left: 'menu' })
+        resetToScene('Home', { left: 'menu' })
       } else if (trips.size > 1) {
-        navigate('CurrentTrips')
+        resetToScene('CurrentTrips')
       }
     }
     if (!currentTrip.has) {
       const futureTrips = yield select(gftSelector)
-      if (futureTrips.has) navigate('FutureTrips', { left: 'menu' })
+      if (futureTrips.has) resetToScene('FutureTrips', { left: 'menu' })
       else {
         const pastTrips = yield select(gptSelector)
-        if (pastTrips.has) navigate('PastTrips', { left: 'menu' })
+        if (pastTrips.has) resetToScene('PastTrips', { left: 'menu' })
         else {
           if (!refreshFromFutureTrip && !refreshFromPastTrip) {
-            navigate('NoTrips')
+            resetToScene('NoTrips')
           }
         }
       }
     }
   } catch (e) {
-    console.log(e)
+    console.log('TRIP_NAVIGATION_ERROR', e)
   }
 }
 
