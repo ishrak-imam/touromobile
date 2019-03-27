@@ -37,7 +37,7 @@ class StatItem extends Component {
     const paxWithExcursionPack = participatingPax.size - actualParticipatingPax.size
     const paxWithoutExcursionPack = pax.size - paxWithExcursionPack
 
-    const share = percentage(actualParticipatingPax.size, paxWithoutExcursionPack)
+    // const share = percentage(actualParticipatingPax.size, paxWithoutExcursionPack)
     return (
       <ListItem style={[ss.item, { backgroundColor }]}>
         <Left style={ss.name}>
@@ -45,12 +45,17 @@ class StatItem extends Component {
         </Left>
         <Body style={ss.participants}>
           <Text>{participatingPax.size}/{pax.size}</Text>
+          <Text>{`(${percentage(participatingPax.size, pax.size)}%)`}</Text>
         </Body>
-        <Body style={ss.sale}>
+        {/* <Body style={ss.sale}>
           <Text>{actualParticipatingPax.size}/{paxWithoutExcursionPack}</Text>
         </Body>
         <Right style={ss.share}>
           <Text>{share}%</Text>
+        </Right> */}
+        <Right style={ss.sale}>
+          <Text>{actualParticipatingPax.size}/{paxWithoutExcursionPack}</Text>
+          <Text>{`(${percentage(actualParticipatingPax.size, paxWithoutExcursionPack)}%)`}</Text>
         </Right>
       </ListItem>
     )
@@ -75,11 +80,14 @@ export default class Stats extends Component {
         <Body style={ss.participants}>
           <Text style={ss.headerText}>{_T('participants')}</Text>
         </Body>
-        <Body style={ss.sale}>
+        {/* <Body style={ss.sale}>
           <Text style={ss.headerText}>{_T('sale')}</Text>
         </Body>
         <Right style={ss.share}>
           <Text style={ss.headerText}>{_T('share')}</Text>
+        </Right> */}
+        <Right style={ss.sale}>
+          <Text style={ss.headerText}>{_T('sale')}</Text>
         </Right>
       </ListItem>
     )
@@ -92,9 +100,10 @@ export default class Stats extends Component {
     const actualTotalParticipants = getActualTotalParticipantsCount(excursions, participants, trip)
     const paxWithExcursionPack = getPaxWithExcursionPack(pax)
 
+    const totalMaxSalePossible = (pax.size * excursions.size) - (paxWithExcursionPack.size * excursions.size)
     const participant = percentage(totalParticipants, pax.size * excursions.size)
-    const sale = percentage(actualTotalParticipants, (pax.size * excursions.size) - (paxWithExcursionPack.size * excursions.size))
-    const share = percentage(totalParticipants, pax.size * excursions.size)
+    const sale = percentage(actualTotalParticipants, totalMaxSalePossible)
+    // const share = percentage(totalParticipants, pax.size * excursions.size)
 
     return (
       <ListItem style={ss.item}>
@@ -102,13 +111,18 @@ export default class Stats extends Component {
           <Text style={ss.totalPax}>{_T('totals')}</Text>
         </Left>
         <Body style={ss.participants}>
-          <Text style={ss.totalPax}>{participant}%</Text>
+          <Text style={ss.totalPax}>{totalParticipants}/{pax.size * excursions.size}</Text>
+          <Text style={ss.totalPax}>{`(${participant}%)`}</Text>
         </Body>
-        <Body style={ss.sale}>
+        {/* <Body style={ss.sale}>
           <Text style={ss.totalPax}>{sale}%</Text>
         </Body>
         <Right style={ss.share}>
           <Text style={ss.totalPax}>{share}%</Text>
+        </Right> */}
+        <Right style={ss.sale}>
+          <Text style={ss.totalPax}>{actualTotalParticipants}/{totalMaxSalePossible}</Text>
+          <Text style={ss.totalPax}>{`(${sale}%)`}</Text>
         </Right>
       </ListItem>
     )
@@ -182,27 +196,31 @@ const ss = StyleSheet.create({
     justifyContent: 'center'
   },
   name: {
-    flex: 2,
+    flex: 2.5,
     paddingLeft: 20
   },
   participants: {
-    flex: 2.5,
-    alignItems: 'center'
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
   sale: {
-    flex: 2.5,
-    alignItems: 'center'
-  },
-  share: {
     flex: 2,
-    alignItems: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
+  // share: {
+  //   flex: 2,
+  //   alignItems: 'center'
+  // },
   totalPax: {
     fontWeight: 'bold',
     fontSize: 16
   },
   headerText: {
     fontWeight: 'bold',
-    fontSize: 10
+    fontSize: 13
   }
 })
