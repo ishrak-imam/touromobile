@@ -24,9 +24,7 @@ import NoData from '../../components/noData'
 import isIphoneX from '../../utils/isIphoneX'
 import { Colors } from '../../theme'
 import AppDataSync from '../../components/appDataSync'
-import Translator from '../../utils/translator'
-
-const _T = Translator('ProfileScreen')
+import _T from '../../utils/translator'
 
 class ProfileScreen extends Component {
   componentDidMount () {

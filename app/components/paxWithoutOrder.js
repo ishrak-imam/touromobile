@@ -7,9 +7,8 @@ import {
 import { View, StyleSheet } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 
-const _T = Translator('WithoutOrder')
 const ITEM_HEIGHT = 45
 
 class PaxItem extends Component {

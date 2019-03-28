@@ -3,7 +3,7 @@ import { Container, Text, View } from 'native-base'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { IonIcon, Colors } from '../../theme/'
 import Header from '../../components/header'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
   getParticipants, getTripExcursions, getReports, getOrders, getOrderMode,
@@ -18,8 +18,6 @@ import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { uploadStatsReq } from './action'
 import FloatingButton from '../../components/floatingButton'
 
-const _T = Translator('ReportsScreen')
-
 const EXCURSIONS = 'EXCURSIONS'
 const ORDERS = 'ORDERS'
 
@@ -29,7 +27,7 @@ class ReportsScreen extends Component {
       tabBarIcon: ({ focused, tintColor }) => {
         return <IonIcon name='stats' color={tintColor} />
       },
-      tabBarLabel: _T('title')
+      tabBarLabel: _T('reports')
     }
   }
 
@@ -110,7 +108,7 @@ class ReportsScreen extends Component {
 
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
+        <Header left='menu' title={_T('reports')} navigation={navigation} brand={brand} />
 
         {this._renderTabs()}
 

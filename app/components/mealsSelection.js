@@ -6,9 +6,7 @@ import {
 import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import CheckBox from './checkBox'
-import Translator from '../utils/translator'
-
-const _T = Translator('OrdersScreen')
+import _T from '../utils/translator'
 
 export default class MealsSelection extends Component {
   shouldComponentUpdate (nextProps) {

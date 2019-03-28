@@ -10,14 +10,12 @@ import { getInvoiceeSummaryMode } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
 import { showModal } from '../modal/action'
 import { selectInvoiceeSummaryMode, ssnDataReq, ssnDataSucs } from '../modules/modifiedData/action'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { getMap } from '../utils/immutable'
 import { } from 'react-native-gesture-handler'
 import FooterButtons from './footerButtons'
 import debounce from '../utils/debounce'
 import { checkSSN } from '../utils/stringHelpers'
-
-const _T = Translator('OrdersScreen')
 
 class SelectInvoiceeSummaryMode extends Component {
   constructor (props) {
@@ -212,7 +210,7 @@ class SelectInvoiceeSummaryMode extends Component {
         ssn, address, city, zip
       },
       toast: true,
-      message: _T('sucsMsg')
+      message: _T('infoSaveSucs')
     }))
   }
 

@@ -5,11 +5,9 @@ import Header from '../../components/header'
 import FutureTrips from '../../components/futureTrips'
 import { connect } from 'react-redux'
 import { getUser, getTrips } from '../../selectors/index'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { tripsReq, connectionsReq } from './action'
-
-const _T = Translator('FutureTripsScreen')
 
 class FutureTripsScreen extends Component {
   shouldComponentUpdate (nextProps) {
@@ -37,7 +35,7 @@ class FutureTripsScreen extends Component {
 
     return (
       <Container>
-        <Header left={left} title={_T('title')} navigation={navigation} />
+        <Header left={left} title={_T('futureTrips')} navigation={navigation} />
         <FutureTrips
           futureTrips={futureTrips}
           refreshing={isLoading}
@@ -54,13 +52,3 @@ const stateToProps = state => ({
 })
 
 export default connect(stateToProps, null)(FutureTripsScreen)
-
-// const ss = StyleSheet.create({
-//   headerRight: {
-//     flex: 1,
-//     flexDirection: 'row',
-//     justifyContent: 'flex-end',
-//     alignItems: 'center',
-//     marginRight: 5
-//   }
-// })

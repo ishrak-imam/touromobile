@@ -25,12 +25,10 @@ import {
   currentTripSelector,
   pendingSmsCount
 } from '../selectors'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import config from '../utils/config'
 
 // import { showModal } from '../modal/action'
-
-const _T = Translator('DrawerScreen')
 
 const menuItems = [
   { routeName: 'Trip', text: 'currentTrip', icon: 'home' },

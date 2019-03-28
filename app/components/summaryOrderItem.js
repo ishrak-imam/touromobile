@@ -11,7 +11,7 @@ import {
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { resetAllOrders } from '../modules/modifiedData/action'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import FoodItem from './foodItem'
 import NoData from './noData'
 import OutHomeTab from './outHomeTab'
@@ -22,8 +22,6 @@ import isIOS from '../utils/isIOS'
 import isIphoneX from '../utils/isIphoneX'
 
 import SelectInvoiceeSummaryMode from './selectInvoiceeSummaryMode'
-
-const _T = Translator('OrdersScreen')
 
 class SummaryOrderItem extends Component {
   constructor (props) {

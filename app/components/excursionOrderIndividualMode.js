@@ -11,9 +11,7 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { setParticipants } from '../modules/modifiedData/action'
 import { getSet } from '../utils/immutable'
-import Translator from '../utils/translator'
-
-const _T = Translator('OrdersScreen')
+import _T from '../utils/translator'
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 

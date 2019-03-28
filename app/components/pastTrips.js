@@ -7,9 +7,7 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { connect } from 'react-redux'
 import { getModifiedData } from '../selectors'
 import OverlaySpinner from './overlaySpinner'
-import Translator from '../utils/translator'
-
-const _T = Translator('PastTripsScreen')
+import _T from '../utils/translator'
 
 class PastTrips extends Component {
   shouldComponentUpdate (nextProps) {

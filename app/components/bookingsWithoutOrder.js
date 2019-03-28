@@ -4,9 +4,7 @@ import { ListItem, Left, Text } from 'native-base'
 import { View, StyleSheet } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-import Translator from '../utils/translator'
-
-const _T = Translator('WithoutOrder')
+import _T from '../utils/translator'
 
 class BookingItem extends Component {
   shouldComponentUpdate (nextProps) {

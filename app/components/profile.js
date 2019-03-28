@@ -8,9 +8,7 @@ import FooterButtons from './footerButtons'
 import TextInput from '../components/textinput'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { editProfile, editProfileCancel } from '../modules/profile/action'
-import Translator from '../utils/translator'
-
-const _T = Translator('ProfileScreen')
+import _T from '../utils/translator'
 
 export default class Profile extends Component {
   constructor (props) {

@@ -36,10 +36,8 @@ import {
   shouldLockTrip
 } from '../utils/futureTrip'
 
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import OverlaySpinner from './overlaySpinner'
-
-const _T = Translator('FutureTripsScreen')
 
 const KEY_NAMES = getKeyNames()
 

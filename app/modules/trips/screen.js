@@ -3,7 +3,7 @@ import { Container } from 'native-base'
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import {
   tripsReq,
   connectionsReq
@@ -17,8 +17,6 @@ import NoData from '../../components/noData'
 import { ScrollView, RefreshControl } from 'react-native'
 import OverlaySpinner from '../../components/overlaySpinner'
 import { restructureModifiedData } from '../modifiedData/action'
-
-const _T = Translator('CurrentTripScreen')
 
 class TripScreen extends Component {
   constructor (props) {
@@ -47,7 +45,7 @@ class TripScreen extends Component {
       tabBarIcon: ({ focused, tintColor }) => {
         return <IonIcon name='home' color={tintColor} />
       },
-      tabBarLabel: _T('title')
+      tabBarLabel: _T('currentTrip')
     }
   }
 
@@ -94,7 +92,7 @@ class TripScreen extends Component {
       <Container>
         <Header
           left={left}
-          title={_T('title')}
+          title={_T('currentTrip')}
           navigation={navigation}
           brand={brand}
         />

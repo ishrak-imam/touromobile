@@ -6,7 +6,7 @@ import {
 import { IonIcon, Colors } from '../theme'
 import { TouchableOpacity, StyleSheet, TextInput } from 'react-native'
 import { call, sms } from '../utils/comms'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import isIOS from '../utils/isIOS'
 import { actionDispatcher } from '../utils/actionDispatcher'
@@ -18,7 +18,6 @@ import FooterButtons from './footerButtons'
 import CheckBox from './checkBox'
 import PaxOrder from './paxOrder'
 import { navigate } from '../navigation/service'
-const _T = Translator('PaxDetailsScreen')
 
 class PaxCard extends Component {
   constructor (props) {

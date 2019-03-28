@@ -5,9 +5,7 @@ import { View } from 'native-base'
 import FutureTripCard from './futureTripCard'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import OverlaySpinner from './overlaySpinner'
-import Translator from '../utils/translator'
-
-const _T = Translator('FutureTripsScreen')
+import _T from '../utils/translator'
 
 export default class FutureTrips extends Component {
   shouldComponentUpdate (nextProps) {

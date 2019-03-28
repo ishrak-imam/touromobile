@@ -19,12 +19,10 @@ import { StyleSheet } from 'react-native'
 import SearchBar from '../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { Colors, IonIcon } from '../theme'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { connect } from 'react-redux'
 import { mergeMapShallow } from '../utils/immutable'
 import ContextMenu from './contextMenu'
-
-const _T = Translator('PassengersScreen')
 
 const CONTEXT_OPTIONS = {
   firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },

@@ -6,9 +6,7 @@ import {
 } from 'react-native'
 import { Colors } from '../theme'
 
-import Translator from '../utils/translator'
-
-const _T = Translator('OutHomeTab')
+import _T from '../utils/translator'
 
 export const TABS = {
   OUT: 'out',

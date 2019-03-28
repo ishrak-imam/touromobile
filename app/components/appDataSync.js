@@ -5,10 +5,8 @@ import {
   StyleSheet, TouchableOpacity,
   ActivityIndicator
 } from 'react-native'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { Colors } from '../theme'
-
-const _T = Translator('ProfileScreen')
 
 export default class AppDataSync extends Component {
   _onSync = () => {

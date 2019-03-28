@@ -10,12 +10,10 @@ import { sendSmsReq, storePendingSms } from './action'
 import { getSmsLoading, getConnection } from '../../selectors'
 import { connect } from 'react-redux'
 import OverlaySpinner from '../../components/overlaySpinner'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { showModal } from '../../modal/action'
 import uuid from 'react-native-uuid'
 import { getMap } from '../../utils/immutable'
-
-const _T = Translator('SMSScreen')
 
 class SMSScreen extends Component {
   constructor (props) {
@@ -36,7 +34,7 @@ class SMSScreen extends Component {
     return () => {
       Keyboard.dismiss()
       const { subject, message } = this.state
-      if (connection.get('online')) {
+      if (!connection.get('online')) {
         actionDispatcher(sendSmsReq({
           smsPayload: {
             brand,
@@ -46,8 +44,8 @@ class SMSScreen extends Component {
           },
           isNeedJwt: true,
           showToast: true,
-          sucsMsg: _T('sucsMsg'),
-          failMsg: _T('failMsg')
+          sucsMsg: _T('sendingSMSsucs'),
+          failMsg: _T('sendingSMSfail')
         }))
       } else {
         actionDispatcher(showModal({
@@ -82,7 +80,7 @@ class SMSScreen extends Component {
       <Container>
         <Header
           left='back'
-          title={_T('title')}
+          title={_T('sms')}
           navigation={navigation}
           brand={brand}
         />

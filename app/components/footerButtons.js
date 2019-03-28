@@ -3,9 +3,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import OutLineButton from './outlineButton'
 import { Colors } from '../theme'
-import Translator from '../utils/translator'
-
-const _T = Translator('FooterButtons')
+import _T from '../utils/translator'
 
 export default class FooterButtons extends Component {
   render () {

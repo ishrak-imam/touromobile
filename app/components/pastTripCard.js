@@ -18,11 +18,9 @@ import { uploadStatsReq } from '../modules/reports/action'
 import { getMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
 import { connect } from 'react-redux'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { tripNameFormatter } from '../utils/stringHelpers'
 
-const _T = Translator('ReportsScreen')
-const _TPast = Translator('PastTripsScreen')
 const DATE_FORMAT = 'DD/MM'
 
 class PastTripCard extends Component {
@@ -94,7 +92,7 @@ class PastTripCard extends Component {
             ? <Spinner color={Colors.blue} size='small' style={{ paddingVertical: 10 }} />
             : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
               <IonIcon name='upload' color={Colors.white} style={ss.uploadIcon} />
-              <Text style={ss.uploadButtonText}>{_TPast('uploadReport')}</Text>
+              <Text style={ss.uploadButtonText}>{_T('uploadReport')}</Text>
             </TouchableOpacity>
         }
       </View>
@@ -112,10 +110,10 @@ class PastTripCard extends Component {
 
     return (
       <View style={ss.pastTripCardTop}>
-        <Text style={{ fontWeight: 'bold' }}>{`${_TPast('participantShare')}: ${share}%`}</Text>
+        <Text style={{ fontWeight: 'bold' }}>{`${_T('participantShare')}: ${share}%`}</Text>
         {
           statsUploadedAt &&
-          <Text style={{ fontWeight: 'bold', paddingVertical: 15 }}>{`${_TPast('uploadedAt')}: ${format(statsUploadedAt, DATE_FORMAT)}`}</Text>
+          <Text style={{ fontWeight: 'bold', paddingVertical: 15 }}>{`${_T('uploadedAt')}: ${format(statsUploadedAt, DATE_FORMAT)}`}</Text>
         }
         {!statsUploadedAt && this._renderUploadButton()}
       </View>

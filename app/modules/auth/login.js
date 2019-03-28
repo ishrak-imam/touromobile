@@ -13,10 +13,8 @@ import { getLogin } from '../../selectors'
 import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { loginReq, forgotPassReq } from './action'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import Button from '../../components/button'
-
-const _T = Translator('LoginScreen')
 
 class Login extends Component {
   constructor (props) {

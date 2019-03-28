@@ -6,13 +6,11 @@ import { StyleSheet, View } from 'react-native'
 import Header from '../../components/header'
 import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { currentTripSelector, getPax, getBookings } from '../../selectors'
 import PaxList from '../../components/paxList'
 import BookingList from '../../components/bookingList'
 import Switch from '../../components/switch'
-
-const _T = Translator('PassengersScreen')
 
 class PaxScreen extends Component {
   static navigationOptions = () => {
@@ -20,7 +18,7 @@ class PaxScreen extends Component {
       tabBarIcon: ({ focused, tintColor }) => {
         return <IonIcon name='people' color={tintColor} />
       },
-      tabBarLabel: _T('paxTitle')
+      tabBarLabel: _T('pax')
     }
   }
 
@@ -68,8 +66,8 @@ class PaxScreen extends Component {
     const paxList = getPax(trip)
     const bookings = getBookings(trip)
     const title = booking
-      ? `${_T('bookingTitle')} (${bookings.size})`
-      : `${_T('paxTitle')} (${paxList.size})`
+      ? `${_T('bookings')} (${bookings.size})`
+      : `${_T('pax')} (${paxList.size})`
 
     return (
       <Container>

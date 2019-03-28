@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import IconButton from '../components/iconButton'
 import { IonIcon, Colors } from '../theme'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { format, isSameDay } from 'date-fns'
 import {
   getPax, getModifiedPax, checkIfFlightTrip, getPhoneNumbers,
@@ -22,7 +22,6 @@ import { connect } from 'react-redux'
 import { getMap } from '../utils/immutable'
 import { tripNameFormatter } from '../utils/stringHelpers'
 
-const _T = Translator('CurrentTripScreen')
 const DATE_FORMAT = 'DD/MM'
 const FLIGHT_TIME_FORMAT = 'HH:mm'
 const FLIGHT_TIME_FORMAT_LONG = 'YY/MM/DD HH:mm'
@@ -104,13 +103,12 @@ class Trip extends Component {
     return (
       <CardItem>
         <Body style={ss.paxCountBody}>
-          <Text style={ss.boldText}>{_T('pax')}</Text>
+          <Text style={ss.boldText}>{_T('pax')}: {paxCount}</Text>
         </Body>
         <Right style={ss.paxCountRight}>
           <TouchableOpacity style={ss.rollCallButton} onPress={this._toRollCall}>
             <Text style={ss.rollCallText}>{_T('rollCall')}</Text>
           </TouchableOpacity>
-          <Text style={ss.boldText}>{paxCount}</Text>
         </Right>
       </CardItem>
     )
@@ -372,7 +370,7 @@ class Trip extends Component {
             <Text style={ss.boldText}>{_T('myOrders')}</Text>
           </Body>
           <Right style={ss.paxCountRight}>
-            <TouchableOpacity style={[ss.rollCallButton, { marginRight: 10 }]} onPress={() => {}}>
+            <TouchableOpacity style={ss.rollCallButton} onPress={() => {}}>
               <Text style={ss.rollCallText}>{_T('show')}</Text>
             </TouchableOpacity>
           </Right>
@@ -469,8 +467,9 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   paxCountBody: {
-    flex: 2,
-    justifyContent: 'center'
+    flex: 4,
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   paxCountRight: {
     flex: 4,
@@ -482,8 +481,8 @@ const ss = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 5,
     borderRadius: 4,
-    backgroundColor: Colors.blue,
-    marginRight: 20
+    backgroundColor: Colors.blue
+    // marginRight: 20
   },
   rollCallText: {
     color: Colors.white,

@@ -13,8 +13,7 @@ import {
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { getMap, getSet } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
-import Translator from '../utils/translator'
-const _T = Translator('ReportsScreen')
+import _T from '../utils/translator'
 
 const bgColors = ['#edeaea', '#ffffff']
 

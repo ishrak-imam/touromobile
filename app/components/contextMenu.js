@@ -8,10 +8,8 @@ import {
   MenuTrigger
 } from 'react-native-popup-menu'
 import { Colors, IonIcon } from '../theme'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { Text } from 'native-base'
-
-const _T = Translator('ContextMenu')
 
 export default class ContextMenu extends Component {
   _onSelect = item => {

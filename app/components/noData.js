@@ -4,8 +4,7 @@ import {
   View, Text, StyleSheet
 } from 'react-native'
 
-import Translator from '../utils/translator'
-const _T = Translator('NoData')
+import _T from '../utils/translator'
 
 const noData = ({ text, textStyle }) => {
   return (

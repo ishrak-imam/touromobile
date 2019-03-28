@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native'
 import { Container, View } from 'native-base'
 import Header from '../../components/header'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
 import { getConnection, getPendingSms } from '../../selectors'
@@ -17,8 +17,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { showModal } from '../../modal/action'
 import { deletePendingSms, sendPendingSmsReq } from './action'
-
-const _T = Translator('PendingSmsScreen')
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
@@ -70,8 +68,8 @@ class SMSItem extends Component {
       smsPayload,
       isNeedJwt: true,
       showToast: true,
-      sucsMsg: _T('sucsMsg'),
-      failMsg: _T('failMsg'),
+      sucsMsg: _T('sendingSMSsucs'),
+      failMsg: _T('sendingSMSfail'),
       smsId
     }))
   }
@@ -169,7 +167,7 @@ class PendingSmsScreen extends Component {
       <Container>
         <Header
           left='back'
-          title={_T('title')}
+          title={_T('pendingSMS')}
           navigation={navigation}
           right={this._renderRight()}
         />

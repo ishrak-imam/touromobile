@@ -11,7 +11,7 @@ import {
 // TouchableOpacity
 } from 'react-native'
 import Header from '../../components/header'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 // import OrderItem from '../../components/orderItem'
 // import isIphoneX from '../../utils/isIphoneX'
 // import OutHomeTab, { TABS } from '../../components/outHomeTab'
@@ -27,8 +27,6 @@ import {
 import { getOrderMode } from '../../selectors'
 import { connect } from 'react-redux'
 // import ExcursionOrderIndividualMode from '../../components/excursionOrderIndividualMode'
-
-const _T = Translator('OrdersScreen')
 
 // const INDIVIDUAL_MODE = 'INDIVIDUAL'
 const SUMMARY_MODE = 'SUMMARY'
@@ -113,7 +111,7 @@ class OrdersScreen extends Component {
     const departureId = navigation.getParam('departureId')
     const bookingId = String(booking.get('id'))
     // const pax = booking.get('pax')
-    const title = `${_T('title')} - ${bookingId}`
+    const title = `${_T('orders')} - ${bookingId}`
     return (
       <Container>
         <Header left='back' title={title} navigation={navigation} brand={brand} />

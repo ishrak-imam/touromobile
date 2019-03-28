@@ -6,10 +6,8 @@ import { toggleTabLabels } from '../modules/profile/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { getProfile } from '../selectors'
 import { connect } from 'react-redux'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import CheckBox from './checkBox'
-
-const _T = Translator('ProfileScreen')
 
 class Settings extends Component {
   shouldComponentUpdate (nextProps) {

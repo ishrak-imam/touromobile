@@ -8,12 +8,10 @@ import { StyleSheet, ScrollView } from 'react-native'
 import OutHomeTab from './outHomeTab'
 import { Colors } from '../theme'
 import { listToMap, getSet } from '../utils/immutable'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import PaxWithoutOrder from './paxWithoutOrder'
 import NoData from './noData'
 import BookingsWithoutOrder from './bookingsWithoutOrder'
-
-const _T = Translator('ReportsScreen')
 
 const INDIVIDUAL_MODE = 'INDIVIDUAL'
 const SUMMARY_MODE = 'SUMMARY'

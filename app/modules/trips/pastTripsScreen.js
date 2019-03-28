@@ -7,11 +7,9 @@ import Header from '../../components/header'
 import PastTrips from '../../components/pastTrips'
 import { connect } from 'react-redux'
 import { getUser, getTrips } from '../../selectors/index'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { tripsReq, connectionsReq } from './action'
-
-const _T = Translator('PastTripsScreen')
 
 class PastTripsScreen extends Component {
   shouldComponentUpdate (nextProps) {
@@ -39,7 +37,7 @@ class PastTripsScreen extends Component {
 
     return (
       <Container>
-        <Header left={left} title={_T('title')} navigation={navigation} />
+        <Header left={left} title={_T('pastTrips')} navigation={navigation} />
         <PastTrips
           pastTrips={pastTrips}
           refreshing={isLoading}

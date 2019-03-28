@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, ScrollView, View, Text, RefreshControl } from 'react-native'
 import Header from '../../components/header'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { connect } from 'react-redux'
 import {
   networkActionDispatcher
@@ -13,8 +13,6 @@ import {
   connectionsReq
 } from './action'
 import OverlaySpinner from '../../components/overlaySpinner'
-
-const _T = Translator('NoTripsScreen')
 
 class NoTrips extends Component {
   constructor (props) {
@@ -53,13 +51,13 @@ class NoTrips extends Component {
 
     return (
       <View style={ss.screen}>
-        <Header left='menu' title={_T('title')} navigation={navigation} />
+        <Header left='menu' title={_T('noTrips')} navigation={navigation} />
         {isRefreshing && <OverlaySpinner />}
         <ScrollView
           contentContainerStyle={ss.container}
           refreshControl={<RefreshControl refreshing={false} onRefresh={this._onRefresh} />}
         >
-          <Text style={ss.textStyle}>{_T('text')}</Text>
+          <Text style={ss.textStyle}>{_T('noTripsText')}</Text>
         </ScrollView>
       </View>
     )

@@ -8,10 +8,8 @@ import { connect } from 'react-redux'
 import { getOrderMode } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { toggleOrderMode } from '../modules/profile/action'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import CheckBox from './checkBox'
-
-const _T = Translator('ProfileScreen')
 
 const INDIVIDUAL_MODE = 'INDIVIDUAL'
 const SUMMARY_MODE = 'SUMMARY'

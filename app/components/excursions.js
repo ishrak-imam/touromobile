@@ -9,7 +9,7 @@ import {
   getSortedExcursions, getModifiedPax,
   getParticipatingPax, getPhoneNumbers
 } from '../selectors'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { format } from 'date-fns'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 // import { sms } from '../utils/comms'
@@ -18,8 +18,6 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { connect } from 'react-redux'
 import { getMap, getSet } from '../utils/immutable'
 import { navigate } from '../navigation/service'
-
-const _T = Translator('ExcursionsScreen')
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 

@@ -11,7 +11,7 @@ import { call, sms, web, map } from '../../utils/comms'
 import { IonIcon, Colors } from '../../theme'
 // import isEmpty from '../../utils/isEmpty'
 import isIphoneX from '../../utils/isIphoneX'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
 import { connect } from 'react-redux'
 import { getOrdersByDirection, getPaxByHotel, getOrderMode } from '../../selectors'
@@ -19,8 +19,6 @@ import PaxInThisHotel from '../../components/paxWithoutOrder'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
 // const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
-
-const _T = Translator('RestaurantScreen')
 
 class RestaurantScreen extends Component {
   constructor (props) {

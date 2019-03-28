@@ -7,7 +7,7 @@ import {
 import { Colors, IonIcon } from '../../theme'
 import Header from '../../components/header'
 import { connect } from 'react-redux'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import {
   currentTripSelector, getPax, getPresents,
   getSortedPaxByFirstName, getPaxDataGroupByFirstName,
@@ -37,8 +37,6 @@ const dataProvider = new DataProvider((r1, r2) => {
 const layoutProvider = new LayoutProvider(
   () => 'type', (_, dim) => { dim.width = width; dim.height = 53 }
 )
-
-const _T = Translator('RollCallScreen')
 
 const CONTEXT_OPTIONS = {
   firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },
@@ -255,7 +253,7 @@ class RollCallScreen extends Component {
       <Container>
         <Header
           left='back'
-          title={_T('title')}
+          title={_T('rollCall')}
           navigation={navigation}
           brand={brand}
           center={this._renderCenter(trip)}

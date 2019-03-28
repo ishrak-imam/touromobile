@@ -7,11 +7,9 @@ import Header from '../../components/header'
 import CurrentTrips from '../../components/pastTrips'
 import { connect } from 'react-redux'
 import { getUser, getTrips } from '../../selectors/index'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { actionDispatcher, networkActionDispatcher } from '../../utils/actionDispatcher'
 import { setCurrentTrip, tripsReq, connectionsReq } from './action'
-
-const _T = Translator('CurrentTripScreen')
 
 class CurrentTripsScreen extends Component {
   shouldComponentUpdate (nextProps) {

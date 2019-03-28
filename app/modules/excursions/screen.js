@@ -4,11 +4,10 @@ import {
 } from 'native-base'
 import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import { connect } from 'react-redux'
 import { currentTripSelector } from '../../selectors'
 import Excursions from '../../components/excursions'
-const _T = Translator('ExcursionsScreen')
 
 class ExcursionsScreen extends Component {
   static navigationOptions = () => {
@@ -16,7 +15,7 @@ class ExcursionsScreen extends Component {
       tabBarIcon: ({ focused, tintColor }) => {
         return <IonIcon name='excursion' color={tintColor} />
       },
-      tabBarLabel: _T('title')
+      tabBarLabel: _T('excursions')
     }
   }
 
@@ -31,7 +30,7 @@ class ExcursionsScreen extends Component {
 
     return (
       <Container>
-        <Header left='menu' title={_T('title')} navigation={navigation} brand={brand} />
+        <Header left='menu' title={_T('excursions')} navigation={navigation} brand={brand} />
         <Excursions
           trip={trip}
           navigation={navigation}

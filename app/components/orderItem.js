@@ -12,11 +12,9 @@ import { actionDispatcher } from '../utils/actionDispatcher'
 import { takeOrderIndividualMode, resetPaxOrder } from '../modules/modifiedData/action'
 import BeverageSelection from './beverageSelection'
 import { IonIcon } from '../theme'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import CheckBox from './checkBox'
 import { stringShorten } from '../utils/stringHelpers'
-
-const _T = Translator('OrdersScreen')
 
 class OrderItem extends Component {
   constructor (props) {

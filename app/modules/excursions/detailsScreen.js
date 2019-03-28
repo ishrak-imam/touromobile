@@ -21,7 +21,7 @@ import { getSet, getMap } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { setParticipants } from '../modifiedData/action'
 import { IonIcon, Colors } from '../../theme'
-import Translator from '../../utils/translator'
+import _T from '../../utils/translator'
 import NoData from '../../components/noData'
 import Switch from '../../components/switch'
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
@@ -40,8 +40,6 @@ const layoutProvider = new LayoutProvider(
 
 const PARTICIPATING = 'PARTICIPATING'
 const ALL = 'ALL'
-
-const _T = Translator('ExcursionDetailsScreen')
 
 const CONTEXT_OPTIONS = {
   firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },

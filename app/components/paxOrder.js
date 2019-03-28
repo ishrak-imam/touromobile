@@ -9,14 +9,12 @@ import { Colors } from '../theme'
 import OutHomeTab, { TABS } from './outHomeTab'
 import OrderItem from './orderItem'
 // import SummaryOrderItem from '../components/summaryOrderItem'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import isIphoneX from '../utils/isIphoneX'
 import { connect } from 'react-redux'
 import { getOrderMode } from '../selectors'
 // import { getList } from '../utils/immutable'
 import ExcursionOrderIndividualMode from './excursionOrderIndividualMode'
-
-const _T = Translator('OrdersScreen')
 
 const INDIVIDUAL_MODE = 'INDIVIDUAL'
 // const SUMMARY_MODE = 'SUMMARY'

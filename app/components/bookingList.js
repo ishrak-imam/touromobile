@@ -14,9 +14,8 @@ import { StyleSheet } from 'react-native'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import SearchBar from '../components/searchBar'
 import { connect } from 'react-redux'
-import Translator from '../utils/translator'
+import _T from '../utils/translator'
 import { getMap } from '../utils/immutable'
-const _T = Translator('PassengersScreen')
 
 class BookingItem extends Component {
   shouldComponentUpdate (nextProps) {
