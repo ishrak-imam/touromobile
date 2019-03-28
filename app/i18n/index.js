@@ -5,7 +5,7 @@ import sv from './locales/sv'
 
 I18n.initAsync = () => {
   const locale = Localization.locale
-  I18n.locale = 'sv' // locale ? locale.split('-')[0] : ''
+  I18n.locale = locale ? locale.split('-')[0] : ''
 }
 
 I18n.fallbacks = true
