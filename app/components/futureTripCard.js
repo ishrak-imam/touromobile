@@ -394,25 +394,27 @@ class FutureTripCard extends Component {
     const transport = trip.get('transport')
     const image = trip.get('image')
     const pax = getPax(trip)
-    const paddingBottom = subtitle ? 0 : 7
     const transportType = transport ? transport.get('type') : ''
     const isDisabled = this.shouldLockTrip
-    const cardHeight = isDisabled ? 460 : 420
-    const imageConHeight = isDisabled ? 410 : 350
+    const cardHeight = isDisabled ? 470 : 430
+    const imageConHeight = isDisabled ? 410 : 370
 
     return (
       <View style={[ss.card, { height: cardHeight }]}>
-        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`], paddingBottom }]}>
-          <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
-          <Text>{`${outDate} - ${homeDate}`}</Text>
-          {transportType && <IonIcon name={transportType} />}
-        </View>
-        {
-          !!subtitle &&
-            <View style={[ss.subtitleContainer, { backgroundColor: Colors[`${brand}Brand`] }]}>
-              <Text numberOfLines={1} style={ss.subtitle}>{subtitle}</Text>
+        <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
+          <View style={ss.headerTop}>
+            <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>
+            <Text>{`${outDate} - ${homeDate}`}</Text>
+            {transportType && <IonIcon name={transportType} />}
+          </View>
+          {
+            !!subtitle &&
+            <View>
+              <Text numberOfLines={1}>{subtitle}</Text>
             </View>
-        }
+          }
+        </View>
+
         <View style={[ss.imageContainer, { height: imageConHeight }]}>
           <ImageCache uri={image} style={ss.cardImage} transportType={transportType} />
           {/* {this._renderGradient()} */}
@@ -460,28 +462,25 @@ export default connect(stateToProps, null)(FutureTripCard)
 
 const ss = StyleSheet.create({
   card: {
-    borderRadius: 10
+    borderRadius: 10,
+    marginBottom: 15
   },
   cardHeader: {
+    height: 60,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    borderWidth: 0,
-    paddingVertical: 7,
-    paddingHorizontal: 10,
+    justifyContent: 'center',
+    paddingHorizontal: 10
+  },
+  headerTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  subtitleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    paddingHorizontal: 10,
-    paddingBottom: 7
-  },
   imageContainer: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    overflow: 'hidden'// needed for iOS
+    overflow: 'hidden' // needed for iOS
   },
   cardImage: {
     position: 'absolute',

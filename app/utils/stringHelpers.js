@@ -33,6 +33,10 @@ export const tripNameFormatter = (str, limit) => {
   let count = 0
 
   for (let i = 0; i < splitted.length; i++) {
+    if (splitted[i].length >= limit) {
+      title = splitted[i]
+      break
+    }
     const temp = `${title}${splitted[i]} `
     if (temp.length > limit) break
     count = i
