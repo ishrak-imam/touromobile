@@ -34,7 +34,7 @@ class SMSScreen extends Component {
     return () => {
       Keyboard.dismiss()
       const { subject, message } = this.state
-      if (!connection.get('online')) {
+      if (connection.get('online')) {
         actionDispatcher(sendSmsReq({
           smsPayload: {
             brand,

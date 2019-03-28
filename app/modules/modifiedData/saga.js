@@ -21,6 +21,7 @@ import { syncData, getSSNdata } from './api'
 import { getModifiedData, getTripsData } from '../../selectors'
 
 import { restructureData } from '../../utils/modifiedDataRestructure'
+import { getMap } from '../../utils/immutable'
 
 export function * watchSyncModifiedData () {
   yield takeEvery(syncModifiedData.getType(), workerSyncModifiedData)
@@ -69,10 +70,10 @@ export function * watchRestructureModifiedData () {
 
 function * workerRestructureModifiedData () {
   try {
-    let modifiedData = yield select(getModifiedData)
-    const allTrips = yield select(getTripsData)
-    modifiedData = restructureData(modifiedData, allTrips, modifiedData.get('structureVersion'))
-    yield put(setDownloadedModifiedData(modifiedData))
+    // let modifiedData = yield select(getModifiedData)
+    // const allTrips = yield select(getTripsData)
+    // modifiedData = restructureData(modifiedData, allTrips, modifiedData.get('structureVersion'))
+    yield put(setDownloadedModifiedData(getMap({})))
   } catch (e) {
     console.log('MODIFIED_DATA_RESTRUCTURE_FAIL', e)
   }
