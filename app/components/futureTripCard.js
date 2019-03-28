@@ -400,7 +400,7 @@ class FutureTripCard extends Component {
     const transportType = transport ? transport.get('type') : ''
     const isDisabled = this.shouldLockTrip
     const cardHeight = isDisabled ? 460 : 420
-    const imageConHeight = isDisabled ? 400 : 350
+    const imageConHeight = isDisabled ? 410 : 350
 
     return (
       <View style={[ss.card, { height: cardHeight }]}>
@@ -435,7 +435,6 @@ class FutureTripCard extends Component {
               </View>
               <View style={ss.bottomRight}>
                 <FooterButtons
-                  // hideCancel
                   style={ss.footerButtons}
                   disabled={!dirty || this.shouldLockTrip}
                   onCancel={this._cancelSelection}
@@ -463,8 +462,7 @@ export default connect(stateToProps, null)(FutureTripCard)
 
 const ss = StyleSheet.create({
   card: {
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
+    borderRadius: 10
   },
   cardHeader: {
     borderTopLeftRadius: 10,

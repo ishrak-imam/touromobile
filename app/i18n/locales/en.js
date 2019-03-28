@@ -30,7 +30,9 @@ export default {
     home: 'Home',
     out: 'Out',
     hotels: 'Hotels',
-    rollCall: 'Roll call'
+    rollCall: 'Roll call',
+    myOrders: 'My Orders',
+    show: 'Show'
   },
   PassengersScreen: {
     paxTitle: 'Passengers',

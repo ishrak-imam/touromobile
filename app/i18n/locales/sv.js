@@ -30,7 +30,9 @@ export default {
     home: 'Hem',
     out: 'Ut',
     hotels: 'Hotell',
-    rollCall: 'Upprop'
+    rollCall: 'Upprop',
+    myOrders: 'Mina beställningar',
+    show: 'Visa'
   },
   PassengersScreen: {
     paxTitle: 'Passagerare',

@@ -366,6 +366,18 @@ class Trip extends Component {
         {!!hotels && this._renderHotels(hotels)}
 
         {!!launches && !isFlight && this._renderRestaurants(launches)}
+
+        <CardItem>
+          <Body style={ss.paxCountBody}>
+            <Text style={ss.boldText}>{_T('myOrders')}</Text>
+          </Body>
+          <Right style={ss.paxCountRight}>
+            <TouchableOpacity style={[ss.rollCallButton, { marginRight: 10 }]} onPress={() => {}}>
+              <Text style={ss.rollCallText}>{_T('show')}</Text>
+            </TouchableOpacity>
+          </Right>
+        </CardItem>
+
         {this._renderFooter(pax, brand)}
 
       </View>
