@@ -44,7 +44,7 @@ export const trips = createReducer(TRIPS_INITIAL_STATE, {
   [SET_REMAINING_FUTURE_TRIPS]: (state, payload) => setIntoMap(state, 'remainingFutureTrips', payload),
 
   [CONNECTIONS_SUCS]: (state, payload) => {
-    let connections = readValue('connections', state)
+    let connections = readValue('connections', state) || getMap({})
     connections = setIntoMap(connections, 'direct', getList(payload.direct))
     connections = setIntoMap(connections, 'directWinter', getList(payload.directWinter))
     connections = setIntoMap(connections, 'overnight', getList(payload.overnight))

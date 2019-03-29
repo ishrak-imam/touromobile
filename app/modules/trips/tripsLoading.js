@@ -14,7 +14,7 @@ import {
   connectionsReq
 } from './action'
 import Header from '../../components/header'
-import syncDataWorker from '../../utils/modifiedDataSync'
+import startSyncDataWorker from '../../utils/modifiedDataSync'
 
 class TripsLoading extends Component {
   constructor (props) {
@@ -48,6 +48,7 @@ class TripsLoading extends Component {
         }))
       }, 0)
     }
+
     const connections = trips.get('connections')
     const direct = connections.get('direct').size
     const overnight = connections.get('overnight').size
@@ -55,7 +56,9 @@ class TripsLoading extends Component {
       this._requestConnections()
     }
 
-    this.syncDataTimer = syncDataWorker()
+    // this._requestConnections()
+
+    this.syncDataTimer = startSyncDataWorker()
   }
 
   componentWillUnmount () {

@@ -69,6 +69,10 @@ export const clearSet = set => {
   return set.clear()
 }
 
+export const isSet = data => {
+  return Set.isSet(data)
+}
+
 /**
  * List methods
  */

@@ -4,7 +4,7 @@ import { store } from '../store'
 import { getConnection } from '../selectors'
 import { syncModifiedData } from '../modules/modifiedData/action'
 
-const syncData = () => {
+const startSyncData = () => {
   return setInterval(() => {
     const connection = getConnection(store.getState())
     const isOnline = readValue('online', connection)
@@ -14,4 +14,4 @@ const syncData = () => {
   }, 600000)
 }
 
-export default syncData
+export default startSyncData

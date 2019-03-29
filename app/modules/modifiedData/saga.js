@@ -21,7 +21,6 @@ import { syncData, getSSNdata } from './api'
 import { getModifiedData, getTripsData } from '../../selectors'
 
 import { restructureData } from '../../utils/modifiedDataRestructure'
-import { getMap } from '../../utils/immutable'
 
 export function * watchSyncModifiedData () {
   yield takeEvery(syncModifiedData.getType(), workerSyncModifiedData)
