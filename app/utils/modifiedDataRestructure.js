@@ -76,19 +76,20 @@ function _5To6 (modifiedData, allTrips) {
           let participants = tripOrder.get('participants')
           participants = participants.reduce((map, exPars, key) => {
             const excursionId = key
-            if (isSet(exPars)) {
-              map = map.set(excursionId, exPars)
-            } else {
-              const trip = findTrip(excursionId, allTrips)
-              const formattedExPars = exPars.reduce((map, paxId, key) => {
+            const trip = findTrip(excursionId, allTrips)
+            const formattedExPars = exPars.reduce((map, paxId, key) => {
+              if (isSet(paxId)) {
+                map = map.set(key, paxId)
+              } else {
                 const bookingId = findBookingIdWithPaxId(paxId, trip)
                 let bExcursion = map.get(bookingId) || getSet([])
                 bExcursion = bExcursion.add(paxId)
                 map = map.set(bookingId, bExcursion)
-                return map
-              }, getMap({}))
-              map = map.set(excursionId, formattedExPars)
-            }
+              }
+              return map
+            }, getMap({}))
+
+            map = map.set(excursionId, formattedExPars)
             return map
           }, getMap({}))
           newTripOrder = newTripOrder.set('participants', participants)
