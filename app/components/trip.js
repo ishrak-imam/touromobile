@@ -365,7 +365,7 @@ class Trip extends Component {
 
         {!!launches && !isFlight && this._renderRestaurants(launches)}
 
-        <CardItem>
+        {/* <CardItem>
           <Body style={ss.paxCountBody}>
             <Text style={ss.boldText}>{_T('myOrders')}</Text>
           </Body>
@@ -374,7 +374,7 @@ class Trip extends Component {
               <Text style={ss.rollCallText}>{_T('show')}</Text>
             </TouchableOpacity>
           </Right>
-        </CardItem>
+        </CardItem> */}
 
         {this._renderFooter(pax, brand)}
 
