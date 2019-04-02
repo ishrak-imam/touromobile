@@ -23,6 +23,7 @@ import {
   remainingFutureTripsCount,
   // getTrips,
   currentTripSelector,
+  futureTripsSelector,
   pendingSmsCount
 } from '../selectors'
 import _T from '../utils/translator'
@@ -112,15 +113,17 @@ class TMDrawer extends Component {
   }
 
   _renderMenuItems = () => {
-    const { pendingUploadCount, remainingFutureTrips, pendingSmsCount, currentTrip } = this.props
+    const { pendingUploadCount, remainingFutureTrips, pendingSmsCount, currentTrip, futureTrips } = this.props
     const hasCurrentTrip = currentTrip.get('has')
+    const hasFutureTrips = futureTrips.get('has')
     return menuItems.map((item, index) => {
       const { icon, routeName, text } = item
       const currentRoute = this.props.nav.get('screen')
 
       const isSelected = routeName === currentRoute
       const isDisabled = (!hasCurrentTrip && routeName === 'Trip') ||
-                          (!pendingSmsCount && routeName === 'PendingSms')
+                          (!pendingSmsCount && routeName === 'PendingSms') ||
+                          (!hasFutureTrips && routeName === 'FutureTrips')
 
       let backgroundColor = 'transparent'
       let color = Colors.black
@@ -215,7 +218,8 @@ const stateToProps = state => ({
   pendingSmsCount: pendingSmsCount(state),
   remainingFutureTrips: remainingFutureTripsCount(state),
   // trips: getTrips(state)
-  currentTrip: currentTripSelector(state)
+  currentTrip: currentTripSelector(state),
+  futureTrips: futureTripsSelector(state)
 })
 
 export default connect(stateToProps, null)(TMDrawer)
