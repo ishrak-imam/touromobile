@@ -573,19 +573,19 @@ const ss = StyleSheet.create({
   selectorText: {
     fontSize: 14
   },
-  dropDown: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopRightRadius: 3,
-    borderBottomRightRadius: 3
-  },
   selector: {
     flex: 1.5,
     height: 30,
     flexDirection: 'row',
     backgroundColor: Colors.silver,
     borderRadius: 3
+  },
+  dropDown: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 3,
+    borderBottomRightRadius: 3
   },
   comboCon: {
     paddingHorizontal: 10

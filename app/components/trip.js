@@ -257,6 +257,11 @@ class Trip extends Component {
     }
   }
 
+  _toMyOrders = () => {
+    const { navigation } = this.props
+    navigation.navigate('MyOrders')
+  }
+
   _renderHotels = hotels => {
     return (
       <CardItem style={ss.cardItem}>
@@ -365,16 +370,16 @@ class Trip extends Component {
 
         {!!launches && !isFlight && this._renderRestaurants(launches)}
 
-        {/* <CardItem>
+        <CardItem>
           <Body style={ss.paxCountBody}>
             <Text style={ss.boldText}>{_T('myOrders')}</Text>
           </Body>
           <Right style={ss.paxCountRight}>
-            <TouchableOpacity style={ss.rollCallButton} onPress={() => {}}>
+            <TouchableOpacity style={ss.rollCallButton} onPress={this._toMyOrders}>
               <Text style={ss.rollCallText}>{_T('show')}</Text>
             </TouchableOpacity>
           </Right>
-        </CardItem> */}
+        </CardItem>
 
         {this._renderFooter(pax, brand)}
 

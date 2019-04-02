@@ -142,5 +142,6 @@ export default {
   pendingSMS: 'Väntande SMS',
   warning: 'Är du säker på att du vill radera SMS?',
   noMoreSms: 'Inget mer SMS',
-  createdAt: 'Skapad på'
+  createdAt: 'Skapad på',
+  noAssignments: 'Ingen uppgift accepterad än'
 }

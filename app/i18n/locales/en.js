@@ -141,5 +141,6 @@ export default {
   pendingSMS: 'Pending SMS',
   warning: 'Are you sure you want to delete the SMS?',
   noMoreSms: 'No more SMS',
-  createdAt: 'Created at'
+  createdAt: 'Created at',
+  noAssignments: 'No assignment accepted yet'
 }

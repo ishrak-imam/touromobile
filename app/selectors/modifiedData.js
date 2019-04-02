@@ -1,5 +1,7 @@
 import { getMap, getList, isMap } from '../utils/immutable'
 
+import { getTripByDepartureId } from './trip'
+
 export const getModifiedData = state => state.modifiedData
 
 export const getModifiedPax = (state, departureId) => {
@@ -231,4 +233,20 @@ export const checkIfAnyOrderMade = (state, departureId) => {
 
 export const getLastSyncedTime = state => {
   return state.modifiedData.get('lastSyncedTime')
+}
+
+export const getAcceptedAssignments = state => {
+  const modifiedData = state.modifiedData
+  return modifiedData.reduce((list, tripData, key) => {
+    if (isMap(tripData)) {
+      const departureId = key
+      const isAccepted = tripData.getIn(['accept', 'acceptedAt'])
+      if (isAccepted) {
+        let accept = tripData.get('accept')
+        accept = accept.set('trip', getTripByDepartureId(state, departureId))
+        list = list.push(accept)
+      }
+    }
+    return list
+  }, getList([]))
 }

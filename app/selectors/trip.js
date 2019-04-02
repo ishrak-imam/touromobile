@@ -659,3 +659,8 @@ export const checkIfBusTrip = trip => {
 export const getTransportType = trip => {
   return trip.getIn(['transport', 'type'])
 }
+
+export const getTripByDepartureId = (state, departureId) => {
+  const data = state.trips.get('data')
+  return data.find(d => String(d.get('departureId')) === departureId)
+}

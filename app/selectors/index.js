@@ -52,7 +52,8 @@ export const {
   getFormattedMealsData,
   getExcursions,
   formatCurrentTrip,
-  getPaxIds
+  getPaxIds,
+  getTripByDepartureId,
 } = require('./trip')
 
 export const {
@@ -94,7 +95,8 @@ export const {
   getOrderForBookingSummaryMode,
   getExtraOrdersSummaryMode,
   getAllExtraOrdersSummaryMode,
-  getLastSyncedTime
+  getLastSyncedTime,
+  getAcceptedAssignments
 } = require('./modifiedData')
 
 export const {
