@@ -4,6 +4,11 @@ import { getImmutableObject } from './immutable'
 
 const LOCK_TRIP_BEFORE = 10
 
+const HOTEL = {
+  bus: 'Segevång',
+  flight: 'Malmö Arena'
+}
+
 const KEY_NAMES = {
   LOCATION: 'location',
   ACCOMMODATION: 'accommodation',

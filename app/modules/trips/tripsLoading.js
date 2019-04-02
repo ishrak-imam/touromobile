@@ -11,7 +11,7 @@ import {
   tripsReq,
   tripsActionsOnSuccess,
   navigateToOtherTripScreen,
-  connectionsReq
+  connectionsReq, reservationsReq
 } from './action'
 import Header from '../../components/header'
 import startSyncDataWorker from '../../utils/modifiedDataSync'
@@ -56,7 +56,7 @@ class TripsLoading extends Component {
       this._requestConnections()
     }
 
-    // this._requestConnections()
+    this._requestReservations()
 
     this.syncDataTimer = startSyncDataWorker()
   }
@@ -78,6 +78,14 @@ class TripsLoading extends Component {
   _requestConnections = () => {
     networkActionDispatcher(connectionsReq({
       isNeedJwt: true
+    }))
+  }
+
+  _requestReservations = () => {
+    const { user } = this.props
+    networkActionDispatcher(reservationsReq({
+      isNeedJwt: true,
+      guideId: user.get('guideId')
     }))
   }
 

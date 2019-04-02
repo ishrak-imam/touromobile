@@ -4,10 +4,7 @@ import Header from '../../components/header'
 import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
 import _T from '../../utils/translator'
-import {
-  tripsReq,
-  connectionsReq
-} from './action'
+import { tripsReq, reservationsReq, connectionsReq } from './action'
 import {
   networkActionDispatcher, actionDispatcher
 } from '../../utils/actionDispatcher'
@@ -74,9 +71,18 @@ class TripScreen extends Component {
     }))
   }
 
+  _requestReservations = () => {
+    const { user } = this.props
+    networkActionDispatcher(reservationsReq({
+      isNeedJwt: true,
+      guideId: user.get('guideId')
+    }))
+  }
+
   _onRefresh = () => {
     this._requestTrips(true)
     this._requestConnections()
+    this._requestReservations()
   }
 
   render () {

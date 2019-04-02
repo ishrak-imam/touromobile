@@ -27,6 +27,10 @@ import {
   connectionsSucs,
   connectionsFail,
 
+  reservationsReq,
+  reservationsSucs,
+  reservationsFail,
+
   navigateToOtherTripScreen
 } from './action'
 
@@ -40,7 +44,7 @@ import { showModal } from '../../modal/action'
 
 import {
   getTrips, acceptAssignment, confirmReservations,
-  getConnections
+  getConnections, getReservations
 } from './api'
 
 import {
@@ -52,7 +56,7 @@ import {
   formatCurrentTrip
 } from '../../selectors'
 
-import { getMap } from '../../utils/immutable'
+import { getMap, getImmutableObject } from '../../utils/immutable'
 
 import { resetToScene } from '../../navigation/service'
 
@@ -245,5 +249,19 @@ function * workerGetConnections (action) {
     yield put(connectionsSucs(formatConnections(connections)))
   } catch (e) {
     yield put(connectionsFail())
+  }
+}
+
+export function * watchGetReservations () {
+  yield takeFirst(reservationsReq.getType(), workerGerReservations)
+}
+
+function * workerGerReservations (action) {
+  const { guideId, jwt } = action.payload
+  try {
+    const reservations = yield call(getReservations, guideId, jwt)
+    yield put(reservationsSucs(getImmutableObject(reservations)))
+  } catch (e) {
+    yield put(reservationsFail())
   }
 }

@@ -24,5 +24,6 @@ export const TRIPS_INITIAL_STATE = getMap({
     direct: getList([]),
     directWinter: getList([]),
     overnight: getList([])
-  })
+  }),
+  reservations: getList([])
 })

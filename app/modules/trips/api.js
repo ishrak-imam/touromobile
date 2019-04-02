@@ -3,7 +3,8 @@ import config from '../../utils/config'
 import { getRequest, postRequest } from '../../utils/request'
 import {
   mockTrips, mockAcceptAssignment,
-  mockConfirmReservations, mockConnections
+  mockConfirmReservations, mockConnections,
+  mockReservationData
 } from '../../mockData'
 // import { createDoc } from '../../../api_doc/docCreator'
 
@@ -53,4 +54,14 @@ export const getConnections = (jwt) => {
   return config.useMockData
     ? mockConnections()
     : getRequest('resources/connectionlocation', headers)
+}
+
+export const getReservations = (guideId, jwt) => {
+  const headers = {
+    'Authorization': `Bearer ${jwt}`
+  }
+  // createDoc('GET', '/resources/guide/{guideId}/reservations', {}, 'getReservations')
+  return config.useMockData
+    ? mockReservationData()
+    : getRequest(`resources/guide/${guideId}/reservations`, headers)
 }

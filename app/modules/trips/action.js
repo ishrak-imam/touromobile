@@ -25,6 +25,10 @@ export const CONNECTIONS_REQ = 'CONNECTIONS_REQ'
 export const CONNECTIONS_SUCS = 'CONNECTIONS_SUCS'
 export const CONNECTIONS_FAIL = 'CONNECTIONS_FAIL'
 
+export const RESERVATIONS_REQ = 'RESERVATIONS_REQ'
+export const RESERVATIONS_SUCS = 'RESERVATIONS_SUCS'
+export const RESERVATIONS_FAIL = 'RESERVATIONS_FAIL'
+
 export const NAVIGATE_TO_OTHER_TRIP_SCREEN = 'NAVIGATE_TO_OTHER_TRIP_SCREEN'
 
 export const tripsReq = createAction(TRIPS_REQ)
@@ -51,5 +55,9 @@ export const setRemainingFutureTrips = createAction(SET_REMAINING_FUTURE_TRIPS)
 export const connectionsReq = createAction(CONNECTIONS_REQ)
 export const connectionsSucs = createAction(CONNECTIONS_SUCS)
 export const connectionsFail = createAction(CONNECTIONS_FAIL)
+
+export const reservationsReq = createAction(RESERVATIONS_REQ)
+export const reservationsSucs = createAction(RESERVATIONS_SUCS)
+export const reservationsFail = createAction(RESERVATIONS_FAIL)
 
 export const navigateToOtherTripScreen = createAction(NAVIGATE_TO_OTHER_TRIP_SCREEN)

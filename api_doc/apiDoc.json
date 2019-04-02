@@ -270,6 +270,13 @@
         "12563454"
       ]
     }
+  },
+
+  {
+    "type": "getReservations",
+    "method": "GET",
+    "url": "/resources/guide/{guideId}/reservations",
+    "payload": {}
   }
 
 

@@ -10,7 +10,8 @@ import {
   SET_CURRENT_TRIP,
   SET_CURRENT_TRIPS, SET_FUTURE_TRIPS, SET_PAST_TRIPS,
   SET_PENDING_STATS_UPLOAD, SET_REMAINING_FUTURE_TRIPS,
-  CONNECTIONS_SUCS
+  CONNECTIONS_SUCS,
+  RESERVATIONS_SUCS
 } from './action'
 
 import { TRIPS_INITIAL_STATE } from './immutable'
@@ -49,5 +50,7 @@ export const trips = createReducer(TRIPS_INITIAL_STATE, {
     connections = setIntoMap(connections, 'directWinter', getList(payload.directWinter))
     connections = setIntoMap(connections, 'overnight', getList(payload.overnight))
     return setIntoMap(state, 'connections', connections)
-  }
+  },
+
+  [RESERVATIONS_SUCS]: (state, payload) => setIntoMap(state, 'reservations', payload)
 })
