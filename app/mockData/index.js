@@ -161,7 +161,7 @@ export const mockReservationData = () => new Promise(resolve => {
           location: 'OT',
           transfer: 'D',
           transferCity: '201',
-          accommodation: 'NA',
+          accommodation: 'SR',
           hotel: 'Out hotel',
           bag: 'OT'
         },
@@ -169,7 +169,7 @@ export const mockReservationData = () => new Promise(resolve => {
           location: 'OT',
           transfer: 'D',
           transferCity: '201',
-          accommodation: 'NA',
+          accommodation: 'SR',
           hotel: 'Home hotel',
           bag: 'OT'
         }

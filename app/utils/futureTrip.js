@@ -309,3 +309,31 @@ export const shouldLockTrip = outDate => {
 export const getDefaultHotel = transportType => {
   return DEFAULT_HOTELS[transportType]
 }
+
+export const getLocationValue = key => {
+  return LOCATION_OPTIONS[key].value
+}
+
+export const getTransferValue = key => {
+  return TRANSFER_OPTIONS[key].value
+}
+
+export const getTransferCityValue = (key, connections, transfer) => {
+  if (!key) return null
+  const TRANSFER_VALUES = {
+    D: 'direct',
+    O: 'overnight'
+  }
+
+  const cities = connections.get(TRANSFER_VALUES[transfer])
+  const city = cities.find(c => String(c.get('key')) === key)
+  return city.get('value')
+}
+
+export const getAccommodationValue = key => {
+  return ACCOMMODATION_OPTIONS[key].value
+}
+
+export const getBagValue = key => {
+  return BAG_OPTIONS[key].value
+}

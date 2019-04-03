@@ -669,3 +669,8 @@ export const getReservationsByDepartureId = (state, departureId) => {
   const data = state.trips.get('reservations')
   return data.find(d => String(d.get('departure')) === departureId)
 }
+
+export const getReservations = state => {
+  const reservations = state.trips.get('reservations')
+  return listToMap(reservations, 'departure')
+}

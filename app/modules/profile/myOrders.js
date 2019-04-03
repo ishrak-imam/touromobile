@@ -5,15 +5,34 @@ import { Container, Text, CheckBox } from 'native-base'
 import Header from '../../components/header'
 import { connect } from 'react-redux'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-import { getPax, getAcceptedAssignments } from '../../selectors'
+import {
+  getPax, getAcceptedAssignments,
+  getReservations, getConnections, getUser
+} from '../../selectors'
 import { Colors, IonIcon } from '../../theme'
 import ImageCache from '../../components/imageCache'
 import { tripNameFormatter } from '../../utils/stringHelpers'
 import { format } from 'date-fns'
 import OutHomeTab, { TABS } from '../../components/outHomeTab'
 import _T from '../../utils/translator'
+import { networkActionDispatcher } from '../../utils/actionDispatcher'
+import { reservationsReq } from '../trips/action'
+
+import {
+  getKeyNames,
+  getLocationValue,
+  getTransferValue,
+  getTransferCityValue,
+  getAccommodationValue,
+  getBagValue,
+  getDefaultHotel,
+  getAccommodationOptions
+} from '../../utils/futureTrip'
+import { getMap } from '../../utils/immutable'
 
 const DATE_FORMAT = 'DD/MM'
+
+const KEY_NAMES = getKeyNames()
 
 class MyOrderCard extends Component {
   constructor (props) {
@@ -47,69 +66,105 @@ class MyOrderCard extends Component {
     )
   }
 
-  _renderOutCombos = out => {
+  _getHotelName = (direction, reservation, transportType, selectedAcco) => {
+    const accOptions = getAccommodationOptions()
+    return {
+      showHotelName: selectedAcco !== accOptions.NA.key,
+      hotelName: reservation.get('hotel') ? reservation.get('hotel') : getDefaultHotel(transportType)
+    }
+  }
+
+  _renderOutCombos = (out, transportType) => {
+    const { connections } = this.props
+    const { showHotelName, hotelName } = this._getHotelName('out', out, transportType, out.get(KEY_NAMES.ACCOMMODATION))
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
           {this._renderComboLabel('boardingLoc')}
-          {this._renderComboText(out.getIn(['location', 'value']))}
+          {this._renderComboText(getLocationValue(out.get(KEY_NAMES.LOCATION)))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('transfer')}
-          {this._renderComboText(out.getIn(['transfer', 'value']))}
+          {this._renderComboText(getTransferValue(out.get(KEY_NAMES.TRANSFER)))}
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('transferCity')}
-          {this._renderComboText(out.getIn(['transferCity', 'value']))}
+          {this._renderComboLabel(KEY_NAMES.TRANSFER_CITY)}
+          {this._renderComboText(getTransferCityValue(
+            out.get('transferCity'),
+            connections,
+            out.get('transfer')
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('accommodation')}
-          {this._renderComboText(out.getIn(['accommodation', 'value']))}
+          {this._renderComboText(getAccommodationValue(out.get(KEY_NAMES.ACCOMMODATION)))}
         </View>
+
+        {
+          showHotelName &&
+          <View style={ss.combo}>
+            {this._renderComboLabel('hotel')}
+            {this._renderComboText(hotelName)}
+          </View>
+        }
 
         <View style={ss.combo}>
           {this._renderComboLabel('bagPick')}
-          {this._renderComboText(out.getIn(['bag', 'value']))}
+          {this._renderComboText(getBagValue(out.get(KEY_NAMES.BAG)))}
         </View>
       </View>
     )
   }
 
-  _renderHomeCombos = home => {
+  _renderHomeCombos = (home, transportType) => {
+    const { connections } = this.props
+    const { showHotelName, hotelName } = this._getHotelName('out', home, transportType, home.get(KEY_NAMES.ACCOMMODATION))
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
-          {this._renderComboLabel('alightingLoc')}
-          {this._renderComboText(home.getIn(['location', 'value']))}
+          {this._renderComboLabel('boardingLoc')}
+          {this._renderComboText(getLocationValue(home.get(KEY_NAMES.LOCATION)))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('transfer')}
-          {this._renderComboText(home.getIn(['transfer', 'value']))}
+          {this._renderComboText(getTransferValue(home.get(KEY_NAMES.TRANSFER)))}
         </View>
 
         <View style={ss.combo}>
-          {this._renderComboLabel('transferCity')}
-          {this._renderComboText(home.getIn(['transferCity', 'value']))}
+          {this._renderComboLabel(KEY_NAMES.TRANSFER_CITY)}
+          {this._renderComboText(getTransferCityValue(
+            home.get('transferCity'),
+            connections,
+            home.get('transfer')
+          ))}
         </View>
 
         <View style={ss.combo}>
           {this._renderComboLabel('accommodation')}
-          {this._renderComboText(home.getIn(['accommodation', 'value']))}
+          {this._renderComboText(getAccommodationValue(home.get(KEY_NAMES.ACCOMMODATION)))}
         </View>
 
+        {
+          showHotelName &&
+          <View style={ss.combo}>
+            {this._renderComboLabel('hotel')}
+            {this._renderComboText(hotelName)}
+          </View>
+        }
+
         <View style={ss.combo}>
-          {this._renderComboLabel('bagDrop')}
-          {this._renderComboText(home.getIn(['bag', 'value']))}
+          {this._renderComboLabel('bagPick')}
+          {this._renderComboText(getBagValue(home.get(KEY_NAMES.BAG)))}
         </View>
       </View>
     )
   }
 
-  _renderCardTop = (out, home, acceptedAt) => {
+  _renderCardTop = (out, home, acceptedAt, transportType) => {
     const { tab } = this.state
     return (
       <View style={ss.futureTtip}>
@@ -121,18 +176,32 @@ class MyOrderCard extends Component {
           <View style={ss.outHomeTabs}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
           </View>
-          {tab === TABS.OUT && this._renderOutCombos(out)}
-          {tab === TABS.HOME && this._renderHomeCombos(home)}
+          {tab === TABS.OUT && this._renderOutCombos(out, transportType)}
+          {tab === TABS.HOME && this._renderHomeCombos(home, transportType)}
         </View>
       </View>
     )
   }
 
+  _objectFlatten = data => {
+    return data.reduce((map, prop, key) => {
+      return map.set(key, prop.get('key'))
+    }, getMap({}))
+  }
+
   render () {
-    const { order } = this.props
+    const { order, reservations } = this.props
     const trip = order.get('trip')
-    const out = order.get('out')
-    const home = order.get('home')
+    let out = this._objectFlatten(order.get('out'))
+    let home = this._objectFlatten(order.get('home'))
+
+    const departureId = String(trip.get('departureId'))
+    const reservation = reservations.get(departureId)
+    if (reservation) {
+      out = reservation.get('out')
+      home = reservation.get('home')
+    }
+
     const acceptedAt = order.get('acceptedAt')
     let brand = trip.get('brand')
     if (brand === 'OL') brand = 'OH'
@@ -165,7 +234,7 @@ class MyOrderCard extends Component {
           <ImageCache uri={image} style={ss.cardImage} transportType={transportType} />
           <View style={ss.cardBody}>
             <View style={ss.cardTop}>
-              {this._renderCardTop(out, home, acceptedAt)}
+              {this._renderCardTop(out, home, acceptedAt, transportType)}
             </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
@@ -182,9 +251,22 @@ class MyOrderCard extends Component {
 }
 
 class MyOrders extends Component {
+  componentDidMount () {
+    this._requestReservations()
+  }
+
+  _requestReservations = () => {
+    const { user } = this.props
+    networkActionDispatcher(reservationsReq({
+      isNeedJwt: true,
+      guideId: user.get('guideId')
+    }))
+  }
+
   _renderCard = ({ item }) => {
+    const { reservations, connections } = this.props
     return (
-      <MyOrderCard order={item} />
+      <MyOrderCard order={item} reservations={reservations} connections={connections} />
     )
   }
 
@@ -208,7 +290,10 @@ class MyOrders extends Component {
 }
 
 const stateToProps = state => ({
-  acceptedAssignments: getAcceptedAssignments(state)
+  acceptedAssignments: getAcceptedAssignments(state),
+  reservations: getReservations(state),
+  connections: getConnections(state),
+  user: getUser(state)
 })
 
 export default connect(stateToProps, null)(MyOrders)
@@ -217,7 +302,7 @@ const ss = StyleSheet.create({
   card: {
     borderRadius: 10,
     marginBottom: 15,
-    height: 400
+    height: 450
   },
   cardHeader: {
     height: 60,
@@ -239,7 +324,7 @@ const ss = StyleSheet.create({
   imageContainer: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    height: 340,
+    height: 390,
     overflow: 'hidden' // needed for iOS
   },
   cardImage: {
