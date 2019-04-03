@@ -4,7 +4,7 @@ import { getImmutableObject } from './immutable'
 
 const LOCK_TRIP_BEFORE = 10
 
-const HOTEL = {
+const DEFAULT_HOTELS = {
   bus: 'Segevång',
   flight: 'Malmö Arena'
 }
@@ -247,6 +247,10 @@ export const getTransferOptions = () => {
   return TRANSFER_OPTIONS
 }
 
+export const getAccommodationOptions = () => {
+  return ACCOMMODATION_OPTIONS
+}
+
 export const getBagOptions = () => {
   return BAG_OPTIONS
 }
@@ -300,4 +304,8 @@ export const shouldLockTrip = outDate => {
   const date = new Date()
   const diff = differenceInCalendarDays(outDate, date)
   return diff <= LOCK_TRIP_BEFORE
+}
+
+export const getDefaultHotel = transportType => {
+  return DEFAULT_HOTELS[transportType]
 }

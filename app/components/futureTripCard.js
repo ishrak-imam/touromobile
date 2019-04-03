@@ -11,7 +11,10 @@ import { format } from 'date-fns'
 import FooterButtons from './footerButtons'
 import { connect } from 'react-redux'
 import OutHomeTab, { TABS } from './outHomeTab'
-import { getPax, getAaccept, getUser, getConnections } from '../selectors'
+import {
+  getPax, getAaccept, getUser,
+  getConnections, getReservationsByDepartureId
+} from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
 import { getMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
@@ -33,7 +36,9 @@ import {
   getTransfers,
   getTransferCities,
   getDefaultValues,
-  shouldLockTrip
+  shouldLockTrip,
+  getDefaultHotel,
+  getAccommodationOptions
 } from '../utils/futureTrip'
 
 import _T from '../utils/translator'
@@ -180,9 +185,31 @@ class FutureTripCard extends Component {
     )
   }
 
+  _renderComboText = text => {
+    return (
+      <View style={ss.selector}>
+        <View style={ss.textBox}>
+          <Text numberOfLines={1} style={ss.selectorText}>{text}</Text>
+        </View>
+      </View>
+    )
+  }
+
+  _getHotelName = (direction, transportType, selectedAcco) => {
+    const { reservation } = this.props
+    const hotelName = reservation ? reservation.getIn([direction, 'hotel']) : getDefaultHotel(transportType)
+    const accOptions = getAccommodationOptions()
+
+    return {
+      showHotelName: selectedAcco.get('key') !== accOptions.NA.key,
+      hotelName
+    }
+  }
+
   _renderOutCombos = transportType => {
     const { out, home } = this.acceptData
     const { connections } = this.props
+    const { showHotelName, hotelName } = this._getHotelName('out', transportType, out.get(KEY_NAMES.ACCOMMODATION))
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
@@ -227,6 +254,14 @@ class FutureTripCard extends Component {
           }))}
         </View>
 
+        {
+          showHotelName &&
+          <View style={ss.combo}>
+            {this._renderComboLabel('hotel')}
+            {this._renderComboText(hotelName)}
+          </View>
+        }
+
         <View style={ss.combo}>
           {this._renderComboLabel('bagPick')}
           {this._renderSelector(getBagLocations({
@@ -244,6 +279,7 @@ class FutureTripCard extends Component {
   _renderHomeCombos = transportType => {
     const { out, home } = this.acceptData
     const { connections } = this.props
+    const { showHotelName, hotelName } = this._getHotelName('home', transportType, home.get(KEY_NAMES.ACCOMMODATION))
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
@@ -287,6 +323,14 @@ class FutureTripCard extends Component {
             locked: this.shouldLockTrip
           }))}
         </View>
+
+        {
+          showHotelName &&
+          <View style={ss.combo}>
+            {this._renderComboLabel('hotel')}
+            {this._renderComboText(hotelName)}
+          </View>
+        }
 
         <View style={ss.combo}>
           {this._renderComboLabel('bagDrop')}
@@ -396,8 +440,8 @@ class FutureTripCard extends Component {
     const pax = getPax(trip)
     const transportType = transport ? transport.get('type') : ''
     const isDisabled = this.shouldLockTrip
-    const cardHeight = isDisabled ? 470 : 430
-    const imageConHeight = isDisabled ? 410 : 370
+    const cardHeight = isDisabled ? 490 : 450
+    const imageConHeight = isDisabled ? 430 : 390
 
     return (
       <View style={[ss.card, { height: cardHeight }]}>
@@ -454,7 +498,8 @@ const stateToProps = (state, props) => {
   return {
     accept: getAaccept(state, departureId),
     user: getUser(state),
-    connections: getConnections(state)
+    connections: getConnections(state),
+    reservation: getReservationsByDepartureId(state, departureId)
   }
 }
 
@@ -568,6 +613,15 @@ const ss = StyleSheet.create({
     borderRightWidth: 0,
     borderTopLeftRadius: 3,
     borderBottomLeftRadius: 3,
+    borderColor: Colors.charcoal
+  },
+  textBox: {
+    flex: 4,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingHorizontal: 5,
+    borderWidth: 1,
+    borderRadius: 3,
     borderColor: Colors.charcoal
   },
   selectorText: {

@@ -54,6 +54,7 @@ export const {
   formatCurrentTrip,
   getPaxIds,
   getTripByDepartureId,
+  getReservationsByDepartureId
 } = require('./trip')
 
 export const {
