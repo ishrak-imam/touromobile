@@ -155,25 +155,6 @@ export const mockSSNData = () => new Promise(resolve => {
 export const mockReservationData = () => new Promise(resolve => {
   setTimeout(() => {
     return resolve([
-      {
-        departure: 47777,
-        out: {
-          location: 'OT',
-          transfer: 'D',
-          transferCity: '201',
-          accommodation: 'SR',
-          hotel: 'Out hotel',
-          bag: 'OT'
-        },
-        home: {
-          location: 'OT',
-          transfer: 'D',
-          transferCity: '201',
-          accommodation: 'SR',
-          hotel: 'Home hotel',
-          bag: 'OT'
-        }
-      }
     ])
   }, 2000)
 })

@@ -311,10 +311,12 @@ export const getDefaultHotel = transportType => {
 }
 
 export const getLocationValue = key => {
+  if (!key) return null
   return LOCATION_OPTIONS[key].value
 }
 
 export const getTransferValue = key => {
+  if (!key) return null
   return TRANSFER_OPTIONS[key].value
 }
 
@@ -331,9 +333,11 @@ export const getTransferCityValue = (key, connections, transfer) => {
 }
 
 export const getAccommodationValue = key => {
+  if (!key) return null
   return ACCOMMODATION_OPTIONS[key].value
 }
 
 export const getBagValue = key => {
+  if (!key) return null
   return BAG_OPTIONS[key].value
 }

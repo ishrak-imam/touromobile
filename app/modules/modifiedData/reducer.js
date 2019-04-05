@@ -93,8 +93,8 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
   },
 
   [SET_ACCEPT_TRIP]: (state, payload) => {
-    let modifiedData = readValue(payload.departureId, state)
-    let accept = readValue('accept', modifiedData)
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let accept = readValue('accept', modifiedData) || getMap({})
     accept = setIntoMap(accept, 'isAccepted', payload.isAccepted)
     accept = setIntoMap(accept, 'dirty', true)
     accept = setIntoMap(accept, 'acceptedAt', null)
@@ -107,7 +107,7 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let accept = readValue('accept', modifiedData)
     accept = setIntoMap(accept, 'dirty', true)
     accept = setIntoMap(accept, 'acceptedAt', null)
-    let direction = readValue(payload.direction, accept)
+    let direction = readValue(payload.direction, accept) || getMap({})
     direction = setIntoMap(direction, payload.key, getMap(payload.value))
     accept = setIntoMap(accept, payload.direction, direction)
     modifiedData = setIntoMap(modifiedData, 'accept', accept)

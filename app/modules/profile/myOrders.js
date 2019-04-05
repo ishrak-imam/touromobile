@@ -192,8 +192,8 @@ class MyOrderCard extends Component {
   render () {
     const { order, reservations } = this.props
     const trip = order.get('trip')
-    let out = this._objectFlatten(order.get('out'))
-    let home = this._objectFlatten(order.get('home'))
+    let out = this._objectFlatten(order.get('out') || getMap({}))
+    let home = this._objectFlatten(order.get('home') || getMap({}))
 
     const departureId = String(trip.get('departureId'))
     const reservation = reservations.get(departureId)

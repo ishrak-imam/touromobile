@@ -22,9 +22,9 @@ import { tripNameFormatter } from '../utils/stringHelpers'
 import {
   setAcceptTrip,
   setAcceptTripCombos,
-  setDefaultCombos,
   acceptTripReq,
-  prepareCancelData,
+  // prepareCancelData,
+  // setDefaultCombos,
   cancelComboValues
 } from '../modules/modifiedData/action'
 
@@ -35,7 +35,7 @@ import {
   getBagLocations,
   getTransfers,
   getTransferCities,
-  getDefaultValues,
+  // getDefaultValues,
   shouldLockTrip,
   getDefaultHotel,
   getAccommodationOptions
@@ -52,35 +52,35 @@ class FutureTripCard extends Component {
   constructor (props) {
     super(props)
 
-    const { accept, trip } = props
-    const departureId = String(trip.get('departureId'))
-    const transport = trip.get('transport')
+    // const { accept, trip } = props
+    // const departureId = String(trip.get('departureId'))
+    // const transport = trip.get('transport')
 
-    if (transport && !accept.get('out') && !accept.get('home')) {
-      actionDispatcher(setDefaultCombos({
-        departureId,
-        ...getDefaultValues(accept, transport.get('type'))
-      }))
-    }
+    // if (transport && !accept.get('out') && !accept.get('home')) {
+    //   actionDispatcher(setDefaultCombos({
+    //     departureId,
+    //     ...getDefaultValues(accept, transport.get('type'))
+    //   }))
+    // }
 
     this.state = {
       tab: 'out'
     }
   }
 
-  componentDidMount () {
-    const { trip } = this.props
-    const transport = trip.get('transport')
-    if (transport) {
-      setTimeout(() => {
-        const { accept } = this.props
-        actionDispatcher(prepareCancelData({
-          departureId: this.departureId,
-          accept
-        }))
-      }, 0)
-    }
-  }
+  // componentDidMount () {
+  //   const { trip } = this.props
+  //   const transport = trip.get('transport')
+  //   if (transport) {
+  //     setTimeout(() => {
+  //       const { accept } = this.props
+  //       actionDispatcher(prepareCancelData({
+  //         departureId: this.departureId,
+  //         accept
+  //       }))
+  //     }, 0)
+  //   }
+  // }
 
   get acceptData () {
     const { accept } = this.props
@@ -201,7 +201,7 @@ class FutureTripCard extends Component {
     const accOptions = getAccommodationOptions()
 
     return {
-      showHotelName: selectedAcco.get('key') !== accOptions.NA.key,
+      showHotelName: selectedAcco ? selectedAcco.get('key') !== accOptions.NA.key : false,
       hotelName
     }
   }
@@ -400,18 +400,18 @@ class FutureTripCard extends Component {
       reservationData: {
         transportId: this.transportId,
         out: {
-          location: out.get('location').get('key'),
-          transfer: out.get('transfer').get('key'),
-          transferCity: out.get('transferCity').get('key'),
-          accommodation: out.get('accommodation').get('key'),
-          bag: out.get('bag').get('key')
+          location: out.getIn(['location', 'key']) || null,
+          transfer: out.getIn(['transfer', 'key']) || null,
+          transferCity: out.getIn(['transferCity', 'key']) || null,
+          accommodation: out.getIn(['accommodation', 'key']) || null,
+          bag: out.getIn(['bag', 'key']) || null
         },
         home: {
-          location: home.get('location').get('key'),
-          transfer: home.get('transfer').get('key'),
-          transferCity: home.get('transferCity').get('key'),
-          accommodation: home.get('accommodation').get('key'),
-          bag: home.get('bag').get('key')
+          location: home.getIn(['location', 'key']) || null,
+          transfer: home.getIn(['transfer', 'key']) || null,
+          transferCity: home.getIn(['transferCity', 'key']) || null,
+          accommodation: home.getIn(['accommodation', 'key']) || null,
+          bag: home.getIn(['bag', 'key']) || null
         }
       },
       showToast: true,
