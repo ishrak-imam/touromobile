@@ -404,10 +404,10 @@ const ss = StyleSheet.create({
     flex: 4,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingHorizontal: 5,
-    borderWidth: 1,
-    borderRadius: 3,
-    borderColor: Colors.charcoal
+    paddingHorizontal: 5
+    // borderWidth: 1,
+    // borderRadius: 3,
+    // borderColor: Colors.charcoal
   },
   selectorText: {
     fontSize: 14
@@ -416,7 +416,7 @@ const ss = StyleSheet.create({
     flex: 1.5,
     height: 30,
     flexDirection: 'row',
-    backgroundColor: Colors.silver,
+    // backgroundColor: Colors.silver,
     borderRadius: 3
   }
 })

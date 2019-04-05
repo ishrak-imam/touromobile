@@ -101,7 +101,7 @@ function * workerTripNavigation (action) {
   try {
     const { refreshFromFutureTrip, refreshFromPastTrip } = action.payload
     let currentTrip = yield select(gctSelector)
-    if (currentTrip.has && (!refreshFromFutureTrip || !refreshFromPastTrip)) {
+    if (currentTrip.has && (!refreshFromFutureTrip && !refreshFromPastTrip)) {
       const trips = currentTrip.trips
       if (trips.size === 1) {
         resetToScene('Home', { left: 'menu' })
