@@ -117,7 +117,8 @@ export const getLocations = basedOn => {
   return {
     selected,
     config: LOCATIONS[direction],
-    items: LOCATIONS[transportType]
+    items: LOCATIONS[transportType],
+    direction
   }
 }
 
@@ -136,7 +137,8 @@ export const getTransfers = basedOn => {
   return {
     selected,
     config: TRANSFERS[direction],
-    items: TRANSFERS[transportType]
+    items: TRANSFERS[transportType],
+    direction
   }
 }
 
@@ -188,7 +190,8 @@ export const getTransferCities = basedOn => {
   return {
     selected,
     config,
-    items
+    items,
+    direction
   }
 }
 
@@ -207,7 +210,8 @@ export const getAccommodations = basedOn => {
   return {
     selected,
     config: ACCOMMODATIONS[direction],
-    items: ACCOMMODATIONS[transportType]
+    items: ACCOMMODATIONS[transportType],
+    direction
   }
 }
 
@@ -235,7 +239,8 @@ export const getBagLocations = basedOn => {
   return {
     selected,
     config: BAG[direction],
-    items: BAG[`${transportType}${direction}`]
+    items: BAG[`${transportType}${direction}`],
+    direction
   }
 }
 

@@ -149,13 +149,23 @@ class FutureTripCard extends Component {
   }
 
   _renderSelector = options => {
-    const { selected, disabled } = options
+    let { selected, disabled, config, items, direction } = options
 
     const translatedOptions = Object.assign({}, options)
     if (!disabled) {
-      const config = Object.assign({}, options.config)
+      config = Object.assign({}, config)
       config.label = _T(config.label)
       translatedOptions.config = config
+    }
+
+    if (items && items.length === 1) {
+      disabled = true
+      if (!selected) {
+        const item = items[0]
+        setTimeout(() => {
+          this._onSelect({ key: config.key, value: item, direction })
+        }, 0)
+      }
     }
 
     const text = selected ? selected.get('value') : ''
