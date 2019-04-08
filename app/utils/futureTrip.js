@@ -24,11 +24,11 @@ const TRANSFER_OPTIONS = {
 }
 
 const BAG_OPTIONS = {
-  HOTEL: { key: 'H', value: 'Övernattningshotell Malmö' },
+  H: { key: 'H', value: 'Övernattningshotell Malmö' },
   OT: { key: 'OT', value: 'Öresundsterminalen' },
-  OFFICE: { key: 'O', value: 'Kontoret' },
-  MAIL: { key: 'M', value: 'Post' },
-  EDTRIP: { key: 'ET', value: 'Utbildningsresa (ingen väska)' }
+  O: { key: 'O', value: 'Kontoret' },
+  M: { key: 'M', value: 'Post' },
+  ET: { key: 'ET', value: 'Utbildningsresa (ingen väska)' }
 }
 
 const ACCOMMODATION_OPTIONS = {
@@ -227,7 +227,7 @@ export const getBagLocations = basedOn => {
     }
   }
 
-  if (other && other.get('key') === BAG_OPTIONS.EDTRIP.key) {
+  if (other && other.get('key') === BAG_OPTIONS.ET.key) {
     return {
       disabled: true,
       selected: null,

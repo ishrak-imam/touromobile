@@ -10,7 +10,7 @@ const clearBag = store => next => action => {
     action.payload &&
     action.type === setAcceptTripCombos.getType() &&
     action.payload.key === KEY_NAMES.BAG &&
-    action.payload.value.key === BAG_OPTIONS.EDTRIP.key
+    action.payload.value.key === BAG_OPTIONS.ET.key
   ) {
     store.dispatch(setAcceptTripCombos({
       departureId: action.payload.departureId,
