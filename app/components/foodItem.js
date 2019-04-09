@@ -11,9 +11,9 @@ import { actionDispatcher } from '../utils/actionDispatcher'
 import { takeOrderSummaryMode } from '../modules/modifiedData/action'
 
 class FoodItem extends Component {
-  shouldComponentUpdate (nextProps) {
-    return !nextProps.order.equals(this.props.order)
-  }
+  // shouldComponentUpdate (nextProps) {
+  //   return !nextProps.order.equals(this.props.order)
+  // }
 
   _onFoodSelect = sign => {
     const { departureId, bookingId, meal, mealType, paxCount } = this.props
@@ -71,6 +71,11 @@ class FoodItem extends Component {
     }
   }
 
+  _toAllergySelection = meal => () => {
+    const { navigation, brand, direction, bookingId, departureId } = this.props
+    navigation.navigate('Allergy', { meal, brand, direction, bookingId, departureId })
+  }
+
   render () {
     const { meal, order, mealType } = this.props
     let count = 0
@@ -80,10 +85,12 @@ class FoodItem extends Component {
     }
     if (mealType === 'drink') count = order.get('count') || 0
 
+    const mealName = meal.get('name')
+
     return (
       <ListItem style={ss.item}>
         <Left style={ss.itemLeft}>
-          <Text>{meal.get('name')}</Text>
+          <Text>{mealName}</Text>
         </Left>
         <Right style={ss.itemRight}>
           <TouchableOpacity style={ss.minus} onPress={this._onFoodSelect('minus')}>
@@ -95,6 +102,13 @@ class FoodItem extends Component {
           <TouchableOpacity style={ss.plus} onPress={this._onFoodSelect('plus')}>
             <Text style={ss.sign}>+</Text>
           </TouchableOpacity>
+          {
+            meal.get('type') === 'regular'
+              ? <TouchableOpacity style={ss.allergy} onPress={this._toAllergySelection(meal)}>
+                <Text style={ss.sign}>+</Text>
+              </TouchableOpacity>
+              : <View style={ss.empty} />
+          }
         </Right>
       </ListItem>
     )
@@ -134,6 +148,18 @@ const ss = StyleSheet.create({
     backgroundColor: Colors.green,
     borderRadius: 3
   },
+  allergy: {
+    height: 30,
+    width: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.blue,
+    borderRadius: 3
+  },
+  empty: {
+    height: 30,
+    width: 35
+  },
   minus: {
     height: 30,
     width: 35,
@@ -144,7 +170,7 @@ const ss = StyleSheet.create({
   },
   counter: {
     height: 30,
-    width: 35,
+    width: 20,
     justifyContent: 'center',
     alignItems: 'center'
   },

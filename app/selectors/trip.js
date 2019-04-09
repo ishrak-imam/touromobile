@@ -245,23 +245,27 @@ const resolvers = {
     }, getMap({}))
   },
 
-  formatMealsData: (meals, extra) => {
-    return meals.reduce((list, meal) => {
+  formatMealsData: (data, extra) => {
+    let meals = data.get('meals')
+    const allergyMeals = data.get('allergyMeals')
+
+    meals = meals.reduce((list, meal) => {
       if (meal.get('child') && meal.get('adult')) {
         list = list
-          .push(meal.set('child', null))
-          .push(meal.set('name', `(${extra}) ${meal.get('name')}`).set('adult', null))
+          .push(meal.set('child', null).set('type', 'regular'))
+          .push(meal.set('name', `(${extra}) ${meal.get('name')}`).set('adult', null).set('type', 'regular'))
       }
       if (meal.get('child') && !meal.get('adult')) {
-        list = list.push(meal.set('name', `(${extra}) ${meal.get('name')}`))
+        list = list.push(meal.set('name', `(${extra}) ${meal.get('name')}`).set('type', 'regular'))
       }
       if (!meal.get('child') && meal.get('adult')) {
-        list = list.push(meal)
+        list = list.push(meal.set('type', 'regular'))
       }
       return list
     }, getList([]))
-  }
 
+    return meals.concat(allergyMeals).sortBy(m => m.get('id'))
+  }
 }
 
 export const getTrips = state => state.trips
@@ -473,11 +477,11 @@ export const getModifiedPaxByBooking = data => {
 }
 
 let formattedMealsDataCache = null
-export const getFormattedMealsData = (meals, extra) => {
+export const getFormattedMealsData = (data, extra) => {
   if (!formattedMealsDataCache) {
     formattedMealsDataCache = Cache(resolvers.formatMealsData)
   }
-  return formattedMealsDataCache(meals, extra)
+  return formattedMealsDataCache(data, extra)
 }
 
 /**

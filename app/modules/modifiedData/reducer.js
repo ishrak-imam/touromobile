@@ -2,7 +2,7 @@
 import { createReducer } from '../../utils/reduxHelpers'
 import {
   setIntoMap, readValue, getMap,
-  mergeMapShallow, deleteFromMap
+  mergeMapShallow, deleteFromMap, getList, pushIntoList
 } from '../../utils/immutable'
 
 import {
@@ -29,6 +29,8 @@ import {
   SELECT_INVOICEE_SUMMARY_MODE,
 
   TAKE_EXTRA_ORDERS_SUMMARY_MODE,
+
+  SET_ALLERGY_ORDERS,
 
   RESET_ALL_ORDERS,
 
@@ -226,6 +228,18 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let extraOrders = readValue('extraOrdersSummaryMode', modifiedData) || getMap({})
     extraOrders = setIntoMap(extraOrders, payload.bookingId, payload.extraOrders)
     modifiedData = setIntoMap(modifiedData, 'extraOrdersSummaryMode', extraOrders)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SET_ALLERGY_ORDERS]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let allergyMeals = readValue('allergyMeals', modifiedData) || getMap({})
+    let bAllergyMeals = readValue(payload.bookingId, allergyMeals) || getMap({})
+    let dAllergyMeals = readValue(payload.direction, bAllergyMeals) || getList([])
+    dAllergyMeals = pushIntoList(dAllergyMeals, payload.meal)
+    bAllergyMeals = setIntoMap(bAllergyMeals, payload.direction, dAllergyMeals)
+    allergyMeals = setIntoMap(allergyMeals, payload.bookingId, bAllergyMeals)
+    modifiedData = setIntoMap(modifiedData, 'allergyMeals', allergyMeals)
     return setIntoMap(state, payload.departureId, modifiedData)
   },
 

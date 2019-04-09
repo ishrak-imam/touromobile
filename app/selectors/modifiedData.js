@@ -1,4 +1,4 @@
-import { getMap, getList, isMap } from '../utils/immutable'
+import { getMap, getList, isMap, mergeMapShallow, mergeMapDeep } from '../utils/immutable'
 
 import { getTripByDepartureId } from './trip'
 
@@ -249,4 +249,9 @@ export const getAcceptedAssignments = state => {
     }
     return list
   }, getList([]))
+}
+
+export const getAllergyMeals = (state, departureId, bookingId) => {
+  let allergyOrders = state.modifiedData.getIn([departureId, 'allergyMeals', bookingId]) || getMap({})
+  return mergeMapDeep(allergyOrders, getMap({ out: getList([]), home: getList([]) }))
 }

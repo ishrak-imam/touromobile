@@ -25,6 +25,8 @@ export const SELECT_INVOICEE_SUMMARY_MODE = 'SELECT_INVOICEE_SUMMARY_MODE'
 
 export const TAKE_EXTRA_ORDERS_SUMMARY_MODE = 'TAKE_EXTRA_ORDERS_SUMMARY_MODE'
 
+export const SET_ALLERGY_ORDERS = 'SET_ALLERGY_ORDERS'
+
 export const RESET_ALL_ORDERS = 'RESET_ALL_ORDER'
 
 export const SYNC_MODIFIED_DATA = 'SYNC_MODIFIED_DATA'
@@ -59,6 +61,8 @@ export const resetPaxOrder = createAction(RESET_PAX_ORDER)
 export const selectInvoiceeIndividualMode = createAction(SELECT_INVOICEE_INDIVIDUAL_MODE)
 
 export const takeExtraOrdersSummaryMode = createAction(TAKE_EXTRA_ORDERS_SUMMARY_MODE)
+
+export const setAllergyOrders = createAction(SET_ALLERGY_ORDERS)
 
 export const takeOrderSummaryMode = createAction(TAKE_ORDER_SUMMARY_MODE)
 export const selectInvoiceeSummaryMode = createAction(SELECT_INVOICEE_SUMMARY_MODE)

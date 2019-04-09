@@ -6,7 +6,7 @@ import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
 import {
   getLunches, getOrderForBookingSummaryMode,
-  getFormattedMealsData
+  getFormattedMealsData, getAllergyMeals
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { actionDispatcher } from '../utils/actionDispatcher'
@@ -20,7 +20,7 @@ import ExtraOrderSummaryMode from './extraOrderSummaryMode'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import isIOS from '../utils/isIOS'
 import isIphoneX from '../utils/isIphoneX'
-
+import { getMap } from '../utils/immutable'
 import SelectInvoiceeSummaryMode from './selectInvoiceeSummaryMode'
 
 class SummaryOrderItem extends Component {
@@ -42,7 +42,7 @@ class SummaryOrderItem extends Component {
 
   _renderFoodItem = (mealType, paxCount, totalOrder) => {
     const direction = this.state.tab
-    const { bookingId, departureId } = this.props
+    const { navigation, brand, bookingId, departureId } = this.props
     return ({ item }) => {
       return (
         <FoodItem
@@ -53,6 +53,8 @@ class SummaryOrderItem extends Component {
           mealType={mealType}
           paxCount={paxCount}
           totalOrder={totalOrder}
+          navigation={navigation}
+          brand={brand}
         />
       )
     }
@@ -86,8 +88,8 @@ class SummaryOrderItem extends Component {
     return count
   }
 
-  _renderMeals = (meals, paxCount) => {
-    const formattedMeals = getFormattedMealsData(meals, _T('child'))
+  _renderMeals = (meals, allergyMeals, paxCount) => {
+    const formattedMeals = getFormattedMealsData(getMap({ meals, allergyMeals }), _T('child'))
     return (
       <View style={ss.section}>
         <ListItem style={ss.header}>
@@ -99,7 +101,8 @@ class SummaryOrderItem extends Component {
           <ImmutableVirtualizedList
             immutableData={formattedMeals}
             renderItem={this._renderFoodItem('meal', paxCount, this.totalMealOrder)}
-            keyExtractor={item => `${item.get('id')}${item.get('adult') || item.get('child')}`}
+            // keyExtractor={item => `${item.get('id')}${item.get('adult') || item.get('child')}`}
+            keyExtractor={(item, index) => String(index)}
             renderEmpty={_T('noMealData')}
           />
         }
@@ -115,7 +118,7 @@ class SummaryOrderItem extends Component {
             <Text style={ss.boldText}>{_T('beverages')}</Text>
           </View>
         </ListItem>
-        {
+        {/* {
           beverages.size
             ? <ImmutableVirtualizedList
               immutableData={beverages}
@@ -123,7 +126,7 @@ class SummaryOrderItem extends Component {
               keyExtractor={item => String(item.get('id'))}
             />
             : <NoData text='noBeverageData' textStyle={{ marginTop: 30 }} />
-        }
+        } */}
       </View>
     )
   }
@@ -144,10 +147,11 @@ class SummaryOrderItem extends Component {
 
   _renderLunchOrders = () => {
     const { lunchOrders, tab } = this.state
-    const { pax, lunches, departureId, bookingId } = this.props
+    let { allergyMeals, pax, lunches, departureId, bookingId } = this.props
     const meals = lunches.getIn([tab, 'meals'])
     const beverages = lunches.getIn([tab, 'beverages'])
     const icon = lunchOrders ? 'minus' : 'plus'
+    allergyMeals = allergyMeals.get(tab)
 
     return (
       <View>
@@ -172,7 +176,7 @@ class SummaryOrderItem extends Component {
             <View style={ss.tabContainer}>
               <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
             </View>
-            {this._renderMeals(meals, pax.size)}
+            {this._renderMeals(meals, allergyMeals, pax.size)}
             {beverages && this._renderBeverages(beverages, pax.size)}
           </View>
         }
@@ -273,7 +277,8 @@ const stateToProps = (state, props) => {
   const { departureId, bookingId } = props
   return {
     lunches: getLunches(state),
-    orderForBooking: getOrderForBookingSummaryMode(state, departureId, bookingId)
+    orderForBooking: getOrderForBookingSummaryMode(state, departureId, bookingId),
+    allergyMeals: getAllergyMeals(state, departureId, bookingId)
   }
 }
 
