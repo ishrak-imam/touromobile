@@ -98,8 +98,7 @@ export const {
   getExtraOrdersSummaryMode,
   getAllExtraOrdersSummaryMode,
   getLastSyncedTime,
-  getAcceptedAssignments,
-  getAllergyMeals
+  getAcceptedAssignments
 } = require('./modifiedData')
 
 export const {

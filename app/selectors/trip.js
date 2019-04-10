@@ -246,10 +246,12 @@ const resolvers = {
   },
 
   formatMealsData: (data, extra) => {
-    let meals = data.get('meals')
-    const allergyMeals = data.get('allergyMeals')
+    const meals = data.get('meals')
+    const mealOrders = data.get('mealOrders')
 
-    meals = meals.reduce((list, meal) => {
+    return meals.reduce((list, meal) => {
+      const mealId = String(meal.get('id'))
+
       if (meal.get('child') && meal.get('adult')) {
         list = list
           .push(meal.set('child', null).set('type', 'regular'))
@@ -261,10 +263,27 @@ const resolvers = {
       if (!meal.get('child') && meal.get('adult')) {
         list = list.push(meal.set('type', 'regular'))
       }
+
+      if (mealOrders && mealOrders.get(mealId)) {
+        const mealOrder = mealOrders.get(mealId)
+        if (mealOrder.get('allergies')) {
+          mealOrder.get('allergies').every(order => {
+            const name = `${meal.get('name')} (${order.get('allergyText')})`
+            list = list.push(getMap({
+              allergyId: order.get('allergyId'),
+              name,
+              adult: order.get('adult'),
+              child: order.get('child'),
+              type: 'allergy',
+              id: order.get('mealId')
+            }))
+            return true
+          })
+        }
+      }
+
       return list
     }, getList([]))
-
-    return meals.concat(allergyMeals).sortBy(m => m.get('id'))
   }
 }
 

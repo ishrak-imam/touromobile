@@ -2,7 +2,7 @@
 import { createReducer } from '../../utils/reduxHelpers'
 import {
   setIntoMap, readValue, getMap,
-  mergeMapShallow, deleteFromMap, getList, pushIntoList
+  mergeMapShallow, deleteFromMap, mergeMapDeep
 } from '../../utils/immutable'
 
 import {
@@ -26,6 +26,7 @@ import {
   SELECT_INVOICEE_INDIVIDUAL_MODE,
 
   TAKE_ORDER_SUMMARY_MODE,
+  TAKE_ALLERGY_ORDER_SUMMARY_MODE,
   SELECT_INVOICEE_SUMMARY_MODE,
 
   TAKE_EXTRA_ORDERS_SUMMARY_MODE,
@@ -232,14 +233,39 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
   },
 
   [SET_ALLERGY_ORDERS]: (state, payload) => {
-    let modifiedData = readValue(payload.departureId, state) || getMap({})
-    let allergyMeals = readValue('allergyMeals', modifiedData) || getMap({})
-    let bAllergyMeals = readValue(payload.bookingId, allergyMeals) || getMap({})
-    let dAllergyMeals = readValue(payload.direction, bAllergyMeals) || getList([])
-    dAllergyMeals = pushIntoList(dAllergyMeals, payload.meal)
-    bAllergyMeals = setIntoMap(bAllergyMeals, payload.direction, dAllergyMeals)
-    allergyMeals = setIntoMap(allergyMeals, payload.bookingId, bAllergyMeals)
-    modifiedData = setIntoMap(modifiedData, 'allergyMeals', allergyMeals)
+    let modifiedData = readValue(payload.departureId, state)
+    let ordersSummaryMode = readValue('ordersSummaryMode', modifiedData)
+    let orderForBooking = readValue(payload.bookingId, ordersSummaryMode)
+    let orderForDirection = readValue(payload.direction, orderForBooking)
+    let orderForMealType = readValue('meal', orderForDirection)
+    let meal = readValue(payload.mealId, orderForMealType)
+    let allergies = readValue('allergies', meal) || getMap({})
+    allergies = setIntoMap(allergies, payload.allergyId, getMap(payload.allergyOrder))
+    meal = setIntoMap(meal, 'allergies', allergies)
+    orderForMealType = setIntoMap(orderForMealType, payload.mealId, meal)
+    orderForDirection = setIntoMap(orderForDirection, 'meal', orderForMealType)
+    orderForBooking = setIntoMap(orderForBooking, payload.direction, orderForDirection)
+    ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [TAKE_ALLERGY_ORDER_SUMMARY_MODE]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state)
+    let ordersSummaryMode = readValue('ordersSummaryMode', modifiedData)
+    let orderForBooking = readValue(payload.bookingId, ordersSummaryMode)
+    let orderForDirection = readValue(payload.direction, orderForBooking)
+    let orderForMealType = readValue('meal', orderForDirection)
+    let meal = readValue(payload.mealId, orderForMealType)
+    let allergies = readValue('allergies', meal)
+    let allergyOrder = readValue(payload.allergyId, allergies)
+    allergies = setIntoMap(allergies, payload.allergyId, mergeMapDeep(allergyOrder, payload.allergyOrder))
+    meal = setIntoMap(meal, 'allergies', allergies)
+    orderForMealType = setIntoMap(orderForMealType, payload.mealId, meal)
+    orderForDirection = setIntoMap(orderForDirection, 'meal', orderForMealType)
+    orderForBooking = setIntoMap(orderForBooking, payload.direction, orderForDirection)
+    ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)
     return setIntoMap(state, payload.departureId, modifiedData)
   },
 
@@ -249,7 +275,8 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let orderForBooking = readValue(payload.bookingId, ordersSummaryMode) || getMap({})
     let orderForDirection = readValue(payload.direction, orderForBooking) || getMap({})
     let orderForMealType = readValue(payload.mealType, orderForDirection) || getMap({})
-    orderForMealType = setIntoMap(orderForMealType, payload.mealId, getMap(payload.order))
+    let order = readValue(payload.mealId, orderForMealType) || getMap({})
+    orderForMealType = setIntoMap(orderForMealType, payload.mealId, mergeMapDeep(order, payload.order))
     orderForDirection = setIntoMap(orderForDirection, payload.mealType, orderForMealType)
     orderForBooking = setIntoMap(orderForBooking, payload.direction, orderForDirection)
     ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)

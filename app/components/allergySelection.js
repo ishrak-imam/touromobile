@@ -1,27 +1,14 @@
 
 import React, { Component } from 'react'
-import {
-  StyleSheet, TextInput
-  // TouchableOpacity
-} from 'react-native'
+import { StyleSheet, TextInput } from 'react-native'
 import { View, ListItem, Text } from 'native-base'
-import {
-  getSet
-  // getMap
-} from '../utils/immutable'
+import { getSet, getMap } from '../utils/immutable'
 import CheckBox from './checkBox'
 import FooterButtons from './footerButtons'
-// import uuid from 'react-native-uuid'
-import {
-  Colors
-  // IonIcon
-} from '../theme'
-
+import uuid from 'react-native-uuid'
+import { Colors } from '../theme'
 import { setAllergyOrders } from '../modules/modifiedData/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
-
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-// import isIOS from '../utils/isIOS'
 
 const ALLERGIES = [
   'Vegan', 'Nuts', 'Potatoes', 'Lactose', 'Gluten'
@@ -30,16 +17,11 @@ const ALLERGIES = [
 export default class AllergySelection extends Component {
   constructor (props) {
     super(props)
-
-    // const id = uuid.v1()
-    // let extraAllergies = getMap({
-    //   [id]: getMap({ id })
-    // })
-
     this.state = {
       disabled: true,
       allergies: getSet([]),
-      extraAllergies: ''
+      extraAllergies: '',
+      allergyId: uuid.v1()
     }
   }
 
@@ -59,32 +41,9 @@ export default class AllergySelection extends Component {
     }
   }
 
-  // _onAddItem = () => {
-  //   const { extraAllergies } = this.state
-  //   const id = uuid.v1()
-  //   this.setState({
-  //     extraAllergies: extraAllergies.set(id, getMap({ id }))
-  //   })
-  // }
-
-  // _onChangeText = key => value => {
-  //   const { extraAllergies } = this.state
-  //   this.setState({
-  //     extraOrders: extraAllergies.setIn([key, 'text'], value)
-  //   })
-  // }
-
-  _onChangeText = text => this.setState({ extraAllergies: text }, this._toggleDisable)
-
-  // _onDelete = key => {
-  //   const { extraAllergies } = this.state
-  //   if (extraAllergies.size === 1) return null
-  //   return () => {
-  //     this.setState({
-  //       extraAllergies: extraAllergies.delete(key)
-  //     })
-  //   }
-  // }
+  _onChangeText = text => {
+    this.setState({ extraAllergies: text }, this._toggleDisable)
+  }
 
   _onCancel = () => {
     this.props.navigation.goBack()
@@ -92,26 +51,35 @@ export default class AllergySelection extends Component {
 
   _onSave = () => {
     let { meal, direction, departureId, bookingId } = this.props
-    const { allergies, extraAllergies } = this.state
-    const allergyText = `${allergies.join(', ')}, ${extraAllergies}`.replace(/,\s*$/, '')
-    const mealName = `${meal.get('name')} (${allergyText})`
-    meal = meal.set('name', mealName).set('type', 'allergy')
+    const mealId = String(meal.get('id'))
+    const { allergyId, allergies, extraAllergies } = this.state
+
+    let allergyText = allergies.join(', ')
+    if (extraAllergies) {
+      allergyText = allergies.size ? `${allergyText}, ${extraAllergies}` : extraAllergies
+    }
+
+    const allergyOrder = getMap({
+      allergyId,
+      allergyText,
+      adultCount: +!!meal.get('adult'),
+      childCount: +!!meal.get('child'),
+      adult: meal.get('adult'),
+      child: meal.get('child'),
+      mealId
+    })
+
     actionDispatcher(setAllergyOrders({
-      meal, direction, departureId, bookingId
+      departureId, bookingId, direction, mealId, allergyId, allergyOrder
     }))
+
     this._onCancel()
   }
 
   render () {
     const { allergies, extraAllergies, disabled } = this.state
     return (
-      <View
-        // showsVerticalScrollIndicator={false}
-        style={ss.container}
-        // extraScrollHeight={isIOS ? 40 : 200}
-        // enableOnAndroid
-        // keyboardShouldPersistTaps='always'
-      >
+      <View style={ss.container}>
         <View style={ss.allergyList}>
           {
             ALLERGIES.map((allergy, index) => {
@@ -129,25 +97,6 @@ export default class AllergySelection extends Component {
           }
         </View>
         <View style={ss.allergyList}>
-          {/* {
-            Object.keys(extraAllergies.toJS()).map(key => {
-              const allergy = extraAllergies.get(key)
-              return (
-                <ListItem style={ss.listItem} key={key}>
-                  <TextInput
-                    underlineColorAndroid='transparent'
-                    placeholder='Some other allergy'
-                    value={allergy.get('text')}
-                    style={ss.input}
-                    onChangeText={this._onChangeText(key)}
-                  />
-                  <TouchableOpacity style={ss.delete} onPress={this._onDelete(key)}>
-                    <IonIcon name='delete' size={27} color={Colors.cancel} />
-                  </TouchableOpacity>
-                </ListItem>
-              )
-            })
-          } */}
           <TextInput
             underlineColorAndroid='transparent'
             placeholder='Some other allergy'
@@ -155,9 +104,6 @@ export default class AllergySelection extends Component {
             style={ss.input}
             onChangeText={this._onChangeText}
           />
-          {/* <TouchableOpacity style={ss.plus} onPress={this._onAddItem}>
-            <Text style={ss.sign}>+</Text>
-          </TouchableOpacity> */}
         </View>
         <View style={ss.footer}>
           <FooterButtons disabled={disabled} onSave={this._onSave} onCancel={this._onCancel} />
@@ -201,32 +147,14 @@ const ss = StyleSheet.create({
   },
   footer: {
     height: 30,
-    marginTop: 10 // 40
+    marginTop: 10
   },
   input: {
     height: 35,
-    width: '100%', // '85%',
+    width: '100%',
     borderWidth: 1,
     borderColor: Colors.charcoal,
     borderRadius: 2,
     padding: 5
   }
-  // plus: {
-  //   height: 30,
-  //   width: 35,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: Colors.green,
-  //   borderRadius: 3
-  // },
-  // sign: {
-  //   fontWeight: 'bold',
-  //   color: Colors.white
-  // },
-  // delete: {
-  //   height: 35,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   width: '10%'
-  // }
 })

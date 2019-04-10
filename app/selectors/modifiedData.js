@@ -1,4 +1,4 @@
-import { getMap, getList, isMap, mergeMapShallow, mergeMapDeep } from '../utils/immutable'
+import { getMap, getList, isMap } from '../utils/immutable'
 
 import { getTripByDepartureId } from './trip'
 
@@ -35,70 +35,73 @@ export const getOrderForBookingSummaryMode = (state, departureId, bookingId) => 
   return state.modifiedData.getIn([departureId, 'ordersSummaryMode', bookingId]) || getMap({})
 }
 
-export const getOrdersByDirection = (state, departureId, direction, orderMode) => {
-  const key = orderMode === 'SUMMARY' ? 'ordersSummaryMode' : 'orders'
-  const orders = state.modifiedData.getIn([departureId, key]) || getMap({})
+export const getOrdersByDirection = (state, departureId, direction) => {
+  const orders = state.modifiedData.getIn([departureId, 'ordersSummaryMode']) || getMap({})
 
   if (orders.size === 0) {
     return getList([])
   }
 
-  const formattedOrders = orderMode === 'SUMMARY'
+  return orders.reduce((list, booking) => {
+    const bOrders = booking.get(direction)
 
-    ? orders.reduce((list, booking) => {
-      const bOrders = booking.get(direction)
+    if (bOrders && bOrders.size > 0) {
+      const meals = bOrders.get('meal')
+      if (meals && meals.size > 0) {
+        list = list.concat(meals.reduce((mList, meal) => {
+          for (let i = 0; i < meal.get('adultCount'); i++) {
+            mList = mList.push(getMap({
+              meal: meal.get('mealId'),
+              adult: true
+            }))
+          }
+          for (let i = 0; i < meal.get('childCount'); i++) {
+            mList = mList.push(getMap({
+              meal: meal.get('mealId'),
+              adult: false
+            }))
+          }
 
-      if (bOrders && bOrders.size > 0) {
-        const meals = bOrders.get('meal')
-        if (meals && meals.size > 0) {
-          list = list.concat(meals.reduce((mList, meal) => {
-            for (let i = 0; i < meal.get('adultCount'); i++) {
-              mList = mList.push(getMap({
-                meal: meal.get('mealId'),
-                drink: null,
-                adult: true
-              }))
-            }
-            for (let i = 0; i < meal.get('childCount'); i++) {
-              mList = mList.push(getMap({
-                meal: meal.get('mealId'),
-                drink: null,
-                adult: false
-              }))
-            }
-            return mList
-          }, getList([])))
-        }
+          if (meal.get('allergies')) {
+            const allergies = meal.get('allergies')
+            allergies.every(order => {
+              for (let i = 0; i < order.get('adultCount'); i++) {
+                mList = mList.push(getMap({
+                  meal: order.get('mealId'),
+                  adult: true,
+                  allergyText: order.get('allergyText')
+                }))
+              }
+              for (let i = 0; i < order.get('childCount'); i++) {
+                mList = mList.push(getMap({
+                  meal: order.get('mealId'),
+                  adult: false,
+                  allergyText: order.get('allergyText')
+                }))
+              }
+            })
+          }
 
-        const drinks = bOrders.get('drink')
-        if (drinks && drinks.size > 0) {
-          list = list.concat(drinks.reduce((dList, drink) => {
-            for (let i = 0; i < drink.get('count'); i++) {
-              dList = dList.push(getMap({
-                drink: drink.get('drinkId'),
-                meal: null,
-                adult: !drink.get('isChild')
-              }))
-            }
-            return dList
-          }, getList([])))
-        }
+          return mList
+        }, getList([])))
       }
 
-      return list
-    }, getList([]))
+      const drinks = bOrders.get('drink')
+      if (drinks && drinks.size > 0) {
+        list = list.concat(drinks.reduce((dList, drink) => {
+          for (let i = 0; i < drink.get('count'); i++) {
+            dList = dList.push(getMap({
+              drink: drink.get('drinkId'),
+              adult: !drink.get('isChild')
+            }))
+          }
+          return dList
+        }, getList([])))
+      }
+    }
 
-    : orders.reduce((list, booking) => {
-      const bOrders = booking.reduce((bList, pax) => {
-        if (isMap(pax) && pax.get(direction)) {
-          bList = bList.push(pax.get(direction))
-        }
-        return bList
-      }, getList([]))
-      return list.concat(bOrders)
-    }, getList([]))
-
-  return formattedOrders
+    return list
+  }, getList([]))
 }
 
 export const getOrders = (state, departureId, orderMode) => {
@@ -249,9 +252,4 @@ export const getAcceptedAssignments = state => {
     }
     return list
   }, getList([]))
-}
-
-export const getAllergyMeals = (state, departureId, bookingId) => {
-  let allergyOrders = state.modifiedData.getIn([departureId, 'allergyMeals', bookingId]) || getMap({})
-  return mergeMapDeep(allergyOrders, getMap({ out: getList([]), home: getList([]) }))
 }
