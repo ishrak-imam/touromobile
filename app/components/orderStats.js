@@ -31,8 +31,8 @@ export default class OrderStats extends Component {
 
     const mealsData = direction.reduce((map, order) => {
       const isAdult = order.get('adult')
-      const mealId = String(order.get('meal'))
-      if (mealId !== 'null') {
+      if (order.get('meal')) {
+        const mealId = String(order.get('meal'))
         const item = map.orders[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
         if (!map[mealId]) { // new meal
           if (isAdult) map.total.adult = map.total.adult + 1
@@ -57,8 +57,8 @@ export default class OrderStats extends Component {
 
     const beveragesData = direction.reduce((map, order) => {
       const isAdult = order.get('adult')
-      const drinkId = String(order.get('drink'))
-      if (drinkId !== 'null') {
+      if (order.get('drink')) {
+        const drinkId = String(order.get('drink'))
         const item = map.orders[drinkId] || { drink: drinkId, adultCount: 0, childCount: 0 }
         if (!map[drinkId]) { // new drink
           if (isAdult) map.total.adult = map.total.adult + 1

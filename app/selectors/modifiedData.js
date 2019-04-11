@@ -35,8 +35,9 @@ export const getOrderForBookingSummaryMode = (state, departureId, bookingId) => 
   return state.modifiedData.getIn([departureId, 'ordersSummaryMode', bookingId]) || getMap({})
 }
 
-export const getOrdersByDirection = (state, departureId, direction) => {
-  const orders = state.modifiedData.getIn([departureId, 'ordersSummaryMode']) || getMap({})
+export const getOrdersByDirection = (state, departureId, direction, orderMode) => {
+  const key = orderMode === 'SUMMARY' ? 'ordersSummaryMode' : 'orders'
+  const orders = state.modifiedData.getIn([departureId, key]) || getMap({})
 
   if (orders.size === 0) {
     return getList([])
@@ -135,6 +136,34 @@ export const getOrders = (state, departureId, orderMode) => {
                 booking: bookingId
               }))
             }
+
+            /**
+             * Allergy
+             */
+            if (meal.get('allergies')) {
+              const allergies = meal.get('allergies')
+              allergies.every(order => {
+                for (let i = 0; i < order.get('adultCount'); i++) {
+                  list = list.push(getMap({
+                    meal: order.get('mealId'),
+                    adult: true,
+                    allergyText: order.get('allergyText'),
+                    booking: bookingId
+                  }))
+                }
+                for (let i = 0; i < order.get('childCount'); i++) {
+                  list = list.push(getMap({
+                    meal: order.get('mealId'),
+                    adult: false,
+                    allergyText: order.get('allergyText'),
+                    booking: bookingId
+                  }))
+                }
+
+                return true
+              })
+            }
+
             return list
           }, getList([]))))
         }
@@ -176,6 +205,33 @@ export const getOrders = (state, departureId, orderMode) => {
                 booking: bookingId
               }))
             }
+
+            /**
+             * Allergy
+             */
+            if (meal.get('allergies')) {
+              const allergies = meal.get('allergies')
+              allergies.every(order => {
+                for (let i = 0; i < order.get('adultCount'); i++) {
+                  list = list.push(getMap({
+                    meal: order.get('mealId'),
+                    adult: true,
+                    allergyText: order.get('allergyText'),
+                    booking: bookingId
+                  }))
+                }
+                for (let i = 0; i < order.get('childCount'); i++) {
+                  list = list.push(getMap({
+                    meal: order.get('mealId'),
+                    adult: false,
+                    allergyText: order.get('allergyText'),
+                    booking: bookingId
+                  }))
+                }
+                return true
+              })
+            }
+
             return list
           }, getList([]))))
         }

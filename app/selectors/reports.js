@@ -86,13 +86,15 @@ export const getOrderStats = (orders, extraOrders, transportId, orderMode, excur
       if (orderMode === 'SUMMARY') {
         const invoicee = bOrders.get('invoicee')
         // aggregated.invoicee = bOrders.getIn(['invoicee', 'key'])
-        aggregated.invoicee = {
-          address: invoicee.get('address'),
-          city: invoicee.get('city'),
-          zip: invoicee.get('zip'),
-          ssn: invoicee.get('ssn'),
-          name: invoicee.get('name'),
-          id: invoicee.get('id')
+        if (invoicee) {
+          aggregated.invoicee = {
+            address: invoicee.get('address'),
+            city: invoicee.get('city'),
+            zip: invoicee.get('zip'),
+            ssn: invoicee.get('ssn'),
+            name: invoicee.get('name'),
+            id: invoicee.get('id')
+          }
         }
         const out = bOrders.get('out')
         if (out && out.size > 0) {
@@ -105,6 +107,23 @@ export const getOrderStats = (orders, extraOrders, transportId, orderMode, excur
                 adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
                 childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
               }
+
+              /**
+              * Allergy
+              */
+              if (meal.get('allergies')) {
+                const allergies = meal.get('allergies')
+                allergies.every(order => {
+                  const allergyMealId = String(order.get('mealId'))
+                  const m = details[allergyMealId]
+                  details[allergyMealId] = {
+                    meal: allergyMealId,
+                    adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
+                    childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+                  }
+                })
+              }
+
               return true
             })
           }
@@ -120,6 +139,23 @@ export const getOrderStats = (orders, extraOrders, transportId, orderMode, excur
                 adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
                 childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
               }
+
+              /**
+              * Allergy
+              */
+              if (meal.get('allergies')) {
+                const allergies = meal.get('allergies')
+                allergies.every(order => {
+                  const allergyMealId = String(order.get('mealId'))
+                  const m = details[allergyMealId]
+                  details[allergyMealId] = {
+                    meal: allergyMealId,
+                    adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
+                    childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+                  }
+                })
+              }
+
               return true
             })
           }
