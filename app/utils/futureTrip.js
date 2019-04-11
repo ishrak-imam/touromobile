@@ -91,10 +91,10 @@ const BAG = {
   flighthome: Object.values(BAG_OPTIONS),
 
   busout: [
-    BAG_OPTIONS.HOTEL,
+    BAG_OPTIONS.H,
     BAG_OPTIONS.OT,
-    BAG_OPTIONS.OFFICE,
-    BAG_OPTIONS.EDTRIP
+    BAG_OPTIONS.O,
+    BAG_OPTIONS.ET
   ],
 
   bushome: [
