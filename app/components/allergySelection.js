@@ -51,7 +51,7 @@ export default class AllergySelection extends Component {
   }
 
   _onSave = () => {
-    let { meal, direction, departureId, bookingId } = this.props
+    let { meal, direction, totalOrder, paxCount, departureId, bookingId } = this.props
     const mealId = String(meal.get('id'))
     const { allergyId, allergies, extraAllergies } = this.state
 
@@ -60,11 +60,13 @@ export default class AllergySelection extends Component {
       allergyText = allergies.size ? `${allergyText}, ${extraAllergies}` : extraAllergies
     }
 
+    const isMaxOrderPlaced = totalOrder === paxCount
+
     const allergyOrder = getMap({
       allergyId,
       allergyText,
-      adultCount: +!!meal.get('adult'),
-      childCount: +!!meal.get('child'),
+      adultCount: isMaxOrderPlaced ? 0 : +!!meal.get('adult'),
+      childCount: isMaxOrderPlaced ? 0 : +!!meal.get('child'),
       adult: meal.get('adult'),
       child: meal.get('child'),
       mealId

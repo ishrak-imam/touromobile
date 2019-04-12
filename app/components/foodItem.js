@@ -102,7 +102,7 @@ class FoodItem extends Component {
   }
 
   _toAllergySelection = meal => () => {
-    const { navigation, brand, direction, bookingId, departureId } = this.props
+    const { navigation, brand, totalOrder, paxCount, direction, bookingId, departureId } = this.props
     let { order } = this.props
     const mealId = String(meal.get('id'))
     if (!order.size) {
@@ -111,7 +111,9 @@ class FoodItem extends Component {
         departureId, bookingId, direction, mealType: 'meal', mealId, order
       }))
     }
-    navigation.navigate('Allergy', { meal, brand, direction, bookingId, departureId })
+    navigation.navigate('Allergy', {
+      meal, brand, direction, totalOrder, paxCount, bookingId, departureId
+    })
   }
 
   render () {

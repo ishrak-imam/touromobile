@@ -10,6 +10,8 @@ export default class AllergyScreen extends Component {
     const meal = navigation.getParam('meal')
     const brand = navigation.getParam('brand')
     const direction = navigation.getParam('direction')
+    const totalOrder = navigation.getParam('totalOrder')
+    const paxCount = navigation.getParam('paxCount')
     const bookingId = navigation.getParam('bookingId')
     const departureId = navigation.getParam('departureId')
 
@@ -20,6 +22,8 @@ export default class AllergyScreen extends Component {
           navigation={navigation}
           meal={meal}
           direction={direction}
+          totalOrder={totalOrder}
+          paxCount={paxCount}
           bookingId={bookingId}
           departureId={departureId}
         />
