@@ -254,7 +254,7 @@ class SummaryOrderItem extends Component {
 
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          style={ss.scroll}
+          contentContainerStyle={ss.scroll}
           extraScrollHeight={isIOS ? 40 : 200}
           enableOnAndroid
           keyboardShouldPersistTaps='always'
@@ -310,7 +310,7 @@ const ss = StyleSheet.create({
   },
   scroll: {
     // marginTop: 5,
-    marginBottom: isIphoneX ? 30 : 20
+    paddingBottom: isIphoneX ? 30 : 20
   },
   topHeader: {
     marginLeft: 0,
