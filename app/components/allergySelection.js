@@ -9,6 +9,7 @@ import uuid from 'react-native-uuid'
 import { Colors } from '../theme'
 import { setAllergyOrders } from '../modules/modifiedData/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
+import _T from '../utils/translator'
 
 const ALLERGIES = [
   'Vegan', 'Nuts', 'Potatoes', 'Lactose', 'Gluten'
@@ -99,7 +100,7 @@ export default class AllergySelection extends Component {
         <View style={ss.allergyList}>
           <TextInput
             underlineColorAndroid='transparent'
-            placeholder='Some other allergy'
+            placeholder={_T('otherAllergy')}
             value={extraAllergies}
             style={ss.input}
             onChangeText={this._onChangeText}

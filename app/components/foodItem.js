@@ -187,7 +187,7 @@ const ss = StyleSheet.create({
   itemRight: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between'
   },
   plus: {
     height: 30,
@@ -199,11 +199,12 @@ const ss = StyleSheet.create({
   },
   allergy: {
     height: 30,
-    width: 35,
+    width: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.blue,
-    borderRadius: 3
+    backgroundColor: Colors.bloodOrange,
+    borderRadius: 15,
+    marginLeft: 10
   },
   empty: {
     height: 30,
