@@ -14,7 +14,7 @@ import {
   connectionsReq, reservationsReq
 } from './action'
 import Header from '../../components/header'
-import startSyncDataWorker from '../../utils/modifiedDataSync'
+// import startSyncDataWorker from '../../utils/modifiedDataSync'
 
 class TripsLoading extends Component {
   constructor (props) {
@@ -58,12 +58,12 @@ class TripsLoading extends Component {
 
     this._requestReservations()
 
-    this.syncDataTimer = startSyncDataWorker()
+    // this.syncDataTimer = startSyncDataWorker()
   }
 
-  componentWillUnmount () {
-    clearInterval(this.syncDataTimer)
-  }
+  // componentWillUnmount () {
+  //   clearInterval(this.syncDataTimer)
+  // }
 
   _requestTrips = isRefreshing => {
     const { user } = this.props

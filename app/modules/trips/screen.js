@@ -14,6 +14,7 @@ import NoData from '../../components/noData'
 import { ScrollView, RefreshControl } from 'react-native'
 import OverlaySpinner from '../../components/overlaySpinner'
 import { restructureModifiedData } from '../modifiedData/action'
+import startSyncDataWorker from '../../utils/modifiedDataSync'
 
 class TripScreen extends Component {
   constructor (props) {
@@ -31,6 +32,11 @@ class TripScreen extends Component {
   componentDidMount () {
     actionDispatcher(restructureModifiedData())
     this._showContent()
+    this.syncDataTimer = startSyncDataWorker()
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.syncDataTimer)
   }
 
   _showContent = () => {
