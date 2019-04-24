@@ -94,7 +94,7 @@ class PaxItem extends Component {
       }
 
       return (
-        <ListItem itemDivider style={{ backgroundColor: Colors.blue }}>
+        <ListItem itemDivider style={ss.itemDivider}>
           <Text style={ss.sectionText}>{text}</Text>
         </ListItem>
       )
@@ -120,7 +120,7 @@ class PaxItem extends Component {
           </View>
         </Left>
         <View style={ss.itemBody}>
-          <Text numberOfLines={1}>{name}</Text>
+          <Text numberOfLines={2}>{name}</Text>
           {comment && <Text note>{paxComment}</Text>}
         </View>
         <Right style={ss.itemRight}>
@@ -312,7 +312,7 @@ const ss = StyleSheet.create({
     justifyContent: 'space-around'
   },
   itemBody: {
-    flex: 4,
+    flex: 3.5,
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
@@ -344,5 +344,8 @@ const ss = StyleSheet.create({
   listItem: {
     marginLeft: 0,
     paddingRight: 5
+  },
+  itemDivider: {
+    backgroundColor: Colors.blue
   }
 })
