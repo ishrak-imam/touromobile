@@ -12,6 +12,7 @@ import _T from '../utils/translator'
 import PaxWithoutOrder from './paxWithoutOrder'
 import NoData from './noData'
 import BookingsWithoutOrder from './bookingsWithoutOrder'
+import BookingsWithIssues from './bookingsWithIssues'
 
 const INDIVIDUAL_MODE = 'INDIVIDUAL'
 const SUMMARY_MODE = 'SUMMARY'
@@ -262,11 +263,11 @@ export default class OrderStats extends Component {
   }
 
   _renderOrderStats = () => {
-    const { orderMode, beverages } = this.props
+    const { orderMode, beverages, issues, orderIssues } = this.props
     return (
       <View>
         {this._renderHeader()}
-        <ScrollView contentContainerStyle={{ paddingBottom: 110 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 150 }}>
           {this._renderMealOrders()}
           {beverages.get('out') && beverages.get('home') && this._renderBeverageOrders()}
 
@@ -278,6 +279,11 @@ export default class OrderStats extends Component {
           {
             orderMode === INDIVIDUAL_MODE &&
             <PaxWithoutOrder paxList={this.paxWithoutOrder} label='paxWithoutOrder' />
+          }
+
+          {
+            !orderIssues.canUploadReport &&
+            <BookingsWithIssues issues={issues} orderIssues={orderIssues} label='Bookings with issues' />
           }
 
         </ScrollView>

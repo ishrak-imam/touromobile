@@ -144,5 +144,6 @@ export default {
   noMoreSms: 'Inget mer SMS',
   createdAt: 'Skapad på',
   noAssignments: 'Ingen uppgift accepterad än',
-  sendMeCopy: 'Skicka kopia till mig'
+  sendMeCopy: 'Skicka kopia till mig',
+  missingInvoicee: 'Fakturamottagare saknas'
 }

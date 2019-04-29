@@ -95,12 +95,44 @@ class ReportsScreen extends Component {
     )
   }
 
+  _checkForIssuesInOrder = (orders, possibleIssues) => {
+    const orderProblems = {
+      canUploadReport: true
+    }
+
+    possibleIssues.reduce((map, issue) => {
+      if (issue === 'Invoicee') {
+        map[issue] = {
+          desc: `missing${issue}`,
+          bookings: []
+        }
+        orders.every((order, booking) => {
+          const invoicee = !!order.get('invoicee')
+          if (!invoicee) {
+            map.canUploadReport = false
+            map[issue].bookings.push(booking)
+          }
+          return true
+        })
+      }
+      return map
+    }, orderProblems)
+
+    return orderProblems
+  }
+
   render () {
     const { tab } = this.state
     const {
       currentTrip, participants, excursions, orderMode,
-      reports, navigation, orders, meals, beverages
+      reports, navigation, orders, meals, beverages,
+      allOrders
     } = this.props
+
+    const issues = ['Invoicee']
+
+    const orderIssues = this._checkForIssuesInOrder(allOrders, issues)
+
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
     const isDataReady = currentTrip.get('has')
@@ -131,12 +163,19 @@ class ReportsScreen extends Component {
             meals={meals}
             beverages={beverages}
             isFlight={isFlight}
+            orderIssues={orderIssues}
+            issues={issues}
           />
         }
 
         {
           isDataReady && excursions && !!excursions.size &&
-          <FloatingButton topOffset={130} icon='upload' onPress={this._onUpload} loading={reports.get('isLoading')} />
+          <FloatingButton
+            disabled={!orderIssues.canUploadReport}
+            topOffset={130} icon='upload'
+            onPress={this._onUpload}
+            loading={reports.get('isLoading')}
+          />
         }
 
       </Container>

@@ -143,5 +143,6 @@ export default {
   noMoreSms: 'No more SMS',
   createdAt: 'Created at',
   noAssignments: 'No assignment accepted yet',
-  sendMeCopy: 'Send me a copy'
+  sendMeCopy: 'Send me a copy',
+  missingInvoicee: 'Missing Invoicee'
 }

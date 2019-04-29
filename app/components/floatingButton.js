@@ -18,12 +18,13 @@ let left = width - 85
 
 export default class FloatingButton extends Component {
   render () {
-    let { onPress, loading, icon, topOffset } = this.props
-
+    let { onPress, loading, icon, topOffset, disabled } = this.props
     const top = isIphoneX ? height - (topOffset + 35) : height - topOffset
 
+    const backgroundColor = disabled ? Colors.steel : Colors.blue
+
     return (
-      <TouchableOpacity style={[ss.button, { top }]} onPress={onPress}>
+      <TouchableOpacity disabled={disabled} style={[ss.button, { top, backgroundColor }]} onPress={onPress}>
         {!loading && <IonIcon name={icon} color={Colors.white} size={30} />}
         {loading && <Spinner color={Colors.white} />}
       </TouchableOpacity>
@@ -41,7 +42,7 @@ const ss = StyleSheet.create({
     right: 0,
     // top,
     bottom: 0,
-    backgroundColor: Colors.blue,
+    // backgroundColor: Colors.blue,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 5,
