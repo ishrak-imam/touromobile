@@ -23,7 +23,7 @@ export default class BookingsWithIssues extends Component {
     return issues.map(issue => {
       const orderIssue = orderIssues[issue]
       let { desc, bookings } = orderIssue
-      bookings = bookings.map(b => <Text key={b}>{b}</Text>)
+      bookings = bookings.map(b => <Text key={b} note>{b}</Text>)
       return (
         <ListItem key={issue}>
           <Body>
@@ -98,7 +98,7 @@ const ss = StyleSheet.create({
     fontSize: 13
   },
   issueLabel: {
-    marginBottom: 10,
-    fontWeight: 'bold'
+    marginBottom: 5
+    // fontWeight: 'bold'
   }
 })
