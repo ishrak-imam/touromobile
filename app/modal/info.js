@@ -11,7 +11,7 @@ import isIphoneX from '../utils/isIphoneX'
 import OutLineButton from '../components/outlineButton'
 
 const { height, width } = Dimensions.get('window')
-const heightOffset = isIphoneX ? 550 : 450
+const heightOffset = isIphoneX ? 550 : 300
 const widthOffset = 60
 
 const modalHeight = height - heightOffset

@@ -11,7 +11,7 @@ import { getWarningModal } from '../selectors'
 import isIphoneX from '../utils/isIphoneX'
 
 const { height, width } = Dimensions.get('window')
-const heightOffset = isIphoneX ? 500 : 400
+const heightOffset = isIphoneX ? 500 : 300
 const widthOffset = 100
 
 const modalHeight = height - heightOffset

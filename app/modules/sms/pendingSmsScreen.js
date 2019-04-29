@@ -6,7 +6,7 @@ import Header from '../../components/header'
 import _T from '../../utils/translator'
 import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
-import { getConnection, getPendingSms } from '../../selectors'
+import { getConnection, getPendingSms, getUser } from '../../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { mapToList } from '../../utils/immutable'
 import isIphoneX from '../../utils/isIphoneX'
@@ -17,6 +17,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { showModal } from '../../modal/action'
 import { deletePendingSms, sendPendingSmsReq } from './action'
+import CheckBox from '../../components/checkBox'
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
@@ -27,7 +28,8 @@ class SMSItem extends Component {
     this.state = {
       editMode: false,
       subject: sms.get('subject'),
-      message: sms.get('message')
+      message: sms.get('message'),
+      includeMe: false
     }
   }
 
@@ -56,12 +58,16 @@ class SMSItem extends Component {
   }
 
   _onSend = sms => () => {
+    const { guidePhone } = this.props
+    const { includeMe } = this.state
     const { subject, message } = this.state
+    const to = sms.get('to').toJS()
+    if (includeMe) to.push(guidePhone)
     const smsPayload = {
       brand: sms.get('brand'),
       subject,
       message,
-      to: sms.get('to').toJS()
+      to
     }
     const smsId = sms.get('id')
     actionDispatcher(sendPendingSmsReq({
@@ -74,9 +80,13 @@ class SMSItem extends Component {
     }))
   }
 
+  _toggleIncludeMe = () => {
+    this.setState({ includeMe: !this.state.includeMe })
+  }
+
   render () {
     const { sms, isOnline } = this.props
-    const { subject, message, editMode } = this.state
+    const { includeMe, subject, message, editMode } = this.state
     const time = format(sms.get('createdAt'), DATE_FORMAT)
     const smsId = sms.get('id')
     const isLoading = sms.get('isLoading')
@@ -116,7 +126,7 @@ class SMSItem extends Component {
                     underlineColorAndroid='transparent'
                     placeholder={_T('enterText')}
                     value={message}
-                    style={[ss.input, { height: 75 }]}
+                    style={[ss.input, { height: 110 }]}
                     onChangeText={this._onChangeText('message')}
                     multiline
                     autoCorrect={false}
@@ -132,6 +142,10 @@ class SMSItem extends Component {
             </View>
           </View>
           <View style={ss.footer}>
+            <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeMe}>
+              <CheckBox checked={includeMe} />
+              <Text style={{ marginLeft: 10 }}>{_T('sendMeCopy')}</Text>
+            </TouchableOpacity>
             <OutLineButton
               isLoading={isLoading}
               disabled={!isOnline || isLoading}
@@ -156,7 +170,8 @@ class PendingSmsScreen extends Component {
   }
 
   _renderSms = isOnline => ({ item }) => {
-    return <SMSItem sms={item} isOnline={isOnline} />
+    const { user } = this.props
+    return <SMSItem sms={item} isOnline={isOnline} guidePhone={user.get('phone')} />
   }
 
   render () {
@@ -194,7 +209,8 @@ class PendingSmsScreen extends Component {
 
 const stateToProps = state => ({
   connection: getConnection(state),
-  pendings: getPendingSms(state)
+  pendings: getPendingSms(state),
+  user: getUser(state)
 })
 
 export default connect(stateToProps, null)(PendingSmsScreen)
@@ -208,7 +224,7 @@ const ss = StyleSheet.create({
     paddingBottom: isIphoneX ? 25 : 10
   },
   item: {
-    height: 280,
+    height: 320,
     width: '100%',
     marginBottom: 20
   },
@@ -219,8 +235,8 @@ const ss = StyleSheet.create({
   header: {
     height: 40,
     width: '100%',
-    borderWidth: 1,
-    borderBottomWidth: 0,
+    // borderWidth: 1,
+    // borderBottomWidth: 0,
     borderTopLeftRadius: 7,
     borderTopRightRadius: 7,
     flexDirection: 'row',
@@ -238,7 +254,7 @@ const ss = StyleSheet.create({
     fontWeight: 'bold'
   },
   body: {
-    height: 180,
+    height: 220,
     width: '100%',
     borderLeftWidth: 1,
     borderRightWidth: 1,
@@ -268,9 +284,9 @@ const ss = StyleSheet.create({
     borderBottomLeftRadius: 7,
     borderBottomRightRadius: 7,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingRight: 10
+    paddingHorizontal: 10
   },
   input: {
     width: '100%',
@@ -279,5 +295,11 @@ const ss = StyleSheet.create({
     borderRadius: 2,
     padding: 5,
     textAlignVertical: 'top'
+  },
+  sendMeCopy: {
+    width: 150,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
   }
 })

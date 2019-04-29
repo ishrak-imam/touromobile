@@ -1,26 +1,28 @@
 
 import React, { Component } from 'react'
-import { StyleSheet, TextInput, Keyboard } from 'react-native'
+import { StyleSheet, TextInput, Keyboard, TouchableOpacity } from 'react-native'
 import { Container, View, Text } from 'native-base'
 import { Colors } from '../../theme'
 import Header from '../../components/header'
 import OutLineButton from '../../components/outlineButton'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { sendSmsReq, storePendingSms } from './action'
-import { getSmsLoading, getConnection } from '../../selectors'
+import { getSmsLoading, getConnection, getUser } from '../../selectors'
 import { connect } from 'react-redux'
 import OverlaySpinner from '../../components/overlaySpinner'
 import _T from '../../utils/translator'
 import { showModal } from '../../modal/action'
 import uuid from 'react-native-uuid'
 import { getMap } from '../../utils/immutable'
+import CheckBox from '../../components/checkBox'
 
 class SMSScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
       message: '',
-      subject: ''
+      subject: '',
+      includeMe: false
     }
     this._messageId = uuid.v1()
   }
@@ -30,7 +32,11 @@ class SMSScreen extends Component {
   }
 
   _onSend = (numbers, brand) => {
-    const { connection } = this.props
+    const { connection, user } = this.props
+    const { includeMe } = this.state
+    const guidePhone = user.get('phone')
+    const recipients = numbers.toJS()
+    if (includeMe) recipients.push(guidePhone)
     return () => {
       Keyboard.dismiss()
       const { subject, message } = this.state
@@ -40,7 +46,7 @@ class SMSScreen extends Component {
             brand,
             subject,
             message,
-            recipients: numbers.toJS()
+            recipients
           },
           isNeedJwt: true,
           showToast: true,
@@ -71,8 +77,12 @@ class SMSScreen extends Component {
     }
   }
 
+  _toggleIncludeMe = () => {
+    this.setState({ includeMe: !this.state.includeMe })
+  }
+
   render () {
-    const { subject, message } = this.state
+    const { subject, message, includeMe } = this.state
     const { navigation, smsLoading } = this.props
     const numbers = navigation.getParam('numbers')
     const brand = navigation.getParam('brand')
@@ -109,6 +119,10 @@ class SMSScreen extends Component {
           />
 
           <View style={ss.footer}>
+            <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeMe}>
+              <CheckBox checked={includeMe} />
+              <Text style={{ marginLeft: 10 }}>{_T('sendMeCopy')}</Text>
+            </TouchableOpacity>
             <OutLineButton
               disabled={!message || !subject}
               text={_T('send')}
@@ -125,7 +139,8 @@ class SMSScreen extends Component {
 
 const stateToProps = state => ({
   smsLoading: getSmsLoading(state),
-  connection: getConnection(state)
+  connection: getConnection(state),
+  user: getUser(state)
 })
 
 export default connect(stateToProps, null)(SMSScreen)
@@ -152,7 +167,14 @@ const ss = StyleSheet.create({
     height: 50,
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10
+  },
+  sendMeCopy: {
+    width: 150,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center'
   }
 })

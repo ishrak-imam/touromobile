@@ -143,5 +143,6 @@ export default {
   warning: 'Är du säker på att du vill radera SMS?',
   noMoreSms: 'Inget mer SMS',
   createdAt: 'Skapad på',
-  noAssignments: 'Ingen uppgift accepterad än'
+  noAssignments: 'Ingen uppgift accepterad än',
+  sendMeCopy: 'Skicka kopia till mig'
 }

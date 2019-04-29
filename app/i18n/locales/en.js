@@ -142,5 +142,6 @@ export default {
   warning: 'Are you sure you want to delete the SMS?',
   noMoreSms: 'No more SMS',
   createdAt: 'Created at',
-  noAssignments: 'No assignment accepted yet'
+  noAssignments: 'No assignment accepted yet',
+  sendMeCopy: 'Send me a copy'
 }

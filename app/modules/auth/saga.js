@@ -10,7 +10,7 @@ import {
 // import { clearImageCache } from '../../components/imageCache/action'
 import { navigateToScene } from '../../navigation/action'
 import localStore, { USER } from '../../utils/persist'
-import { login, forgotPass } from './api'
+import { login, forgotPass, getUserDetails } from './api'
 
 export function * watchInit () {
   yield takeFirst(init.getType(), workerInit)
@@ -34,7 +34,7 @@ export function * watchLogin () {
   yield takeFirst(loginReq.getType(), workerLogin)
 }
 
-const formatUserData = user => {
+const formatUserData = (user, details) => {
   return {
     id: user.id,
     guideId: user.guide_id,
@@ -44,7 +44,10 @@ const formatUserData = user => {
     lastName: user.last_name,
     fullName: user.full_name,
     group: user.group,
-    image: user.image
+    image: user.image,
+    email: details.email,
+    groups: details.groups,
+    phone: details.phone
   }
 }
 
@@ -52,7 +55,10 @@ function * workerLogin (action) {
   const { user, password, failMsg } = action.payload
   try {
     const result = yield call(login, user, password)
-    yield call(localStore.set, USER, formatUserData(result))
+    const userId = result.id
+    const jwt = result.access_token
+    const userDetails = yield call(getUserDetails, userId, jwt)
+    yield call(localStore.set, USER, formatUserData(result, userDetails))
     yield put(init())
   } catch (e) {
     yield put(loginFail({ msg: failMsg }))

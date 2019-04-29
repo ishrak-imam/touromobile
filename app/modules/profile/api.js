@@ -1,6 +1,6 @@
 
 import config from '../../utils/config'
-import { mockUserDetails, mockUpdateProfile, mockDownloadAppData } from '../../mockData'
+import { mockGuideDetails, mockUpdateProfile, mockDownloadAppData } from '../../mockData'
 import { getRequest, putRequest } from '../../utils/request'
 // import { createDoc } from '../../../api_doc/docCreator'
 
@@ -10,7 +10,7 @@ export const getUserDetails = (userId, jwt) => {
   }
   // createDoc('GET', '/resources/guide/{userId}', {}, 'getUserDetails')
   return config.useMockData
-    ? mockUserDetails()
+    ? mockGuideDetails()
     : getRequest(`resources/guide/${userId}`, headers)
 }
 

@@ -15,7 +15,7 @@ export const mockToken = () => new Promise(resolve => {
   }, 2000)
 })
 
-export const mockUser = () => new Promise(resolve => {
+export const mockUserDetails = () => new Promise(resolve => {
   setTimeout(() => {
     return resolve({
       'id': 52,
@@ -25,7 +25,7 @@ export const mockUser = () => new Promise(resolve => {
       'hash': '',
       'salt': '',
       'activeDirectoryName': null,
-      'phone': '',
+      'phone': '123456',
       'groups': [
         {
           'id': 1,
@@ -43,7 +43,7 @@ export const mockUser = () => new Promise(resolve => {
   }, 2000)
 })
 
-export const mockUserDetails = () => new Promise(resolve => {
+export const mockGuideDetails = () => new Promise(resolve => {
   setTimeout(() => {
     return resolve({
       'id': 52,
