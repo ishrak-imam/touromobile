@@ -15,6 +15,8 @@ import { showModal } from '../../modal/action'
 import uuid from 'react-native-uuid'
 import { getMap } from '../../utils/immutable'
 import CheckBox from '../../components/checkBox'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import isIOS from '../../utils/isIOS'
 
 class SMSScreen extends Component {
   constructor (props) {
@@ -94,7 +96,12 @@ class SMSScreen extends Component {
           navigation={navigation}
           brand={brand}
         />
-        <View style={ss.messageContainer}>
+        <KeyboardAwareScrollView
+          extraScrollHeight={isIOS ? 50 : 200}
+          enableOnAndroid
+          keyboardShouldPersistTaps='always'
+          contentContainerStyle={ss.messageContainer}
+        >
 
           <Text style={ss.headerText}>{_T('subject')}:</Text>
           <TextInput
@@ -130,7 +137,7 @@ class SMSScreen extends Component {
               onPress={this._onSend(numbers, brand)}
             />
           </View>
-        </View>
+        </KeyboardAwareScrollView>
         {smsLoading && <OverlaySpinner />}
       </Container>
     )
