@@ -310,7 +310,7 @@ const ss = StyleSheet.create({
     paddingBottom: isIphoneX ? 30 : 20
   },
   topHeader: {
-    height: 50,
+    height: 40,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -318,15 +318,6 @@ const ss = StyleSheet.create({
     backgroundColor: Colors.cloud,
     marginVertical: 5,
     paddingLeft: 10
-    // marginLeft: 0,
-    // paddingBottom: 5,
-    // borderBottomColor: Colors.steel,
-    // borderBottomWidth: 0,
-    // paddingRight: 0,
-    // marginBottom: 10,
-    // borderRadius: 5,
-    // backgroundColor: Colors.cloud,
-    // paddingLeft: 10
   },
   headerLeft: {
     flex: 3
