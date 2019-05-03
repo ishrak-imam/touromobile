@@ -255,6 +255,7 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let orderForBooking = readValue(payload.bookingId, ordersSummaryMode) || getMap({})
     let invoicee = readValue('invoicee', orderForBooking) || getMap({})
     invoicee = setIntoMap(invoicee, 'isLoading', true)
+    invoicee = setIntoMap(invoicee, 'ssn', payload.ssn)
     orderForBooking = setIntoMap(orderForBooking, 'invoicee', invoicee)
     ordersSummaryMode = setIntoMap(ordersSummaryMode, payload.bookingId, orderForBooking)
     modifiedData = setIntoMap(modifiedData, 'ordersSummaryMode', ordersSummaryMode)

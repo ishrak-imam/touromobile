@@ -75,7 +75,11 @@ class SelectInvoiceeSummaryMode extends Component {
       const city = customer.get('city')
       const zip = customer.get('zip')
       addressDetails = {
-        ssn, zip, city, address
+        ssn,
+        zip,
+        city,
+        address,
+        isValidSSN: !!customer.get('ssn')
       }
       actionDispatcher(ssnDataSucs({
         departureId,
