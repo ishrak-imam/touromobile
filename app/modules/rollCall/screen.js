@@ -1,8 +1,8 @@
 
 import React, { Component } from 'react'
-import { StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, TouchableOpacity, Dimensions, Text } from 'react-native'
 import {
-  Container, View, ListItem, Left, Body, Text, Title
+  Container, View, ListItem, Title
 } from 'native-base'
 import { Colors, IonIcon } from '../../theme'
 import Header from '../../components/header'
@@ -54,19 +54,19 @@ class PaxItem extends Component {
     const name = `${pax.firstName} ${pax.lastName}`
     const bookingId = pax.booking.id
     return (
-      <ListItem style={ss.listItem} onPress={onItemPress(paxId)}>
-        <Left style={{ flex: 1 }}>
+      <TouchableOpacity style={ss.listItem} onPress={onItemPress(paxId)}>
+        <View style={{ flex: 1 }}>
           <CheckBox checked={selected} />
-        </Left>
-        <Body style={ss.itemBody}>
-          <View style={{ flex: 1 }}>
-            <Text>{bookingId}</Text>
+        </View>
+        <View style={ss.itemBody}>
+          <View style={{ flex: 1.3 }}>
+            <Text style={ss.boldText}>{bookingId}</Text>
           </View>
-          <View style={{ flex: 3 }}>
-            <Text numberOfLines={1}>{name}</Text>
+          <View style={{ flex: 4 }}>
+            <Text style={ss.text} numberOfLines={2}>{name}</Text>
           </View>
-        </Body>
-      </ListItem>
+        </View>
+      </TouchableOpacity>
     )
   }
 }
@@ -288,7 +288,7 @@ const ss = StyleSheet.create({
   },
   itemBody: {
     flexDirection: 'row',
-    flex: 7,
+    flex: 9,
     justifyContent: 'space-around',
     alignItems: 'center'
   },
@@ -296,7 +296,14 @@ const ss = StyleSheet.create({
     backgroundColor: Colors.blue
   },
   listItem: {
-    marginLeft: 10
+    height: 45,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginBottom: 5,
+    borderBottomWidth: 0.7,
+    borderColor: Colors.steel
   },
   reset: {
     flex: 1,
@@ -308,5 +315,12 @@ const ss = StyleSheet.create({
   headerCenterText: {
     marginLeft: 20,
     color: Colors.white
+  },
+  text: {
+    fontSize: 15
+  },
+  boldText: {
+    fontSize: 15,
+    fontWeight: 'bold'
   }
 })

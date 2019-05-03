@@ -1,24 +1,15 @@
 
 import React, { Component } from 'react'
-import {
-  Container, ListItem, Left, Body, Text, Right
-} from 'native-base'
+import { Container } from 'native-base'
 import SearchBar from '../../components/searchBar'
 import Header from '../../components/header'
 import {
-  // getSortedPaxByBookingId,
-  // currentTripSelector, getPaxDataGroupByBooking,
-  // getParticipants, filterPaxBySearchText,
-  // getSortedPaxByFirstName, getSortedPaxByLastName,
-  // getPaxDataGroupByFirstName, getPaxDataGroupByLastName
-
   currentTripSelector,
   getParticipants, filterPaxBySearchText,
   getPax, getSortedPax, getPaxDataGroup
-
 } from '../../selectors'
 import {
-  StyleSheet, View,
+  StyleSheet, View, Text,
   TouchableOpacity, Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
@@ -40,7 +31,7 @@ const dataProvider = new DataProvider((r1, r2) => {
 })
 
 const layoutProvider = new LayoutProvider(
-  () => 'type', (_, dim) => { dim.width = width; dim.height = 55 }
+  () => 'type', (_, dim) => { dim.width = width; dim.height = 50 }
 )
 
 const PARTICIPATING = 'PARTICIPATING'
@@ -66,22 +57,22 @@ class PaxListItem extends Component {
     const name = `${pax.firstName} ${pax.lastName}`
 
     return (
-      <ListItem style={ss.item} onPress={onPress(paxId, bookingId, checked)}>
-        <Left style={{ flex: 1 }}>
+      <TouchableOpacity style={ss.item} onPress={onPress(paxId, bookingId, checked)}>
+        <View style={{ flex: 1 }}>
           <CheckBox checked={checked || selected} />
-        </Left>
-        <Body style={ss.itemBody}>
-          <View style={{ flex: 1 }}>
-            <Text>{bookingId}</Text>
-          </View>
+        </View>
+        <View style={ss.itemBody}>
           <View style={{ flex: 2 }}>
-            <Text numberOfLines={1}>{name}</Text>
+            <Text style={ss.boldText}>{bookingId}</Text>
           </View>
-        </Body>
-        <Right style={{ flex: 1 }}>
-          {checked && <IonIcon name='star' color={Colors.blue} />}
-        </Right>
-      </ListItem>
+          <View style={{ flex: 5 }}>
+            <Text style={ss.text} numberOfLines={2}>{name}</Text>
+          </View>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            {checked && <IonIcon name='star' color={Colors.blue} />}
+          </View>
+        </View>
+      </TouchableOpacity>
     )
   }
 }
@@ -217,6 +208,7 @@ class ExcursionDetailsScreen extends Component {
     return (
       pax.size
         ? <RecyclerListView
+          style={{ marginBottom: 30 }}
           dataProvider={dataProvider.cloneWithRows(pax.toJS())}
           rowRenderer={this._renderItem(participants)}
           layoutProvider={layoutProvider}
@@ -396,7 +388,7 @@ const ss = StyleSheet.create({
   },
   itemBody: {
     flexDirection: 'row',
-    flex: 7,
+    flex: 9,
     justifyContent: 'space-around',
     alignItems: 'center'
   },
@@ -430,19 +422,31 @@ const ss = StyleSheet.create({
     fontWeight: 'bold'
   },
   sectionHeader: {
-    width: '100%',
+    height: 40,
     flexDirection: 'row',
-    paddingVertical: 10,
-    backgroundColor: Colors.steel,
     justifyContent: 'space-between',
-    paddingLeft: 10,
-    paddingRight: 18
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    backgroundColor: Colors.steel
   },
   sectionText: {
-    fontWeight: 'bold',
-    paddingLeft: 20
+    fontWeight: 'bold'
   },
   item: {
-    paddingTop: 5
+    height: 45,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginBottom: 5,
+    borderBottomWidth: 0.7,
+    borderColor: Colors.steel
+  },
+  text: {
+    fontSize: 15
+  },
+  boldText: {
+    fontSize: 15,
+    fontWeight: 'bold'
   }
 })
