@@ -7,7 +7,7 @@ import _T from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
   getParticipants, getTripExcursions, getReports, getOrders,
-  getAllOrders, getSortedPaxByFirstName, getFoods, checkIfFlightTrip,
+  getAllOrders, getPax, getSortedPax, getFoods, checkIfFlightTrip,
   getSortedBookings, getUser, getModifiedPax,
   getAllExtraOrders
 } from '../../selectors'
@@ -138,6 +138,9 @@ class ReportsScreen extends Component {
     const isDataReady = currentTrip.get('has')
     const isFlight = checkIfFlightTrip(trip)
 
+    let sortedBookings = getSortedBookings(trip)
+    const pax = getPax(trip)
+
     return (
       <Container>
         <Header left='menu' title={_T('reports')} navigation={navigation} brand={brand} />
@@ -157,8 +160,8 @@ class ReportsScreen extends Component {
           tab === ORDERS && isDataReady &&
           <OrderStats
             orders={orders}
-            bookings={getSortedBookings(trip)}
-            pax={getSortedPaxByFirstName(trip)}
+            bookings={sortedBookings}
+            pax={pax}
             meals={meals}
             beverages={beverages}
             isFlight={isFlight}

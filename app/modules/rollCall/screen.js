@@ -9,14 +9,9 @@ import Header from '../../components/header'
 import { connect } from 'react-redux'
 import _T from '../../utils/translator'
 import {
-  currentTripSelector, getPax, getPresents,
-  getSortedPaxByFirstName, getPaxDataGroupByFirstName,
-  getSortedPaxByLastName, getPaxDataGroupByLastName,
-  getSortedPaxByAirport, getPaxDataGroupByAirport,
-  getSortedPaxByHotel, getPaxDataGroupByHotel,
-  getSortedPaxByBookingId, getPaxDataGroupByBooking,
-  filterPaxBySearchText,
-  checkIfFlightTrip
+  currentTripSelector, getPresents,
+  getPax, getSortedPax, getPaxDataGroup,
+  filterPaxBySearchText, checkIfFlightTrip
 } from '../../selectors'
 import isIphoneX from '../../utils/isIphoneX'
 import SearchBar from '../../components/searchBar'
@@ -161,22 +156,22 @@ class RollCallScreen extends Component {
   _renderList = trip => {
     const { searchText, groupBy } = this.state
 
-    let sortedPax = null
+    let sortedPax = getPax(trip)
     switch (groupBy) {
       case CONTEXT_OPTIONS.firstName.key:
-        sortedPax = getSortedPaxByFirstName(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.firstName.text)
         break
       case CONTEXT_OPTIONS.lastName.key:
-        sortedPax = getSortedPaxByLastName(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.lastName.text)
         break
       case CONTEXT_OPTIONS.hotel.key:
-        sortedPax = getSortedPaxByHotel(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.hotel.text)
         break
       case CONTEXT_OPTIONS.airport.key:
-        sortedPax = getSortedPaxByAirport(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.airport.text)
         break
       case CONTEXT_OPTIONS.booking.key:
-        sortedPax = getSortedPaxByBookingId(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.booking.text)
         break
     }
 
@@ -187,19 +182,19 @@ class RollCallScreen extends Component {
     let paxList = null
     switch (groupBy) {
       case CONTEXT_OPTIONS.firstName.key:
-        paxList = getPaxDataGroupByFirstName(sortedPax)
+        paxList = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.firstName.text)
         break
       case CONTEXT_OPTIONS.lastName.key:
-        paxList = getPaxDataGroupByLastName(sortedPax)
+        paxList = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.lastName.text)
         break
       case CONTEXT_OPTIONS.hotel.key:
-        paxList = getPaxDataGroupByHotel(sortedPax)
+        paxList = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.hotel.text)
         break
       case CONTEXT_OPTIONS.airport.key:
-        paxList = getPaxDataGroupByAirport(sortedPax)
+        paxList = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.airport.text)
         break
       case CONTEXT_OPTIONS.booking.key:
-        paxList = getPaxDataGroupByBooking(sortedPax)
+        paxList = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.booking.text)
         break
     }
 

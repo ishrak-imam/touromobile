@@ -6,11 +6,16 @@ import {
 import SearchBar from '../../components/searchBar'
 import Header from '../../components/header'
 import {
-  getSortedPaxByBookingId,
-  currentTripSelector, getPaxDataGroupByBooking,
+  // getSortedPaxByBookingId,
+  // currentTripSelector, getPaxDataGroupByBooking,
+  // getParticipants, filterPaxBySearchText,
+  // getSortedPaxByFirstName, getSortedPaxByLastName,
+  // getPaxDataGroupByFirstName, getPaxDataGroupByLastName
+
+  currentTripSelector,
   getParticipants, filterPaxBySearchText,
-  getSortedPaxByFirstName, getSortedPaxByLastName,
-  getPaxDataGroupByFirstName, getPaxDataGroupByLastName
+  getPax, getSortedPax, getPaxDataGroup
+
 } from '../../selectors'
 import {
   StyleSheet, View,
@@ -323,15 +328,16 @@ class ExcursionDetailsScreen extends Component {
     const exParticipants = participants.get(excursionId) || getMap({})
     const right = groupByBooking ? null : this._renderSearchRight()
 
-    let sortedPax = null
+    let sortedPax = getPax(currentTrip)
+
     if (groupByBooking) {
-      sortedPax = getSortedPaxByBookingId(currentTrip)
+      sortedPax = getSortedPax(sortedPax, 'booking')
     }
     if (groupBy === CONTEXT_OPTIONS.firstName.key) {
-      sortedPax = getSortedPaxByFirstName(currentTrip)
+      sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.firstName.text)
     }
     if (groupBy === CONTEXT_OPTIONS.lastName.key) {
-      sortedPax = getSortedPaxByLastName(currentTrip)
+      sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.lastName.text)
     }
 
     if (searchText) {
@@ -342,13 +348,13 @@ class ExcursionDetailsScreen extends Component {
     }
 
     if (groupByBooking) {
-      sortedPax = getPaxDataGroupByBooking(sortedPax)
+      sortedPax = getPaxDataGroup(sortedPax, 'booking')
     }
     if (groupBy === CONTEXT_OPTIONS.firstName.key) {
-      sortedPax = getPaxDataGroupByFirstName(sortedPax)
+      sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.firstName.text)
     }
     if (groupBy === CONTEXT_OPTIONS.lastName.key) {
-      sortedPax = getPaxDataGroupByLastName(sortedPax)
+      sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.lastName.text)
     }
 
     return (

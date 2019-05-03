@@ -73,21 +73,6 @@ export default class OrderStats extends Component {
     return beveragesData
   }
 
-  get paxWithoutOrder () {
-    const { orders, pax } = this.props
-    const { tab } = this.state
-    const direction = orders.get(tab)
-
-    const paxWithOrders = direction.reduce((set, o) => {
-      return set.add(o.get('pax'))
-    }, getSet([]))
-
-    return pax.filter(p => {
-      const paxId = String(p.get('id'))
-      return !paxWithOrders.has(paxId)
-    })
-  }
-
   get bookingsWithoutOrder () {
     const { orders, bookings } = this.props
     const { tab } = this.state

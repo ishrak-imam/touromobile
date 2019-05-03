@@ -15,165 +15,221 @@ const resolvers = {
     }).flatten(1) // one level deep flatten
   },
 
-  sortedPax: data => {
-    const bookings = data.get('bookings')
-    return bookings.map(b => {
-      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
-    }).flatten(1).sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+  sortedPax: (paxList, sortBy) => {
+    const sortFunc = p => {
+      if (!sortBy) return `${p.get('firstName')} ${p.get('lastName')}`
+      if (sortBy === 'booking') return p.get('booking').get('id')
+      return p.get(sortBy)
+    }
+    return paxList.sortBy(sortFunc)
   },
 
-  sortedPaxByFirstName: data => {
-    const bookings = data.get('bookings')
-    return bookings.map(b => {
-      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
-    }).flatten(1).sortBy(p => p.get('firstName'))
-  },
+  // sortedPax: data => {
+  //   const bookings = data.get('bookings')
+  //   return bookings.map(b => {
+  //     return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+  //   }).flatten(1).sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+  // },
 
-  sortedPaxByLastName: data => {
-    const bookings = data.get('bookings')
-    return bookings.map(b => {
-      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
-    }).flatten(1).sortBy(p => p.get('lastName'))
-  },
+  // sortedPaxByFirstName: data => {
+  //   const bookings = data.get('bookings')
+  //   return bookings.map(b => {
+  //     return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+  //   }).flatten(1).sortBy(p => p.get('firstName'))
+  // },
 
-  sortedPaxByAirport: data => {
-    const bookings = data.get('bookings')
-    return bookings.map(b => {
-      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
-    }).flatten(1).sortBy(p => p.get('airport'))
-  },
+  // sortedPaxByLastName: data => {
+  //   const bookings = data.get('bookings')
+  //   return bookings.map(b => {
+  //     return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+  //   }).flatten(1).sortBy(p => p.get('lastName'))
+  // },
 
-  sortedPaxByHotel: data => {
-    const bookings = data.get('bookings')
-    return bookings.map(b => {
-      return b.get('pax').map(p => setIntoMap(p, 'booking', b))
-    }).flatten(1).sortBy(p => p.get('hotel'))
-  },
+  // sortedPaxByAirport: data => {
+  //   const bookings = data.get('bookings')
+  //   return bookings.map(b => {
+  //     return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+  //   }).flatten(1).sortBy(p => p.get('airport'))
+  // },
 
-  sortedPaxByBookingId: data => {
-    const bookings = data.get('bookings')
-    return bookings.sortBy(b => b.get('id')).map(b => {
-      return b.get('pax')
-        .map(p => setIntoMap(p, 'booking', b))
-        .sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
-    }).flatten(1)
-  },
+  // sortedPaxByHotel: data => {
+  //   const bookings = data.get('bookings')
+  //   return bookings.map(b => {
+  //     return b.get('pax').map(p => setIntoMap(p, 'booking', b))
+  //   }).flatten(1).sortBy(p => p.get('hotel'))
+  // },
+
+  // sortedPaxByBookingId: data => {
+  //   const bookings = data.get('bookings')
+  //   return bookings.sortBy(b => b.get('id')).map(b => {
+  //     return b.get('pax')
+  //       .map(p => setIntoMap(p, 'booking', b))
+  //       .sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+  //   }).flatten(1)
+  // },
 
   sortedBookings: data => {
     const bookings = data.get('bookings')
     return bookings.sortBy(b => b.get('id'))
   },
 
-  paxDataGroupByFirstName: pax => {
-    let initial = null
-    let tempList = getList([])
-    return pax.reduce((list, p, index) => {
-      const paxId = String(p.get('id'))
-      const paxInitial = p.get('firstName').charAt(0).toLowerCase()
-      if (initial !== paxInitial) {
-        list = list.concat(tempList)
-        initial = paxInitial
-        tempList = getList([])
-        list = list.push(getMap({
-          first: true,
-          initial: paxInitial.toUpperCase(),
-          id: `${paxInitial}-${paxId}`
-        }))
-      }
-      tempList = tempList.push(p)
-      if (index === pax.size - 1) {
-        list = list.concat(tempList)
-      }
-      return list
-    }, getList([]))
-  },
+  // paxDataGroupByFirstName: pax => {
+  //   let initial = null
+  //   let tempList = getList([])
+  //   return pax.reduce((list, p, index) => {
+  //     const paxId = String(p.get('id'))
+  //     const paxInitial = p.get('firstName').charAt(0).toLowerCase()
+  //     if (initial !== paxInitial) {
+  //       list = list.concat(tempList)
+  //       initial = paxInitial
+  //       tempList = getList([])
+  //       list = list.push(getMap({
+  //         first: true,
+  //         initial: paxInitial.toUpperCase(),
+  //         id: `${paxInitial}-${paxId}`
+  //       }))
+  //     }
+  //     tempList = tempList.push(p)
+  //     if (index === pax.size - 1) {
+  //       list = list.concat(tempList)
+  //     }
+  //     return list
+  //   }, getList([]))
+  // },
 
-  paxDataGroupByLastName: pax => {
-    let initial = null
-    let tempList = getList([])
-    return pax.reduce((list, p, index) => {
-      const paxId = String(p.get('id'))
-      const paxInitial = p.get('lastName').charAt(0).toLowerCase()
-      if (initial !== paxInitial) {
-        list = list.concat(tempList)
-        initial = paxInitial
-        tempList = getList([])
-        list = list.push(getMap({
-          first: true,
-          initial: paxInitial.toUpperCase(),
-          id: `${paxInitial}-${paxId}`
-        }))
-      }
-      tempList = tempList.push(p)
-      if (index === pax.size - 1) {
-        list = list.concat(tempList)
-      }
-      return list
-    }, getList([]))
-  },
+  // paxDataGroupByLastName: pax => {
+  //   let initial = null
+  //   let tempList = getList([])
+  //   return pax.reduce((list, p, index) => {
+  //     const paxId = String(p.get('id'))
+  //     const paxInitial = p.get('lastName').charAt(0).toLowerCase()
+  //     if (initial !== paxInitial) {
+  //       list = list.concat(tempList)
+  //       initial = paxInitial
+  //       tempList = getList([])
+  //       list = list.push(getMap({
+  //         first: true,
+  //         initial: paxInitial.toUpperCase(),
+  //         id: `${paxInitial}-${paxId}`
+  //       }))
+  //     }
+  //     tempList = tempList.push(p)
+  //     if (index === pax.size - 1) {
+  //       list = list.concat(tempList)
+  //     }
+  //     return list
+  //   }, getList([]))
+  // },
 
-  paxDataGroupByAirport: pax => {
-    let initial = null
-    let tempList = getList([])
-    return pax.reduce((list, p, index) => {
-      const paxId = String(p.get('id'))
-      const paxInitial = p.get('airport')
-      if (initial !== paxInitial) {
-        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
-        list = list.concat(tempList)
-        initial = paxInitial
-        tempList = getList([])
-        list = list.push(getMap({
-          first: true,
-          initial: paxInitial,
-          id: `${paxInitial}-${paxId}`
-        }))
-      }
-      tempList = tempList.push(p)
-      if (index === pax.size - 1) {
-        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
-        list = list.concat(tempList)
-      }
-      return list
-    }, getList([]))
-  },
+  // paxDataGroupByAirport: pax => {
+  //   let initial = null
+  //   let tempList = getList([])
+  //   return pax.reduce((list, p, index) => {
+  //     const paxId = String(p.get('id'))
+  //     const paxInitial = p.get('airport')
+  //     if (initial !== paxInitial) {
+  //       tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+  //       list = list.concat(tempList)
+  //       initial = paxInitial
+  //       tempList = getList([])
+  //       list = list.push(getMap({
+  //         first: true,
+  //         initial: paxInitial,
+  //         id: `${paxInitial}-${paxId}`
+  //       }))
+  //     }
+  //     tempList = tempList.push(p)
+  //     if (index === pax.size - 1) {
+  //       tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+  //       list = list.concat(tempList)
+  //     }
+  //     return list
+  //   }, getList([]))
+  // },
 
-  paxDataGroupByHotel: pax => {
-    let initial = null
-    let tempList = getList([])
-    return pax.reduce((list, p, index) => {
-      const paxId = String(p.get('id'))
-      const paxInitial = p.get('hotel')
-      if (initial !== paxInitial) {
-        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
-        list = list.concat(tempList)
-        initial = paxInitial
-        tempList = getList([])
-        list = list.push(getMap({
-          first: true,
-          initial: paxInitial,
-          id: `${paxInitial}-${paxId}`
-        }))
-      }
-      tempList = tempList.push(p)
-      if (index === pax.size - 1) {
-        tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
-        list = list.concat(tempList)
-      }
-      return list
-    }, getList([]))
-  },
+  // paxDataGroupByHotel: pax => {
+  //   let initial = null
+  //   let tempList = getList([])
+  //   return pax.reduce((list, p, index) => {
+  //     const paxId = String(p.get('id'))
+  //     const paxInitial = p.get('hotel')
+  //     if (initial !== paxInitial) {
+  //       tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+  //       list = list.concat(tempList)
+  //       initial = paxInitial
+  //       tempList = getList([])
+  //       list = list.push(getMap({
+  //         first: true,
+  //         initial: paxInitial,
+  //         id: `${paxInitial}-${paxId}`
+  //       }))
+  //     }
+  //     tempList = tempList.push(p)
+  //     if (index === pax.size - 1) {
+  //       tempList = tempList.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
+  //       list = list.concat(tempList)
+  //     }
+  //     return list
+  //   }, getList([]))
+  // },
 
-  paxDataGroupByBooking: pax => {
-    let initial = null
-    return pax.map(p => {
-      const paxInitial = String(p.get('booking').get('id'))
-      if (initial !== paxInitial) {
-        initial = paxInitial
-        return getList([getMap({ first: true, initial: paxInitial, id: paxInitial }), p])
+  // paxDataGroupByBooking: pax => {
+  //   let initial = null
+  //   return pax.map(p => {
+  //     const paxInitial = String(p.get('booking').get('id'))
+  //     if (initial !== paxInitial) {
+  //       initial = paxInitial
+  //       return getList([getMap({ first: true, initial: paxInitial, id: paxInitial }), p])
+  //     }
+  //     return getList([p])
+  //   }).flatten(1)
+  // },
+
+  paxDataGroup: (pax, groupBy) => {
+    const getInitial = from => {
+      if (groupBy === 'firstName' || groupBy === 'lastName') {
+        return from.get(groupBy).charAt(0)
       }
-      return getList([p])
-    }).flatten(1)
+      if (groupBy === 'lastNameLong') {
+        return from.get('lastName')
+      } else {
+        return from.get(groupBy)
+      }
+    }
+
+    if (groupBy === 'booking') {
+      let initial = null
+      return pax.map(p => {
+        const paxInitial = String(p.get('booking').get('id'))
+        if (initial !== paxInitial) {
+          initial = paxInitial
+          return getList([getMap({ first: true, initial: paxInitial, id: paxInitial }), p])
+        }
+        return getList([p])
+      }).flatten(1)
+    } else {
+      let initial = null
+      let tempList = getList([])
+      return pax.reduce((list, p, index) => {
+        const paxId = String(p.get('id'))
+        const paxInitial = getInitial(p)
+        if (initial !== paxInitial) {
+          list = list.concat(tempList)
+          initial = paxInitial
+          tempList = getList([])
+          list = list.push(getMap({
+            first: true,
+            initial: paxInitial,
+            id: `${paxInitial}-${paxId}`
+          }))
+        }
+        tempList = tempList.push(p)
+        if (index === pax.size - 1) {
+          list = list.concat(tempList)
+        }
+        return list
+      }, getList([]))
+    }
   },
 
   phoneNumbers: data => {
@@ -343,52 +399,52 @@ export const getBookings = trip => {
 }
 
 let sortedPaxCache = null
-export const getSortedPax = trip => {
+export const getSortedPax = (paxList, sortBy) => {
   if (!sortedPaxCache) {
     sortedPaxCache = Cache(resolvers.sortedPax)
   }
-  return sortedPaxCache(trip)
+  return sortedPaxCache(paxList, sortBy)
 }
 
-let sortedPaxByFirstNameCache = null
-export const getSortedPaxByFirstName = trip => {
-  if (!sortedPaxByFirstNameCache) {
-    sortedPaxByFirstNameCache = Cache(resolvers.sortedPaxByFirstName)
-  }
-  return sortedPaxByFirstNameCache(trip)
-}
+// let sortedPaxByFirstNameCache = null
+// export const getSortedPaxByFirstName = trip => {
+//   if (!sortedPaxByFirstNameCache) {
+//     sortedPaxByFirstNameCache = Cache(resolvers.sortedPaxByFirstName)
+//   }
+//   return sortedPaxByFirstNameCache(trip)
+// }
 
-let sortedPaxByLastNameCache = null
-export const getSortedPaxByLastName = trip => {
-  if (!sortedPaxByLastNameCache) {
-    sortedPaxByLastNameCache = Cache(resolvers.sortedPaxByLastName)
-  }
-  return sortedPaxByLastNameCache(trip)
-}
+// let sortedPaxByLastNameCache = null
+// export const getSortedPaxByLastName = trip => {
+//   if (!sortedPaxByLastNameCache) {
+//     sortedPaxByLastNameCache = Cache(resolvers.sortedPaxByLastName)
+//   }
+//   return sortedPaxByLastNameCache(trip)
+// }
 
-let sortedPaxByAirportCache = null
-export const getSortedPaxByAirport = trip => {
-  if (!sortedPaxByAirportCache) {
-    sortedPaxByAirportCache = Cache(resolvers.sortedPaxByAirport)
-  }
-  return sortedPaxByAirportCache(trip)
-}
+// let sortedPaxByAirportCache = null
+// export const getSortedPaxByAirport = trip => {
+//   if (!sortedPaxByAirportCache) {
+//     sortedPaxByAirportCache = Cache(resolvers.sortedPaxByAirport)
+//   }
+//   return sortedPaxByAirportCache(trip)
+// }
 
-let sortedPaxByHotelCache = null
-export const getSortedPaxByHotel = trip => {
-  if (!sortedPaxByHotelCache) {
-    sortedPaxByHotelCache = Cache(resolvers.sortedPaxByHotel)
-  }
-  return sortedPaxByHotelCache(trip)
-}
+// let sortedPaxByHotelCache = null
+// export const getSortedPaxByHotel = trip => {
+//   if (!sortedPaxByHotelCache) {
+//     sortedPaxByHotelCache = Cache(resolvers.sortedPaxByHotel)
+//   }
+//   return sortedPaxByHotelCache(trip)
+// }
 
-let sortedPaxByBookingIdCache = null
-export const getSortedPaxByBookingId = trip => {
-  if (!sortedPaxByBookingIdCache) {
-    sortedPaxByBookingIdCache = Cache(resolvers.sortedPaxByBookingId)
-  }
-  return sortedPaxByBookingIdCache(trip)
-}
+// let sortedPaxByBookingIdCache = null
+// export const getSortedPaxByBookingId = trip => {
+//   if (!sortedPaxByBookingIdCache) {
+//     sortedPaxByBookingIdCache = Cache(resolvers.sortedPaxByBookingId)
+//   }
+//   return sortedPaxByBookingIdCache(trip)
+// }
 
 let sortedBookingCache = null
 export const getSortedBookings = trip => {
@@ -398,44 +454,52 @@ export const getSortedBookings = trip => {
   return sortedBookingCache(trip)
 }
 
-let paxDataGroupByFirstName = null
-export const getPaxDataGroupByFirstName = pax => {
-  if (!paxDataGroupByFirstName) {
-    paxDataGroupByFirstName = Cache(resolvers.paxDataGroupByFirstName)
-  }
-  return paxDataGroupByFirstName(pax)
-}
+// let paxDataGroupByFirstName = null
+// export const getPaxDataGroupByFirstName = pax => {
+//   if (!paxDataGroupByFirstName) {
+//     paxDataGroupByFirstName = Cache(resolvers.paxDataGroupByFirstName)
+//   }
+//   return paxDataGroupByFirstName(pax)
+// }
 
-let paxDataGroupByLastName = null
-export const getPaxDataGroupByLastName = pax => {
-  if (!paxDataGroupByLastName) {
-    paxDataGroupByLastName = Cache(resolvers.paxDataGroupByLastName)
-  }
-  return paxDataGroupByLastName(pax)
-}
+// let paxDataGroupByLastName = null
+// export const getPaxDataGroupByLastName = pax => {
+//   if (!paxDataGroupByLastName) {
+//     paxDataGroupByLastName = Cache(resolvers.paxDataGroupByLastName)
+//   }
+//   return paxDataGroupByLastName(pax)
+// }
 
-let paxDataGroupByAirportCache
-export const getPaxDataGroupByAirport = pax => {
-  if (!paxDataGroupByAirportCache) {
-    paxDataGroupByAirportCache = Cache(resolvers.paxDataGroupByAirport)
-  }
-  return paxDataGroupByAirportCache(pax)
-}
+// let paxDataGroupByAirportCache
+// export const getPaxDataGroupByAirport = pax => {
+//   if (!paxDataGroupByAirportCache) {
+//     paxDataGroupByAirportCache = Cache(resolvers.paxDataGroupByAirport)
+//   }
+//   return paxDataGroupByAirportCache(pax)
+// }
 
-let paxDataGroupByHotelCache = null
-export const getPaxDataGroupByHotel = pax => {
-  if (!paxDataGroupByHotelCache) {
-    paxDataGroupByHotelCache = Cache(resolvers.paxDataGroupByHotel)
-  }
-  return paxDataGroupByHotelCache(pax)
-}
+// let paxDataGroupByHotelCache = null
+// export const getPaxDataGroupByHotel = pax => {
+//   if (!paxDataGroupByHotelCache) {
+//     paxDataGroupByHotelCache = Cache(resolvers.paxDataGroupByHotel)
+//   }
+//   return paxDataGroupByHotelCache(pax)
+// }
 
-let paxDataGroupByBookingCache = null
-export const getPaxDataGroupByBooking = pax => {
-  if (!paxDataGroupByBookingCache) {
-    paxDataGroupByBookingCache = Cache(resolvers.paxDataGroupByBooking)
+// let paxDataGroupByBookingCache = null
+// export const getPaxDataGroupByBooking = pax => {
+//   if (!paxDataGroupByBookingCache) {
+//     paxDataGroupByBookingCache = Cache(resolvers.paxDataGroupByBooking)
+//   }
+//   return paxDataGroupByBookingCache(pax)
+// }
+
+let paxDataGroupByCache = null
+export const getPaxDataGroup = (paxList, groupBy) => {
+  if (!paxDataGroupByCache) {
+    paxDataGroupByCache = Cache(resolvers.paxDataGroup)
   }
-  return paxDataGroupByBookingCache(pax)
+  return paxDataGroupByCache(paxList, groupBy)
 }
 
 let phoneNumbersCache = null

@@ -5,11 +5,7 @@ import {
 } from 'native-base'
 
 import {
-  getSortedPaxByFirstName, getPaxDataGroupByFirstName,
-  getSortedPaxByLastName, getPaxDataGroupByLastName,
-  getSortedPaxByAirport, getPaxDataGroupByAirport,
-  getSortedPaxByHotel, getPaxDataGroupByHotel,
-  getSortedPaxByBookingId, getPaxDataGroupByBooking,
+  getSortedPax, getPaxDataGroup, getPax,
   filterPaxBySearchText, getModifiedPax,
   checkIfFlightTrip, getTransportType
 } from '../selectors'
@@ -188,26 +184,25 @@ class PaxList extends Component {
     this.setState({ searchText })
   }
 
-  _renderList = trip => {
+  _renderList = (tripType, trip) => {
     const { searchText, groupBy } = this.state
-    const tripType = getTransportType(trip)
 
-    let sortedPax = null
+    let sortedPax = getPax(trip)
     switch (groupBy) {
       case CONTEXT_OPTIONS.firstName.key:
-        sortedPax = getSortedPaxByFirstName(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.firstName.text)
         break
       case CONTEXT_OPTIONS.lastName.key:
-        sortedPax = getSortedPaxByLastName(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.lastName.text)
         break
       case CONTEXT_OPTIONS.hotel.key:
-        sortedPax = getSortedPaxByHotel(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.hotel.text)
         break
       case CONTEXT_OPTIONS.airport.key:
-        sortedPax = getSortedPaxByAirport(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.airport.text)
         break
       case CONTEXT_OPTIONS.booking.key:
-        sortedPax = getSortedPaxByBookingId(trip)
+        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.booking.text)
         break
     }
 
@@ -215,22 +210,21 @@ class PaxList extends Component {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
     }
 
-    // let paxList = null
     switch (groupBy) {
       case CONTEXT_OPTIONS.firstName.key:
-        sortedPax = getPaxDataGroupByFirstName(sortedPax)
+        sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.firstName.text)
         break
       case CONTEXT_OPTIONS.lastName.key:
-        sortedPax = getPaxDataGroupByLastName(sortedPax)
+        sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.lastName.text)
         break
       case CONTEXT_OPTIONS.hotel.key:
-        sortedPax = getPaxDataGroupByHotel(sortedPax)
+        sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.hotel.text)
         break
       case CONTEXT_OPTIONS.airport.key:
-        sortedPax = getPaxDataGroupByAirport(sortedPax)
+        sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.airport.text)
         break
       case CONTEXT_OPTIONS.booking.key:
-        sortedPax = getPaxDataGroupByBooking(sortedPax)
+        sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.booking.text)
         break
     }
 
@@ -278,6 +272,7 @@ class PaxList extends Component {
   render () {
     const { trip } = this.props
     const bookings = trip.get('bookings')
+    const tripType = getTransportType(trip)
     return (
       <View style={ss.container}>
         <SearchBar
@@ -286,7 +281,7 @@ class PaxList extends Component {
           placeholder={_T('search')}
           right={this._renderRight()}
         />
-        {!!bookings && this._renderList(trip)}
+        {!!bookings && this._renderList(tripType, trip)}
       </View>
     )
   }

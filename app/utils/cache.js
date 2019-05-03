@@ -23,18 +23,24 @@
 // export default Cache
 
 const Cache = resolver => {
+  let prevExtraVal = null
   let prev = null
   let computed = null
 
-  const _shouldHitCache = value => {
-    return value.equals(prev) && !!computed
+  const isSameExtraValue = extra => {
+    return prevExtraVal === extra
   }
 
-  return (value, extra = {}) => {
-    if (_shouldHitCache(value)) {
+  const _shouldHitCache = (value, extra) => {
+    return isSameExtraValue(extra) && (value.equals(prev) && !!computed)
+  }
+
+  return (value, extra = null) => {
+    if (_shouldHitCache(value, extra)) {
       return computed
     }
 
+    prevExtraVal = extra
     prev = value
     computed = resolver(value, extra)
     return computed
