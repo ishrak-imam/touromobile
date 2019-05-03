@@ -139,7 +139,8 @@ export default connect(stateToProps, null)(ExtraOrderSummaryMode)
 
 const ss = StyleSheet.create({
   container: {
-    marginLeft: 5
+    marginLeft: 5,
+    marginTop: 10
   },
   item: {
     justifyContent: 'space-between',

@@ -1,16 +1,16 @@
 
 import React, { Component } from 'react'
-import { View, Text, ListItem, Left, Right } from 'native-base'
+import { View, Text } from 'native-base'
 import { TouchableOpacity, StyleSheet } from 'react-native'
 import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
 import {
-  getLunches, getOrderForBookingSummaryMode,
-  getFormattedMealsData
+  getLunches, getFormattedMealsData,
+  getOrderForBookingSummaryMode
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-import { actionDispatcher } from '../utils/actionDispatcher'
-import { resetAllOrders } from '../modules/modifiedData/action'
+// import { actionDispatcher } from '../utils/actionDispatcher'
+// import { resetAllOrders } from '../modules/modifiedData/action'
 import _T from '../utils/translator'
 import FoodItem from './foodItem'
 import NoData from './noData'
@@ -99,11 +99,7 @@ class SummaryOrderItem extends Component {
     const formattedMeals = getFormattedMealsData(getMap({ meals, mealOrders }), _T('child'))
     return (
       <View style={ss.section}>
-        <ListItem style={ss.header}>
-          <View>
-            <Text style={ss.boldText}>{_T('meals')}</Text>
-          </View>
-        </ListItem>
+        <Text style={ss.boldText}>{_T('meals')}</Text>
         {
           <ImmutableVirtualizedList
             immutableData={formattedMeals}
@@ -120,11 +116,7 @@ class SummaryOrderItem extends Component {
   _renderBeverages = (beverages, paxCount) => {
     return (
       <View style={ss.section}>
-        <ListItem style={ss.header}>
-          <View>
-            <Text style={ss.boldText}>{_T('beverages')}</Text>
-          </View>
-        </ListItem>
+        <Text style={ss.boldText}>{_T('beverages')}</Text>
         {
           beverages.size
             ? <ImmutableVirtualizedList
@@ -138,13 +130,13 @@ class SummaryOrderItem extends Component {
     )
   }
 
-  _resetOrders = (departureId, bookingId) => {
-    return () => {
-      actionDispatcher(resetAllOrders({
-        key: 'ordersSummaryMode', departureId, bookingId
-      }))
-    }
-  }
+  // _resetOrders = (departureId, bookingId) => {
+  //   return () => {
+  //     actionDispatcher(resetAllOrders({
+  //       key: 'ordersSummaryMode', departureId, bookingId
+  //     }))
+  //   }
+  // }
 
   _onTabSwitch = tab => {
     return () => {
@@ -154,7 +146,10 @@ class SummaryOrderItem extends Component {
 
   _renderLunchOrders = () => {
     const { lunchOrders, tab } = this.state
-    const { pax, lunches, departureId, bookingId, orderForBooking } = this.props
+    const {
+      pax, lunches,
+      // departureId, bookingId,
+      orderForBooking } = this.props
     const meals = lunches.getIn([tab, 'meals'])
     const beverages = lunches.getIn([tab, 'beverages'])
     const icon = lunchOrders ? 'minus' : 'plus'
@@ -162,9 +157,9 @@ class SummaryOrderItem extends Component {
     const mealOrders = orderForBooking.getIn([tab, 'meal'])
 
     return (
-      <View>
-        <ListItem style={ss.topHeader} onPress={this._viewToggle('lunchOrders')}>
-          <Left style={ss.headerLeft}>
+      <View style={ss.lunchOrders}>
+        <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('lunchOrders')}>
+          {/* <Left style={ss.headerLeft}>
             <View style={ss.sectionIcon}>
               <IonIcon name={icon} size={22} />
             </View>
@@ -176,8 +171,13 @@ class SummaryOrderItem extends Component {
               </TouchableOpacity>
             }
           </Left>
-          <Right style={ss.headerRight} />
-        </ListItem>
+          <Right style={ss.headerRight} /> */}
+
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{_T('lunchOrders')}</Text>
+        </TouchableOpacity>
         {
           lunchOrders &&
           <View>
@@ -198,15 +198,12 @@ class SummaryOrderItem extends Component {
     const icon = excursionOrders ? 'minus' : 'plus'
     return (
       <View>
-        <ListItem style={ss.topHeader} onPress={this._viewToggle('excursionOrders')}>
-          <Left style={ss.headerLeft}>
-            <View style={ss.sectionIcon}>
-              <IonIcon name={icon} size={22} />
-            </View>
-            <Text style={ss.headerText}>{_T('excursionOrders')}</Text>
-          </Left>
-          <Right style={ss.headerRight} />
-        </ListItem>
+        <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('excursionOrders')}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{_T('excursionOrders')}</Text>
+        </TouchableOpacity>
         {
           excursionOrders &&
           <ExcursionOrderSummaryMode
@@ -225,15 +222,12 @@ class SummaryOrderItem extends Component {
     const icon = extraOrders ? 'minus' : 'plus'
     return (
       <View>
-        <ListItem style={ss.topHeader} onPress={this._viewToggle('extraOrders')}>
-          <Left style={ss.headerLeft}>
-            <View style={ss.sectionIcon}>
-              <IonIcon name={icon} size={22} />
-            </View>
-            <Text style={ss.headerText}>{_T('extraOrders')}</Text>
-          </Left>
-          <Right style={ss.headerRight} />
-        </ListItem>
+        <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('extraOrders')}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{_T('extraOrders')}</Text>
+        </TouchableOpacity>
         {
           extraOrders &&
           <ExtraOrderSummaryMode
@@ -297,11 +291,14 @@ const ss = StyleSheet.create({
     // marginTop: 10,
     marginHorizontal: 15
   },
+  lunchOrders: {
+    marginTop: 20
+  },
   boldText: {
     fontWeight: 'bold'
   },
   section: {
-    marginBottom: 20
+    marginVertical: 10
   },
   header: {
     paddingBottom: 5,
@@ -313,12 +310,23 @@ const ss = StyleSheet.create({
     paddingBottom: isIphoneX ? 30 : 20
   },
   topHeader: {
-    marginLeft: 0,
-    paddingBottom: 5,
-    borderBottomColor: Colors.steel,
-    borderBottomWidth: 0,
-    paddingRight: 0,
-    marginBottom: 10
+    height: 50,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: Colors.cloud,
+    marginVertical: 5,
+    paddingLeft: 10
+    // marginLeft: 0,
+    // paddingBottom: 5,
+    // borderBottomColor: Colors.steel,
+    // borderBottomWidth: 0,
+    // paddingRight: 0,
+    // marginBottom: 10,
+    // borderRadius: 5,
+    // backgroundColor: Colors.cloud,
+    // paddingLeft: 10
   },
   headerLeft: {
     flex: 3
@@ -334,7 +342,7 @@ const ss = StyleSheet.create({
     paddingHorizontal: 20
   },
   sectionIcon: {
-    marginRight: 5
+    marginRight: 10
   },
   tabContainer: {
     width: '100%',

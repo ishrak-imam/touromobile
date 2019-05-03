@@ -158,7 +158,7 @@ class ExcursionOrderSummaryMode extends Component {
   render () {
     const { excursions, pax, participants } = this.props
     return (
-      <View>
+      <View style={ss.container}>
         {this._renderExcursions(excursions, pax, participants)}
       </View>
     )
@@ -176,8 +176,12 @@ const stateToProps = (state, props) => {
 export default connect(stateToProps, null)(ExcursionOrderSummaryMode)
 
 const ss = StyleSheet.create({
+  container: {
+    marginTop: 5
+  },
   itemContainer: {
-    marginBottom: 10
+    marginBottom: 10,
+    paddingLeft: 5
   },
   item: {
     borderBottomWidth: 0,
