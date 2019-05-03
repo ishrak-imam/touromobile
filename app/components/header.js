@@ -81,11 +81,11 @@ const ss = StyleSheet.create({
     paddingLeft: 15
   },
   left: {
-    flex: 1,
+    flex: 0.7,
     justifyContent: 'center'
   },
   leftTouchable: {
-    paddingRight: 25
+    paddingRight: 10
   },
   body: {
     flex: 4,

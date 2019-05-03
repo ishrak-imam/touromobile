@@ -208,7 +208,7 @@ class ExcursionDetailsScreen extends Component {
     return (
       pax.size
         ? <RecyclerListView
-          style={{ marginBottom: 30 }}
+          // style={{ marginBottom: 30 }}
           dataProvider={dataProvider.cloneWithRows(pax.toJS())}
           rowRenderer={this._renderItem(participants)}
           layoutProvider={layoutProvider}

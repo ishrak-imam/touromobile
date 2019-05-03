@@ -70,7 +70,7 @@ export default class TMSearchBar extends Component {
 
 const ss = StyleSheet.create({
   wrapper: {
-    height: 65
+    height: 55
   },
   searchSection: {
     flex: 1,
@@ -78,7 +78,7 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.cloud,
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 5
   },
   searchIcon: {
@@ -86,7 +86,8 @@ const ss = StyleSheet.create({
   },
   input: {
     flex: 1,
-    padding: 10,
+    padding: 5,
+    paddingLeft: 10,
     backgroundColor: Colors.white,
     borderRadius: 7,
     fontSize: 16
