@@ -6,7 +6,7 @@ import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
 import {
   getLunches, getFormattedMealsData,
-  getOrderForBookingSummaryMode
+  getOrderForBooking
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 // import { actionDispatcher } from '../utils/actionDispatcher'
@@ -279,7 +279,7 @@ const stateToProps = (state, props) => {
   const { departureId, bookingId } = props
   return {
     lunches: getLunches(state),
-    orderForBooking: getOrderForBookingSummaryMode(state, departureId, bookingId)
+    orderForBooking: getOrderForBooking(state, departureId, bookingId)
   }
 }
 

@@ -6,9 +6,9 @@ import {
 import { TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { Colors } from '../theme'
-import { getOrderSummaryMode } from '../selectors'
+import { getOrder } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
-import { takeOrderSummaryMode, takeAllergyOrderSummaryMode } from '../modules/modifiedData/action'
+import { takeOrder, takeAllergyOrder } from '../modules/modifiedData/action'
 import { getMap } from '../utils/immutable'
 
 class FoodItem extends Component {
@@ -64,7 +64,7 @@ class FoodItem extends Component {
             adultCount,
             childCount
           })
-          actionDispatcher(takeAllergyOrderSummaryMode({
+          actionDispatcher(takeAllergyOrder({
             departureId, bookingId, direction, mealId, allergyId, allergyOrder
           }))
           return
@@ -95,7 +95,7 @@ class FoodItem extends Component {
         }
       }
 
-      actionDispatcher(takeOrderSummaryMode({
+      actionDispatcher(takeOrder({
         departureId, bookingId, direction, mealType, mealId, order: getMap(newOrder)
       }))
     }
@@ -107,7 +107,7 @@ class FoodItem extends Component {
     const mealId = String(meal.get('id'))
     if (!order.size) {
       order = order.set('mealId', mealId).set('adultCount', 0).set('childCount', 0)
-      actionDispatcher(takeOrderSummaryMode({
+      actionDispatcher(takeOrder({
         departureId, bookingId, direction, mealType: 'meal', mealId, order
       }))
     }
@@ -170,7 +170,7 @@ const stateToProps = (state, props) => {
   const { meal, direction, bookingId, departureId, mealType } = props
   const mealId = String(meal.get('id'))
   return {
-    order: getOrderSummaryMode(state, departureId, bookingId, direction, mealType, mealId)
+    order: getOrder(state, departureId, bookingId, direction, mealType, mealId)
   }
 }
 

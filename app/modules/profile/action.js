@@ -22,7 +22,6 @@ export const DOWNLOAD_APP_DATA_SUCS = 'DOWNLOAD_APP_DATA_SUCS'
 export const DOWNLOAD_APP_DATA_FAIL = 'DOWNLOAD_APP_DATA_FAIL'
 
 export const toggleTabLabels = createAction(TOGGLE_TAB_LABELS)
-export const toggleOrderMode = createAction(TOGGLE_ORDER_MODE)
 
 export const userDetailsReq = createAction(USER_DETAILS_REQ)
 export const userDetailsSucs = createAction(USER_DETAILS_SUCS)

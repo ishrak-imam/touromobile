@@ -7,7 +7,7 @@ import CheckBox from './checkBox'
 import FooterButtons from './footerButtons'
 import uuid from 'react-native-uuid'
 import { Colors } from '../theme'
-import { setAllergyOrders } from '../modules/modifiedData/action'
+import { setAllergyOrder } from '../modules/modifiedData/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import _T from '../utils/translator'
 
@@ -76,7 +76,7 @@ export default class AllergySelection extends Component {
       mealId
     })
 
-    actionDispatcher(setAllergyOrders({
+    actionDispatcher(setAllergyOrder({
       departureId, bookingId, direction, mealId, allergyId, allergyOrder
     }))
 

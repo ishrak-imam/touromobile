@@ -71,7 +71,7 @@ export const prepareExtraData = (extraOrders, bookingId) => {
   }, [])
 }
 
-export const getOrderStats = (orders, extraOrders, transportId, orderMode, excursions, modifiedPax, participants, trip) => {
+export const getOrderStats = (orders, extraOrders, transportId, excursions, modifiedPax, participants, trip) => {
   if (orders.size) {
     return orders.reduce((list, bOrders, key) => {
       const aggregated = {
@@ -83,115 +83,81 @@ export const getOrderStats = (orders, extraOrders, transportId, orderMode, excur
       }
 
       let details = {}
-      if (orderMode === 'SUMMARY') {
-        const invoicee = bOrders.get('invoicee')
-        // aggregated.invoicee = bOrders.getIn(['invoicee', 'key'])
-        if (invoicee) {
-          aggregated.invoicee = {
-            address: invoicee.get('address'),
-            city: invoicee.get('city'),
-            zip: invoicee.get('zip'),
-            ssn: invoicee.get('ssn'),
-            name: invoicee.get('name'),
-            id: invoicee.get('id')
-          }
-        }
-        const out = bOrders.get('out')
-        if (out && out.size > 0) {
-          const meals = out.get('meal')
-          if (meals && meals.size > 0) {
-            meals.every((meal, mealId) => {
-              const m = details[mealId]
-              details[mealId] = {
-                meal: mealId,
-                adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
-                childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
-              }
-
-              /**
-              * Allergy
-              */
-              if (meal.get('allergies')) {
-                const allergies = meal.get('allergies')
-                allergies.every(order => {
-                  const allergyMealId = String(order.get('mealId'))
-                  const m = details[allergyMealId]
-                  details[allergyMealId] = {
-                    meal: allergyMealId,
-                    adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
-                    childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
-                  }
-                })
-              }
-
-              return true
-            })
-          }
-        }
-        const home = bOrders.get('home')
-        if (home && home.size > 0) {
-          const meals = home.get('meal')
-          if (meals && meals.size > 0) {
-            meals.every((meal, mealId) => {
-              const m = details[mealId]
-              details[mealId] = {
-                meal: mealId,
-                adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
-                childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
-              }
-
-              /**
-              * Allergy
-              */
-              if (meal.get('allergies')) {
-                const allergies = meal.get('allergies')
-                allergies.every(order => {
-                  const allergyMealId = String(order.get('mealId'))
-                  const m = details[allergyMealId]
-                  details[allergyMealId] = {
-                    meal: allergyMealId,
-                    adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
-                    childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
-                  }
-                })
-              }
-
-              return true
-            })
-          }
+      const invoicee = bOrders.get('invoicee')
+      // aggregated.invoicee = bOrders.getIn(['invoicee', 'key'])
+      if (invoicee) {
+        aggregated.invoicee = {
+          address: invoicee.get('address'),
+          city: invoicee.get('city'),
+          zip: invoicee.get('zip'),
+          ssn: invoicee.get('ssn'),
+          name: invoicee.get('name'),
+          id: invoicee.get('id')
         }
       }
-
-      if (orderMode === 'INDIVIDUAL') {
-        details = bOrders.reduce((map, pOrders, key) => {
-          if (key === 'invoicee') aggregated.invoicee = pOrders
-          else {
-            const out = pOrders.get('out')
-            if (out && out.size > 0) {
-              const isAdult = out.get('adult')
-              const mealId = String(out.get('meal'))
-              if (mealId !== 'null') {
-                const item = map[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
-                if (isAdult) item.adultCount = item.adultCount + 1
-                if (!isAdult) item.childCount = item.childCount + 1
-                map[mealId] = item
-              }
+      const out = bOrders.get('out')
+      if (out && out.size > 0) {
+        const meals = out.get('meal')
+        if (meals && meals.size > 0) {
+          meals.every((meal, mealId) => {
+            const m = details[mealId]
+            details[mealId] = {
+              meal: mealId,
+              adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
+              childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
             }
 
-            const home = pOrders.get('home')
-            if (home && home.size > 0) {
-              const isAdult = home.get('adult')
-              const mealId = String(home.get('meal'))
-              if (mealId !== 'null') {
-                const item = map[mealId] || { meal: mealId, adultCount: 0, childCount: 0 }
-                if (isAdult) item.adultCount = item.adultCount + 1
-                if (!isAdult) item.childCount = item.childCount + 1
-                map[mealId] = item
-              }
+            /**
+            * Allergy
+            */
+            if (meal.get('allergies')) {
+              const allergies = meal.get('allergies')
+              allergies.every(order => {
+                const allergyMealId = String(order.get('mealId'))
+                const m = details[allergyMealId]
+                details[allergyMealId] = {
+                  meal: allergyMealId,
+                  adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
+                  childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+                }
+              })
             }
-          }
-          return map
-        }, {})
+
+            return true
+          })
+        }
+      }
+      const home = bOrders.get('home')
+      if (home && home.size > 0) {
+        const meals = home.get('meal')
+        if (meals && meals.size > 0) {
+          meals.every((meal, mealId) => {
+            const m = details[mealId]
+            details[mealId] = {
+              meal: mealId,
+              adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
+              childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
+            }
+
+            /**
+            * Allergy
+            */
+            if (meal.get('allergies')) {
+              const allergies = meal.get('allergies')
+              allergies.every(order => {
+                const allergyMealId = String(order.get('mealId'))
+                const m = details[allergyMealId]
+                details[allergyMealId] = {
+                  meal: allergyMealId,
+                  adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
+                  childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+                }
+              })
+            }
+
+            return true
+          })
+        }
       }
 
       aggregated.details = Object.values(details)

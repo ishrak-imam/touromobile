@@ -9,9 +9,9 @@ import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
 import { format } from 'date-fns'
 import {
-  getPax, getStatsData, getAllOrders, getOrderMode, getUser,
+  getPax, getStatsData, getAllOrders, getUser,
   getTotalParticipantsCount, getOrderStats, checkIfFlightTrip,
-  getModifiedPax, getAllExtraOrdersSummaryMode
+  getModifiedPax, getAllExtraOrders
 } from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
@@ -63,10 +63,10 @@ class PastTripCard extends Component {
 
   _uploadStats = () => {
     const { trip, departureId, transportId, excursions, participants } = this.tripData
-    const { orders, extraOrders, user, modifiedPax, orderMode } = this.props
+    const { orders, extraOrders, user, modifiedPax } = this.props
     const guideId = user.get('guideId')
     const statsData = getStatsData(excursions, modifiedPax, participants, trip)
-    const orderStats = getOrderStats(orders, extraOrders, transportId, orderMode, excursions, modifiedPax, participants, trip)
+    const orderStats = getOrderStats(orders, extraOrders, transportId, excursions, modifiedPax, participants, trip)
 
     const isFlight = checkIfFlightTrip(trip)
     networkActionDispatcher(uploadStatsReq({
@@ -180,13 +180,11 @@ class PastTripCard extends Component {
 const stateToProps = (state, props) => {
   const { trip } = props
   const departureId = String(trip.get('departureId'))
-  const orderMode = getOrderMode(state)
   return {
-    orders: getAllOrders(state, departureId, orderMode),
+    orders: getAllOrders(state, departureId),
     user: getUser(state),
     modifiedPax: getModifiedPax(state, departureId),
-    orderMode,
-    extraOrders: getAllExtraOrdersSummaryMode(state, departureId)
+    extraOrders: getAllExtraOrders(state, departureId)
   }
 }
 

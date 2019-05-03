@@ -9,13 +9,9 @@ import OutHomeTab from './outHomeTab'
 import { Colors } from '../theme'
 import { listToMap, getSet } from '../utils/immutable'
 import _T from '../utils/translator'
-import PaxWithoutOrder from './paxWithoutOrder'
 import NoData from './noData'
 import BookingsWithoutOrder from './bookingsWithoutOrder'
 import BookingsWithIssues from './bookingsWithIssues'
-
-const INDIVIDUAL_MODE = 'INDIVIDUAL'
-const SUMMARY_MODE = 'SUMMARY'
 
 export default class OrderStats extends Component {
   constructor (props) {
@@ -263,7 +259,7 @@ export default class OrderStats extends Component {
   }
 
   _renderOrderStats = () => {
-    const { orderMode, beverages, issues, orderIssues } = this.props
+    const { beverages, issues, orderIssues } = this.props
     return (
       <View>
         {this._renderHeader()}
@@ -271,15 +267,7 @@ export default class OrderStats extends Component {
           {this._renderMealOrders()}
           {beverages.get('out') && beverages.get('home') && this._renderBeverageOrders()}
 
-          {
-            orderMode === SUMMARY_MODE &&
-            <BookingsWithoutOrder bookingsList={this.bookingsWithoutOrder} label='bookingsWithoutOrder' />
-          }
-
-          {
-            orderMode === INDIVIDUAL_MODE &&
-            <PaxWithoutOrder paxList={this.paxWithoutOrder} label='paxWithoutOrder' />
-          }
+          <BookingsWithoutOrder bookingsList={this.bookingsWithoutOrder} label='bookingsWithoutOrder' />
 
           {
             !orderIssues.canUploadReport &&

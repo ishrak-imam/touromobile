@@ -6,10 +6,10 @@ import {
 } from 'react-native'
 import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
-import { getInvoiceeSummaryMode } from '../selectors'
+import { getInvoicee } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
 import { showModal } from '../modal/action'
-import { selectInvoiceeSummaryMode, ssnDataReq, ssnDataSucs } from '../modules/modifiedData/action'
+import { selectInvoicee, ssnDataReq, ssnDataSucs } from '../modules/modifiedData/action'
 import _T from '../utils/translator'
 import { getMap } from '../utils/immutable'
 import { } from 'react-native-gesture-handler'
@@ -119,7 +119,7 @@ class SelectInvoiceeSummaryMode extends Component {
   _selectInvoicee = invoicee => {
     const { key, value } = invoicee
     const { departureId, bookingId } = this.props
-    actionDispatcher(selectInvoiceeSummaryMode({
+    actionDispatcher(selectInvoicee({
       departureId,
       bookingId,
       invoicee: {
@@ -337,7 +337,7 @@ const stateToProps = (state, props) => {
   const { departureId, bookingId } = props
 
   return {
-    invoicee: getInvoiceeSummaryMode(state, departureId, bookingId)
+    invoicee: getInvoicee(state, departureId, bookingId)
   }
 }
 

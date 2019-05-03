@@ -16,7 +16,6 @@ import { getModifiedPax } from '../selectors'
 import { mergeMapShallow } from '../utils/immutable'
 import FooterButtons from './footerButtons'
 import CheckBox from './checkBox'
-import PaxOrder from './paxOrder'
 import { navigate } from '../navigation/service'
 
 class PaxCard extends Component {
@@ -232,19 +231,9 @@ class PaxCard extends Component {
     this.setState({ adult: !this.state.adult })
   }
 
-  _renderPaxOrder = (bookingId, departureId, pax) => {
-    return (
-      <View style={ss.paxOrder}>
-        <PaxOrder bookingId={bookingId} departureId={departureId} pax={pax} />
-      </View>
-    )
-  }
-
   render () {
     const { editMode, phone, comment } = this.state
-    const { departureId, pax, isFlight } = this.props
     const booking = this.paxData.get('booking')
-    const bookingId = String(booking.get('id'))
     const excursion = this.paxData.get('excursionPack')
     const coPax = this.paxData.get('booking').get('pax')
     return (
@@ -261,7 +250,6 @@ class PaxCard extends Component {
         {this._renderComment(comment)}
         {this._renderAdult()}
         {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
-        {!isFlight && this._renderPaxOrder(bookingId, departureId, pax)}
       </KeyboardAwareScrollView>
     )
   }

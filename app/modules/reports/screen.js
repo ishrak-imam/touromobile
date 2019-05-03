@@ -6,10 +6,10 @@ import Header from '../../components/header'
 import _T from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
-  getParticipants, getTripExcursions, getReports, getOrders, getOrderMode,
+  getParticipants, getTripExcursions, getReports, getOrders,
   getAllOrders, getSortedPaxByFirstName, getFoods, checkIfFlightTrip,
   getSortedBookings, getUser, getModifiedPax,
-  getAllExtraOrdersSummaryMode
+  getAllExtraOrders
 } from '../../selectors'
 import Stats from '../../components/stats'
 import OrderStats from '../../components/orderStats'
@@ -39,14 +39,14 @@ class ReportsScreen extends Component {
   }
 
   _onUpload = () => {
-    const { excursions, participants, currentTrip, allOrders, extraOrders, user, modifiedPax, orderMode } = this.props
+    const { excursions, participants, currentTrip, allOrders, extraOrders, user, modifiedPax } = this.props
     const trip = currentTrip.get('trip')
     const isFlight = checkIfFlightTrip(trip)
     const guideId = user.get('guideId')
     const departureId = String(trip.get('departureId'))
     const transportId = String(trip.get('transportId'))
     const statsData = getStatsData(excursions, modifiedPax, participants, trip)
-    const orderStats = getOrderStats(allOrders, extraOrders, transportId, orderMode, excursions, modifiedPax, participants, trip)
+    const orderStats = getOrderStats(allOrders, extraOrders, transportId, excursions, modifiedPax, participants, trip)
 
     networkActionDispatcher(uploadStatsReq({
       isNeedJwt: true,
@@ -124,7 +124,7 @@ class ReportsScreen extends Component {
   render () {
     const { tab } = this.state
     const {
-      currentTrip, participants, excursions, orderMode,
+      currentTrip, participants, excursions,
       reports, navigation, orders, meals, beverages,
       allOrders
     } = this.props
@@ -156,7 +156,6 @@ class ReportsScreen extends Component {
         {
           tab === ORDERS && isDataReady &&
           <OrderStats
-            orderMode={orderMode}
             orders={orders}
             bookings={getSortedBookings(trip)}
             pax={getSortedPaxByFirstName(trip)}
@@ -186,20 +185,18 @@ class ReportsScreen extends Component {
 const stateToProps = state => {
   const currentTrip = currentTripSelector(state)
   const departureId = String(currentTrip.get('trip').get('departureId'))
-  const orderMode = getOrderMode(state)
   return {
     currentTrip,
     participants: getParticipants(state, departureId),
     excursions: getTripExcursions(state),
     reports: getReports(state),
-    orders: getOrders(state, departureId, orderMode),
-    allOrders: getAllOrders(state, departureId, orderMode),
+    orders: getOrders(state, departureId),
+    allOrders: getAllOrders(state, departureId),
     meals: getFoods(state, 'meals'),
     beverages: getFoods(state, 'beverages'),
     user: getUser(state),
     modifiedPax: getModifiedPax(state, departureId),
-    orderMode,
-    extraOrders: getAllExtraOrdersSummaryMode(state, departureId)
+    extraOrders: getAllExtraOrders(state, departureId)
   }
 }
 

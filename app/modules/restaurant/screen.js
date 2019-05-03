@@ -14,7 +14,7 @@ import isIphoneX from '../../utils/isIphoneX'
 import _T from '../../utils/translator'
 import { listToMap } from '../../utils/immutable'
 import { connect } from 'react-redux'
-import { getOrdersByDirection, getPaxByHotel, getOrderMode } from '../../selectors'
+import { getOrdersByDirection, getPaxByHotel } from '../../selectors'
 import PaxInThisHotel from '../../components/paxWithoutOrder'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 
@@ -288,9 +288,8 @@ const stateToProps = (state, props) => {
   const direction = navigation.getParam('direction')
   const departureId = navigation.getParam('departureId')
   const restaurant = navigation.getParam('restaurant')
-  const orderMode = getOrderMode(state)
   return {
-    orders: getOrdersByDirection(state, departureId, direction, orderMode),
+    orders: getOrdersByDirection(state, departureId, direction),
     paxByHotel: getPaxByHotel(state, restaurant.get('id'))
   }
 }

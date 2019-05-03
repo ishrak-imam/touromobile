@@ -87,16 +87,14 @@ export const {
   getModifiedData,
   getAaccept,
   getOrder,
-  getOrderSummaryMode,
   getInvoicee,
-  getInvoiceeSummaryMode,
   getAllOrders,
   getOrders,
   getOrdersByDirection,
   checkIfAnyOrderMade,
-  getOrderForBookingSummaryMode,
-  getExtraOrdersSummaryMode,
-  getAllExtraOrdersSummaryMode,
+  getOrderForBooking,
+  getExtraOrders,
+  getAllExtraOrders,
   getLastSyncedTime,
   getAcceptedAssignments
 } = require('./modifiedData')
@@ -104,8 +102,7 @@ export const {
 export const {
   getProfile,
   getProfileUpdates,
-  getUserInProfile,
-  getOrderMode
+  getUserInProfile
 } = require('./profile')
 
 export const {

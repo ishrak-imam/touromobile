@@ -4,12 +4,12 @@ import { StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import { ListItem, View, Text } from 'native-base'
 import { Colors, IonIcon } from '../theme'
 import FooterButtons from './footerButtons'
-import { getExtraOrdersSummaryMode } from '../selectors'
+import { getExtraOrders } from '../selectors'
 import { connect } from 'react-redux'
 import uuid from 'react-native-uuid'
 import { getMap } from '../utils/immutable'
 import { actionDispatcher } from '../utils/actionDispatcher'
-import { takeExtraOrdersSummaryMode } from '../modules/modifiedData/action'
+import { takeExtraOrder } from '../modules/modifiedData/action'
 
 class ExtraOrderSummaryMode extends Component {
   constructor (props) {
@@ -64,7 +64,7 @@ class ExtraOrderSummaryMode extends Component {
     const { departureId, bookingId } = this.props
     let { extraOrders } = this.state
     if (extraOrders.size) {
-      actionDispatcher(takeExtraOrdersSummaryMode({
+      actionDispatcher(takeExtraOrder({
         departureId,
         bookingId,
         extraOrders: this._filterOutEmptyOrders(extraOrders)
@@ -131,7 +131,7 @@ class ExtraOrderSummaryMode extends Component {
 const stateToProps = (state, props) => {
   const { departureId, bookingId } = props
   return {
-    extraOrders: getExtraOrdersSummaryMode(state, departureId, bookingId)
+    extraOrders: getExtraOrders(state, departureId, bookingId)
   }
 }
 

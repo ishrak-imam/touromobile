@@ -12,14 +12,12 @@ import {
   networkActionDispatcher
 } from '../../utils/actionDispatcher'
 import {
-  getProfile, getUser, checkIfAnyOrderMade,
-  // checkIfBusTrip,
-  currentTripSelector
+  getProfile, currentTripSelector,
+  getUser, checkIfAnyOrderMade
 } from '../../selectors'
 import { connect } from 'react-redux'
 import Profile from '../../components/profile'
 import Settings from '../../components/settings'
-// import LunchOrderMode from '../../components/lunchOrderMode'
 import NoData from '../../components/noData'
 import isIphoneX from '../../utils/isIphoneX'
 import { Colors } from '../../theme'
@@ -64,15 +62,10 @@ class ProfileScreen extends Component {
   }
 
   render () {
-    const {
-      navigation, profile, user
-      // currentTrip, isAnyOrder
-    } = this.props
+    const { navigation, profile, user } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     const userDetails = profile.get('user')
     const isLoading = profile.get('isLoading')
-    // const trip = currentTrip.get('trip')
-    // const isBusTrip = checkIfBusTrip(trip)
     const guideId = user.get('guideId')
 
     return (
@@ -84,9 +77,7 @@ class ProfileScreen extends Component {
               ? this._renderLoader()
               : <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
           }
-
           <Settings />
-          {/* {isBusTrip && <LunchOrderMode isAnyOrder={isAnyOrder} />} */}
           <AppDataSync onSync={this._onDownloadData(guideId)} isLoading={isLoading} />
         </ScrollView>
       </Container>
