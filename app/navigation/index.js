@@ -34,6 +34,7 @@ import OrdersScreen from '../modules/orders/screen'
 import SMSScreen from '../modules/sms/screen'
 import PendingSmsScreen from '../modules/sms/pendingSmsScreen'
 import MyOrdersScreen from '../modules/profile/myOrders'
+import AllergyScreen from '../modules/orders/allergy'
 
 const authStack = createStackNavigator(
   {
@@ -79,7 +80,8 @@ const appStack = createStackNavigator(
     Orders: { screen: OrdersScreen },
     SMS: { screen: SMSScreen },
     PendingSms: { screen: PendingSmsScreen },
-    MyOrders: { screen: MyOrdersScreen }
+    MyOrders: { screen: MyOrdersScreen },
+    Allergy: { screen: AllergyScreen }
   },
   {
     initialRouteName: 'TripsLoading',

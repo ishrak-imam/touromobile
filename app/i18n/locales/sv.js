@@ -145,5 +145,14 @@ export default {
   createdAt: 'Skapad på',
   noAssignments: 'Ingen uppgift accepterad än',
   sendMeCopy: 'Skicka kopia till mig',
-  missingInvoicee: 'Fakturamottagare saknas'
+  missingInvoicee: 'Fakturamottagare saknas',
+  otherAllergy: 'Annan allergi',
+  gluten: 'Gluten',
+  lactose: 'Laktos',
+  nuts: 'Nötter',
+  vegetarian: 'Vegetarian',
+  vegan: 'Vegan',
+  seafood: 'Skaldjur',
+  egg: 'Ägg',
+  celery: 'Selleri'
 }

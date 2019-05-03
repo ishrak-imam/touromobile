@@ -245,23 +245,46 @@ const resolvers = {
     }, getMap({}))
   },
 
-  formatMealsData: (meals, extra) => {
+  formatMealsData: (data, extra) => {
+    const meals = data.get('meals')
+    const mealOrders = data.get('mealOrders')
+
     return meals.reduce((list, meal) => {
+      const mealId = String(meal.get('id'))
+
       if (meal.get('child') && meal.get('adult')) {
         list = list
-          .push(meal.set('child', null))
-          .push(meal.set('name', `(${extra}) ${meal.get('name')}`).set('adult', null))
+          .push(meal.set('child', null).set('type', 'regular'))
+          .push(meal.set('name', `(${extra}) ${meal.get('name')}`).set('adult', null).set('type', 'regular'))
       }
       if (meal.get('child') && !meal.get('adult')) {
-        list = list.push(meal.set('name', `(${extra}) ${meal.get('name')}`))
+        list = list.push(meal.set('name', `(${extra}) ${meal.get('name')}`).set('type', 'regular'))
       }
       if (!meal.get('child') && meal.get('adult')) {
-        list = list.push(meal)
+        list = list.push(meal.set('type', 'regular'))
       }
+
+      if (mealOrders && mealOrders.get(mealId)) {
+        const mealOrder = mealOrders.get(mealId)
+        if (mealOrder.get('allergies')) {
+          mealOrder.get('allergies').every(order => {
+            const name = `${meal.get('name')} (${order.get('allergyText')})`
+            list = list.push(getMap({
+              allergyId: order.get('allergyId'),
+              name,
+              adult: order.get('adult'),
+              child: order.get('child'),
+              type: 'allergy',
+              id: order.get('mealId')
+            }))
+            return true
+          })
+        }
+      }
+
       return list
     }, getList([]))
   }
-
 }
 
 export const getTrips = state => state.trips
@@ -473,11 +496,11 @@ export const getModifiedPaxByBooking = data => {
 }
 
 let formattedMealsDataCache = null
-export const getFormattedMealsData = (meals, extra) => {
+export const getFormattedMealsData = (data, extra) => {
   if (!formattedMealsDataCache) {
     formattedMealsDataCache = Cache(resolvers.formatMealsData)
   }
-  return formattedMealsDataCache(meals, extra)
+  return formattedMealsDataCache(data, extra)
 }
 
 /**

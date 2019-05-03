@@ -144,5 +144,14 @@ export default {
   createdAt: 'Created at',
   noAssignments: 'No assignment accepted yet',
   sendMeCopy: 'Send me a copy',
-  missingInvoicee: 'Missing Invoicee'
+  missingInvoicee: 'Missing Invoicee',
+  otherAllergy: 'Other allergy',
+  gluten: 'Gluten',
+  lactose: 'Lactose',
+  nuts: 'Nuts',
+  vegetarian: 'Vegetarian',
+  vegan: 'Vegan',
+  seafood: 'Seafood',
+  egg: 'Egg',
+  celery: 'celery'
 }

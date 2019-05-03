@@ -71,6 +71,7 @@ function _5To6 (modifiedData, allTrips) {
         if (tripOrder.get('statsUploadedAt')) newTripOrder = newTripOrder.set('statsUploadedAt', tripOrder.get('statsUploadedAt'))
         if (tripOrder.get('accept')) newTripOrder = newTripOrder.set('accept', tripOrder.get('accept'))
         if (tripOrder.get('prevAccept')) newTripOrder = newTripOrder.set('prevAccept', tripOrder.get('prevAccept'))
+        if (tripOrder.get('allergyMeals')) newTripOrder = newTripOrder.set('allergyMeals', tripOrder.get('allergyMeals'))
 
         if (tripOrder.get('participants')) {
           let participants = tripOrder.get('participants')

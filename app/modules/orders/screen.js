@@ -157,6 +157,8 @@ class OrdersScreen extends Component {
             bookingId={bookingId}
             departureId={departureId}
             screen='booking'
+            navigation={navigation}
+            brand={brand}
           />
         }
 

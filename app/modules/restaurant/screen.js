@@ -141,6 +141,21 @@ class RestaurantScreen extends Component {
     )
   }
 
+  _renderAllergyOrder = (lookup, orders) => {
+    return ({ item }) => {
+      const name = `${lookup.get(item).get('name')} (${orders[item].allergyText})`
+      const count = orders[item].count
+      return (
+        <Item style={ss.item}>
+          <Text style={ss.itemText}>{name}</Text>
+          <Right style={ss.itemRight}>
+            <Text>{count}</Text>
+          </Right>
+        </Item>
+      )
+    }
+  }
+
   _renderOrder = (lookup, orders) => {
     return ({ item }) => {
       const name = lookup.get(item).get('name')
@@ -164,7 +179,13 @@ class RestaurantScreen extends Component {
     let childMealOrders = {}
     let beverageOrders = {}
 
-    orders.map(o => {
+    let adultAllergyOrders = {}
+    let childAllergyOrders = {}
+
+    const regularOrders = orders.filter(o => !o.get('allergyText'))
+    const allergyOrders = orders.filter(o => o.get('allergyText'))
+
+    regularOrders.map(o => {
       if (o.get('meal')) {
         const mealCount = o.get('adult')
           ? adultMealOrders[o.get('meal')] || 0
@@ -178,6 +199,18 @@ class RestaurantScreen extends Component {
       if (o.get('drink')) {
         const beverageCount = beverageOrders[o.get('drink')] || 0
         beverageOrders[o.get('drink')] = beverageCount + 1
+      }
+    })
+
+    allergyOrders.map(o => {
+      if (o.get('meal')) {
+        const meal = o.get('adult')
+          ? adultAllergyOrders[o.get('meal')] || { count: 0, allergyText: '' }
+          : childAllergyOrders[o.get('meal')] || { count: 0, allergyText: '' }
+
+        o.get('adult')
+          ? adultAllergyOrders[o.get('meal')] = { count: meal.count + 1, allergyText: o.get('allergyText') }
+          : childAllergyOrders[o.get('meal')] = { count: meal.count + 1, allergyText: o.get('allergyText') }
       }
     })
 
@@ -195,12 +228,22 @@ class RestaurantScreen extends Component {
           keyExtractor={item => item}
           renderItem={this._renderOrder(meals, adultMealOrders)}
         />
+        <FlatList
+          data={Object.keys(adultAllergyOrders)}
+          keyExtractor={item => item}
+          renderItem={this._renderAllergyOrder(meals, adultAllergyOrders)}
+        />
 
         <Text note style={ss.label}>{_T('children')}</Text>
         <FlatList
           data={Object.keys(childMealOrders)}
           keyExtractor={item => item}
           renderItem={this._renderOrder(meals, childMealOrders)}
+        />
+        <FlatList
+          data={Object.keys(childAllergyOrders)}
+          keyExtractor={item => item}
+          renderItem={this._renderAllergyOrder(meals, childAllergyOrders)}
         />
 
         <Text note style={ss.label}>{_T('beverages')}</Text>

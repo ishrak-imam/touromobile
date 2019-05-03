@@ -20,8 +20,8 @@ import ExtraOrderSummaryMode from './extraOrderSummaryMode'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import isIOS from '../utils/isIOS'
 import isIphoneX from '../utils/isIphoneX'
-
 import SelectInvoiceeSummaryMode from './selectInvoiceeSummaryMode'
+import { getMap } from '../utils/immutable'
 
 class SummaryOrderItem extends Component {
   constructor (props) {
@@ -42,7 +42,7 @@ class SummaryOrderItem extends Component {
 
   _renderFoodItem = (mealType, paxCount, totalOrder) => {
     const direction = this.state.tab
-    const { bookingId, departureId } = this.props
+    const { navigation, brand, bookingId, departureId } = this.props
     return ({ item }) => {
       return (
         <FoodItem
@@ -53,6 +53,8 @@ class SummaryOrderItem extends Component {
           mealType={mealType}
           paxCount={paxCount}
           totalOrder={totalOrder}
+          navigation={navigation}
+          brand={brand}
         />
       )
     }
@@ -64,8 +66,15 @@ class SummaryOrderItem extends Component {
     let count = 0
     const meals = orderForBooking.getIn([tab, 'meal'])
     if (meals && meals.size > 0) {
-      meals.every((meal) => {
+      meals.every(meal => {
         count = count + meal.get('adultCount') + meal.get('childCount')
+        const allergies = meal.get('allergies')
+        if (allergies) {
+          allergies.every(order => {
+            count = count + order.get('adultCount') + order.get('childCount')
+          })
+          return true
+        }
         return true
       })
     }
@@ -86,8 +95,8 @@ class SummaryOrderItem extends Component {
     return count
   }
 
-  _renderMeals = (meals, paxCount) => {
-    const formattedMeals = getFormattedMealsData(meals, _T('child'))
+  _renderMeals = (meals, mealOrders, paxCount) => {
+    const formattedMeals = getFormattedMealsData(getMap({ meals, mealOrders }), _T('child'))
     return (
       <View style={ss.section}>
         <ListItem style={ss.header}>
@@ -99,7 +108,8 @@ class SummaryOrderItem extends Component {
           <ImmutableVirtualizedList
             immutableData={formattedMeals}
             renderItem={this._renderFoodItem('meal', paxCount, this.totalMealOrder)}
-            keyExtractor={item => `${item.get('id')}${item.get('adult') || item.get('child')}`}
+            // keyExtractor={item => `${item.get('id')}${item.get('adult') || item.get('child')}`}
+            keyExtractor={(_, index) => String(index)}
             renderEmpty={_T('noMealData')}
           />
         }
@@ -144,10 +154,12 @@ class SummaryOrderItem extends Component {
 
   _renderLunchOrders = () => {
     const { lunchOrders, tab } = this.state
-    const { pax, lunches, departureId, bookingId } = this.props
+    const { pax, lunches, departureId, bookingId, orderForBooking } = this.props
     const meals = lunches.getIn([tab, 'meals'])
     const beverages = lunches.getIn([tab, 'beverages'])
     const icon = lunchOrders ? 'minus' : 'plus'
+
+    const mealOrders = orderForBooking.getIn([tab, 'meal'])
 
     return (
       <View>
@@ -172,7 +184,7 @@ class SummaryOrderItem extends Component {
             <View style={ss.tabContainer}>
               <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
             </View>
-            {this._renderMeals(meals, pax.size)}
+            {this._renderMeals(meals, mealOrders, pax.size)}
             {beverages && this._renderBeverages(beverages, pax.size)}
           </View>
         }
@@ -242,7 +254,7 @@ class SummaryOrderItem extends Component {
 
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          style={ss.scroll}
+          contentContainerStyle={ss.scroll}
           extraScrollHeight={isIOS ? 40 : 200}
           enableOnAndroid
           keyboardShouldPersistTaps='always'
@@ -298,7 +310,7 @@ const ss = StyleSheet.create({
   },
   scroll: {
     // marginTop: 5,
-    marginBottom: isIphoneX ? 30 : 20
+    paddingBottom: isIphoneX ? 30 : 20
   },
   topHeader: {
     marginLeft: 0,

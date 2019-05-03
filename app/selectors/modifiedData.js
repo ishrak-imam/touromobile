@@ -43,62 +43,66 @@ export const getOrdersByDirection = (state, departureId, direction, orderMode) =
     return getList([])
   }
 
-  const formattedOrders = orderMode === 'SUMMARY'
+  return orders.reduce((list, booking) => {
+    const bOrders = booking.get(direction)
 
-    ? orders.reduce((list, booking) => {
-      const bOrders = booking.get(direction)
+    if (bOrders && bOrders.size > 0) {
+      const meals = bOrders.get('meal')
+      if (meals && meals.size > 0) {
+        list = list.concat(meals.reduce((mList, meal) => {
+          for (let i = 0; i < meal.get('adultCount'); i++) {
+            mList = mList.push(getMap({
+              meal: meal.get('mealId'),
+              adult: true
+            }))
+          }
+          for (let i = 0; i < meal.get('childCount'); i++) {
+            mList = mList.push(getMap({
+              meal: meal.get('mealId'),
+              adult: false
+            }))
+          }
 
-      if (bOrders && bOrders.size > 0) {
-        const meals = bOrders.get('meal')
-        if (meals && meals.size > 0) {
-          list = list.concat(meals.reduce((mList, meal) => {
-            for (let i = 0; i < meal.get('adultCount'); i++) {
-              mList = mList.push(getMap({
-                meal: meal.get('mealId'),
-                drink: null,
-                adult: true
-              }))
-            }
-            for (let i = 0; i < meal.get('childCount'); i++) {
-              mList = mList.push(getMap({
-                meal: meal.get('mealId'),
-                drink: null,
-                adult: false
-              }))
-            }
-            return mList
-          }, getList([])))
-        }
+          if (meal.get('allergies')) {
+            const allergies = meal.get('allergies')
+            allergies.every(order => {
+              for (let i = 0; i < order.get('adultCount'); i++) {
+                mList = mList.push(getMap({
+                  meal: order.get('mealId'),
+                  adult: true,
+                  allergyText: order.get('allergyText')
+                }))
+              }
+              for (let i = 0; i < order.get('childCount'); i++) {
+                mList = mList.push(getMap({
+                  meal: order.get('mealId'),
+                  adult: false,
+                  allergyText: order.get('allergyText')
+                }))
+              }
+            })
+          }
 
-        const drinks = bOrders.get('drink')
-        if (drinks && drinks.size > 0) {
-          list = list.concat(drinks.reduce((dList, drink) => {
-            for (let i = 0; i < drink.get('count'); i++) {
-              dList = dList.push(getMap({
-                drink: drink.get('drinkId'),
-                meal: null,
-                adult: !drink.get('isChild')
-              }))
-            }
-            return dList
-          }, getList([])))
-        }
+          return mList
+        }, getList([])))
       }
 
-      return list
-    }, getList([]))
+      const drinks = bOrders.get('drink')
+      if (drinks && drinks.size > 0) {
+        list = list.concat(drinks.reduce((dList, drink) => {
+          for (let i = 0; i < drink.get('count'); i++) {
+            dList = dList.push(getMap({
+              drink: drink.get('drinkId'),
+              adult: !drink.get('isChild')
+            }))
+          }
+          return dList
+        }, getList([])))
+      }
+    }
 
-    : orders.reduce((list, booking) => {
-      const bOrders = booking.reduce((bList, pax) => {
-        if (isMap(pax) && pax.get(direction)) {
-          bList = bList.push(pax.get(direction))
-        }
-        return bList
-      }, getList([]))
-      return list.concat(bOrders)
-    }, getList([]))
-
-  return formattedOrders
+    return list
+  }, getList([]))
 }
 
 export const getOrders = (state, departureId, orderMode) => {
@@ -132,6 +136,34 @@ export const getOrders = (state, departureId, orderMode) => {
                 booking: bookingId
               }))
             }
+
+            /**
+             * Allergy
+             */
+            if (meal.get('allergies')) {
+              const allergies = meal.get('allergies')
+              allergies.every(order => {
+                for (let i = 0; i < order.get('adultCount'); i++) {
+                  list = list.push(getMap({
+                    meal: order.get('mealId'),
+                    adult: true,
+                    allergyText: order.get('allergyText'),
+                    booking: bookingId
+                  }))
+                }
+                for (let i = 0; i < order.get('childCount'); i++) {
+                  list = list.push(getMap({
+                    meal: order.get('mealId'),
+                    adult: false,
+                    allergyText: order.get('allergyText'),
+                    booking: bookingId
+                  }))
+                }
+
+                return true
+              })
+            }
+
             return list
           }, getList([]))))
         }
@@ -173,6 +205,33 @@ export const getOrders = (state, departureId, orderMode) => {
                 booking: bookingId
               }))
             }
+
+            /**
+             * Allergy
+             */
+            if (meal.get('allergies')) {
+              const allergies = meal.get('allergies')
+              allergies.every(order => {
+                for (let i = 0; i < order.get('adultCount'); i++) {
+                  list = list.push(getMap({
+                    meal: order.get('mealId'),
+                    adult: true,
+                    allergyText: order.get('allergyText'),
+                    booking: bookingId
+                  }))
+                }
+                for (let i = 0; i < order.get('childCount'); i++) {
+                  list = list.push(getMap({
+                    meal: order.get('mealId'),
+                    adult: false,
+                    allergyText: order.get('allergyText'),
+                    booking: bookingId
+                  }))
+                }
+                return true
+              })
+            }
+
             return list
           }, getList([]))))
         }
