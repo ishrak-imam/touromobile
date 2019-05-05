@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
-import { ListItem, Left, Text } from 'native-base'
-import { View, StyleSheet } from 'react-native'
+import { ListItem, Text } from 'native-base'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import _T from '../utils/translator'
@@ -47,16 +47,16 @@ export default class BookingsWithoutOrder extends Component {
   render () {
     const { bookingsList, label } = this.props
     const { isExpanded } = this.state
-    const icon = isExpanded ? 'up' : 'down'
+    const icon = isExpanded ? 'minus' : 'plus'
 
     return (
       <View style={ss.container}>
-        <ListItem style={ss.header} onPress={this._onHeaderPress}>
-          <Left style={ss.bottomLeft}>
-            <IonIcon name={icon} style={ss.expandIcon} />
-            <Text style={ss.label}>{_T(label)}</Text>
-          </Left>
-        </ListItem>
+        <TouchableOpacity style={ss.topHeader} onPress={this._onHeaderPress}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{_T(label)}</Text>
+        </TouchableOpacity>
 
         {
           isExpanded
@@ -89,15 +89,6 @@ const ss = StyleSheet.create({
   expandText: {
     fontSize: 14
   },
-  header: {
-    marginRight: 15,
-    paddingBottom: 5,
-    borderBottomColor: Colors.steel,
-    borderBottomWidth: 1,
-    paddingRight: 0,
-    marginLeft: 15,
-    marginBottom: 10
-  },
   item: {
     flex: 1,
     flexDirection: 'column',
@@ -108,17 +99,31 @@ const ss = StyleSheet.create({
     marginVertical: 10
   },
   container: {
-    marginBottom: 20
+    marginBottom: 20,
+    marginHorizontal: 10
   },
   expandIcon: {
     marginRight: 10,
     fontWeight: 'bold'
   },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 13
-  },
   boldText: {
     fontWeight: 'bold'
+  },
+  topHeader: {
+    height: 45,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: Colors.cloud,
+    marginVertical: 5,
+    paddingLeft: 10
+  },
+  headerText: {
+    fontWeight: 'bold',
+    marginBottom: 3
+  },
+  sectionIcon: {
+    marginRight: 10
   }
 })

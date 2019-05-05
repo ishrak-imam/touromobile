@@ -4,7 +4,7 @@ import {
   ListItem, Left, Text,
   Right
 } from 'native-base'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import _T from '../utils/translator'
@@ -54,19 +54,16 @@ export default class PaxWithoutOrder extends Component {
   render () {
     const { paxList, label } = this.props
     const { isExpanded } = this.state
-    const icon = isExpanded ? 'up' : 'down'
+    const icon = isExpanded ? 'minus' : 'plus'
 
     return (
-      <View>
-        <ListItem style={ss.header} onPress={this._onHeaderPress}>
-          <Left style={ss.bottomLeft}>
-            <IonIcon name={icon} style={ss.expandIcon} />
-            <Text style={ss.label}>{_T(label)}</Text>
-          </Left>
-          <Right style={ss.bottomRight}>
-            <Text style={ss.label}>{_T('booking')}</Text>
-          </Right>
-        </ListItem>
+      <View style={ss.container}>
+        <TouchableOpacity style={ss.topHeader} onPress={this._onHeaderPress}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{_T(label)}</Text>
+        </TouchableOpacity>
 
         {
           isExpanded
@@ -93,6 +90,9 @@ export default class PaxWithoutOrder extends Component {
 }
 
 const ss = StyleSheet.create({
+  container: {
+    marginHorizontal: 10
+  },
   expandItem: {
     borderBottomWidth: 0,
     justifyContent: 'center',
@@ -131,5 +131,22 @@ const ss = StyleSheet.create({
   label: {
     fontWeight: 'bold',
     fontSize: 13
+  },
+  topHeader: {
+    height: 45,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: Colors.cloud,
+    marginVertical: 5,
+    paddingLeft: 10
+  },
+  headerText: {
+    fontWeight: 'bold',
+    marginBottom: 3
+  },
+  sectionIcon: {
+    marginRight: 10
   }
 })

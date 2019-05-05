@@ -73,7 +73,7 @@ class ReportsScreen extends Component {
       <View style={ss.tabContainer}>
         <TouchableOpacity
           style={[ss.tab, {
-            backgroundColor: tab === EXCURSIONS ? Colors.blue : Colors.silver,
+            backgroundColor: tab === EXCURSIONS ? Colors.blue : Colors.cloud,
             borderTopLeftRadius: 5,
             borderBottomLeftRadius: 5
           }]}
@@ -83,7 +83,7 @@ class ReportsScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={[ss.tab, {
-            backgroundColor: tab === ORDERS ? Colors.blue : Colors.silver,
+            backgroundColor: tab === ORDERS ? Colors.blue : Colors.cloud,
             borderTopRightRadius: 5,
             borderBottomRightRadius: 5
           }]}
