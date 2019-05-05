@@ -26,6 +26,7 @@ const resolvers = {
 
   sortedBookings: data => {
     const bookings = data.get('bookings')
+    if (!bookings) return getList([])
     return bookings.sortBy(b => b.get('id'))
   },
 
@@ -404,7 +405,8 @@ export const getPastTrips = state => {
  */
 export const getPaxByHotel = (state, hotelId) => {
   const trip = state.trips.get('current').get('trip')
-  const pax = getSortedPax(trip)
+  let pax = getPax(trip)
+  pax = getSortedPax(pax)
   return pax.filter(p => String(p.get('hotel')) === String(hotelId))
 }
 

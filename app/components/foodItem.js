@@ -184,7 +184,8 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0
   },
   itemLeft: {
-    flex: 1.5
+    flex: 1.5,
+    marginRight: 5
   },
   itemRight: {
     flex: 1,
