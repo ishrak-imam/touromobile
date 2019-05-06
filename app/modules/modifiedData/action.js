@@ -17,6 +17,7 @@ export const PREPARE_CANCEL_DATA = 'PREPARE_CANCEL_DATA'
 export const CANCEL_COMBO_VALUES = 'CANCEL_COMBO_VALUES'
 
 export const SELECT_INVOICEE = 'SELECT_INVOICEE'
+export const DELETE_INVOICEE = 'DELETE_INVOICEE'
 
 export const TAKE_ORDER = 'TAKE_ORDER'
 export const TAKE_EXTRA_ORDER = 'TAKE_EXTRA_ORDER'
@@ -54,6 +55,7 @@ export const prepareCancelData = createAction(PREPARE_CANCEL_DATA)
 export const cancelComboValues = createAction(CANCEL_COMBO_VALUES)
 
 export const selectInvoicee = createAction(SELECT_INVOICEE)
+export const deleteInvoicee = createAction(DELETE_INVOICEE)
 
 export const takeOrder = createAction(TAKE_ORDER)
 export const takeExtraOrder = createAction(TAKE_EXTRA_ORDER)

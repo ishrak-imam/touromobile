@@ -1231,7 +1231,10 @@
           "firstName": "Anna Cecilia",
           "lastName": "Olausson",
           "phone": "041819830,0722265572",
-          "email": "acissio@hotmail.com"
+          "email": "acissio@hotmail.com",
+          "address": "Some address",
+          "city": "some city",
+          "zip": "some zip"
         },
         "pax": [
           {

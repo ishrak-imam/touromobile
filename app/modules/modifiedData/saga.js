@@ -37,11 +37,11 @@ function * workerSyncModifiedData (action) {
 }
 
 export function * watchSsnDataReq () {
-  yield takeFirst(ssnDataReq.getType(), workerSsnDataReq)
+  yield takeEvery(ssnDataReq.getType(), workerSsnDataReq)
 }
 
 function * workerSsnDataReq (action) {
-  const { ssn, departureId, bookingId } = action.payload
+  const { ssn, departureId, bookingId, paxId } = action.payload
   try {
     const ssnData = yield call(getSSNdata, ssn)
     const invoicee = {
@@ -53,12 +53,14 @@ function * workerSsnDataReq (action) {
     yield put(ssnDataSucs({
       departureId,
       bookingId,
-      invoicee
+      invoicee,
+      paxId
     }))
   } catch (e) {
     yield put(ssnDataFail({
       departureId,
-      bookingId
+      bookingId,
+      paxId
     }))
   }
 }

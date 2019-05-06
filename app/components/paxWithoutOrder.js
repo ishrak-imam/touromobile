@@ -79,9 +79,6 @@ export default class PaxWithoutOrder extends Component {
               )}
             />
 
-            // : <ListItem style={ss.expandItem}>
-            //   <Text style={ss.expandText}>{_T('clickToExpand')}</Text>
-            // </ListItem>
             : <View style={ss.expandItem}>
               <Text style={ss.expandText}>{_T('clickToExpand')}</Text>
             </View>

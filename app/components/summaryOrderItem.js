@@ -20,7 +20,7 @@ import ExtraOrderSummaryMode from './extraOrderSummaryMode'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import isIOS from '../utils/isIOS'
 import isIphoneX from '../utils/isIphoneX'
-import SelectInvoiceeSummaryMode from './selectInvoiceeSummaryMode'
+import SelectInvoicee from './selectInvoicee'
 import { getMap } from '../utils/immutable'
 
 class SummaryOrderItem extends Component {
@@ -30,6 +30,7 @@ class SummaryOrderItem extends Component {
       lunchOrders: false,
       excursionOrders: false,
       extraOrders: false,
+      invoicee: false,
       tab: 'out'
     }
   }
@@ -157,7 +158,7 @@ class SummaryOrderItem extends Component {
     const mealOrders = orderForBooking.getIn([tab, 'meal'])
 
     return (
-      <View style={ss.lunchOrders}>
+      <View>
         <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('lunchOrders')}>
           {/* <Left style={ss.headerLeft}>
             <View style={ss.sectionIcon}>
@@ -239,10 +240,33 @@ class SummaryOrderItem extends Component {
     )
   }
 
-  render () {
-    const { booking, bookingId, pax, screen, departureId } = this.props
-    const direction = this.state.tab
+  _renderInvoiceeSelection = () => {
+    const { booking, bookingId, pax, departureId } = this.props
+    const { invoicee, tab: { direction } } = this.state
+    const icon = invoicee ? 'minus' : 'plus'
+    return (
+      <View>
+        <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('invoicee')}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{_T('selectInvoicee')}</Text>
+        </TouchableOpacity>
+        {
+          invoicee &&
+          <SelectInvoicee
+            booking={booking}
+            pax={pax}
+            direction={direction}
+            bookingId={bookingId}
+            departureId={departureId}
+          />
+        }
+      </View>
+    )
+  }
 
+  render () {
     return (
       <View style={ss.container}>
 
@@ -253,17 +277,8 @@ class SummaryOrderItem extends Component {
           enableOnAndroid
           keyboardShouldPersistTaps='always'
         >
-          {
-            screen === 'booking' &&
-            <SelectInvoiceeSummaryMode
-              booking={booking}
-              pax={pax}
-              direction={direction}
-              bookingId={bookingId}
-              departureId={departureId}
-            />
-          }
 
+          {this._renderInvoiceeSelection()}
           {this._renderLunchOrders()}
           {this._renderExcursionOrders()}
           {this._renderExtraOrders()}
@@ -291,9 +306,6 @@ const ss = StyleSheet.create({
     // marginTop: 10,
     marginHorizontal: 15
   },
-  lunchOrders: {
-    marginTop: 20
-  },
   boldText: {
     fontWeight: 'bold'
   },
@@ -306,7 +318,7 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0
   },
   scroll: {
-    // marginTop: 5,
+    marginTop: 5,
     paddingBottom: isIphoneX ? 30 : 20
   },
   topHeader: {
