@@ -1,9 +1,9 @@
 
 import React, { Component } from 'react'
 import {
-  ListItem, Left, Text, Body
+  ListItem, Text, Body
 } from 'native-base'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import _T from '../utils/translator'
 
@@ -38,25 +38,25 @@ export default class BookingsWithIssues extends Component {
   render () {
     const { issues, orderIssues, label } = this.props
     const { isExpanded } = this.state
-    const icon = isExpanded ? 'up' : 'down'
+    const icon = isExpanded ? 'minus' : 'plus'
 
     return (
-      <View>
-        <ListItem style={ss.header} onPress={this._onHeaderPress}>
-          <Left style={ss.bottomLeft}>
-            <IonIcon name={icon} style={ss.expandIcon} />
-            <Text style={ss.label}>{label}</Text>
-          </Left>
-        </ListItem>
+      <View style={ss.container}>
+        <TouchableOpacity style={ss.topHeader} onPress={this._onHeaderPress}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{label}</Text>
+        </TouchableOpacity>
 
         {
           isExpanded
 
             ? this._renderIssues(issues, orderIssues)
 
-            : <ListItem style={ss.expandItem}>
+            : <View style={ss.expandItem}>
               <Text style={ss.expandText}>{_T('clickToExpand')}</Text>
-            </ListItem>
+            </View>
         }
 
       </View>
@@ -65,37 +65,38 @@ export default class BookingsWithIssues extends Component {
 }
 
 const ss = StyleSheet.create({
+  container: {
+    marginBottom: 20,
+    marginHorizontal: 10
+  },
   expandItem: {
-    borderBottomWidth: 0,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  topHeader: {
+    height: 45,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: Colors.cloud,
+    marginVertical: 5,
+    paddingLeft: 10
+  },
+  headerText: {
+    fontWeight: 'bold',
+    marginBottom: 3
+  },
+  sectionIcon: {
+    marginRight: 10
   },
   expandText: {
     fontSize: 14
   },
-  header: {
-    marginRight: 15,
-    paddingBottom: 5,
-    borderBottomColor: Colors.steel,
-    borderBottomWidth: 1,
-    paddingRight: 0,
-    marginLeft: 15,
-    marginBottom: 10
-  },
-  bottomLeft: {
-    flex: 2
-  },
   bottomRight: {
     flex: 1,
     paddingRight: 10
-  },
-  expandIcon: {
-    marginRight: 10,
-    fontWeight: 'bold'
-  },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 13
   },
   issueLabel: {
     marginBottom: 5
