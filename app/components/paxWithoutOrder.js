@@ -79,9 +79,12 @@ export default class PaxWithoutOrder extends Component {
               )}
             />
 
-            : <ListItem style={ss.expandItem}>
+            // : <ListItem style={ss.expandItem}>
+            //   <Text style={ss.expandText}>{_T('clickToExpand')}</Text>
+            // </ListItem>
+            : <View style={ss.expandItem}>
               <Text style={ss.expandText}>{_T('clickToExpand')}</Text>
-            </ListItem>
+            </View>
         }
 
       </View>
@@ -94,7 +97,7 @@ const ss = StyleSheet.create({
     marginHorizontal: 10
   },
   expandItem: {
-    borderBottomWidth: 0,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center'
   },

@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react'
-import { ListItem, Text } from 'native-base'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import _T from '../utils/translator'
@@ -19,8 +18,8 @@ class BookingItem extends Component {
     }, '')
     return (
       <View style={ss.item}>
-        <Text>{bookingId}</Text>
-        <Text note>{paxNames.replace(/,\s*$/, '.')}</Text>
+        <Text style={ss.bookingId}>{bookingId}</Text>
+        <Text style={ss.paxName}>{paxNames.replace(/,\s*$/, '.')}</Text>
       </View>
     )
   }
@@ -69,9 +68,9 @@ export default class BookingsWithoutOrder extends Component {
               keyExtractor={item => String(item.get('id'))}
             />
 
-            : <ListItem style={ss.expandItem}>
+            : <View style={ss.expandItem}>
               <Text style={ss.expandText}>{_T('clickToExpand')}</Text>
-            </ListItem>
+            </View>
         }
 
       </View>
@@ -80,11 +79,14 @@ export default class BookingsWithoutOrder extends Component {
 }
 
 const ss = StyleSheet.create({
+  container: {
+    marginBottom: 20,
+    marginHorizontal: 10
+  },
   expandItem: {
-    borderBottomWidth: 0,
+    height: 40,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 15
+    alignItems: 'center'
   },
   expandText: {
     fontSize: 14
@@ -96,11 +98,7 @@ const ss = StyleSheet.create({
     alignItems: 'flex-start',
     marginRight: 15,
     marginLeft: 20,
-    marginVertical: 10
-  },
-  container: {
-    marginBottom: 20,
-    marginHorizontal: 10
+    marginBottom: 20
   },
   expandIcon: {
     marginRight: 10,
@@ -125,5 +123,13 @@ const ss = StyleSheet.create({
   },
   sectionIcon: {
     marginRight: 10
+  },
+  bookingId: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  paxName: {
+    fontSize: 14,
+    color: Colors.charcoal
   }
 })
