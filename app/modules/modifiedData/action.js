@@ -39,6 +39,8 @@ export const SSN_DATA_FAIL = 'SSN_DATA_FAIL'
 
 export const RESTRUCTURE_MODIFIED_DATA = 'RESTRUCTURE_MODIFIED_DATA'
 
+export const SET_ORDER_BUCKET = 'SET_ORDER_BUCKET'
+
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
 export const setParticipants = createAction(SET_PARTICIPANTS)
 
@@ -76,3 +78,5 @@ export const ssnDataSucs = createAction(SSN_DATA_SUCS)
 export const ssnDataFail = createAction(SSN_DATA_FAIL)
 
 export const restructureModifiedData = createAction(RESTRUCTURE_MODIFIED_DATA)
+
+export const setOrderBucket = createAction(SET_ORDER_BUCKET)

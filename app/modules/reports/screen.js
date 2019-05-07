@@ -7,7 +7,7 @@ import _T from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
   getParticipants, getTripExcursions, getReports, getOrders,
-  getAllOrders, getPax, getSortedPax, getFoods, checkIfFlightTrip,
+  getAllOrders, getPax, getMeals, getDrinks, checkIfFlightTrip,
   getSortedBookings, getUser, getModifiedPax,
   getAllExtraOrders
 } from '../../selectors'
@@ -195,8 +195,8 @@ const stateToProps = state => {
     reports: getReports(state),
     orders: getOrders(state, departureId),
     allOrders: getAllOrders(state, departureId),
-    meals: getFoods(state, 'meals'),
-    beverages: getFoods(state, 'beverages'),
+    meals: getMeals(state),
+    beverages: getDrinks(state),
     user: getUser(state),
     modifiedPax: getModifiedPax(state, departureId),
     extraOrders: getAllExtraOrders(state, departureId)

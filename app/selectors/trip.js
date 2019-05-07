@@ -208,19 +208,20 @@ export const getConnections = state => state.trips.get('connections')
 
 export const getExcursions = state => state.trips.get('current').get('trip').get('excursions')
 
-export const getFoods = (state, type) => {
-  const currentTrip = state.trips.get('current')
-  if (!currentTrip.get('has')) {
-    return false
-  }
-  const lunches = currentTrip.get('trip').get('lunches')
-  if (!lunches) {
-    return false
-  }
-  return getMap({
-    out: lunches.get('out').get(type),
-    home: lunches.get('home').get(type)
-  })
+export const getMeals = state => {
+  const lunches = state.trips.getIn(['current', 'trip', 'lunches']) || getMap({})
+  let meals = getMap({})
+  return meals
+    .set('out', lunches.getIn(['out', 'meals']))
+    .set('home', lunches.getIn(['home', 'meals']))
+}
+
+export const getDrinks = state => {
+  const lunches = state.trips.getIn(['current', 'trip', 'lunches']) || getMap({})
+  let meals = getMap({})
+  return meals
+    .set('out', lunches.getIn(['out', 'beverages']))
+    .set('home', lunches.getIn(['home', 'beverages']))
 }
 
 let sortedTripsCache = null

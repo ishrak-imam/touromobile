@@ -1,6 +1,9 @@
 
 import React, { Component } from 'react'
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet, TextInput,
+  TouchableOpacity, Keyboard
+} from 'react-native'
 import { ListItem, View, Text } from 'native-base'
 import { Colors, IonIcon } from '../theme'
 import FooterButtons from './footerButtons'
@@ -61,6 +64,7 @@ class ExtraOrderSummaryMode extends Component {
   }
 
   _onSave = () => {
+    Keyboard.dismiss()
     const { departureId, bookingId } = this.props
     let { extraOrders } = this.state
     if (extraOrders.size) {
@@ -140,7 +144,7 @@ export default connect(stateToProps, null)(ExtraOrderSummaryMode)
 const ss = StyleSheet.create({
   container: {
     marginLeft: 5,
-    marginTop: 10
+    marginVertical: 10
   },
   item: {
     justifyContent: 'space-between',

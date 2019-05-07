@@ -6,7 +6,7 @@ import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
 import {
   getLunches, getFormattedMealsData,
-  getOrderForBooking
+  getOrderForBooking, getInvoicee
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 // import { actionDispatcher } from '../utils/actionDispatcher'
@@ -21,6 +21,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import isIOS from '../utils/isIOS'
 import isIphoneX from '../utils/isIphoneX'
 import SelectInvoicee from './selectInvoicee'
+import DistributeOrders from './distributeOrders'
 import { getMap } from '../utils/immutable'
 
 class SummaryOrderItem extends Component {
@@ -31,6 +32,7 @@ class SummaryOrderItem extends Component {
       excursionOrders: false,
       extraOrders: false,
       invoicee: false,
+      distribution: false,
       tab: 'out'
     }
   }
@@ -266,7 +268,33 @@ class SummaryOrderItem extends Component {
     )
   }
 
+  _renderDistribution = invoiceeList => {
+    const { booking, bookingId, departureId } = this.props
+    const { distribution } = this.state
+    const icon = distribution ? 'minus' : 'plus'
+    return (
+      <View>
+        <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('distribution')}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>Distribute orders</Text>
+        </TouchableOpacity>
+        {
+          distribution &&
+          <DistributeOrders
+            booking={booking}
+            invoiceeList={invoiceeList}
+            bookingId={bookingId}
+            departureId={departureId}
+          />
+        }
+      </View>
+    )
+  }
+
   render () {
+    const { invoiceeList } = this.props
     return (
       <View style={ss.container}>
 
@@ -282,6 +310,7 @@ class SummaryOrderItem extends Component {
           {this._renderLunchOrders()}
           {this._renderExcursionOrders()}
           {this._renderExtraOrders()}
+          {invoiceeList.size > 1 && this._renderDistribution(invoiceeList)}
 
         </KeyboardAwareScrollView>
 
@@ -293,6 +322,7 @@ class SummaryOrderItem extends Component {
 const stateToProps = (state, props) => {
   const { departureId, bookingId } = props
   return {
+    invoiceeList: getInvoicee(state, departureId, bookingId),
     lunches: getLunches(state),
     orderForBooking: getOrderForBooking(state, departureId, bookingId)
   }

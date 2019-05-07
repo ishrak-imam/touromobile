@@ -1,4 +1,4 @@
-import { getMap, getList, isMap } from '../utils/immutable'
+import { getMap, getList, isMap, getSet } from '../utils/immutable'
 
 import { getTripByDepartureId } from './trip'
 
@@ -224,4 +224,39 @@ export const getAcceptedAssignments = state => {
     }
     return list
   }, getList([]))
+}
+
+export const getParticipantsByBooking = (state, departureId, bookingId) => {
+  const participants = state.modifiedData.getIn([departureId, 'participants']) || getMap({})
+
+  return participants.map((excursion, excursionId) => {
+    const participants = excursion.get(bookingId)
+    if (participants) {
+      return participants || getSet([])
+    }
+  })
+}
+
+export const getExtraOrdersByBooking = (state, departureId, bookingId) => {
+  return state.modifiedData.getIn([departureId, 'extraOrders', bookingId]) || getMap({})
+}
+
+export const getOrdersByBooking = (state, departureId, bookingId) => {
+  const orders = state.modifiedData.getIn([departureId, 'orders', bookingId]) || getMap({})
+
+  const def = getMap({
+    meal: getMap({}),
+    drink: getMap({})
+  })
+
+  if (orders.size > 0) {
+    return getMap({
+      home: orders.get('home') || def,
+      out: orders.get('out') || def
+    })
+  }
+  return getMap({
+    home: def,
+    out: def
+  })
 }
