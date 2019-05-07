@@ -64,7 +64,8 @@ export const {
 export const {
   getInfoModal,
   getWarningModal,
-  getSelectionModal
+  getSelectionModal,
+  getDistributionModal
 } = require('./modal')
 
 export const {

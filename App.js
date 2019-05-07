@@ -13,6 +13,7 @@ import './app/utils/sentry'
 import InfoModal from './app/modal/info'
 import WarningModal from './app/modal/warning'
 import SelectionModal from './app/modal/selection'
+import DistributionModal from './app/modal/distribution'
 
 console.disableYellowBox = true
 
@@ -66,6 +67,7 @@ export default class TouroMobile extends Component {
               <InfoModal />
               <WarningModal />
               <SelectionModal />
+              <DistributionModal />
             </Root>
           </PersistGate>
         </Provider>

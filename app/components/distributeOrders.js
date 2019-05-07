@@ -17,11 +17,16 @@ import { setOrderBucket } from '../modules/modifiedData/action'
 import { getMap, listToMap } from '../utils/immutable'
 import { Colors } from '../theme'
 import OutHomeTab from '../components/outHomeTab'
+import { showModal } from '../modal/action'
+import _T from '../utils/translator'
 
 class DistributeOrders extends Component {
   constructor (props) {
     super(props)
-    const { participants, extraOrders, orders, bookingId, departureId } = props
+    const {
+      participants, extraOrders, invoiceeList,
+      orders, bookingId, departureId
+    } = props
 
     actionDispatcher(setOrderBucket({
       bookingId,
@@ -32,8 +37,17 @@ class DistributeOrders extends Component {
     }))
 
     this.state = {
-      tab: 'out'
+      tab: 'out',
+      invoiceeList
     }
+  }
+
+  _onModalSave = invoiceeList => {
+    console.log(invoiceeList.toJS())
+  }
+
+  _onModalCancel = () => {
+    console.log('Distribution modal canceled')
   }
 
   _prepareMealData = (orders, bucket, storage) => {
@@ -156,18 +170,39 @@ class DistributeOrders extends Component {
 
   _flattenParticipants = participants => {
     const flattenedList = []
-    let { excursions } = this.props
-    excursions = listToMap(excursions, 'id')
-    return participants.reduce((list, par, id) => {
-      const excursion = excursions.get(id)
-      const paxCount = par.size
-      list.push({
-        id,
-        name: excursion.get('name'),
-        paxCount
-      })
-      return list
-    }, flattenedList)
+    if (participants) {
+      let { excursions } = this.props
+      excursions = listToMap(excursions, 'id')
+      return participants.reduce((list, par, id) => {
+        const excursion = excursions.get(id)
+        const paxCount = par.size
+        list.push({
+          id,
+          name: excursion.get('name'),
+          paxCount
+        })
+        return list
+      }, flattenedList)
+    }
+
+    return flattenedList
+  }
+
+  _onPressMeal = meal => () => {
+    const { invoiceeList, tab } = this.state
+    actionDispatcher(showModal({
+      type: 'distribution',
+      data: {
+        meal,
+        invoiceeList,
+        direction: tab,
+        mealType: 'meal',
+        orderType: 'orders'
+      },
+      config: { label: meal.name, instruction: _T('distributionInstruction') },
+      onSave: this._onModalSave,
+      onCancel: this._onModalCancel
+    }))
   }
 
   _renderMeals = meals => {
@@ -175,16 +210,16 @@ class DistributeOrders extends Component {
       <View style={ss.itemCon}>
         <View style={ss.sectionHeader}>
           <Text style={ss.boldText}>Meals</Text>
-          <TouchableOpacity style={ss.headerButton}>
+          {/* <TouchableOpacity style={ss.headerButton}>
             <Text style={ss.buttonText}>Distribute all</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={ss.mealItems}>
           {meals.map((meal, index) => {
             const mealId = meal.mealId
             return (
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={this._onPressMeal(meal)}
                 style={ss.orderItem}
                 key={`${mealId} - ${index}`}
               >
@@ -333,10 +368,40 @@ class DistributeOrders extends Component {
     )
   }
 
+  _renderDistributedOrders = () => {
+    const { invoiceeList, tab } = this.state
+    return invoiceeList.keySeq().toArray().map(paxId => {
+      const invoicee = invoiceeList.get(paxId)
+      const name = invoicee.get('name')
+      const orders = invoicee.get('orders') || getMap({ home: getMap({}), out: getMap({}) })
+      const participants = invoicee.get('participants')
+      const extraOrders = invoicee.get('extraOrders') || getMap({})
+
+      return (
+        <View style={ss.bucket} key={paxId}>
+          <View style={ss.header}>
+            <Text style={ss.boldText}>{name}</Text>
+          </View>
+          <View style={ss.tab}>
+            <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
+          </View>
+          {this._renderMealsAndDrinks(orders)}
+          <View style={ss.orders}>
+            {this._renderExcursions(participants)}
+          </View>
+          <View style={ss.orders}>
+            {this._renderExtraOrders(extraOrders)}
+          </View>
+        </View>
+      )
+    })
+  }
+
   render () {
     return (
       <View>
         {this._renderBucket()}
+        {this._renderDistributedOrders()}
       </View>
     )
   }
@@ -364,6 +429,13 @@ const ss = StyleSheet.create({
     padding: 5,
     paddingBottom: 10,
     alignItems: 'center'
+  },
+  header: {
+    height: 30,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10
   },
   tab: {
     marginBottom: 20
