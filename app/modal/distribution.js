@@ -13,7 +13,7 @@ import { getMap } from '../utils/immutable'
 import FooterButtons from '../components/footerButtons'
 
 const { height, width } = Dimensions.get('window')
-const heightOffset = isIphoneX ? 350 : 150
+const heightOffset = isIphoneX ? 400 : 200
 const widthOffset = 50
 
 const modalHeight = height - heightOffset

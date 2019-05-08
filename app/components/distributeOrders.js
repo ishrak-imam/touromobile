@@ -56,7 +56,14 @@ class DistributeOrders extends Component {
     console.log('Distribution modal canceled')
   }
 
-  _prepareMealData = (orders, bucket, storage) => {
+  _isMealDistributed = (mealId, direction) => {
+    const { invoiceeList } = this.props
+    return invoiceeList.some(invoicee => {
+      return !!invoicee.getIn(['orders', direction, 'meal', mealId])
+    })
+  }
+
+  _prepareMealData = (orders, bucket, storage, direction) => {
     orders.every(meal => {
       const mealId = meal.get('mealId')
       const adultCount = meal.get('adultCount')
@@ -69,7 +76,8 @@ class DistributeOrders extends Component {
           count: adultCount,
           allergyId: '',
           allergyText: '',
-          adult: true
+          adult: true,
+          isDistributed: this._isMealDistributed(mealId, direction)
         })
       }
       if (childCount > 0) {
@@ -80,7 +88,8 @@ class DistributeOrders extends Component {
           count: childCount,
           allergyId: '',
           allergyText: '',
-          adult: false
+          adult: false,
+          isDistributed: this._isMealDistributed(mealId, direction)
         })
       }
       const allergyOrders = meal.get('allergies')
@@ -100,7 +109,8 @@ class DistributeOrders extends Component {
               allergyId,
               allergyText,
               adult: meal.get('adult'),
-              child: null
+              child: null,
+              isDistributed: this._isMealDistributed(mealId, direction)
             })
           }
           if (childCount > 0) {
@@ -112,7 +122,8 @@ class DistributeOrders extends Component {
               allergyId,
               allergyText,
               adult: null,
-              child: meal.get('child')
+              child: meal.get('child'),
+              isDistributed: this._isMealDistributed(mealId, direction)
             })
           }
         })
@@ -156,7 +167,7 @@ class DistributeOrders extends Component {
         const out = { meals: [], drinks: [] }
         const mealOrders = outOrders.get('meal')
         const drinkOrders = outOrders.get('drink')
-        if (mealOrders) out.meals = this._prepareMealData(mealOrders, out.meals, outMeals)
+        if (mealOrders) out.meals = this._prepareMealData(mealOrders, out.meals, outMeals, 'out')
         if (drinkOrders) out.drinks = this._prepareDrinkData(drinkOrders, out.drinks, outDrinks)
         aggregated.out = out
       }
@@ -165,7 +176,7 @@ class DistributeOrders extends Component {
         const home = { meals: [], drinks: [] }
         const mealOrders = homeOrders.get('meal')
         const drinkOrders = homeOrders.get('drink')
-        if (mealOrders) home.meals = this._prepareMealData(mealOrders, home.meals, homeMeals)
+        if (mealOrders) home.meals = this._prepareMealData(mealOrders, home.meals, homeMeals, 'home')
         if (drinkOrders) home.drinks = this._prepareDrinkData(drinkOrders, home.drinks, homeDrinks)
         aggregated.home = home
       }
@@ -267,6 +278,12 @@ class DistributeOrders extends Component {
                 style={ss.orderItem}
                 key={`${mealId} - ${index}`}
               >
+                {!renderButtons &&
+                <View style={ss.delete}>
+                  <TouchableOpacity style={ss.deleteButton}>
+                    <Text style={ss.minus}>-</Text>
+                  </TouchableOpacity>
+                </View>}
                 <View style={ss.itemName}>
                   <Text>{meal.name}</Text>
                 </View>
@@ -295,6 +312,12 @@ class DistributeOrders extends Component {
                 onPress={onPress}
                 style={ss.orderItem} key={`${drinkId} - ${index}`}
               >
+                {!renderButtons &&
+                <View style={ss.delete}>
+                  <TouchableOpacity style={ss.deleteButton}>
+                    <Text style={ss.minus}>-</Text>
+                  </TouchableOpacity>
+                </View>}
                 <View style={ss.itemName}>
                   <Text>{drink.name}</Text>
                 </View>
@@ -343,6 +366,12 @@ class DistributeOrders extends Component {
                 style={ss.orderItem}
                 key={excursion.get('id')}
               >
+                {!renderButtons &&
+                <View style={ss.delete}>
+                  <TouchableOpacity style={ss.deleteButton}>
+                    <Text style={ss.minus}>-</Text>
+                  </TouchableOpacity>
+                </View>}
                 <View style={ss.itemName}>
                   <Text>{excursion.get('name')}</Text>
                 </View>
@@ -381,11 +410,17 @@ class DistributeOrders extends Component {
     const orderId = order.get('id')
     const paxId = value.key
     let { invoiceeList } = this.props
-    let invoicee = invoiceeList.get(paxId)
-    let extraOrders = invoicee.get('extraOrders') || getMap({})
-    extraOrders = extraOrders.set(orderId, order)
-    invoicee = invoicee.set('extraOrders', extraOrders)
-    invoiceeList = invoiceeList.set(paxId, invoicee)
+    invoiceeList = invoiceeList.map(invoicee => {
+      const invoiceeId = invoicee.get('id')
+      let extraOrders = invoicee.get('extraOrders') || getMap({})
+      if (paxId === invoiceeId) {
+        extraOrders = extraOrders.set(orderId, order)
+      } else {
+        extraOrders = extraOrders.delete(orderId, order)
+      }
+      invoicee = invoicee.set('extraOrders', extraOrders)
+      return invoicee
+    })
     this._onModalSave(invoiceeList)
   }
 
@@ -418,6 +453,12 @@ class DistributeOrders extends Component {
                 style={ss.orderItem}
                 key={orderId}
               >
+                {!renderButtons &&
+                <View style={ss.delete}>
+                  <TouchableOpacity style={ss.deleteButton}>
+                    <Text style={ss.minus}>-</Text>
+                  </TouchableOpacity>
+                </View>}
                 <View style={ss.itemName}>
                   <Text>{order.get('text')}</Text>
                 </View>
@@ -584,6 +625,25 @@ const ss = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.cloud,
     padding: 5
+  },
+  delete: {
+    width: 40,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  deleteButton: {
+    width: 30,
+    height: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.cancel,
+    borderRadius: 4
+  },
+  minus: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: Colors.white
   },
   itemName: {
     flex: 4,
