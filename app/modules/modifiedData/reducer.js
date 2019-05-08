@@ -29,6 +29,7 @@ import {
 
   SELECT_INVOICEE,
   DELETE_INVOICEE,
+  SET_INVOICEELIST,
 
   RESET_ALL_ORDERS,
 
@@ -196,6 +197,16 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let invoicee = readValue('invoicee', orderForBooking) || getMap({})
     invoicee = deleteFromMap(invoicee, payload.paxId)
     orderForBooking = setIntoMap(orderForBooking, 'invoicee', invoicee)
+    orders = setIntoMap(orders, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'orders', orders)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [SET_INVOICEELIST]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let orders = readValue('orders', modifiedData) || getMap({})
+    let orderForBooking = readValue(payload.bookingId, orders) || getMap({})
+    orderForBooking = setIntoMap(orderForBooking, 'invoicee', payload.invoiceeList)
     orders = setIntoMap(orders, payload.bookingId, orderForBooking)
     modifiedData = setIntoMap(modifiedData, 'orders', orders)
     return setIntoMap(state, payload.departureId, modifiedData)

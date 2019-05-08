@@ -10,11 +10,11 @@ import {
   getExtraOrdersByBooking,
   getOrdersByBooking,
   getMeals, getExcursions,
-  getDrinks
+  getDrinks, getBucket
 } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
-import { setOrderBucket } from '../modules/modifiedData/action'
-import { getMap, listToMap } from '../utils/immutable'
+import { setOrderBucket, setInvoiceeList } from '../modules/modifiedData/action'
+import { getMap, getList, listToMap } from '../utils/immutable'
 import { Colors } from '../theme'
 import OutHomeTab from '../components/outHomeTab'
 import { showModal } from '../modal/action'
@@ -23,10 +23,12 @@ import _T from '../utils/translator'
 class DistributeOrders extends Component {
   constructor (props) {
     super(props)
-    const {
-      participants, extraOrders, invoiceeList,
-      orders, bookingId, departureId
+    let {
+      participants, extraOrders, orders,
+      bookingId, departureId
     } = props
+
+    participants = this._flattenParticipants(participants)
 
     actionDispatcher(setOrderBucket({
       bookingId,
@@ -37,13 +39,17 @@ class DistributeOrders extends Component {
     }))
 
     this.state = {
-      tab: 'out',
-      invoiceeList
+      tab: 'out'
     }
   }
 
   _onModalSave = invoiceeList => {
-    console.log(invoiceeList.toJS())
+    const { bookingId, departureId } = this.props
+    actionDispatcher(setInvoiceeList({
+      bookingId,
+      departureId,
+      invoiceeList
+    }))
   }
 
   _onModalCancel = () => {
@@ -169,19 +175,18 @@ class DistributeOrders extends Component {
   }
 
   _flattenParticipants = participants => {
-    const flattenedList = []
+    let flattenedList = getMap({})
     if (participants) {
       let { excursions } = this.props
       excursions = listToMap(excursions, 'id')
-      return participants.reduce((list, par, id) => {
+      return participants.reduce((map, par, id) => {
         const excursion = excursions.get(id)
-        const paxCount = par.size
-        list.push({
+        map = map.set(id, getMap({
           id,
           name: excursion.get('name'),
-          paxCount
-        })
-        return list
+          count: par.size
+        }))
+        return map
       }, flattenedList)
     }
 
@@ -189,7 +194,8 @@ class DistributeOrders extends Component {
   }
 
   _onPressMeal = meal => () => {
-    const { invoiceeList, tab } = this.state
+    const { tab } = this.state
+    const { invoiceeList } = this.props
     actionDispatcher(showModal({
       type: 'distribution',
       data: {
@@ -205,21 +211,59 @@ class DistributeOrders extends Component {
     }))
   }
 
-  _renderMeals = meals => {
+  _onPressDrink = drink => () => {
+    const { tab } = this.state
+    const { invoiceeList } = this.props
+    actionDispatcher(showModal({
+      type: 'distribution',
+      data: {
+        drink,
+        invoiceeList,
+        direction: tab,
+        mealType: 'drink',
+        orderType: 'orders'
+      },
+      config: { label: drink.name, instruction: _T('distributionInstruction') },
+      onSave: this._onModalSave,
+      onCancel: this._onModalCancel
+    }))
+  }
+
+  _onPressExcursion = excursion => () => {
+    const { invoiceeList } = this.props
+    actionDispatcher(showModal({
+      type: 'distribution',
+      data: {
+        excursion,
+        invoiceeList,
+        direction: '',
+        mealType: '',
+        orderType: 'excursion'
+      },
+      config: { label: excursion.get('name'), instruction: _T('distributionInstruction') },
+      onSave: this._onModalSave,
+      onCancel: this._onModalCancel
+    }))
+  }
+
+  _renderMeals = (meals, renderButtons) => {
     return (
       <View style={ss.itemCon}>
         <View style={ss.sectionHeader}>
           <Text style={ss.boldText}>Meals</Text>
-          {/* <TouchableOpacity style={ss.headerButton}>
+          {renderButtons &&
+          <TouchableOpacity style={ss.headerButton}>
             <Text style={ss.buttonText}>Distribute all</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>}
         </View>
         <View style={ss.mealItems}>
           {meals.map((meal, index) => {
             const mealId = meal.mealId
+            let onPress = this._onPressMeal(meal)
+            if (!renderButtons) onPress = () => {}
             return (
               <TouchableOpacity
-                onPress={this._onPressMeal(meal)}
+                onPress={onPress}
                 style={ss.orderItem}
                 key={`${mealId} - ${index}`}
               >
@@ -237,16 +281,18 @@ class DistributeOrders extends Component {
     )
   }
 
-  _renderDrinks = drinks => {
+  _renderDrinks = (drinks, renderButtons) => {
     return (
       <View style={ss.drinksCon}>
         {/* <Text style={ss.boldText}>Drinks</Text> */}
         <View style={ss.mealItems}>
           {drinks.map((drink, index) => {
             const drinkId = drink.drinkId
+            let onPress = this._onPressDrink(drink)
+            if (!renderButtons) onPress = () => {}
             return (
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={onPress}
                 style={ss.orderItem} key={`${drinkId} - ${index}`}
               >
                 <View style={ss.itemName}>
@@ -263,46 +309,47 @@ class DistributeOrders extends Component {
     )
   }
 
-  _renderMealsAndDrinks = orders => {
+  _renderMealsAndDrinks = (orders, renderButtons) => {
     const { tab } = this.state
     const flatOrders = this._flattenMealsAndDrinks(orders)
     const { meals, drinks } = flatOrders[tab]
 
     return (
       <View style={ss.orders}>
-        {this._renderMeals(meals)}
-        {this._renderDrinks(drinks)}
+        {this._renderMeals(meals, renderButtons)}
+        {/* {this._renderDrinks(drinks, renderButtons)} */}
       </View>
     )
   }
 
-  _renderExcursions = participants => {
-    const excursions = this._flattenParticipants(participants)
+  _renderExcursions = (participants, renderButtons) => {
     return (
       <View style={ss.orderCon}>
         <View style={ss.sectionHeader}>
           <Text style={ss.boldText}>Excursions</Text>
+          {renderButtons &&
           <TouchableOpacity style={ss.headerButton}>
             <Text style={ss.buttonText}>Distribute all</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View>
         <View style={ss.mealItems}>
-          {excursions.map(excursion => {
+          {participants.keySeq().toArray().map(excursionId => {
+            const excursion = participants.get(excursionId) || getMap({})
+            let onPress = this._onPressExcursion(excursion)
+            if (!renderButtons) onPress = () => {}
             return (
-              excursion.paxCount
-                ? <TouchableOpacity
-                  onPress={() => {}}
-                  style={ss.orderItem}
-                  key={excursion.id}
-                >
-                  <View style={ss.itemName}>
-                    <Text>{excursion.name}</Text>
-                  </View>
-                  <View style={ss.itemCount}>
-                    <Text>{excursion.paxCount}</Text>
-                  </View>
-                </TouchableOpacity>
-                : null
+              <TouchableOpacity
+                onPress={onPress}
+                style={ss.orderItem}
+                key={excursion.get('id')}
+              >
+                <View style={ss.itemName}>
+                  <Text>{excursion.get('name')}</Text>
+                </View>
+                <View style={ss.itemCount}>
+                  <Text>{excursion.get('count')}</Text>
+                </View>
+              </TouchableOpacity>
             )
           })}
         </View>
@@ -310,21 +357,64 @@ class DistributeOrders extends Component {
     )
   }
 
-  _renderExtraOrders = extraOrders => {
+  _getSelectionOptions = () => {
+    const config = {
+      label: 'Select invoicee',
+      key: 'paxId',
+      direction: ''
+    }
+    const { invoiceeList } = this.props
+    const items = invoiceeList.reduce((list, b) => {
+      list = list.push(getMap({
+        key: b.get('id'),
+        value: b.get('name')
+      }))
+      return list
+    }, getList([]))
+
+    return {
+      config, items
+    }
+  }
+
+  _onSelectBooking = order => ({ value }) => {
+    const orderId = order.get('id')
+    const paxId = value.key
+    let { invoiceeList } = this.props
+    let invoicee = invoiceeList.get(paxId)
+    let extraOrders = invoicee.get('extraOrders') || getMap({})
+    extraOrders = extraOrders.set(orderId, order)
+    invoicee = invoicee.set('extraOrders', extraOrders)
+    invoiceeList = invoiceeList.set(paxId, invoicee)
+    this._onModalSave(invoiceeList)
+  }
+
+  _onPressExtraOrder = order => () => {
+    actionDispatcher(showModal({
+      type: 'selection',
+      options: this._getSelectionOptions(),
+      onSelect: this._onSelectBooking(order)
+    }))
+  }
+
+  _renderExtraOrders = (extraOrders, renderButtons) => {
     return (
       <View style={ss.orderCon}>
         <View style={ss.sectionHeader}>
           <Text style={ss.boldText}>Extra orders</Text>
+          {renderButtons &&
           <TouchableOpacity style={ss.headerButton}>
             <Text style={ss.buttonText}>Distribute all</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View>
         <View style={ss.mealItems}>
           {extraOrders.keySeq().toArray().map(orderId => {
             const order = extraOrders.get(orderId)
+            let onPress = this._onPressExtraOrder(order)
+            if (!renderButtons) onPress = () => {}
             return (
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={onPress}
                 style={ss.orderItem}
                 key={orderId}
               >
@@ -349,7 +439,10 @@ class DistributeOrders extends Component {
   }
 
   _renderBucket = () => {
-    const { orders, participants, extraOrders } = this.props
+    const { bucket } = this.props
+    const orders = bucket.get('orders') || getMap({})
+    const participants = bucket.get('participants') || getList([])
+    const extraOrders = bucket.get('extraOrders') || getMap({})
     const { tab } = this.state
 
     return (
@@ -357,24 +450,25 @@ class DistributeOrders extends Component {
         <View style={ss.tab}>
           <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
         </View>
-        {this._renderMealsAndDrinks(orders)}
+        {this._renderMealsAndDrinks(orders, true)}
         <View style={ss.orders}>
-          {this._renderExcursions(participants)}
+          {this._renderExcursions(participants, true)}
         </View>
         <View style={ss.orders}>
-          {this._renderExtraOrders(extraOrders)}
+          {this._renderExtraOrders(extraOrders, true)}
         </View>
       </View>
     )
   }
 
   _renderDistributedOrders = () => {
-    const { invoiceeList, tab } = this.state
+    const { tab } = this.state
+    const { invoiceeList } = this.props
     return invoiceeList.keySeq().toArray().map(paxId => {
       const invoicee = invoiceeList.get(paxId)
       const name = invoicee.get('name')
       const orders = invoicee.get('orders') || getMap({ home: getMap({}), out: getMap({}) })
-      const participants = invoicee.get('participants')
+      const participants = invoicee.get('participants') || getMap({})
       const extraOrders = invoicee.get('extraOrders') || getMap({})
 
       return (
@@ -385,12 +479,12 @@ class DistributeOrders extends Component {
           <View style={ss.tab}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
           </View>
-          {this._renderMealsAndDrinks(orders)}
+          {this._renderMealsAndDrinks(orders, false)}
           <View style={ss.orders}>
-            {this._renderExcursions(participants)}
+            {this._renderExcursions(participants, false)}
           </View>
           <View style={ss.orders}>
-            {this._renderExtraOrders(extraOrders)}
+            {this._renderExtraOrders(extraOrders, false)}
           </View>
         </View>
       )
@@ -415,7 +509,8 @@ const stateToProps = (state, props) => {
     orders: getOrdersByBooking(state, departureId, bookingId),
     meals: getMeals(state),
     drinks: getDrinks(state),
-    excursions: getExcursions(state)
+    excursions: getExcursions(state),
+    bucket: getBucket(state, departureId, bookingId)
   }
 }
 

@@ -260,3 +260,7 @@ export const getOrdersByBooking = (state, departureId, bookingId) => {
     out: def
   })
 }
+
+export const getBucket = (state, departureId, bookingId) => {
+  return state.modifiedData.getIn([departureId, 'orders', bookingId, 'bucket']) || getMap({})
+}

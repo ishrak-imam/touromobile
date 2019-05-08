@@ -153,5 +153,6 @@ export default {
   vegan: 'Vegan',
   seafood: 'Seafood',
   egg: 'Egg',
-  celery: 'celery'
+  celery: 'celery',
+  distributionInstruction: 'Distributed orders should be equal to the total orders'
 }

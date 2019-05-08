@@ -154,5 +154,6 @@ export default {
   vegan: 'Vegan',
   seafood: 'Skaldjur',
   egg: 'Ägg',
-  celery: 'Selleri'
+  celery: 'Selleri',
+  distributionInstruction: 'Fördelat antal beställningar måste matcha det totala antalet beställningar'
 }
