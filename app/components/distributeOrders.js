@@ -60,6 +60,29 @@ class DistributeOrders extends Component {
     console.log('Distribution modal canceled')
   }
 
+  _onDistributeAll = section => ({ value }) => {
+    let { bucket, invoiceeList } = this.props
+    const order = bucket.get(section)
+    const paxId = value.key
+    invoiceeList = invoiceeList.map((invoicee, id) => {
+      if (paxId === id) {
+        invoicee = invoicee.set(section, order)
+      } else {
+        invoicee = invoicee.delete(section)
+      }
+      return invoicee
+    })
+    this._setInvoiceeList(invoiceeList)
+  }
+
+  _onPressDistributeAll = section => () => {
+    actionDispatcher(showModal({
+      type: 'selection',
+      options: this._getSelectionOptions(),
+      onSelect: this._onDistributeAll(section)
+    }))
+  }
+
   _isMealDistributed = (mealId, direction) => {
     const { invoiceeList } = this.props
     return invoiceeList.some(invoicee => {
@@ -308,7 +331,10 @@ class DistributeOrders extends Component {
         <View style={ss.sectionHeader}>
           <Text style={ss.boldText}>Meals</Text>
           {renderButtons &&
-          <TouchableOpacity style={ss.headerButton}>
+          <TouchableOpacity
+            style={ss.headerButton}
+            onPress={this._onPressDistributeAll('orders')}
+          >
             <Text style={ss.buttonText}>Distribute all</Text>
           </TouchableOpacity>}
         </View>
@@ -402,7 +428,10 @@ class DistributeOrders extends Component {
         <View style={ss.sectionHeader}>
           <Text style={ss.boldText}>Excursions</Text>
           {renderButtons &&
-          <TouchableOpacity style={ss.headerButton}>
+          <TouchableOpacity
+            style={ss.headerButton}
+            onPress={this._onPressDistributeAll('participants')}
+          >
             <Text style={ss.buttonText}>Distribute all</Text>
           </TouchableOpacity>}
         </View>
@@ -461,7 +490,7 @@ class DistributeOrders extends Component {
     }
   }
 
-  _onSelectBooking = order => ({ value }) => {
+  _onSelectInvoicee = order => ({ value }) => {
     const orderId = order.get('id')
     const paxId = value.key
     let { invoiceeList } = this.props
@@ -483,7 +512,7 @@ class DistributeOrders extends Component {
     actionDispatcher(showModal({
       type: 'selection',
       options: this._getSelectionOptions(),
-      onSelect: this._onSelectBooking(order)
+      onSelect: this._onSelectInvoicee(order)
     }))
   }
 
@@ -493,7 +522,10 @@ class DistributeOrders extends Component {
         <View style={ss.sectionHeader}>
           <Text style={ss.boldText}>Extra orders</Text>
           {renderButtons &&
-          <TouchableOpacity style={ss.headerButton}>
+          <TouchableOpacity
+            style={ss.headerButton}
+            onPress={this._onPressDistributeAll('extraOrders')}
+          >
             <Text style={ss.buttonText}>Distribute all</Text>
           </TouchableOpacity>}
         </View>
