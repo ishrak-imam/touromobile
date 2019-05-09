@@ -43,13 +43,17 @@ class DistributeOrders extends Component {
     }
   }
 
-  _onModalSave = invoiceeList => {
+  _setInvoiceeList = invoiceeList => {
     const { bookingId, departureId } = this.props
     actionDispatcher(setInvoiceeList({
       bookingId,
       departureId,
       invoiceeList
     }))
+  }
+
+  _onModalSave = invoiceeList => {
+    this._setInvoiceeList(invoiceeList)
   }
 
   _onModalCancel = () => {
@@ -257,7 +261,48 @@ class DistributeOrders extends Component {
     }))
   }
 
-  _renderMeals = (meals, renderButtons) => {
+  _onDeleteMeal = (paxId, mealItem, direction) => () => {
+    const mealId = mealItem.mealId
+    let { invoiceeList } = this.props
+    let invoicee = invoiceeList.get(paxId)
+    let orders = invoicee.get('orders')
+    let directionOrder = orders.get(direction)
+    let mealOrder = directionOrder.get('meal')
+    if (mealItem.type === 'allergy') {
+      const allergyId = mealItem.allergyId
+      let meal = mealOrder.get(mealId)
+      let allergyOrders = meal.get('allergies')
+      allergyOrders = allergyOrders.delete(allergyId)
+      meal = meal.set('allergies', allergyOrders)
+      mealOrder = mealOrder.set(mealId, meal)
+    } else {
+      let meal = mealOrder.get(mealId)
+      if (meal.get('allergies')) {
+        const isAdult = mealItem.adult
+        meal = meal.set(isAdult ? 'adultCount' : 'childCount', 0)
+        mealOrder = mealOrder.set(mealId, meal)
+      } else {
+        mealOrder = mealOrder.delete(mealId)
+      }
+    }
+    directionOrder = directionOrder.set('meal', mealOrder)
+    orders = orders.set(direction, directionOrder)
+    invoicee = invoicee.set('orders', orders)
+    invoiceeList = invoiceeList.set(paxId, invoicee)
+    this._setInvoiceeList(invoiceeList)
+  }
+
+  _onDeleteItem = (paxId, itemId, section) => () => {
+    let { invoiceeList } = this.props
+    let invoicee = invoiceeList.get(paxId)
+    let orders = invoicee.get(section)
+    orders = orders.delete(itemId)
+    invoicee = invoicee.set(section, orders)
+    invoiceeList = invoiceeList.set(paxId, invoicee)
+    this._setInvoiceeList(invoiceeList)
+  }
+
+  _renderMeals = (meals, renderButtons, paxId, direction) => {
     return (
       <View style={ss.itemCon}>
         <View style={ss.sectionHeader}>
@@ -274,13 +319,17 @@ class DistributeOrders extends Component {
             if (!renderButtons) onPress = () => {}
             return (
               <TouchableOpacity
+                disabled={!renderButtons}
                 onPress={onPress}
                 style={ss.orderItem}
                 key={`${mealId} - ${index}`}
               >
                 {!renderButtons &&
                 <View style={ss.delete}>
-                  <TouchableOpacity style={ss.deleteButton}>
+                  <TouchableOpacity
+                    style={ss.deleteButton}
+                    onPress={this._onDeleteMeal(paxId, meal, direction)}
+                  >
                     <Text style={ss.minus}>-</Text>
                   </TouchableOpacity>
                 </View>}
@@ -309,8 +358,10 @@ class DistributeOrders extends Component {
             if (!renderButtons) onPress = () => {}
             return (
               <TouchableOpacity
+                disabled={!renderButtons}
                 onPress={onPress}
-                style={ss.orderItem} key={`${drinkId} - ${index}`}
+                style={ss.orderItem}
+                key={`${drinkId} - ${index}`}
               >
                 {!renderButtons &&
                 <View style={ss.delete}>
@@ -332,20 +383,20 @@ class DistributeOrders extends Component {
     )
   }
 
-  _renderMealsAndDrinks = (orders, renderButtons) => {
+  _renderMealsAndDrinks = (orders, renderButtons, paxId) => {
     const { tab } = this.state
     const flatOrders = this._flattenMealsAndDrinks(orders)
     const { meals, drinks } = flatOrders[tab]
 
     return (
       <View style={ss.orders}>
-        {this._renderMeals(meals, renderButtons)}
+        {this._renderMeals(meals, renderButtons, paxId, tab)}
         {/* {this._renderDrinks(drinks, renderButtons)} */}
       </View>
     )
   }
 
-  _renderExcursions = (participants, renderButtons) => {
+  _renderExcursions = (participants, renderButtons, paxId) => {
     return (
       <View style={ss.orderCon}>
         <View style={ss.sectionHeader}>
@@ -365,10 +416,14 @@ class DistributeOrders extends Component {
                 onPress={onPress}
                 style={ss.orderItem}
                 key={excursion.get('id')}
+                disabled={!renderButtons}
               >
                 {!renderButtons &&
                 <View style={ss.delete}>
-                  <TouchableOpacity style={ss.deleteButton}>
+                  <TouchableOpacity
+                    style={ss.deleteButton}
+                    onPress={this._onDeleteItem(paxId, excursionId, 'participants')}
+                  >
                     <Text style={ss.minus}>-</Text>
                   </TouchableOpacity>
                 </View>}
@@ -421,7 +476,7 @@ class DistributeOrders extends Component {
       invoicee = invoicee.set('extraOrders', extraOrders)
       return invoicee
     })
-    this._onModalSave(invoiceeList)
+    this._setInvoiceeList(invoiceeList)
   }
 
   _onPressExtraOrder = order => () => {
@@ -432,7 +487,7 @@ class DistributeOrders extends Component {
     }))
   }
 
-  _renderExtraOrders = (extraOrders, renderButtons) => {
+  _renderExtraOrders = (extraOrders, renderButtons, paxId) => {
     return (
       <View style={ss.orderCon}>
         <View style={ss.sectionHeader}>
@@ -455,7 +510,10 @@ class DistributeOrders extends Component {
               >
                 {!renderButtons &&
                 <View style={ss.delete}>
-                  <TouchableOpacity style={ss.deleteButton}>
+                  <TouchableOpacity
+                    style={ss.deleteButton}
+                    onPress={this._onDeleteItem(paxId, orderId, 'extraOrders')}
+                  >
                     <Text style={ss.minus}>-</Text>
                   </TouchableOpacity>
                 </View>}
@@ -520,12 +578,12 @@ class DistributeOrders extends Component {
           <View style={ss.tab}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
           </View>
-          {this._renderMealsAndDrinks(orders, false)}
+          {this._renderMealsAndDrinks(orders, false, paxId)}
           <View style={ss.orders}>
-            {this._renderExcursions(participants, false)}
+            {this._renderExcursions(participants, false, paxId)}
           </View>
           <View style={ss.orders}>
-            {this._renderExtraOrders(extraOrders, false)}
+            {this._renderExtraOrders(extraOrders, false, paxId)}
           </View>
         </View>
       )
