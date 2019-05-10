@@ -6,7 +6,8 @@ import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
 import {
   getLunches, getFormattedMealsData,
-  getOrderForBooking, getInvoicee
+  getOrderForBooking, getInvoicee,
+  getDistributionFlag
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 // import { actionDispatcher } from '../utils/actionDispatcher'
@@ -269,7 +270,7 @@ class SummaryOrderItem extends Component {
   }
 
   _renderDistribution = invoiceeList => {
-    const { booking, bookingId, departureId } = this.props
+    const { booking, bookingId, departureId, isNeedDistribution } = this.props
     const { distribution } = this.state
     const icon = distribution ? 'minus' : 'plus'
     return (
@@ -279,6 +280,10 @@ class SummaryOrderItem extends Component {
             <IonIcon name={icon} size={22} />
           </View>
           <Text style={ss.headerText}>Distribute orders</Text>
+          <View style={ss.distributionIcon}>
+            {isNeedDistribution &&
+            <IonIcon name='clipBoard' size={22} color={Colors.blue} />}
+          </View>
         </TouchableOpacity>
         {
           distribution &&
@@ -324,7 +329,8 @@ const stateToProps = (state, props) => {
   return {
     invoiceeList: getInvoicee(state, departureId, bookingId),
     lunches: getLunches(state),
-    orderForBooking: getOrderForBooking(state, departureId, bookingId)
+    orderForBooking: getOrderForBooking(state, departureId, bookingId),
+    isNeedDistribution: getDistributionFlag(state, departureId, bookingId)
   }
 }
 
@@ -368,14 +374,17 @@ const ss = StyleSheet.create({
     flex: 2
   },
   headerText: {
-    fontWeight: 'bold',
-    marginBottom: 3
+    fontWeight: 'bold'
+    // marginBottom: 3
   },
   reset: {
     paddingHorizontal: 20
   },
   sectionIcon: {
     marginRight: 10
+  },
+  distributionIcon: {
+    marginLeft: 10
   },
   tabContainer: {
     width: '100%',
