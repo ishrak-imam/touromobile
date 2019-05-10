@@ -264,3 +264,7 @@ export const getOrdersByBooking = (state, departureId, bookingId) => {
 export const getBucket = (state, departureId, bookingId) => {
   return state.modifiedData.getIn([departureId, 'orders', bookingId, 'bucket']) || getMap({})
 }
+
+export const getDistributionFlag = (state, departureId, bookingId) => {
+  return !!state.modifiedData.getIn([departureId, 'orders', bookingId, 'isNeedDistribution'])
+}

@@ -95,7 +95,8 @@ export const {
   getParticipantsByBooking,
   getExtraOrdersByBooking,
   getOrdersByBooking,
-  getBucket
+  getBucket,
+  getDistributionFlag
 } = require('./modifiedData')
 
 export const {

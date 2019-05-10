@@ -2,16 +2,18 @@
 import React, { Component } from 'react'
 import { Text } from 'native-base'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
-import { Colors } from '../theme'
-import { getPhoneNumbers } from '../selectors'
+import { Colors, IonIcon } from '../theme'
+import { getPhoneNumbers, getDistributionFlag } from '../selectors'
 import { getMap } from '../utils/immutable'
 import IconButton from '../components/iconButton'
 import { sms } from '../utils/comms'
+import { connect } from 'react-redux'
 
-export default class BookingItem extends Component {
+class BookingItem extends Component {
   shouldComponentUpdate (nextProps) {
     return !nextProps.booking.equals(this.props.booking) ||
-           !nextProps.modifiedPax.equals(this.props.modifiedPax)
+           !nextProps.modifiedPax.equals(this.props.modifiedPax) ||
+           nextProps.isNeedDistribution !== this.props.isNeedDistribution
   }
 
   _sms = phones => {
@@ -21,7 +23,7 @@ export default class BookingItem extends Component {
   }
 
   render () {
-    const { booking, modifiedPax, onPress } = this.props
+    const { booking, modifiedPax, onPress, isNeedDistribution } = this.props
     const id = String(booking.get('id'))
     const pax = booking.get('pax')
     const sortedPax = pax.sortBy(p => `${p.get('firstName')} ${p.get('lastName')}`)
@@ -31,6 +33,8 @@ export default class BookingItem extends Component {
       <TouchableOpacity style={ss.item} onPress={onPress(booking)}>
         <View style={ss.top}>
           <Text style={ss.boldText}>{id}</Text>
+          {isNeedDistribution &&
+          <IonIcon name='clipBoard' size={25} color={Colors.blue} />}
         </View>
         <View style={ss.body}>
           <View style={ss.pax}>
@@ -45,6 +49,16 @@ export default class BookingItem extends Component {
   }
 }
 
+const stateToProps = (state, props) => {
+  const { booking, departureId } = props
+  const bookingId = String(booking.get('id'))
+  return {
+    isNeedDistribution: getDistributionFlag(state, departureId, bookingId)
+  }
+}
+
+export default connect(stateToProps, null)(BookingItem)
+
 const ss = StyleSheet.create({
   item: {
     width: '100%',
@@ -55,11 +69,14 @@ const ss = StyleSheet.create({
     paddingBottom: 5
   },
   top: {
-    height: 25,
+    height: 30,
     width: '100%',
-    justifyContent: 'center'
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
   },
   boldText: {
+    marginRight: 10,
     fontWeight: '600'
   },
   body: {

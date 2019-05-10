@@ -218,12 +218,14 @@ class DistributeOrders extends Component {
       let { excursions } = this.props
       excursions = listToMap(excursions, 'id')
       return participants.reduce((map, par, id) => {
-        const excursion = excursions.get(id)
-        map = map.set(id, getMap({
-          id,
-          name: excursion.get('name'),
-          count: par.size
-        }))
+        if (par) {
+          const excursion = excursions.get(id)
+          map = map.set(id, getMap({
+            id,
+            name: excursion.get('name'),
+            count: par.size
+          }))
+        }
         return map
       }, flattenedList)
     }
