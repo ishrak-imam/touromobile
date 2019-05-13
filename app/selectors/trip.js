@@ -343,7 +343,7 @@ export const getCurrentTrip = state => {
   let trips = getSortedTrips(state.trips.get('data'))
   trips = trips.filter(trip => {
     const start = subDays(trip.get('outDate'), 3)
-    const end = addDays(trip.get('homeDate'), 2)
+    const end = addDays(trip.get('homeDate'), 5)
     return isWithinRange(dateNow, start, end)
   })
   return {

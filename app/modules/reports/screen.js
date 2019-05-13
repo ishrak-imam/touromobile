@@ -17,6 +17,7 @@ import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { uploadStatsReq } from './action'
 import FloatingButton from '../../components/floatingButton'
+import { listToMap } from '../../utils/immutable'
 
 const EXCURSIONS = 'EXCURSIONS'
 const ORDERS = 'ORDERS'
@@ -96,8 +97,13 @@ class ReportsScreen extends Component {
   }
 
   _checkForIssuesInOrder = (orders, possibleIssues) => {
+    const trip = this.props.currentTrip.get('trip')
+    const brand = trip.get('brand')
+    const departureId = trip.get('departureId')
+    const bookings = listToMap(trip.get('bookings'), 'id')
+
     const orderProblems = {
-      canUploadReport: true
+      canUploadReport: false
     }
 
     possibleIssues.reduce((map, issue) => {
@@ -106,15 +112,41 @@ class ReportsScreen extends Component {
           desc: `missing${issue}`,
           bookings: []
         }
-        orders.every((order, booking) => {
-          const invoicee = !!order.get('invoicee')
-          if (!invoicee) {
-            map.canUploadReport = false
-            map[issue].bookings.push(booking)
+        orders.every((order, id) => {
+          const invoicee = order.get('invoicee')
+          if (!invoicee || !invoicee.size) {
+            map.canUploadReport = true
+            map[issue].bookings.push({
+              booking: bookings.get(id),
+              id,
+              brand,
+              departureId
+            })
           }
           return true
         })
       }
+
+      if (issue === 'Distribution') {
+        map[issue] = {
+          desc: `pending${issue}`,
+          bookings: []
+        }
+        orders.every((order, id) => {
+          const invoicee = order.get('invoicee')
+          if (!invoicee || (invoicee.size > 1 && order.get('isNeedDistribution'))) {
+            map.canUploadReport = true
+            map[issue].bookings.push({
+              booking: bookings.get(id),
+              id,
+              brand,
+              departureId
+            })
+          }
+          return true
+        })
+      }
+
       return map
     }, orderProblems)
 
@@ -129,11 +161,12 @@ class ReportsScreen extends Component {
       allOrders
     } = this.props
 
-    const issues = ['Invoicee']
+    const issues = ['Invoicee', 'Distribution']
 
     const orderIssues = this._checkForIssuesInOrder(allOrders, issues)
 
     const trip = currentTrip.get('trip')
+    const departureId = trip.get('departureId')
     const brand = trip.get('brand')
     const isDataReady = currentTrip.get('has')
     const isFlight = checkIfFlightTrip(trip)
@@ -167,13 +200,15 @@ class ReportsScreen extends Component {
             isFlight={isFlight}
             orderIssues={orderIssues}
             issues={issues}
+            brand={brand}
+            departureId={departureId}
           />
         }
 
         {
           isDataReady && excursions && !!excursions.size &&
           <FloatingButton
-            disabled={!orderIssues.canUploadReport}
+            disabled={orderIssues.canUploadReport}
             topOffset={130} icon='upload'
             onPress={this._onUpload}
             loading={reports.get('isLoading')}

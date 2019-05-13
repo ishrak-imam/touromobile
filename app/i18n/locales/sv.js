@@ -146,6 +146,7 @@ export default {
   noAssignments: 'Ingen uppgift accepterad än',
   sendMeCopy: 'Skicka kopia till mig',
   missingInvoicee: 'Fakturamottagare saknas',
+  pendingDistribution: 'Distribution väntande',
   otherAllergy: 'Annan allergi',
   gluten: 'Gluten',
   lactose: 'Laktos',

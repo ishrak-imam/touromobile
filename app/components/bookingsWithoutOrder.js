@@ -4,23 +4,32 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { Colors, IonIcon } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import _T from '../utils/translator'
+import { navigate } from '../navigation/service'
 
 class BookingItem extends Component {
   shouldComponentUpdate (nextProps) {
-    return !nextProps.booking.equals(this.props.booking)
+    return !nextProps.item.booking.equals(this.props.item.booking)
   }
+
+  _toOrdersScreen = (brand, booking, departureId) => {
+    return () => {
+      navigate('Orders', { brand, booking, departureId })
+    }
+  }
+
   render () {
-    const { booking } = this.props
+    const { item } = this.props
+    const { brand, booking, departureId } = item
     const bookingId = booking.get('id')
     const paxNames = booking.get('pax').reduce((str, p) => {
       str = `${p.get('firstName')} ${p.get('lastName')}, ${str}`
       return str
     }, '')
     return (
-      <View style={ss.item}>
+      <TouchableOpacity style={ss.item} onPress={this._toOrdersScreen(brand, booking, departureId)}>
         <Text style={ss.bookingId}>{bookingId}</Text>
         <Text style={ss.paxName}>{paxNames.replace(/,\s*$/, '.')}</Text>
-      </View>
+      </TouchableOpacity>
     )
   }
 }
@@ -41,7 +50,7 @@ export default class BookingsWithoutOrder extends Component {
     this.setState({ isExpanded: !this.state.isExpanded })
   }
 
-  _renderItem = ({ item }) => <BookingItem booking={item} />
+  _renderItem = ({ item }) => <BookingItem item={item} />
 
   render () {
     const { bookingsList, label } = this.props
@@ -61,11 +70,12 @@ export default class BookingsWithoutOrder extends Component {
           isExpanded
 
             ? <ImmutableVirtualizedList
+              style={{ marginTop: 10 }}
               scrollEnabled={false}
               keyboardShouldPersistTaps='always'
               immutableData={bookingsList}
               renderItem={this._renderItem}
-              keyExtractor={item => String(item.get('id'))}
+              keyExtractor={item => String(item.booking.get('id'))}
             />
 
             : <View style={ss.expandItem}>
@@ -96,9 +106,11 @@ const ss = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginRight: 15,
-    marginLeft: 20,
-    marginBottom: 20
+    marginHorizontal: 10,
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: Colors.cloud,
+    borderRadius: 4
   },
   expandIcon: {
     marginRight: 10,

@@ -19,14 +19,15 @@ export const getStatsData = (excursions, modifiedPax, participants, trip) => {
     }, getSet([]))
 
     const participatingPax = getParticipatingPax(getMap({ pax, participants: exParticipants }))
-    const { adultCount, childCount } = participatingPax.reduce((map, pax) => {
-      const paxId = String(pax.get('id'))
-      const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
-      if (mPax.get('adult')) map.adultCount += 1
-      if (!mPax.get('adult')) map.childCount += 1
+    const { count } = participatingPax.reduce((map, pax) => {
+      // const paxId = String(pax.get('id'))
+      // const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
+      // if (mPax.get('adult')) map.adultCount += 1
+      // if (!mPax.get('adult')) map.childCount += 1
+      map.count += 1
       return map
-    }, { adultCount: 0, childCount: 0 })
-    m.push({ id: excursionId, adultCount, childCount })
+    }, { count: 0 })
+    m.push({ id: excursionId, count })
     return m
   }, [])
 
@@ -48,14 +49,15 @@ export const prepareParticipantsData = (excursions, modifiedPax, participants, t
     }, getSet([]))
 
     const participatingPax = getParticipatingPax(getMap({ pax, participants: exParticipants }))
-    const { adultCount, childCount } = participatingPax.reduce((map, pax) => {
-      const paxId = String(pax.get('id'))
-      const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
-      if (mPax.get('adult')) map.adultCount += 1
-      if (!mPax.get('adult')) map.childCount += 1
+    const { count } = participatingPax.reduce((map, pax) => {
+      // const paxId = String(pax.get('id'))
+      // const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
+      // if (mPax.get('adult')) map.adultCount += 1
+      // if (!mPax.get('adult')) map.childCount += 1
+      map.count += 1
       return map
-    }, { adultCount: 0, childCount: 0 })
-    m.push({ id: excursionId, adultCount, childCount })
+    }, { count: 0 })
+    m.push({ id: excursionId, count })
     return m
   }, [])
 }
@@ -73,127 +75,212 @@ export const prepareExtraData = (extraOrders, bookingId) => {
 
 export const getOrderStats = (orders, extraOrders, transportId, excursions, modifiedPax, participants, trip) => {
   if (orders.size) {
-    return orders.reduce((list, bOrders, key) => {
+    return orders.reduce((list, order, key) => {
       const aggregated = {
         transportId,
         booking: key,
-        invoicee: {},
-        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
-        extra: prepareExtraData(extraOrders, key)
+        invoicee: []
       }
-
-      let details = {}
-      const invoicee = bOrders.get('invoicee')
-      // aggregated.invoicee = bOrders.getIn(['invoicee', 'key'])
-      if (invoicee) {
-        aggregated.invoicee = {
-          address: invoicee.get('address'),
-          city: invoicee.get('city'),
-          zip: invoicee.get('zip'),
-          ssn: invoicee.get('ssn'),
-          name: invoicee.get('name'),
-          id: invoicee.get('id')
-        }
-      }
-      const out = bOrders.get('out')
-      if (out && out.size > 0) {
-        const meals = out.get('meal')
-        if (meals && meals.size > 0) {
-          meals.every((meal, mealId) => {
-            const m = details[mealId]
-            details[mealId] = {
-              meal: mealId,
-              adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
-              childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
-            }
-
-            /**
-            * Allergy
-            */
-            if (meal.get('allergies')) {
-              const allergies = meal.get('allergies')
-              allergies.every(order => {
-                const allergyMealId = String(order.get('mealId'))
-                const m = details[allergyMealId]
-                details[allergyMealId] = {
-                  meal: allergyMealId,
-                  adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
-                  childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+      const invoicee = order.get('invoicee')
+      if (invoicee.size === 1) {
+        invoicee.every(item => {
+          const invoiceeData = {
+            address: item.get('address'),
+            city: item.get('city'),
+            zip: item.get('zip'),
+            ssn: item.get('ssn'),
+            name: item.get('name'),
+            id: item.get('id'),
+            excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
+            extra: prepareExtraData(extraOrders, key)
+          }
+          const details = []
+          const out = order.get('out')
+          if (out && out.size > 0) {
+            const meals = out.get('meal')
+            if (meals && meals.size > 0) {
+              meals.every((meal, mealId) => {
+                const m = details[mealId]
+                details[mealId] = {
+                  meal: mealId,
+                  adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
+                  childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
                 }
+
+                /**
+                * Allergy
+                */
+                if (meal.get('allergies')) {
+                  const allergies = meal.get('allergies')
+                  allergies.every(order => {
+                    const allergyMealId = String(order.get('mealId'))
+                    const m = details[allergyMealId]
+                    details[allergyMealId] = {
+                      meal: allergyMealId,
+                      adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
+                      childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+                    }
+                  })
+                }
+
+                return true
               })
             }
+          }
 
-            return true
-          })
-        }
-      }
-      const home = bOrders.get('home')
-      if (home && home.size > 0) {
-        const meals = home.get('meal')
-        if (meals && meals.size > 0) {
-          meals.every((meal, mealId) => {
-            const m = details[mealId]
-            details[mealId] = {
-              meal: mealId,
-              adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
-              childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
-            }
-
-            /**
-            * Allergy
-            */
-            if (meal.get('allergies')) {
-              const allergies = meal.get('allergies')
-              allergies.every(order => {
-                const allergyMealId = String(order.get('mealId'))
-                const m = details[allergyMealId]
-                details[allergyMealId] = {
-                  meal: allergyMealId,
-                  adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
-                  childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+          const home = order.get('home')
+          if (home && home.size > 0) {
+            const meals = home.get('meal')
+            if (meals && meals.size > 0) {
+              meals.every((meal, mealId) => {
+                const m = details[mealId]
+                details[mealId] = {
+                  meal: mealId,
+                  adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
+                  childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
                 }
+
+                /**
+                * Allergy
+                */
+                if (meal.get('allergies')) {
+                  const allergies = meal.get('allergies')
+                  allergies.every(order => {
+                    const allergyMealId = String(order.get('mealId'))
+                    const m = details[allergyMealId]
+                    details[allergyMealId] = {
+                      meal: allergyMealId,
+                      adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
+                      childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+                    }
+                  })
+                }
+
+                return true
               })
             }
+          }
 
-            return true
-          })
-        }
+          invoiceeData.details = Object.values(details)
+          aggregated.invoicee.push(invoiceeData)
+          return true
+        })
       }
 
-      aggregated.details = Object.values(details)
-      list.push(aggregated)
-      return list
-    }, [])
-  }
+      if (invoicee.size > 1) {
+        invoicee.every((item) => {
+          const invoiceeData = {
+            address: item.get('address'),
+            city: item.get('city'),
+            zip: item.get('zip'),
+            ssn: item.get('ssn'),
+            name: item.get('name'),
+            id: item.get('id'),
+            excursions: [],
+            extra: [],
+            details: []
+          }
+          const invoiceeOrder = item.get('orders')
+          if (invoiceeOrder && invoiceeOrder.size) {
+            const details = []
+            const out = invoiceeOrder.get('out')
+            if (out && out.size > 0) {
+              const meals = out.get('meal')
+              if (meals && meals.size > 0) {
+                meals.every((meal, mealId) => {
+                  const m = details[mealId]
+                  details[mealId] = {
+                    meal: mealId,
+                    adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
+                    childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
+                  }
 
-  if (participants.size) {
-    const exParticipants = participants.flatten(1)
-    return exParticipants.reduce((list, _, key) => {
-      const aggregated = {
-        transportId,
-        booking: key,
-        invoicee: {},
-        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
-        extra: prepareExtraData(extraOrders, key)
+                  /**
+                  * Allergy
+                  */
+                  if (meal.get('allergies')) {
+                    const allergies = meal.get('allergies')
+                    allergies.every(order => {
+                      const allergyMealId = String(order.get('mealId'))
+                      const m = details[allergyMealId]
+                      details[allergyMealId] = {
+                        meal: allergyMealId,
+                        adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
+                        childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+                      }
+                    })
+                  }
+
+                  return true
+                })
+              }
+            }
+            const home = invoiceeOrder.get('home')
+            if (home && home.size > 0) {
+              const meals = home.get('meal')
+              if (meals && meals.size > 0) {
+                meals.every((meal, mealId) => {
+                  const m = details[mealId]
+                  details[mealId] = {
+                    meal: mealId,
+                    adultCount: m ? m.adultCount + meal.get('adultCount') : meal.get('adultCount'),
+                    childCount: m ? m.childCount + meal.get('childCount') : meal.get('childCount')
+                  }
+
+                  /**
+                  * Allergy
+                  */
+                  if (meal.get('allergies')) {
+                    const allergies = meal.get('allergies')
+                    allergies.every(order => {
+                      const allergyMealId = String(order.get('mealId'))
+                      const m = details[allergyMealId]
+                      details[allergyMealId] = {
+                        meal: allergyMealId,
+                        adultCount: m ? m.adultCount + order.get('adultCount') : order.get('adultCount'),
+                        childCount: m ? m.childCount + order.get('childCount') : order.get('childCount')
+                      }
+                    })
+                  }
+
+                  return true
+                })
+              }
+            }
+            invoiceeData.details = Object.values(details)
+          }
+
+          const inoviceeParticipants = item.get('participants')
+          if (inoviceeParticipants && inoviceeParticipants.size) {
+            const excursions = []
+            inoviceeParticipants.every(item => {
+              excursions.push({
+                id: item.get('id'),
+                count: item.get('count')
+              })
+              return true
+            })
+            invoiceeData.excursions = excursions
+          }
+
+          const invoiceeExOrders = item.get('extraOrders')
+          if (invoiceeExOrders && invoiceeExOrders.size) {
+            const extra = []
+            invoiceeExOrders.every(item => {
+              extra.push({
+                text: item.get('text'),
+                amount: item.get('amount')
+              })
+              return true
+            })
+            invoiceeData.extra = extra
+          }
+
+          aggregated.invoicee.push(invoiceeData)
+          return true
+        })
       }
 
-      aggregated.details = []
-      list.push(aggregated)
-      return list
-    }, [])
-  }
-
-  if (extraOrders.size) {
-    return extraOrders.reduce((list, bOrders, key) => {
-      const aggregated = {
-        transportId,
-        booking: key,
-        invoicee: {},
-        excursions: prepareParticipantsData(excursions, modifiedPax, participants, trip, key),
-        extra: prepareExtraData(extraOrders, key)
-      }
-
-      aggregated.details = []
       list.push(aggregated)
       return list
     }, [])

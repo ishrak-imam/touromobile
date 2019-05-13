@@ -7,7 +7,7 @@ import {
 import { StyleSheet, ScrollView } from 'react-native'
 import OutHomeTab from './outHomeTab'
 import { Colors } from '../theme'
-import { listToMap, getSet } from '../utils/immutable'
+import { listToMap, getSet, getList } from '../utils/immutable'
 import _T from '../utils/translator'
 import NoData from './noData'
 import BookingsWithoutOrder from './bookingsWithoutOrder'
@@ -74,7 +74,7 @@ export default class OrderStats extends Component {
   }
 
   get bookingsWithoutOrder () {
-    const { orders, bookings } = this.props
+    const { orders, bookings, brand, departureId } = this.props
     const { tab } = this.state
     const direction = orders.get(tab)
 
@@ -82,10 +82,18 @@ export default class OrderStats extends Component {
       return set.add(o.get('booking'))
     }, getSet([]))
 
-    return bookings.filter(b => {
+    return bookings.reduce((list, b) => {
       const bookingId = String(b.get('id'))
-      return !bookingWithOrders.has(bookingId)
-    })
+      const pax = b.get('pax')
+      if (!bookingWithOrders.has(bookingId) && pax.size > 0) {
+        list = list.push({
+          booking: b,
+          brand,
+          departureId
+        })
+      }
+      return list
+    }, getList([]))
   }
 
   _onTabSwitch = tab => {
@@ -245,6 +253,7 @@ export default class OrderStats extends Component {
 
   _renderOrderStats = () => {
     const { beverages, issues, orderIssues } = this.props
+
     return (
       <View>
         {this._renderHeader()}
@@ -255,7 +264,7 @@ export default class OrderStats extends Component {
           <BookingsWithoutOrder bookingsList={this.bookingsWithoutOrder} label='bookingsWithoutOrder' />
 
           {
-            !orderIssues.canUploadReport &&
+            orderIssues.canUploadReport &&
             <BookingsWithIssues issues={issues} orderIssues={orderIssues} label='Bookings with issues' />
           }
 
