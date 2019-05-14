@@ -6,7 +6,7 @@ const toast = store => next => action => {
     const { message } = action.payload
     store.dispatch(showToast({ message }))
   }
-  next(action)
+  return next(action)
 }
 
 export default toast

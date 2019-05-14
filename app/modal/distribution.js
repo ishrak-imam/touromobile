@@ -100,14 +100,17 @@ class DistributionModal extends Component {
     return count
   }
 
-  _getTotalExcursionOrder = (invoiceeList, excursionId) => {
+  _getTotalExcursionOrder = (invoiceeList, excursion) => {
+    const excursionId = excursion.get('id')
+    const isAdult = excursion.get('adult')
     let count = 0
     invoiceeList.every(invoicee => {
       const participants = invoicee.get('participants')
       if (participants) {
         const excursion = participants.get(excursionId)
         if (excursion) {
-          count = count + excursion.get('count')
+          const ct = isAdult ? excursion.get('adultCount') : excursion.get('childCount')
+          count = count + ct
         }
       }
       return true
@@ -186,16 +189,17 @@ class DistributionModal extends Component {
 
   _distributeExcursion = (paxId, excursion, sign) => () => {
     const excursionId = excursion.get('id')
+    const isAdult = excursion.get('adult')
     const exCount = excursion.get('count')
     let { invoiceeList } = this.state
     let invoicee = invoiceeList.get(paxId)
     let participants = invoicee.get('participants') || getMap({})
-    let parExcursion = participants.get(excursionId) || getMap({ id: excursionId, name: excursion.get('name'), count: 0 })
-    let count = parExcursion.get('count')
+    let parExcursion = participants.get(excursionId) || getMap({ id: excursionId, name: excursion.get('name'), adultCount: 0, childCount: 0 })
+    let count = isAdult ? parExcursion.get('adultCount') : parExcursion.get('childCount')
     count = sign === 'plus'
       ? count < exCount ? count + 1 : count
       : count === 0 ? 0 : count - 1
-    parExcursion = parExcursion.set('count', count)
+    parExcursion = parExcursion.set(isAdult ? 'adultCount' : 'childCount', count)
     participants = participants.set(excursionId, parExcursion)
     invoicee = invoicee.set('participants', participants)
     invoiceeList = invoiceeList.set(paxId, invoicee)
@@ -276,12 +280,13 @@ class DistributionModal extends Component {
   _renderInvoiceeForExcursion = (invoiceeList, excursion) => {
     return invoiceeList.keySeq().toArray().map(paxId => {
       const excursionId = excursion.get('id')
+      const isAdult = excursion.get('adult')
       const invoicee = invoiceeList.get(paxId)
       const invoiceeName = invoicee.get('name') || ''
       const participants = invoicee.get('participants') || getMap({})
       let count = 0
       const parExcursion = participants.get(excursionId)
-      if (parExcursion) count = parExcursion.get('count')
+      if (parExcursion) count = parExcursion.get(isAdult ? 'adultCount' : 'childCount')
 
       return (
         <View style={ss.item} key={paxId}>
@@ -326,7 +331,7 @@ class DistributionModal extends Component {
 
     if (orderType === 'excursion') {
       totalOrderBefore = excursion.get('count')
-      totalOrderAfter = this._getTotalExcursionOrder(invoiceeList, excursion.get('id'))
+      totalOrderAfter = this._getTotalExcursionOrder(invoiceeList, excursion)
     }
 
     const isDisabled = totalOrderBefore !== totalOrderAfter

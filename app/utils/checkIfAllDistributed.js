@@ -14,7 +14,8 @@ export const checkIfAllDistributed = (bucket, invoiceeList) => {
         let exPar = map.getIn(['participants', excursionId])
         if (!exPar) exPar = par
         else {
-          exPar = exPar.set('count', exPar.get('count') + par.get('count'))
+          exPar = exPar.set('adultCount', exPar.get('adultCount') + par.get('adultCount'))
+          exPar = exPar.set('childCount', exPar.get('childCount') + par.get('childCount'))
         }
         map = map.setIn(['participants', excursionId], exPar)
         return true
@@ -93,6 +94,5 @@ export const checkIfAllDistributed = (bucket, invoiceeList) => {
     }),
     extraOrders: getMap({})
   }))
-
   return distributed.equals(bucket)
 }

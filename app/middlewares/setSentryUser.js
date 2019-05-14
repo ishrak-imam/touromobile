@@ -7,7 +7,7 @@ const setSentryUser = store => next => action => {
     const { fullName, id } = action.payload
     setUser({ fullName, id })
   }
-  next(action)
+  return next(action)
 }
 
 export default setSentryUser

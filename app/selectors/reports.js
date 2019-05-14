@@ -19,15 +19,14 @@ export const getStatsData = (excursions, modifiedPax, participants, trip) => {
     }, getSet([]))
 
     const participatingPax = getParticipatingPax(getMap({ pax, participants: exParticipants }))
-    const { count } = participatingPax.reduce((map, pax) => {
-      // const paxId = String(pax.get('id'))
-      // const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
-      // if (mPax.get('adult')) map.adultCount += 1
-      // if (!mPax.get('adult')) map.childCount += 1
-      map.count += 1
+    const { adultCount, childCount } = participatingPax.reduce((map, pax) => {
+      const paxId = String(pax.get('id'))
+      const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
+      if (mPax.get('adult')) map.adultCount += 1
+      if (!mPax.get('adult')) map.childCount += 1
       return map
-    }, { count: 0 })
-    m.push({ id: excursionId, count })
+    }, { adultCount: 0, childCount: 0 })
+    m.push({ id: excursionId, adultCount, childCount })
     return m
   }, [])
 
@@ -49,15 +48,14 @@ export const prepareParticipantsData = (excursions, modifiedPax, participants, t
     }, getSet([]))
 
     const participatingPax = getParticipatingPax(getMap({ pax, participants: exParticipants }))
-    const { count } = participatingPax.reduce((map, pax) => {
-      // const paxId = String(pax.get('id'))
-      // const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
-      // if (mPax.get('adult')) map.adultCount += 1
-      // if (!mPax.get('adult')) map.childCount += 1
-      map.count += 1
+    const { adultCount, childCount } = participatingPax.reduce((map, pax) => {
+      const paxId = String(pax.get('id'))
+      const mPax = mergeMapShallow(pax, modifiedPax.get(paxId))
+      if (mPax.get('adult')) map.adultCount += 1
+      if (!mPax.get('adult')) map.childCount += 1
       return map
     }, { count: 0 })
-    m.push({ id: excursionId, count })
+    m.push({ id: excursionId, adultCount, childCount })
     return m
   }, [])
 }
@@ -256,7 +254,8 @@ export const getOrderStats = (orders, extraOrders, transportId, excursions, modi
             inoviceeParticipants.every(item => {
               excursions.push({
                 id: item.get('id'),
-                count: item.get('count')
+                adultCount: item.get('adultCount'),
+                childCount: item.get('childCount')
               })
               return true
             })

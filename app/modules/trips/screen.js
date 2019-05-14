@@ -97,7 +97,7 @@ class TripScreen extends Component {
     const isLoading = trips.get('isLoading')
     const isRefreshing = trips.get('isRefreshing')
     const current = trips.get('current')
-    const brand = current.get('trip').get('brand')
+    const brand = current.getIn(['trip', 'brand'])
     const left = navigation.getParam('left')
 
     return (

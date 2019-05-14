@@ -10,14 +10,14 @@ import {
   getExtraOrdersByBooking,
   getOrdersByBooking,
   getMeals, getExcursions,
-  getDrinks, getBucket
+  getDrinks, getBucket, getModifiedPax
 } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import {
   // setOrderBucket,
   setInvoiceeList, setIsNeedDistribution
 } from '../modules/modifiedData/action'
-import { getMap, getList, listToMap } from '../utils/immutable'
+import { getMap, getList, listToMap, mergeMapShallow } from '../utils/immutable'
 import { checkIfAllDistributed } from '../utils/checkIfAllDistributed'
 import { Colors } from '../theme'
 import OutHomeTab from '../components/outHomeTab'
@@ -86,6 +86,7 @@ class DistributeOrders extends Component {
       return invoicee
     })
     this._setInvoiceeList(invoiceeList)
+    this._setDistributionFlag(invoiceeList)
   }
 
   _onPressDistributeAll = section => () => {
@@ -156,7 +157,7 @@ class DistributeOrders extends Component {
           if (childCount > 0) {
             bucket.push({
               mealId,
-              name: `${storage.getIn([mealId, 'name'])} (${allergyText})`,
+              name: `(Child) ${storage.getIn([mealId, 'name'])} (${allergyText})`,
               type: 'allergy',
               count: childCount,
               allergyId,
@@ -166,6 +167,7 @@ class DistributeOrders extends Component {
               isDistributed: this._isMealDistributed(mealId, direction)
             })
           }
+          return true
         })
       }
       return true
@@ -225,18 +227,30 @@ class DistributeOrders extends Component {
     return aggregated
   }
 
+  _getAdultChildFromParticipants = (participants, pax, modifiedPax) => {
+    return participants.reduce((map, par, paxId) => {
+      const mPax = mergeMapShallow(pax.get(paxId), modifiedPax.get(paxId) || getMap({}))
+      if (mPax.get('adult')) map.adultCount += 1
+      if (!mPax.get('adult')) map.childCount += 1
+      return map
+    }, { adultCount: 0, childCount: 0 })
+  }
+
   _flattenParticipants = participants => {
     let flattenedList = getMap({})
     if (participants) {
-      let { excursions } = this.props
+      let { excursions, booking, modifiedPax } = this.props
+      const pax = listToMap(booking.get('pax'), 'id')
       excursions = listToMap(excursions, 'id')
       return participants.reduce((map, par, id) => {
         if (par) {
           const excursion = excursions.get(id)
+          const { adultCount, childCount } = this._getAdultChildFromParticipants(par, pax, modifiedPax)
           map = map.set(id, getMap({
             id,
             name: excursion.get('name'),
-            count: par.size
+            adultCount,
+            childCount
           }))
         }
         return map
@@ -301,6 +315,7 @@ class DistributeOrders extends Component {
 
   _onDeleteMeal = (paxId, mealItem, direction) => () => {
     const mealId = mealItem.mealId
+    const isAdult = !!mealItem.adult
     let { invoiceeList } = this.props
     let invoicee = invoiceeList.get(paxId)
     let orders = invoicee.get('orders')
@@ -310,13 +325,15 @@ class DistributeOrders extends Component {
       const allergyId = mealItem.allergyId
       let meal = mealOrder.get(mealId)
       let allergyOrders = meal.get('allergies')
-      allergyOrders = allergyOrders.delete(allergyId)
+      let allergyMeal = allergyOrders.get(allergyId)
+      allergyMeal = allergyMeal.set(isAdult ? 'adultCount' : 'childCount', 0)
+      allergyOrders = allergyOrders.set(allergyId, allergyMeal)
+      // allergyOrders = allergyOrders.delete(allergyId)
       meal = meal.set('allergies', allergyOrders)
       mealOrder = mealOrder.set(mealId, meal)
     } else {
       let meal = mealOrder.get(mealId)
       if (meal.get('allergies')) {
-        const isAdult = mealItem.adult
         meal = meal.set(isAdult ? 'adultCount' : 'childCount', 0)
         mealOrder = mealOrder.set(mealId, meal)
       } else {
@@ -337,6 +354,21 @@ class DistributeOrders extends Component {
     let orders = invoicee.get(section)
     orders = orders.delete(itemId)
     invoicee = invoicee.set(section, orders)
+    invoiceeList = invoiceeList.set(paxId, invoicee)
+    this._setInvoiceeList(invoiceeList)
+    this._setDistributionFlag(invoiceeList)
+  }
+
+  _onDeleteExcursion = (paxId, excursion) => () => {
+    let { invoiceeList } = this.props
+    const exId = excursion.get('id')
+    const isAdult = excursion.get('adult')
+    let invoicee = invoiceeList.get(paxId)
+    let orders = invoicee.get('participants')
+    let ex = orders.get(exId)
+    ex = ex.set(isAdult ? 'adultCount' : 'childCount', 0)
+    orders = orders.set(exId, ex)
+    invoicee = invoicee.set('participants', orders)
     invoiceeList = invoiceeList.set(paxId, invoicee)
     this._setInvoiceeList(invoiceeList)
     this._setDistributionFlag(invoiceeList)
@@ -454,32 +486,73 @@ class DistributeOrders extends Component {
         </View>
         <View style={ss.mealItems}>
           {participants.keySeq().toArray().map(excursionId => {
-            const excursion = participants.get(excursionId) || getMap({})
-            let onPress = this._onPressExcursion(excursion)
-            if (!renderButtons) onPress = () => {}
+            const ex = participants.get(excursionId) || getMap({})
+
+            const adultEx = getMap({ id: ex.get('id'), name: ex.get('name'), adult: true, count: ex.get('adultCount') })
+            const childEx = getMap({ id: ex.get('id'), name: ex.get('name'), adult: false, count: ex.get('childCount') })
+
+            let onPressAdult = this._onPressExcursion(adultEx)
+            let onPressChild = this._onPressExcursion(childEx)
+            if (!renderButtons) {
+              onPressAdult = () => {}
+              onPressChild = () => {}
+            }
+
+            const adultCount = adultEx.get('count')
+            const childCount = childEx.get('count')
+
             return (
-              <TouchableOpacity
-                onPress={onPress}
-                style={ss.orderItem}
-                key={excursion.get('id')}
-                disabled={!renderButtons}
-              >
-                {!renderButtons &&
-                <View style={ss.delete}>
+              <View style={ss.orders} key={ex.get('id')}>
+                {
+                  !!adultCount &&
                   <TouchableOpacity
-                    style={ss.deleteButton}
-                    onPress={this._onDeleteItem(paxId, excursionId, 'participants')}
+                    onPress={onPressAdult}
+                    style={ss.orderItem}
+                    disabled={!renderButtons}
                   >
-                    <Text style={ss.minus}>-</Text>
+                    {!renderButtons &&
+                    <View style={ss.delete}>
+                      <TouchableOpacity
+                        style={ss.deleteButton}
+                        onPress={this._onDeleteExcursion(paxId, adultEx, 'participants')}
+                      >
+                        <Text style={ss.minus}>-</Text>
+                      </TouchableOpacity>
+                    </View>}
+                    <View style={ss.itemName}>
+                      <Text>{adultEx.get('name')}</Text>
+                    </View>
+                    <View style={ss.itemCount}>
+                      <Text>{adultEx.get('count')}</Text>
+                    </View>
                   </TouchableOpacity>
-                </View>}
-                <View style={ss.itemName}>
-                  <Text>{excursion.get('name')}</Text>
-                </View>
-                <View style={ss.itemCount}>
-                  <Text>{excursion.get('count')}</Text>
-                </View>
-              </TouchableOpacity>
+                }
+
+                {
+                  !!childCount &&
+                  <TouchableOpacity
+                    onPress={onPressChild}
+                    style={ss.orderItem}
+                    disabled={!renderButtons}
+                  >
+                    {!renderButtons &&
+                    <View style={ss.delete}>
+                      <TouchableOpacity
+                        style={ss.deleteButton}
+                        onPress={this._onDeleteExcursion(paxId, childEx, 'participants')}
+                      >
+                        <Text style={ss.minus}>-</Text>
+                      </TouchableOpacity>
+                    </View>}
+                    <View style={ss.itemName}>
+                      <Text>(Child) {childEx.get('name')}</Text>
+                    </View>
+                    <View style={ss.itemCount}>
+                      <Text>{childEx.get('count')}</Text>
+                    </View>
+                  </TouchableOpacity>
+                }
+              </View>
             )
           })}
         </View>
@@ -659,7 +732,8 @@ const stateToProps = (state, props) => {
     meals: getMeals(state),
     drinks: getDrinks(state),
     excursions: getExcursions(state),
-    bucket: getBucket(state, departureId, bookingId)
+    bucket: getBucket(state, departureId, bookingId),
+    modifiedPax: getModifiedPax(state, departureId)
   }
 }
 

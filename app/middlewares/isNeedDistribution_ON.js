@@ -1,6 +1,6 @@
 
 import {
-  SELECT_INVOICEE, DELETE_INVOICEE,
+  SELECT_INVOICEE,
   TAKE_ORDER, TAKE_EXTRA_ORDER, TAKE_ALLERGY_ORDER,
   SET_PARTICIPANTS,
 
@@ -9,7 +9,7 @@ import {
 
 const isNeedDistributionON = store => next => action => {
   if (
-    action.type === SELECT_INVOICEE || action.type === DELETE_INVOICEE ||
+    action.type === SELECT_INVOICEE ||
     action.type === TAKE_ORDER || action.type === TAKE_EXTRA_ORDER ||
     action.type === TAKE_ALLERGY_ORDER || action.type === SET_PARTICIPANTS
   ) {
@@ -18,7 +18,7 @@ const isNeedDistributionON = store => next => action => {
       departureId, bookingId, isNeedDistribution: true
     }))
   }
-  next(action)
+  return next(action)
 }
 
 export default isNeedDistributionON

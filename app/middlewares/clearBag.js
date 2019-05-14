@@ -19,7 +19,7 @@ const clearBag = store => next => action => {
       direction: action.payload.direction === 'out' ? 'home' : 'out'
     }))
   }
-  next(action)
+  return next(action)
 }
 
 export default clearBag

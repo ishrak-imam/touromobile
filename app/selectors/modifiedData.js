@@ -71,6 +71,7 @@ export const getOrdersByDirection = (state, departureId, direction) => {
                   allergyText: order.get('allergyText')
                 }))
               }
+              return true
             })
           }
 
@@ -125,6 +126,31 @@ export const getOrders = (state, departureId) => {
               booking: bookingId
             }))
           }
+
+          const allergies = meal.get('allergies')
+          if (allergies && allergies.size) {
+            allergies.every(item => {
+              const mealId = item.get('mealId')
+              for (let i = 0; i < item.get('adultCount'); i++) {
+                list = list.push(getMap({
+                  meal: mealId,
+                  drink: null,
+                  adult: true,
+                  booking: bookingId
+                }))
+              }
+              for (let i = 0; i < item.get('childCount'); i++) {
+                list = list.push(getMap({
+                  meal: mealId,
+                  drink: null,
+                  adult: false,
+                  booking: bookingId
+                }))
+              }
+              return true
+            })
+          }
+
           return list
         }, getList([]))))
       }
@@ -166,6 +192,31 @@ export const getOrders = (state, departureId) => {
               booking: bookingId
             }))
           }
+
+          const allergies = meal.get('allergies')
+          if (allergies && allergies.size) {
+            allergies.every(item => {
+              const mealId = item.get('mealId')
+              for (let i = 0; i < item.get('adultCount'); i++) {
+                list = list.push(getMap({
+                  meal: mealId,
+                  drink: null,
+                  adult: true,
+                  booking: bookingId
+                }))
+              }
+              for (let i = 0; i < item.get('childCount'); i++) {
+                list = list.push(getMap({
+                  meal: mealId,
+                  drink: null,
+                  adult: false,
+                  booking: bookingId
+                }))
+              }
+              return true
+            })
+          }
+
           return list
         }, getList([]))))
       }

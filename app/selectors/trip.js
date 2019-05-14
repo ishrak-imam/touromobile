@@ -169,7 +169,8 @@ const resolvers = {
         const mealOrder = mealOrders.get(mealId)
         if (mealOrder.get('allergies')) {
           mealOrder.get('allergies').every(order => {
-            const name = `${meal.get('name')} (${order.get('allergyText')})`
+            let name = `${meal.get('name')} (${order.get('allergyText')})`
+            if (order.get('child')) name = `(${extra}) ${name}`
             list = list.push(getMap({
               allergyId: order.get('allergyId'),
               name,

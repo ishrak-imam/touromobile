@@ -100,55 +100,59 @@ class ReportsScreen extends Component {
     const trip = this.props.currentTrip.get('trip')
     const brand = trip.get('brand')
     const departureId = trip.get('departureId')
-    const bookings = listToMap(trip.get('bookings'), 'id')
+    let bookings = trip.get('bookings')
 
     const orderProblems = {
       canUploadReport: false
     }
 
-    possibleIssues.reduce((map, issue) => {
-      if (issue === 'Invoicee') {
-        map[issue] = {
-          desc: `missing${issue}`,
-          bookings: []
-        }
-        orders.every((order, id) => {
-          const invoicee = order.get('invoicee')
-          if (!invoicee || !invoicee.size) {
-            map.canUploadReport = true
-            map[issue].bookings.push({
-              booking: bookings.get(id),
-              id,
-              brand,
-              departureId
-            })
-          }
-          return true
-        })
-      }
+    if (bookings) {
+      bookings = listToMap(bookings, 'id')
 
-      if (issue === 'Distribution') {
-        map[issue] = {
-          desc: `pending${issue}`,
-          bookings: []
-        }
-        orders.every((order, id) => {
-          const invoicee = order.get('invoicee')
-          if (!invoicee || (invoicee.size > 1 && order.get('isNeedDistribution'))) {
-            map.canUploadReport = true
-            map[issue].bookings.push({
-              booking: bookings.get(id),
-              id,
-              brand,
-              departureId
-            })
+      possibleIssues.reduce((map, issue) => {
+        if (issue === 'Invoicee') {
+          map[issue] = {
+            desc: `missing${issue}`,
+            bookings: []
           }
-          return true
-        })
-      }
+          orders.every((order, id) => {
+            const invoicee = order.get('invoicee')
+            if (!invoicee || !invoicee.size) {
+              map.canUploadReport = true
+              map[issue].bookings.push({
+                booking: bookings.get(id),
+                id,
+                brand,
+                departureId
+              })
+            }
+            return true
+          })
+        }
 
-      return map
-    }, orderProblems)
+        if (issue === 'Distribution') {
+          map[issue] = {
+            desc: `pending${issue}`,
+            bookings: []
+          }
+          orders.every((order, id) => {
+            const invoicee = order.get('invoicee')
+            if (!invoicee || (invoicee.size > 1 && order.get('isNeedDistribution'))) {
+              map.canUploadReport = true
+              map[issue].bookings.push({
+                booking: bookings.get(id),
+                id,
+                brand,
+                departureId
+              })
+            }
+            return true
+          })
+        }
+
+        return map
+      }, orderProblems)
+    }
 
     return orderProblems
   }
