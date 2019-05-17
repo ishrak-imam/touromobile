@@ -9,7 +9,7 @@ import { closeModal } from './action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { getDistributionModal } from '../selectors'
 import isIphoneX from '../utils/isIphoneX'
-import { getMap } from '../utils/immutable'
+import { getMap, getSet } from '../utils/immutable'
 import FooterButtons from '../components/footerButtons'
 
 const { height, width } = Dimensions.get('window')
@@ -32,17 +32,19 @@ class DistributionModal extends Component {
       meal: getMap({}),
       drink: getMap({}),
       excursion: getMap({}),
+      bucket: getMap({}),
       mealType: '',
       orderType: '',
-      direction: ''
+      direction: '',
+      totalOrder: 0
     }
   }
 
   _onSave = () => {
     const { distribution } = this.props
-    const { invoiceeList } = this.state
+    const { invoiceeList, bucket } = this.state
     const onSave = distribution.get('onSave')
-    onSave(invoiceeList)
+    onSave(invoiceeList, bucket)
     this._onCancel()
   }
 
@@ -60,8 +62,10 @@ class DistributionModal extends Component {
     const mealType = data.get('mealType') || ''
     const orderType = data.get('orderType') || ''
     const direction = data.get('direction') || ''
+    const totalOrder = data.get('totalOrder') || 0
+    const bucket = data.get('bucket') || getMap({})
     this.setState({
-      invoiceeList, meal, drink, excursion, mealType, orderType, direction
+      invoiceeList, meal, drink, excursion, mealType, orderType, direction, totalOrder, bucket
     })
   }
 
@@ -109,7 +113,7 @@ class DistributionModal extends Component {
       if (participants) {
         const excursion = participants.get(excursionId)
         if (excursion) {
-          const ct = isAdult ? excursion.get('adultCount') : excursion.get('childCount')
+          const ct = isAdult ? excursion.getIn(['adult', 'count']) : excursion.getIn(['child', 'count'])
           count = count + ct
         }
       }
@@ -165,45 +169,85 @@ class DistributionModal extends Component {
     this.setState({ invoiceeList })
   }
 
-  _distributeDrink = (paxId, drink, direction, sign) => () => {
-    let { invoiceeList } = this.state
-    let invoicee = invoiceeList.get(paxId)
-    let orders = invoicee.get('orders') || getMap({})
-    let directionOrders = orders.get(direction) || getMap({})
-    let drinkOrders = directionOrders.get('drink') || getMap({})
-    const drinkId = drink.get('drinkId')
-    const drinkCount = drink.get('count')
-    let drinkOrder = drinkOrders.get(drinkId) || getMap({ drinkId, count: 0, isChild: 0 })
-    let count = drinkOrder.get('count')
-    count = sign === 'plus'
-      ? count < drinkCount ? count + 1 : count
-      : count === 0 ? 0 : count - 1
-    drinkOrder = drinkOrder.set('count', count)
-    drinkOrders = drinkOrders.set(drinkId, drinkOrder)
-    directionOrders = directionOrders.set('drink', drinkOrders)
-    orders = orders.set(direction, directionOrders)
-    invoicee = invoicee.set('orders', orders)
-    invoiceeList = invoiceeList.set(paxId, invoicee)
-    this.setState({ invoiceeList })
-  }
+  // _distributeDrink = (paxId, drink, direction, sign) => () => {
+  //   let { invoiceeList } = this.state
+  //   let invoicee = invoiceeList.get(paxId)
+  //   let orders = invoicee.get('orders') || getMap({})
+  //   let directionOrders = orders.get(direction) || getMap({})
+  //   let drinkOrders = directionOrders.get('drink') || getMap({})
+  //   const drinkId = drink.get('drinkId')
+  //   const drinkCount = drink.get('count')
+  //   let drinkOrder = drinkOrders.get(drinkId) || getMap({ drinkId, count: 0, isChild: 0 })
+  //   let count = drinkOrder.get('count')
+  //   count = sign === 'plus'
+  //     ? count < drinkCount ? count + 1 : count
+  //     : count === 0 ? 0 : count - 1
+  //   drinkOrder = drinkOrder.set('count', count)
+  //   drinkOrders = drinkOrders.set(drinkId, drinkOrder)
+  //   directionOrders = directionOrders.set('drink', drinkOrders)
+  //   orders = orders.set(direction, directionOrders)
+  //   invoicee = invoicee.set('orders', orders)
+  //   invoiceeList = invoiceeList.set(paxId, invoicee)
+  //   this.setState({ invoiceeList })
+  // }
 
-  _distributeExcursion = (paxId, excursion, sign) => () => {
+  _distributeExcursion = (paxId, excursion, sign, totalOrderAfter) => () => {
+    const { totalOrder } = this.state
     const excursionId = excursion.get('id')
     const isAdult = excursion.get('adult')
-    const exCount = excursion.get('count')
-    let { invoiceeList } = this.state
+    // const exCount = excursion.getIn(['ex', 'count'])
+    let { invoiceeList, bucket } = this.state
     let invoicee = invoiceeList.get(paxId)
     let participants = invoicee.get('participants') || getMap({})
-    let parExcursion = participants.get(excursionId) || getMap({ id: excursionId, name: excursion.get('name'), adultCount: 0, childCount: 0 })
-    let count = isAdult ? parExcursion.get('adultCount') : parExcursion.get('childCount')
-    count = sign === 'plus'
-      ? count < exCount ? count + 1 : count
-      : count === 0 ? 0 : count - 1
-    parExcursion = parExcursion.set(isAdult ? 'adultCount' : 'childCount', count)
+    let parExcursion = participants.get(excursionId) ||
+      getMap({
+        id: excursionId,
+        name: excursion.get('name'),
+        adult: getMap({ count: 0, pax: getSet([]) }),
+        child: getMap({ count: 0, pax: getSet([]) })
+      })
+
+    let count = isAdult ? parExcursion.getIn(['adult', 'count']) : parExcursion.getIn(['child', 'count'])
+
+    let bParticipants = bucket.get('participants')
+    let bucketEx = bParticipants.get(excursionId)
+    let bSection = bucketEx.get(isAdult ? 'adult' : 'child')
+    let section = parExcursion.get(isAdult ? 'adult' : 'child')
+
+    if (sign === 'plus' && count < totalOrder && totalOrderAfter < totalOrder) {
+      count = count + 1
+      section = section.set('count', count)
+      let pax = section.get('pax')
+      let bPax = bSection.get('pax')
+      const item = bPax.last()
+      section = section.set('pax', pax.add(item))
+      bSection = bSection.set('pax', bPax.delete(item))
+      bSection = bSection.set('count', bSection.get('count') - 1)
+    }
+
+    if (sign === 'minus' && count > 0) {
+      count = count - 1
+      section = section.set('count', count)
+      let pax = section.get('pax')
+      let bPax = bSection.get('pax')
+      const item = pax.last()
+      bSection = bSection.set('pax', bPax.add(item))
+      bSection = bSection.set('count', bSection.get('count') + 1)
+      section = section.set('pax', pax.delete(item))
+    }
+
+    parExcursion = parExcursion.set(isAdult ? 'adult' : 'child', section)
+    bucketEx = bucketEx.set(isAdult ? 'adult' : 'child', bSection)
+
+    bParticipants = bParticipants.set(excursionId, bucketEx)
     participants = participants.set(excursionId, parExcursion)
+
     invoicee = invoicee.set('participants', participants)
     invoiceeList = invoiceeList.set(paxId, invoicee)
-    this.setState({ invoiceeList })
+
+    bucket = bucket.set('participants', bParticipants)
+
+    this.setState({ invoiceeList, bucket })
   }
 
   _renderInvoiceeForMeal = (invoiceeList, direction, meal) => {
@@ -247,37 +291,37 @@ class DistributionModal extends Component {
     })
   }
 
-  _renderInvoiceeForDrink = (invoiceeList, direction, drink) => {
-    return invoiceeList.keySeq().toArray().map(paxId => {
-      const invoicee = invoiceeList.get(paxId)
-      const orders = invoicee.get('orders') || getMap({})
-      const invoiceeName = invoicee.get('name') || ''
-      const drinkId = drink.get('drinkId')
-      const order = orders.getIn([direction, 'drink', drinkId])
-      const count = order ? order.get('count') : 0
+  // _renderInvoiceeForDrink = (invoiceeList, direction, drink) => {
+  //   return invoiceeList.keySeq().toArray().map(paxId => {
+  //     const invoicee = invoiceeList.get(paxId)
+  //     const orders = invoicee.get('orders') || getMap({})
+  //     const invoiceeName = invoicee.get('name') || ''
+  //     const drinkId = drink.get('drinkId')
+  //     const order = orders.getIn([direction, 'drink', drinkId])
+  //     const count = order ? order.get('count') : 0
 
-      return (
-        <View style={ss.item} key={paxId}>
-          <View style={ss.itemLeft}>
-            <Text style={ss.invoicee}>{invoiceeName}</Text>
-          </View>
-          <View style={ss.itemRight}>
-            <TouchableOpacity style={ss.minus} onPress={this._distributeDrink(paxId, drink, direction, 'minus')}>
-              <Text style={ss.sign}>-</Text>
-            </TouchableOpacity>
-            <View style={ss.counter}>
-              <Text style={ss.count}>{count}</Text>
-            </View>
-            <TouchableOpacity style={ss.plus} onPress={this._distributeDrink(paxId, drink, direction, 'plus')}>
-              <Text style={ss.sign}>+</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )
-    })
-  }
+  //     return (
+  //       <View style={ss.item} key={paxId}>
+  //         <View style={ss.itemLeft}>
+  //           <Text style={ss.invoicee}>{invoiceeName}</Text>
+  //         </View>
+  //         <View style={ss.itemRight}>
+  //           <TouchableOpacity style={ss.minus} onPress={this._distributeDrink(paxId, drink, direction, 'minus')}>
+  //             <Text style={ss.sign}>-</Text>
+  //           </TouchableOpacity>
+  //           <View style={ss.counter}>
+  //             <Text style={ss.count}>{count}</Text>
+  //           </View>
+  //           <TouchableOpacity style={ss.plus} onPress={this._distributeDrink(paxId, drink, direction, 'plus')}>
+  //             <Text style={ss.sign}>+</Text>
+  //           </TouchableOpacity>
+  //         </View>
+  //       </View>
+  //     )
+  //   })
+  // }
 
-  _renderInvoiceeForExcursion = (invoiceeList, excursion) => {
+  _renderInvoiceeForExcursion = (invoiceeList, excursion, totalOrderAfter) => {
     return invoiceeList.keySeq().toArray().map(paxId => {
       const excursionId = excursion.get('id')
       const isAdult = excursion.get('adult')
@@ -286,7 +330,7 @@ class DistributionModal extends Component {
       const participants = invoicee.get('participants') || getMap({})
       let count = 0
       const parExcursion = participants.get(excursionId)
-      if (parExcursion) count = parExcursion.get(isAdult ? 'adultCount' : 'childCount')
+      if (parExcursion) count = parExcursion.getIn([isAdult ? 'adult' : 'child', 'count'])
 
       return (
         <View style={ss.item} key={paxId}>
@@ -294,13 +338,13 @@ class DistributionModal extends Component {
             <Text style={ss.invoicee}>{invoiceeName}</Text>
           </View>
           <View style={ss.itemRight}>
-            <TouchableOpacity style={ss.minus} onPress={this._distributeExcursion(paxId, excursion, 'minus')}>
+            <TouchableOpacity style={ss.minus} onPress={this._distributeExcursion(paxId, excursion, 'minus', totalOrderAfter)}>
               <Text style={ss.sign}>-</Text>
             </TouchableOpacity>
             <View style={ss.counter}>
               <Text style={ss.count}>{count}</Text>
             </View>
-            <TouchableOpacity style={ss.plus} onPress={this._distributeExcursion(paxId, excursion, 'plus')}>
+            <TouchableOpacity style={ss.plus} onPress={this._distributeExcursion(paxId, excursion, 'plus', totalOrderAfter)}>
               <Text style={ss.sign}>+</Text>
             </TouchableOpacity>
           </View>
@@ -312,7 +356,11 @@ class DistributionModal extends Component {
   render () {
     const { distribution } = this.props
     const config = distribution.get('config') || null
-    const { invoiceeList, meal, drink, excursion, mealType, orderType, direction } = this.state
+    const {
+      invoiceeList, meal, totalOrder,
+      // drink,
+      excursion, mealType, orderType, direction
+    } = this.state
 
     let totalOrderBefore = 0
     let totalOrderAfter = 0
@@ -323,18 +371,18 @@ class DistributionModal extends Component {
         totalOrderAfter = this._getTotalMealOrder(invoiceeList, direction, meal)
       }
 
-      if (mealType === 'drink') {
-        totalOrderBefore = drink.get('count')
-        totalOrderAfter = this._getTotalDrinkOrder(invoiceeList, direction, drink)
-      }
+      // if (mealType === 'drink') {
+      //   totalOrderBefore = drink.get('count')
+      //   totalOrderAfter = this._getTotalDrinkOrder(invoiceeList, direction, drink)
+      // }
     }
 
     if (orderType === 'excursion') {
-      totalOrderBefore = excursion.get('count')
+      // totalOrderBefore = excursion.getIn(['ex', 'count'])
       totalOrderAfter = this._getTotalExcursionOrder(invoiceeList, excursion)
     }
 
-    const isDisabled = totalOrderBefore !== totalOrderAfter
+    const isDisabled = totalOrder !== totalOrderAfter
 
     return (
       <Modal
@@ -355,7 +403,7 @@ class DistributionModal extends Component {
             </View>
             <View style={ss.body}>
               <View style={[ss.totalOrder, { height: 25 }]}>
-                <Text style={ss.totalText}>Total order: {totalOrderBefore}</Text>
+                <Text style={ss.totalText}>Total order: {totalOrder}</Text>
               </View>
               <View style={[ss.totalOrder, { height: 30, marginTop: 0 }]}>
                 {!!config &&
@@ -368,14 +416,14 @@ class DistributionModal extends Component {
                   this._renderInvoiceeForMeal(invoiceeList, direction, meal)
                 }
 
-                {
+                {/* {
                   !!invoiceeList.size && orderType === 'orders' && mealType === 'drink' &&
                   this._renderInvoiceeForDrink(invoiceeList, direction, drink)
-                }
+                } */}
 
                 {
                   !!invoiceeList.size && orderType === 'excursion' &&
-                  this._renderInvoiceeForExcursion(invoiceeList, excursion)
+                  this._renderInvoiceeForExcursion(invoiceeList, excursion, totalOrderAfter)
                 }
 
               </ScrollView>

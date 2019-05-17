@@ -17,13 +17,14 @@ const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
 class ExcursionOrderSummaryMode extends Component {
   _onSelect = (excursionId, participants, paxId, method) => {
-    const { departureId, bookingId } = this.props
+    const { departureId, booking, bookingId } = this.props
     return () => {
       actionDispatcher(setParticipants({
         departureId,
         bookingId,
         excursionId,
-        participants: participants[method](paxId)
+        participants: participants[method](paxId),
+        booking
       }))
     }
   }
@@ -37,7 +38,7 @@ class ExcursionOrderSummaryMode extends Component {
   }
 
   _onBatchSelect = (excursionId, exParticipants, pax, isAllSelected, isAnySelected) => {
-    const { departureId, bookingId } = this.props
+    const { departureId, booking, bookingId } = this.props
     return () => {
       let participants = exParticipants
       if (isAllSelected) participants = this._operateOnParticipantSet(pax, exParticipants, 'remove')
@@ -46,7 +47,8 @@ class ExcursionOrderSummaryMode extends Component {
         departureId,
         bookingId,
         excursionId,
-        participants
+        participants,
+        booking
       }))
     }
   }

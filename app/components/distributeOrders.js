@@ -14,11 +14,11 @@ import {
 } from '../selectors'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import {
-  // setOrderBucket,
-  setInvoiceeList, setIsNeedDistribution
+  setOrderBucket,
+  setInvoiceeList
 } from '../modules/modifiedData/action'
-import { getMap, getList, listToMap, mergeMapShallow } from '../utils/immutable'
-import { checkIfAllDistributed } from '../utils/checkIfAllDistributed'
+import { getMap, getList, listToMap, getSet } from '../utils/immutable'
+import { flattenParticipants } from '../utils/distribution'
 import { Colors } from '../theme'
 import OutHomeTab from '../components/outHomeTab'
 import { showModal } from '../modal/action'
@@ -27,66 +27,87 @@ import _T from '../utils/translator'
 class DistributeOrders extends Component {
   constructor (props) {
     super(props)
+    const { participants, excursions, booking, modifiedPax } = props
     this.state = {
-      tab: 'out'
+      tab: 'out',
+      mainParticipants: flattenParticipants(participants, excursions, booking, modifiedPax)
     }
   }
 
-  _setInvoiceeList = invoiceeList => {
+  componentWillReceiveProps (nextProps) {
+    const { participants, excursions, booking, modifiedPax } = nextProps
+    this.setState({
+      mainParticipants: flattenParticipants(participants, excursions, booking, modifiedPax)
+    })
+  }
+
+  _calculateParticipantsCount = participants => {
+    return participants.map(par => par.size)
+  }
+
+  _setInvoiceeList = (invoiceeList, bucket) => {
     const { bookingId, departureId } = this.props
     actionDispatcher(setInvoiceeList({
       bookingId,
       departureId,
       invoiceeList
     }))
+
+    actionDispatcher((setOrderBucket({
+      departureId, bookingId, bucket
+    })))
   }
 
-  _setDistributionFlag = invoiceeList => {
-    let { participants, orders, extraOrders } = this.props
-    const bucket = getMap({
-      participants: this._flattenParticipants(participants),
-      orders: getMap({
-        out: getMap({ meal: orders.getIn(['out', 'meal']) }),
-        home: getMap({ meal: orders.getIn(['home', 'meal']) })
-      }),
-      extraOrders
-    })
-    const isAllDistributed = checkIfAllDistributed(bucket, invoiceeList)
-    const { bookingId, departureId } = this.props
-    actionDispatcher(setIsNeedDistribution({
-      departureId,
-      bookingId,
-      isNeedDistribution: !isAllDistributed
-    }))
-  }
-
-  _onModalSave = invoiceeList => {
-    this._setInvoiceeList(invoiceeList)
-    this._setDistributionFlag(invoiceeList)
+  _onModalSave = (invoiceeList, bucket) => {
+    this._setInvoiceeList(invoiceeList, bucket)
   }
 
   _onModalCancel = () => {
     console.log('Distribution modal canceled')
   }
 
-  _onDistributeAll = section => ({ value }) => {
-    let { participants, orders, extraOrders, invoiceeList } = this.props
-    const collection = {
-      orders,
-      extraOrders,
-      participants: this._flattenParticipants(participants)
-    }
-    const paxId = value.key
+  _distributeAllExcursion = paxId => {
+    const { mainParticipants } = this.state
+    let { invoiceeList, bucket } = this.props
     invoiceeList = invoiceeList.map((invoicee, id) => {
       if (paxId === id) {
-        invoicee = invoicee.set(section, collection[section])
+        invoicee = invoicee.set('participants', mainParticipants)
       } else {
-        invoicee = invoicee.delete(section)
+        invoicee = invoicee.delete('participants')
       }
       return invoicee
     })
-    this._setInvoiceeList(invoiceeList)
-    this._setDistributionFlag(invoiceeList)
+    bucket = bucket.set('participants', getMap({}))
+    this._setInvoiceeList(invoiceeList, bucket)
+  }
+
+  _distributeAllExtraOrders = paxId => {
+    let { extraOrders, invoiceeList, bucket } = this.props
+    invoiceeList = invoiceeList.map((invoicee, id) => {
+      if (paxId === id) {
+        invoicee = invoicee.set('extraOrders', extraOrders)
+      } else {
+        invoicee = invoicee.delete('extraOrders')
+      }
+      return invoicee
+    })
+
+    bucket = bucket.set('extraOrders', getMap({}))
+    this._setInvoiceeList(invoiceeList, bucket)
+  }
+
+  _onDistributeAll = section => ({ value }) => {
+    const paxId = value.key
+    switch (section) {
+      case 'participants':
+        this._distributeAllExcursion(paxId)
+        break
+      case 'orders':
+        break
+      case 'extraOrders':
+        this._distributeAllExtraOrders(paxId)
+        break
+    }
   }
 
   _onPressDistributeAll = section => () => {
@@ -97,12 +118,12 @@ class DistributeOrders extends Component {
     }))
   }
 
-  _isMealDistributed = (mealId, direction) => {
-    const { invoiceeList } = this.props
-    return invoiceeList.some(invoicee => {
-      return !!invoicee.getIn(['orders', direction, 'meal', mealId])
-    })
-  }
+  // _isMealDistributed = (mealId, direction) => {
+  //   const { invoiceeList } = this.props
+  //   return invoiceeList.some(invoicee => {
+  //     return !!invoicee.getIn(['orders', direction, 'meal', mealId])
+  //   })
+  // }
 
   _prepareMealData = (orders, bucket, storage, direction) => {
     orders.every(meal => {
@@ -117,8 +138,8 @@ class DistributeOrders extends Component {
           count: adultCount,
           allergyId: '',
           allergyText: '',
-          adult: true,
-          isDistributed: this._isMealDistributed(mealId, direction)
+          adult: true
+          // isDistributed: this._isMealDistributed(mealId, direction)
         })
       }
       if (childCount > 0) {
@@ -129,8 +150,8 @@ class DistributeOrders extends Component {
           count: childCount,
           allergyId: '',
           allergyText: '',
-          adult: false,
-          isDistributed: this._isMealDistributed(mealId, direction)
+          adult: false
+          // isDistributed: this._isMealDistributed(mealId, direction)
         })
       }
       const allergyOrders = meal.get('allergies')
@@ -150,8 +171,8 @@ class DistributeOrders extends Component {
               allergyId,
               allergyText,
               adult: meal.get('adult'),
-              child: null,
-              isDistributed: this._isMealDistributed(mealId, direction)
+              child: null
+              // isDistributed: this._isMealDistributed(mealId, direction)
             })
           }
           if (childCount > 0) {
@@ -163,8 +184,8 @@ class DistributeOrders extends Component {
               allergyId,
               allergyText,
               adult: null,
-              child: meal.get('child'),
-              isDistributed: this._isMealDistributed(mealId, direction)
+              child: meal.get('child')
+              // isDistributed: this._isMealDistributed(mealId, direction)
             })
           }
           return true
@@ -227,38 +248,10 @@ class DistributeOrders extends Component {
     return aggregated
   }
 
-  _getAdultChildFromParticipants = (participants, pax, modifiedPax) => {
-    return participants.reduce((map, par, paxId) => {
-      const mPax = mergeMapShallow(pax.get(paxId), modifiedPax.get(paxId) || getMap({}))
-      if (mPax.get('adult')) map.adultCount += 1
-      if (!mPax.get('adult')) map.childCount += 1
-      return map
-    }, { adultCount: 0, childCount: 0 })
-  }
-
-  _flattenParticipants = participants => {
-    let flattenedList = getMap({})
-    if (participants) {
-      let { excursions, booking, modifiedPax } = this.props
-      const pax = listToMap(booking.get('pax'), 'id')
-      excursions = listToMap(excursions, 'id')
-      return participants.reduce((map, par, id) => {
-        if (par) {
-          const excursion = excursions.get(id)
-          const { adultCount, childCount } = this._getAdultChildFromParticipants(par, pax, modifiedPax)
-          map = map.set(id, getMap({
-            id,
-            name: excursion.get('name'),
-            adultCount,
-            childCount
-          }))
-        }
-        return map
-      }, flattenedList)
-    }
-
-    return flattenedList
-  }
+  // _flattenParticipants = participants => {
+  //   const { excursions, booking, modifiedPax } = this.props
+  //   return flattenParticipants(participants, excursions, booking, modifiedPax)
+  // }
 
   _onPressMeal = meal => () => {
     const { tab } = this.state
@@ -278,30 +271,36 @@ class DistributeOrders extends Component {
     }))
   }
 
-  _onPressDrink = drink => () => {
-    const { tab } = this.state
-    const { invoiceeList } = this.props
-    actionDispatcher(showModal({
-      type: 'distribution',
-      data: {
-        drink,
-        invoiceeList,
-        direction: tab,
-        mealType: 'drink',
-        orderType: 'orders'
-      },
-      config: { label: drink.name, instruction: _T('distributionInstruction') },
-      onSave: this._onModalSave,
-      onCancel: this._onModalCancel
-    }))
-  }
+  // _onPressDrink = drink => () => {
+  //   const { tab } = this.state
+  //   const { invoiceeList } = this.props
+  //   actionDispatcher(showModal({
+  //     type: 'distribution',
+  //     data: {
+  //       drink,
+  //       invoiceeList,
+  //       direction: tab,
+  //       mealType: 'drink',
+  //       orderType: 'orders'
+  //     },
+  //     config: { label: drink.name, instruction: _T('distributionInstruction') },
+  //     onSave: this._onModalSave,
+  //     onCancel: this._onModalCancel
+  //   }))
+  // }
 
   _onPressExcursion = excursion => () => {
-    const { invoiceeList } = this.props
+    const { invoiceeList, bucket } = this.props
+    const { mainParticipants } = this.state
+    const isAdult = excursion.get('adult')
+    const key = isAdult ? 'adult' : 'child'
+    const exId = excursion.get('id')
     actionDispatcher(showModal({
       type: 'distribution',
       data: {
         excursion,
+        bucket,
+        totalOrder: mainParticipants.getIn([exId, key, 'count']),
         invoiceeList,
         direction: '',
         mealType: '',
@@ -345,33 +344,56 @@ class DistributeOrders extends Component {
     invoicee = invoicee.set('orders', orders)
     invoiceeList = invoiceeList.set(paxId, invoicee)
     this._setInvoiceeList(invoiceeList)
-    this._setDistributionFlag(invoiceeList)
   }
 
-  _onDeleteItem = (paxId, itemId, section) => () => {
-    let { invoiceeList } = this.props
+  _onDeleteExtraOrder = (paxId, itemId) => () => {
+    let { invoiceeList, bucket } = this.props
     let invoicee = invoiceeList.get(paxId)
-    let orders = invoicee.get(section)
+    let orders = invoicee.get('extraOrders')
+    let order = orders.get(itemId)
     orders = orders.delete(itemId)
-    invoicee = invoicee.set(section, orders)
+    invoicee = invoicee.set('extraOrders', orders)
     invoiceeList = invoiceeList.set(paxId, invoicee)
-    this._setInvoiceeList(invoiceeList)
-    this._setDistributionFlag(invoiceeList)
+    bucket = bucket.setIn(['extraOrders', itemId], order)
+    this._setInvoiceeList(invoiceeList, bucket)
   }
 
   _onDeleteExcursion = (paxId, excursion) => () => {
-    let { invoiceeList } = this.props
+    let { invoiceeList, bucket } = this.props
     const exId = excursion.get('id')
     const isAdult = excursion.get('adult')
+
+    let bParticipants = bucket.get('participants') || getMap({})
+    let bEx = bParticipants.get(exId) || getMap({
+      id: exId,
+      name: excursion.get('name'),
+      adult: getMap({ count: 0, pax: getSet([]) }),
+      child: getMap({ count: 0, pax: getSet([]) })
+    })
+
     let invoicee = invoiceeList.get(paxId)
-    let orders = invoicee.get('participants')
-    let ex = orders.get(exId)
-    ex = ex.set(isAdult ? 'adultCount' : 'childCount', 0)
-    orders = orders.set(exId, ex)
-    invoicee = invoicee.set('participants', orders)
+    let inParticipants = invoicee.get('participants')
+    let inEx = inParticipants.get(exId)
+
+    let bSection = bEx.get(isAdult ? 'adult' : 'child')
+    let inSection = inEx.get(isAdult ? 'adult' : 'child')
+
+    bSection = bSection.set('count', bSection.get('count') + inSection.get('count'))
+      .set('pax', bSection.get('pax').concat(inSection.get('pax')))
+
+    inSection = inSection.set('count', 0).set('pax', getSet([]))
+
+    bEx = bEx.set(isAdult ? 'adult' : 'child', bSection)
+    inEx = inEx.set(isAdult ? 'adult' : 'child', inSection)
+
+    bParticipants = bParticipants.set(exId, bEx)
+    inParticipants = inParticipants.set(exId, inEx)
+
+    bucket = bucket.set('participants', bParticipants)
+    invoicee = invoicee.set('participants', inParticipants)
     invoiceeList = invoiceeList.set(paxId, invoicee)
-    this._setInvoiceeList(invoiceeList)
-    this._setDistributionFlag(invoiceeList)
+
+    this._setInvoiceeList(invoiceeList, bucket)
   }
 
   _renderMeals = (meals, renderButtons, paxId, direction) => {
@@ -422,46 +444,48 @@ class DistributeOrders extends Component {
     )
   }
 
-  _renderDrinks = (drinks, renderButtons) => {
-    return (
-      <View style={ss.drinksCon}>
-        {/* <Text style={ss.boldText}>Drinks</Text> */}
-        <View style={ss.mealItems}>
-          {drinks.map((drink, index) => {
-            const drinkId = drink.drinkId
-            let onPress = this._onPressDrink(drink)
-            if (!renderButtons) onPress = () => {}
-            return (
-              <TouchableOpacity
-                disabled={!renderButtons}
-                onPress={onPress}
-                style={ss.orderItem}
-                key={`${drinkId} - ${index}`}
-              >
-                {!renderButtons &&
-                <View style={ss.delete}>
-                  <TouchableOpacity style={ss.deleteButton}>
-                    <Text style={ss.minus}>-</Text>
-                  </TouchableOpacity>
-                </View>}
-                <View style={ss.itemName}>
-                  <Text>{drink.name}</Text>
-                </View>
-                <View style={ss.itemCount}>
-                  <Text>{drink.count}</Text>
-                </View>
-              </TouchableOpacity>
-            )
-          })}
-        </View>
-      </View>
-    )
-  }
+  // _renderDrinks = (drinks, renderButtons) => {
+  //   return (
+  //     <View style={ss.drinksCon}>
+  //       {/* <Text style={ss.boldText}>Drinks</Text> */}
+  //       <View style={ss.mealItems}>
+  //         {drinks.map((drink, index) => {
+  //           const drinkId = drink.drinkId
+  //           let onPress = this._onPressDrink(drink)
+  //           if (!renderButtons) onPress = () => {}
+  //           return (
+  //             <TouchableOpacity
+  //               disabled={!renderButtons}
+  //               onPress={onPress}
+  //               style={ss.orderItem}
+  //               key={`${drinkId} - ${index}`}
+  //             >
+  //               {!renderButtons &&
+  //               <View style={ss.delete}>
+  //                 <TouchableOpacity style={ss.deleteButton}>
+  //                   <Text style={ss.minus}>-</Text>
+  //                 </TouchableOpacity>
+  //               </View>}
+  //               <View style={ss.itemName}>
+  //                 <Text>{drink.name}</Text>
+  //               </View>
+  //               <View style={ss.itemCount}>
+  //                 <Text>{drink.count}</Text>
+  //               </View>
+  //             </TouchableOpacity>
+  //           )
+  //         })}
+  //       </View>
+  //     </View>
+  //   )
+  // }
 
   _renderMealsAndDrinks = (orders, renderButtons, paxId) => {
     const { tab } = this.state
     const flatOrders = this._flattenMealsAndDrinks(orders)
-    const { meals, drinks } = flatOrders[tab]
+    const { meals
+      // drinks
+    } = flatOrders[tab]
 
     return (
       <View style={ss.orders}>
@@ -488,8 +512,8 @@ class DistributeOrders extends Component {
           {participants.keySeq().toArray().map(excursionId => {
             const ex = participants.get(excursionId) || getMap({})
 
-            const adultEx = getMap({ id: ex.get('id'), name: ex.get('name'), adult: true, count: ex.get('adultCount') })
-            const childEx = getMap({ id: ex.get('id'), name: ex.get('name'), adult: false, count: ex.get('childCount') })
+            const adultEx = getMap({ id: ex.get('id'), name: ex.get('name'), adult: true, ex: ex.get('adult') })
+            const childEx = getMap({ id: ex.get('id'), name: ex.get('name'), adult: false, ex: ex.get('child') })
 
             let onPressAdult = this._onPressExcursion(adultEx)
             let onPressChild = this._onPressExcursion(childEx)
@@ -498,8 +522,8 @@ class DistributeOrders extends Component {
               onPressChild = () => {}
             }
 
-            const adultCount = adultEx.get('count')
-            const childCount = childEx.get('count')
+            const adultCount = adultEx.getIn(['ex', 'count'])
+            const childCount = childEx.getIn(['ex', 'count'])
 
             return (
               <View style={ss.orders} key={ex.get('id')}>
@@ -523,7 +547,7 @@ class DistributeOrders extends Component {
                       <Text>{adultEx.get('name')}</Text>
                     </View>
                     <View style={ss.itemCount}>
-                      <Text>{adultEx.get('count')}</Text>
+                      <Text>{adultCount}</Text>
                     </View>
                   </TouchableOpacity>
                 }
@@ -548,7 +572,7 @@ class DistributeOrders extends Component {
                       <Text>(Child) {childEx.get('name')}</Text>
                     </View>
                     <View style={ss.itemCount}>
-                      <Text>{childEx.get('count')}</Text>
+                      <Text>{childCount}</Text>
                     </View>
                   </TouchableOpacity>
                 }
@@ -583,7 +607,7 @@ class DistributeOrders extends Component {
   _onSelectInvoicee = order => ({ value }) => {
     const orderId = order.get('id')
     const paxId = value.key
-    let { invoiceeList } = this.props
+    let { invoiceeList, bucket } = this.props
     invoiceeList = invoiceeList.map(invoicee => {
       const invoiceeId = invoicee.get('id')
       let extraOrders = invoicee.get('extraOrders') || getMap({})
@@ -595,7 +619,12 @@ class DistributeOrders extends Component {
       invoicee = invoicee.set('extraOrders', extraOrders)
       return invoicee
     })
-    this._setInvoiceeList(invoiceeList)
+
+    let bExtraOrders = bucket.get('extraOrders')
+    bExtraOrders = bExtraOrders.delete(orderId)
+    bucket = bucket.set('extraOrders', bExtraOrders)
+
+    this._setInvoiceeList(invoiceeList, bucket)
   }
 
   _onPressExtraOrder = order => () => {
@@ -634,7 +663,7 @@ class DistributeOrders extends Component {
                 <View style={ss.delete}>
                   <TouchableOpacity
                     style={ss.deleteButton}
-                    onPress={this._onDeleteItem(paxId, orderId, 'extraOrders')}
+                    onPress={this._onDeleteExtraOrder(paxId, orderId)}
                   >
                     <Text style={ss.minus}>-</Text>
                   </TouchableOpacity>
@@ -660,11 +689,11 @@ class DistributeOrders extends Component {
   }
 
   _renderBucket = () => {
-    let { orders, participants, extraOrders } = this.props
-    participants = this._flattenParticipants(participants)
-    // const orders = bucket.get('orders') || getMap({})
-    // const participants = bucket.get('participants') || getList([])
-    // const extraOrders = bucket.get('extraOrders') || getMap({})
+    const { bucket } = this.props
+
+    const orders = bucket.get('orders') || getMap({})
+    const participants = bucket.get('participants') || getMap({})
+    const extraOrders = bucket.get('extraOrders') || getMap({})
     const { tab } = this.state
 
     return (
@@ -701,7 +730,7 @@ class DistributeOrders extends Component {
           <View style={ss.tab}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
           </View>
-          {this._renderMealsAndDrinks(orders, false, paxId)}
+          {/* {this._renderMealsAndDrinks(orders, false, paxId)} */}
           <View style={ss.orders}>
             {this._renderExcursions(participants, false, paxId)}
           </View>
@@ -728,7 +757,7 @@ const stateToProps = (state, props) => {
   return {
     participants: getParticipantsByBooking(state, departureId, bookingId),
     extraOrders: getExtraOrdersByBooking(state, departureId, bookingId),
-    orders: getOrdersByBooking(state, departureId, bookingId),
+    // orders: getOrdersByBooking(state, departureId, bookingId),
     meals: getMeals(state),
     drinks: getDrinks(state),
     excursions: getExcursions(state),

@@ -40,7 +40,7 @@ import {
   SSN_DATA_SUCS,
   SSN_DATA_FAIL,
 
-  // SET_ORDER_BUCKET,
+  SET_ORDER_BUCKET,
   SET_IS_NEED_DISTRIBUTION
 } from './action'
 
@@ -323,15 +323,15 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     return setIntoMap(state, payload.departureId, modifiedData)
   },
 
-  // [SET_ORDER_BUCKET]: (state, payload) => {
-  //   let modifiedData = readValue(payload.departureId, state) || getMap({})
-  //   let orders = readValue('orders', modifiedData) || getMap({})
-  //   let orderForBooking = readValue(payload.bookingId, orders) || getMap({})
-  //   orderForBooking = setIntoMap(orderForBooking, 'bucket', payload.bucket)
-  //   orders = setIntoMap(orders, payload.bookingId, orderForBooking)
-  //   modifiedData = setIntoMap(modifiedData, 'orders', orders)
-  //   return setIntoMap(state, payload.departureId, modifiedData)
-  // },
+  [SET_ORDER_BUCKET]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let orders = readValue('orders', modifiedData) || getMap({})
+    let orderForBooking = readValue(payload.bookingId, orders) || getMap({})
+    orderForBooking = setIntoMap(orderForBooking, 'bucket', payload.bucket)
+    orders = setIntoMap(orders, payload.bookingId, orderForBooking)
+    modifiedData = setIntoMap(modifiedData, 'orders', orders)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
 
   [SET_IS_NEED_DISTRIBUTION]: (state, payload) => {
     let modifiedData = readValue(payload.departureId, state) || getMap({})

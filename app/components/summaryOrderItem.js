@@ -198,7 +198,7 @@ class SummaryOrderItem extends Component {
 
   _renderExcursionOrders = () => {
     const { excursionOrders } = this.state
-    const { pax, departureId, bookingId } = this.props
+    const { pax, departureId, booking, bookingId } = this.props
     const icon = excursionOrders ? 'minus' : 'plus'
     return (
       <View>
@@ -214,6 +214,7 @@ class SummaryOrderItem extends Component {
             pax={pax}
             departureId={departureId}
             bookingId={bookingId}
+            booking={booking}
           />
         }
       </View>

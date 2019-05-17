@@ -48,7 +48,7 @@ const resolvers = {
         const paxInitial = String(p.get('booking').get('id'))
         if (initial !== paxInitial) {
           initial = paxInitial
-          return getList([getMap({ first: true, initial: paxInitial, id: paxInitial }), p])
+          return getList([getMap({ first: true, initial: paxInitial, id: paxInitial, booking: p.get('booking') }), p])
         }
         return getList([p])
       }).flatten(1)

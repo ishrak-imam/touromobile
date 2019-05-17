@@ -60,7 +60,7 @@ class ExtraOrderSummaryMode extends Component {
         [id]: getMap({ id })
       })
     }
-    this.setState({ diry: false, extraOrders })
+    this.setState({ dirty: false, extraOrders })
   }
 
   _onSave = () => {
@@ -82,7 +82,8 @@ class ExtraOrderSummaryMode extends Component {
     if (extraOrders.size === 1) return null
     return () => {
       this.setState({
-        extraOrders: extraOrders.delete(key)
+        extraOrders: extraOrders.delete(key),
+        dirty: true
       })
     }
   }
