@@ -40,7 +40,8 @@ class ExtraOrderSummaryMode extends Component {
     const { extraOrders } = this.state
     const id = uuid.v1()
     this.setState({
-      extraOrders: extraOrders.set(id, getMap({ id }))
+      extraOrders: extraOrders.set(id, getMap({ id })),
+      dirty: true
     })
   }
 
@@ -84,7 +85,7 @@ class ExtraOrderSummaryMode extends Component {
       this.setState({
         extraOrders: extraOrders.delete(key),
         dirty: true
-      })
+      }, this._onSave)
     }
   }
 
