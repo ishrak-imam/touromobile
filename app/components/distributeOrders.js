@@ -27,17 +27,19 @@ import _T from '../utils/translator'
 class DistributeOrders extends Component {
   constructor (props) {
     super(props)
-    const { participants, excursions, booking, modifiedPax } = props
+    const { participants, orders, excursions, booking, modifiedPax } = props
     this.state = {
       tab: 'out',
-      mainParticipants: flattenParticipants(participants, excursions, booking, modifiedPax)
+      mainParticipants: flattenParticipants(participants, excursions, booking, modifiedPax),
+      mainOrders: orders
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const { participants, excursions, booking, modifiedPax } = nextProps
+    const { participants, orders, excursions, booking, modifiedPax } = nextProps
     this.setState({
-      mainParticipants: flattenParticipants(participants, excursions, booking, modifiedPax)
+      mainParticipants: flattenParticipants(participants, excursions, booking, modifiedPax),
+      mainOrders: orders
     })
   }
 
@@ -64,6 +66,21 @@ class DistributeOrders extends Component {
 
   _onModalCancel = () => {
     console.log('Distribution modal canceled')
+  }
+
+  _distributeAllOrders = paxId => {
+    const { mainOrders } = this.state
+    let { invoiceeList, bucket } = this.props
+    invoiceeList = invoiceeList.map((invoicee, id) => {
+      if (paxId === id) {
+        invoicee = invoicee.set('orders', mainOrders)
+      } else {
+        invoicee = invoicee.set('orders', getMap({ out: getMap({ meal: getMap({}) }), home: getMap({ meal: getMap({}) }) }))
+      }
+      return invoicee
+    })
+    bucket = bucket.set('orders', getMap({ out: getMap({ meal: getMap({}) }), home: getMap({ meal: getMap({}) }) }))
+    this._setInvoiceeList(invoiceeList, bucket)
   }
 
   _distributeAllExcursion = paxId => {
@@ -103,6 +120,7 @@ class DistributeOrders extends Component {
         this._distributeAllExcursion(paxId)
         break
       case 'orders':
+        this._distributeAllOrders(paxId)
         break
       case 'extraOrders':
         this._distributeAllExtraOrders(paxId)
@@ -118,13 +136,6 @@ class DistributeOrders extends Component {
     }))
   }
 
-  // _isMealDistributed = (mealId, direction) => {
-  //   const { invoiceeList } = this.props
-  //   return invoiceeList.some(invoicee => {
-  //     return !!invoicee.getIn(['orders', direction, 'meal', mealId])
-  //   })
-  // }
-
   _prepareMealData = (orders, bucket, storage, direction) => {
     orders.every(meal => {
       const mealId = meal.get('mealId')
@@ -139,7 +150,6 @@ class DistributeOrders extends Component {
           allergyId: '',
           allergyText: '',
           adult: true
-          // isDistributed: this._isMealDistributed(mealId, direction)
         })
       }
       if (childCount > 0) {
@@ -151,7 +161,6 @@ class DistributeOrders extends Component {
           allergyId: '',
           allergyText: '',
           adult: false
-          // isDistributed: this._isMealDistributed(mealId, direction)
         })
       }
       const allergyOrders = meal.get('allergies')
@@ -172,7 +181,6 @@ class DistributeOrders extends Component {
               allergyText,
               adult: meal.get('adult'),
               child: null
-              // isDistributed: this._isMealDistributed(mealId, direction)
             })
           }
           if (childCount > 0) {
@@ -185,7 +193,6 @@ class DistributeOrders extends Component {
               allergyText,
               adult: null,
               child: meal.get('child')
-              // isDistributed: this._isMealDistributed(mealId, direction)
             })
           }
           return true
@@ -248,20 +255,26 @@ class DistributeOrders extends Component {
     return aggregated
   }
 
-  // _flattenParticipants = participants => {
-  //   const { excursions, booking, modifiedPax } = this.props
-  //   return flattenParticipants(participants, excursions, booking, modifiedPax)
-  // }
-
   _onPressMeal = meal => () => {
-    const { tab } = this.state
-    const { invoiceeList } = this.props
+    const mealId = meal.mealId
+    const allergyId = meal.allergyId
+    const { tab, mainOrders } = this.state
+    const { invoiceeList, bucket } = this.props
+    const isAdult = !!meal.adult
+    const isAllergy = meal.type === 'allergy'
+    const countKey = isAdult ? 'adultCount' : 'childCount'
+    let totalOrder = mainOrders.getIn([tab, 'meal', mealId, countKey])
+    if (isAllergy) {
+      totalOrder = mainOrders.getIn([tab, 'meal', mealId, 'allergies', allergyId, countKey])
+    }
     actionDispatcher(showModal({
       type: 'distribution',
       data: {
         meal,
         invoiceeList,
+        bucket,
         direction: tab,
+        totalOrder,
         mealType: 'meal',
         orderType: 'orders'
       },
@@ -315,35 +328,71 @@ class DistributeOrders extends Component {
   _onDeleteMeal = (paxId, mealItem, direction) => () => {
     const mealId = mealItem.mealId
     const isAdult = !!mealItem.adult
-    let { invoiceeList } = this.props
+    const countKey = isAdult ? 'adultCount' : 'childCount'
+    const isAllergy = mealItem.type === 'allergy'
+
+    let { invoiceeList, bucket } = this.props
+
     let invoicee = invoiceeList.get(paxId)
-    let orders = invoicee.get('orders')
-    let directionOrder = orders.get(direction)
-    let mealOrder = directionOrder.get('meal')
-    if (mealItem.type === 'allergy') {
+
+    let inOrders = invoicee.get('orders')
+    let buOrders = bucket.get('orders')
+
+    let dInOrders = inOrders.get(direction)
+    let dBuOrders = buOrders.get(direction)
+
+    let inMealOrders = dInOrders.get('meal')
+    let buMealOrders = dBuOrders.get('meal')
+
+    let inMeal = inMealOrders.get(mealId)
+    let buMeal = buMealOrders.get(mealId) || getMap({ mealId, adultCount: 0, childCount: 0 })
+
+    if (isAllergy) {
+      let inAllergyOrders = inMeal.get('allergies') || getMap({})
+      let buAllergyOrders = buMeal.get('allergies') || getMap({})
       const allergyId = mealItem.allergyId
-      let meal = mealOrder.get(mealId)
-      let allergyOrders = meal.get('allergies')
-      let allergyMeal = allergyOrders.get(allergyId)
-      allergyMeal = allergyMeal.set(isAdult ? 'adultCount' : 'childCount', 0)
-      allergyOrders = allergyOrders.set(allergyId, allergyMeal)
-      // allergyOrders = allergyOrders.delete(allergyId)
-      meal = meal.set('allergies', allergyOrders)
-      mealOrder = mealOrder.set(mealId, meal)
+
+      let inAllergyOrder = inAllergyOrders.get(allergyId)
+      let buAllergyOrder = buAllergyOrders.get(allergyId) || getMap({
+        adult: mealItem.adult || null,
+        adultCount: 0,
+        allergyId,
+        allergyText: mealItem.allergyText,
+        child: mealItem.child,
+        childCount: 0,
+        mealId
+      })
+      const count = inAllergyOrder.get(countKey)
+
+      inAllergyOrder = inAllergyOrder.set(countKey, 0)
+      buAllergyOrder = buAllergyOrder.set(countKey, buAllergyOrder.get(countKey) + count)
+
+      inAllergyOrders = inAllergyOrders.set(allergyId, inAllergyOrder)
+      buAllergyOrders = buAllergyOrders.set(allergyId, buAllergyOrder)
+
+      inMeal = inMeal.set('allergies', inAllergyOrders)
+      buMeal = buMeal.set('allergies', buAllergyOrders)
     } else {
-      let meal = mealOrder.get(mealId)
-      if (meal.get('allergies')) {
-        meal = meal.set(isAdult ? 'adultCount' : 'childCount', 0)
-        mealOrder = mealOrder.set(mealId, meal)
-      } else {
-        mealOrder = mealOrder.delete(mealId)
-      }
+      const count = inMeal.get(countKey)
+      inMeal = inMeal.set(countKey, 0)
+      buMeal = buMeal.set(countKey, buMeal.get(countKey) + count)
     }
-    directionOrder = directionOrder.set('meal', mealOrder)
-    orders = orders.set(direction, directionOrder)
-    invoicee = invoicee.set('orders', orders)
+
+    inMealOrders = inMealOrders.set(mealId, inMeal)
+    buMealOrders = buMealOrders.set(mealId, buMeal)
+
+    dInOrders = dInOrders.set('meal', inMealOrders)
+    dBuOrders = dBuOrders.set('meal', buMealOrders)
+
+    inOrders = inOrders.set(direction, dInOrders)
+    buOrders = buOrders.set(direction, dBuOrders)
+
+    invoicee = invoicee.set('orders', inOrders)
+    bucket = bucket.set('orders', buOrders)
+
     invoiceeList = invoiceeList.set(paxId, invoicee)
-    this._setInvoiceeList(invoiceeList)
+
+    this._setInvoiceeList(invoiceeList, bucket)
   }
 
   _onDeleteExtraOrder = (paxId, itemId) => () => {
@@ -730,7 +779,7 @@ class DistributeOrders extends Component {
           <View style={ss.tab}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
           </View>
-          {/* {this._renderMealsAndDrinks(orders, false, paxId)} */}
+          {this._renderMealsAndDrinks(orders, false, paxId)}
           <View style={ss.orders}>
             {this._renderExcursions(participants, false, paxId)}
           </View>
@@ -757,7 +806,7 @@ const stateToProps = (state, props) => {
   return {
     participants: getParticipantsByBooking(state, departureId, bookingId),
     extraOrders: getExtraOrdersByBooking(state, departureId, bookingId),
-    // orders: getOrdersByBooking(state, departureId, bookingId),
+    orders: getOrdersByBooking(state, departureId, bookingId),
     meals: getMeals(state),
     drinks: getDrinks(state),
     excursions: getExcursions(state),

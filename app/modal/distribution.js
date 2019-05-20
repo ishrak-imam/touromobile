@@ -90,19 +90,19 @@ class DistributionModal extends Component {
     return count
   }
 
-  _getTotalDrinkOrder = (invoiceeList, direction, drink) => {
-    let count = 0
-    invoiceeList.every(invoicee => {
-      const drinkId = drink.get('drinkId')
-      const orders = invoicee.get('orders') || getMap({})
-      let order = orders.getIn([direction, 'drink', drinkId])
-      if (order) {
-        count = count + order.get('count')
-      }
-      return true
-    })
-    return count
-  }
+  // _getTotalDrinkOrder = (invoiceeList, direction, drink) => {
+  //   let count = 0
+  //   invoiceeList.every(invoicee => {
+  //     const drinkId = drink.get('drinkId')
+  //     const orders = invoicee.get('orders') || getMap({})
+  //     let order = orders.getIn([direction, 'drink', drinkId])
+  //     if (order) {
+  //       count = count + order.get('count')
+  //     }
+  //     return true
+  //   })
+  //   return count
+  // }
 
   _getTotalExcursionOrder = (invoiceeList, excursion) => {
     const excursionId = excursion.get('id')
@@ -122,21 +122,34 @@ class DistributionModal extends Component {
     return count
   }
 
-  _distributeMeal = (paxId, meal, direction, sign) => () => {
-    let { invoiceeList } = this.state
+  _distributeMeal = (paxId, meal, direction, sign, totalOrderAfter) => () => {
+    let { invoiceeList, bucket, totalOrder } = this.state
+
     let invoicee = invoiceeList.get(paxId)
-    let orders = invoicee.get('orders') || getMap({})
-    let directionOrders = orders.get(direction) || getMap({})
-    let mealOrders = directionOrders.get('meal') || getMap({})
+
+    let inOrders = invoicee.get('orders') || getMap({})
+    let buOrders = bucket.get('orders')
+
+    let dInOrders = inOrders.get(direction) || getMap({})
+    let dBuOrders = buOrders.get(direction)
+
+    let inMealOrders = dInOrders.get('meal') || getMap({})
+    let buMealOrders = dBuOrders.get('meal')
+
     const mealId = meal.get('mealId')
-    const mealCount = meal.get('count')
-    let mealOrder = mealOrders.get(mealId) || getMap({ mealId, adultCount: 0, childCount: 0 })
+    const isAdult = meal.get('adult')
+    const countKey = isAdult ? 'adultCount' : 'childCount'
     const isAllergy = meal.get('type') === 'allergy'
-    let count = 0
+
+    let inMeal = inMealOrders.get(mealId) || getMap({ mealId, adultCount: 0, childCount: 0 })
+    let buMeal = buMealOrders.get(mealId)
+
     if (isAllergy) {
-      let allergyOrders = mealOrder.get('allergies') || getMap({})
+      let inAllergyOrders = inMeal.get('allergies') || getMap({})
+      let buAllergyOrders = buMeal.get('allergies')
       const allergyId = meal.get('allergyId')
-      let allergyOrder = allergyOrders.get(allergyId) || getMap({
+
+      let inAllergyOrder = inAllergyOrders.get(allergyId) || getMap({
         adult: meal.get('adult') || null,
         adultCount: 0,
         allergyId,
@@ -145,28 +158,55 @@ class DistributionModal extends Component {
         childCount: 0,
         mealId
       })
-      count = meal.get('adult') ? allergyOrder.get('adultCount') : allergyOrder.get('childCount')
-      // count = sign === 'plus' && count < paxCount ? count + 1 : count === 0 ? 0 : count - 1
-      count = sign === 'plus'
-        ? count < mealCount ? count + 1 : count
-        : count === 0 ? 0 : count - 1
+      let buAllergyOrder = buAllergyOrders.get(allergyId)
+      let count = inAllergyOrder.get(countKey)
+      if (sign === 'plus' && count < totalOrder && totalOrderAfter < totalOrder) {
+        count = count + 1
+        inAllergyOrder = inAllergyOrder.set(countKey, count)
+        buAllergyOrder = buAllergyOrder.set(countKey, buAllergyOrder.get(countKey) - 1)
+      }
 
-      allergyOrder = allergyOrder.set(meal.get('adult') ? 'adultCount' : 'childCount', count)
-      mealOrder = mealOrder.setIn(['allergies', allergyId], allergyOrder)
+      if (sign === 'minus' && count > 0) {
+        count = count - 1
+        inAllergyOrder = inAllergyOrder.set(countKey, count)
+        buAllergyOrder = buAllergyOrder.set(countKey, buAllergyOrder.get(countKey) + 1)
+      }
+
+      inAllergyOrders = inAllergyOrders.set(allergyId, inAllergyOrder)
+      buAllergyOrders = buAllergyOrders.set(allergyId, buAllergyOrder)
+
+      inMeal = inMeal.set('allergies', inAllergyOrders)
+      buMeal = buMeal.set('allergies', buAllergyOrders)
     } else {
-      count = meal.get('adult') ? mealOrder.get('adultCount') : mealOrder.get('childCount')
-      // count = sign === 'plus' && count < paxCount ? count + 1 : count === 0 ? 0 : count - 1
-      count = sign === 'plus'
-        ? count < mealCount ? count + 1 : count
-        : count === 0 ? 0 : count - 1
-      mealOrder = mealOrder.set(meal.get('adult') ? 'adultCount' : 'childCount', count)
+      let count = inMeal.get(countKey)
+      if (sign === 'plus' && count < totalOrder && totalOrderAfter < totalOrder) {
+        count = count + 1
+        inMeal = inMeal.set(countKey, count)
+        buMeal = buMeal.set(countKey, buMeal.get(countKey) - 1)
+      }
+
+      if (sign === 'minus' && count > 0) {
+        count = count - 1
+        inMeal = inMeal.set(countKey, count)
+        buMeal = buMeal.set(countKey, buMeal.get(countKey) + 1)
+      }
     }
-    mealOrders = mealOrders.set(mealId, mealOrder)
-    directionOrders = directionOrders.set('meal', mealOrders)
-    orders = orders.set(direction, directionOrders)
-    invoicee = invoicee.set('orders', orders)
+
+    inMealOrders = inMealOrders.set(mealId, inMeal)
+    buMealOrders = buMealOrders.set(mealId, buMeal)
+
+    dInOrders = dInOrders.set('meal', inMealOrders)
+    dBuOrders = dBuOrders.set('meal', buMealOrders)
+
+    inOrders = inOrders.set(direction, dInOrders)
+    buOrders = buOrders.set(direction, dBuOrders)
+
+    invoicee = invoicee.set('orders', inOrders)
+    bucket = bucket.set('orders', buOrders)
+
     invoiceeList = invoiceeList.set(paxId, invoicee)
-    this.setState({ invoiceeList })
+
+    this.setState({ invoiceeList, bucket })
   }
 
   // _distributeDrink = (paxId, drink, direction, sign) => () => {
@@ -250,7 +290,7 @@ class DistributionModal extends Component {
     this.setState({ invoiceeList, bucket })
   }
 
-  _renderInvoiceeForMeal = (invoiceeList, direction, meal) => {
+  _renderInvoiceeForMeal = (invoiceeList, direction, meal, totalOrderAfter) => {
     return invoiceeList.keySeq().toArray().map(paxId => {
       const invoicee = invoiceeList.get(paxId)
       const orders = invoicee.get('orders') || getMap({})
@@ -276,13 +316,13 @@ class DistributionModal extends Component {
             <Text style={ss.invoicee}>{invoiceeName}</Text>
           </View>
           <View style={ss.itemRight}>
-            <TouchableOpacity style={ss.minus} onPress={this._distributeMeal(paxId, meal, direction, 'minus')}>
+            <TouchableOpacity style={ss.minus} onPress={this._distributeMeal(paxId, meal, direction, 'minus', totalOrderAfter)}>
               <Text style={ss.sign}>-</Text>
             </TouchableOpacity>
             <View style={ss.counter}>
               <Text style={ss.count}>{count}</Text>
             </View>
-            <TouchableOpacity style={ss.plus} onPress={this._distributeMeal(paxId, meal, direction, 'plus')}>
+            <TouchableOpacity style={ss.plus} onPress={this._distributeMeal(paxId, meal, direction, 'plus', totalOrderAfter)}>
               <Text style={ss.sign}>+</Text>
             </TouchableOpacity>
           </View>
@@ -362,23 +402,19 @@ class DistributionModal extends Component {
       excursion, mealType, orderType, direction
     } = this.state
 
-    let totalOrderBefore = 0
     let totalOrderAfter = 0
 
     if (orderType === 'orders') {
       if (mealType === 'meal') {
-        totalOrderBefore = meal.get('count')
         totalOrderAfter = this._getTotalMealOrder(invoiceeList, direction, meal)
       }
 
       // if (mealType === 'drink') {
-      //   totalOrderBefore = drink.get('count')
       //   totalOrderAfter = this._getTotalDrinkOrder(invoiceeList, direction, drink)
       // }
     }
 
     if (orderType === 'excursion') {
-      // totalOrderBefore = excursion.getIn(['ex', 'count'])
       totalOrderAfter = this._getTotalExcursionOrder(invoiceeList, excursion)
     }
 
@@ -413,7 +449,7 @@ class DistributionModal extends Component {
 
                 {
                   !!invoiceeList.size && orderType === 'orders' && mealType === 'meal' &&
-                  this._renderInvoiceeForMeal(invoiceeList, direction, meal)
+                  this._renderInvoiceeForMeal(invoiceeList, direction, meal, totalOrderAfter)
                 }
 
                 {/* {

@@ -65,7 +65,7 @@ class FoodItem extends Component {
             childCount
           })
           actionDispatcher(takeAllergyOrder({
-            departureId, bookingId, direction, mealId, allergyId, allergyOrder
+            departureId, bookingId, direction, mealType, mealId, allergyId, allergyOrder
           }))
           return
         }
