@@ -153,5 +153,7 @@ export default {
   vegan: 'Vegan',
   seafood: 'Seafood',
   egg: 'Egg',
-  celery: 'celery'
+  celery: 'celery',
+  add: 'Add',
+  remove: 'Remove'
 }

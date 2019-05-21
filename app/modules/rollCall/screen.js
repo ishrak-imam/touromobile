@@ -59,6 +59,19 @@ class PaxItem extends Component {
             nextProps.selected !== this.props.selected
   }
 
+  _onSwipeOpen = paxId => (sId, rId, direction) => {
+    const { onAdd, onRemove } = this.props
+    if (direction && direction === 'left') {
+      onAdd(paxId)
+      this.forceUpdate()
+    }
+
+    if (direction && direction === 'right') {
+      onRemove(paxId)
+      this.forceUpdate()
+    }
+  }
+
   render () {
     const { pax, selected, onItemPress } = this.props
     const paxId = String(pax.id)
@@ -67,27 +80,44 @@ class PaxItem extends Component {
 
     // onPress={onItemPress(paxId)}
 
-    const swipeBtn = [
-      {
-        // component: <AddOrRemoveBtn selected={selected} onPress={onItemPress(paxId)} />
-        text: selected ? 'Remove' : 'Add',
-        backgroundColor: selected ? Colors.fire : Colors.green,
-        color: Colors.white,
-        onPress: onItemPress(paxId)
-      }
-    ]
+    // const swipeBtn = [
+    //   {
+    //     // component: <AddOrRemoveBtn selected={selected} onPress={onItemPress(paxId)} />
+    //     text: selected ? 'Remove' : 'Add',
+    //     backgroundColor: selected ? Colors.fire : Colors.green,
+    //     color: Colors.white,
+    //     onPress: onItemPress(paxId)
+    //   }
+    // ]
+
+    const leftSwipe = [{
+      text: _T('add'),
+      backgroundColor: Colors.green,
+      color: Colors.white
+    }]
+
+    const rightSwipe = [{
+      text: _T('remove'),
+      backgroundColor: Colors.fire,
+      color: Colors.white
+    }]
 
     const swipeProps = {
-      // autoClose: true,
+      close: true,
       backgroundColor: 'transparent'
     }
 
     return (
-      <Swipeout {...swipeProps} left={swipeBtn}>
+      <Swipeout
+        {...swipeProps}
+        left={leftSwipe}
+        right={rightSwipe}
+        onOpen={this._onSwipeOpen(paxId)}
+      >
         <View style={ss.listItem}>
-          <View style={{ flex: 1 }}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={onItemPress(paxId)}>
             <CheckBox checked={selected} />
-          </View>
+          </TouchableOpacity>
           <View style={ss.itemBody}>
             <View style={{ flex: 1.3 }}>
               <Text style={ss.boldText}>{bookingId}</Text>
@@ -156,6 +186,20 @@ class RollCallScreen extends Component {
     }
   }
 
+  _onAdd = paxId => {
+    const { presents } = this.props
+    if (!presents.has(paxId)) {
+      actionDispatcher(addToPresent(paxId))
+    }
+  }
+
+  _onRemove = paxId => {
+    const { presents } = this.props
+    if (presents.has(paxId)) {
+      actionDispatcher(removeFromPresent(paxId))
+    }
+  }
+
   _renderPerson = (type, item) => {
     const { currentTrip, presents } = this.props
     const trip = currentTrip.get('trip')
@@ -179,6 +223,8 @@ class RollCallScreen extends Component {
       <PaxItem
         pax={item}
         onItemPress={this._onItemPress}
+        onAdd={this._onAdd}
+        onRemove={this._onRemove}
         selected={presents.has(paxId)}
       />
     )

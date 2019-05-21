@@ -154,5 +154,7 @@ export default {
   vegan: 'Vegan',
   seafood: 'Skaldjur',
   egg: 'Ägg',
-  celery: 'Selleri'
+  celery: 'Selleri',
+  add: 'Lägg till',
+  remove: 'Ta bort'
 }
