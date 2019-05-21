@@ -11,7 +11,7 @@ export const getParticipants = (state, departureId) => {
   return state.modifiedData.getIn([departureId, 'participants']) || getMap({})
 }
 
-export const getAaccept = (state, departureId) => {
+export const getAccept = (state, departureId) => {
   return state.modifiedData.getIn([departureId, 'accept']) || getMap({})
 }
 

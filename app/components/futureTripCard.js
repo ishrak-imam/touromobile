@@ -12,7 +12,7 @@ import FooterButtons from './footerButtons'
 import { connect } from 'react-redux'
 import OutHomeTab, { TABS } from './outHomeTab'
 import {
-  getPax, getAaccept, getUser,
+  getPax, getAccept, getUser,
   getConnections, getReservationsByDepartureId
 } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
@@ -90,7 +90,8 @@ class FutureTripCard extends Component {
       dirty: accept.get('dirty'),
       acceptedAt: accept.get('acceptedAt'),
       out: accept.get('out') || getMap({}),
-      home: accept.get('home') || getMap({})
+      home: accept.get('home') || getMap({}),
+      saveDisabled: accept.get('saveDisabled')
     }
   }
 
@@ -438,7 +439,7 @@ class FutureTripCard extends Component {
 
   render () {
     const { trip } = this.props
-    const { dirty, isLoading } = this.acceptData
+    const { dirty, isLoading, saveDisabled } = this.acceptData
     let brand = trip.get('brand')
     if (brand === 'OL') brand = 'OH'
     const name = trip.get('name')
@@ -490,7 +491,7 @@ class FutureTripCard extends Component {
               <View style={ss.bottomRight}>
                 <FooterButtons
                   style={ss.footerButtons}
-                  disabled={!dirty || this.shouldLockTrip}
+                  disabled={!dirty || this.shouldLockTrip || saveDisabled}
                   onCancel={this._cancelSelection}
                   onSave={this._acceptTrip}
                 />
@@ -506,7 +507,7 @@ class FutureTripCard extends Component {
 const stateToProps = (state, props) => {
   const departureId = String(props.trip.get('departureId'))
   return {
-    accept: getAaccept(state, departureId),
+    accept: getAccept(state, departureId),
     user: getUser(state),
     connections: getConnections(state),
     reservation: getReservationsByDepartureId(state, departureId)

@@ -21,6 +21,7 @@ import ClearTransferCity from '../middlewares/clearTransferCity'
 import ClearBag from '../middlewares/clearBag'
 import SetSentryUser from '../middlewares/setSentryUser'
 import SyncData from '../middlewares/syncData'
+import ToggleAcceptSave from '../middlewares/toggleAcceptSave'
 
 
 /**
@@ -31,7 +32,7 @@ import rootSaga from './rootSaga'
 const SagaMiddleware = createSagaMiddleware()
 const middlewares = [
   SagaMiddleware, AttachJwt, Toast, ClearTransferCity, ClearBag,
-  SetSentryUser, SyncData
+  SetSentryUser, SyncData, ToggleAcceptSave
 ]
 if (__DEV__) {
   middlewares.push(Logger)
