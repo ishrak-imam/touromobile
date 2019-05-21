@@ -22,6 +22,7 @@ import { addToPresent, removeFromPresent, resetPresent } from './action'
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
 import CheckBox from '../../components/checkBox'
 import { showModal } from '../../modal/action'
+import Swipeout from 'react-native-swipeout'
 
 const { width } = Dimensions.get('window')
 
@@ -42,6 +43,16 @@ const CONTEXT_OPTIONS = {
   booking: { text: 'booking', key: 'BOOKING', icon: 'booking' }
 }
 
+// const AddOrRemoveBtn = ({ selected, onPress }) => {
+//   const text = selected ? 'Remove' : 'Add'
+//   const backgroundColor = selected ? Colors.fire : Colors.green
+//   return (
+//     <TouchableOpacity style={[ss.swipeBtn, { backgroundColor }]} onPress={onPress}>
+//       <Text style={{ color: Colors.white }}>{text}</Text>
+//     </TouchableOpacity>
+//   )
+// }
+
 class PaxItem extends Component {
   shouldComponentUpdate (nextProps) {
     return nextProps.pax.id !== this.props.pax.id ||
@@ -53,20 +64,40 @@ class PaxItem extends Component {
     const paxId = String(pax.id)
     const name = `${pax.firstName} ${pax.lastName}`
     const bookingId = pax.booking.id
+
+    // onPress={onItemPress(paxId)}
+
+    const swipeBtn = [
+      {
+        // component: <AddOrRemoveBtn selected={selected} onPress={onItemPress(paxId)} />
+        text: selected ? 'Remove' : 'Add',
+        backgroundColor: selected ? Colors.fire : Colors.green,
+        color: Colors.white,
+        onPress: onItemPress(paxId)
+      }
+    ]
+
+    const swipeProps = {
+      // autoClose: true,
+      backgroundColor: 'transparent'
+    }
+
     return (
-      <TouchableOpacity style={ss.listItem} onPress={onItemPress(paxId)}>
-        <View style={{ flex: 1 }}>
-          <CheckBox checked={selected} />
-        </View>
-        <View style={ss.itemBody}>
-          <View style={{ flex: 1.3 }}>
-            <Text style={ss.boldText}>{bookingId}</Text>
+      <Swipeout {...swipeProps} left={swipeBtn}>
+        <View style={ss.listItem}>
+          <View style={{ flex: 1 }}>
+            <CheckBox checked={selected} />
           </View>
-          <View style={{ flex: 4 }}>
-            <Text style={ss.text} numberOfLines={2}>{name}</Text>
+          <View style={ss.itemBody}>
+            <View style={{ flex: 1.3 }}>
+              <Text style={ss.boldText}>{bookingId}</Text>
+            </View>
+            <View style={{ flex: 4 }}>
+              <Text style={ss.text} numberOfLines={2}>{name}</Text>
+            </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </Swipeout>
     )
   }
 }
@@ -293,15 +324,17 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   sectionHeader: {
-    backgroundColor: Colors.blue
+    backgroundColor: Colors.blue,
+    height: 50
+
   },
   listItem: {
-    height: 45,
+    height: 53,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginHorizontal: 10,
-    marginBottom: 5,
+    paddingHorizontal: 10,
+    marginBottom: 0,
     borderBottomWidth: 0.7,
     borderColor: Colors.steel
   },
@@ -322,5 +355,11 @@ const ss = StyleSheet.create({
   boldText: {
     fontSize: 15,
     fontWeight: 'bold'
+  },
+  swipeBtn: {
+    width: 75,
+    height: 53,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
