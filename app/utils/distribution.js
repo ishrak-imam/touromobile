@@ -1,6 +1,51 @@
 
 import { getMap, listToMap, mergeMapShallow, getSet } from './immutable'
 
+export const checkIfAllDistributed = bucket => {
+  let isAllDistributed = true
+
+  const orders = bucket.get('orders')
+  if (orders && orders.size) {
+    const outMeals = orders.getIn(['out', 'meal'])
+    if (outMeals && outMeals.size) {
+      outMeals.some(meal => {
+        if (meal.get('adultCount') > 0 || meal.get('childCount') > 0) {
+          isAllDistributed = false
+          return true
+        }
+        return false
+      })
+    }
+
+    const homeMeals = orders.getIn(['home', 'meal'])
+    if (homeMeals && outMeals.size) {
+      homeMeals.some(meal => {
+        if (meal.get('adultCount') > 0 || meal.get('childCount') > 0) {
+          isAllDistributed = false
+          return true
+        }
+        return false
+      })
+    }
+  }
+
+  const extraOrders = bucket.get('extraOrders')
+  if (extraOrders && extraOrders.size > 1) isAllDistributed = false
+
+  const participants = bucket.get('participants')
+  if (participants && participants.size) {
+    participants.some(par => {
+      if (par.getIn(['adult', 'count']) > 0 || par.getIn(['child', 'count']) > 0) {
+        isAllDistributed = false
+        return true
+      }
+      return false
+    })
+  }
+
+  return isAllDistributed
+}
+
 // export const checkIfAllDistributed = (bucket, invoiceeList) => {
 //   const distributed = invoiceeList.reduce((map, invoicee, paxId) => {
 //     const extraOrders = invoicee.get('extraOrders')

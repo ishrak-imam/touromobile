@@ -263,7 +263,7 @@ class PaxItem extends Component {
 
 class SelectInvoicee extends Component {
   _onPressPaxItem = (paxId, pax, selected) => () => {
-    const { bookingId, departureId } = this.props
+    const { booking, bookingId, departureId } = this.props
     const action = selected ? deleteInvoicee : selectInvoicee
     const invoicee = getMap({
       id: paxId,
@@ -278,7 +278,8 @@ class SelectInvoicee extends Component {
       departureId,
       bookingId,
       paxId,
-      invoicee
+      invoicee,
+      booking
     }))
   }
 

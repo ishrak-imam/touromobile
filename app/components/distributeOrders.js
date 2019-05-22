@@ -15,10 +15,12 @@ import {
 import { actionDispatcher } from '../utils/actionDispatcher'
 import {
   setOrderBucket,
-  setInvoiceeList
+  setInvoiceeList,
+
+  setIsNeedDistribution
 } from '../modules/modifiedData/action'
 import { getMap, getList, listToMap, getSet } from '../utils/immutable'
-import { flattenParticipants } from '../utils/distribution'
+import { flattenParticipants, checkIfAllDistributed } from '../utils/distribution'
 import { Colors } from '../theme'
 import OutHomeTab from '../components/outHomeTab'
 import { showModal } from '../modal/action'
@@ -58,6 +60,14 @@ class DistributeOrders extends Component {
     actionDispatcher((setOrderBucket({
       departureId, bookingId, bucket
     })))
+
+    if (checkIfAllDistributed(bucket)) {
+      actionDispatcher(setIsNeedDistribution({
+        departureId,
+        bookingId,
+        isNeedDistribution: false
+      }))
+    }
   }
 
   _onModalSave = (invoiceeList, bucket) => {
