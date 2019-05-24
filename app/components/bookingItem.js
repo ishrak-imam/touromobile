@@ -9,7 +9,6 @@ import {
 } from '../selectors'
 import { getMap } from '../utils/immutable'
 import IconButton from '../components/iconButton'
-import { sms } from '../utils/comms'
 import { connect } from 'react-redux'
 
 class BookingItem extends Component {
@@ -20,9 +19,10 @@ class BookingItem extends Component {
            !nextProps.invoicee.equals(this.props.invoicee)
   }
 
-  _sms = phones => {
+  _sms = numbers => {
     return () => {
-      sms(phones)
+      const { navigation, brand } = this.props
+      navigation.navigate('SMS', { numbers, brand })
     }
   }
 

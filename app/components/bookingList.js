@@ -36,8 +36,8 @@ class BookingList extends Component {
     }
   }
 
-  _renderBooking = departureId => ({ item }) => {
-    const { modifiedPax } = this.props
+  _renderBooking = (departureId, brand) => ({ item }) => {
+    const { modifiedPax, navigation } = this.props
     const pax = item.get('pax')
     const filteredModifiedPax = getModifiedPaxByBooking(getMap({ pax, modifiedPax }))
     return (
@@ -46,11 +46,14 @@ class BookingList extends Component {
         booking={item}
         modifiedPax={filteredModifiedPax}
         onPress={this._toOrdersScreen}
+        brand={brand}
+        navigation={navigation}
       />
     )
   }
 
   _renderList = trip => {
+    const brand = trip.get('brand')
     const { searchText } = this.state
     const departureId = String(trip.get('departureId'))
     let bookings = getSortedBookings(trip)
@@ -61,7 +64,7 @@ class BookingList extends Component {
       <ImmutableVirtualizedList
         keyboardShouldPersistTaps='always'
         immutableData={bookings}
-        renderItem={this._renderBooking(departureId)}
+        renderItem={this._renderBooking(departureId, brand)}
         keyExtractor={item => String(item.get('id'))}
         renderEmpty={_T('noMatch')}
       />
