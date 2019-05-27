@@ -25,6 +25,8 @@ function restructurar (modifiedData, allTrips, caseName) {
   switch (caseName) {
     case '_5-to-6':
       return _5To6(modifiedData, allTrips)
+    case '_6-to-7':
+      return _6to7(modifiedData, allTrips)
     default:
       return modifiedData
   }
@@ -56,6 +58,32 @@ function findBookingIdWithPaxId (paxId, trip) {
   return String(p.get('booking').get('id'))
 }
 
+function _6to7 (modifiedData, allTrips) {
+  if (modifiedData.size === 0) {
+    return modifiedData.set('structureVersion', config.structureVersion)
+  } else {
+    return modifiedData.reduce((map, tripOrder, key) => {
+      if (key === 'lastSyncedTime') map = map.set('lastSyncedTime', modifiedData.get('lastSyncedTime'))
+      else {
+        const departureId = key
+        let newTripOrder = getMap({})
+
+        if (tripOrder.get('modifiedPax')) newTripOrder = newTripOrder.set('modifiedPax', tripOrder.get('modifiedPax'))
+        if (tripOrder.get('isLoading')) newTripOrder = newTripOrder.set('isLoading', tripOrder.get('isLoading'))
+        if (tripOrder.get('statsUploadedAt')) newTripOrder = newTripOrder.set('statsUploadedAt', tripOrder.get('statsUploadedAt'))
+        if (tripOrder.get('accept')) newTripOrder = newTripOrder.set('accept', tripOrder.get('accept'))
+        if (tripOrder.get('prevAccept')) newTripOrder = newTripOrder.set('prevAccept', tripOrder.get('prevAccept'))
+        if (tripOrder.get('participants')) newTripOrder = newTripOrder.set('participants', tripOrder.get('participants'))
+        if (tripOrder.get('ordersSummaryMode')) newTripOrder = newTripOrder.set('orders', tripOrder.get('ordersSummaryMode'))
+
+        map = map.set(departureId, newTripOrder)
+      }
+      map = map.set('structureVersion', config.structureVersion)
+      return map
+    }, getMap({}))
+  }
+}
+
 function _5To6 (modifiedData, allTrips) {
   if (modifiedData.size === 0) {
     return modifiedData.set('structureVersion', config.structureVersion)
@@ -71,7 +99,6 @@ function _5To6 (modifiedData, allTrips) {
         if (tripOrder.get('statsUploadedAt')) newTripOrder = newTripOrder.set('statsUploadedAt', tripOrder.get('statsUploadedAt'))
         if (tripOrder.get('accept')) newTripOrder = newTripOrder.set('accept', tripOrder.get('accept'))
         if (tripOrder.get('prevAccept')) newTripOrder = newTripOrder.set('prevAccept', tripOrder.get('prevAccept'))
-        if (tripOrder.get('allergyMeals')) newTripOrder = newTripOrder.set('allergyMeals', tripOrder.get('allergyMeals'))
 
         if (tripOrder.get('participants')) {
           let participants = tripOrder.get('participants')
@@ -96,9 +123,9 @@ function _5To6 (modifiedData, allTrips) {
           newTripOrder = newTripOrder.set('participants', participants)
         }
 
-        if (tripOrder.get('orders')) {
-          let orders = tripOrder.get('orders')
-          orders = orders.map(order => {
+        if (tripOrder.get('ordersSummaryMode')) {
+          let ordersSummaryMode = tripOrder.get('ordersSummaryMode')
+          ordersSummaryMode = ordersSummaryMode.map(order => {
             let newOrder = order
             if (order.get('out')) {
               let out = order.get('out')
@@ -117,7 +144,7 @@ function _5To6 (modifiedData, allTrips) {
             }
             return newOrder
           })
-          newTripOrder = newTripOrder.set('orders', orders)
+          newTripOrder = newTripOrder.set('ordersSummaryMode', ordersSummaryMode)
         }
 
         map = map.set(departureId, newTripOrder)
