@@ -54,7 +54,7 @@ export const prepareParticipantsData = (excursions, modifiedPax, participants, t
       if (mPax.get('adult')) map.adultCount += 1
       if (!mPax.get('adult')) map.childCount += 1
       return map
-    }, { count: 0 })
+    }, { adultCount: 0, childCount: 0 })
     m.push({ id: excursionId, adultCount, childCount })
     return m
   }, [])
@@ -254,8 +254,8 @@ export const getOrderStats = (orders, extraOrders, transportId, excursions, modi
             inoviceeParticipants.every(item => {
               excursions.push({
                 id: item.get('id'),
-                adultCount: item.get('adultCount'),
-                childCount: item.get('childCount')
+                adultCount: item.getIn(['adult', 'count']),
+                childCount: item.getIn(['child', 'count'])
               })
               return true
             })

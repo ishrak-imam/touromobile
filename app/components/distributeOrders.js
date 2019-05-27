@@ -16,7 +16,6 @@ import { actionDispatcher } from '../utils/actionDispatcher'
 import {
   setOrderBucket,
   setInvoiceeList,
-
   setIsNeedDistribution
 } from '../modules/modifiedData/action'
 import { getMap, getList, listToMap, getSet } from '../utils/immutable'
@@ -61,13 +60,11 @@ class DistributeOrders extends Component {
       departureId, bookingId, bucket
     })))
 
-    if (checkIfAllDistributed(bucket)) {
-      actionDispatcher(setIsNeedDistribution({
-        departureId,
-        bookingId,
-        isNeedDistribution: false
-      }))
-    }
+    actionDispatcher(setIsNeedDistribution({
+      departureId,
+      bookingId,
+      isNeedDistribution: !checkIfAllDistributed(bucket)
+    }))
   }
 
   _onModalSave = (invoiceeList, bucket) => {
