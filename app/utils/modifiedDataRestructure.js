@@ -96,9 +96,9 @@ function _5To6 (modifiedData, allTrips) {
           newTripOrder = newTripOrder.set('participants', participants)
         }
 
-        if (tripOrder.get('ordersSummaryMode')) {
-          let ordersSummaryMode = tripOrder.get('ordersSummaryMode')
-          ordersSummaryMode = ordersSummaryMode.map(order => {
+        if (tripOrder.get('orders')) {
+          let orders = tripOrder.get('orders')
+          orders = orders.map(order => {
             let newOrder = order
             if (order.get('out')) {
               let out = order.get('out')
@@ -117,7 +117,7 @@ function _5To6 (modifiedData, allTrips) {
             }
             return newOrder
           })
-          newTripOrder = newTripOrder.set('ordersSummaryMode', ordersSummaryMode)
+          newTripOrder = newTripOrder.set('orders', orders)
         }
 
         map = map.set(departureId, newTripOrder)
