@@ -7,7 +7,7 @@ export const restructureData = (modifiedData, allTrips, currentVersion) => {
   const caseNames = findCaseNames(currentVersion || 0, config.structureVersion)
   let restructuredData = modifiedData
   caseNames.forEach(caseName => {
-    restructuredData = restructurar(modifiedData, allTrips, caseName)
+    restructuredData = restructurar(restructuredData, allTrips, caseName)
   })
   return restructuredData
 }
@@ -42,11 +42,11 @@ function findTrip (excursionId, allTrips) {
 function formatMeal5To6 (meal) {
   return meal.reduce((map, m, key) => {
     const mealId = key
-    let newM = map.get('mealId') || getMap({ mealId, adultCount: 0, childCount: 0 })
-    const adultCount = newM.get('adultCount')
-    const childCount = newM.get('childCount')
-    if (m.get('isChild')) newM = newM.set('childCount', childCount + 1)
-    if (!m.get('isChild')) newM = newM.set('adultCount', adultCount + 1)
+    const newM = getMap({
+      mealId,
+      adultCount: !m.get('isChild') ? m.get('count') : 0,
+      childCount: m.get('isChild') ? m.get('count') : 0
+    })
     map = map.set(mealId, newM)
     return map
   }, getMap({}))
@@ -64,7 +64,9 @@ function _6to7 (modifiedData, allTrips) {
   } else {
     return modifiedData.reduce((map, tripOrder, key) => {
       if (key === 'lastSyncedTime') map = map.set('lastSyncedTime', modifiedData.get('lastSyncedTime'))
-      else {
+      if (key === 'structureVersion') {
+
+      } else {
         const departureId = key
         let newTripOrder = getMap({})
 
