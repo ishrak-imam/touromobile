@@ -1,6 +1,6 @@
 
 import config from '../../utils/config'
-import { mockToken, mockUserDetails, mockForgetPass } from '../../mockData'
+import { mockToken, mockUserDetails, mockForgetPass, mockSendAppStatus } from '../../mockData'
 import { postRequest, getRequest } from '../../utils/request'
 // import { createDoc } from '../../../api_doc/docCreator'
 
@@ -20,4 +20,12 @@ export const getUserDetails = (userId, jwt) => {
 export const forgotPass = user => {
   // createDoc('POST', '/forgotpassword', { user }, 'forgotpassword')
   return config.useMockData ? mockForgetPass() : postRequest('forgotpassword', { user })
+}
+
+export const sendAppStatus = (appStatus, guideId, jwt) => {
+  const headers = {
+    'Authorization': `Bearer ${jwt}`
+  }
+  // createDoc('POST', `/resources/guide/${guideId}/appstatus`, appStatus, 'sendAppStatus')
+  return config.useMockData ? mockSendAppStatus() : postRequest(`resources/guide/${guideId}/appstatus`, appStatus, headers)
 }

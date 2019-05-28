@@ -277,7 +277,20 @@
     "method": "GET",
     "url": "/resources/guide/{guideId}/reservations",
     "payload": {}
-  }
+  },
 
+  {
+    "type": "sendAppStatus",
+    "method": "POST",
+    "url": "/resources/guide/14/appstatus",
+    "payload": {
+      "active": true,
+      "phoneModel": "iPhone X - 2019",
+      "os": "ios - 12.1",
+      "mac": "2438D227-B87B-481C-8112-31B0CD37F96A",
+      "connectivity": 2,
+      "appVersion": "1.0.8"
+    }
+  }
 
 ]

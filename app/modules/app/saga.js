@@ -12,6 +12,7 @@ import {
 import { tripsActionsOnSuccess } from '../trips/action'
 
 import { getUser } from '../../selectors'
+import { sendAppStatusReq } from '../auth/action'
 
 export function * watchClearLocalData () {
   yield takeFirst(clearLocalData.getType(), workerClearLocalData)
@@ -34,13 +35,18 @@ function * createAppStateSubscription (action) {
   )
   yield takeEvery(appStateChannel, function * (appState) {
     yield put(setAppState(appState !== 'active'))
+    const user = yield select(getUser)
+    const isLoggedIn = user.get('accessToken')
     if (appState === 'active') {
-      const user = yield select(getUser)
-      const isLoggedIn = user.get('accessToken')
       if (isLoggedIn) {
+        yield put(sendAppStatusReq({ active: true, isNeedJwt: true }))
         yield put(tripsActionsOnSuccess({
           pendingModal: {}
         }))
+      }
+    } else {
+      if (isLoggedIn) {
+        yield put(sendAppStatusReq({ active: false, isNeedJwt: true }))
       }
     }
   })
