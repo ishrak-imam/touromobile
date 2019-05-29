@@ -11,6 +11,7 @@ import { getDistributionModal } from '../selectors'
 import isIphoneX from '../utils/isIphoneX'
 import { getMap, getSet } from '../utils/immutable'
 import FooterButtons from '../components/footerButtons'
+import _T from '../utils/translator'
 
 const { height, width } = Dimensions.get('window')
 const heightOffset = isIphoneX ? 400 : 200
@@ -439,7 +440,7 @@ class DistributionModal extends Component {
             </View>
             <View style={ss.body}>
               <View style={[ss.totalOrder, { height: 25 }]}>
-                <Text style={ss.totalText}>Total order: {totalOrder}</Text>
+                <Text style={ss.totalText}>{_T('totalOrder')}: {totalOrder}</Text>
               </View>
               <View style={[ss.totalOrder, { height: 30, marginTop: 0 }]}>
                 {!!config &&

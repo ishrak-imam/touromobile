@@ -10,6 +10,7 @@ export const ACCEPT_TRIP_FAIL = 'ACCEPT_TRIP_FAIL'
 
 export const SET_ACCEPT_TRIP = 'SET_ACCEPT_TRIP'
 export const SET_ACCEPT_TRIP_COMBOS = 'SET_ACCEPT_TRIP_COMBOS'
+export const TOGGLE_ACCEPT_SAVE = 'TOGGLE_ACCEPT_SAVE'
 
 export const SET_DEFAULT_COMBOS = 'SET_DEFAULT_COMBOS'
 
@@ -52,6 +53,7 @@ export const acceptTripFail = createAction(ACCEPT_TRIP_FAIL)
 
 export const setAcceptTrip = createAction(SET_ACCEPT_TRIP)
 export const setAcceptTripCombos = createAction(SET_ACCEPT_TRIP_COMBOS)
+export const toggleAcceptSave = createAction(TOGGLE_ACCEPT_SAVE)
 
 export const setDefaultCombos = createAction(SET_DEFAULT_COMBOS)
 

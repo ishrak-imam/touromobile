@@ -18,7 +18,6 @@ import Middlewares from '../middlewares'
 import Logger from '../middlewares/logger'
 
 
-
 /**
  * Saga
  */

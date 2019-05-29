@@ -280,7 +280,7 @@ class SummaryOrderItem extends Component {
           <View style={ss.sectionIcon}>
             <IonIcon name={icon} size={22} />
           </View>
-          <Text style={ss.headerText}>Distribute orders</Text>
+          <Text style={ss.headerText}>{_T('distributeOrders')}</Text>
           <View style={ss.distributionIcon}>
             {isNeedDistribution &&
             <IonIcon name='clipBoard' size={22} color={Colors.blue} />}

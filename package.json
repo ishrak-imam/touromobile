@@ -31,6 +31,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.7.2",
     "react-native-openanything": "^0.0.3",
     "react-native-popup-menu": "^0.14.1",
+    "react-native-swipeout": "^2.3.6",
     "react-native-uuid": "^1.4.9",
     "react-navigation": "^2.18.2",
     "react-navigation-tabs": "^0.6.0",

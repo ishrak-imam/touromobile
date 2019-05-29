@@ -155,5 +155,9 @@ export default {
   seafood: 'Seafood',
   egg: 'Egg',
   celery: 'celery',
-  distributionInstruction: 'Distributed orders should be equal to the total orders'
+  add: 'Add',
+  remove: 'Remove',
+  distributeOrders: 'Distribute orders',
+  distributionInstruction: 'Distributed orders should be equal to the total orders',
+  totalOrder: 'Total order'
 }

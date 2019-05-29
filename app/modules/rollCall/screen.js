@@ -22,6 +22,7 @@ import { addToPresent, removeFromPresent, resetPresent } from './action'
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview'
 import CheckBox from '../../components/checkBox'
 import { showModal } from '../../modal/action'
+import Swipeout from 'react-native-swipeout'
 
 const { width } = Dimensions.get('window')
 
@@ -42,10 +43,33 @@ const CONTEXT_OPTIONS = {
   booking: { text: 'booking', key: 'BOOKING', icon: 'booking' }
 }
 
+// const AddOrRemoveBtn = ({ selected, onPress }) => {
+//   const text = selected ? 'Remove' : 'Add'
+//   const backgroundColor = selected ? Colors.fire : Colors.green
+//   return (
+//     <TouchableOpacity style={[ss.swipeBtn, { backgroundColor }]} onPress={onPress}>
+//       <Text style={{ color: Colors.white }}>{text}</Text>
+//     </TouchableOpacity>
+//   )
+// }
+
 class PaxItem extends Component {
   shouldComponentUpdate (nextProps) {
     return nextProps.pax.id !== this.props.pax.id ||
             nextProps.selected !== this.props.selected
+  }
+
+  _onSwipeOpen = paxId => (sId, rId, direction) => {
+    const { onAdd, onRemove } = this.props
+    if (direction && direction === 'left') {
+      onAdd(paxId)
+      this.forceUpdate()
+    }
+
+    if (direction && direction === 'right') {
+      onRemove(paxId)
+      this.forceUpdate()
+    }
   }
 
   render () {
@@ -53,20 +77,57 @@ class PaxItem extends Component {
     const paxId = String(pax.id)
     const name = `${pax.firstName} ${pax.lastName}`
     const bookingId = pax.booking.id
+
+    // onPress={onItemPress(paxId)}
+
+    // const swipeBtn = [
+    //   {
+    //     // component: <AddOrRemoveBtn selected={selected} onPress={onItemPress(paxId)} />
+    //     text: selected ? 'Remove' : 'Add',
+    //     backgroundColor: selected ? Colors.fire : Colors.green,
+    //     color: Colors.white,
+    //     onPress: onItemPress(paxId)
+    //   }
+    // ]
+
+    const leftSwipe = [{
+      text: _T('add'),
+      backgroundColor: Colors.green,
+      color: Colors.white
+    }]
+
+    const rightSwipe = [{
+      text: _T('remove'),
+      backgroundColor: Colors.fire,
+      color: Colors.white
+    }]
+
+    const swipeProps = {
+      close: true,
+      backgroundColor: 'transparent'
+    }
+
     return (
-      <TouchableOpacity style={ss.listItem} onPress={onItemPress(paxId)}>
-        <View style={{ flex: 1 }}>
-          <CheckBox checked={selected} />
-        </View>
-        <View style={ss.itemBody}>
-          <View style={{ flex: 1.3 }}>
-            <Text style={ss.boldText}>{bookingId}</Text>
+      <Swipeout
+        {...swipeProps}
+        left={leftSwipe}
+        right={rightSwipe}
+        onOpen={this._onSwipeOpen(paxId)}
+      >
+        <View style={ss.listItem}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={onItemPress(paxId)}>
+            <CheckBox checked={selected} />
+          </TouchableOpacity>
+          <View style={ss.itemBody}>
+            <View style={{ flex: 1.3 }}>
+              <Text style={ss.boldText}>{bookingId}</Text>
+            </View>
+            <View style={{ flex: 4 }}>
+              <Text style={ss.text} numberOfLines={2}>{name}</Text>
+            </View>
           </View>
-          <View style={{ flex: 4 }}>
-            <Text style={ss.text} numberOfLines={2}>{name}</Text>
-          </View>
         </View>
-      </TouchableOpacity>
+      </Swipeout>
     )
   }
 }
@@ -125,6 +186,20 @@ class RollCallScreen extends Component {
     }
   }
 
+  _onAdd = paxId => {
+    const { presents } = this.props
+    if (!presents.has(paxId)) {
+      actionDispatcher(addToPresent(paxId))
+    }
+  }
+
+  _onRemove = paxId => {
+    const { presents } = this.props
+    if (presents.has(paxId)) {
+      actionDispatcher(removeFromPresent(paxId))
+    }
+  }
+
   _renderPerson = (type, item) => {
     const { currentTrip, presents } = this.props
     const trip = currentTrip.get('trip')
@@ -148,6 +223,8 @@ class RollCallScreen extends Component {
       <PaxItem
         pax={item}
         onItemPress={this._onItemPress}
+        onAdd={this._onAdd}
+        onRemove={this._onRemove}
         selected={presents.has(paxId)}
       />
     )
@@ -293,15 +370,17 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   sectionHeader: {
-    backgroundColor: Colors.blue
+    backgroundColor: Colors.blue,
+    height: 50
+
   },
   listItem: {
-    height: 45,
+    height: 53,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginHorizontal: 10,
-    marginBottom: 5,
+    paddingHorizontal: 10,
+    marginBottom: 0,
     borderBottomWidth: 0.7,
     borderColor: Colors.steel
   },
@@ -322,5 +401,11 @@ const ss = StyleSheet.create({
   boldText: {
     fontSize: 15,
     fontWeight: 'bold'
+  },
+  swipeBtn: {
+    width: 75,
+    height: 53,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

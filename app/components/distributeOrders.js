@@ -456,7 +456,7 @@ class DistributeOrders extends Component {
     return (
       <View style={ss.itemCon}>
         <View style={ss.sectionHeader}>
-          <Text style={ss.boldText}>Meals</Text>
+          <Text style={ss.boldText}>{_T('meals')}</Text>
           {renderButtons &&
           <TouchableOpacity
             style={ss.headerButton}
@@ -555,7 +555,7 @@ class DistributeOrders extends Component {
     return (
       <View style={ss.orderCon}>
         <View style={ss.sectionHeader}>
-          <Text style={ss.boldText}>Excursions</Text>
+          <Text style={ss.boldText}>{_T('excursions')}</Text>
           {renderButtons &&
           <TouchableOpacity
             style={ss.headerButton}
@@ -695,7 +695,7 @@ class DistributeOrders extends Component {
     return (
       <View style={ss.orderCon}>
         <View style={ss.sectionHeader}>
-          <Text style={ss.boldText}>Extra orders</Text>
+          <Text style={ss.boldText}>{_T('extraOrders')}</Text>
           {renderButtons &&
           <TouchableOpacity
             style={ss.headerButton}

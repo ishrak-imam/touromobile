@@ -11,6 +11,7 @@ import {
 
   SET_ACCEPT_TRIP,
   SET_ACCEPT_TRIP_COMBOS,
+  TOGGLE_ACCEPT_SAVE,
 
   SET_DEFAULT_COMBOS,
 
@@ -111,9 +112,18 @@ export const modifiedData = createReducer(MODIFIED_DATA_INITIAL_STATE, {
     let accept = readValue('accept', modifiedData) || getMap({})
     accept = setIntoMap(accept, 'dirty', true)
     accept = setIntoMap(accept, 'acceptedAt', null)
+    accept = setIntoMap(accept, 'saveDisabled', false)
     let direction = readValue(payload.direction, accept) || getMap({})
     direction = setIntoMap(direction, payload.key, getMap(payload.value))
     accept = setIntoMap(accept, payload.direction, direction)
+    modifiedData = setIntoMap(modifiedData, 'accept', accept)
+    return setIntoMap(state, payload.departureId, modifiedData)
+  },
+
+  [TOGGLE_ACCEPT_SAVE]: (state, payload) => {
+    let modifiedData = readValue(payload.departureId, state) || getMap({})
+    let accept = readValue('accept', modifiedData) || getMap({})
+    accept = setIntoMap(accept, 'saveDisabled', payload.saveDisabled)
     modifiedData = setIntoMap(modifiedData, 'accept', accept)
     return setIntoMap(state, payload.departureId, modifiedData)
   },

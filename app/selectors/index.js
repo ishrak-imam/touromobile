@@ -80,7 +80,7 @@ export const {
   getModifiedPax,
   getParticipants,
   getModifiedData,
-  getAaccept,
+  getAccept,
   getOrder,
   getInvoicee,
   getAllOrders,

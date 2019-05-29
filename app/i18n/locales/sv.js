@@ -156,5 +156,9 @@ export default {
   seafood: 'Skaldjur',
   egg: 'Ägg',
   celery: 'Selleri',
-  distributionInstruction: 'Fördelat antal beställningar måste matcha det totala antalet beställningar'
+  add: 'Lägg till',
+  remove: 'Ta bort',
+  distributeOrders: 'Fördela beställningar',
+  distributionInstruction: 'Fördelat antal beställningar måste matcha det totala antalet beställningar',
+  totalOrder: 'Antal beställningar'
 }
