@@ -6,7 +6,8 @@ import { IonIcon, Colors } from '../theme'
 import { connect } from 'react-redux'
 import {
   getLunches, getFormattedMealsData,
-  getOrderForBooking
+  getOrderForBooking, getInvoicee,
+  getDistributionFlag
 } from '../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 // import { actionDispatcher } from '../utils/actionDispatcher'
@@ -20,7 +21,8 @@ import ExtraOrderSummaryMode from './extraOrderSummaryMode'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import isIOS from '../utils/isIOS'
 import isIphoneX from '../utils/isIphoneX'
-import SelectInvoiceeSummaryMode from './selectInvoiceeSummaryMode'
+import SelectInvoicee from './selectInvoicee'
+import DistributeOrders from './distributeOrders'
 import { getMap } from '../utils/immutable'
 
 class SummaryOrderItem extends Component {
@@ -30,6 +32,8 @@ class SummaryOrderItem extends Component {
       lunchOrders: false,
       excursionOrders: false,
       extraOrders: false,
+      invoicee: false,
+      distribution: false,
       tab: 'out'
     }
   }
@@ -157,7 +161,7 @@ class SummaryOrderItem extends Component {
     const mealOrders = orderForBooking.getIn([tab, 'meal'])
 
     return (
-      <View style={ss.lunchOrders}>
+      <View>
         <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('lunchOrders')}>
           {/* <Left style={ss.headerLeft}>
             <View style={ss.sectionIcon}>
@@ -194,7 +198,7 @@ class SummaryOrderItem extends Component {
 
   _renderExcursionOrders = () => {
     const { excursionOrders } = this.state
-    const { pax, departureId, bookingId } = this.props
+    const { pax, departureId, booking, bookingId } = this.props
     const icon = excursionOrders ? 'minus' : 'plus'
     return (
       <View>
@@ -210,6 +214,7 @@ class SummaryOrderItem extends Component {
             pax={pax}
             departureId={departureId}
             bookingId={bookingId}
+            booking={booking}
           />
         }
       </View>
@@ -239,10 +244,63 @@ class SummaryOrderItem extends Component {
     )
   }
 
-  render () {
-    const { booking, bookingId, pax, screen, departureId } = this.props
-    const direction = this.state.tab
+  _renderInvoiceeSelection = () => {
+    const { booking, bookingId, pax, departureId } = this.props
+    const { invoicee, tab: { direction } } = this.state
+    const icon = invoicee ? 'minus' : 'plus'
+    return (
+      <View>
+        <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('invoicee')}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{_T('selectInvoicee')}</Text>
+        </TouchableOpacity>
+        {
+          invoicee &&
+          <SelectInvoicee
+            booking={booking}
+            pax={pax}
+            direction={direction}
+            bookingId={bookingId}
+            departureId={departureId}
+          />
+        }
+      </View>
+    )
+  }
 
+  _renderDistribution = invoiceeList => {
+    const { booking, bookingId, departureId, isNeedDistribution } = this.props
+    const { distribution } = this.state
+    const icon = distribution ? 'minus' : 'plus'
+    return (
+      <View>
+        <TouchableOpacity style={ss.topHeader} onPress={this._viewToggle('distribution')}>
+          <View style={ss.sectionIcon}>
+            <IonIcon name={icon} size={22} />
+          </View>
+          <Text style={ss.headerText}>{_T('distributeOrders')}</Text>
+          <View style={ss.distributionIcon}>
+            {isNeedDistribution &&
+            <IonIcon name='clipBoard' size={22} color={Colors.blue} />}
+          </View>
+        </TouchableOpacity>
+        {
+          distribution &&
+          <DistributeOrders
+            booking={booking}
+            invoiceeList={invoiceeList}
+            bookingId={bookingId}
+            departureId={departureId}
+          />
+        }
+      </View>
+    )
+  }
+
+  render () {
+    const { invoiceeList } = this.props
     return (
       <View style={ss.container}>
 
@@ -253,20 +311,12 @@ class SummaryOrderItem extends Component {
           enableOnAndroid
           keyboardShouldPersistTaps='always'
         >
-          {
-            screen === 'booking' &&
-            <SelectInvoiceeSummaryMode
-              booking={booking}
-              pax={pax}
-              direction={direction}
-              bookingId={bookingId}
-              departureId={departureId}
-            />
-          }
 
+          {this._renderInvoiceeSelection()}
           {this._renderLunchOrders()}
           {this._renderExcursionOrders()}
           {this._renderExtraOrders()}
+          {invoiceeList.size > 1 && this._renderDistribution(invoiceeList)}
 
         </KeyboardAwareScrollView>
 
@@ -278,8 +328,10 @@ class SummaryOrderItem extends Component {
 const stateToProps = (state, props) => {
   const { departureId, bookingId } = props
   return {
+    invoiceeList: getInvoicee(state, departureId, bookingId),
     lunches: getLunches(state),
-    orderForBooking: getOrderForBooking(state, departureId, bookingId)
+    orderForBooking: getOrderForBooking(state, departureId, bookingId),
+    isNeedDistribution: getDistributionFlag(state, departureId, bookingId)
   }
 }
 
@@ -290,9 +342,6 @@ const ss = StyleSheet.create({
     flex: 1,
     // marginTop: 10,
     marginHorizontal: 15
-  },
-  lunchOrders: {
-    marginTop: 20
   },
   boldText: {
     fontWeight: 'bold'
@@ -306,7 +355,7 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0
   },
   scroll: {
-    // marginTop: 5,
+    marginTop: 5,
     paddingBottom: isIphoneX ? 30 : 20
   },
   topHeader: {
@@ -326,14 +375,17 @@ const ss = StyleSheet.create({
     flex: 2
   },
   headerText: {
-    fontWeight: 'bold',
-    marginBottom: 3
+    fontWeight: 'bold'
+    // marginBottom: 3
   },
   reset: {
     paddingHorizontal: 20
   },
   sectionIcon: {
     marginRight: 10
+  },
+  distributionIcon: {
+    marginLeft: 10
   },
   tabContainer: {
     width: '100%',

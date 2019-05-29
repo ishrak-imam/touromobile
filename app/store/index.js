@@ -14,14 +14,8 @@ import rootReducer from './rootReducer'
 /**
  * Middlewares
  */
+import Middlewares from '../middlewares'
 import Logger from '../middlewares/logger'
-import AttachJwt from '../middlewares/attachJwt'
-import Toast from '../middlewares/toast'
-import ClearTransferCity from '../middlewares/clearTransferCity'
-import ClearBag from '../middlewares/clearBag'
-import SetSentryUser from '../middlewares/setSentryUser'
-import SyncData from '../middlewares/syncData'
-import ToggleAcceptSave from '../middlewares/toggleAcceptSave'
 
 
 /**
@@ -30,10 +24,7 @@ import ToggleAcceptSave from '../middlewares/toggleAcceptSave'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './rootSaga'
 const SagaMiddleware = createSagaMiddleware()
-const middlewares = [
-  SagaMiddleware, AttachJwt, Toast, ClearTransferCity, ClearBag,
-  SetSentryUser, SyncData, ToggleAcceptSave
-]
+const middlewares = [SagaMiddleware, ...Middlewares]
 if (__DEV__) {
   middlewares.push(Logger)
 }

@@ -21,7 +21,6 @@ export const {
   getFutureTrips,
   getPax,
   getPaxByHotel,
-  getFoods,
   filterPaxBySearchText,
   filterBookingBySearchText,
   getSortedPax,
@@ -48,7 +47,9 @@ export const {
   getPaxIds,
   getTripByDepartureId,
   getReservationsByDepartureId,
-  getReservations
+  getReservations,
+  getMeals,
+  getDrinks
 } = require('./trip')
 
 export const {
@@ -63,7 +64,8 @@ export const {
 export const {
   getInfoModal,
   getWarningModal,
-  getSelectionModal
+  getSelectionModal,
+  getDistributionModal
 } = require('./modal')
 
 export const {
@@ -89,7 +91,12 @@ export const {
   getExtraOrders,
   getAllExtraOrders,
   getLastSyncedTime,
-  getAcceptedAssignments
+  getAcceptedAssignments,
+  getParticipantsByBooking,
+  getExtraOrdersByBooking,
+  getOrdersByBooking,
+  getBucket,
+  getDistributionFlag
 } = require('./modifiedData')
 
 export const {

@@ -63,6 +63,7 @@ const responseHandler = (method, endPoint, payload = {}) => response => {
 };
 
 const createFetchPromise = (method, endPoint, data, headers) => {
+  console.log('endPoint')
   const options = {
     method,
     headers: {...headers, ...COMMON_HEADERS},

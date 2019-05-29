@@ -18,6 +18,8 @@ export const PREPARE_CANCEL_DATA = 'PREPARE_CANCEL_DATA'
 export const CANCEL_COMBO_VALUES = 'CANCEL_COMBO_VALUES'
 
 export const SELECT_INVOICEE = 'SELECT_INVOICEE'
+export const DELETE_INVOICEE = 'DELETE_INVOICEE'
+export const SET_INVOICEELIST = 'SET_INVOICEELIST'
 
 export const TAKE_ORDER = 'TAKE_ORDER'
 export const TAKE_EXTRA_ORDER = 'TAKE_EXTRA_ORDER'
@@ -39,6 +41,9 @@ export const SSN_DATA_FAIL = 'SSN_DATA_FAIL'
 
 export const RESTRUCTURE_MODIFIED_DATA = 'RESTRUCTURE_MODIFIED_DATA'
 
+export const SET_ORDER_BUCKET = 'SET_ORDER_BUCKET'
+export const SET_IS_NEED_DISTRIBUTION = 'SET_IS_NEED_DISTRIBUTION'
+
 export const modifyPaxData = createAction(MODIFY_PAX_DATA)
 export const setParticipants = createAction(SET_PARTICIPANTS)
 
@@ -56,6 +61,8 @@ export const prepareCancelData = createAction(PREPARE_CANCEL_DATA)
 export const cancelComboValues = createAction(CANCEL_COMBO_VALUES)
 
 export const selectInvoicee = createAction(SELECT_INVOICEE)
+export const deleteInvoicee = createAction(DELETE_INVOICEE)
+export const setInvoiceeList = createAction(SET_INVOICEELIST)
 
 export const takeOrder = createAction(TAKE_ORDER)
 export const takeExtraOrder = createAction(TAKE_EXTRA_ORDER)
@@ -76,3 +83,6 @@ export const ssnDataSucs = createAction(SSN_DATA_SUCS)
 export const ssnDataFail = createAction(SSN_DATA_FAIL)
 
 export const restructureModifiedData = createAction(RESTRUCTURE_MODIFIED_DATA)
+
+export const setOrderBucket = createAction(SET_ORDER_BUCKET)
+export const setIsNeedDistribution = createAction(SET_IS_NEED_DISTRIBUTION)

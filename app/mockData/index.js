@@ -158,3 +158,10 @@ export const mockReservationData = () => new Promise(resolve => {
     ])
   }, 2000)
 })
+
+export const mockSendAppStatus = () => new Promise(resolve => {
+  setTimeout(() => {
+    return resolve([
+    ])
+  }, 2000)
+})

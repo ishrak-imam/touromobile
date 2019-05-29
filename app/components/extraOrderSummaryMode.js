@@ -1,6 +1,9 @@
 
 import React, { Component } from 'react'
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet, TextInput,
+  TouchableOpacity, Keyboard
+} from 'react-native'
 import { ListItem, View, Text } from 'native-base'
 import { Colors, IonIcon } from '../theme'
 import FooterButtons from './footerButtons'
@@ -37,7 +40,8 @@ class ExtraOrderSummaryMode extends Component {
     const { extraOrders } = this.state
     const id = uuid.v1()
     this.setState({
-      extraOrders: extraOrders.set(id, getMap({ id }))
+      extraOrders: extraOrders.set(id, getMap({ id })),
+      dirty: true
     })
   }
 
@@ -57,10 +61,11 @@ class ExtraOrderSummaryMode extends Component {
         [id]: getMap({ id })
       })
     }
-    this.setState({ diry: false, extraOrders })
+    this.setState({ dirty: false, extraOrders })
   }
 
   _onSave = () => {
+    Keyboard.dismiss()
     const { departureId, bookingId } = this.props
     let { extraOrders } = this.state
     if (extraOrders.size) {
@@ -78,8 +83,9 @@ class ExtraOrderSummaryMode extends Component {
     if (extraOrders.size === 1) return null
     return () => {
       this.setState({
-        extraOrders: extraOrders.delete(key)
-      })
+        extraOrders: extraOrders.delete(key),
+        dirty: true
+      }, this._onSave)
     }
   }
 
@@ -140,7 +146,7 @@ export default connect(stateToProps, null)(ExtraOrderSummaryMode)
 const ss = StyleSheet.create({
   container: {
     marginLeft: 5,
-    marginTop: 10
+    marginVertical: 10
   },
   item: {
     justifyContent: 'space-between',

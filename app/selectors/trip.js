@@ -48,7 +48,7 @@ const resolvers = {
         const paxInitial = String(p.get('booking').get('id'))
         if (initial !== paxInitial) {
           initial = paxInitial
-          return getList([getMap({ first: true, initial: paxInitial, id: paxInitial }), p])
+          return getList([getMap({ first: true, initial: paxInitial, id: paxInitial, booking: p.get('booking') }), p])
         }
         return getList([p])
       }).flatten(1)
@@ -169,7 +169,8 @@ const resolvers = {
         const mealOrder = mealOrders.get(mealId)
         if (mealOrder.get('allergies')) {
           mealOrder.get('allergies').every(order => {
-            const name = `${meal.get('name')} (${order.get('allergyText')})`
+            let name = `${meal.get('name')} (${order.get('allergyText')})`
+            if (order.get('child')) name = `(${extra}) ${name}`
             list = list.push(getMap({
               allergyId: order.get('allergyId'),
               name,
@@ -208,19 +209,20 @@ export const getConnections = state => state.trips.get('connections')
 
 export const getExcursions = state => state.trips.get('current').get('trip').get('excursions')
 
-export const getFoods = (state, type) => {
-  const currentTrip = state.trips.get('current')
-  if (!currentTrip.get('has')) {
-    return false
-  }
-  const lunches = currentTrip.get('trip').get('lunches')
-  if (!lunches) {
-    return false
-  }
-  return getMap({
-    out: lunches.get('out').get(type),
-    home: lunches.get('home').get(type)
-  })
+export const getMeals = state => {
+  const lunches = state.trips.getIn(['current', 'trip', 'lunches']) || getMap({})
+  let meals = getMap({})
+  return meals
+    .set('out', lunches.getIn(['out', 'meals']))
+    .set('home', lunches.getIn(['home', 'meals']))
+}
+
+export const getDrinks = state => {
+  const lunches = state.trips.getIn(['current', 'trip', 'lunches']) || getMap({})
+  let meals = getMap({})
+  return meals
+    .set('out', lunches.getIn(['out', 'beverages']))
+    .set('home', lunches.getIn(['home', 'beverages']))
 }
 
 let sortedTripsCache = null
@@ -342,7 +344,7 @@ export const getCurrentTrip = state => {
   let trips = getSortedTrips(state.trips.get('data'))
   trips = trips.filter(trip => {
     const start = subDays(trip.get('outDate'), 3)
-    const end = addDays(trip.get('homeDate'), 2)
+    const end = addDays(trip.get('homeDate'), 5)
     return isWithinRange(dateNow, start, end)
   })
   return {

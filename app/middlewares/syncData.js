@@ -12,7 +12,7 @@ const syncData = store => next => action => {
     action.payload.data = modifiedData
     action.payload.lastSyncedTime = new Date().getTime()
   }
-  next(action)
+  return next(action)
 }
 
 export default syncData

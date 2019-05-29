@@ -22,7 +22,7 @@ const clearTransferCity = store => next => action => {
       direction: action.payload.direction
     }))
   }
-  next(action)
+  return next(action)
 }
 
 export default clearTransferCity

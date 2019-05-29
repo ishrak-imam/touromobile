@@ -1,16 +1,22 @@
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { takeFirst } from '../../utils/sagaHelpers'
 import {
   init,
   loginReq, loginSucs, loginFail,
   logoutReq, logoutSucs,
-  forgotPassReq, forgotPassSucs, forgotPassFail
+  forgotPassReq, forgotPassSucs, forgotPassFail,
+
+  sendAppStatusReq, sendAppStatusSucs, sendAppStatusFail
 } from './action'
+import config from '../../utils/config'
+
 // import { clearImageCache } from '../../components/imageCache/action'
+
+import { getUser, getConnection } from '../../selectors'
 import { navigateToScene } from '../../navigation/action'
 import localStore, { USER } from '../../utils/persist'
-import { login, forgotPass, getUserDetails } from './api'
+import { login, forgotPass, getUserDetails, sendAppStatus } from './api'
 
 export function * watchInit () {
   yield takeFirst(init.getType(), workerInit)
@@ -21,12 +27,38 @@ function * workerInit () {
     const user = yield call(localStore.get, USER)
     if (user.accessToken) {
       yield put(loginSucs(user))
+      yield put(sendAppStatusReq({ active: true, isNeedJwt: true }))
       yield put(navigateToScene({ routeName: 'App' }))
     } else {
       yield put(navigateToScene({ routeName: 'Auth' }))
     }
   } catch (e) {
     yield put(navigateToScene({ routeName: 'Auth' }))
+  }
+}
+
+export function * watchSendAppStatus () {
+  yield takeFirst(sendAppStatusReq.getType(), workerSendAppStatus)
+}
+
+function * workerSendAppStatus (action) {
+  try {
+    const { active, jwt } = action.payload
+    const user = yield select(getUser)
+    const connection = yield select(getConnection)
+    const guideId = user.get('guideId')
+    const appStatus = {
+      active,
+      phoneModel: `${config.deviceName} - ${config.deviceYear}`,
+      os: `${config.platform} - ${config.systemVersion}`,
+      mac: config.deviceId,
+      connectivity: connection.get('type') === 'wifi' ? 2 : 1,
+      appVersion: config.version
+    }
+    yield call(sendAppStatus, appStatus, guideId, jwt)
+    yield put(sendAppStatusSucs())
+  } catch (e) {
+    yield put(sendAppStatusFail())
   }
 }
 
@@ -84,6 +116,7 @@ export function * watchLogout () {
 }
 
 function * workerLogout () {
+  yield put(sendAppStatusReq({ active: false, isNeedJwt: true }))
   yield call(localStore.delete, USER)
   // yield put(clearImageCache())
   yield put(logoutSucs())

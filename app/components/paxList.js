@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import {
-  View, Text, ListItem, Right, Left
+  View, ListItem, Right, Left
 } from 'native-base'
 
 import {
@@ -11,7 +11,7 @@ import {
 } from '../selectors'
 
 import { call, sms } from '../utils/comms'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import SearchBar from '../components/searchBar'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { Colors, IonIcon } from '../theme'
@@ -116,8 +116,8 @@ class PaxItem extends Component {
           </View>
         </Left>
         <View style={ss.itemBody}>
-          <Text numberOfLines={2}>{name}</Text>
-          {comment && <Text note>{paxComment}</Text>}
+          <Text style={ss.name} numberOfLines={2}>{name}</Text>
+          {comment && <Text style={ss.comment}>{paxComment}</Text>}
         </View>
         <Right style={ss.itemRight}>
           <View style={ss.iconCon}>
@@ -311,6 +311,13 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
+  name: {
+    fontSize: 15
+  },
+  comment: {
+    marginTop: 5,
+    color: Colors.steel
+  },
   itemRight: {
     flex: 3,
     flexDirection: 'row',
@@ -338,7 +345,8 @@ const ss = StyleSheet.create({
   },
   listItem: {
     marginLeft: 0,
-    paddingRight: 5
+    paddingRight: 0,
+    marginRight: 0
   },
   itemDivider: {
     backgroundColor: Colors.blue

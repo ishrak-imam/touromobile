@@ -15,7 +15,7 @@ import {
 } from '../selectors'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { uploadStatsReq } from '../modules/reports/action'
-import { getMap } from '../utils/immutable'
+import { getMap, listToMap } from '../utils/immutable'
 import { percentage } from '../utils/mathHelpers'
 import { connect } from 'react-redux'
 import _T from '../utils/translator'
@@ -82,15 +82,81 @@ class PastTripCard extends Component {
     }))
   }
 
+  _checkForIssuesInOrder = (orders, possibleIssues) => {
+    const { trip } = this.props
+    const brand = trip.get('brand')
+    const departureId = trip.get('departureId')
+    const bookings = listToMap(trip.get('bookings'), 'id')
+
+    const orderProblems = {
+      canUploadReport: false
+    }
+
+    possibleIssues.reduce((map, issue) => {
+      if (issue === 'Invoicee') {
+        map[issue] = {
+          desc: `missing${issue}`,
+          bookings: []
+        }
+        orders.every((order, id) => {
+          const invoicee = order.get('invoicee')
+          if (!invoicee || !invoicee.size) {
+            map.canUploadReport = true
+            map[issue].bookings.push({
+              booking: bookings.get(id),
+              id,
+              brand,
+              departureId
+            })
+          }
+          return true
+        })
+      }
+
+      if (issue === 'Distribution') {
+        map[issue] = {
+          desc: `pending${issue}`,
+          bookings: []
+        }
+        orders.every((order, id) => {
+          const invoicee = order.get('invoicee')
+          if (!invoicee || (invoicee.size > 1 && order.get('isNeedDistribution'))) {
+            map.canUploadReport = true
+            map[issue].bookings.push({
+              booking: bookings.get(id),
+              id,
+              brand,
+              departureId
+            })
+          }
+          return true
+        })
+      }
+
+      return map
+    }, orderProblems)
+
+    return orderProblems
+  }
+
   _renderUploadButton = () => {
-    const { modifiedTripData } = this.props
+    const { modifiedTripData, orders } = this.props
+
+    const issues = ['Invoicee', 'Distribution']
+    const { canUploadReport } = this._checkForIssuesInOrder(orders, issues)
+    const backgroundColor = canUploadReport ? Colors.steel : Colors.blue
+
     const isLoading = modifiedTripData ? modifiedTripData.get('isLoading') : false
     return (
       <View style={{ paddingTop: 10 }}>
         {
           isLoading
             ? <Spinner color={Colors.blue} size='small' style={{ paddingVertical: 10 }} />
-            : <TouchableOpacity style={ss.uploadButton} onPress={this._uploadStats}>
+            : <TouchableOpacity
+              disabled={canUploadReport}
+              style={[ss.uploadButton, { backgroundColor }]}
+              onPress={this._uploadStats}
+            >
               <IonIcon name='upload' color={Colors.white} style={ss.uploadIcon} />
               <Text style={ss.uploadButtonText}>{_T('uploadReport')}</Text>
             </TouchableOpacity>
@@ -274,8 +340,7 @@ const ss = StyleSheet.create({
     borderRadius: 5,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.blue
+    alignItems: 'center'
   },
   uploadButtonText: {
     color: Colors.silver,

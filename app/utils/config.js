@@ -25,6 +25,9 @@ const OS = Platform.OS
 
 const isDevice = Constants.isDevice
 const deviceName = Constants.deviceName
+const systemVersion = OS === 'ios' ? Constants.platform['ios'].systemVersion : Constants.systemVersion
+const expoSDKVersion = Constants.manifest.sdkVersion
+const deviceYear = Constants.deviceYearClass
 const deviceId = Constants.deviceId
 
 const useMockData = !isProduction && !isStaging
@@ -42,6 +45,9 @@ const config = {
   isStaging,
   isDevice,
   deviceName,
+  deviceYear,
+  systemVersion,
+  expoSDKVersion,
   deviceId,
   useMockData,
   ssnAuthToken,

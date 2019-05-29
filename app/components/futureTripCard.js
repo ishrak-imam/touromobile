@@ -3,7 +3,10 @@ import {
   StyleSheet,
   View, TouchableOpacity
 } from 'react-native'
-import { Text, CheckBox } from 'native-base'
+import {
+  Text
+  // CheckBox
+} from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import ImageCache from './imageCache'
 import { LinearGradient } from 'expo'
@@ -367,15 +370,15 @@ class FutureTripCard extends Component {
 
   _renderCardTop = transportType => {
     const { tab } = this.state
-    const { isAccepted, acceptedAt, dirty } = this.acceptData
+    // const { isAccepted, acceptedAt, dirty } = this.acceptData
 
-    const acceptText = isAccepted && acceptedAt && !dirty
-      ? `${_T('acceptedAt')} ${format(acceptedAt, DATE_FORMAT)}`
-      : `${_T('accept')}`
+    // const acceptText = isAccepted && acceptedAt && !dirty
+    //   ? `${_T('acceptedAt')} ${format(acceptedAt, DATE_FORMAT)}`
+    //   : `${_T('accept')}`
 
     return (
       <View style={ss.futureTtip}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={ss.futureTripCheck}
           disabled={this.shouldLockTrip}
           onPress={this._setAcceptTrip}
@@ -385,7 +388,7 @@ class FutureTripCard extends Component {
             checked={isAccepted}
           />
           <Text style={ss.checkText}>{acceptText}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View style={ss.comboTabs}>
           <View style={ss.outHomeTabs}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
@@ -451,8 +454,12 @@ class FutureTripCard extends Component {
     const pax = getPax(trip)
     const transportType = transport ? transport.get('type') : ''
     const isDisabled = this.shouldLockTrip
-    const cardHeight = isDisabled ? 490 : 450
-    const imageConHeight = isDisabled ? 430 : 390
+
+    // const cardHeight = isDisabled ? 490 : 450
+    // const imageConHeight = isDisabled ? 430 : 390
+
+    const cardHeight = isDisabled ? 470 : 430
+    const imageConHeight = isDisabled ? 410 : 370
 
     return (
       <View style={[ss.card, { height: cardHeight }]}>
@@ -690,6 +697,7 @@ const ss = StyleSheet.create({
     marginLeft: 25
   },
   comboTabs: {
+    marginTop: 10,
     flex: 5
   },
   outHomeTabs: {

@@ -7,7 +7,10 @@ import _T from '../utils/translator'
 
 export default class FooterButtons extends Component {
   render () {
-    const { onCancel, onSave, style, disabled, hideCancel } = this.props
+    const {
+      onCancel, onSave, style,
+      disabled, hideCancel, buttonHeight
+    } = this.props
     return (
       <View style={StyleSheet.flatten([ss.item, style])}>
 
@@ -15,6 +18,7 @@ export default class FooterButtons extends Component {
           hideCancel
             ? null
             : <OutLineButton
+              buttonHeight={buttonHeight}
               disabled={disabled}
               text={_T('cancel')}
               color={Colors.cancel}
@@ -23,6 +27,7 @@ export default class FooterButtons extends Component {
         }
 
         <OutLineButton
+          buttonHeight={buttonHeight}
           disabled={disabled}
           text={_T('save')}
           color={Colors.green}

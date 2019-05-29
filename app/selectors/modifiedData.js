@@ -1,4 +1,4 @@
-import { getMap, getList, isMap } from '../utils/immutable'
+import { getMap, getList, isMap, getSet } from '../utils/immutable'
 
 import { getTripByDepartureId } from './trip'
 
@@ -71,6 +71,7 @@ export const getOrdersByDirection = (state, departureId, direction) => {
                   allergyText: order.get('allergyText')
                 }))
               }
+              return true
             })
           }
 
@@ -125,6 +126,31 @@ export const getOrders = (state, departureId) => {
               booking: bookingId
             }))
           }
+
+          const allergies = meal.get('allergies')
+          if (allergies && allergies.size) {
+            allergies.every(item => {
+              const mealId = item.get('mealId')
+              for (let i = 0; i < item.get('adultCount'); i++) {
+                list = list.push(getMap({
+                  meal: mealId,
+                  drink: null,
+                  adult: true,
+                  booking: bookingId
+                }))
+              }
+              for (let i = 0; i < item.get('childCount'); i++) {
+                list = list.push(getMap({
+                  meal: mealId,
+                  drink: null,
+                  adult: false,
+                  booking: bookingId
+                }))
+              }
+              return true
+            })
+          }
+
           return list
         }, getList([]))))
       }
@@ -166,6 +192,31 @@ export const getOrders = (state, departureId) => {
               booking: bookingId
             }))
           }
+
+          const allergies = meal.get('allergies')
+          if (allergies && allergies.size) {
+            allergies.every(item => {
+              const mealId = item.get('mealId')
+              for (let i = 0; i < item.get('adultCount'); i++) {
+                list = list.push(getMap({
+                  meal: mealId,
+                  drink: null,
+                  adult: true,
+                  booking: bookingId
+                }))
+              }
+              for (let i = 0; i < item.get('childCount'); i++) {
+                list = list.push(getMap({
+                  meal: mealId,
+                  drink: null,
+                  adult: false,
+                  booking: bookingId
+                }))
+              }
+              return true
+            })
+          }
+
           return list
         }, getList([]))))
       }
@@ -224,4 +275,47 @@ export const getAcceptedAssignments = state => {
     }
     return list
   }, getList([]))
+}
+
+export const getParticipantsByBooking = (state, departureId, bookingId) => {
+  const participants = state.modifiedData.getIn([departureId, 'participants']) || getMap({})
+
+  return participants.map((excursion, excursionId) => {
+    const participants = excursion.get(bookingId)
+    if (participants) {
+      return participants || getSet([])
+    }
+  })
+}
+
+export const getExtraOrdersByBooking = (state, departureId, bookingId) => {
+  return state.modifiedData.getIn([departureId, 'extraOrders', bookingId]) || getMap({})
+}
+
+export const getOrdersByBooking = (state, departureId, bookingId) => {
+  const orders = state.modifiedData.getIn([departureId, 'orders', bookingId]) || getMap({})
+
+  const def = getMap({
+    meal: getMap({}),
+    drink: getMap({})
+  })
+
+  if (orders.size > 0) {
+    return getMap({
+      home: orders.get('home') || def,
+      out: orders.get('out') || def
+    })
+  }
+  return getMap({
+    home: def,
+    out: def
+  })
+}
+
+export const getBucket = (state, departureId, bookingId) => {
+  return state.modifiedData.getIn([departureId, 'orders', bookingId, 'bucket']) || getMap({})
+}
+
+export const getDistributionFlag = (state, departureId, bookingId) => {
+  return !!state.modifiedData.getIn([departureId, 'orders', bookingId, 'isNeedDistribution'])
 }

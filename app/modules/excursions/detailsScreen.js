@@ -13,7 +13,7 @@ import {
   TouchableOpacity, Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
-import { getSet, getMap } from '../../utils/immutable'
+import { getSet, getMap, getImmutableObject } from '../../utils/immutable'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { setParticipants } from '../modifiedData/action'
 import { IonIcon, Colors } from '../../theme'
@@ -53,11 +53,12 @@ class PaxListItem extends Component {
     const paxId = String(pax.id)
     const checked = pax.excursionPack
     const bookingId = String(pax.booking.id)
+    const booking = pax.booking
     // const key = `${paxId}${bookingId}`
     const name = `${pax.firstName} ${pax.lastName}`
 
     return (
-      <TouchableOpacity style={ss.item} onPress={onPress(paxId, bookingId, checked)}>
+      <TouchableOpacity style={ss.item} onPress={onPress(paxId, getImmutableObject(booking), bookingId, checked)}>
         <View style={{ flex: 1 }}>
           <CheckBox checked={checked || selected} />
         </View>
@@ -88,7 +89,7 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _onPress = (paxId, bookingId, checked) => {
+  _onPress = (paxId, booking, bookingId, checked) => {
     const { navigation, currentTrip } = this.props
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
@@ -103,7 +104,8 @@ class ExcursionDetailsScreen extends Component {
           departureId,
           bookingId,
           excursionId,
-          participants: bParticipants
+          participants: bParticipants,
+          booking
         }))
       }
     }
@@ -137,7 +139,7 @@ class ExcursionDetailsScreen extends Component {
     }
   }
 
-  _onSectionHeaderPress = (isAllSelected, pax, participants, bookingId) => {
+  _onSectionHeaderPress = (isAllSelected, pax, participants, booking, bookingId) => {
     const { currentTrip, navigation } = this.props
     const excursion = navigation.getParam('excursion')
     const excursionId = String(excursion.get('id'))
@@ -155,7 +157,8 @@ class ExcursionDetailsScreen extends Component {
         departureId,
         bookingId,
         excursionId,
-        participants: bParticipants
+        participants: bParticipants,
+        booking
       }))
     }
   }
@@ -171,7 +174,7 @@ class ExcursionDetailsScreen extends Component {
         let iconColor = null
         if (groupByBooking) {
           const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId, participants)
-          if (!isAllHasPack) onPress = this._onSectionHeaderPress(isAllSelected, pax, participants, bookingId)
+          if (!isAllHasPack) onPress = this._onSectionHeaderPress(isAllSelected, pax, participants, getImmutableObject(item.booking), bookingId)
           iconName = 'checkOutline'
           iconColor = Colors.black
           if (isAllSelected || isAnySelected || isAllHasPack) {

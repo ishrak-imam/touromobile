@@ -144,7 +144,8 @@ export default {
   createdAt: 'Created at',
   noAssignments: 'No assignment accepted yet',
   sendMeCopy: 'Send me a copy',
-  missingInvoicee: 'Missing Invoicee',
+  missingInvoicee: 'Missing invoicee',
+  pendingDistribution: 'Distribution pending',
   otherAllergy: 'Other allergy',
   gluten: 'Gluten',
   lactose: 'Lactose',
@@ -155,5 +156,8 @@ export default {
   egg: 'Egg',
   celery: 'celery',
   add: 'Add',
-  remove: 'Remove'
+  remove: 'Remove',
+  distributeOrders: 'Distribute orders',
+  distributionInstruction: 'Distributed orders should be equal to the total orders',
+  totalOrder: 'Total order'
 }

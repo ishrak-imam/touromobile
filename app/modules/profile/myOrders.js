@@ -168,10 +168,10 @@ class MyOrderCard extends Component {
     const { tab } = this.state
     return (
       <View style={ss.futureTtip}>
-        <View style={ss.futureTripCheck}>
+        {/* <View style={ss.futureTripCheck}>
           <CheckBox disabled checked />
           <Text style={ss.checkText}>{_T('acceptedAt')} {format(acceptedAt, DATE_FORMAT)}</Text>
-        </View>
+        </View> */}
         <View style={ss.comboTabs}>
           <View style={ss.outHomeTabs}>
             <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
@@ -302,7 +302,7 @@ const ss = StyleSheet.create({
   card: {
     borderRadius: 10,
     marginBottom: 15,
-    height: 450
+    height: 430
   },
   cardHeader: {
     height: 60,
@@ -324,7 +324,7 @@ const ss = StyleSheet.create({
   imageContainer: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    height: 390,
+    height: 370,
     overflow: 'hidden' // needed for iOS
   },
   cardImage: {
@@ -377,7 +377,8 @@ const ss = StyleSheet.create({
     marginLeft: 25
   },
   comboTabs: {
-    flex: 5
+    flex: 5,
+    marginTop: 10
   },
   outHomeTabs: {
     marginBottom: 10

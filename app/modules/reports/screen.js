@@ -7,7 +7,7 @@ import _T from '../../utils/translator'
 import {
   currentTripSelector, getStatsData, getOrderStats,
   getParticipants, getTripExcursions, getReports, getOrders,
-  getAllOrders, getPax, getSortedPax, getFoods, checkIfFlightTrip,
+  getAllOrders, getPax, getMeals, getDrinks, checkIfFlightTrip,
   getSortedBookings, getUser, getModifiedPax,
   getAllExtraOrders
 } from '../../selectors'
@@ -17,6 +17,7 @@ import { connect } from 'react-redux'
 import { networkActionDispatcher } from '../../utils/actionDispatcher'
 import { uploadStatsReq } from './action'
 import FloatingButton from '../../components/floatingButton'
+import { listToMap } from '../../utils/immutable'
 
 const EXCURSIONS = 'EXCURSIONS'
 const ORDERS = 'ORDERS'
@@ -96,27 +97,62 @@ class ReportsScreen extends Component {
   }
 
   _checkForIssuesInOrder = (orders, possibleIssues) => {
+    const trip = this.props.currentTrip.get('trip')
+    const brand = trip.get('brand')
+    const departureId = trip.get('departureId')
+    let bookings = trip.get('bookings')
+
     const orderProblems = {
-      canUploadReport: true
+      canUploadReport: false
     }
 
-    possibleIssues.reduce((map, issue) => {
-      if (issue === 'Invoicee') {
-        map[issue] = {
-          desc: `missing${issue}`,
-          bookings: []
-        }
-        orders.every((order, booking) => {
-          const invoicee = !!order.get('invoicee')
-          if (!invoicee) {
-            map.canUploadReport = false
-            map[issue].bookings.push(booking)
+    if (bookings) {
+      bookings = listToMap(bookings, 'id')
+
+      possibleIssues.reduce((map, issue) => {
+        if (issue === 'Invoicee') {
+          map[issue] = {
+            desc: `missing${issue}`,
+            bookings: []
           }
-          return true
-        })
-      }
-      return map
-    }, orderProblems)
+          orders.every((order, id) => {
+            const invoicee = order.get('invoicee')
+            if (!invoicee || !invoicee.size) {
+              map.canUploadReport = true
+              map[issue].bookings.push({
+                booking: bookings.get(id),
+                id,
+                brand,
+                departureId
+              })
+            }
+            return true
+          })
+        }
+
+        if (issue === 'Distribution') {
+          map[issue] = {
+            desc: `pending${issue}`,
+            bookings: []
+          }
+          orders.every((order, id) => {
+            const invoicee = order.get('invoicee')
+            if (!invoicee || (invoicee.size > 1 && order.get('isNeedDistribution'))) {
+              map.canUploadReport = true
+              map[issue].bookings.push({
+                booking: bookings.get(id),
+                id,
+                brand,
+                departureId
+              })
+            }
+            return true
+          })
+        }
+
+        return map
+      }, orderProblems)
+    }
 
     return orderProblems
   }
@@ -129,11 +165,12 @@ class ReportsScreen extends Component {
       allOrders
     } = this.props
 
-    const issues = ['Invoicee']
+    const issues = ['Invoicee', 'Distribution']
 
     const orderIssues = this._checkForIssuesInOrder(allOrders, issues)
 
     const trip = currentTrip.get('trip')
+    const departureId = trip.get('departureId')
     const brand = trip.get('brand')
     const isDataReady = currentTrip.get('has')
     const isFlight = checkIfFlightTrip(trip)
@@ -167,13 +204,15 @@ class ReportsScreen extends Component {
             isFlight={isFlight}
             orderIssues={orderIssues}
             issues={issues}
+            brand={brand}
+            departureId={departureId}
           />
         }
 
         {
           isDataReady && excursions && !!excursions.size &&
           <FloatingButton
-            disabled={!orderIssues.canUploadReport}
+            disabled={orderIssues.canUploadReport}
             topOffset={130} icon='upload'
             onPress={this._onUpload}
             loading={reports.get('isLoading')}
@@ -195,8 +234,8 @@ const stateToProps = state => {
     reports: getReports(state),
     orders: getOrders(state, departureId),
     allOrders: getAllOrders(state, departureId),
-    meals: getFoods(state, 'meals'),
-    beverages: getFoods(state, 'beverages'),
+    meals: getMeals(state),
+    beverages: getDrinks(state),
     user: getUser(state),
     modifiedPax: getModifiedPax(state, departureId),
     extraOrders: getAllExtraOrders(state, departureId)
