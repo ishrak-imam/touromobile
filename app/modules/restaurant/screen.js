@@ -12,11 +12,12 @@ import { IonIcon, Colors } from '../../theme'
 // import isEmpty from '../../utils/isEmpty'
 import isIphoneX from '../../utils/isIphoneX'
 import _T from '../../utils/translator'
-import { listToMap } from '../../utils/immutable'
+import { listToMap, getSet } from '../../utils/immutable'
 import { connect } from 'react-redux'
-import { getOrdersByDirection, getPaxByHotel } from '../../selectors'
+import { getOrdersByDirection, getPaxByHotel, getHideMyPhone } from '../../selectors'
 import PaxInThisHotel from '../../components/paxWithoutOrder'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import { navigate } from '../../navigation/service'
 
 // const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
@@ -94,6 +95,13 @@ class RestaurantScreen extends Component {
     )
   }
 
+  _sms = phone => {
+    const { brand, hideMyPhone } = this.props
+    hideMyPhone
+      ? navigate('SMS', { numbers: getSet([phone]), brand })
+      : sms(phone)
+  }
+
   _renderComs = restaurant => {
     const url = restaurant.get('url')
     const phone = restaurant.get('phone')
@@ -102,7 +110,7 @@ class RestaurantScreen extends Component {
         <Body style={ss.comms}>
           {!!url && <IconButton name='web' color={Colors.blue} onPress={() => web(url)} />}
           {!!phone && <IconButton name='phone' color={Colors.green} onPress={() => call(phone)} />}
-          {!!phone && <IconButton name='sms' color={Colors.blue} onPress={() => sms(phone)} />}
+          {!!phone && <IconButton name='sms' color={Colors.blue} onPress={() => this._sms(phone)} />}
         </Body>
       </CardItem>
     )
@@ -289,6 +297,7 @@ const stateToProps = (state, props) => {
   const departureId = navigation.getParam('departureId')
   const restaurant = navigation.getParam('restaurant')
   return {
+    hideMyPhone: getHideMyPhone(state),
     orders: getOrdersByDirection(state, departureId, direction),
     paxByHotel: getPaxByHotel(state, restaurant.get('id'))
   }
