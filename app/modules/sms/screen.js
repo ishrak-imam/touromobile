@@ -89,7 +89,6 @@ class SMSScreen extends Component {
     const numbers = navigation.getParam('numbers')
     const brand = navigation.getParam('brand')
 
-    console.log(numbers, brand)
     return (
       <Container>
         <Header

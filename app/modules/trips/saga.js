@@ -43,7 +43,9 @@ import {
 import { showModal } from '../../modal/action'
 
 import {
-  getTrips, acceptAssignment, confirmReservations,
+  getTrips,
+  // acceptAssignment,
+  confirmReservations,
   getConnections, getReservations
 } from './api'
 
@@ -208,6 +210,9 @@ function * workerAcceptTrip (action) {
     showToast, sucsMsg, failMsg
   } = action.payload
   try {
+    /**
+     * TODO: consecutive call effects can be made parallel
+     */
     // yield call(acceptAssignment, guideId, departureId, acceptData, jwt)
     yield call(confirmReservations, guideId, departureId, reservationData, jwt)
     yield put(acceptTripSucs({

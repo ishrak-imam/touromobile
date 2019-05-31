@@ -12,7 +12,9 @@ import {
   SEND_PENDING_SMS_FAIL,
 
   STORE_PENDING_SMS,
-  DELETE_PENDING_SMS
+  DELETE_PENDING_SMS,
+
+  HIDE_MY_NUMBER_TOGGLE
 } from './action'
 
 import { SMS_INITIAL_STATE } from './immutable'
@@ -56,5 +58,10 @@ export const sms = createReducer(SMS_INITIAL_STATE, {
     sms = setIntoMap(sms, 'isLoading', false)
     pendings = setIntoMap(pendings, payload.smsId, sms)
     return setIntoMap(state, 'pendings', pendings)
-  }
+  },
+
+  [HIDE_MY_NUMBER_TOGGLE]: (state, payload) => {
+    const toggle = readValue('hideMyPhone', state)
+    return setIntoMap(state, 'hideMyPhone', !toggle)
+  } // setIntoMap(state, 'hideMyPhone', payload)
 })

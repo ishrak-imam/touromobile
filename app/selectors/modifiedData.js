@@ -261,15 +261,25 @@ export const getLastSyncedTime = state => {
   return state.modifiedData.get('lastSyncedTime')
 }
 
-export const getAcceptedAssignments = state => {
+export const getAcceptedAssignments = (state, depIds, reservations) => {
   const modifiedData = state.modifiedData
+
+  if (reservations.size) {
+    return reservations.reduce((list, resv, key) => {
+      const departureId = key
+      resv = resv.set('trip', getTripByDepartureId(state, departureId)).set('departureId', key)
+      list = list.push(resv)
+      return list
+    }, getList([]))
+  }
+
   return modifiedData.reduce((list, tripData, key) => {
     if (isMap(tripData)) {
       const departureId = key
       const isAccepted = tripData.getIn(['accept', 'acceptedAt'])
-      if (isAccepted) {
+      if (isAccepted || depIds.has(departureId)) {
         let accept = tripData.get('accept')
-        accept = accept.set('trip', getTripByDepartureId(state, departureId))
+        accept = accept.set('trip', getTripByDepartureId(state, departureId)).set('departureId', key)
         list = list.push(accept)
       }
     }

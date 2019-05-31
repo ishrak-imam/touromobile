@@ -112,5 +112,6 @@ export const {
 export const {
   getSmsLoading,
   getPendingSms,
-  pendingSmsCount
+  pendingSmsCount,
+  getHideMyPhone
 } = require('./sms')

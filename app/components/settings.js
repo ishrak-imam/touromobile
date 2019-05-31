@@ -3,24 +3,31 @@ import React, { Component } from 'react'
 import { View, Body, Text, ListItem } from 'native-base'
 import { StyleSheet } from 'react-native'
 import { toggleTabLabels } from '../modules/profile/action'
+import { hideMyNumberToggle } from '../modules/sms/action'
 import { actionDispatcher } from '../utils/actionDispatcher'
-import { getProfile } from '../selectors'
+import { getProfile, getHideMyPhone } from '../selectors'
 import { connect } from 'react-redux'
 import _T from '../utils/translator'
 import CheckBox from './checkBox'
 
 class Settings extends Component {
   shouldComponentUpdate (nextProps) {
-    return nextProps.profile.get('showLabel') !== this.props.profile.get('showLabel')
+    return nextProps.profile.get('showLabel') !== this.props.profile.get('showLabel') ||
+          nextProps.hideMyPhone !== this.props.hideMyPhone
   }
 
   _toggleLabel = () => {
     actionDispatcher(toggleTabLabels())
   }
 
+  _toggleHideMyPhone = () => {
+    actionDispatcher(hideMyNumberToggle())
+  }
+
   render () {
-    const { profile } = this.props
+    const { profile, hideMyPhone } = this.props
     const showLabel = profile.get('showLabel')
+
     return (
       <View style={ss.container}>
         <ListItem style={ss.header}>
@@ -36,6 +43,21 @@ class Settings extends Component {
             </Body>
           </ListItem>
         </View>
+
+        <ListItem style={ss.header}>
+          <View>
+            <Text style={ss.boldText}>Hide my private phone number</Text>
+          </View>
+        </ListItem>
+        <View style={ss.options}>
+          <ListItem style={ss.private} onPress={this._toggleHideMyPhone}>
+            <CheckBox checked={hideMyPhone} />
+            <Body style={ss.right}>
+              <Text>Always send SMS with the Maxli Travel Group phone number, to avoid making my phone number available to passengers.</Text>
+              <Text note style={ss.italic}>This is useful if you use Touro on your private phone.</Text>
+            </Body>
+          </ListItem>
+        </View>
       </View>
 
     )
@@ -43,7 +65,8 @@ class Settings extends Component {
 }
 
 const stateToProps = state => ({
-  profile: getProfile(state)
+  profile: getProfile(state),
+  hideMyPhone: getHideMyPhone(state)
 })
 
 export default connect(stateToProps, null)(Settings)
@@ -63,6 +86,16 @@ const ss = StyleSheet.create({
     borderBottomWidth: 0,
     paddingTop: 5,
     paddingBottom: 10
+  },
+  private: {
+    borderBottomWidth: 0,
+    paddingTop: 5,
+    paddingBottom: 10,
+    alignItems: 'flex-start'
+  },
+  italic: {
+    fontStyle: 'italic',
+    marginTop: 10
   },
   options: {
 

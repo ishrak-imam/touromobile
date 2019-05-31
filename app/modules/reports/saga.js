@@ -22,6 +22,9 @@ function * workerUploadStats (action) {
   } = action.payload
 
   try {
+    /**
+     * TODO: consecutive call effects can be made parallel
+     */
     yield call(uploadStats, guideId, departureId, statsData, jwt)
     if (!isFlight) yield call(uploadOrderStats, guideId, departureId, orderStats, jwt)
     yield put(uploadStatsSucs({

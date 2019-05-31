@@ -28,7 +28,7 @@ import {
   getDefaultHotel,
   getAccommodationOptions
 } from '../../utils/futureTrip'
-import { getMap } from '../../utils/immutable'
+import { getMap, getSet } from '../../utils/immutable'
 
 const DATE_FORMAT = 'DD/MM'
 
@@ -191,15 +191,21 @@ class MyOrderCard extends Component {
 
   render () {
     const { order, reservations } = this.props
+
     const trip = order.get('trip')
-    let out = this._objectFlatten(order.get('out') || getMap({}))
-    let home = this._objectFlatten(order.get('home') || getMap({}))
+
+    let out = getMap({})
+    let home = getMap({})
 
     const departureId = String(trip.get('departureId'))
     const reservation = reservations.get(departureId)
+
     if (reservation) {
       out = reservation.get('out')
       home = reservation.get('home')
+    } else {
+      out = this._objectFlatten(order.get('out'))
+      home = this._objectFlatten(order.get('home'))
     }
 
     const acceptedAt = order.get('acceptedAt')
@@ -272,6 +278,7 @@ class MyOrders extends Component {
 
   render () {
     const { acceptedAssignments, navigation } = this.props
+
     return (
       <Container>
         <Header left='back' title={_T('myOrders')} navigation={navigation} />
@@ -280,7 +287,7 @@ class MyOrders extends Component {
           contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
           immutableData={acceptedAssignments}
           renderItem={this._renderCard}
-          keyExtractor={item => item.get('acceptedAt')}
+          keyExtractor={item => item.get('departureId')}
           renderEmptyInList={_T('noAssignments')}
         />
 
@@ -289,12 +296,21 @@ class MyOrders extends Component {
   }
 }
 
-const stateToProps = state => ({
-  acceptedAssignments: getAcceptedAssignments(state),
-  reservations: getReservations(state),
-  connections: getConnections(state),
-  user: getUser(state)
-})
+const stateToProps = state => {
+  const reservations = getReservations(state)
+
+  const depIds = reservations.reduce((set, rev) => {
+    set = set.add(String(rev.get('departure')))
+    return set
+  }, getSet([]))
+
+  return {
+    acceptedAssignments: getAcceptedAssignments(state, depIds, reservations),
+    reservations,
+    connections: getConnections(state),
+    user: getUser(state)
+  }
+}
 
 export default connect(stateToProps, null)(MyOrders)
 
