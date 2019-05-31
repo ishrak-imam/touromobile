@@ -7,7 +7,8 @@ import {
 import {
   getSortedPax, getPaxDataGroup, getPax,
   filterPaxBySearchText, getModifiedPax,
-  checkIfFlightTrip, getTransportType
+  checkIfFlightTrip, getTransportType,
+  getHideMyPhone
 } from '../selectors'
 
 import { call, sms } from '../utils/comms'
@@ -17,8 +18,9 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { Colors, IonIcon } from '../theme'
 import _T from '../utils/translator'
 import { connect } from 'react-redux'
-import { mergeMapShallow } from '../utils/immutable'
+import { mergeMapShallow, getSet } from '../utils/immutable'
 import ContextMenu from './contextMenu'
+import { navigate } from '../navigation/service'
 
 const CONTEXT_OPTIONS = {
   firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },
@@ -43,12 +45,19 @@ class PaxItem extends Component {
             nextProps.tripType !== this.props.tripType
   }
 
+  _sms = phone => {
+    const { brand, hideMyPhone } = this.props
+    hideMyPhone
+      ? navigate('SMS', { numbers: getSet([phone]), brand })
+      : sms(phone)
+  }
+
   _renderPhone = number => (
     <IonIcon name='phone' color={Colors.green} onPress={() => call(number)} />
   )
 
   _renderSMS = number => (
-    <IonIcon name='sms' color={Colors.blue} onPress={() => sms(number)} />
+    <IonIcon name='sms' color={Colors.blue} onPress={() => this._sms(number)} />
   )
 
   _commentToggle = () => {
@@ -163,7 +172,7 @@ class PaxList extends Component {
   }
 
   _renderPerson = tripType => {
-    const { modifiedPax, trip } = this.props
+    const { modifiedPax, trip, hideMyPhone } = this.props
     const { groupBy } = this.state
     return ({ item }) => {
       const paxId = String(item.get('id'))
@@ -175,6 +184,8 @@ class PaxList extends Component {
           groupBy={groupBy}
           hotels={trip.get('hotels')}
           tripType={tripType}
+          hideMyPhone={hideMyPhone}
+          brand={trip.get('brand')}
         />
       )
     }
@@ -291,6 +302,7 @@ const stateToProps = (state, props) => {
   const { trip } = props
   const departureId = String(trip.get('departureId'))
   return {
+    hideMyPhone: getHideMyPhone(state),
     modifiedPax: getModifiedPax(state, departureId)
   }
 }

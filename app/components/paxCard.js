@@ -12,8 +12,8 @@ import isIOS from '../utils/isIOS'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { modifyPaxData } from '../modules/modifiedData/action'
 import { connect } from 'react-redux'
-import { getModifiedPax } from '../selectors'
-import { mergeMapShallow } from '../utils/immutable'
+import { getModifiedPax, getHideMyPhone } from '../selectors'
+import { mergeMapShallow, getSet } from '../utils/immutable'
 import FooterButtons from './footerButtons'
 import CheckBox from './checkBox'
 import { navigate } from '../navigation/service'
@@ -82,9 +82,16 @@ class PaxCard extends Component {
       : <Text note>{phone}</Text>
   }
 
+  _sms = phone => {
+    const { brand, hideMyPhone } = this.props
+    hideMyPhone
+      ? navigate('SMS', { numbers: getSet([phone]), brand })
+      : sms(phone)
+  }
+
   _renderPhone = phone => {
     const phnOnPress = phone ? () => call(phone) : () => {}
-    const smsOnPress = phone ? () => sms(phone) : () => {}
+    const smsOnPress = phone ? () => this._sms(phone) : () => {}
     const phnColor = phone ? Colors.green : Colors.charcoal
     const smsColor = phone ? Colors.blue : Colors.charcoal
 
@@ -258,6 +265,7 @@ class PaxCard extends Component {
 const stateToProps = (state, props) => {
   const { departureId } = props
   return {
+    hideMyPhone: getHideMyPhone(state),
     modifiedPax: getModifiedPax(state, departureId)
   }
 }

@@ -13,14 +13,16 @@ import _T from '../utils/translator'
 import { format, isSameDay } from 'date-fns'
 import {
   getPax, getModifiedPax, checkIfFlightTrip, getPhoneNumbers,
-  getFlightPax, getFlightPaxPhones, checkIfBusTrip
+  getFlightPax, getFlightPaxPhones, checkIfBusTrip,
+  getHideMyPhone
 } from '../selectors'
 import { call, sms } from '../utils/comms'
 import Button from '../components/button'
 import ImageCache from './imageCache'
 import { connect } from 'react-redux'
-import { getMap } from '../utils/immutable'
+import { getMap, getSet } from '../utils/immutable'
 import { tripNameFormatter } from '../utils/stringHelpers'
+import { navigate } from '../navigation/service'
 
 const DATE_FORMAT = 'DD/MM'
 const FLIGHT_TIME_FORMAT = 'HH:mm'
@@ -37,8 +39,15 @@ class Trip extends Component {
     <IconButton name='phone' color={Colors.green} onPress={() => call(phone)} />
   )
 
+  _sms = phone => {
+    const { brand, hideMyPhone } = this.props
+    hideMyPhone
+      ? navigate('SMS', { numbers: getSet([phone]), brand })
+      : sms(phone)
+  }
+
   _renderSMS = phone => (
-    <IconButton name='sms' color={Colors.blue} onPress={() => sms(phone)} />
+    <IconButton name='sms' color={Colors.blue} onPress={() => this._sms(phone)} />
   )
 
   _smsAll = (pax, brand) => {
@@ -392,6 +401,7 @@ const stateToProps = (state, props) => {
   const { trip } = props
   const departureId = String(trip.get('departureId'))
   return {
+    hideMyPhone: getHideMyPhone(state),
     modifiedPax: getModifiedPax(state, departureId)
   }
 }
