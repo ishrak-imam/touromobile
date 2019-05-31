@@ -86,11 +86,9 @@ class ProfileScreen extends Component {
 }
 
 const stateToProps = (state, props) => {
-  const departureId = props.navigation.getParam('departureId')
   return {
     profile: getProfile(state),
     user: getUser(state),
-    isAnyOrder: departureId ? checkIfAnyOrderMade(state, departureId) : false,
     currentTrip: currentTripSelector(state)
   }
 }

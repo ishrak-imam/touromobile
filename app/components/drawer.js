@@ -53,9 +53,8 @@ class TMDrawer extends Component {
   }
 
   _toProfile = () => {
-    const { navigation, currentTrip } = this.props
-    const departureId = currentTrip.get('has') ? String(currentTrip.get('trip').get('departureId')) : null
-    navigation.navigate('Profile', { departureId })
+    const { navigation } = this.props
+    navigation.navigate('Profile')
   }
 
   _renderVersionNumber = () => {
