@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native'
 import { connect } from 'react-redux'
 import {
   networkActionDispatcher, actionDispatcher
@@ -89,16 +89,24 @@ class TripsLoading extends Component {
     }))
   }
 
+  _onRefresh = () => {
+    this._requestTrips(false)
+    this._requestConnections()
+    this._requestReservations()
+  }
+
   render () {
-    const { trips } = this.props
+    const { trips, navigation } = this.props
     const isLoading = trips.get('isLoading')
     const text = isLoading ? 'fetchingData' : 'fetchingDataSucs'
     return (
       <View style={ss.screen}>
-        <Header />
-        <View style={ss.container}>
-          <NoData text={text} textStyle={ss.textStyle} />
-        </View>
+        <Header left='menu' navigation={navigation} />
+        <ScrollView refreshControl={<RefreshControl refreshing={false} onRefresh={this._onRefresh} />}>
+          <View style={ss.container}>
+            <NoData text={text} textStyle={ss.textStyle} />
+          </View>
+        </ScrollView>
       </View>
     )
   }
@@ -118,9 +126,11 @@ const ss = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    margin: 20
   },
   textStyle: {
-    marginTop: 30
+    marginTop: 30,
+    textAlign: 'center'
   }
 })
