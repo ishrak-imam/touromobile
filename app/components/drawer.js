@@ -28,6 +28,7 @@ import {
 } from '../selectors'
 import _T from '../utils/translator'
 import config from '../utils/config'
+import { resetToScene } from '../navigation/service'
 
 // import { showModal } from '../modal/action'
 
@@ -94,6 +95,11 @@ class TMDrawer extends Component {
         return
       }
       if (item.routeName === 'Trip') {
+        const { currentTrip } = this.props
+        const noOfTrips = currentTrip.get('trips').size
+        const screen = noOfTrips > 1 ? 'CurrentTrips' : 'Home'
+        resetToScene(screen, { left: 'menu' })
+
         // const navigateAction = NavigationActions.navigate({
         //   routeName: 'Home',
         //   action: NavigationActions.navigate({ routeName: 'Trip' })
@@ -103,9 +109,8 @@ class TMDrawer extends Component {
         //   actions: [navigateAction]
         // })
         // navigation.dispatch(resetAction)
-        // return
 
-        navigation.goBack('Home')
+        return
       }
       navigation.navigate(item.routeName)
     }
@@ -119,7 +124,8 @@ class TMDrawer extends Component {
       const { icon, routeName, text } = item
       const currentRoute = this.props.nav.get('screen')
 
-      const isSelected = routeName === currentRoute
+      const isSelected = routeName === currentRoute || (currentRoute === 'CurrentTrips' && routeName === 'Trip')
+
       const isDisabled = (!hasCurrentTrip && routeName === 'Trip') ||
                           (!pendingSmsCount && routeName === 'PendingSms') ||
                           (!hasFutureTrips && routeName === 'FutureTrips')
