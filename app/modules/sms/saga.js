@@ -1,5 +1,5 @@
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { takeFirst } from '../../utils/sagaHelpers'
 
@@ -40,7 +40,7 @@ function * workerSendSms (action) {
 }
 
 export function * watchSendPendingSms () {
-  yield takeFirst(sendPendingSmsReq.getType(), workerSendPendingSms)
+  yield takeEvery(sendPendingSmsReq.getType(), workerSendPendingSms)
 }
 
 function * workerSendPendingSms (action) {

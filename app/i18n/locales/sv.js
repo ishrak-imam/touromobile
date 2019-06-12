@@ -161,5 +161,8 @@ export default {
   remove: 'Ta bort',
   distributeOrders: 'Fördela beställningar',
   distributionInstruction: 'Fördelat antal beställningar måste matcha det totala antalet beställningar',
-  totalOrder: 'Antal beställningar'
+  totalOrder: 'Antal beställningar',
+  autoRefreshHeader: 'Autouppdatering',
+  autoRefreshBody: 'Appen hämtar automatiskt ny data från Touro en gång per dygn.',
+  autoUpdateInSeconds: 'Automatisk retrival på {seconds} sekunder'
 }

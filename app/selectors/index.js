@@ -1,5 +1,6 @@
 
 export const getAppState = state => state.app
+export const getRefreshState = state => state.app.get('refresh')
 export const getConnection = state => state.connection
 export const getLogin = state => state.login
 export const getUser = state => state.login.get('user')

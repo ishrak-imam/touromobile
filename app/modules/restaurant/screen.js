@@ -95,14 +95,14 @@ class RestaurantScreen extends Component {
     )
   }
 
-  _sms = phone => {
-    const { brand, hideMyPhone } = this.props
+  _sms = (phone, brand) => {
+    const { hideMyPhone } = this.props
     hideMyPhone
       ? navigate('SMS', { numbers: getSet([phone]), brand })
       : sms(phone)
   }
 
-  _renderComs = restaurant => {
+  _renderComs = (restaurant, brand) => {
     const url = restaurant.get('url')
     const phone = restaurant.get('phone')
     return (
@@ -110,7 +110,7 @@ class RestaurantScreen extends Component {
         <Body style={ss.comms}>
           {!!url && <IconButton name='web' color={Colors.blue} onPress={() => web(url)} />}
           {!!phone && <IconButton name='phone' color={Colors.green} onPress={() => call(phone)} />}
-          {!!phone && <IconButton name='sms' color={Colors.blue} onPress={() => this._sms(phone)} />}
+          {!!phone && <IconButton name='sms' color={Colors.blue} onPress={() => this._sms(phone, brand)} />}
         </Body>
       </CardItem>
     )
@@ -277,7 +277,7 @@ class RestaurantScreen extends Component {
         <ScrollView contentContainerStyle={ss.container}>
           <View style={ss.containerCard}>
             {!!restaurant && this._renderRestaurant(restaurant)}
-            {!!restaurant && this._renderComs(restaurant)}
+            {!!restaurant && this._renderComs(restaurant, brand)}
             {showMeals && !!meals && this._renderMeals(meals)}
             {showOrders && !!orders.size && this._renderOrders(orders, restaurant)}
             {

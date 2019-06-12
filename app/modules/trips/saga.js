@@ -41,6 +41,11 @@ import {
 } from '../modifiedData/action'
 
 import { showModal } from '../../modal/action'
+import {
+  refreshTripData,
+  refreshTripDataSucs,
+  refreshTripDataFail
+} from '../app/action'
 
 import {
   getTrips,
@@ -67,14 +72,23 @@ export function * watchGetTrips () {
 }
 
 function * workerGetTrips (action) {
+  const { autoRefresh } = action.payload
   try {
     const { guideId, jwt, pendingModal, refreshFromFutureTrip, refreshFromPastTrip } = action.payload
     const data = yield call(getTrips, guideId, jwt)
     yield put(tripsSucs(data))
+
+    if (autoRefresh) {
+      yield put(refreshTripDataSucs({ time: new Date().toISOString() }))
+    }
+
     yield put(tripsActionsOnSuccess({ pendingModal }))
-    yield put(navigateToOtherTripScreen({ refreshFromFutureTrip, refreshFromPastTrip }))
+    yield put(navigateToOtherTripScreen({ refreshFromFutureTrip, refreshFromPastTrip, autoRefresh }))
   } catch (e) {
     yield put(tripsFail(e))
+    if (autoRefresh) {
+      yield put(refreshTripDataFail())
+    }
   }
 }
 
@@ -101,25 +115,27 @@ export function * watchTripNavigation () {
 
 function * workerTripNavigation (action) {
   try {
-    const { refreshFromFutureTrip, refreshFromPastTrip } = action.payload
-    let currentTrip = yield select(gctSelector)
-    if (currentTrip.has && (!refreshFromFutureTrip && !refreshFromPastTrip)) {
-      const trips = currentTrip.trips
-      if (trips.size === 1) {
-        resetToScene('Home', { left: 'menu' })
-      } else if (trips.size > 1) {
-        resetToScene('CurrentTrips')
+    const { refreshFromFutureTrip, refreshFromPastTrip, autoRefresh } = action.payload
+    if (!autoRefresh) {
+      let currentTrip = yield select(gctSelector)
+      if (currentTrip.has && (!refreshFromFutureTrip && !refreshFromPastTrip)) {
+        const trips = currentTrip.trips
+        if (trips.size === 1) {
+          resetToScene('Home', { left: 'menu' })
+        } else if (trips.size > 1) {
+          resetToScene('CurrentTrips')
+        }
       }
-    }
-    if (!currentTrip.has) {
-      const futureTrips = yield select(gftSelector)
-      if (futureTrips.has) resetToScene('FutureTrips', { left: 'menu' })
-      else {
-        const pastTrips = yield select(gptSelector)
-        if (pastTrips.has) resetToScene('PastTrips', { left: 'menu' })
+      if (!currentTrip.has) {
+        const futureTrips = yield select(gftSelector)
+        if (futureTrips.has) resetToScene('FutureTrips', { left: 'menu' })
         else {
-          if (!refreshFromFutureTrip && !refreshFromPastTrip) {
-            resetToScene('NoTrips')
+          const pastTrips = yield select(gptSelector)
+          if (pastTrips.has) resetToScene('PastTrips', { left: 'menu' })
+          else {
+            if (!refreshFromFutureTrip && !refreshFromPastTrip) {
+              resetToScene('NoTrips')
+            }
           }
         }
       }

@@ -39,15 +39,15 @@ class Trip extends Component {
     <IconButton name='phone' color={Colors.green} onPress={() => call(phone)} />
   )
 
-  _sms = phone => {
-    const { brand, hideMyPhone } = this.props
+  _sms = (phone, brand) => {
+    const { hideMyPhone } = this.props
     hideMyPhone
       ? navigate('SMS', { numbers: getSet([phone]), brand })
       : sms(phone)
   }
 
-  _renderSMS = phone => (
-    <IconButton name='sms' color={Colors.blue} onPress={() => this._sms(phone)} />
+  _renderSMS = (phone, brand) => (
+    <IconButton name='sms' color={Colors.blue} onPress={() => this._sms(phone, brand)} />
   )
 
   _smsAll = (pax, brand) => {
@@ -271,7 +271,7 @@ class Trip extends Component {
     navigation.navigate('MyOrders')
   }
 
-  _renderHotels = hotels => {
+  _renderHotels = (hotels, brand) => {
     return (
       <CardItem style={ss.cardItem}>
         <Text style={ss.boldText}>{_T('hotels')}</Text>
@@ -289,7 +289,7 @@ class Trip extends Component {
                   </Left>
                   <Right style={ss.right}>
                     {!!phone && this._renderPhone(phone)}
-                    {!!phone && this._renderSMS(phone)}
+                    {!!phone && this._renderSMS(phone, brand)}
                   </Right>
                 </Body>
               </TouchableOpacity>
@@ -375,7 +375,7 @@ class Trip extends Component {
 
         {isBus && this._renderBus(transport)}
 
-        {!!hotels && this._renderHotels(hotels)}
+        {!!hotels && this._renderHotels(hotels, brand)}
 
         {!!launches && !isFlight && this._renderRestaurants(launches)}
 

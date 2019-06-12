@@ -15,6 +15,8 @@ import WarningModal from './app/modal/warning'
 import SelectionModal from './app/modal/selection'
 import DistributionModal from './app/modal/distribution'
 
+import './app/utils/hacks'
+
 console.disableYellowBox = true
 
 export default class TouroMobile extends Component {

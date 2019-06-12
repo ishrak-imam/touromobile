@@ -91,11 +91,12 @@ class SMSItem extends Component {
     const smsId = sms.get('id')
     const isLoading = sms.get('isLoading')
     const brand = sms.get('brand')
+    const backgroundColor = brand ? Colors[`${brand}Brand`] : Colors.blue
 
     return (
       <View style={ss.item}>
         <View style={ss.container}>
-          <View style={[ss.header, { backgroundColor: Colors[`${brand}Brand`] }]}>
+          <View style={[ss.header, { backgroundColor }]}>
             <Text style={ss.headerText}>{_T('createdAt')} {time}</Text>
             <TouchableOpacity onPress={this._onDelete(smsId)}>
               <IonIcon name='x' color={Colors.white} size={30} />

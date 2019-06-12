@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import { setNavigator } from '../../navigation/service'
 import { setCurrentScreen } from '../../navigation/action'
 import RootNavigator from '../../navigation'
+import { View } from 'react-native'
+import { getRefreshState } from '../../selectors'
+import OverlaySpinner from '../../components/overlaySpinner'
 
 class App extends Component {
   _handleNavigationStateChange = (prevState, currentState, action) => {
@@ -18,13 +21,23 @@ class App extends Component {
   }
 
   render () {
+    const { refresh } = this.props
+    const refreshing = refresh.get('loading')
+
     return (
-      <RootNavigator
-        ref={navigatorRef => setNavigator(navigatorRef)}
-        onNavigationStateChange={this._handleNavigationStateChange}
-      />
+      <View style={{ flex: 1 }}>
+        <RootNavigator
+          ref={navigatorRef => setNavigator(navigatorRef)}
+          onNavigationStateChange={this._handleNavigationStateChange}
+        />
+        {refreshing && <OverlaySpinner />}
+      </View>
     )
   }
 }
 
-export default connect(null, dispatch => ({ dispatch }))(App)
+const stateToProps = state => ({
+  refresh: getRefreshState(state)
+})
+
+export default connect(stateToProps, dispatch => ({ dispatch }))(App)

@@ -8,7 +8,7 @@ import _T from '../utils/translator'
 export default class FooterButtons extends Component {
   render () {
     const {
-      onCancel, onSave, style,
+      onCancel, onSave, style, saveText,
       disabled, hideCancel, buttonHeight
     } = this.props
     return (
@@ -29,7 +29,7 @@ export default class FooterButtons extends Component {
         <OutLineButton
           buttonHeight={buttonHeight}
           disabled={disabled}
-          text={_T('save')}
+          text={saveText || _T('save')}
           color={Colors.green}
           onPress={onSave}
         />

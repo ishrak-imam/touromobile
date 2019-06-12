@@ -160,5 +160,8 @@ export default {
   remove: 'Remove',
   distributeOrders: 'Distribute orders',
   distributionInstruction: 'Distributed orders should be equal to the total orders',
-  totalOrder: 'Total order'
+  totalOrder: 'Total order',
+  autoRefreshHeader: 'Automatic data retrieval',
+  autoRefreshBody: 'The app automatically retrieves new data from Touro once a day.',
+  autoUpdateInSeconds: 'Automatice retrival in {seconds} seconds'
 }

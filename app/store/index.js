@@ -61,7 +61,7 @@ const persistConfig = {
   transforms: [immutableTransform()],
   key: 'root',
   storage,
-  blacklist: ['login', 'navigation', 'app', 'connection', 'modal'],
+  blacklist: ['login', 'navigation', 'connection', 'modal'],
   needsMerge: ['profile', 'trips'],
   stateReconciler
 }

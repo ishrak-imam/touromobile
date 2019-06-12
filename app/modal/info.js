@@ -8,7 +8,7 @@ import { closeModal } from './action'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { getInfoModal } from '../selectors'
 import isIphoneX from '../utils/isIphoneX'
-import OutLineButton from '../components/outlineButton'
+import FooterButtons from '../components/footerButtons'
 
 const { height, width } = Dimensions.get('window')
 const heightOffset = isIphoneX ? 550 : 300
@@ -18,7 +18,18 @@ const modalHeight = height - heightOffset
 const modalWidth = width - widthOffset
 
 class InfoModal extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      seconds: 5
+    }
+    this.timer = null
+  }
+
   _onCancel = () => {
+    const { info } = this.props
+    const onCancel = info.get('onCancel')
+    if (onCancel) onCancel()
     actionDispatcher(closeModal({ type: 'info' }))
   }
 
@@ -26,11 +37,40 @@ class InfoModal extends Component {
     const { info } = this.props
     const onOk = info.get('onOk')
     onOk()
-    this._onCancel()
+    actionDispatcher(closeModal({ type: 'info' }))
+  }
+
+  componentWillReceiveProps (nextProps) {
+    setTimeout(this._startTimer, 0)
+  }
+
+  _startTimer = () => {
+    const { info } = this.props
+    const showTimer = info.get('showTimer')
+    if (!showTimer) return
+
+    let counter = 5
+    this.timer = setInterval(() => {
+      counter -= 1
+      if (counter === 0) {
+        this._onOk()
+        this._cancelTimer()
+        return
+      }
+      this.setState({ seconds: this.state.seconds - 1 })
+    }, 1000)
+  }
+
+  _cancelTimer = () => {
+    if (this.timer) clearInterval(this.timer)
   }
 
   render () {
+    const { seconds } = this.state
     const { info } = this.props
+    const showTimer = info.get('showTimer')
+    const text = info.get('text')
+
     return (
       <Modal
         animationType='fade'
@@ -46,12 +86,14 @@ class InfoModal extends Component {
             <View style={ss.body}>
               <Text>{info.get('body')}</Text>
             </View>
+            {
+              showTimer &&
+              <View style={ss.body}>
+                <Text>{text.supplant({ seconds })}</Text>
+              </View>
+            }
             <View style={ss.footer}>
-              <OutLineButton
-                text='Ok'
-                color={Colors.green}
-                onPress={this._onOk}
-              />
+              <FooterButtons onSave={this._onOk} onCancel={this._onCancel} saveText='Ok' />
             </View>
           </View>
         </View>
