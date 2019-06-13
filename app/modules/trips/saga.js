@@ -71,7 +71,7 @@ export function * watchGetTrips () {
 }
 
 function * workerGetTrips (action) {
-  const { autoRefresh } = action.payload
+  const { autoRefresh, sucsMsg, failMsg } = action.payload
   try {
     const {
       guideId, jwt, pendingModal, currentTrip,
@@ -81,7 +81,7 @@ function * workerGetTrips (action) {
     yield put(tripsSucs(data))
 
     if (autoRefresh) {
-      yield put(refreshTripDataSucs({ time: new Date().toISOString() }))
+      yield put(refreshTripDataSucs({ time: new Date().toISOString(), toast: true, message: sucsMsg }))
     }
 
     yield put(tripsActionsOnSuccess({ pendingModal, currentTrip }))
@@ -92,7 +92,7 @@ function * workerGetTrips (action) {
   } catch (e) {
     yield put(tripsFail(e))
     if (autoRefresh) {
-      yield put(refreshTripDataFail())
+      yield put(refreshTripDataFail({ toast: true, message: failMsg }))
     }
   }
 }

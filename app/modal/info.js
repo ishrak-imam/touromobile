@@ -42,8 +42,8 @@ class InfoModal extends Component {
     actionDispatcher(closeModal({ type: 'info' }))
   }
 
-  componentWillReceiveProps (nextProps) {
-    setTimeout(this._startTimer, 0)
+  componentWillReceiveProps () {
+    // setTimeout(this._startTimer, 0)
   }
 
   _startTimer = () => {

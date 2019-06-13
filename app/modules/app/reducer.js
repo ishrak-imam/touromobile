@@ -1,8 +1,11 @@
 import { createReducer } from '../../utils/reduxHelpers'
-import { updateMap, readValue, setIntoMap } from '../../utils/immutable'
+import { updateMap, readValue, setIntoMap, getImmutableObject, getMap } from '../../utils/immutable'
 
 import {
   SET_APP_STATE,
+
+  SHOW_AUTO_REFRESH,
+  HIDE_AUTO_REFRESH,
 
   REFRESH_TRIP_DATA,
   REFRESH_TRIP_DATA_SUCS,
@@ -30,6 +33,18 @@ export const app = createReducer(APP_INITIAL_STATE, {
   [REFRESH_TRIP_DATA_FAIL]: (state, payload) => {
     let refresh = readValue('refresh', state)
     refresh = setIntoMap(refresh, 'loading', false)
+    return setIntoMap(state, 'refresh', refresh)
+  },
+
+  [SHOW_AUTO_REFRESH]: (state, payload) => {
+    let refresh = readValue('refresh', state)
+    refresh = setIntoMap(refresh, 'config', getImmutableObject(payload))
+    return setIntoMap(state, 'refresh', refresh)
+  },
+
+  [HIDE_AUTO_REFRESH]: state => {
+    let refresh = readValue('refresh', state)
+    refresh = setIntoMap(refresh, 'config', getMap({}))
     return setIntoMap(state, 'refresh', refresh)
   }
 })

@@ -97,6 +97,8 @@ export default {
   summaryMode: 'Summary mode. Place order for all passengers in a booking.',
   dataSyncSucs: 'Data sync successful.',
   dataSyncFail: 'Data sync failed.',
+  dataRefreshSucs: 'Data refresh successful',
+  dataRefreshFail: 'Data refresh fail',
   appData: 'App data',
   dataSyncText: 'The app periodically synchronizes local data like meal and excursion orders to Touro, If your phone is lost or you for any reason need to continue your work on another phone, you can do so without losing any saved data.',
   syncNow: 'Synchronize now',
@@ -163,5 +165,6 @@ export default {
   totalOrder: 'Total order',
   autoRefreshHeader: 'Automatic data retrieval',
   autoRefreshBody: 'The app automatically retrieves new data from Touro once a day.',
-  autoUpdateInSeconds: 'Automatice retrival in {seconds} seconds'
+  autoUpdateInSeconds: 'Automatic data retrieval in {seconds} second',
+  s: 's'
 }

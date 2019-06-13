@@ -5,6 +5,7 @@ export const APP_INITIAL_STATE = getMap({
   isInBg: false,
   refresh: getMap({
     time: '',
-    loading: false
+    loading: false,
+    config: getMap({})
   })
 })

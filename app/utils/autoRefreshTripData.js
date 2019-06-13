@@ -2,10 +2,15 @@
 import { store } from '../store'
 import { getRefreshState, getUser, currentTripSelector } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
-import { showModal } from '../modal/action'
+// import { showModal } from '../modal/action'
 import { isYesterday } from 'date-fns'
 import { tripsReq } from '../modules/trips/action'
-import { refreshTripData, refreshTripDataSucs } from '../modules/app/action'
+import {
+  refreshTripData,
+  refreshTripDataSucs,
+  showAutoRefresh
+} from '../modules/app/action'
+import _T from '../utils/translator'
 
 export const refresh = (standAlone) => {
   return () => {
@@ -24,7 +29,9 @@ export const refresh = (standAlone) => {
         onOk: null
       },
       autoRefresh: true,
-      currentTrip
+      currentTrip,
+      sucsMsg: _T('dataRefreshSucs'),
+      failMsg: _T('dataRefreshFail')
     }))
   }
 }
@@ -42,7 +49,7 @@ export const refreshWorker = config => {
     const time = refreshData.get('time')
 
     if (!time || isYesterday(time)) {
-      actionDispatcher(showModal({
+      actionDispatcher(showAutoRefresh({
         type: 'info',
         header: config.header,
         body: config.body,

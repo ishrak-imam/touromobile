@@ -6,6 +6,7 @@ import RootNavigator from '../../navigation'
 import { View, StyleSheet } from 'react-native'
 import { getRefreshState } from '../../selectors'
 import OverlaySpinner from '../../components/overlaySpinner'
+import AutoRefresh from '../../components/autoRefresh'
 
 class App extends Component {
   _handleNavigationStateChange = (prevState, currentState, action) => {
@@ -31,6 +32,7 @@ class App extends Component {
           onNavigationStateChange={this._handleNavigationStateChange}
         />
         {refreshing && <OverlaySpinner />}
+        <AutoRefresh />
       </View>
     )
   }

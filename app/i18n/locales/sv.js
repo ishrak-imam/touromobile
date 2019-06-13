@@ -97,6 +97,8 @@ export default {
   summaryMode: 'Bokning. Beställningar är gemensamma för alla passagerare på samma bokning.',
   dataSyncSucs: 'Datasynkronisering lyckades.',
   dataSyncFail: 'Datasynkronisering misslyckades.',
+  dataRefreshSucs: 'Data refresh successful',
+  dataRefreshFail: 'Data refresh failed',
   appData: 'Lokalt lagrad app-data',
   dataSyncText: 'Appen synkroniserar sparad data som beställda måltider och utflykter mot Touro. Om din telefon försvinner, eller om du av någon annan anledning måste fortsätta ditt arbete på en annan telefon, så kan du göra det utan att förlora någon data.',
   syncNow: 'Synkronisera nu',
@@ -164,5 +166,6 @@ export default {
   totalOrder: 'Antal beställningar',
   autoRefreshHeader: 'Autouppdatering',
   autoRefreshBody: 'Appen hämtar automatiskt ny data från Touro en gång per dygn.',
-  autoUpdateInSeconds: 'Automatisk retrival på {seconds} sekunder'
+  autoUpdateInSeconds: 'Automatisk uppdatering om {seconds} sekund',
+  s: 'er'
 }
