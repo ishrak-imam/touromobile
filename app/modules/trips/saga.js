@@ -42,7 +42,6 @@ import {
 
 import { showModal } from '../../modal/action'
 import {
-  refreshTripData,
   refreshTripDataSucs,
   refreshTripDataFail
 } from '../app/action'
@@ -74,7 +73,10 @@ export function * watchGetTrips () {
 function * workerGetTrips (action) {
   const { autoRefresh } = action.payload
   try {
-    const { guideId, jwt, pendingModal, refreshFromFutureTrip, refreshFromPastTrip } = action.payload
+    const {
+      guideId, jwt, pendingModal, currentTrip,
+      refreshFromFutureTrip, refreshFromPastTrip
+    } = action.payload
     const data = yield call(getTrips, guideId, jwt)
     yield put(tripsSucs(data))
 
@@ -82,8 +84,11 @@ function * workerGetTrips (action) {
       yield put(refreshTripDataSucs({ time: new Date().toISOString() }))
     }
 
-    yield put(tripsActionsOnSuccess({ pendingModal }))
-    yield put(navigateToOtherTripScreen({ refreshFromFutureTrip, refreshFromPastTrip, autoRefresh }))
+    yield put(tripsActionsOnSuccess({ pendingModal, currentTrip }))
+
+    if (!autoRefresh) {
+      yield put(navigateToOtherTripScreen({ refreshFromFutureTrip, refreshFromPastTrip }))
+    }
   } catch (e) {
     yield put(tripsFail(e))
     if (autoRefresh) {
@@ -98,8 +103,8 @@ export function * watchTripsActionsOnSuccess () {
 
 function * workerTripsActionsOnSuccess (action) {
   try {
-    const { pendingModal } = action.payload
-    yield put(getCurrentTrip())
+    const { pendingModal, currentTrip } = action.payload
+    yield put(getCurrentTrip({ trip: currentTrip }))
     yield put(getFutureTrips())
     yield put(getPastTrips())
     yield put(getPendingStatsUpload(pendingModal))
@@ -115,27 +120,25 @@ export function * watchTripNavigation () {
 
 function * workerTripNavigation (action) {
   try {
-    const { refreshFromFutureTrip, refreshFromPastTrip, autoRefresh } = action.payload
-    if (!autoRefresh) {
-      let currentTrip = yield select(gctSelector)
-      if (currentTrip.has && (!refreshFromFutureTrip && !refreshFromPastTrip)) {
-        const trips = currentTrip.trips
-        if (trips.size === 1) {
-          resetToScene('Home', { left: 'menu' })
-        } else if (trips.size > 1) {
-          resetToScene('CurrentTrips')
-        }
+    const { refreshFromFutureTrip, refreshFromPastTrip } = action.payload
+    let currentTrip = yield select(gctSelector)
+    if (currentTrip.has && (!refreshFromFutureTrip && !refreshFromPastTrip)) {
+      const trips = currentTrip.trips
+      if (trips.size === 1) {
+        resetToScene('Home', { left: 'menu' })
+      } else if (trips.size > 1) {
+        resetToScene('CurrentTrips')
       }
-      if (!currentTrip.has) {
-        const futureTrips = yield select(gftSelector)
-        if (futureTrips.has) resetToScene('FutureTrips', { left: 'menu' })
+    }
+    if (!currentTrip.has) {
+      const futureTrips = yield select(gftSelector)
+      if (futureTrips.has) resetToScene('FutureTrips', { left: 'menu' })
+      else {
+        const pastTrips = yield select(gptSelector)
+        if (pastTrips.has) resetToScene('PastTrips', { left: 'menu' })
         else {
-          const pastTrips = yield select(gptSelector)
-          if (pastTrips.has) resetToScene('PastTrips', { left: 'menu' })
-          else {
-            if (!refreshFromFutureTrip && !refreshFromPastTrip) {
-              resetToScene('NoTrips')
-            }
+          if (!refreshFromFutureTrip && !refreshFromPastTrip) {
+            resetToScene('NoTrips')
           }
         }
       }
@@ -151,11 +154,18 @@ export function * watchGetCurrentTrip () {
 
 function * workerGetCurrentTrip (action) {
   try {
+    const { trip } = action.payload
     const currentTrip = yield select(gctSelector)
+
     if (currentTrip.has && currentTrip.trips.size === 1) {
       const trip = currentTrip.trips.get(0)
       currentTrip.trip = formatCurrentTrip(trip)
     }
+
+    if (trip) {
+      currentTrip.trip = trip
+    }
+
     yield put(setCurrentTrips(currentTrip))
   } catch (e) {
     console.log(e)

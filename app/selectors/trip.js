@@ -191,6 +191,8 @@ const resolvers = {
 
 export const getTrips = state => state.trips
 
+export const getTripsLoading = state => state.trips.get('isLoading')
+
 export const getTripsData = state => state.trips.get('data')
 
 export const currentTripSelector = state => state.trips.get('current')

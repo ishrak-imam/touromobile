@@ -12,8 +12,8 @@ import {
   networkActionDispatcher
 } from '../../utils/actionDispatcher'
 import {
-  getProfile, currentTripSelector,
-  getUser, checkIfAnyOrderMade
+  getProfile, getUser,
+  currentTripSelector, getTripsLoading
 } from '../../selectors'
 import { connect } from 'react-redux'
 import Profile from '../../components/profile'
@@ -23,6 +23,7 @@ import isIphoneX from '../../utils/isIphoneX'
 import { Colors } from '../../theme'
 import AppDataSync from '../../components/appDataSync'
 import _T from '../../utils/translator'
+import { refresh as refreshData } from '../../utils/autoRefreshTripData'
 
 class ProfileScreen extends Component {
   componentDidMount () {
@@ -62,7 +63,7 @@ class ProfileScreen extends Component {
   }
 
   render () {
-    const { navigation, profile, user } = this.props
+    const { navigation, profile, user, tripsLoading } = this.props
     const fullName = `${user.get('firstName')} ${user.get('lastName')}`
     const userDetails = profile.get('user')
     const isLoading = profile.get('isLoading')
@@ -78,7 +79,22 @@ class ProfileScreen extends Component {
               : <Profile style={ss.profile} userDetails={userDetails} onUpdate={this._updateProfile} />
           }
           <Settings />
-          <AppDataSync onSync={this._onDownloadData(guideId)} isLoading={isLoading} />
+          <AppDataSync
+            header={_T('appData')}
+            text={_T('dataSyncText')}
+            button={_T('syncNow')}
+            onSync={this._onDownloadData(guideId)}
+            isLoading={isLoading}
+          />
+
+          <AppDataSync
+            header='Trip data'
+            text='The app refreshes trip data daily. However, you can refresh trip data at any moment from here.'
+            button='Refresh now'
+            onSync={refreshData(true)}
+            isLoading={tripsLoading}
+          />
+
         </ScrollView>
       </Container>
     )
@@ -89,7 +105,8 @@ const stateToProps = (state, props) => {
   return {
     profile: getProfile(state),
     user: getUser(state),
-    currentTrip: currentTripSelector(state)
+    currentTrip: currentTripSelector(state),
+    tripsLoading: getTripsLoading(state)
   }
 }
 

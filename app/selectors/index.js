@@ -50,7 +50,8 @@ export const {
   getReservationsByDepartureId,
   getReservations,
   getMeals,
-  getDrinks
+  getDrinks,
+  getTripsLoading
 } = require('./trip')
 
 export const {

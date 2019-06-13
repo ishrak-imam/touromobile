@@ -15,7 +15,7 @@ import { ScrollView, RefreshControl } from 'react-native'
 import OverlaySpinner from '../../components/overlaySpinner'
 import { restructureModifiedData } from '../modifiedData/action'
 import startSyncDataWorker from '../../utils/modifiedDataSync'
-import autoRefreshTripData from '../../utils/autoRefreshTripData'
+import { refreshWorker } from '../../utils/autoRefreshTripData'
 
 class TripScreen extends Component {
   constructor (props) {
@@ -40,7 +40,7 @@ class TripScreen extends Component {
       body: _T('autoRefreshBody'),
       text: _T('autoUpdateInSeconds')
     }
-    autoRefreshTripData(config)
+    refreshWorker(config)
   }
 
   componentWillUnmount () {
@@ -123,19 +123,19 @@ class TripScreen extends Component {
             contentContainerStyle={{ justifyContent: 'center' }}
             refreshControl={<RefreshControl refreshing={false} onRefresh={this._onRefresh} />}
           >
-            {
+            {/* {
               isLoading
                 ? <NoData text='fetchingData' textStyle={{ marginTop: 30 }} />
                 : current.get('has')
                   ? <Trip trip={current.get('trip')} navigation={navigation} />
                   : <NoData text='noCurrentTrip' textStyle={{ marginTop: 30 }} />
-            }
+            } */}
 
-            {/* {
+            {
               current.get('has')
                 ? <Trip trip={current.get('trip')} navigation={navigation} />
                 : <NoData text='noCurrentTrip' textStyle={{ marginTop: 30 }} />
-            } */}
+            }
           </ScrollView>
         }
 

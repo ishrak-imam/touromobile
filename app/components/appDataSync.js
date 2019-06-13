@@ -5,7 +5,6 @@ import {
   StyleSheet, TouchableOpacity,
   ActivityIndicator
 } from 'react-native'
-import _T from '../utils/translator'
 import { Colors } from '../theme'
 
 export default class AppDataSync extends Component {
@@ -14,22 +13,23 @@ export default class AppDataSync extends Component {
   }
 
   render () {
-    const { isLoading } = this.props
+    const { isLoading, header, text, button } = this.props
+
     return (
       <View style={ss.container}>
         <ListItem style={ss.header}>
           <View>
-            <Text style={ss.boldText}>{_T('appData')}</Text>
+            <Text style={ss.boldText}>{header}</Text>
           </View>
         </ListItem>
         <View style={ss.options}>
           <ListItem style={ss.item}>
-            <Text>{_T('dataSyncText')}</Text>
+            <Text>{text}</Text>
             <TouchableOpacity style={ss.button} onPress={this._onSync} disabled={isLoading}>
               {
                 isLoading
                   ? <ActivityIndicator size='small' color={Colors.white} />
-                  : <Text style={ss.buttonText}>{_T('syncNow')}</Text>
+                  : <Text style={ss.buttonText}>{button}</Text>
               }
             </TouchableOpacity>
           </ListItem>

@@ -344,7 +344,7 @@ const ss = StyleSheet.create({
   },
   topRight: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'flex-end'
   },
   cardItem: {
     flexDirection: 'row',

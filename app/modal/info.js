@@ -30,6 +30,7 @@ class InfoModal extends Component {
     const { info } = this.props
     const onCancel = info.get('onCancel')
     if (onCancel) onCancel()
+    this._cancelTimer()
     actionDispatcher(closeModal({ type: 'info' }))
   }
 
@@ -37,6 +38,7 @@ class InfoModal extends Component {
     const { info } = this.props
     const onOk = info.get('onOk')
     onOk()
+    this._cancelTimer()
     actionDispatcher(closeModal({ type: 'info' }))
   }
 
