@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Container, Text, CheckBox } from 'native-base'
+import { Container, Text } from 'native-base'
 import Header from '../../components/header'
 import { connect } from 'react-redux'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'

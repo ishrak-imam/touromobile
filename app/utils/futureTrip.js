@@ -333,7 +333,7 @@ export const getTransferCityValue = (key, connections, transfer) => {
   }
 
   const cities = connections.get(TRANSFER_VALUES[transfer])
-  const city = cities.find(c => String(c.get('key')) === key)
+  const city = cities.find(c => String(c.get('key')) === String(key))
   return city.get('value')
 }
 
