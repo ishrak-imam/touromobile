@@ -19,7 +19,7 @@ import {
   getConnections, getReservationsByDepartureId
 } from '../selectors'
 import { actionDispatcher, networkActionDispatcher } from '../utils/actionDispatcher'
-import { getMap } from '../utils/immutable'
+import { getMap, isMap } from '../utils/immutable'
 import { showModal } from '../modal/action'
 import { tripNameFormatter } from '../utils/stringHelpers'
 import {
@@ -222,7 +222,7 @@ class FutureTripCard extends Component {
 
   _renderOutCombos = transportType => {
     const { out, home } = this.acceptData
-    const { connections } = this.props
+    const { connections, reservation } = this.props
     const { showHotelName, hotelName } = this._getHotelName('out', transportType, out.get(KEY_NAMES.ACCOMMODATION))
     return (
       <View style={ss.comboCon}>
@@ -231,7 +231,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getLocations({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.LOCATION),
+            selected: reservation ? reservation.getIn(['out', KEY_NAMES.LOCATION]) || out.get(KEY_NAMES.LOCATION) : out.get(KEY_NAMES.LOCATION),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -241,7 +241,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getTransfers({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.TRANSFER),
+            selected: reservation ? reservation.getIn(['out', KEY_NAMES.TRANSFER]) || out.get(KEY_NAMES.TRANSFER) : out.get(KEY_NAMES.TRANSFER),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -253,7 +253,7 @@ class FutureTripCard extends Component {
             connections,
             transportType,
             transfer: out.get(KEY_NAMES.TRANSFER),
-            selected: out.get(KEY_NAMES.TRANSFER_CITY),
+            selected: reservation ? reservation.getIn(['out', KEY_NAMES.TRANSFER_CITY]) || out.get(KEY_NAMES.TRANSFER_CITY) : out.get(KEY_NAMES.TRANSFER_CITY),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -263,7 +263,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getAccommodations({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.ACCOMMODATION),
+            selected: reservation ? reservation.getIn(['out', KEY_NAMES.ACCOMMODATION]) || out.get(KEY_NAMES.ACCOMMODATION) : out.get(KEY_NAMES.ACCOMMODATION),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -281,7 +281,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getBagLocations({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.BAG),
+            selected: reservation ? reservation.getIn(['out', KEY_NAMES.BAG]) || out.get(KEY_NAMES.BAG) : out.get(KEY_NAMES.BAG),
             other: home.get(KEY_NAMES.BAG),
             locked: this.shouldLockTrip
           }))}
@@ -292,7 +292,7 @@ class FutureTripCard extends Component {
 
   _renderHomeCombos = transportType => {
     const { out, home } = this.acceptData
-    const { connections } = this.props
+    const { connections, reservation } = this.props
     const { showHotelName, hotelName } = this._getHotelName('home', transportType, home.get(KEY_NAMES.ACCOMMODATION))
     return (
       <View style={ss.comboCon}>
@@ -301,7 +301,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getLocations({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.LOCATION),
+            selected: reservation ? reservation.getIn(['home', KEY_NAMES.LOCATION]) || home.get(KEY_NAMES.LOCATION) : home.get(KEY_NAMES.LOCATION),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -311,7 +311,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getTransfers({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.TRANSFER),
+            selected: reservation ? reservation.getIn(['home', KEY_NAMES.TRANSFER]) || home.get(KEY_NAMES.TRANSFER) : home.get(KEY_NAMES.TRANSFER),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -323,7 +323,7 @@ class FutureTripCard extends Component {
             connections,
             transportType,
             transfer: home.get(KEY_NAMES.TRANSFER),
-            selected: home.get(KEY_NAMES.TRANSFER_CITY),
+            selected: reservation ? reservation.getIn(['home', KEY_NAMES.TRANSFER_CITY]) || home.get(KEY_NAMES.TRANSFER_CITY) : home.get(KEY_NAMES.TRANSFER_CITY),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -333,7 +333,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getAccommodations({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.ACCOMMODATION),
+            selected: reservation ? reservation.getIn(['home', KEY_NAMES.ACCOMMODATION]) || home.get(KEY_NAMES.ACCOMMODATION) : home.get(KEY_NAMES.ACCOMMODATION),
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -351,7 +351,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getBagLocations({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.BAG),
+            selected: reservation ? reservation.getIn(['home', KEY_NAMES.BAG]) || home.get(KEY_NAMES.BAG) : home.get(KEY_NAMES.BAG),
             other: out.get(KEY_NAMES.BAG),
             locked: this.shouldLockTrip
           }))}

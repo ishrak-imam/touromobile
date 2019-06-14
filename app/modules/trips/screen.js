@@ -102,7 +102,7 @@ class TripScreen extends Component {
   render () {
     const { showContent } = this.state
     const { navigation, trips } = this.props
-    const isLoading = trips.get('isLoading')
+    // const isLoading = trips.get('isLoading')
     const isRefreshing = trips.get('isRefreshing')
     const current = trips.get('current')
     const brand = current.getIn(['trip', 'brand'])
