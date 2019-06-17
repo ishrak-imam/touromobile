@@ -149,9 +149,11 @@ export const getTransfers = basedOn => {
 export const getTransferCities = basedOn => {
   let { connections, direction, transportType, transfer, selected, locked } = basedOn
 
-  selected = isMap(selected)
-    ? selected
-    : getMap({ key: String(selected), value: getTransferCityValue(selected, connections, transfer.get('key')) })
+  if (transfer) {
+    selected = isMap(selected)
+      ? selected
+      : getMap({ key: String(selected), value: getTransferCityValue(selected, connections, transfer.get('key')) })
+  }
 
   if (locked) {
     return {

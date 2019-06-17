@@ -164,7 +164,7 @@ class FutureTripCard extends Component {
 
     if (items && items.length === 1) {
       disabled = true
-      if (!selected) {
+      if (!selected || !selected.get('key')) {
         const item = items[0]
         setTimeout(() => {
           this._onSelect({ key: config.key, value: item, direction })
@@ -172,7 +172,7 @@ class FutureTripCard extends Component {
       }
     }
 
-    const text = selected ? selected.get('value') : ''
+    const text = isMap(selected) ? selected.get('value') : ''
     const backgroundColor = disabled ? Colors.steel : Colors.blue
     const iconColor = disabled ? Colors.charcoal : Colors.silver
     return (
