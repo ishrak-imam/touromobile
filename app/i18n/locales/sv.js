@@ -167,5 +167,11 @@ export default {
   autoRefreshHeader: 'Autouppdatering',
   autoRefreshBody: 'Appen hämtar automatiskt ny data från Touro en gång per dygn.',
   autoUpdateInSeconds: 'Automatisk uppdatering om {seconds} sekund',
-  s: 'er'
+  s: 'er',
+  hidePrivatePhone: 'Göm mitt eget telefonnummer',
+  sendSmsWithTouro: 'Skicka alltid SMS med Maxli Travel Groups telefonnummer, för att undvika att mitt privata nummer kommer till resenärer.',
+  useTouroPrivatePhone: 'Det är praktiskt om du använder Touro på din privata telefon.',
+  tripData: 'Data om resor',
+  dailyTripDataRefresh: 'Appen uppdaterar data om resor en gång per dygn, men du kan när som helst uppdatera all data här.',
+  refreshNow: 'Uppdatera nu'
 }

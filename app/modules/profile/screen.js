@@ -88,9 +88,9 @@ class ProfileScreen extends Component {
           />
 
           <AppDataSync
-            header='Trip data'
-            text='The app refreshes trip data daily. However, you can refresh trip data at any moment from here.'
-            button='Refresh now'
+            header={_T('tripData')}
+            text={_T('dailyTripDataRefresh')}
+            button={_T('refreshNow')}
             onSync={refreshData(true)}
             isLoading={tripsLoading}
           />

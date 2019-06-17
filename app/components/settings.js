@@ -46,15 +46,15 @@ class Settings extends Component {
 
         <ListItem style={ss.header}>
           <View>
-            <Text style={ss.boldText}>Hide my private phone number</Text>
+            <Text style={ss.boldText}>{_T('hidePrivatePhone')}</Text>
           </View>
         </ListItem>
         <View style={ss.options}>
           <ListItem style={ss.private} onPress={this._toggleHideMyPhone}>
             <CheckBox checked={hideMyPhone} />
             <Body style={ss.right}>
-              <Text>Always send SMS with the Maxli Travel Group phone number, to avoid making my phone number available to passengers.</Text>
-              <Text note style={ss.italic}>This is useful if you use Touro on your private phone.</Text>
+              <Text>{_T('sendSmsWithTouro')}</Text>
+              <Text note style={ss.italic}>{_T('useTouroPrivatePhone')}</Text>
             </Body>
           </ListItem>
         </View>

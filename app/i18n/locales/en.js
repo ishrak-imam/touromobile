@@ -166,5 +166,11 @@ export default {
   autoRefreshHeader: 'Automatic data retrieval',
   autoRefreshBody: 'The app automatically retrieves new data from Touro once a day.',
   autoUpdateInSeconds: 'Automatic data retrieval in {seconds} second',
-  s: 's'
+  s: 's',
+  hidePrivatePhone: 'Hide my private phone number',
+  sendSmsWithTouro: 'Always send SMS with the Maxli Travel Group phone number, to avoid making my phone number available to passengers.',
+  useTouroPrivatePhone: 'This is useful if you use Touro on your private phone.',
+  tripData: 'Trip data',
+  dailyTripDataRefresh: 'The app refreshes trip data daily. However, you can refresh trip data at any moment from here.',
+  refreshNow: 'Refresh now'
 }
