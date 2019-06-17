@@ -44,7 +44,7 @@ class SelectionModal extends Component {
 
     const key = String(item.get('key'))
     const value = item.get('value')
-    const isSelected = selected ? selected.get('key') === key : false
+    const isSelected = selected ? String(selected.get('key')) === key : false
     const backgroundColor = isSelected ? Colors.blue : 'transparent'
     const color = isSelected ? Colors.silver : Colors.black
     return (

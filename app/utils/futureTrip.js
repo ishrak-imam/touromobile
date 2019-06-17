@@ -103,14 +103,12 @@ const BAG = {
 }
 
 export const getLocations = basedOn => {
-  let { direction, transportType, selected, locked } = basedOn
-
-  selected = isMap(selected) ? selected : getMap({ key: selected, value: getLocationValue(selected) })
+  const { direction, transportType, selected, locked } = basedOn
 
   if (locked) {
     return {
       disabled: true,
-      selected,
+      selected: selected,
       config: null,
       items: null
     }
@@ -125,14 +123,12 @@ export const getLocations = basedOn => {
 }
 
 export const getTransfers = basedOn => {
-  let { direction, transportType, selected, locked } = basedOn
-
-  selected = isMap(selected) ? selected : getMap({ key: selected, value: getTransferValue(selected) })
+  const { direction, transportType, selected, locked } = basedOn
 
   if (locked) {
     return {
       disabled: true,
-      selected,
+      selected: selected,
       config: null,
       items: null
     }
@@ -147,18 +143,12 @@ export const getTransfers = basedOn => {
 }
 
 export const getTransferCities = basedOn => {
-  let { connections, direction, transportType, transfer, selected, locked } = basedOn
-
-  if (transfer) {
-    selected = isMap(selected)
-      ? selected
-      : getMap({ key: String(selected), value: getTransferCityValue(selected, connections, transfer.get('key')) })
-  }
+  const { connections, direction, transportType, transfer, selected, locked } = basedOn
 
   if (locked) {
     return {
       disabled: true,
-      selected,
+      selected: selected,
       config: null,
       items: null
     }
@@ -206,14 +196,12 @@ export const getTransferCities = basedOn => {
 }
 
 export const getAccommodations = basedOn => {
-  let { direction, transportType, selected, locked } = basedOn
-
-  selected = isMap(selected) ? selected : getMap({ key: selected, value: getAccommodationValue(selected) })
+  const { direction, transportType, selected, locked } = basedOn
 
   if (locked) {
     return {
       disabled: true,
-      selected,
+      selected: selected,
       config: null,
       items: null
     }
@@ -228,14 +216,12 @@ export const getAccommodations = basedOn => {
 }
 
 export const getBagLocations = basedOn => {
-  let { direction, transportType, selected, other, locked } = basedOn
-
-  selected = isMap(selected) ? selected : getMap({ key: selected, value: getBagValue(selected) })
+  const { direction, transportType, selected, other, locked } = basedOn
 
   if (locked) {
     return {
       disabled: true,
-      selected,
+      selected: selected,
       config: null,
       items: null
     }
