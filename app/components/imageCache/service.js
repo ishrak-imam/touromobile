@@ -3,7 +3,7 @@
 
 import { FileSystem } from 'expo'
 
-const BASE_DIR = FileSystem.cacheDirectory
+const BASE_DIR = FileSystem.documentDirectory
 
 export const IMAGE_CACHE_DIR = `${BASE_DIR}imageCache/`
 

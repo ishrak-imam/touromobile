@@ -2,10 +2,10 @@
 
   {
     "departureId": 48764,
-    "outDate": "2019-06-10T00:00:00",
-    "homeDate": "2019-07-10T00:00:00",
+    "outDate": "2018-06-10T00:00:00",
+    "homeDate": "2018-07-10T00:00:00",
     "name": "Indien / Indien med LAND / Indien med LAND",
-    "image": "https://touro.scandorama.se/api/v1/resources/trip/3771/image",
+    "image": "https://picsum.photos/id/221/4096/2106",
     "description": "Indien / Indien med LAND / Indien med LAND",
     "brand": "SC",
     "bookings": [
@@ -686,7 +686,7 @@
     "outDate": "2019-07-14T00:00:00",
     "homeDate": "2019-08-14T00:00:00",
     "name": "Indien / Indien med LAND",
-    "image": "https://touro.scandorama.se/api/v1/resources/trip/3771/image",
+    "image": "https://picsum.photos/id/222/4096/2106",
     "description": "Indien / Indien med LAND",
     "brand": "SC",
     "bookings": [
@@ -1194,10 +1194,10 @@
 
   {
     "departureId": 47672,
-    "outDate": "2019-08-17T00:00:00",
-    "homeDate": "2019-09-17T00:00:00",
+    "outDate": "2019-06-10T00:00:00",
+    "homeDate": "2019-07-10T00:00:00",
     "name": "Julmarknad i Berlin",
-    "image": "https://touro.scandorama.se/api/v1/resources/trip/3695/image",
+    "image": "https://picsum.photos/id/648/4096/2106",
     "description": "Julmarknad i Berlin",
     "brand": "SC",
     "bookings": [
@@ -2231,7 +2231,7 @@
     "outDate": "2019-09-20T00:00:00",
     "homeDate": "2019-09-20T00:00:00",
     "name": "Julmarknad i Hamburg 3 dagar mitt-i-veckan",
-    "image": "https://touro.scandorama.se/api/v1/resources/trip/3710/image",
+    "image": "https://picsum.photos/id/666/4096/2106",
     "description": "Julmarknad i Hamburg 3 dagar mitt-i-veckan",
     "brand": "OL",
     "bookings": [
@@ -2953,7 +2953,7 @@
     "outDate": "2019-10-23T00:00:00",
     "homeDate": "2019-11-23T00:00:00",
     "name": "Prag weekend 4 dagar, Buss 4",
-    "image": "https://touro.scandorama.se/api/v1/resources/trip/3957/image",
+    "image": "https://picsum.photos/id/755/4096/2106",
     "description": "Prag weekend 4 dagar, Buss 4",
     "brand": "GK",
     "bookings": [
@@ -3845,7 +3845,7 @@
     "outDate": "2019-11-26T00:00:00",
     "homeDate": "2019-12-26T00:00:00",
     "name": "Prag med Nytta och Nöje - buss 3",
-    "image": "https://touro.scandorama.se/api/v1/resources/trip/3840/image",
+    "image": "https://picsum.photos/id/548/4096/2106",
     "description": "Prag med Nytta och Nöje - buss 3",
     "brand": "GK",
     "bookings": [
@@ -4823,7 +4823,7 @@
     "outDate": "2019-12-29T00:00:00",
     "homeDate": "2020-01-29T00:00:00",
     "name": "Berlin Weekend",
-    "image": "https://touro.scandorama.se/api/v1/resources/trip/3493/image",
+    "image": "https://picsum.photos/id/112/4096/2106",
     "description": "Berlin Weekend",
     "brand": "SC",
     "bookings": [
