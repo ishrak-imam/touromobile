@@ -11,7 +11,7 @@ import {
 } from './action'
 import config from '../../utils/config'
 
-// import { clearImageCache } from '../../components/imageCache/action'
+import { clearImageCache } from '../../components/imageCache/action'
 
 import { getUser, getConnection } from '../../selectors'
 import { navigateToScene } from '../../navigation/action'
@@ -118,7 +118,7 @@ export function * watchLogout () {
 function * workerLogout () {
   yield put(sendAppStatusReq({ active: false, isNeedJwt: true }))
   yield call(localStore.delete, USER)
-  // yield put(clearImageCache())
+  yield put(clearImageCache())
   yield put(logoutSucs())
   yield put(init())
 }
