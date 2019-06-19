@@ -209,7 +209,8 @@ class RollCallScreen extends Component {
       const { groupBy } = this.state
       let text = String(item.initial)
       if (groupBy === CONTEXT_OPTIONS.hotel.key) {
-        text = hotels.find(h => String(h.get('id')) === text).get('name')
+        const hotel = hotels.find(h => String(h.get('id')) === text)
+        if (hotel) text = hotel.get('name')
       }
       return (
         <ListItem itemDivider style={ss.sectionHeader}>
