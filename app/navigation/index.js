@@ -24,6 +24,7 @@ import ReportsScreen from '../modules/reports/screen'
 import FutureTripsScreen from '../modules/trips/futureTripsScreen'
 import PastTripsScreen from '../modules/trips/pastTripsScreen'
 import NoTripsScreen from '../modules/trips/noTrips'
+import ConnectionsScreen from '../modules/connections'
 
 import RestaurantScreen from '../modules/restaurant/screen'
 import ExcursionDetailsScreen from '../modules/excursions/detailsScreen'
@@ -81,7 +82,8 @@ const appStack = createStackNavigator(
     SMS: { screen: SMSScreen },
     PendingSms: { screen: PendingSmsScreen },
     MyOrders: { screen: MyOrdersScreen },
-    Allergy: { screen: AllergyScreen }
+    Allergy: { screen: AllergyScreen },
+    Connections: { screen: ConnectionsScreen }
   },
   {
     initialRouteName: 'TripsLoading',

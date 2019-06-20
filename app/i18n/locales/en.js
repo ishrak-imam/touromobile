@@ -172,5 +172,6 @@ export default {
   useTouroPrivatePhone: 'This is useful if you use Touro on your private phone.',
   tripData: 'Trip data',
   dailyTripDataRefresh: 'The app refreshes trip data daily. However, you can refresh trip data at any moment from here.',
-  refreshNow: 'Refresh now'
+  refreshNow: 'Refresh now',
+  connections: 'Connections'
 }

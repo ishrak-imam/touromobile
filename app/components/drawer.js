@@ -34,6 +34,7 @@ import { resetToScene } from '../navigation/service'
 
 const menuItems = [
   { routeName: 'Trip', text: 'currentTrip', icon: 'home' },
+  { routeName: 'Connections', text: 'connections', icon: 'bus' },
   { routeName: 'FutureTrips', text: 'futureTrips', icon: 'futureTrips' },
   { routeName: 'PastTrips', text: 'pastTrips', icon: 'pastTrips' },
   { routeName: 'PendingSms', text: 'pendingSms', icon: 'sms' }

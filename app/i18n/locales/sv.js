@@ -173,5 +173,6 @@ export default {
   useTouroPrivatePhone: 'Det är praktiskt om du använder Touro på din privata telefon.',
   tripData: 'Data om resor',
   dailyTripDataRefresh: 'Appen uppdaterar data om resor en gång per dygn, men du kan när som helst uppdatera all data här.',
-  refreshNow: 'Uppdatera nu'
+  refreshNow: 'Uppdatera nu',
+  connections: 'Anslutningar'
 }
