@@ -1,6 +1,6 @@
 
 import { isWithinRange, differenceInCalendarDays } from 'date-fns'
-import { getImmutableObject, isMap, getMap } from './immutable'
+import { getImmutableObject } from './immutable'
 
 const LOCK_TRIP_BEFORE = 10
 

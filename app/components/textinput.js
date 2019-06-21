@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react'
 import { TextInput } from 'react-native'
 import debounce from '../utils/debounce'
+import { Colors } from '../theme'
 
 export default class TMTextInput extends PureComponent {
   constructor (props) {
@@ -25,6 +26,7 @@ export default class TMTextInput extends PureComponent {
     const { placeholder, style } = this.props
     return (
       <TextInput
+        placeholderTextColor={Colors.steel}
         underlineColorAndroid='transparent'
         placeholder={placeholder}
         value={this.state.text}

@@ -30,6 +30,7 @@ class FutureTripsScreen extends Component {
   render () {
     const { navigation, trips } = this.props
     const futureTrips = trips.get('future')
+    const currentTrip = trips.getIn(['current', 'trip'])
     const isLoading = trips.get('isLoading')
     const left = navigation.getParam('left') || 'back'
 
@@ -37,9 +38,11 @@ class FutureTripsScreen extends Component {
       <Container>
         <Header left={left} title={_T('futureTrips')} navigation={navigation} />
         <FutureTrips
+          currentTrip={currentTrip}
           futureTrips={futureTrips}
           refreshing={isLoading}
           onRefresh={this._onRefresh}
+          navigation={navigation}
         />
       </Container>
     )

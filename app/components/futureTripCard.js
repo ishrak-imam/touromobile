@@ -219,7 +219,7 @@ class FutureTripCard extends Component {
   _renderComboLabel = label => {
     return (
       <View style={ss.comboText}>
-        <Text style={ss.comboLabel}>{_T(label)}:</Text>
+        <Text style={ss.comboLabel}>{_T(label)}</Text>
       </View>
     )
   }

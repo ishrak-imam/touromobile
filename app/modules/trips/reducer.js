@@ -11,7 +11,8 @@ import {
   SET_CURRENT_TRIPS, SET_FUTURE_TRIPS, SET_PAST_TRIPS,
   SET_PENDING_STATS_UPLOAD, SET_REMAINING_FUTURE_TRIPS,
   CONNECTIONS_SUCS,
-  RESERVATIONS_SUCS
+  RESERVATIONS_SUCS,
+  ADD_MANUAL_TRIP
 } from './action'
 
 import { TRIPS_INITIAL_STATE } from './immutable'
@@ -52,5 +53,11 @@ export const trips = createReducer(TRIPS_INITIAL_STATE, {
     return setIntoMap(state, 'connections', connections)
   },
 
-  [RESERVATIONS_SUCS]: (state, payload) => setIntoMap(state, 'reservations', payload)
+  [RESERVATIONS_SUCS]: (state, payload) => setIntoMap(state, 'reservations', payload),
+
+  [ADD_MANUAL_TRIP]: (state, payload) => {
+    let manualTrips = readValue('manualTrips', state)
+    manualTrips = setIntoMap(manualTrips, payload.departureId, getImmutableObject(payload.trip))
+    return setIntoMap(state, 'manualTrips', manualTrips)
+  }
 })

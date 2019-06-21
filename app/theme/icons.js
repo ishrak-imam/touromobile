@@ -35,7 +35,7 @@ const getIconName = name => {
     pastTrips: ['ios-time', 'md-time'],
     star: ['ios-star', 'md-star'],
     bus: ['ios-bus', 'md-bus'],
-    flight: ['ios-airplane', 'md-airplane'],
+    flight: ['ios-airplane', 'ios-airplane'],
     warning: ['ios-warning', 'md-warning'],
     refresh: ['md-refresh', 'md-refresh'],
     delete: ['ios-trash', 'md-trash'],
@@ -47,7 +47,8 @@ const getIconName = name => {
     undo: ['ios-undo', 'md-undo'],
     radioOff: ['ios-radio-button-off', 'md-radio-button-off'],
     globe: ['md-globe', 'md-globe'],
-    clipBoard: ['md-clipboard', 'md-clipboard']
+    clipBoard: ['md-clipboard', 'md-clipboard'],
+    calendar: ['md-calendar', 'ios-calendar']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]
