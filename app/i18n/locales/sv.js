@@ -45,6 +45,7 @@ export default {
   bagPick: 'Väskhämtning',
   bagDrop: 'Väskavlämning',
   noFutureTrips: 'Inga fler framtida resor.',
+  noManualTrips: 'No manual trips added yet.',
   tripDisabled: 'Ändringar är låsta eftersom det är mindre än 10 dagar till avgång. Vänligen kontakta kontoret om du måste göra någon ändring.',
   uploadReport: 'Ladda upp rapport',
   participantShare: 'Deltagarandel',

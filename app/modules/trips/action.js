@@ -31,6 +31,8 @@ export const RESERVATIONS_FAIL = 'RESERVATIONS_FAIL'
 
 export const NAVIGATE_TO_OTHER_TRIP_SCREEN = 'NAVIGATE_TO_OTHER_TRIP_SCREEN'
 
+export const ADD_MANUAL_TRIP = 'ADD_MANUAL_TRIP'
+
 export const tripsReq = createAction(TRIPS_REQ)
 export const tripsSucs = createAction(TRIPS_SUCS)
 export const tripsActionsOnSuccess = createAction(TRIPS_ACTIONS_ON_SUCS)
@@ -61,3 +63,5 @@ export const reservationsSucs = createAction(RESERVATIONS_SUCS)
 export const reservationsFail = createAction(RESERVATIONS_FAIL)
 
 export const navigateToOtherTripScreen = createAction(NAVIGATE_TO_OTHER_TRIP_SCREEN)
+
+export const addManualTrip = createAction(ADD_MANUAL_TRIP)

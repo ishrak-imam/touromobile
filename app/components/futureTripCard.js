@@ -219,7 +219,7 @@ class FutureTripCard extends Component {
   _renderComboLabel = label => {
     return (
       <View style={ss.comboText}>
-        <Text style={ss.comboLabel}>{_T(label)}:</Text>
+        <Text style={ss.comboLabel}>{_T(label)}</Text>
       </View>
     )
   }
@@ -426,8 +426,28 @@ class FutureTripCard extends Component {
   }
 
   _acceptTrip = () => {
-    const { user } = this.props
+    const { user, trip } = this.props
     const { isAccepted, out, home } = this.acceptData
+
+    const type = trip.get('tripType')
+    let tripInfo = {
+      brand: null,
+      tripType: null,
+      tripName: null,
+      outDate: null,
+      homeDate: null
+    }
+    if (type === 'manual') {
+      const { trip } = this.props
+      tripInfo = {
+        brand: trip.get('brand'),
+        tripType: trip.getIn(['transport', 'type']),
+        tripName: trip.get('name'),
+        outDate: trip.get('outDate'),
+        homeDate: trip.get('homeDate')
+      }
+    }
+
     networkActionDispatcher(acceptTripReq({
       isNeedJwt: true,
       guideId: user.get('guideId'),
@@ -438,6 +458,7 @@ class FutureTripCard extends Component {
       },
       reservationData: {
         transportId: this.transportId,
+        ...tripInfo,
         out: {
           location: out.getIn(['location', 'key']) || null,
           transfer: out.getIn(['transfer', 'key']) || null,
@@ -486,8 +507,13 @@ class FutureTripCard extends Component {
     const cardHeight = isDisabled ? 470 : 430
     const imageConHeight = isDisabled ? 410 : 370
 
+    let manualTrip = {}
+    if (trip.get('tripType') === 'manual') {
+      manualTrip = { borderWidth: 2, borderColor: Colors.blue }
+    }
+
     return (
-      <View style={[ss.card, { height: cardHeight }]}>
+      <View style={[ss.card, { height: cardHeight }, manualTrip]}>
         <View style={[ss.cardHeader, { backgroundColor: Colors[`${brand}Brand`] }]}>
           <View style={ss.headerTop}>
             <Text style={ss.brandText}>{`${brand}  ${title}`}</Text>

@@ -104,7 +104,7 @@ export default class Profile extends Component {
             {
               editMode
                 ? <TextInput
-                  placeholder='First name'
+                  placeholder={_T('firstName')}
                   style={ss.input}
                   onChange={this._handleChange('firstName')}
                   value={firstName}
@@ -121,7 +121,7 @@ export default class Profile extends Component {
             {
               editMode
                 ? <TextInput
-                  placeholder='Last name'
+                  placeholder={_T('lastName')}
                   style={ss.input}
                   onChange={this._handleChange('lastName')}
                   value={lastName}
@@ -150,7 +150,7 @@ export default class Profile extends Component {
             {
               editMode
                 ? <TextInput
-                  placeholder='Address'
+                  placeholder={_T('address')}
                   style={ss.input}
                   onChange={this._handleChange('address')}
                   value={address}
@@ -167,7 +167,7 @@ export default class Profile extends Component {
             {
               editMode
                 ? <TextInput
-                  placeholder='City'
+                  placeholder={_T('city')}
                   style={ss.input}
                   onChange={this._handleChange('city')}
                   value={city}
@@ -184,7 +184,7 @@ export default class Profile extends Component {
             {
               editMode
                 ? <TextInput
-                  placeholder='Zip'
+                  placeholder={_T('zip')}
                   style={ss.input}
                   onChange={this._handleChange('zip')}
                   value={zip}

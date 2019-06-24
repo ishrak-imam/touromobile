@@ -20,6 +20,10 @@ export default class TMSwitch extends React.Component {
         return ({
           width: 100, padding: 20, circleWidth: 30, circleHeight: 30, translateX: 38
         })
+      case 'medium':
+        return ({
+          width: 50, padding: 13, circleWidth: 20, circleHeight: 20, translateX: 24
+        })
       default:
         return ({
           // width: 50, padding: 12, circleWidth: 20, circleHeight: 20, translateX: 26
@@ -32,7 +36,7 @@ export default class TMSwitch extends React.Component {
     isOn: false,
     onColor: '#634fc9',
     offColor: '#ecf0f1',
-    size: 'medium',
+    // size: 'medium',
     icon: null
   }
 
