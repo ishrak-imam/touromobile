@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import { Container } from 'native-base'
 import {
   View, Text, StyleSheet,
-  Dimensions, TouchableOpacity
+  Dimensions, TouchableOpacity,
+  Keyboard
 } from 'react-native'
 import Header from '../../components/header'
 import TextInput from '../../components/textinput'
@@ -47,7 +48,7 @@ export default class AddNewTrip extends Component {
   }
 
   _onToggle = v => {
-    this.setState({ isFlight: !this.state.isFlight }, () => console.log(this.state))
+    this.setState({ isFlight: !this.state.isFlight })
   }
 
   _renderLabel = label => {
@@ -63,6 +64,7 @@ export default class AddNewTrip extends Component {
   }
 
   _showSelections = () => {
+    Keyboard.dismiss()
     actionDispatcher(showModal({
       type: 'selection',
       options: this._getSelectionOptions(),
@@ -103,11 +105,13 @@ export default class AddNewTrip extends Component {
   // }
 
   _onSave = () => {
+    Keyboard.dismiss()
     const { departureId, tripName, isFlight, brand, outDate, homeDate } = this.state
     actionDispatcher(addManualTrip({
       departureId,
       trip: {
         departureId,
+        transportId: -1,
         transport: {
           type: isFlight ? 'flight' : 'bus'
         },
@@ -115,7 +119,8 @@ export default class AddNewTrip extends Component {
         brand: brand.value,
         outDate,
         homeDate,
-        image: ''
+        image: '',
+        tripType: 'manual'
       }
     }))
     this.props.navigation.goBack()

@@ -45,6 +45,7 @@ export default {
   bagPick: 'Bag pickup',
   bagDrop: 'Bag dropoff',
   noFutureTrips: 'No more future trips.',
+  noManualTrips: 'No manual trips added yet.',
   tripDisabled: 'Saving is disabled! It\'s less than 10 days to departure. Please contact the office if you need to maje any changes.',
   uploadReport: 'Upload report',
   participantShare: 'Participant share',

@@ -7,9 +7,11 @@ import SetSentryUser from './setSentryUser'
 import SyncData from './syncData'
 import AddItemsToBucket from './addItemsToBucket'
 import InvoiceeMonitor from './invoiceeMonitor'
+import ToggleAcceptSave from './toggleAcceptSave'
 
 export default [
   AttachJwt, Toast, ClearTransferCity,
   ClearBag, SetSentryUser, SyncData,
-  AddItemsToBucket, InvoiceeMonitor
+  AddItemsToBucket, InvoiceeMonitor,
+  ToggleAcceptSave
 ]

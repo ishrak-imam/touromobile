@@ -7,12 +7,14 @@ import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import OverlaySpinner from './overlaySpinner'
 import _T from '../utils/translator'
 import { Colors } from '../theme'
+import { mapToList, concatList } from '../utils/immutable'
 
 const { width } = Dimensions.get('window')
 
 export default class FutureTrips extends Component {
   shouldComponentUpdate (nextProps) {
     return !nextProps.futureTrips.equals(this.props.futureTrips) ||
+            !nextProps.manualTrips.equals(this.props.manualTrips) ||
             nextProps.refreshing !== this.props.refreshing
   }
 
@@ -40,14 +42,14 @@ export default class FutureTrips extends Component {
   }
 
   _renderFutureTrips = () => {
-    const { futureTrips, onRefresh } = this.props
+    const { manualTrips, futureTrips, onRefresh } = this.props
     return (
       <ImmutableVirtualizedList
         onRefresh={onRefresh}
         refreshing={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
-        immutableData={futureTrips.get('trips')}
+        immutableData={concatList(futureTrips.get('trips'), mapToList(manualTrips))}
         renderItem={this._renderTripCard}
         keyExtractor={item => String(item.get('departureId'))}
         renderEmptyInList={_T('noFutureTrips')}
@@ -56,12 +58,27 @@ export default class FutureTrips extends Component {
     )
   }
 
+  // _renderMaualTrips = () => {
+  //   const { manualTrips } = this.props
+  //   return (
+  //     <ImmutableVirtualizedList
+  //       showsVerticalScrollIndicator={false}
+  //       contentContainerStyle={{ padding: 10, paddingBottom: 15 }}
+  //       immutableData={mapToList(manualTrips)}
+  //       renderItem={this._renderTripCard('manual')}
+  //       renderEmpty={_T('noManualTrips')}
+  //       keyExtractor={item => String(item.get('departureId'))}
+  //     />
+  //   )
+  // }
+
   render () {
     const { refreshing } = this.props
     return (
       <View style={ss.container}>
         {refreshing && <OverlaySpinner />}
         {this._renderFutureTrips()}
+        {/* {this._renderMaualTrips()} */}
       </View>
     )
   }
@@ -74,10 +91,12 @@ const ss = StyleSheet.create({
   },
   gkTripCon: {
     borderTopWidth: 1,
-    marginBottom: 10
+    marginBottom: 10,
+    alignItems: 'center'
   },
   gkText: {
-    marginTop: 5
+    marginTop: 5,
+    textAlign: 'center'
   },
   button: {
     height: 45,
@@ -89,7 +108,7 @@ const ss = StyleSheet.create({
     alignItems: 'center'
   },
   buttonText: {
-    // fontSize: 18,
+    fontSize: 18,
     // fontWeight: 'bold',
     color: Colors.white
   }

@@ -36,7 +36,7 @@ export default class TMSwitch extends React.Component {
     isOn: false,
     onColor: '#634fc9',
     offColor: '#ecf0f1',
-    size: 'medium',
+    // size: 'medium',
     icon: null
   }
 
