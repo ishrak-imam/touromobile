@@ -53,7 +53,7 @@ export default class FutureTrips extends Component {
         renderItem={this._renderTripCard}
         keyExtractor={item => String(item.get('departureId'))}
         renderEmptyInList={_T('noFutureTrips')}
-        ListFooterComponent={this._renderGkTrips()}
+        // ListFooterComponent={this._renderGkTrips()}
       />
     )
   }
