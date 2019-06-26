@@ -117,3 +117,8 @@ export const {
   pendingSmsCount,
   getHideMyPhone
 } = require('./sms')
+
+export const {
+  getConnectionLines,
+  formatConnectionLines
+} = require('./connectionLines')

@@ -165,3 +165,216 @@ export const mockSendAppStatus = () => new Promise(resolve => {
     ])
   }, 2000)
 })
+
+export const mockConnectionLines = () => new Promise(resolve => {
+  setTimeout(() => {
+    return resolve({
+      'connectionLines': [
+        {
+          'name': '160',
+          'type': 'bus',
+          'locations': [
+            {
+              'name': 'Narvik',
+              'eta': '2019-06-21 09:30',
+              'passengers': [
+                {
+                  'id': 923132,
+                  'firstName': 'Vidkun',
+                  'lastName': 'Quisling',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            }
+          ]
+        },
+        {
+          'name': '445',
+          'type': 'bus',
+          'locations': [
+            {
+              'name': 'Göteborg',
+              'eta': '2019-06-20 23:30',
+              'passengers': [
+                {
+                  'id': 823132,
+                  'firstName': 'Glenn',
+                  'lastName': 'Strömberg',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': [
+                '442'
+              ]
+            }
+          ]
+        },
+        {
+          'name': '442',
+          'type': 'train',
+          'locations': [
+            {
+              'name': 'Oslo',
+              'eta': '2019-06-21 07:00',
+              'passengers': [
+                {
+                  'id': 723132,
+                  'firstName': 'Ole',
+                  'lastName': 'Haugen',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            },
+            {
+              'name': 'Trondheim',
+              'eta': '2019-06-21 08:15',
+              'passengers': [
+                {
+                  'id': 723166,
+                  'firstName': 'Thor',
+                  'lastName': 'Heyerdal',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': [
+                '160'
+              ]
+            }
+          ]
+        },
+        {
+          'name': '242',
+          'type': 'taxi',
+          'locations': [
+            {
+              'name': 'Gislaved',
+              'eta': '2019-06-21 02:45',
+              'passengers': [
+                {
+                  'id': 523132,
+                  'firstName': 'Anne',
+                  'lastName': 'Smith',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            },
+            {
+              'name': 'Gurmahurma',
+              'eta': '2019-06-21 03:15',
+              'passengers': [
+                {
+                  'id': 523166,
+                  'firstName': 'Henrik',
+                  'lastName': 'Gasslander',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            }
+          ]
+        },
+        {
+          'name': '140',
+          'type': 'bus',
+          'locations': [
+            {
+              'name': 'Landskrona',
+              'eta': '2019-06-20 20:45',
+              'passengers': [
+                {
+                  'id': 123132,
+                  'firstName': 'Anders',
+                  'lastName': 'Eriksson',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            },
+            {
+              'name': 'Helsingborg',
+              'eta': '2019-06-20 21:45',
+              'passengers': [
+                {
+                  'id': 123133,
+                  'firstName': 'Lena',
+                  'lastName': 'Eriksson',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            },
+            {
+              'name': 'Markaryd',
+              'eta': '2019-06-20 22:45',
+              'passengers': [
+                {
+                  'id': 123134,
+                  'firstName': 'Kurt',
+                  'lastName': 'Eriksson',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            },
+            {
+              'name': 'Ljungby',
+              'eta': '2019-06-20 23:45',
+              'passengers': [
+                {
+                  'id': 123135,
+                  'firstName': 'Lotta',
+                  'lastName': 'Eriksson',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            },
+            {
+              'name': 'Värnamo',
+              'eta': '2019-06-21 00:45',
+              'passengers': [
+                {
+                  'id': 123142,
+                  'firstName': 'John',
+                  'lastName': 'Doe',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': [
+                '242'
+              ]
+            },
+            {
+              'name': 'Jönköping',
+              'eta': '2019-06-21 01:45',
+              'passengers': [
+                {
+                  'id': 123332,
+                  'firstName': 'Last',
+                  'lastName': 'Person',
+                  'overnight': false,
+                  'hotel': null
+                }
+              ],
+              'connectTo': []
+            }
+          ]
+        }
+      ]
+    })
+  })
+})

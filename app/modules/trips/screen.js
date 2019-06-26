@@ -5,6 +5,7 @@ import { IonIcon } from '../../theme/'
 import { connect } from 'react-redux'
 import _T from '../../utils/translator'
 import { tripsReq, reservationsReq, connectionsReq } from './action'
+import { connectionLinesReq } from '../../modules/connectionLines/action'
 import {
   networkActionDispatcher, actionDispatcher
 } from '../../utils/actionDispatcher'
@@ -93,10 +94,15 @@ class TripScreen extends Component {
     }))
   }
 
+  _requestConnectionLines = () => {
+    networkActionDispatcher(connectionLinesReq())
+  }
+
   _onRefresh = () => {
     this._requestTrips(true)
     this._requestConnections()
     this._requestReservations()
+    this._requestConnectionLines()
   }
 
   render () {

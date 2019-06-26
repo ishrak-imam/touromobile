@@ -24,7 +24,7 @@ import ReportsScreen from '../modules/reports/screen'
 import FutureTripsScreen from '../modules/trips/futureTripsScreen'
 import PastTripsScreen from '../modules/trips/pastTripsScreen'
 import NoTripsScreen from '../modules/trips/noTrips'
-import ConnectionsScreen from '../modules/connections'
+import ConnectionsScreen from '../modules/connectionLines/screen'
 import AddNewTripScreen from '../modules/trips/addNewTrip'
 
 import RestaurantScreen from '../modules/restaurant/screen'
@@ -88,7 +88,7 @@ const appStack = createStackNavigator(
     AddNewTrip: { screen: AddNewTripScreen }
   },
   {
-    initialRouteName: 'TripsLoading',
+    initialRouteName: 'Connections',
     mode: 'modal',
     headerMode: 'none',
     navigationOptions: {
