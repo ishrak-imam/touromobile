@@ -88,7 +88,7 @@ const appStack = createStackNavigator(
     AddNewTrip: { screen: AddNewTripScreen }
   },
   {
-    initialRouteName: 'Connections',
+    initialRouteName: 'TripsLoading',
     mode: 'modal',
     headerMode: 'none',
     navigationOptions: {
