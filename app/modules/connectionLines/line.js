@@ -9,7 +9,12 @@ import { format } from 'date-fns'
 
 const ETA_FORMAT = 'HH:mm'
 const { width } = Dimensions.get('window')
+
 const ITEM_HEIGHT = 45
+const LOCATION_HEIGHT = ITEM_HEIGHT - 10
+const LEFT_ICON_SIZE = 22
+const CIRCLE_DIM = 18
+const LOCATION_MARGIN_TOP = 5
 
 class LocationItem extends Component {
   constructor (props) {
@@ -93,16 +98,27 @@ class LocationItem extends Component {
     }
 
     let leftItem = <View style={ss.circle}><View style={ss.inner} /></View>
-    if (isFirst) leftItem = <IonIcon name={type} />
-    if (isLast && isOnePlus) {
+    let leftLineTop = <View style={ss.leftLine} />
+    let leftLineBottom = <View style={ss.leftLine} />
+    if (isFirst) {
+      leftLineTop = <View style={[ss.leftLine, { backgroundColor: 'transparent' }]} />
+      leftItem = <IonIcon name={type} size={LEFT_ICON_SIZE} />
+    }
+    if (isLast) {
       leftItem = <View style={ss.circle} />
+      leftLineBottom = <View style={[ss.leftLine, { backgroundColor: 'transparent' }]} />
+    }
+    if (!isOnePlus) {
+      leftItem = <IonIcon name={type} size={LEFT_ICON_SIZE} />
     }
 
     return (
       <View style={ss.wrapper}>
         <TouchableOpacity style={ss.location} onPress={this._togglePaxList}>
           <View style={ss.locationLeft}>
+            {leftLineTop}
             {leftItem}
+            {leftLineBottom}
           </View>
           <View style={ss.middle}>
             <Text style={[ss.locationText, { marginLeft: 5 }]}>{format(eta, ETA_FORMAT)}  {name}</Text>
@@ -211,10 +227,10 @@ const ss = StyleSheet.create({
     flexDirection: 'row'
   },
   location: {
-    height: ITEM_HEIGHT - 10,
+    height: LOCATION_HEIGHT,
     width: width - 20,
     paddingHorizontal: 10,
-    marginTop: 7,
+    marginTop: LOCATION_MARGIN_TOP,
     flexDirection: 'row'
     // borderRadius: 5,
     // backgroundColor: Colors.cloud
@@ -237,17 +253,22 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  leftLine: {
+    height: ((LOCATION_HEIGHT - CIRCLE_DIM) / 2) + (LOCATION_MARGIN_TOP / 2),
+    width: 1.5,
+    backgroundColor: Colors.blue
+  },
   circle: {
-    width: 18,
-    height: 18,
+    width: CIRCLE_DIM,
+    height: CIRCLE_DIM,
     borderRadius: 9,
     backgroundColor: Colors.blue,
     justifyContent: 'center',
     alignItems: 'center'
   },
   inner: {
-    width: 14,
-    height: 14,
+    width: CIRCLE_DIM - 4,
+    height: CIRCLE_DIM - 4,
     borderRadius: 7,
     backgroundColor: Colors.white
   },

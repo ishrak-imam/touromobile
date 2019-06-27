@@ -55,6 +55,7 @@ const TripTabs = createTabNavigator(
     Trip: { screen: TripScreen },
     Pax: { screen: PaxScreen },
     Excursions: { screen: ExcursionsScreen },
+    Connections: { screen: ConnectionsScreen },
     Reports: { screen: ReportsScreen }
   },
   {
@@ -84,7 +85,6 @@ const appStack = createStackNavigator(
     PendingSms: { screen: PendingSmsScreen },
     MyOrders: { screen: MyOrdersScreen },
     Allergy: { screen: AllergyScreen },
-    Connections: { screen: ConnectionsScreen },
     AddNewTrip: { screen: AddNewTripScreen }
   },
   {

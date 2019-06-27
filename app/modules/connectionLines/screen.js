@@ -8,8 +8,18 @@ import { connect } from 'react-redux'
 import { getConnectionLines, formatConnectionLines } from '../../selectors'
 import Line from './line'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
+import { IonIcon } from '../../theme'
 
 class ConnectionLines extends Component {
+  static navigationOptions = () => {
+    return {
+      tabBarIcon: ({ focused, tintColor }) => {
+        return <IonIcon name='bus' color={tintColor} />
+      },
+      tabBarLabel: _T('connections')
+    }
+  }
+
   _onPageChange = pageNumber => {
     this.scrollableTab._onTabSelect(pageNumber)()
   }
@@ -26,7 +36,7 @@ class ConnectionLines extends Component {
     const { navigation, lines } = this.props
     return (
       <Container>
-        <Header left='back' title={_T('connections')} navigation={navigation} />
+        <Header left='menu' title={_T('connections')} navigation={navigation} />
 
         <ImmutableVirtualizedList
           contentContainerStyle={ss.list}
