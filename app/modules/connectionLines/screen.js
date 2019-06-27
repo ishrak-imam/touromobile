@@ -34,6 +34,7 @@ class ConnectionLines extends Component {
 
   render () {
     const { navigation, lines } = this.props
+    console.log(lines.toJS())
     return (
       <Container>
         <Header left='menu' title={_T('connections')} navigation={navigation} />

@@ -12,6 +12,7 @@ const { width } = Dimensions.get('window')
 
 const ITEM_HEIGHT = 45
 const LOCATION_HEIGHT = ITEM_HEIGHT - 10
+const PAX_ITEM_HEIGHT = LOCATION_HEIGHT - 5
 const LEFT_ICON_SIZE = 22
 const CIRCLE_DIM = 18
 const LOCATION_MARGIN_TOP = 5
@@ -29,30 +30,30 @@ class LocationItem extends Component {
     this.setState({ showPaxList: !this.state.showPaxList })
   }
 
-  _renderConnectToPax = connectTo => {
+  _renderConnectToPax = (connectTo, showHeader, isLast) => {
     return connectTo.keySeq().toArray().map(name => {
       const line = connectTo.get(name)
       const locations = line.get('locations')
       return (
         <View key={name}>
-          <View style={[ss.paxItem, { marginTop: 10 }]} >
-            <Text>Switching to line {name}</Text>
-          </View>
-
+          {
+            showHeader &&
+            <View style={ss.paxListHeader} >
+              <View style={[ss.locationLeft]}>
+                {!isLast && <View style={ss.paxLine} />}
+              </View>
+              <View style={ss.middle}>
+                <Text style={ss.switchText}>Switching to line {name}</Text>
+              </View>
+              <View style={ss.right} />
+              {/* <Text style={ss.switchText}>Switching to line {name}</Text> */}
+            </View>
+          }
           {locations.toArray().map(location => {
-            const passengers = location.get('passengers')
             const eta = location.get('eta')
             return (
               <View key={eta}>
-                {passengers.toArray().map(pax => {
-                  const paxId = String(pax.get('id'))
-                  const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
-                  return (
-                    <View style={ss.paxItem} key={paxId}>
-                      <Text style={ss.paxNameText}>{paxName} - {paxId}</Text>
-                    </View>
-                  )
-                })}
+                {this._renderPaxList(location, false, isLast)}
               </View>
             )
           })}
@@ -62,7 +63,7 @@ class LocationItem extends Component {
     })
   }
 
-  _renderPaxList = location => {
+  _renderPaxList = (location, showHeader = true, isLast) => {
     const passengers = location.get('passengers')
     const connectTo = location.get('connectTo')
     return (
@@ -72,11 +73,20 @@ class LocationItem extends Component {
           const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
           return (
             <View style={ss.paxItem} key={paxId}>
-              <Text style={ss.paxNameText}>{paxName} - {paxId}</Text>
+              <View style={ss.locationLeft}>
+                {!isLast && <View style={ss.paxLine} />}
+              </View>
+              <View style={ss.middle}>
+                <Text style={ss.paxNameText}>{paxName}</Text>
+              </View>
+              <View style={ss.right}>
+                <Text style={ss.paxIdText}>{paxId}</Text>
+              </View>
+              {/* <Text style={ss.paxNameText}>{paxName} - {paxId}</Text> */}
             </View>
           )
         })}
-        {!!connectTo.size && this._renderConnectToPax(connectTo)}
+        {!!connectTo.size && this._renderConnectToPax(connectTo, showHeader, isLast)}
       </View>
     )
   }
@@ -102,10 +112,10 @@ class LocationItem extends Component {
     let leftLineBottom = <View style={ss.leftLine} />
     if (isFirst) {
       leftLineTop = <View style={[ss.leftLine, { backgroundColor: 'transparent' }]} />
-      leftItem = <IonIcon name={type} size={LEFT_ICON_SIZE} />
+      leftItem = <IonIcon name={type} size={LEFT_ICON_SIZE} style={{ marginBottom: -4 }} />
     }
     if (isLast) {
-      leftItem = <View style={ss.circle} />
+      leftItem = <View style={ss.circleLast}><View style={ss.innerLast} /></View>
       leftLineBottom = <View style={[ss.leftLine, { backgroundColor: 'transparent' }]} />
     }
     if (!isOnePlus) {
@@ -132,7 +142,7 @@ class LocationItem extends Component {
             <IonIcon name='people' />
           </View>
         </TouchableOpacity>
-        {showPaxList && this._renderPaxList(location)}
+        {showPaxList && this._renderPaxList(location, true, isLast)}
       </View>
     )
   }
@@ -173,7 +183,7 @@ export default class Line extends Component {
   _renderLocations = (locations, type, connectFrom) => {
     const { showLocations } = this.state
     let marginBottom = 0
-    if (showLocations) marginBottom = 15
+    if (showLocations) marginBottom = 0 // 15 // might need later
     return (
       <View style={[ss.wrapper, { marginBottom }]}>
         {
@@ -219,29 +229,32 @@ const ss = StyleSheet.create({
   },
   header: {
     height: ITEM_HEIGHT,
-    width: width - 10,
+    width: width,
     backgroundColor: Colors.cloud,
     paddingHorizontal: 10,
     marginTop: 7,
-    borderRadius: 5,
     flexDirection: 'row'
   },
   location: {
     height: LOCATION_HEIGHT,
-    width: width - 20,
-    paddingHorizontal: 10,
+    width: width - 10,
+    paddingHorizontal: 5,
     marginTop: LOCATION_MARGIN_TOP,
     flexDirection: 'row'
-    // borderRadius: 5,
-    // backgroundColor: Colors.cloud
   },
   paxItem: {
-    height: 30,
+    height: PAX_ITEM_HEIGHT,
     width: width - 10,
-    paddingRight: 10,
-    paddingLeft: 45,
+    paddingHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  paxListHeader: {
+    height: PAX_ITEM_HEIGHT,
+    width: width - 10,
+    paddingHorizontal: 5,
+    flexDirection: 'row',
+    alignItems: 'flex-end'
   },
   left: {
     flex: 1,
@@ -253,24 +266,44 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  leftLine: {
-    height: ((LOCATION_HEIGHT - CIRCLE_DIM) / 2) + (LOCATION_MARGIN_TOP / 2),
+  paxLine: {
+    height: '100%',
     width: 1.5,
-    backgroundColor: Colors.blue
+    backgroundColor: Colors.black
+  },
+  leftLine: {
+    height: ((LOCATION_HEIGHT - CIRCLE_DIM) / 2) + (LOCATION_MARGIN_TOP / 2) + 5,
+    width: 1.5,
+    backgroundColor: Colors.black
   },
   circle: {
     width: CIRCLE_DIM,
     height: CIRCLE_DIM,
-    borderRadius: 9,
-    backgroundColor: Colors.blue,
+    borderRadius: (CIRCLE_DIM) / 2,
+    backgroundColor: Colors.black,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  circleLast: {
+    width: CIRCLE_DIM,
+    height: CIRCLE_DIM,
+    borderRadius: (CIRCLE_DIM) / 2,
+    borderWidth: 2,
+    backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center'
   },
   inner: {
     width: CIRCLE_DIM - 4,
     height: CIRCLE_DIM - 4,
-    borderRadius: 7,
+    borderRadius: (CIRCLE_DIM - 4) / 2,
     backgroundColor: Colors.white
+  },
+  innerLast: {
+    width: CIRCLE_DIM - 10,
+    height: CIRCLE_DIM - 10,
+    borderRadius: (CIRCLE_DIM - 10) / 2,
+    backgroundColor: Colors.black
   },
   name: {
     width: 35,
@@ -302,8 +335,13 @@ const ss = StyleSheet.create({
   },
   paxNameText: {
     fontSize: 15,
-    color: Colors.blue
-    // fontWeight: '600'
+    color: Colors.blue,
+    marginLeft: 5
+  },
+  paxIdText: {
+    fontSize: 15,
+    color: Colors.blue,
+    marginRight: 5
   },
   right: {
     flex: 1.5,
@@ -316,5 +354,10 @@ const ss = StyleSheet.create({
     marginRight: 10,
     fontSize: 16,
     fontWeight: 'bold'
+  },
+  switchText: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginLeft: 5
   }
 })
