@@ -53,7 +53,7 @@ class LocationItem extends Component {
             const eta = location.get('eta')
             return (
               <View key={eta}>
-                {this._renderPaxList(location, false, isLast)}
+                {this._renderPaxList(location, false, isLast, true)}
               </View>
             )
           })}
@@ -63,12 +63,15 @@ class LocationItem extends Component {
     })
   }
 
-  _renderPaxList = (location, showHeader, isLast) => {
+  _renderPaxList = (location, showHeader, isLast, indent) => {
     const passengers = location.get('passengers')
     const connectTo = location.get('connectTo')
     return (
       <View>
         {passengers.toArray().map(pax => {
+          let marginLeft = 5
+          if (indent) marginLeft = 15
+
           const paxId = String(pax.get('id'))
           const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
           return (
@@ -77,7 +80,7 @@ class LocationItem extends Component {
                 {!isLast && <View style={ss.paxLine} />}
               </View>
               <View style={ss.middle}>
-                <Text style={ss.paxNameText}>{paxName}</Text>
+                <Text style={[ss.paxNameText, { marginLeft }]}>{paxName}</Text>
               </View>
               <View style={ss.right}>
                 <Text style={ss.paxIdText}>{paxId}</Text>
@@ -142,7 +145,7 @@ class LocationItem extends Component {
             <IonIcon name='people' />
           </View>
         </TouchableOpacity>
-        {showPaxList && this._renderPaxList(location, true, isLast)}
+        {showPaxList && this._renderPaxList(location, true, isLast, false)}
       </View>
     )
   }
@@ -340,8 +343,8 @@ const ss = StyleSheet.create({
   },
   paxNameText: {
     fontSize: 15,
-    color: Colors.blue,
-    marginLeft: 5
+    color: Colors.blue
+    // marginLeft: 5
   },
   paxIdText: {
     fontSize: 15,
