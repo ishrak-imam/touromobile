@@ -173,16 +173,17 @@ export const mockConnectionLines = () => new Promise(resolve => {
         {
           'name': '160',
           'type': 'bus',
+          'overnight': false,
           'locations': [
             {
               'name': 'Narvik',
               'eta': '2019-06-21 09:30',
               'passengers': [
                 {
-                  'id': 923132,
+                  'id': 740999,
+                  'bookingId': 912391,
                   'firstName': 'Vidkun',
                   'lastName': 'Quisling',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -193,16 +194,17 @@ export const mockConnectionLines = () => new Promise(resolve => {
         {
           'name': '445',
           'type': 'bus',
+          'overnight': true,
           'locations': [
             {
               'name': 'Göteborg',
               'eta': '2019-06-20 23:30',
               'passengers': [
                 {
-                  'id': 823132,
+                  'id': 741000,
+                  'bookingId': 912391,
                   'firstName': 'Glenn',
                   'lastName': 'Strömberg',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -215,16 +217,17 @@ export const mockConnectionLines = () => new Promise(resolve => {
         {
           'name': '442',
           'type': 'train',
+          'overnight': true,
           'locations': [
             {
               'name': 'Oslo',
               'eta': '2019-06-21 07:00',
               'passengers': [
                 {
-                  'id': 723132,
+                  'id': 741210,
+                  'bookingId': 912391,
                   'firstName': 'Ole',
                   'lastName': 'Haugen',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -235,10 +238,10 @@ export const mockConnectionLines = () => new Promise(resolve => {
               'eta': '2019-06-21 08:15',
               'passengers': [
                 {
-                  'id': 723166,
+                  'id': 741211,
+                  'bookingId': 912391,
                   'firstName': 'Thor',
                   'lastName': 'Heyerdal',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -251,16 +254,17 @@ export const mockConnectionLines = () => new Promise(resolve => {
         {
           'name': '242',
           'type': 'taxi',
+          'overnight': false,
           'locations': [
             {
               'name': 'Gislaved',
               'eta': '2019-06-21 02:45',
               'passengers': [
                 {
-                  'id': 523132,
+                  'id': 741726,
+                  'bookingId': 912391,
                   'firstName': 'Anne',
                   'lastName': 'Smith',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -271,10 +275,10 @@ export const mockConnectionLines = () => new Promise(resolve => {
               'eta': '2019-06-21 03:15',
               'passengers': [
                 {
-                  'id': 523166,
+                  'id': 741727,
+                  'bookingId': 912391,
                   'firstName': 'Henrik',
                   'lastName': 'Gasslander',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -285,16 +289,17 @@ export const mockConnectionLines = () => new Promise(resolve => {
         {
           'name': '140',
           'type': 'bus',
+          'overnight': false,
           'locations': [
             {
               'name': 'Landskrona',
               'eta': '2019-06-20 20:45',
               'passengers': [
                 {
-                  'id': 123132,
+                  'id': 741728,
+                  'bookingId': 912391,
                   'firstName': 'Anders',
                   'lastName': 'Eriksson',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -305,10 +310,10 @@ export const mockConnectionLines = () => new Promise(resolve => {
               'eta': '2019-06-20 21:45',
               'passengers': [
                 {
-                  'id': 123133,
+                  'id': 741729,
+                  'bookingId': 912391,
                   'firstName': 'Lena',
                   'lastName': 'Eriksson',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -319,10 +324,10 @@ export const mockConnectionLines = () => new Promise(resolve => {
               'eta': '2019-06-20 22:45',
               'passengers': [
                 {
-                  'id': 123134,
+                  'id': 741955,
+                  'bookingId': 912391,
                   'firstName': 'Kurt',
                   'lastName': 'Eriksson',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -333,10 +338,10 @@ export const mockConnectionLines = () => new Promise(resolve => {
               'eta': '2019-06-20 23:45',
               'passengers': [
                 {
-                  'id': 123135,
+                  'id': 741956,
+                  'bookingId': 912391,
                   'firstName': 'Lotta',
                   'lastName': 'Eriksson',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -347,10 +352,10 @@ export const mockConnectionLines = () => new Promise(resolve => {
               'eta': '2019-06-21 00:45',
               'passengers': [
                 {
-                  'id': 123142,
+                  'id': 744993,
+                  'bookingId': 912391,
                   'firstName': 'John',
                   'lastName': 'Doe',
-                  'overnight': false,
                   'hotel': null
                 }
               ],
@@ -363,10 +368,10 @@ export const mockConnectionLines = () => new Promise(resolve => {
               'eta': '2019-06-21 01:45',
               'passengers': [
                 {
-                  'id': 123332,
+                  'id': 744994,
+                  'bookingId': 912391,
                   'firstName': 'Last',
                   'lastName': 'Person',
-                  'overnight': false,
                   'hotel': null
                 }
               ],

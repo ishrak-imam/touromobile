@@ -43,7 +43,7 @@ class LocationItem extends Component {
                 {!isLast && <View style={ss.paxLine} />}
               </View>
               <View style={ss.middle}>
-                <Text style={ss.switchText}>Switching to line {name}</Text>
+                <Text style={ss.switchText}>Switching to line {name}:</Text>
               </View>
               <View style={ss.right} />
               {/* <Text style={ss.switchText}>Switching to line {name}</Text> */}
@@ -63,6 +63,10 @@ class LocationItem extends Component {
     })
   }
 
+  _onPaxItemPress = paxId => () => {
+    this.props.onPaxItemPress(paxId)
+  }
+
   _renderPaxList = (location, showHeader, isLast, indent) => {
     const passengers = location.get('passengers')
     const connectTo = location.get('connectTo')
@@ -73,9 +77,10 @@ class LocationItem extends Component {
           if (indent) marginLeft = 15
 
           const paxId = String(pax.get('id'))
+          const bookingId = String(pax.get('bookingId'))
           const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
           return (
-            <View style={ss.paxItem} key={paxId}>
+            <TouchableOpacity style={ss.paxItem} key={paxId} onPress={this._onPaxItemPress(paxId)}>
               <View style={ss.locationLeft}>
                 {!isLast && <View style={ss.paxLine} />}
               </View>
@@ -83,10 +88,10 @@ class LocationItem extends Component {
                 <Text style={[ss.paxNameText, { marginLeft }]}>{paxName}</Text>
               </View>
               <View style={ss.right}>
-                <Text style={ss.paxIdText}>{paxId}</Text>
+                <Text style={ss.paxIdText}>{bookingId}</Text>
               </View>
               {/* <Text style={ss.paxNameText}>{paxName} - {paxId}</Text> */}
-            </View>
+            </TouchableOpacity>
           )
         })}
         {!!connectTo.size && this._renderConnectToPax(connectTo, showHeader, isLast)}
@@ -133,7 +138,7 @@ class LocationItem extends Component {
             {leftItem}
             {leftLineBottom}
           </View>
-          <View style={ss.middle}>
+          <View style={ss.locationMiddle}>
             <Text style={[ss.locationText, { marginLeft: 5 }]}>{format(eta, ETA_FORMAT)}  {name}</Text>
             {
               isFirst && connectFrom.size > 0 &&
@@ -169,6 +174,7 @@ export default class Line extends Component {
   }
 
   _renderHeader = line => {
+    const isOvernight = line.get('overnight')
     return (
       <TouchableOpacity style={ss.header} onPress={this._toggleShowLocations}>
         <View style={ss.left}>
@@ -178,6 +184,7 @@ export default class Line extends Component {
         </View>
         <View style={ss.middle}>
           <Text style={ss.destinationText}>{line.get('destination')}</Text>
+          {isOvernight && <IonIcon style={{ marginLeft: 10 }} name='sleep' />}
         </View>
         <View style={ss.right}>
           <Text style={ss.paxCountText}>{line.get('paxCount')}</Text>
@@ -188,6 +195,7 @@ export default class Line extends Component {
   }
 
   _renderLocations = (locations, type, connectFrom) => {
+    const { onPaxItemPress } = this.props
     const { showLocations } = this.state
     let marginBottom = 0
     if (showLocations) marginBottom = 0 // 15 // might need later
@@ -207,6 +215,7 @@ export default class Line extends Component {
                 isLast={isLast}
                 isOnePlus={isOnePlus}
                 connectFrom={connectFrom}
+                onPaxItemPress={onPaxItemPress}
               />
             )
           })
@@ -237,35 +246,36 @@ const ss = StyleSheet.create({
   },
   header: {
     height: ITEM_HEIGHT,
-    width: width,
+    width: width - 10,
     backgroundColor: Colors.cloud,
     paddingHorizontal: 10,
     marginTop: 7,
+    borderRadius: 4,
     flexDirection: 'row'
   },
   location: {
     height: LOCATION_HEIGHT,
-    width: width - 10,
+    width: width - 20,
     paddingHorizontal: 5,
     marginTop: LOCATION_MARGIN_TOP,
     flexDirection: 'row'
   },
   paxItem: {
     height: PAX_ITEM_HEIGHT,
-    width: width - 10,
+    width: width - 20,
     paddingHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'center'
   },
   paxListHeader: {
     height: PAX_ITEM_HEIGHT,
-    width: width - 10,
+    width: width - 20,
     paddingHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'flex-end'
   },
   left: {
-    flex: 1,
+    flex: 0.9,
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
@@ -326,6 +336,12 @@ const ss = StyleSheet.create({
     fontWeight: '800'
   },
   middle: {
+    flex: 4.5,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  locationMiddle: {
     flex: 4.5,
     justifyContent: 'center'
   },

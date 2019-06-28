@@ -51,7 +51,8 @@ const getIconName = name => {
     calendar: ['ios-calendar', 'md-calendar'],
     boarding: ['ios-walk', 'ios-walk'],
     train: ['ios-train', 'md-train'],
-    taxi: ['ios-car', 'md-car']
+    taxi: ['ios-car', 'md-car'],
+    sleep: ['md-bed', 'md-bed']
   }
   const result = icons[name]
   return isIOS ? result[0] : result[1]

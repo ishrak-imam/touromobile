@@ -8,7 +8,9 @@ import { connect } from 'react-redux'
 import {
   getConnectionLines,
   formatConnectionLines,
-  getBrand
+  currentTripSelector,
+  checkIfFlightTrip,
+  getPaxById
 } from '../../selectors'
 import Line from './line'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
@@ -40,9 +42,19 @@ class ConnectionLines extends Component {
     this.pager._slideTo(pageNumber)
   }
 
+  _onPaxItemPress = paxId => {
+    const { navigation, currentTrip } = this.props
+    const trip = currentTrip.get('trip')
+    const departureId = String(trip.get('departureId'))
+    const brand = trip.get('brand')
+    const pax = getPaxById(trip, paxId)
+    const isFlight = checkIfFlightTrip(trip)
+    navigation.navigate('PaxDetails', { brand, pax, departureId, isFlight })
+  }
+
   _renderLine = ({ item }) => {
     const { expand } = this.state
-    return <Line line={item} expand={expand} />
+    return <Line line={item} expand={expand} onPaxItemPress={this._onPaxItemPress} />
   }
 
   _onHeaderRightPress = () => {
@@ -60,7 +72,9 @@ class ConnectionLines extends Component {
   }
 
   render () {
-    const { navigation, lines, brand } = this.props
+    const { navigation, lines, currentTrip } = this.props
+    const trip = currentTrip.get('trip')
+    const brand = trip.get('brand')
     return (
       <Container>
         <Header
@@ -86,7 +100,7 @@ class ConnectionLines extends Component {
 
 const stateToProps = state => ({
   lines: formatConnectionLines(getConnectionLines(state)),
-  brand: getBrand(state)
+  currentTrip: currentTripSelector(state)
 })
 
 export default connect(stateToProps, null)(ConnectionLines)

@@ -186,6 +186,11 @@ const resolvers = {
 
       return list
     }, getList([]))
+  },
+
+  paxById: (trip, paxId) => {
+    const paxList = getPax(trip)
+    return paxList.find(p => String(p.get('id')) === paxId)
   }
 }
 
@@ -196,8 +201,6 @@ export const getTripsLoading = state => state.trips.get('isLoading')
 export const getTripsData = state => state.trips.get('data')
 
 export const currentTripSelector = state => state.trips.get('current')
-
-export const getBrand = state => state.trips.getIn(['current', 'trip', 'brand'])
 
 export const futureTripsSelector = state => state.trips.get('future')
 
@@ -243,6 +246,14 @@ export const getPax = trip => {
     paxCache = Cache(resolvers.pax)
   }
   return paxCache(trip)
+}
+
+let paxByIdCache = null
+export const getPaxById = (trip, paxId) => {
+  if (!paxByIdCache) {
+    paxByIdCache = Cache(resolvers.paxById)
+  }
+  return paxByIdCache(trip, paxId)
 }
 
 export const getBookings = trip => {
@@ -533,3 +544,8 @@ export const getReservations = state => {
   const reservations = state.trips.get('reservations')
   return listToMap(reservations, 'departure')
 }
+
+// export const getPaxById = (trip, paxId) => {
+//   const paxList = getPax(trip)
+//   return paxList.find(p => String(p.get('id')) === paxId)
+// }

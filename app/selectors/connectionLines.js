@@ -51,6 +51,7 @@ const formatLineData = (line, name, lines) => {
   let lineData = getMap({})
   lineData = lineData.set('name', name)
   lineData = lineData.set('type', line.get('type'))
+  lineData = lineData.set('overnight', line.get('overnight'))
 
   let locations = line.get('locations')
   const destination = locations.get(locations.size - 1).get('name')

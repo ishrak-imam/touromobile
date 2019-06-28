@@ -12,10 +12,10 @@ import {
 } from '../modules/app/action'
 import _T from '../utils/translator'
 
-export const refresh = (standAlone) => {
+export const refresh = independent => {
   return () => {
     const state = store.getState()
-    if (!standAlone) actionDispatcher(refreshTripData())
+    if (!independent) actionDispatcher(refreshTripData())
     const user = getUser(state)
     const current = currentTripSelector(state)
     const currentTrip = current.get('trip')
