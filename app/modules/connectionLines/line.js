@@ -63,7 +63,7 @@ class LocationItem extends Component {
     })
   }
 
-  _renderPaxList = (location, showHeader = true, isLast) => {
+  _renderPaxList = (location, showHeader, isLast) => {
     const passengers = location.get('passengers')
     const connectTo = location.get('connectTo')
     return (
@@ -151,10 +151,14 @@ class LocationItem extends Component {
 export default class Line extends Component {
   constructor (props) {
     super(props)
-
     this.state = {
       showLocations: false
     }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { expand } = nextProps
+    this.setState({ showLocations: expand })
   }
 
   _toggleShowLocations = () => {
@@ -214,6 +218,7 @@ export default class Line extends Component {
     const locations = line.get('locations')
     const type = line.get('type')
     const connectFrom = line.get('connectFrom')
+
     return (
       <View style={ss.wrapper}>
         {this._renderHeader(line)}

@@ -197,6 +197,8 @@ export const getTripsData = state => state.trips.get('data')
 
 export const currentTripSelector = state => state.trips.get('current')
 
+export const getBrand = state => state.trips.getIn(['current', 'trip', 'brand'])
+
 export const futureTripsSelector = state => state.trips.get('future')
 
 export const pastTripsSelector = state => state.trips.get('past')

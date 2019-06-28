@@ -51,7 +51,8 @@ export const {
   getReservations,
   getMeals,
   getDrinks,
-  getTripsLoading
+  getTripsLoading,
+  getBrand
 } = require('./trip')
 
 export const {
