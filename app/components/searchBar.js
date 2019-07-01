@@ -78,7 +78,6 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.cloud,
-    paddingVertical: 5,
     paddingHorizontal: 5
   },
   searchIcon: {
@@ -86,6 +85,7 @@ const ss = StyleSheet.create({
   },
   input: {
     flex: 1,
+    height: 35,
     padding: 5,
     paddingLeft: 10,
     backgroundColor: Colors.white,

@@ -6,6 +6,13 @@ import {
 } from 'react-native'
 import { Colors, IonIcon } from '../../theme'
 import { format } from 'date-fns'
+import { getList } from '../../utils/immutable'
+import {
+  currentTripSelector,
+  getPax, getPaxObjects
+} from '../../selectors'
+import { connect } from 'react-redux'
+import { navigate } from '../../navigation/service'
 
 const ETA_FORMAT = 'HH:mm'
 const { width } = Dimensions.get('window')
@@ -156,7 +163,7 @@ class LocationItem extends Component {
   }
 }
 
-export default class Line extends Component {
+class Line extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -173,6 +180,42 @@ export default class Line extends Component {
     this.setState({ showLocations: !this.state.showLocations })
   }
 
+  _getPaxIds = (locations, list = getList([])) => {
+    return locations.reduce((list, loc) => {
+      const passengers = loc.get('passengers')
+      passengers.every(p => {
+        list = list.push(String(p.get('id')))
+        return true
+      })
+      const connectTo = loc.get('connectTo')
+      if (connectTo.size) {
+        connectTo.every(conn => {
+          const locations = conn.get('locations')
+          list = this._getPaxIds(locations, list)
+          return true
+        })
+      }
+      return list
+    }, list)
+  }
+
+  _toPassengerList = line => {
+    const { currentTrip } = this.props
+    const trip = currentTrip.get('trip')
+    const locations = line.get('locations')
+    const paxIds = this._getPaxIds(locations)
+    const paxList = getPax(trip)
+    return () => {
+      const linePax = getPaxObjects(paxIds, paxList)
+      const brand = trip.get('brand')
+      navigate('LinePax', {
+        paxList: linePax,
+        brand,
+        trip
+      })
+    }
+  }
+
   _renderHeader = line => {
     const isOvernight = line.get('overnight')
     return (
@@ -186,10 +229,10 @@ export default class Line extends Component {
           <Text style={ss.destinationText}>{line.get('destination')}</Text>
           {isOvernight && <IonIcon style={{ marginLeft: 10 }} name='sleep' />}
         </View>
-        <View style={ss.right}>
+        <TouchableOpacity style={ss.right} onPress={this._toPassengerList(line)}>
           <Text style={ss.paxCountText}>{line.get('paxCount')}</Text>
           <IonIcon name='people' color={Colors.blue} />
-        </View>
+        </TouchableOpacity>
       </TouchableOpacity>
     )
   }
@@ -239,6 +282,12 @@ export default class Line extends Component {
     )
   }
 }
+
+const stateToProps = state => ({
+  currentTrip: currentTripSelector(state)
+})
+
+export default connect(stateToProps, null)(Line)
 
 const ss = StyleSheet.create({
   wrapper: {

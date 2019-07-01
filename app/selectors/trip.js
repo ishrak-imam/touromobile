@@ -545,7 +545,9 @@ export const getReservations = state => {
   return listToMap(reservations, 'departure')
 }
 
-// export const getPaxById = (trip, paxId) => {
-//   const paxList = getPax(trip)
-//   return paxList.find(p => String(p.get('id')) === paxId)
-// }
+export const getPaxObjects = (paxIds, paxList) => {
+  return paxList.filter(p => {
+    const paxId = String(p.get('id'))
+    return paxIds.includes(paxId)
+  })
+}

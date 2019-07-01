@@ -52,7 +52,8 @@ export const {
   getMeals,
   getDrinks,
   getTripsLoading,
-  getPaxById
+  getPaxById,
+  getPaxObjects
 } = require('./trip')
 
 export const {
