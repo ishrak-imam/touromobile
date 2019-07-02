@@ -122,5 +122,7 @@ export const {
 
 export const {
   getConnectionLines,
-  formatConnectionLines
+  getConnectionLineHotels,
+  formatConnectionLines,
+  formatConnectionLineHotels
 } = require('./connectionLines')

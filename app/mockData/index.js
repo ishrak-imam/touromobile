@@ -184,7 +184,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Vidkun',
                   'lastName': 'Quisling',
-                  'hotel': null
+                  'hotel': 1
                 }
               ],
               'connectTo': []
@@ -205,7 +205,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Glenn',
                   'lastName': 'Strömberg',
-                  'hotel': null
+                  'hotel': 2
                 }
               ],
               'connectTo': [
@@ -228,7 +228,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Ole',
                   'lastName': 'Haugen',
-                  'hotel': null
+                  'hotel': 3
                 }
               ],
               'connectTo': []
@@ -242,7 +242,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Thor',
                   'lastName': 'Heyerdal',
-                  'hotel': null
+                  'hotel': 1
                 }
               ],
               'connectTo': [
@@ -265,7 +265,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Anne',
                   'lastName': 'Smith',
-                  'hotel': null
+                  'hotel': 2
                 }
               ],
               'connectTo': []
@@ -279,7 +279,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Henrik',
                   'lastName': 'Gasslander',
-                  'hotel': null
+                  'hotel': 3
                 }
               ],
               'connectTo': []
@@ -300,7 +300,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Anders',
                   'lastName': 'Eriksson',
-                  'hotel': null
+                  'hotel': 1
                 }
               ],
               'connectTo': []
@@ -314,7 +314,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Lena',
                   'lastName': 'Eriksson',
-                  'hotel': null
+                  'hotel': 2
                 }
               ],
               'connectTo': []
@@ -328,7 +328,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Kurt',
                   'lastName': 'Eriksson',
-                  'hotel': null
+                  'hotel': 3
                 }
               ],
               'connectTo': []
@@ -342,7 +342,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Lotta',
                   'lastName': 'Eriksson',
-                  'hotel': null
+                  'hotel': 1
                 }
               ],
               'connectTo': []
@@ -356,7 +356,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'John',
                   'lastName': 'Doe',
-                  'hotel': null
+                  'hotel': 2
                 }
               ],
               'connectTo': [
@@ -372,12 +372,26 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'bookingId': 912391,
                   'firstName': 'Last',
                   'lastName': 'Person',
-                  'hotel': null
+                  'hotel': 3
                 }
               ],
               'connectTo': []
             }
           ]
+        }
+      ],
+      'overnightHotels': [
+        {
+          'id': 1,
+          'name': 'Malmö Quality Arena'
+        },
+        {
+          'id': 2,
+          'name': 'Malmö Quality View'
+        },
+        {
+          'id': 3,
+          'name': 'Scandic Segevång'
         }
       ]
     })

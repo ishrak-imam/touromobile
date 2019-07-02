@@ -7,14 +7,19 @@ import _T from '../../utils/translator'
 import { connect } from 'react-redux'
 import {
   getConnectionLines,
+  getConnectionLineHotels,
   formatConnectionLines,
+  formatConnectionLineHotels,
   currentTripSelector,
   checkIfFlightTrip,
-  getPaxById
+  getPaxById,
+  getPax, getPaxObjects
 } from '../../selectors'
 import Line from './line'
+import Hotel from './hotel'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { IonIcon, Colors } from '../../theme'
+import { getMap, getList } from '../../utils/immutable'
 
 class ConnectionLines extends Component {
   static navigationOptions = () => {
@@ -34,15 +39,7 @@ class ConnectionLines extends Component {
     }
   }
 
-  _onPageChange = pageNumber => {
-    this.scrollableTab._onTabSelect(pageNumber)()
-  }
-
-  _onTabSwitch = pageNumber => {
-    this.pager._slideTo(pageNumber)
-  }
-
-  _onPaxItemPress = paxId => {
+  _onPaxItemPress = paxId => () => {
     const { navigation, currentTrip } = this.props
     const trip = currentTrip.get('trip')
     const departureId = String(trip.get('departureId'))
@@ -52,9 +49,62 @@ class ConnectionLines extends Component {
     navigation.navigate('PaxDetails', { brand, pax, departureId, isFlight })
   }
 
+  _getPaxIdsFromLines = (locations, list = getList([])) => {
+    return locations.reduce((list, loc) => {
+      const passengers = loc.get('passengers')
+      passengers.every(p => {
+        list = list.push(String(p.get('id')))
+        return true
+      })
+      const connectTo = loc.get('connectTo')
+      if (connectTo.size) {
+        connectTo.every(conn => {
+          const locations = conn.get('locations')
+          list = this._getPaxIdsFromLines(locations, list)
+          return true
+        })
+      }
+      return list
+    }, list)
+  }
+
+  _getPaxIdsFromHotels = (lines, list = getList([])) => {
+    return lines.reduce((list, line) => {
+      const passengers = line.get('passengers')
+      return passengers.reduce((list, pax) => {
+        return list.push(String(pax.get('id')))
+      }, list)
+    }, list)
+  }
+
+  _toPaxList = (data, from) => {
+    const { currentTrip, navigation } = this.props
+    const trip = currentTrip.get('trip')
+    const locations = data.get('locations')
+    const lines = data.get('lines')
+    const paxIds = from === 'lines'
+      ? this._getPaxIdsFromLines(locations)
+      : this._getPaxIdsFromHotels(lines)
+    const paxList = getPax(trip)
+    return () => {
+      const linePax = getPaxObjects(paxIds, paxList)
+      const brand = trip.get('brand')
+      navigation.navigate('LinePax', {
+        paxList: linePax,
+        brand,
+        trip
+      })
+    }
+  }
+
   _renderLine = ({ item }) => {
     const { expand } = this.state
-    return <Line line={item} expand={expand} onPaxItemPress={this._onPaxItemPress} />
+    return <Line
+      line={item}
+      expand={expand}
+      onPaxItemPress={this._onPaxItemPress}
+      onIconPress={this._toPaxList}
+    />
   }
 
   _onHeaderRightPress = () => {
@@ -71,10 +121,33 @@ class ConnectionLines extends Component {
     )
   }
 
+  _renderHotel = ({ item }) => {
+    const { expand } = this.state
+    return <Hotel
+      expand={expand}
+      hotel={item}
+      onIconPress={this._toPaxList}
+      onPaxItemPress={this._onPaxItemPress}
+    />
+  }
+
+  _renderListFooter = hotels => {
+    return (
+      <ImmutableVirtualizedList
+        contentContainerStyle={ss.list}
+        keyboardShouldPersistTaps='always'
+        immutableData={hotels.valueSeq()}
+        renderItem={this._renderHotel}
+        keyExtractor={item => String(item.get('id'))}
+      />
+    )
+  }
+
   render () {
-    const { navigation, lines, currentTrip } = this.props
+    const { navigation, lines, hotels, currentTrip } = this.props
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
+
     return (
       <Container>
         <Header
@@ -91,6 +164,7 @@ class ConnectionLines extends Component {
           immutableData={lines.valueSeq()}
           renderItem={this._renderLine}
           keyExtractor={item => String(item.get('name'))}
+          ListFooterComponent={this._renderListFooter(hotels)}
         />
 
       </Container>
@@ -98,17 +172,19 @@ class ConnectionLines extends Component {
   }
 }
 
-const stateToProps = state => ({
-  lines: formatConnectionLines(getConnectionLines(state)),
-  currentTrip: currentTripSelector(state)
-})
+const stateToProps = state => {
+  const lines = getConnectionLines(state)
+  const hotels = getConnectionLineHotels(state)
+  return {
+    lines: formatConnectionLines(lines),
+    hotels: formatConnectionLineHotels(getMap({ lines, hotels })),
+    currentTrip: currentTripSelector(state)
+  }
+}
 
 export default connect(stateToProps, null)(ConnectionLines)
 
 const ss = StyleSheet.create({
-  scrollTab: {
-    marginTop: 5
-  },
   list: {
     alignItems: 'center',
     paddingBottom: 20

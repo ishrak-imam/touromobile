@@ -175,5 +175,6 @@ export default {
   tripData: 'Data om resor',
   dailyTripDataRefresh: 'Appen uppdaterar data om resor en gång per dygn, men du kan när som helst uppdatera all data här.',
   refreshNow: 'Uppdatera nu',
-  connections: 'Anslutningar'
+  connections: 'Anslutningar',
+  switchingToLine: 'Byte till linje'
 }

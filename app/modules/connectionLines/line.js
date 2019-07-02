@@ -6,13 +6,7 @@ import {
 } from 'react-native'
 import { Colors, IonIcon } from '../../theme'
 import { format } from 'date-fns'
-import { getList } from '../../utils/immutable'
-import {
-  currentTripSelector,
-  getPax, getPaxObjects
-} from '../../selectors'
-import { connect } from 'react-redux'
-import { navigate } from '../../navigation/service'
+import _T from '../../utils/translator'
 
 const ETA_FORMAT = 'HH:mm'
 const { width } = Dimensions.get('window')
@@ -50,7 +44,7 @@ class LocationItem extends Component {
                 {!isLast && <View style={ss.paxLine} />}
               </View>
               <View style={ss.middle}>
-                <Text style={ss.switchText}>Switching to line {name}:</Text>
+                <Text style={ss.switchText}>{_T('switchingToLine')} {name}:</Text>
               </View>
               <View style={ss.right} />
               {/* <Text style={ss.switchText}>Switching to line {name}</Text> */}
@@ -70,11 +64,8 @@ class LocationItem extends Component {
     })
   }
 
-  _onPaxItemPress = paxId => () => {
-    this.props.onPaxItemPress(paxId)
-  }
-
   _renderPaxList = (location, showHeader, isLast, indent) => {
+    const { onPaxItemPress } = this.props
     const passengers = location.get('passengers')
     const connectTo = location.get('connectTo')
     return (
@@ -87,7 +78,7 @@ class LocationItem extends Component {
           const bookingId = String(pax.get('bookingId'))
           const paxName = `${pax.get('firstName')} ${pax.get('lastName')}`
           return (
-            <TouchableOpacity style={ss.paxItem} key={paxId} onPress={this._onPaxItemPress(paxId)}>
+            <TouchableOpacity style={ss.paxItem} key={paxId} onPress={onPaxItemPress(paxId)}>
               <View style={ss.locationLeft}>
                 {!isLast && <View style={ss.paxLine} />}
               </View>
@@ -163,7 +154,7 @@ class LocationItem extends Component {
   }
 }
 
-class Line extends Component {
+export default class Line extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -180,43 +171,8 @@ class Line extends Component {
     this.setState({ showLocations: !this.state.showLocations })
   }
 
-  _getPaxIds = (locations, list = getList([])) => {
-    return locations.reduce((list, loc) => {
-      const passengers = loc.get('passengers')
-      passengers.every(p => {
-        list = list.push(String(p.get('id')))
-        return true
-      })
-      const connectTo = loc.get('connectTo')
-      if (connectTo.size) {
-        connectTo.every(conn => {
-          const locations = conn.get('locations')
-          list = this._getPaxIds(locations, list)
-          return true
-        })
-      }
-      return list
-    }, list)
-  }
-
-  _toPassengerList = line => {
-    const { currentTrip } = this.props
-    const trip = currentTrip.get('trip')
-    const locations = line.get('locations')
-    const paxIds = this._getPaxIds(locations)
-    const paxList = getPax(trip)
-    return () => {
-      const linePax = getPaxObjects(paxIds, paxList)
-      const brand = trip.get('brand')
-      navigate('LinePax', {
-        paxList: linePax,
-        brand,
-        trip
-      })
-    }
-  }
-
   _renderHeader = line => {
+    const { onIconPress } = this.props
     const isOvernight = line.get('overnight')
     return (
       <TouchableOpacity style={ss.header} onPress={this._toggleShowLocations}>
@@ -229,7 +185,7 @@ class Line extends Component {
           <Text style={ss.destinationText}>{line.get('destination')}</Text>
           {isOvernight && <IonIcon style={{ marginLeft: 10 }} name='sleep' />}
         </View>
-        <TouchableOpacity style={ss.right} onPress={this._toPassengerList(line)}>
+        <TouchableOpacity style={ss.right} onPress={onIconPress(line, 'lines')}>
           <Text style={ss.paxCountText}>{line.get('paxCount')}</Text>
           <IonIcon name='people' color={Colors.blue} />
         </TouchableOpacity>
@@ -282,12 +238,6 @@ class Line extends Component {
     )
   }
 }
-
-const stateToProps = state => ({
-  currentTrip: currentTripSelector(state)
-})
-
-export default connect(stateToProps, null)(Line)
 
 const ss = StyleSheet.create({
   wrapper: {

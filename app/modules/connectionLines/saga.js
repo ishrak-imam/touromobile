@@ -15,8 +15,8 @@ export function * watchConnectionLineReq () {
 
 function * workerConnectionLineReq (action) {
   try {
-    const { connectionLines } = yield call(getConnectionLines)
-    yield put(connectionLinesSucs(connectionLines))
+    const response = yield call(getConnectionLines)
+    yield put(connectionLinesSucs(response))
   } catch (e) {
     yield put(connectionLinesFail())
   }
