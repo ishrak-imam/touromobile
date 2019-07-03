@@ -12,11 +12,21 @@ import isIOS from '../utils/isIOS'
 import { actionDispatcher } from '../utils/actionDispatcher'
 import { modifyPaxData } from '../modules/modifiedData/action'
 import { connect } from 'react-redux'
-import { getModifiedPax, getHideMyPhone } from '../selectors'
-import { mergeMapShallow, getSet } from '../utils/immutable'
+import {
+  getModifiedPax,
+  getHideMyPhone,
+  getConnectionLines,
+  formatConnectionLines,
+  getConnectionLineHotels,
+  formatConnectionLineHotels
+} from '../selectors'
+import { mergeMapShallow, getMap, getSet } from '../utils/immutable'
 import FooterButtons from './footerButtons'
 import CheckBox from './checkBox'
 import { navigate } from '../navigation/service'
+import { format } from 'date-fns'
+
+const ETA_FORMAT = 'HH:mm'
 
 class PaxCard extends Component {
   constructor (props) {
@@ -238,6 +248,98 @@ class PaxCard extends Component {
     this.setState({ adult: !this.state.adult })
   }
 
+  _findLineInfo = (line, lines, connection, paxId) => {
+    const name = line.get('name')
+    const destination = line.get('destination')
+    const type = line.get('type')
+    const eta = line.get('eta')
+
+    const connectFrom = line.get('connectFrom')
+    if (connectFrom) {
+      let switches = connection.get('switches') || getMap({})
+      let switchConnection = switches.get(name) || getMap({})
+      switchConnection = switchConnection.set('name', name)
+      switchConnection = switchConnection.set('destination', destination)
+      switchConnection = switchConnection.set('type', type)
+      switchConnection = switchConnection.set('eta', eta)
+      switches = switches.set(name, switchConnection)
+      connection = connection.set('switches', switches)
+
+      const connectFromLine = lines.get(connectFrom)
+      connection = this._findLineInfo(connectFromLine, lines, connection)
+    } else {
+      connection = connection.set('name', name)
+      connection = connection.set('destination', destination)
+      connection = connection.set('type', type)
+      connection = connection.set('eta', eta)
+    }
+
+    return connection
+  }
+
+  _findConnection = () => {
+    const { lines, hotels } = this.props
+    const paxId = String(this.paxData.get('id'))
+    let passenger = null
+
+    const line = lines.find(line => {
+      const locations = line.get('locations')
+      return locations.find(loc => {
+        const passengers = loc.get('passengers')
+        return passengers.find(pax => {
+          if (String(pax.get('id')) === paxId) {
+            passenger = pax
+            return true
+          }
+          return false
+        })
+      })
+    })
+
+    let connection = getMap({})
+
+    if (line) {
+      connection = this._findLineInfo(line, lines, connection, paxId)
+      const hotelId = String(passenger.get('hotel'))
+      if (hotelId && line.get('overnight')) {
+        connection = connection.set('hotel', hotels.get(hotelId))
+      }
+    }
+
+    return connection
+  }
+
+  _renderConnection = () => {
+    const connection = this._findConnection()
+
+    if (!connection.size) return null
+
+    const destination = connection.get('destination')
+    const eta = connection.get('eta')
+    const name = connection.get('name')
+    const hotel = connection.get('hotel')
+    const switches = connection.get('switches')
+
+    return (
+      <CardItem>
+        <Body>
+          <Text style={ss.label}>Connection</Text>
+          {!!hotel && <Text style={{ marginBottom: 20 }}>Overnight hotel: {hotel.get('name')}</Text>}
+          <Text>Line {name} to {destination}. ETA {format(eta, ETA_FORMAT)}</Text>
+          {!!switches && !!switches.size &&
+            <View>
+              {switches.valueSeq().map(sw => {
+                const destination = connection.get('destination')
+                const eta = sw.get('eta')
+                const name = sw.get('name')
+                return <Text key={name}>Switching to line {name} to {destination}. ETA {format(eta, ETA_FORMAT)}</Text>
+              })}
+            </View>}
+        </Body>
+      </CardItem>
+    )
+  }
+
   render () {
     const { editMode, phone, comment } = this.state
     const booking = this.paxData.get('booking')
@@ -257,6 +359,7 @@ class PaxCard extends Component {
         {this._renderComment(comment)}
         {this._renderAdult()}
         {editMode && <FooterButtons style={ss.footerButton} onCancel={this._onCancel} onSave={this._onSave} />}
+        {this._renderConnection()}
       </KeyboardAwareScrollView>
     )
   }
@@ -264,8 +367,12 @@ class PaxCard extends Component {
 
 const stateToProps = (state, props) => {
   const { departureId } = props
+  const lines = getConnectionLines(state)
+  const hotels = getConnectionLineHotels(state)
   return {
     hideMyPhone: getHideMyPhone(state),
+    lines: formatConnectionLines(lines),
+    hotels: formatConnectionLineHotels(getMap({ lines, hotels })),
     modifiedPax: getModifiedPax(state, departureId)
   }
 }

@@ -32,13 +32,13 @@ const getTotalPaxCount = locations => {
 }
 
 const getParentConnections = (lines, name) => {
-  let connectFrom = getList([])
+  let connectFrom = '' // getList([])
   lines.every(line => {
     const locations = line.get('locations')
     locations.every(loc => {
       const connectTo = loc.get('connectTo')
       if (connectTo.includes(name)) {
-        connectFrom = connectFrom.push(line.get('name'))
+        connectFrom = line.get('name') // connectFrom.push(line.get('name'))
       }
       return true
     })
@@ -54,8 +54,9 @@ const formatLineData = (line, name, lines) => {
   lineData = lineData.set('overnight', line.get('overnight'))
 
   let locations = line.get('locations')
-  const destination = locations.get(locations.size - 1).get('name')
-  lineData = lineData.set('destination', destination)
+  const destination = locations.get(locations.size - 1)
+  lineData = lineData.set('destination', destination.get('name'))
+  lineData = lineData.set('eta', destination.get('eta'))
 
   locations = gatherConnectToData(locations, lines)
   lineData = lineData.set('locations', locations)
@@ -89,19 +90,21 @@ const resolvers = {
         locations.every(loc => {
           const passengers = loc.get('passengers')
           passengers.every(p => {
-            const hotelId = String(p.get('hotel'))
-            let hotel = hotels.get(hotelId)
-            let totalPax = hotel.get('totalPax') || 0
-            hotel = hotel.set('totalPax', totalPax + 1)
-            let lines = hotel.get('lines') || getMap({})
-            let line = lines.get(name) || getMap({})
-            let paxList = line.get('passengers') || getList([])
-            paxList = paxList.push(p)
-            line = line.set('passengers', paxList)
-            line = line.set('name', name)
-            lines = lines.set(name, line)
-            hotel = hotel.set('lines', lines)
-            hotels = hotels.set(hotelId, hotel)
+            const hotelId = p.get('hotel')
+            if (hotelId) {
+              let hotel = hotels.get(String(hotelId))
+              let totalPax = hotel.get('totalPax') || 0
+              hotel = hotel.set('totalPax', totalPax + 1)
+              let lines = hotel.get('lines') || getMap({})
+              let line = lines.get(name) || getMap({})
+              let paxList = line.get('passengers') || getList([])
+              paxList = paxList.push(p)
+              line = line.set('passengers', paxList)
+              line = line.set('name', name)
+              lines = lines.set(name, line)
+              hotel = hotel.set('lines', lines)
+              hotels = hotels.set(String(hotelId), hotel)
+            }
             return true
           })
           return true
