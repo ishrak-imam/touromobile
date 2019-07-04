@@ -25,6 +25,7 @@ import FooterButtons from './footerButtons'
 import CheckBox from './checkBox'
 import { navigate } from '../navigation/service'
 import { format } from 'date-fns'
+import { sorter } from '../utils/stringHelpers'
 
 const ETA_FORMAT = 'HH:mm'
 
@@ -248,30 +249,65 @@ class PaxCard extends Component {
     this.setState({ adult: !this.state.adult })
   }
 
-  _findLineInfo = (line, lines, connection, paxId) => {
+  _findLocationInfoByPaxId = (line, paxId) => {
+    const locations = line.get('locations')
+    const location = locations.find(loc => {
+      const passengers = loc.get('passengers')
+      return passengers.find(pax => String(pax.get('id')) === paxId)
+    })
+    return {
+      destination: location.get('name'),
+      eta: location.get('eta')
+    }
+  }
+
+  _findLocationInfoByLineName = (line, lineName) => {
+    const locations = line.get('locations')
+    const location = locations.find(loc => {
+      const connectTo = loc.get('connectTo')
+      return connectTo.get(lineName)
+    })
+    return {
+      destination: location.get('name'),
+      eta: location.get('eta')
+    }
+  }
+
+  _findLineInfo = (line, lines, connection, paxId, childLine) => {
     const name = line.get('name')
-    const destination = line.get('destination')
     const type = line.get('type')
-    const eta = line.get('eta')
+
+    let lineInfo = { destination: '', eta: '' }
 
     const connectFrom = line.get('connectFrom')
     if (connectFrom) {
+      if (paxId) {
+        lineInfo = this._findLocationInfoByPaxId(line, paxId)
+      } else {
+        lineInfo = this._findLocationInfoByLineName(line, childLine)
+      }
       let switches = connection.get('switches') || getMap({})
       let switchConnection = switches.get(name) || getMap({})
       switchConnection = switchConnection.set('name', name)
-      switchConnection = switchConnection.set('destination', destination)
+      switchConnection = switchConnection.set('destination', lineInfo.destination)
       switchConnection = switchConnection.set('type', type)
-      switchConnection = switchConnection.set('eta', eta)
+      switchConnection = switchConnection.set('eta', lineInfo.eta)
       switches = switches.set(name, switchConnection)
       connection = connection.set('switches', switches)
 
       const connectFromLine = lines.get(connectFrom)
-      connection = this._findLineInfo(connectFromLine, lines, connection)
+      connection = this._findLineInfo(connectFromLine, lines, connection, undefined, name)
     } else {
+      if (paxId) {
+        lineInfo = this._findLocationInfoByPaxId(line, paxId)
+      } else {
+        lineInfo = this._findLocationInfoByLineName(line, childLine)
+      }
+
       connection = connection.set('name', name)
-      connection = connection.set('destination', destination)
+      connection = connection.set('destination', lineInfo.destination)
       connection = connection.set('type', type)
-      connection = connection.set('eta', eta)
+      connection = connection.set('eta', lineInfo.eta)
     }
 
     return connection
@@ -318,7 +354,8 @@ class PaxCard extends Component {
     const eta = connection.get('eta')
     const name = connection.get('name')
     const hotel = connection.get('hotel')
-    const switches = connection.get('switches')
+    let switches = connection.get('switches')
+    switches = switches.sort(sorter('name', 'DESC'))
 
     return (
       <CardItem>
@@ -329,7 +366,7 @@ class PaxCard extends Component {
           {!!switches && !!switches.size &&
             <View>
               {switches.valueSeq().map(sw => {
-                const destination = connection.get('destination')
+                const destination = sw.get('destination')
                 const eta = sw.get('eta')
                 const name = sw.get('name')
                 return <Text key={name}>Switching to line {name} to {destination}. ETA {format(eta, ETA_FORMAT)}</Text>

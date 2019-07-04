@@ -57,3 +57,11 @@ export const checkSSN = ssn => {
   const re = /^(19|20)?(\d{6}(-|\s)\d{4}|(?!19|20)\d{10})$/
   return re.test(String(ssn))
 }
+
+export const sorter = (propName, direction = 'ASC') => {
+  return (a, b) => {
+    if (a.get(propName) > b.get(propName)) return direction === 'ASC' ? 1 : -1
+    else if (a.get(propName) < b.get(propName)) return direction === 'ASC' ? -1 : 1
+    else return 0
+  }
+}

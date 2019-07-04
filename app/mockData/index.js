@@ -231,7 +231,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'hotel': 3
                 }
               ],
-              'connectTo': ['160']
+              'connectTo': []
             },
             {
               'name': 'Trondheim',
@@ -245,7 +245,7 @@ export const mockConnectionLines = () => new Promise(resolve => {
                   'hotel': 1
                 }
               ],
-              'connectTo': []
+              'connectTo': ['160']
             }
           ]
         },
