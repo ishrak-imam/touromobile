@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
   CardItem, Left, Body,
-  Text, Right, View
+  Text, Right, View, ListItem
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import { TouchableOpacity, StyleSheet, TextInput } from 'react-native'
@@ -281,6 +281,7 @@ class PaxCard extends Component {
 
     const connectFrom = line.get('connectFrom')
     if (connectFrom) {
+      const connectFromLine = lines.get(connectFrom)
       if (paxId) {
         lineInfo = this._findLocationInfoByPaxId(line, paxId)
       } else {
@@ -289,13 +290,15 @@ class PaxCard extends Component {
       let switches = connection.get('switches') || getMap({})
       let switchConnection = switches.get(name) || getMap({})
       switchConnection = switchConnection.set('name', name)
+
+      const sourceInfo = this._findLocationInfoByLineName(connectFromLine, name)
+      switchConnection = switchConnection.set('source', sourceInfo.destination)
       switchConnection = switchConnection.set('destination', lineInfo.destination)
       switchConnection = switchConnection.set('type', type)
       switchConnection = switchConnection.set('eta', lineInfo.eta)
       switches = switches.set(name, switchConnection)
       connection = connection.set('switches', switches)
 
-      const connectFromLine = lines.get(connectFrom)
       connection = this._findLineInfo(connectFromLine, lines, connection, undefined, name)
     } else {
       if (paxId) {
@@ -305,6 +308,7 @@ class PaxCard extends Component {
       }
 
       connection = connection.set('name', name)
+      connection = connection.set('source', 'Öresundsterminalen')
       connection = connection.set('destination', lineInfo.destination)
       connection = connection.set('type', type)
       connection = connection.set('eta', lineInfo.eta)
@@ -350,6 +354,7 @@ class PaxCard extends Component {
 
     if (!connection.size) return null
 
+    const source = connection.get('source')
     const destination = connection.get('destination')
     const eta = connection.get('eta')
     const name = connection.get('name')
@@ -359,20 +364,38 @@ class PaxCard extends Component {
 
     return (
       <CardItem>
+
         <Body>
           <Text style={ss.label}>Connection</Text>
-          {!!hotel && <Text style={{ marginBottom: 20 }}>Overnight hotel: {hotel.get('name')}</Text>}
-          <Text>Line {name} to {destination}. ETA {format(eta, ETA_FORMAT)}</Text>
+          {!!hotel &&
+          <View style={ss.hotelItem}>
+            <Text>Overnight hotel: {hotel.get('name')}</Text>
+          </View>}
+          <View style={ss.lineItem}>
+            <Text>Line {name}</Text>
+            <Text>From: {source}</Text>
+            <Text>To: {destination}</Text>
+            <Text>ETA: {format(eta, ETA_FORMAT)}</Text>
+          </View>
           {!!switches && !!switches.size &&
-            <View>
+            <View style={{ width: '100%' }}>
               {switches.valueSeq().map(sw => {
+                const source = sw.get('source')
                 const destination = sw.get('destination')
                 const eta = sw.get('eta')
                 const name = sw.get('name')
-                return <Text key={name}>Switching to line {name} to {destination}. ETA {format(eta, ETA_FORMAT)}</Text>
+                return (
+                  <View style={ss.lineItem} key={name}>
+                    <Text>Switching to line {name}</Text>
+                    <Text>From: {source}</Text>
+                    <Text>To: {destination}</Text>
+                    <Text>ETA: {format(eta, ETA_FORMAT)}</Text>
+                  </View>
+                )
               })}
             </View>}
         </Body>
+
       </CardItem>
     )
   }
@@ -487,5 +510,20 @@ const ss = StyleSheet.create({
   },
   paxOrder: {
     marginTop: 20
+  },
+  hotelNameText: {
+    marginTop: 10,
+    marginBottom: 20
+  },
+  hotelItem: {
+    width: '100%',
+    height: 30,
+    marginTop: 5
+  },
+  lineItem: {
+    width: '100%',
+    height: 90,
+    justifyContent: 'center',
+    marginTop: 5
   }
 })
