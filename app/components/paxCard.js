@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
   CardItem, Left, Body,
-  Text, Right, View, ListItem
+  Text, Right, View
 } from 'native-base'
 import { IonIcon, Colors } from '../theme'
 import { TouchableOpacity, StyleSheet, TextInput } from 'react-native'
@@ -360,7 +360,6 @@ class PaxCard extends Component {
     const name = connection.get('name')
     const hotel = connection.get('hotel')
     let switches = connection.get('switches')
-    switches = switches.sort(sorter('name', 'DESC'))
 
     return (
       <CardItem>
@@ -379,7 +378,7 @@ class PaxCard extends Component {
           </View>
           {!!switches && !!switches.size &&
             <View style={{ width: '100%' }}>
-              {switches.valueSeq().map(sw => {
+              {switches.sort(sorter('name', 'DESC')).valueSeq().map(sw => {
                 const source = sw.get('source')
                 const destination = sw.get('destination')
                 const eta = sw.get('eta')
