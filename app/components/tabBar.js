@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react'
+import { StyleSheet } from 'react-native'
 import isIOS from '../utils/isIOS'
 import { Colors } from '../theme'
 import { BottomTabBar, MaterialTopTabBar } from 'react-navigation-tabs'
@@ -17,7 +18,7 @@ class TabBarComponent extends Component {
         navigation={navigation}
         {...options}
         showLabel={showLabel}
-        labelStyle={{ fontSize: 10, marginTop: 0 }}
+        labelStyle={ss.labelStyle}
         upperCaseLabel={false}
         showIcon
         style={{ backgroundColor: Colors.sliver, height }}
@@ -34,3 +35,10 @@ const stateToProps = state => ({
 })
 
 export default connect(stateToProps, null)(TabBarComponent)
+
+const ss = StyleSheet.create({
+  labelStyle: {
+    fontSize: 8,
+    marginTop: 0
+  }
+})

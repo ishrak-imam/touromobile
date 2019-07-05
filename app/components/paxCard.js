@@ -365,15 +365,15 @@ class PaxCard extends Component {
       <CardItem>
 
         <Body>
-          <Text style={ss.label}>Connection</Text>
+          <Text style={ss.label}>{_T('connection')}</Text>
           {!!hotel &&
           <View style={ss.hotelItem}>
             <Text>Overnight hotel: {hotel.get('name')}</Text>
           </View>}
           <View style={ss.lineItem}>
-            <Text>Line {name}</Text>
-            <Text>From: {source}</Text>
-            <Text>To: {destination}</Text>
+            <Text>{_T('line')}: {name}</Text>
+            <Text>{_T('from')}: {source}</Text>
+            <Text>{_T('to')}: {destination}</Text>
             <Text>ETA: {format(eta, ETA_FORMAT)}</Text>
           </View>
           {!!switches && !!switches.size &&
@@ -385,9 +385,9 @@ class PaxCard extends Component {
                 const name = sw.get('name')
                 return (
                   <View style={ss.lineItem} key={name}>
-                    <Text>Switching to line {name}</Text>
-                    <Text>From: {source}</Text>
-                    <Text>To: {destination}</Text>
+                    <Text>{_T('switchingToLine')}: {name}</Text>
+                    <Text>{_T('from')}: {source}</Text>
+                    <Text>{_T('to')}: {destination}</Text>
                     <Text>ETA: {format(eta, ETA_FORMAT)}</Text>
                   </View>
                 )

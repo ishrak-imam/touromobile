@@ -175,5 +175,9 @@ export default {
   dailyTripDataRefresh: 'The app refreshes trip data daily. However, you can refresh trip data at any moment from here.',
   refreshNow: 'Refresh now',
   connections: 'Connections',
-  switchingToLine: 'Switching to line'
+  connection: 'Connection',
+  switchingToLine: 'Switching to line',
+  line: 'Line',
+  to: 'Till',
+  from: 'Från'
 }
