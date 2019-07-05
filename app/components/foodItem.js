@@ -12,9 +12,9 @@ import { takeOrder, takeAllergyOrder } from '../modules/modifiedData/action'
 import { getMap } from '../utils/immutable'
 
 class FoodItem extends Component {
-  // shouldComponentUpdate (nextProps) {
-  //   return !nextProps.order.equals(this.props.order)
-  // }
+  shouldComponentUpdate (nextProps) {
+    return !nextProps.order.equals(this.props.order)
+  }
 
   _onFoodSelect = sign => {
     const { departureId, bookingId, meal, mealType, paxCount } = this.props

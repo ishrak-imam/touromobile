@@ -38,6 +38,18 @@ class SummaryOrderItem extends Component {
     }
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    return !nextProps.invoiceeList.equals(this.props.invoiceeList) ||
+            !nextProps.orderForBooking.equals(this.props.orderForBooking) ||
+            nextProps.isNeedDistribution !== this.props.isNeedDistribution ||
+            nextState.lunchOrders !== this.state.lunchOrders ||
+            nextState.excursionOrders !== this.state.excursionOrders ||
+            nextState.extraOrders !== this.state.extraOrders ||
+            nextState.invoicee !== this.state.invoicee ||
+            nextState.distribution !== this.state.distribution ||
+            nextState.tab !== this.state.tab
+  }
+
   _viewToggle = section => () => {
     this.setState({
       [section]: !this.state[section]
@@ -64,7 +76,7 @@ class SummaryOrderItem extends Component {
     }
   }
 
-  get totalMealOrder () {
+  _totalMealOrder = () => {
     const { tab } = this.state
     const { orderForBooking } = this.props
     let count = 0
@@ -85,7 +97,7 @@ class SummaryOrderItem extends Component {
     return count
   }
 
-  get totalDrinkOrder () {
+  _totalDrinkOrder = () => {
     const { tab } = this.state
     const { orderForBooking } = this.props
     let count = 0
@@ -107,7 +119,7 @@ class SummaryOrderItem extends Component {
         {
           <ImmutableVirtualizedList
             immutableData={formattedMeals}
-            renderItem={this._renderFoodItem('meal', paxCount, this.totalMealOrder)}
+            renderItem={this._renderFoodItem('meal', paxCount, this._totalMealOrder())}
             // keyExtractor={item => `${item.get('id')}${item.get('adult') || item.get('child')}`}
             keyExtractor={(_, index) => String(index)}
             renderEmpty={_T('noMealData')}
@@ -125,7 +137,7 @@ class SummaryOrderItem extends Component {
           beverages.size
             ? <ImmutableVirtualizedList
               immutableData={beverages}
-              renderItem={this._renderFoodItem('drink', paxCount, this.totalDrinkOrder)}
+              renderItem={this._renderFoodItem('drink', paxCount, this._totalDrinkOrder())}
               keyExtractor={item => String(item.get('id'))}
             />
             : <NoData text='noBeverageData' textStyle={{ marginTop: 30 }} />

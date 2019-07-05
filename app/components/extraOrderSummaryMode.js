@@ -95,33 +95,31 @@ class ExtraOrderSummaryMode extends Component {
     return (
       <View style={ss.container}>
 
-        {
-          Object.keys(extraOrders.toJS()).map(key => {
-            const order = extraOrders.get(key)
-            return (
-              <ListItem style={ss.item} key={key}>
-                <TextInput
-                  underlineColorAndroid='transparent'
-                  placeholder='Text'
-                  value={order.get('text')}
-                  style={[ss.input, { width: '65%' }]}
-                  onChangeText={this._onChangeText(key, 'text')}
-                />
-                <TextInput
-                  underlineColorAndroid='transparent'
-                  placeholder='Amount'
-                  value={order.get('amount')}
-                  keyboardType='numeric'
-                  style={[ss.input, { width: '25%' }]}
-                  onChangeText={this._onChangeText(key, 'amount')}
-                />
-                <TouchableOpacity style={ss.delete} onPress={this._onDelete(key)}>
-                  <IonIcon name='delete' size={27} color={Colors.cancel} />
-                </TouchableOpacity>
-              </ListItem>
-            )
-          })
-        }
+        {extraOrders.valueSeq().map(order => {
+          const key = order.get('id')
+          return (
+            <ListItem style={ss.item} key={key}>
+              <TextInput
+                underlineColorAndroid='transparent'
+                placeholder='Text'
+                value={order.get('text')}
+                style={[ss.input, { width: '65%' }]}
+                onChangeText={this._onChangeText(key, 'text')}
+              />
+              <TextInput
+                underlineColorAndroid='transparent'
+                placeholder='Amount'
+                value={order.get('amount')}
+                keyboardType='numeric'
+                style={[ss.input, { width: '25%' }]}
+                onChangeText={this._onChangeText(key, 'amount')}
+              />
+              <TouchableOpacity style={ss.delete} onPress={this._onDelete(key)}>
+                <IonIcon name='delete' size={27} color={Colors.cancel} />
+              </TouchableOpacity>
+            </ListItem>
+          )
+        })}
 
         <View style={ss.footer}>
           <TouchableOpacity style={ss.plus} onPress={this._onAddItem}>
