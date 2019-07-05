@@ -178,6 +178,6 @@ export default {
   connection: 'Connection',
   switchingToLine: 'Switching to line',
   line: 'Line',
-  to: 'Till',
-  from: 'Från'
+  to: 'To',
+  from: 'From'
 }

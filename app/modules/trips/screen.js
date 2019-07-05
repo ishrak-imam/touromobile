@@ -57,7 +57,7 @@ class TripScreen extends Component {
       tabBarIcon: ({ focused, tintColor }) => {
         return <IonIcon name='home' color={tintColor} />
       },
-      tabBarLabel: _T('currentTrip')
+      tabBarLabel: _T('home')
     }
   }
 
