@@ -170,7 +170,7 @@ class ReportsScreen extends Component {
     const orderIssues = this._checkForIssuesInOrder(allOrders, issues)
 
     const trip = currentTrip.get('trip')
-    const departureId = trip.get('departureId')
+    const departureId = String(trip.get('departureId'))
     const brand = trip.get('brand')
     const isDataReady = currentTrip.get('has')
     const isFlight = checkIfFlightTrip(trip)
