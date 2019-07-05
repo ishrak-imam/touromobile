@@ -5,7 +5,8 @@ import { StyleSheet, View, Text } from 'react-native'
 import Header from '../../components/header'
 import { connect } from 'react-redux'
 import {
-  getModifiedPax, checkIfFlightTrip,
+  getModifiedPax,
+  // checkIfFlightTrip,
   getSortedPax, filterPaxBySearchText,
   getPaxDataGroup, getHideMyPhone
 } from '../../selectors'
@@ -22,8 +23,8 @@ const CONTEXT_OPTIONS = {
   firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },
   lastName: { text: 'lastName', key: 'LAST_NAME', icon: 'person' },
   // name: { text: 'name', key: 'NAME', icon: 'person' },
-  hotel: { text: 'hotel', key: 'HOTEL', icon: 'home' },
-  airport: { text: 'airport', key: 'AIRPORT', icon: 'flight' },
+  // hotel: { text: 'hotel', key: 'HOTEL', icon: 'home' },
+  // airport: { text: 'airport', key: 'AIRPORT', icon: 'flight' },
   booking: { text: 'booking', key: 'BOOKING', icon: 'booking' }
 }
 
@@ -54,16 +55,16 @@ class LinePaxScreen extends Component {
 
   _renderPaxItem = trip => {
     const brand = trip.get('brand')
-    const hotels = trip.get('hotels')
+    // const hotels = trip.get('hotels')
     const { modifiedPax } = this.props
 
     return ({ item }) => {
       if (item.get('first')) {
-        const { groupBy } = this.state
+        // const { groupBy } = this.state
         let text = String(item.get('initial'))
-        if (groupBy === CONTEXT_OPTIONS.hotel.key) {
-          text = hotels.find(h => String(h.get('id')) === text).get('name')
-        }
+        // if (groupBy === CONTEXT_OPTIONS.hotel.key) {
+        //   text = hotels.find(h => String(h.get('id')) === text).get('name')
+        // }
 
         return (
           <ListItem itemDivider style={ss.itemDivider}>
@@ -117,12 +118,12 @@ class LinePaxScreen extends Component {
       CONTEXT_OPTIONS.booking
     ]
 
-    const hotels = trip.get('hotels')
-    const isHotels = hotels && hotels.size
-    const isFlight = checkIfFlightTrip(trip)
+    // const hotels = trip.get('hotels')
+    // const isHotels = hotels && hotels.size
+    // const isFlight = checkIfFlightTrip(trip)
 
-    if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
-    if (isFlight) options.push(CONTEXT_OPTIONS.airport)
+    // if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
+    // if (isFlight) options.push(CONTEXT_OPTIONS.airport)
 
     return (
       <ContextMenu
@@ -145,12 +146,12 @@ class LinePaxScreen extends Component {
       case CONTEXT_OPTIONS.lastName.key:
         sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.lastName.text)
         break
-      case CONTEXT_OPTIONS.hotel.key:
-        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.hotel.text)
-        break
-      case CONTEXT_OPTIONS.airport.key:
-        sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.airport.text)
-        break
+      // case CONTEXT_OPTIONS.hotel.key:
+      //   sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.hotel.text)
+      //   break
+      // case CONTEXT_OPTIONS.airport.key:
+      //   sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.airport.text)
+      //   break
       case CONTEXT_OPTIONS.booking.key:
         sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.booking.text)
         break
@@ -167,12 +168,12 @@ class LinePaxScreen extends Component {
       case CONTEXT_OPTIONS.lastName.key:
         sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.lastName.text)
         break
-      case CONTEXT_OPTIONS.hotel.key:
-        sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.hotel.text)
-        break
-      case CONTEXT_OPTIONS.airport.key:
-        sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.airport.text)
-        break
+      // case CONTEXT_OPTIONS.hotel.key:
+      //   sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.hotel.text)
+      //   break
+      // case CONTEXT_OPTIONS.airport.key:
+      //   sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.airport.text)
+      //   break
       case CONTEXT_OPTIONS.booking.key:
         sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.booking.text)
         break

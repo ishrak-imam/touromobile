@@ -4,7 +4,7 @@ import { Container } from 'native-base'
 import SearchBar from '../../components/searchBar'
 import Header from '../../components/header'
 import {
-  currentTripSelector,
+  currentTripSelector, checkIfFlightTrip,
   getParticipants, filterPaxBySearchText,
   getPax, getSortedPax, getPaxDataGroup
 } from '../../selectors'
@@ -39,7 +39,9 @@ const ALL = 'ALL'
 
 const CONTEXT_OPTIONS = {
   firstName: { text: 'firstName', key: 'FIRST_NAME', icon: 'person' },
-  lastName: { text: 'lastName', key: 'LAST_NAME', icon: 'person' }
+  lastName: { text: 'lastName', key: 'LAST_NAME', icon: 'person' },
+  hotel: { text: 'hotel', key: 'HOTEL', icon: 'home' },
+  airport: { text: 'airport', key: 'AIRPORT', icon: 'flight' }
 }
 
 class PaxListItem extends Component {
@@ -165,16 +167,16 @@ class ExcursionDetailsScreen extends Component {
 
   _renderItem = participants => {
     return (type, item) => {
-      const { groupByBooking } = this.state
+      const { groupByBooking, groupBy } = this.state
       if (item.first) {
-        const bookingId = item.initial
+        let text = String(item.initial)
 
         let onPress = null
         let iconName = null
         let iconColor = null
         if (groupByBooking) {
-          const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(bookingId, participants)
-          if (!isAllHasPack) onPress = this._onSectionHeaderPress(isAllSelected, pax, participants, getImmutableObject(item.booking), bookingId)
+          const { pax, isAllSelected, isAllHasPack, isAnySelected } = this._getBookingData(text, participants)
+          if (!isAllHasPack) onPress = this._onSectionHeaderPress(isAllSelected, pax, participants, getImmutableObject(item.booking), text)
           iconName = 'checkOutline'
           iconColor = Colors.black
           if (isAllSelected || isAnySelected || isAllHasPack) {
@@ -185,9 +187,15 @@ class ExcursionDetailsScreen extends Component {
           }
         }
 
+        if (groupBy === CONTEXT_OPTIONS.hotel.key) {
+          const { currentTrip } = this.props
+          const hotels = currentTrip.get('hotels')
+          text = hotels.find(h => String(h.get('id')) === text).get('name')
+        }
+
         return (
           <TouchableOpacity style={ss.sectionHeader} onPress={onPress} disabled={!groupByBooking}>
-            <Text style={ss.sectionText}>{bookingId}</Text>
+            <Text style={ss.sectionText}>{text}</Text>
             {groupByBooking && <IonIcon name={iconName} color={iconColor} size={27} />}
           </TouchableOpacity>
         )
@@ -299,10 +307,19 @@ class ExcursionDetailsScreen extends Component {
   }
 
   _renderSearchRight = () => {
+    const { currentTrip } = this.props
+
     let options = [
       CONTEXT_OPTIONS.firstName,
       CONTEXT_OPTIONS.lastName
     ]
+
+    const hotels = currentTrip.get('hotels')
+    const isHotels = hotels && hotels.size
+    const isFlight = checkIfFlightTrip(currentTrip)
+
+    if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
+    if (isFlight) options.push(CONTEXT_OPTIONS.airport)
 
     return (
       <ContextMenu
@@ -334,6 +351,12 @@ class ExcursionDetailsScreen extends Component {
     if (groupBy === CONTEXT_OPTIONS.lastName.key) {
       sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.lastName.text)
     }
+    if (groupBy === CONTEXT_OPTIONS.hotel.key) {
+      sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.hotel.text)
+    }
+    if (groupBy === CONTEXT_OPTIONS.airport.key) {
+      sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.airport.text)
+    }
 
     if (searchText) {
       sortedPax = filterPaxBySearchText(sortedPax, searchText)
@@ -350,6 +373,12 @@ class ExcursionDetailsScreen extends Component {
     }
     if (groupBy === CONTEXT_OPTIONS.lastName.key) {
       sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.lastName.text)
+    }
+    if (groupBy === CONTEXT_OPTIONS.hotel.key) {
+      sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.hotel.text)
+    }
+    if (groupBy === CONTEXT_OPTIONS.airport.key) {
+      sortedPax = getPaxDataGroup(sortedPax, CONTEXT_OPTIONS.airport.text)
     }
 
     return (
