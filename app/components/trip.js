@@ -21,7 +21,7 @@ import Button from '../components/button'
 import ImageCache from './imageCache'
 import { connect } from 'react-redux'
 import { getMap, getSet } from '../utils/immutable'
-import { tripNameFormatter } from '../utils/stringHelpers'
+import { tripNameFormatter, formatPhone } from '../utils/stringHelpers'
 import { navigate } from '../navigation/service'
 
 const DATE_FORMAT = 'DD/MM'
@@ -154,7 +154,7 @@ class Trip extends Component {
           drivers.map(driver => {
             const id = driver.get('id')
             const name = driver.get('name')
-            const phone = driver.get('phone')
+            const phone = formatPhone(driver.get('phone'))
             return (
               <Body style={ss.body} key={id}>
                 <Text>{name}</Text>

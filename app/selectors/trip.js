@@ -1,6 +1,7 @@
 
 import { isWithinRange, isAfter, isBefore, subDays, addDays } from 'date-fns'
 import { setIntoMap, getMap, getList, getSet, listToMap } from '../utils/immutable'
+import { formatPhone } from '../utils/stringHelpers'
 import Cache from '../utils/cache'
 
 const resolvers = {
@@ -550,4 +551,12 @@ export const getPaxObjects = (paxIds, paxList) => {
     const paxId = String(p.get('id'))
     return paxIds.includes(paxId)
   })
+}
+
+export const getDrivers = state => {
+  return state.trips.getIn(['current', 'trip', 'transport', 'drivers']) || getList([])
+}
+
+export const getDriverPhones = drivers => {
+  return drivers.map(driver => formatPhone(driver.get('phone')))
 }

@@ -7,7 +7,10 @@ import Header from '../../components/header'
 import OutLineButton from '../../components/outlineButton'
 import { actionDispatcher } from '../../utils/actionDispatcher'
 import { sendSmsReq, storePendingSms } from './action'
-import { getSmsLoading, getConnection, getUser } from '../../selectors'
+import {
+  getSmsLoading, getConnection,
+  getUser, getDrivers, getDriverPhones
+} from '../../selectors'
 import { connect } from 'react-redux'
 import OverlaySpinner from '../../components/overlaySpinner'
 import _T from '../../utils/translator'
@@ -24,7 +27,8 @@ class SMSScreen extends Component {
     this.state = {
       message: '',
       subject: '',
-      includeMe: false
+      includeMe: false,
+      includeDrivers: false
     }
     this._messageId = uuid.v1()
   }
@@ -34,11 +38,12 @@ class SMSScreen extends Component {
   }
 
   _onSend = (numbers, brand) => {
-    const { connection, user } = this.props
-    const { includeMe } = this.state
+    const { connection, user, drivers } = this.props
+    const { includeMe, includeDrivers } = this.state
     const guidePhone = user.get('phone')
-    const recipients = numbers.toJS()
+    let recipients = numbers.toJS()
     if (includeMe) recipients.push(guidePhone)
+    if (includeDrivers) recipients = recipients.concat(getDriverPhones(drivers).toJS())
     return () => {
       Keyboard.dismiss()
       const { subject, message } = this.state
@@ -83,8 +88,12 @@ class SMSScreen extends Component {
     this.setState({ includeMe: !this.state.includeMe })
   }
 
+  _toggleIncludeDrivers = () => {
+    this.setState({ includeDrivers: !this.state.includeDrivers })
+  }
+
   render () {
-    const { subject, message, includeMe } = this.state
+    const { subject, message, includeMe, includeDrivers } = this.state
     const { navigation, smsLoading } = this.props
     const numbers = navigation.getParam('numbers')
     const brand = navigation.getParam('brand')
@@ -127,16 +136,24 @@ class SMSScreen extends Component {
           />
 
           <View style={ss.footer}>
-            <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeMe}>
-              <CheckBox checked={includeMe} />
-              <Text style={{ marginLeft: 10 }}>{_T('sendMeCopy')}</Text>
-            </TouchableOpacity>
-            <OutLineButton
-              disabled={!message || !subject}
-              text={_T('send')}
-              color={Colors.green}
-              onPress={this._onSend(numbers, brand)}
-            />
+            <View style={ss.left}>
+              <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeMe}>
+                <CheckBox checked={includeMe} />
+                <Text style={{ marginLeft: 10 }}>{_T('sendMeCopy')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeDrivers}>
+                <CheckBox checked={includeDrivers} />
+                <Text style={{ marginLeft: 10 }}>{_T('sendDriversCopy')}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={ss.right}>
+              <OutLineButton
+                disabled={!message || !subject}
+                text={_T('send')}
+                color={Colors.green}
+                onPress={this._onSend(numbers, brand)}
+              />
+            </View>
           </View>
         </KeyboardAwareScrollView>
         {smsLoading && <OverlaySpinner />}
@@ -148,7 +165,8 @@ class SMSScreen extends Component {
 const stateToProps = state => ({
   smsLoading: getSmsLoading(state),
   connection: getConnection(state),
-  user: getUser(state)
+  user: getUser(state),
+  drivers: getDrivers(state)
 })
 
 export default connect(stateToProps, null)(SMSScreen)
@@ -172,17 +190,28 @@ const ss = StyleSheet.create({
     textAlignVertical: 'top'
   },
   footer: {
-    height: 50,
+    height: 60,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 20
   },
   sendMeCopy: {
-    width: 150,
+    width: 250,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center'
+  },
+  left: {
+    flex: 2,
+    height: 60,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
+  },
+  right: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end'
   }
 })

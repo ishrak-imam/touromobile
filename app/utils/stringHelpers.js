@@ -58,6 +58,14 @@ export const checkSSN = ssn => {
   return re.test(String(ssn))
 }
 
+export const formatPhone = phone => {
+  const first = phone.charAt(0)
+  if (first === '0') {
+    return `+46${phone.slice(1, phone.length)}`
+  }
+  return phone
+}
+
 export const sorter = (propName, direction = 'ASC') => {
   return (a, b) => {
     if (a.get(propName) > b.get(propName)) return direction === 'ASC' ? 1 : -1

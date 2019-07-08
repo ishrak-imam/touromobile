@@ -149,6 +149,7 @@ export default {
   createdAt: 'Skapad på',
   noAssignments: 'Ingen uppgift accepterad än',
   sendMeCopy: 'Skicka kopia till mig',
+  sendDriversCopy: 'Skicka kopia till chaufförer',
   missingInvoicee: 'Fakturamottagare saknas',
   pendingDistribution: 'Distribution väntande',
   otherAllergy: 'Annan allergi',

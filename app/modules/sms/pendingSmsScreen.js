@@ -6,7 +6,10 @@ import Header from '../../components/header'
 import _T from '../../utils/translator'
 import { IonIcon, Colors } from '../../theme'
 import { connect } from 'react-redux'
-import { getConnection, getPendingSms, getUser } from '../../selectors'
+import {
+  getConnection, getPendingSms,
+  getUser, getDrivers, getDriverPhones
+} from '../../selectors'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import { mapToList } from '../../utils/immutable'
 import isIphoneX from '../../utils/isIphoneX'
@@ -29,7 +32,8 @@ class SMSItem extends Component {
       editMode: false,
       subject: sms.get('subject'),
       message: sms.get('message'),
-      includeMe: false
+      includeMe: false,
+      includeDrivers: false
     }
   }
 
@@ -58,11 +62,12 @@ class SMSItem extends Component {
   }
 
   _onSend = sms => () => {
-    const { guidePhone } = this.props
-    const { includeMe } = this.state
+    const { guidePhone, driverPhones } = this.props
+    const { includeMe, includeDrivers } = this.state
     const { subject, message } = this.state
-    const to = sms.get('to').toJS()
+    let to = sms.get('to').toJS()
     if (includeMe) to.push(guidePhone)
+    if (includeDrivers) to = to.concat(driverPhones.toJS())
     const smsPayload = {
       brand: sms.get('brand'),
       subject,
@@ -84,9 +89,13 @@ class SMSItem extends Component {
     this.setState({ includeMe: !this.state.includeMe })
   }
 
+  _toggleIncludeDrivers = () => {
+    this.setState({ includeDrivers: !this.state.includeDrivers })
+  }
+
   render () {
     const { sms, isOnline } = this.props
-    const { includeMe, subject, message, editMode } = this.state
+    const { includeMe, includeDrivers, subject, message, editMode } = this.state
     const time = format(sms.get('createdAt'), DATE_FORMAT)
     const smsId = sms.get('id')
     const isLoading = sms.get('isLoading')
@@ -142,7 +151,7 @@ class SMSItem extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={ss.footer}>
+          {/* <View style={ss.footer}>
             <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeMe}>
               <CheckBox checked={includeMe} />
               <Text style={{ marginLeft: 10 }}>{_T('sendMeCopy')}</Text>
@@ -154,6 +163,28 @@ class SMSItem extends Component {
               color={Colors.green}
               onPress={this._onSend(sms)}
             />
+          </View> */}
+
+          <View style={ss.footer}>
+            <View style={ss.left}>
+              <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeMe}>
+                <CheckBox checked={includeMe} />
+                <Text style={{ marginLeft: 10 }}>{_T('sendMeCopy')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeDrivers}>
+                <CheckBox checked={includeDrivers} />
+                <Text style={{ marginLeft: 10 }}>{_T('sendDriversCopy')}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={ss.right}>
+              <OutLineButton
+                isLoading={isLoading}
+                disabled={!isOnline || isLoading}
+                text={_T('send')}
+                color={Colors.green}
+                onPress={this._onSend(sms)}
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -166,18 +197,26 @@ class PendingSmsScreen extends Component {
     const { connection } = this.props
     const color = connection.get('online') ? Colors.white : Colors.charcoal
     return (
-      <IonIcon style={ss.right} name='globe' color={color} />
+      <IonIcon style={ss.rightIcon} name='globe' color={color} />
     )
   }
 
-  _renderSms = isOnline => ({ item }) => {
+  _renderSms = (isOnline, driverPhones) => ({ item }) => {
     const { user } = this.props
-    return <SMSItem sms={item} isOnline={isOnline} guidePhone={user.get('phone')} />
+    return <SMSItem
+      sms={item}
+      isOnline={isOnline}
+      guidePhone={user.get('phone')}
+      driverPhones={driverPhones}
+    />
   }
 
   render () {
-    const { navigation, pendings, connection } = this.props
+    const { navigation, pendings, connection, drivers } = this.props
     const pendingsList = mapToList(pendings)
+
+    const isOnline = connection.get('online')
+    const driverPhones = getDriverPhones(drivers)
 
     return (
       <Container>
@@ -198,7 +237,7 @@ class PendingSmsScreen extends Component {
             contentContainerStyle={ss.scroll}
             showsVerticalScrollIndicator={false}
             immutableData={pendingsList}
-            renderItem={this._renderSms(connection.get('online'))}
+            renderItem={this._renderSms(isOnline, driverPhones)}
             keyExtractor={item => String(item.get('id'))}
             renderEmpty={_T('noMoreSms')}
           />
@@ -211,13 +250,14 @@ class PendingSmsScreen extends Component {
 const stateToProps = state => ({
   connection: getConnection(state),
   pendings: getPendingSms(state),
-  user: getUser(state)
+  user: getUser(state),
+  drivers: getDrivers(state)
 })
 
 export default connect(stateToProps, null)(PendingSmsScreen)
 
 const ss = StyleSheet.create({
-  right: {
+  rightIcon: {
     marginRight: 10
   },
   scroll: {
@@ -277,7 +317,7 @@ const ss = StyleSheet.create({
     paddingHorizontal: 5
   },
   footer: {
-    height: 50,
+    height: 60,
     width: '100%',
     borderBottomWidth: 1,
     borderLeftWidth: 1,
@@ -288,6 +328,17 @@ const ss = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 10
+  },
+  left: {
+    flex: 2,
+    height: 60,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
+  },
+  right: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end'
   },
   input: {
     width: '100%',

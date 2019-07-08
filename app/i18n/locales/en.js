@@ -148,6 +148,7 @@ export default {
   createdAt: 'Created at',
   noAssignments: 'No assignment accepted yet',
   sendMeCopy: 'Send me a copy',
+  sendDriversCopy: 'Send drivers a copy',
   missingInvoicee: 'Missing invoicee',
   pendingDistribution: 'Distribution pending',
   otherAllergy: 'Other allergy',

@@ -53,7 +53,9 @@ export const {
   getDrinks,
   getTripsLoading,
   getPaxById,
-  getPaxObjects
+  getPaxObjects,
+  getDrivers,
+  getDriverPhones
 } = require('./trip')
 
 export const {
