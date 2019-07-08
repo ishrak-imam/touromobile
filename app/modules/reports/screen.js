@@ -99,7 +99,7 @@ class ReportsScreen extends Component {
   _checkForIssuesInOrder = (orders, possibleIssues) => {
     const trip = this.props.currentTrip.get('trip')
     const brand = trip.get('brand')
-    const departureId = trip.get('departureId')
+    const departureId = String(trip.get('departureId'))
     let bookings = trip.get('bookings')
 
     const orderProblems = {

@@ -292,9 +292,10 @@ export const getParticipantsByBooking = (state, departureId, bookingId) => {
 
   return participants.map((excursion, excursionId) => {
     const participants = excursion.get(bookingId)
-    if (participants) {
-      return participants || getSet([])
-    }
+    // if (participants) {
+    //   return participants || getSet([])
+    // }
+    return participants || getSet([])
   })
 }
 
