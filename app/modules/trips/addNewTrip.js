@@ -20,7 +20,8 @@ import { addManualTrip } from './action'
 
 const { width } = Dimensions.get('window')
 
-const BRANDS = ['GK', 'OH', 'SS', 'SC']
+// const BRANDS = ['GK', 'OH', 'SS', 'SC']
+const BRANDS = ['GK']
 const DATE_FORMAT = 'YYYY-MM-DD'
 
 export default class AddNewTrip extends Component {
@@ -34,7 +35,7 @@ export default class AddNewTrip extends Component {
     this.state = {
       tripName: '',
       isFlight: false,
-      brand: { key: '', value: '' },
+      brand: { key: 'GK', value: 'GK' },
       outDate: '',
       homeDate: '',
       departureId: `-${Date.now()}`
@@ -176,6 +177,7 @@ export default class AddNewTrip extends Component {
                   <Text numberOfLines={1} style={ss.selectorText}>{brand.value}</Text>
                 </View>
                 <TouchableOpacity
+                  disabled
                   style={ss.dropDown}
                   onPress={this._showSelections}
                 >
@@ -304,7 +306,7 @@ const ss = StyleSheet.create({
     alignItems: 'center',
     borderTopRightRadius: 3,
     borderBottomRightRadius: 3,
-    backgroundColor: Colors.blue
+    backgroundColor: Colors.steel
   },
   datePicker: {
     width: '100%',
