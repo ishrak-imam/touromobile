@@ -1,18 +1,20 @@
 
 import { setAcceptTripCombos } from '../modules/modifiedData/action'
-import { getKeyNames } from '../utils/futureTrip'
+import { getKeyNames, getTransferOptions } from '../utils/futureTrip'
 
 const KEY_NAMES = getKeyNames()
+const TRANSFER_OPTIONS = getTransferOptions()
 
-const clearTransferCity = store => next => action => {
+const clearAccommodation = store => next => action => {
   if (
     action.payload &&
     action.type === setAcceptTripCombos.getType() &&
-    action.payload.key === KEY_NAMES.TRANSFER
+    action.payload.key === KEY_NAMES.TRANSFER &&
+    action.payload.value.key === TRANSFER_OPTIONS.NT.key
   ) {
     store.dispatch(setAcceptTripCombos({
       departureId: action.payload.departureId,
-      key: KEY_NAMES.TRANSFER_CITY,
+      key: KEY_NAMES.ACCOMMODATION,
       value: { key: '', value: '' },
       direction: action.payload.direction
     }))
@@ -20,4 +22,4 @@ const clearTransferCity = store => next => action => {
   return next(action)
 }
 
-export default clearTransferCity
+export default clearAccommodation

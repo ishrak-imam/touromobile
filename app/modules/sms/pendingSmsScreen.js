@@ -151,19 +151,6 @@ class SMSItem extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          {/* <View style={ss.footer}>
-            <TouchableOpacity style={ss.sendMeCopy} onPress={this._toggleIncludeMe}>
-              <CheckBox checked={includeMe} />
-              <Text style={{ marginLeft: 10 }}>{_T('sendMeCopy')}</Text>
-            </TouchableOpacity>
-            <OutLineButton
-              isLoading={isLoading}
-              disabled={!isOnline || isLoading}
-              text={_T('send')}
-              color={Colors.green}
-              onPress={this._onSend(sms)}
-            />
-          </View> */}
 
           <View style={ss.footer}>
             <View style={ss.left}>
@@ -186,6 +173,7 @@ class SMSItem extends Component {
               />
             </View>
           </View>
+
         </View>
       </View>
     )

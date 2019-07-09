@@ -47,7 +47,9 @@ import {
   getTransferValue,
   getTransferCityValue,
   getAccommodationValue,
-  getBagValue
+  getBagValue,
+
+  getTransferOptions
 } from '../utils/futureTrip'
 
 import _T from '../utils/translator'
@@ -56,6 +58,8 @@ import OverlaySpinner from './overlaySpinner'
 const KEY_NAMES = getKeyNames()
 
 const DATE_FORMAT = 'DD/MM'
+
+const TRANSFER_OPTIONS = getTransferOptions()
 
 class FutureTripCard extends Component {
   constructor (props) {
@@ -250,13 +254,13 @@ class FutureTripCard extends Component {
     )
   }
 
-  _getHotelName = (direction, transportType, selectedAcco) => {
+  _getHotelName = (direction, transportType, transfer, accommodation) => {
     const { reservation } = this.props
     const hotelName = reservation ? reservation.getIn([direction, 'hotel']) : getDefaultHotel(transportType)
     const accOptions = getAccommodationOptions()
 
     return {
-      showHotelName: selectedAcco ? selectedAcco.get('key') !== accOptions.NA.key : false,
+      showHotelName: accommodation ? accommodation.get('key') !== accOptions.NA.key : false,
       hotelName
     }
   }
@@ -264,7 +268,9 @@ class FutureTripCard extends Component {
   _renderOutCombos = transportType => {
     const { out, home } = this.acceptData
     const { connections } = this.props
-    const { showHotelName, hotelName } = this._getHotelName('out', transportType, out.get(KEY_NAMES.ACCOMMODATION))
+    const transfer = out.get(KEY_NAMES.TRANSFER)
+    const accommodation = out.get(KEY_NAMES.ACCOMMODATION)
+    const { showHotelName, hotelName } = this._getHotelName('out', transportType, transfer, accommodation)
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
@@ -282,7 +288,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getTransfers({
             direction: 'out',
             transportType,
-            selected: out.get(KEY_NAMES.TRANSFER),
+            selected: transfer,
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -293,7 +299,7 @@ class FutureTripCard extends Component {
             direction: 'out',
             connections,
             transportType,
-            transfer: out.get(KEY_NAMES.TRANSFER),
+            transfer,
             selected: out.get(KEY_NAMES.TRANSFER_CITY),
             locked: this.shouldLockTrip
           }))}
@@ -304,6 +310,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getAccommodations({
             direction: 'out',
             transportType,
+            // transfer,
             selected: out.get(KEY_NAMES.ACCOMMODATION),
             locked: this.shouldLockTrip
           }))}
@@ -350,7 +357,9 @@ class FutureTripCard extends Component {
   _renderHomeCombos = transportType => {
     const { out, home } = this.acceptData
     const { connections } = this.props
-    const { showHotelName, hotelName } = this._getHotelName('home', transportType, home.get(KEY_NAMES.ACCOMMODATION))
+    const transfer = home.get(KEY_NAMES.TRANSFER)
+    const accommodation = home.get(KEY_NAMES.ACCOMMODATION)
+    const { showHotelName, hotelName } = this._getHotelName('home', transportType, transfer, accommodation)
     return (
       <View style={ss.comboCon}>
         <View style={ss.combo}>
@@ -368,7 +377,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getTransfers({
             direction: 'home',
             transportType,
-            selected: home.get(KEY_NAMES.TRANSFER),
+            selected: transfer,
             locked: this.shouldLockTrip
           }))}
         </View>
@@ -379,7 +388,7 @@ class FutureTripCard extends Component {
             direction: 'home',
             connections,
             transportType,
-            transfer: home.get(KEY_NAMES.TRANSFER),
+            transfer,
             selected: home.get(KEY_NAMES.TRANSFER_CITY),
             locked: this.shouldLockTrip
           }))}
@@ -390,6 +399,7 @@ class FutureTripCard extends Component {
           {this._renderSelector(getAccommodations({
             direction: 'home',
             transportType,
+            // transfer,
             selected: home.get(KEY_NAMES.ACCOMMODATION),
             locked: this.shouldLockTrip
           }))}
@@ -534,12 +544,12 @@ class FutureTripCard extends Component {
     const transportType = transport ? transport.get('type') : ''
     const isDisabled = this.shouldLockTrip
 
-    let cardHeight = isDisabled ? 490 : 450
-    let imageConHeight = isDisabled ? 430 : 390
+    let cardHeight = isDisabled ? 550 : 510
+    let imageConHeight = isDisabled ? 490 : 450
 
     if (transportType !== 'flight') {
-      cardHeight = cardHeight - 50
-      imageConHeight = imageConHeight - 50
+      cardHeight = cardHeight - 80
+      imageConHeight = imageConHeight - 80
     }
 
     let manualTrip = {}
@@ -663,11 +673,10 @@ const ss = StyleSheet.create({
   cardMiddle: {
     flex: 1,
     justifyContent: 'center',
-    marginHorizontal: 10,
-    marginTop: 20
+    marginHorizontal: 10
   },
   cardBottom: {
-    flex: 1,
+    flex: 0.7,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -741,7 +750,7 @@ const ss = StyleSheet.create({
   },
   commentBox: {
     flex: 1.5,
-    height: 60,
+    height: 70,
     backgroundColor: Colors.silver,
     borderRadius: 3,
     borderWidth: 1,
@@ -749,7 +758,7 @@ const ss = StyleSheet.create({
   },
   commentInput: {
     flex: 1,
-    height: 60,
+    height: 70,
     padding: 5
   },
   text: {

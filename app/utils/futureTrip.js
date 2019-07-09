@@ -196,12 +196,21 @@ export const getTransferCities = basedOn => {
 }
 
 export const getAccommodations = basedOn => {
-  const { direction, transportType, selected, locked } = basedOn
+  const { direction, transportType, transfer, selected, locked } = basedOn
 
   if (locked) {
     return {
       disabled: true,
       selected: selected,
+      config: null,
+      items: null
+    }
+  }
+
+  if (transfer && transfer.get('key') === TRANSFER_OPTIONS.NT.key) {
+    return {
+      disabled: true,
+      selected: null,
       config: null,
       items: null
     }
