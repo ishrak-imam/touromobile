@@ -180,5 +180,12 @@ export default {
   switchingToLine: 'Switching to line',
   line: 'Line',
   to: 'To',
-  from: 'From'
+  from: 'From',
+  manualTripText: 'Add future trip manually. This is primarily intended for G&K trips which currently are not visible to Touro.',
+  addNewTrip: 'Add new trip',
+  tripName: 'Trip name',
+  homeDate: 'Home date',
+  outDate: 'Out date',
+  transport: 'Transport',
+  brand: 'Brand'
 }

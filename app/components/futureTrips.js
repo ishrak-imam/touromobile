@@ -31,11 +31,9 @@ export default class FutureTrips extends Component {
   _renderGkTrips = () => {
     return (
       <View style={ss.gkTripCon}>
-        <Text style={ss.gkText}>
-          Add future trip manually. This is primarily intended for G&K trips which currently are not visible to Touro.
-        </Text>
+        <Text style={ss.gkText}>{_T('manualTripText')}</Text>
         <TouchableOpacity style={ss.button} onPress={this._toAddNewTrip}>
-          <Text style={ss.buttonText}>Add new trip</Text>
+          <Text style={ss.buttonText}>{_T('addNewTrip')}</Text>
         </TouchableOpacity>
       </View>
     )

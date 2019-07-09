@@ -17,6 +17,7 @@ import DatePicker from 'react-native-datepicker'
 import { format, subYears, addYears } from 'date-fns'
 import FooterButtons from '../../components/footerButtons'
 import { addManualTrip } from './action'
+import _T from '../../utils/translator'
 
 const { width } = Dimensions.get('window')
 
@@ -55,7 +56,7 @@ export default class AddNewTrip extends Component {
   _renderLabel = label => {
     return (
       <View style={ss.label}>
-        <Text style={ss.labelText}>{label}</Text>
+        <Text style={ss.labelText}>{_T(label)}</Text>
       </View>
     )
   }
@@ -137,14 +138,14 @@ export default class AddNewTrip extends Component {
     const { tripName, isFlight, brand, outDate, homeDate } = this.state
     return (
       <Container>
-        <Header left='back' title='Add new trip' brand={triBrand} navigation={navigation} />
+        <Header left='back' title={_T('addNewTrip')} brand={triBrand} navigation={navigation} />
         <View style={ss.container}>
 
           <View style={ss.item}>
-            {this._renderLabel('Trip Name')}
+            {this._renderLabel('tripName')}
             <View style={ss.input}>
               <TextInput
-                placeholder='Trip Name'
+                placeholder={_T('tripName')}
                 style={ss.tripName}
                 onChange={this._handleChange('tripName')}
                 value={tripName}
@@ -153,7 +154,7 @@ export default class AddNewTrip extends Component {
           </View>
 
           <View style={ss.item}>
-            {this._renderLabel('Transport')}
+            {this._renderLabel('transport')}
             <View style={ss.input}>
               <View style={ss.transport}>
                 <IonIcon name='bus' size={25} style={[ss.icon, { paddingRight: 10 }]} />
@@ -170,7 +171,7 @@ export default class AddNewTrip extends Component {
           </View>
 
           <View style={ss.item}>
-            {this._renderLabel('Brand')}
+            {this._renderLabel('brand')}
             <View style={ss.input}>
               <View style={ss.selector}>
                 <View style={ss.selectorBox}>
@@ -188,13 +189,13 @@ export default class AddNewTrip extends Component {
           </View>
 
           <View style={ss.item}>
-            {this._renderLabel('Out date')}
+            {this._renderLabel('outDate')}
             <View style={ss.input}>
               <DatePicker
                 style={ss.datePicker}
                 date={outDate}
                 mode='date'
-                placeholder='Out date'
+                placeholder={_T('outDate')}
                 format={DATE_FORMAT}
                 minDate={this.minDate}
                 maxDate={this.maxDate}
@@ -210,13 +211,13 @@ export default class AddNewTrip extends Component {
           </View>
 
           <View style={ss.item}>
-            {this._renderLabel('Home date')}
+            {this._renderLabel('homeDate')}
             <View style={ss.input}>
               <DatePicker
                 style={ss.datePicker}
                 date={homeDate}
                 mode='date'
-                placeholder='Home date'
+                placeholder={_T('homeDate')}
                 format='YYYY-MM-DD'
                 minDate={outDate || this.minDate}
                 maxDate={this.maxDate}

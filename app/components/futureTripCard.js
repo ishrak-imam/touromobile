@@ -30,6 +30,7 @@ import {
   setDefaultCombos,
   cancelComboValues
 } from '../modules/modifiedData/action'
+import TextInput from '../components/textinput'
 
 import {
   getKeyNames,
@@ -75,8 +76,8 @@ class FutureTripCard extends Component {
     if (reservation) {
       actionDispatcher(setDefaultCombos({
         departureId,
-        out: this._prepareComboValues(reservation.get('out'), reservation.getIn(['out', 'transfer'])),
-        home: this._prepareComboValues(reservation.get('home'), reservation.getIn(['home', 'transfer']))
+        out: this._prepareComboValues(reservation.get('out'), reservation.getIn(['out', 'transfer']), 'out'),
+        home: this._prepareComboValues(reservation.get('home'), reservation.getIn(['home', 'transfer']), 'home')
       }))
     }
 
@@ -85,15 +86,21 @@ class FutureTripCard extends Component {
     }
   }
 
-  _prepareComboValues = (from, transfer) => {
+  _prepareComboValues = (from, transfer, direction) => {
     const { connections } = this.props
-    return getMap({
+    let data = {
       location: getMap({ key: from.get('location'), value: getLocationValue(from.get('location')) }),
       transfer: getMap({ key: from.get('transfer'), value: getTransferValue(from.get('transfer')) }),
       transferCity: getMap({ key: from.get('transferCity'), value: getTransferCityValue(from.get('transferCity'), connections, transfer) }),
       accommodation: getMap({ key: from.get('accommodation'), value: getAccommodationValue(from.get('accommodation')) }),
       bag: getMap({ key: from.get('bag'), value: getBagValue(from.get('bag')) })
-    })
+    }
+
+    if (direction === 'out') {
+      data.comment = getMap({ key: 'comment', value: from.get('comment') })
+    }
+
+    return getMap(data)
   }
 
   // componentDidMount () {
@@ -164,6 +171,15 @@ class FutureTripCard extends Component {
       key,
       value,
       direction
+    }))
+  }
+
+  _onComment = comment => {
+    actionDispatcher(setAcceptTripCombos({
+      departureId: this.departureId,
+      key: 'comment',
+      value: { key: 'comment', value: comment },
+      direction: 'out'
     }))
   }
 
@@ -311,6 +327,22 @@ class FutureTripCard extends Component {
             locked: this.shouldLockTrip
           }))}
         </View>
+
+        {
+          transportType === 'flight' &&
+          <View style={ss.combo}>
+            {this._renderComboLabel('comment')}
+            <View style={ss.commentBox}>
+              <TextInput
+                multiline
+                placeholder={_T('comment')}
+                style={ss.commentInput}
+                onChange={this._onComment}
+                value={out.getIn(['comment', 'value'])}
+              />
+            </View>
+          </View>
+        }
       </View>
     )
   }
@@ -464,7 +496,8 @@ class FutureTripCard extends Component {
           transfer: out.getIn(['transfer', 'key']) || null,
           transferCity: out.getIn(['transferCity', 'key']) || null,
           accommodation: out.getIn(['accommodation', 'key']) || null,
-          bag: out.getIn(['bag', 'key']) || null
+          bag: out.getIn(['bag', 'key']) || null,
+          comment: out.getIn(['comment', 'value']) || null
         },
         home: {
           location: home.getIn(['location', 'key']) || null,
@@ -501,11 +534,13 @@ class FutureTripCard extends Component {
     const transportType = transport ? transport.get('type') : ''
     const isDisabled = this.shouldLockTrip
 
-    // const cardHeight = isDisabled ? 490 : 450
-    // const imageConHeight = isDisabled ? 430 : 390
+    let cardHeight = isDisabled ? 490 : 450
+    let imageConHeight = isDisabled ? 430 : 390
 
-    const cardHeight = isDisabled ? 470 : 430
-    const imageConHeight = isDisabled ? 410 : 370
+    if (transportType !== 'flight') {
+      cardHeight = cardHeight - 50
+      imageConHeight = imageConHeight - 50
+    }
 
     let manualTrip = {}
     if (trip.get('tripType') === 'manual') {
@@ -628,7 +663,8 @@ const ss = StyleSheet.create({
   cardMiddle: {
     flex: 1,
     justifyContent: 'center',
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    marginTop: 20
   },
   cardBottom: {
     flex: 1,
@@ -702,6 +738,19 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.silver,
     borderRadius: 3
+  },
+  commentBox: {
+    flex: 1.5,
+    height: 60,
+    backgroundColor: Colors.silver,
+    borderRadius: 3,
+    borderWidth: 1,
+    borderColor: Colors.charcoal
+  },
+  commentInput: {
+    flex: 1,
+    height: 60,
+    padding: 5
   },
   text: {
     flex: 1.5,

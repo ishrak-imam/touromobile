@@ -23,9 +23,10 @@ export default class TMTextInput extends PureComponent {
   }
 
   render () {
-    const { placeholder, style } = this.props
+    const { placeholder, style, multiline } = this.props
     return (
       <TextInput
+        multiline={multiline}
         placeholderTextColor={Colors.steel}
         underlineColorAndroid='transparent'
         placeholder={placeholder}

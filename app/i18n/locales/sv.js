@@ -181,5 +181,12 @@ export default {
   switchingToLine: 'Byte till linje',
   line: 'Linje',
   to: 'Till',
-  from: 'Från'
+  from: 'Från',
+  manualTripText: 'Lägg till resa manuellt. Använd denna funktion för G&K-resor som för tillfället inte kommer in automatiskt i Touro',
+  addNewTrip: 'Lägg till',
+  tripName: 'Rese namn',
+  homeDate: 'Hem Datum',
+  outDate: 'Ut Datum',
+  transport: 'Transport',
+  brand: 'Brand'
 }
