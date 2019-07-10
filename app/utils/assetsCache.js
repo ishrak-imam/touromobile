@@ -1,5 +1,5 @@
 import { Image } from 'react-native'
-import Asset from 'expo-asset'
+import { Asset } from 'expo-asset'
 import * as Font from 'expo-font'
 
 function cacheImages (images) {
