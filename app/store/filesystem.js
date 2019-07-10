@@ -1,5 +1,5 @@
 
-import { FileSystem } from 'expo'
+import * as FileSystem from 'expo-file-system'
 
 const BASE_DIR = FileSystem.documentDirectory
 const STORAGE_DIR = `${BASE_DIR}reduxStorage/`

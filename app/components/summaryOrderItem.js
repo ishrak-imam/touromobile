@@ -113,13 +113,14 @@ class SummaryOrderItem extends Component {
 
   _renderMeals = (meals, mealOrders, paxCount) => {
     const formattedMeals = getFormattedMealsData(getMap({ meals, mealOrders }), _T('child'))
+    const totalOrder = this._totalMealOrder()
     return (
       <View style={ss.section}>
         <Text style={ss.boldText}>{_T('meals')}</Text>
         {
           <ImmutableVirtualizedList
             immutableData={formattedMeals}
-            renderItem={this._renderFoodItem('meal', paxCount, this._totalMealOrder())}
+            renderItem={this._renderFoodItem('meal', paxCount, totalOrder)}
             // keyExtractor={item => `${item.get('id')}${item.get('adult') || item.get('child')}`}
             keyExtractor={(_, index) => String(index)}
             renderEmpty={_T('noMealData')}
@@ -130,6 +131,7 @@ class SummaryOrderItem extends Component {
   }
 
   _renderBeverages = (beverages, paxCount) => {
+    const totalOrder = this._totalDrinkOrder()
     return (
       <View style={ss.section}>
         <Text style={ss.boldText}>{_T('beverages')}</Text>
@@ -137,7 +139,7 @@ class SummaryOrderItem extends Component {
           beverages.size
             ? <ImmutableVirtualizedList
               immutableData={beverages}
-              renderItem={this._renderFoodItem('drink', paxCount, this._totalDrinkOrder())}
+              renderItem={this._renderFoodItem('drink', paxCount, totalOrder)}
               keyExtractor={item => String(item.get('id'))}
             />
             : <NoData text='noBeverageData' textStyle={{ marginTop: 30 }} />
@@ -201,7 +203,7 @@ class SummaryOrderItem extends Component {
               <OutHomeTab selected={tab} onPress={this._onTabSwitch} />
             </View>
             {this._renderMeals(meals, mealOrders, pax.size)}
-            {beverages && this._renderBeverages(beverages, pax.size)}
+            {/* {beverages && this._renderBeverages(beverages, pax.size)} */}
           </View>
         }
       </View>

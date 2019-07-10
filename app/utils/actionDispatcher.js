@@ -3,7 +3,7 @@ import { showToast } from '../toast/action'
 import { readValue } from '../utils/immutable'
 import { store } from '../store'
 import { getConnection } from '../selectors'
-import { Localization } from 'expo'
+import * as Localization from 'expo-localization'
 
 let locale = Localization.locale
 locale = locale ? locale.split('-')[0] : ''

@@ -1,5 +1,5 @@
 import { Platform } from 'react-native'
-import { Constants } from 'expo'
+import Constants from 'expo-constants'
 import allConfigs from '../../config.json'
 
 const releaseChannel = Constants.manifest.releaseChannel

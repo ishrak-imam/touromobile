@@ -1,5 +1,5 @@
 import I18n from './i18n'
-import { Localization } from 'expo'
+import * as Localization from 'expo-localization'
 import en from './locales/en'
 import sv from './locales/sv'
 

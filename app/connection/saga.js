@@ -1,5 +1,5 @@
 
-import { NetInfo } from 'react-native'
+import NetInfo from '@react-native-community/netinfo'
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { takeFirst, eventEmitterChannel } from '../utils/sagaHelpers'
 
