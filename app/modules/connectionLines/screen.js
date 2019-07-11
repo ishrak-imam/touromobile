@@ -164,6 +164,7 @@ class ConnectionLines extends Component {
           immutableData={lines.valueSeq()}
           renderItem={this._renderLine}
           keyExtractor={item => String(item.get('name'))}
+          renderEmpty={_T('noConnections')}
           ListFooterComponent={this._renderListFooter(hotels)}
         />
 

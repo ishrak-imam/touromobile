@@ -178,6 +178,7 @@ export default {
   refreshNow: 'Uppdatera nu',
   connections: 'Anslutningar',
   connection: 'Anslutning',
+  noConnections: 'Inga anslutningar hittades för den här resan.',
   switchingToLine: 'Byte till linje',
   line: 'Linje',
   to: 'Till',

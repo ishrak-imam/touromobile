@@ -177,6 +177,7 @@ export default {
   refreshNow: 'Refresh now',
   connections: 'Connections',
   connection: 'Connection',
+  noConnections: 'No connections found for this trip.',
   switchingToLine: 'Switching to line',
   line: 'Line',
   to: 'To',

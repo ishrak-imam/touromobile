@@ -15,7 +15,7 @@ import {
 } from './action'
 import Header from '../../components/header'
 // import startSyncDataWorker from '../../utils/modifiedDataSync'
-import { connectionLinesReq } from '../connectionLines/action'
+// import { connectionLinesReq } from '../connectionLines/action'
 
 class TripsLoading extends Component {
   constructor (props) {
@@ -58,7 +58,7 @@ class TripsLoading extends Component {
     }
 
     this._requestReservations()
-    this._requestConnectionLines()
+    // this._requestConnectionLines()
 
     // this.syncDataTimer = startSyncDataWorker()
   }
@@ -91,15 +91,15 @@ class TripsLoading extends Component {
     }))
   }
 
-  _requestConnectionLines = () => {
-    networkActionDispatcher(connectionLinesReq())
-  }
+  // _requestConnectionLines = () => {
+  //   networkActionDispatcher(connectionLinesReq())
+  // }
 
   _onRefresh = () => {
     this._requestTrips(false)
     this._requestConnections()
     this._requestReservations()
-    this._requestConnectionLines()
+    // this._requestConnectionLines()
   }
 
   render () {
