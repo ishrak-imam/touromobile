@@ -39,7 +39,7 @@ export default {
   accept: 'Acceptera uppdrag',
   boardingLoc: 'Påstigningsort',
   alightingLoc: 'Avstigningsort',
-  transfer: 'Anslutning',
+  transfer: 'Anslutningsbuss',
   transferCity: 'Anslutningsort',
   accommodation: 'Övernattning',
   bagPick: 'Väskhämtning',
