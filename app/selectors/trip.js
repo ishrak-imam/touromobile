@@ -192,6 +192,12 @@ const resolvers = {
   paxById: (trip, paxId) => {
     const paxList = getPax(trip)
     return paxList.find(p => String(p.get('id')) === paxId)
+  },
+
+  flightPax: (paxList, flight) => {
+    return paxList.filter((pax) => {
+      return pax.get('airport') === flight
+    })
   }
 }
 
@@ -268,6 +274,25 @@ export const getSortedPax = (paxList, sortBy) => {
   }
   return sortedPaxCache(paxList, sortBy)
 }
+
+let flightPaxCache = null
+export const getFlightPax = (paxList, flight) => {
+  if (!flightPaxCache) {
+    flightPaxCache = Cache(resolvers.flightPax)
+  }
+  return flightPaxCache(paxList, flight)
+}
+
+// /**
+//  * TODO:
+//  * Find a way to cache the result
+//  * note: Not immutable data
+//  */
+// export const getFlightPax = (pax, key) => {
+// return pax.filter((pax) => {
+//   return pax.get('airport') === key
+// })
+// }
 
 let sortedBookingCache = null
 export const getSortedBookings = trip => {
@@ -426,17 +451,6 @@ export const getPaxByHotel = (state, hotelId) => {
   let pax = getPax(trip)
   pax = getSortedPax(pax)
   return pax.filter(p => String(p.get('hotel')) === String(hotelId))
-}
-
-/**
- * TODO:
- * Find a way to cache the result
- * note: Not immutable data
- */
-export const getFlightPax = (pax, key) => {
-  return pax.filter((pax) => {
-    return pax.get('airport') === key
-  })
 }
 
 export const pendingStatsUpload = state => {
