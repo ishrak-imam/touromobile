@@ -32,8 +32,10 @@ class LocationItem extends Component {
   }
 
   _renderConnectToPax = (connectTo, showHeader, isLast) => {
+    const { onLineSwitchPress } = this.props
     return connectTo.keySeq().toArray().map(name => {
       const line = connectTo.get(name)
+      const connectFrom = line.get('connectFrom')
       const locations = line.get('locations')
       return (
         <View key={name}>
@@ -43,9 +45,9 @@ class LocationItem extends Component {
               <View style={[ss.locationLeft]}>
                 {!isLast && <View style={ss.paxLine} />}
               </View>
-              <View style={ss.middle}>
+              <TouchableOpacity style={ss.middle} onPress={onLineSwitchPress(connectFrom, name)}>
                 <Text style={ss.switchText}>{_T('switchingToLine')} {name}:</Text>
-              </View>
+              </TouchableOpacity>
               <View style={ss.right} />
               {/* <Text style={ss.switchText}>Switching to line {name}</Text> */}
             </View>
@@ -171,6 +173,10 @@ export default class Line extends Component {
     this.setState({ showLocations: !this.state.showLocations })
   }
 
+  expandLine = () => {
+    this.setState({ showLocations: true })
+  }
+
   _renderHeader = line => {
     const { onIconPress } = this.props
     const isOvernight = line.get('overnight')
@@ -194,7 +200,7 @@ export default class Line extends Component {
   }
 
   _renderLocations = (locations, type, connectFrom) => {
-    const { onPaxItemPress } = this.props
+    const { onPaxItemPress, onLineSwitchPress } = this.props
     const { showLocations } = this.state
     let marginBottom = 0
     if (showLocations) marginBottom = 0 // 15 // might need later
@@ -215,6 +221,7 @@ export default class Line extends Component {
                 isOnePlus={isOnePlus}
                 connectFrom={connectFrom}
                 onPaxItemPress={onPaxItemPress}
+                onLineSwitchPress={onLineSwitchPress}
               />
             )
           })

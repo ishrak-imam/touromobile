@@ -34,6 +34,9 @@ class ConnectionLines extends Component {
   constructor (props) {
     super(props)
 
+    this.lineRefs = {}
+    this.lineList = null
+
     this.state = {
       expand: false
     }
@@ -97,13 +100,24 @@ class ConnectionLines extends Component {
     }
   }
 
+  _onLineSwitchPress = (from, to) => () => {
+    this.lineRefs[to].expandLine(to)
+
+    const { lines } = this.props
+    const item = lines.get(to)
+    this.lineList.scrollToItem({ animated: true, item })
+  }
+
   _renderLine = ({ item }) => {
     const { expand } = this.state
+    const lineName = item.get('name')
     return <Line
       line={item}
       expand={expand}
+      onLineSwitchPress={this._onLineSwitchPress}
       onPaxItemPress={this._onPaxItemPress}
       onIconPress={this._toPaxList}
+      ref={ref => { this.lineRefs[lineName] = ref }}
     />
   }
 
@@ -166,6 +180,7 @@ class ConnectionLines extends Component {
           keyExtractor={item => String(item.get('name'))}
           renderEmpty={_T('noConnections')}
           ListFooterComponent={this._renderListFooter(hotels)}
+          ref={ref => { this.lineList = ref }}
         />
 
       </Container>
