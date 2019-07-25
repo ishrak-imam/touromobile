@@ -1,4 +1,3 @@
-
 ## Image cache
 
 Whenever the app needs to download a new image from an url it caches the image data and never downloads again. The whole process is managed by `imageCache` module which can be found inside `components` directory. The module exports an `ImageCache` component to be used in following pattern.

@@ -1,4 +1,3 @@
-
 ## Project setup
 
 Following instructions are assuming Android and iOS related installtions are already done.

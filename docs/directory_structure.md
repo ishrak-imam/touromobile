@@ -1,4 +1,3 @@
-
 ## Directory Structure
 
 The application resides in the `app` directory and following is a detailed structure of directories and sub-directories inside `app`.
