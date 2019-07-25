@@ -35,7 +35,7 @@ app
 |   |   |___saga.js
 |   |   |___screen.js (main screen)
 |   |   |___<other_screen-1>.js
-|   |   |___<other_screen-1>.js
+|   |   |___<other_screen-2>.js
 |   |   ...
 |   |   |___<other_screen-n>.js
 |   |___module-2
