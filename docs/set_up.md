@@ -31,7 +31,7 @@ expo start
 
 Running the above command will open a brwoser tab like following image.
 
-![Alt text](./expo-cli.png "Expo cli browser tab")
+![Alt text](./expo_cli.png "Expo cli browser tab")
 
 stitch to `local` tab for connection. Now specific device related instructions
 
