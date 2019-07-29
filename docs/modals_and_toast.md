@@ -49,7 +49,7 @@ Toast is a small piece of utility used only to show user a notification without 
 
 - As instructed in the `NativeBase` documentation the main component of the application is wrapped with a `Root` component from `NativeBase`. Please refer to the file `App.js`.
 
-- Now a preregistered saga listens for a `showToast` action.
+- A preregistered saga listens for a `showToast` action.
 
 - When `showToast` action dispatched the toast message is pulled from the payload and native base's toast method is called like following. Please refer the file `toast/toast.js`
 ```
