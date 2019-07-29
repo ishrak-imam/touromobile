@@ -29,6 +29,7 @@ Path of a particular image is:
 `${IMAGE_CACHE_DIR}${<image_url_hash>}`
 ```
 
+Redux store image cache data structure:
 
 ```
 imageCache: {

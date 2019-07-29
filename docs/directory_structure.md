@@ -84,7 +84,7 @@ The structure above is a detailed map of how the directories and files are organ
 
 **middlewares:** Apart from the basic logger middleware this application manages a significant amount business logic through redux-middlewares and all of them are placed here which are exported from a single point in the `index.js` file. More detailed explanation can be found in the separate `middlewares.md` file.
 
-**mockData:** In order to minimize dependency of the backend during development api responses are mocked here. In dev environment the app will not initiate any api request rather collect necessary data from `json` files placed in this directory.
+**mockData:** In order to minimize dependency of the backend during development api responses are mocked here. In dev environment the app will not initiate any api request rather collect necessary data from json files placed in this directory.
 
 **modal:** This is also an independent module serving the need of showing various modals such as warning, info, selection in the app. More detailed explanation can be found in separate `modals_and_toast.md` file.
 
