@@ -92,7 +92,7 @@ The structure above is a detailed map of how the directories and files are organ
 
 **navigation:** This can be treated as the navigation module of the application where all the navigation configuration of the application resides.
 
-**selectors:** Connected components need to read data from redux store but they don't do it directly in this application. In the mapStateToProps method selector functions (pure functions returning specific values from redux store) are passed. Thus reusability is ensured when multiple connected component needs same data from redux store and memoiation can be applied in selector functions. Detailed description can be found in separate `selector.md` file.
+**selectors:** Connected components need to read data from redux store but they don't do it directly in this application. In the mapStateToProps method selector functions (pure functions returning specific values from redux store) are passed. Thus reusability is ensured when multiple connected component needs same data from redux store and memoization can be applied in selector functions. Detailed description can be found in separate `selectors_and_memoization.md` file.
 
 **store:** Redux store related configuration files resides here. Detailed description on how the store is created and managed can be found in combination of following files. `offline_data_store.md`, `redux_and_redux_saga_wiring.md`, `immutable_data_structure_usage.md`.
 

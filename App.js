@@ -6,7 +6,7 @@ import App from './app/modules/app'
 import { store, persistor } from './app/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { AppLoading } from 'expo'
-import cacheAssestsAsync from './app/utils/assetsCache'
+import cacheAssetsAsync from './app/utils/assetsCache'
 import I18n from './app/i18n'
 import { MenuProvider } from 'react-native-popup-menu'
 import './app/utils/sentry'
@@ -38,7 +38,7 @@ export default class TouroMobile extends Component {
 
   async _loadAssetsAsync () {
     try {
-      await cacheAssestsAsync({
+      await cacheAssetsAsync({
         images: [],
         fonts: [
           {
@@ -49,7 +49,7 @@ export default class TouroMobile extends Component {
       })
     } catch (e) {
       console.warn(
-        'There was an error caching assets (see: main.js), perhaps due to a ' +
+        'There was an error caching assets (see: app.js), perhaps due to a ' +
           'network timeout, so we skipped caching. Reload the app to try again.'
       )
     } finally {
