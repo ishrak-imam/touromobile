@@ -41,7 +41,7 @@ In an application code base we need to isolate certain group of utilities which 
 
 - **sagaHelpers.js:** Exports custom saga effects like `takeFirst` and an `eventEmitterChannel` to wrap any event based functionality like monitoring application status (background/foreground) or network status (online/offline).
 
-- **sentry.js:** Sentry user context is set using `setSentryUser` method exported from this file.
+- **sentry.js:** Sentry user context is set using `setSentryUser` method exported from this file. Further details can be found in `sentry_config_and_workflow.md` file.
 
 - **stringHelpers.js:** String manipulation utilities like regex check, string shorten, creating hash from string, getting extension form file name etc. are exported from this file.
 

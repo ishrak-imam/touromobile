@@ -21,7 +21,7 @@ Since a particular middleware can be activated by passing specific values in the
 
 **invoiceeMonitor:** Consider a scenario of a booking which has more the one invoicee and the orders are already distributed among the invoicees. Now the invoicee might change (delete/add new) and the orders distributed to his/her bucket must be available again in the main bucket for re-distribution. This middleware monitors for this case and works accordingly.
 
-**setSentryUser:** This middleware decouples the sentry user context set-up from the main application flow. It looks for the login success action and set-up sentry user context when it supposed to.
+**setSentryUser:** This middleware decouples the sentry user context set-up from the main application flow. It looks for the login success action and set-up sentry user context when it supposed to. Further details can be found in `docs/sentry_config_and_workflow.md` file.
 
 **syncData:** A backend data sync action id dispatched every ten minutes from the app. Using this middleware the app only dispatches the action that a sync is needed now. The rest of the work of preparing the data and attaching with payload is done by this middleware by monitoring for the sync data action type.
 
