@@ -7,7 +7,7 @@ export const restructureData = (modifiedData, allTrips, currentVersion) => {
   const caseNames = findCaseNames(currentVersion || 0, config.structureVersion)
   let restructuredData = modifiedData
   caseNames.forEach(caseName => {
-    restructuredData = restructurar(restructuredData, allTrips, caseName)
+    restructuredData = restructure(restructuredData, allTrips, caseName)
   })
   return restructuredData
 }
@@ -21,7 +21,7 @@ function findCaseNames (from, to) {
   return caseNames
 }
 
-function restructurar (modifiedData, allTrips, caseName) {
+function restructure (modifiedData, allTrips, caseName) {
   switch (caseName) {
     case '_5-to-6':
       return _5To6(modifiedData, allTrips)
