@@ -1,7 +1,7 @@
 
 import { getMap, getList } from '../../utils/immutable'
 
-export const CONNECTIONLINES_INITIAL_STATE = getMap({
+export const CONNECTION_LINES_INITIAL_STATE = getMap({
   isLoading: false,
   lines: getList([]),
   hotels: getList([])
