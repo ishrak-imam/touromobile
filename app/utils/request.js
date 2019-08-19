@@ -16,6 +16,7 @@ logResponse = (method, endPoint, payload, response) => {
     console.groupCollapsed('%c REQUEST', 'color: #B22222  ', method, endPoint)
     console.log('%c STATUS     :: ', 'color: green', response.status)
     console.log('%c PAYLOAD    :: ', 'color: green', payload)
+    console.log('%c STRING     :: ', 'color: green', JSON.stringify(payload))
     console.log('%c RESPONSE   :: ', 'color: green', response)
     console.groupEnd()
   }

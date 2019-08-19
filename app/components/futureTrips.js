@@ -24,7 +24,7 @@ export default class FutureTrips extends Component {
 
   _toAddNewTrip = () => {
     const { currentTrip } = this.props
-    const brand = currentTrip.get('brand')
+    const brand = currentTrip && currentTrip.get('brand')
     this.props.navigation.navigate('AddNewTrip', { brand })
   }
 
