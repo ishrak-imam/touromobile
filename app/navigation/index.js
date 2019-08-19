@@ -13,6 +13,7 @@ import isIOS from '../utils/isIOS'
 import TabBarComponent from '../components/tabBar'
 import DrawerComponent from '../components/drawer'
 
+import GuidesScreen from '../modules/guides/screen'
 import LoadingScreen from '../modules/auth/loadingScreen'
 import TripsLoadingScreen from '../modules/trips/tripsLoading'
 import Login from '../modules/auth/login'
@@ -70,6 +71,7 @@ const TripTabs = createTabNavigator(
 
 const appStack = createStackNavigator(
   {
+    Guides: { screen: GuidesScreen },
     Home: { screen: TripTabs },
     TripsLoading: { screen: TripsLoadingScreen },
     NoTrips: { screen: NoTripsScreen },
@@ -90,7 +92,7 @@ const appStack = createStackNavigator(
     LinePax: { screen: LinePaxScreen }
   },
   {
-    initialRouteName: 'TripsLoading',
+    initialRouteName: 'Guides',
     mode: 'modal',
     headerMode: 'none',
     navigationOptions: {
