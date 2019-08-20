@@ -13,18 +13,18 @@ import {
 import { GUIDES_LIST_INITIAL_STATE } from './immutable'
 
 export const guides = createReducer(GUIDES_LIST_INITIAL_STATE, {
-  [GUIDES_LIST_REQ]: state => mergeMapShallow(
+  [GUIDES_LIST_REQ]: (state, payload) => mergeMapShallow(
     state,
-    getMap({ isLoading: true })
+    getMap({ isLoading: !payload.isRefreshing, isRefreshing: payload.isRefreshing })
   ),
 
   [GUIDES_LIST_SUCS]: (state, payload) => mergeMapShallow(
     state,
-    getMap({ isLoading: false, data: getImmutableObject(payload) })
+    getMap({ isLoading: false, isRefreshing: false, data: getImmutableObject(payload) })
   ),
 
   [GUIDES_LIST_FAIL]: state => mergeMapShallow(
     state,
-    getMap({ isLoading: false })
+    getMap({ isLoading: false, isRefreshing: false })
   )
 })

@@ -13,7 +13,7 @@ import {
 } from '../selectors'
 import { Colors } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
-
+import OverlaySpinner from './overlaySpinner'
 import { networkActionDispatcher } from '../utils/actionDispatcher'
 import { guidesListReq } from '../modules/guides/action'
 
@@ -31,11 +31,25 @@ class GuidesList extends Component {
   }
 
   componentDidMount () {
-    this._requestGuidesList()
+    const { guides } = this.props
+    const data = guides.get('data')
+    if (!data.size) {
+      this._requestGuidesList(false)
+    }
   }
 
-  _requestGuidesList = () => {
-    networkActionDispatcher(guidesListReq({ isNeedJwt: true }))
+  _onRefresh = () => {
+    this._requestGuidesList(true)
+  }
+
+  _requestGuidesList = (isRefreshing) => {
+    networkActionDispatcher(guidesListReq({ isNeedJwt: true, isRefreshing }))
+  }
+
+  _onPressGuide = guide => {
+    return () => {
+      console.log(guide.toJS())
+    }
   }
 
   _renderGuide = ({ item }) => {
@@ -51,7 +65,7 @@ class GuidesList extends Component {
     const name = `${item.get('firstName')} ${item.get('lastName')}`
 
     return (
-      <ListItem>
+      <ListItem style={{ height: 45 }} onPress={this._onPressGuide(item)}>
         <Text style={ss.name}>{name}</Text>
       </ListItem>
     )
@@ -74,11 +88,24 @@ class GuidesList extends Component {
         renderItem={this._renderGuide}
         keyExtractor={item => String(item.get('id'))}
         renderEmpty={_T('noMatch')}
+        onRefresh={this._onRefresh}
+        refreshing={false}
       />
     )
   }
 
+  _renderSpinner = () => {
+    return (
+      <View style={ss.spinner}>
+        <OverlaySpinner />
+      </View>
+    )
+  }
+
   render () {
+    const { guides } = this.props
+    const isLoading = guides.get('isLoading')
+    const isRefreshing = guides.get('isRefreshing')
     return (
       <View styles={ss.container}>
         <SearchBar
@@ -86,7 +113,11 @@ class GuidesList extends Component {
           icon='people'
           placeholder={_T('search')}
         />
-        {this._renderGuidesList()}
+        { isLoading
+          ? this._renderSpinner()
+          : this._renderGuidesList()
+        }
+        {isRefreshing && <OverlaySpinner />}
       </View>
     )
   }
@@ -108,5 +139,8 @@ const ss = StyleSheet.create({
   sectionText: {
     fontWeight: 'bold',
     color: Colors.silver
+  },
+  spinner: {
+    marginTop: 40
   }
 })
