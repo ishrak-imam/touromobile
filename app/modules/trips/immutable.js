@@ -4,7 +4,7 @@ import { getMap, getList } from '../../utils/immutable'
 export const TRIPS_INITIAL_STATE = getMap({
   isLoading: false,
   isRefreshing: false,
-  data: [],
+  data: getList([]),
   current: getMap({
     trip: getMap({}),
     has: false,

@@ -395,3 +395,9 @@ export const mockConnectionLines = () => new Promise(resolve => {
     })
   })
 })
+
+export const mockGuidesList = () => new Promise(resolve => {
+  setTimeout(() => {
+    return resolve(require('./guides.json'))
+  }, 2000)
+})

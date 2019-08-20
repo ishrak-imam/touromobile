@@ -128,3 +128,10 @@ export const {
   formatConnectionLines,
   formatConnectionLineHotels
 } = require('./connectionLines')
+
+export const {
+  getGuidesData,
+  getSortedGuides,
+  getGuideDataGroup,
+  filterGuidesBySearchText
+} = require('./guides')

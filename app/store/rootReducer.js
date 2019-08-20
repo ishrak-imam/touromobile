@@ -18,6 +18,7 @@ import * as profileReducer from '../modules/profile/reducer'
 import * as rollCallReducer from '../modules/rollCall/reducer'
 import * as smsReducer from '../modules/sms/reducer'
 import * as connectionLines from '../modules/connectionLines/reducer'
+import * as guidesReducer from '../modules/guides/reducer'
 
 const allReducers = combineReducers({
   ...navReducers,
@@ -32,7 +33,8 @@ const allReducers = combineReducers({
   ...profileReducer,
   ...rollCallReducer,
   ...smsReducer,
-  ...connectionLines
+  ...connectionLines,
+  ...guidesReducer
 })
 
 const rootReducer = (state, action) => {
