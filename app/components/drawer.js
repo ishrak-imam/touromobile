@@ -209,8 +209,8 @@ class TMDrawer extends Component {
     return (
       <ScrollView contentContainerStyle={{ marginVertical: 10 }}>
         {this._renderMenuItems()}
-        {config.isDev && this._renderClearData()}
         {this._renderSelectGuide()}
+        {config.isDev && this._renderClearData()}
       </ScrollView>
     )
   }
