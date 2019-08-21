@@ -42,12 +42,21 @@ const rootReducer = (state, action) => {
     const connection = state.connection
     const modifiedData = state.modifiedData
     const imageCache = state.imageCache
+    const guides = state.guides
+    const login = state.login
     state = getInitialState()
     if (!__DEV__) {
       state.modifiedData = modifiedData
       state.imageCache = imageCache
     }
     state.connection = connection
+
+    /**
+     * guides and login data not cleared
+     * in Admin Mode
+     */
+    state.guides = guides
+    state.login = login
   }
   return allReducers(state, action)
 }

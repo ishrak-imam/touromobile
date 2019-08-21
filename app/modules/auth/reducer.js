@@ -12,6 +12,8 @@ import {
   UPDATE_PROFILE_SUCS, UPDATE_PROFILE_FAIL
 } from '../profile/action'
 
+import { SET_GUIDE_ID } from '../guides/action'
+
 import { LOGIN_INITIAL_STATE } from './immutable'
 
 export const login = createReducer(LOGIN_INITIAL_STATE, {
@@ -38,6 +40,12 @@ export const login = createReducer(LOGIN_INITIAL_STATE, {
       readValue('user', state),
       payload.profile
     )
+    return setIntoMap(state, 'user', user)
+  },
+
+  [SET_GUIDE_ID]: (state, payload) => {
+    let user = readValue('user', state)
+    user = setIntoMap(user, 'guideId', payload)
     return setIntoMap(state, 'user', user)
   }
 })

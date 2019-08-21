@@ -15,7 +15,7 @@ import NoData from '../../components/noData'
 import { ScrollView, RefreshControl } from 'react-native'
 import OverlaySpinner from '../../components/overlaySpinner'
 import { restructureModifiedData } from '../modifiedData/action'
-import startSyncDataWorker from '../../utils/modifiedDataSync'
+// import startSyncDataWorker from '../../utils/modifiedDataSync'
 import { refreshWorker } from '../../utils/autoRefreshTripData'
 
 class TripScreen extends Component {
@@ -34,7 +34,11 @@ class TripScreen extends Component {
   componentDidMount () {
     actionDispatcher(restructureModifiedData())
     this._showContent()
-    this.syncDataTimer = startSyncDataWorker()
+
+    /**
+     * data sync disabled in Admin Mode
+     */
+    // this.syncDataTimer = startSyncDataWorker()
 
     const config = {
       header: _T('autoRefreshHeader'),
@@ -45,9 +49,9 @@ class TripScreen extends Component {
     this._requestConnectionLines()
   }
 
-  componentWillUnmount () {
-    clearInterval(this.syncDataTimer)
-  }
+  // componentWillUnmount () {
+  //   clearInterval(this.syncDataTimer)
+  // }
 
   _showContent = () => {
     setTimeout(() => this.setState({ showContent: true }), 10)

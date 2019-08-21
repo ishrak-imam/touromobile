@@ -14,8 +14,9 @@ import {
 import { Colors } from '../theme'
 import { ImmutableVirtualizedList } from 'react-native-immutable-list-view'
 import OverlaySpinner from './overlaySpinner'
-import { networkActionDispatcher } from '../utils/actionDispatcher'
-import { guidesListReq } from '../modules/guides/action'
+import { networkActionDispatcher, actionDispatcher } from '../utils/actionDispatcher'
+import { guidesListReq, setGuideId } from '../modules/guides/action'
+import { navigate } from '../navigation/service'
 
 class GuidesList extends Component {
   constructor (props) {
@@ -48,7 +49,10 @@ class GuidesList extends Component {
 
   _onPressGuide = guide => {
     return () => {
-      console.log(guide.toJS())
+      const guideId = guide.get('id')
+      actionDispatcher(setGuideId(guideId))
+
+      navigate('TripsLoading')
     }
   }
 

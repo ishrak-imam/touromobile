@@ -56,8 +56,8 @@ class TMDrawer extends Component {
   }
 
   _toProfile = () => {
-    const { navigation } = this.props
-    navigation.navigate('Profile')
+    // const { navigation } = this.props
+    // navigation.navigate('Profile')
   }
 
   _renderVersionNumber = () => {
@@ -189,11 +189,28 @@ class TMDrawer extends Component {
     )
   }
 
+  _selectOtherGuide = () => {
+    this._clearData()
+    resetToScene('Guides')
+  }
+
+  _renderSelectGuide = () => {
+    return (
+      <ListItem style={ss.menuItem} key={'sel'} onPress={this._selectOtherGuide}>
+        <IonIcon name='person' style={ss.icon} color={Colors.black} />
+        <Body>
+          <Text>Select other guide</Text>
+        </Body>
+      </ListItem>
+    )
+  }
+
   _renderMenu = () => {
     return (
       <ScrollView contentContainerStyle={{ marginVertical: 10 }}>
         {this._renderMenuItems()}
         {config.isDev && this._renderClearData()}
+        {this._renderSelectGuide()}
       </ScrollView>
     )
   }

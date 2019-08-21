@@ -13,11 +13,13 @@ import { hideAutoRefresh } from '../modules/app/action'
 import _T from '../utils/translator'
 const { width } = Dimensions.get('window')
 
+const SECONDS = 5
+
 class AutoRefresh extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      seconds: 5
+      seconds: SECONDS
     }
   }
 
@@ -63,6 +65,7 @@ class AutoRefresh extends Component {
 
   _cancelTimer = () => {
     if (this.timer) clearInterval(this.timer)
+    this.setState({ seconds: SECONDS })
   }
 
   render () {
