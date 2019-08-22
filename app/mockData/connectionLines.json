@@ -1,0 +1,229 @@
+{
+  "connectionLines": [
+    {
+      "name": "110",
+      "type": "bus",
+      "overnight": false,
+      "locations": [
+        {
+          "name": "Göteborg",
+          "eta": "2019-07-27T03:50:00",
+          "passengers": [
+            {
+              "id": 804157,
+              "bookingId": "463470",
+              "firstName": "Conny",
+              "lastName": "Lyon",
+              "hotel": null
+            },
+            {
+              "id": 804158,
+              "bookingId": "463470",
+              "firstName": "Åse",
+              "lastName": "Hermansson",
+              "hotel": null
+            }
+          ],
+          "connectTo": []
+        }
+      ]
+    },
+    {
+      "name": "140",
+      "type": "bus",
+      "overnight": false,
+      "locations": [
+        {
+          "name": "Värnamo",
+          "eta": "2019-07-27T04:45:00",
+          "passengers": [
+            {
+              "id": 754250,
+              "bookingId": "459436",
+              "firstName": "Anita",
+              "lastName": "Blirup Timonen",
+              "hotel": null
+            },
+            {
+              "id": 754251,
+              "bookingId": "459436",
+              "firstName": "Jari Olavi",
+              "lastName": "Timonen",
+              "hotel": null
+            }
+          ],
+          "connectTo": []
+        },
+        {
+          "name": "Markaryd",
+          "eta": "2019-07-27T06:00:00",
+          "passengers": [
+            {
+              "id": 757088,
+              "bookingId": "460136",
+              "firstName": "Solbritt Margareta",
+              "lastName": "Jonasson",
+              "hotel": null
+            },
+            {
+              "id": 757087,
+              "bookingId": "460136",
+              "firstName": "Kjell Arne Ingemar",
+              "lastName": "Jonasson",
+              "hotel": null
+            }
+          ],
+          "connectTo": []
+        }
+      ]
+    },
+    {
+      "name": "150",
+      "type": "bus",
+      "overnight": false,
+      "locations": [
+        {
+          "name": "Växjö",
+          "eta": "2019-07-27T04:45:00",
+          "passengers": [
+            {
+              "id": 811039,
+              "bookingId": "464399",
+              "firstName": "Nils Dan Magnus",
+              "lastName": "Johnsson",
+              "hotel": null
+            },
+            {
+              "id": 811038,
+              "bookingId": "464399",
+              "firstName": "Eva-Lena",
+              "lastName": "Johnsson",
+              "hotel": null
+            }
+          ],
+          "connectTo": []
+        },
+        {
+          "name": "Osby",
+          "eta": "2019-07-27T06:00:00",
+          "passengers": [
+            {
+              "id": 803066,
+              "bookingId": "463191",
+              "firstName": "Jim",
+              "lastName": "Johansson",
+              "hotel": null
+            },
+            {
+              "id": 803065,
+              "bookingId": "463191",
+              "firstName": "Jasmine",
+              "lastName": "Dahl",
+              "hotel": null
+            }
+          ],
+          "connectTo": []
+        },
+        {
+          "name": "Höör",
+          "eta": "2019-07-27T06:45:00",
+          "passengers": [
+            {
+              "id": 807368,
+              "bookingId": "463838",
+              "firstName": "Håkan",
+              "lastName": "Andersson",
+              "hotel": null
+            },
+            {
+              "id": 807369,
+              "bookingId": "463838",
+              "firstName": "Ethel",
+              "lastName": "Andersson",
+              "hotel": null
+            }
+          ],
+          "connectTo": []
+        }
+      ]
+    },
+    {
+      "name": "160",
+      "type": "bus",
+      "overnight": false,
+      "locations": [
+        {
+          "name": "Kalmar",
+          "eta": "2019-07-27T03:00:00",
+          "passengers": [
+            {
+              "id": 813599,
+              "bookingId": "464759",
+              "firstName": "Bjarne",
+              "lastName": "Ringdahl",
+              "hotel": null
+            },
+            {
+              "id": 813598,
+              "bookingId": "464759",
+              "firstName": "Anna-Lena",
+              "lastName": "Valler",
+              "hotel": null
+            }
+          ],
+          "connectTo": []
+        },
+        {
+          "name": "Lund",
+          "eta": "2019-07-27T07:25:00",
+          "passengers": [
+            {
+              "id": 795070,
+              "bookingId": "461640",
+              "firstName": "Lars Peter Matthias",
+              "lastName": "Lindgren",
+              "hotel": null
+            },
+            {
+              "id": 760612,
+              "bookingId": "460964",
+              "firstName": "Elena",
+              "lastName": "Kuleshova",
+              "hotel": null
+            },
+            {
+              "id": 795068,
+              "bookingId": "461640",
+              "firstName": "Vilgot Kurt Hugo",
+              "lastName": "Konradsson",
+              "hotel": null
+            },
+            {
+              "id": 760613,
+              "bookingId": "460964",
+              "firstName": "Sofie Linnea Jenny",
+              "lastName": "Svensson",
+              "hotel": null
+            },
+            {
+              "id": 795067,
+              "bookingId": "461640",
+              "firstName": "Carl Axel Wilhelm",
+              "lastName": "Åstradsson",
+              "hotel": null
+            },
+            {
+              "id": 795069,
+              "bookingId": "461640",
+              "firstName": "Nils Gustav William",
+              "lastName": "Åstradsson",
+              "hotel": null
+            }
+          ],
+          "connectTo": []
+        }
+      ]
+    }
+  ],
+  "overnightHotels": []
+}

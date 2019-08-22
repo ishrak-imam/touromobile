@@ -83,35 +83,37 @@ const resolvers = {
     let hotels = data.get('hotels')
     hotels = listToMap(hotels, 'id')
 
-    lines.every(line => {
-      const name = line.get('name')
-      if (line.get('overnight')) {
-        const locations = line.get('locations')
-        locations.every(loc => {
-          const passengers = loc.get('passengers')
-          passengers.every(p => {
-            const hotelId = p.get('hotel')
-            if (hotelId) {
-              let hotel = hotels.get(String(hotelId))
-              let totalPax = hotel.get('totalPax') || 0
-              hotel = hotel.set('totalPax', totalPax + 1)
-              let lines = hotel.get('lines') || getMap({})
-              let line = lines.get(name) || getMap({})
-              let paxList = line.get('passengers') || getList([])
-              paxList = paxList.push(p)
-              line = line.set('passengers', paxList)
-              line = line.set('name', name)
-              lines = lines.set(name, line)
-              hotel = hotel.set('lines', lines)
-              hotels = hotels.set(String(hotelId), hotel)
-            }
+    if (hotels.size) {
+      lines.every(line => {
+        const name = line.get('name')
+        if (line.get('overnight')) {
+          const locations = line.get('locations')
+          locations.every(loc => {
+            const passengers = loc.get('passengers')
+            passengers.every(p => {
+              const hotelId = p.get('hotel')
+              if (hotelId) {
+                let hotel = hotels.get(String(hotelId))
+                let totalPax = hotel.get('totalPax') || 0
+                hotel = hotel.set('totalPax', totalPax + 1)
+                let lines = hotel.get('lines') || getMap({})
+                let line = lines.get(name) || getMap({})
+                let paxList = line.get('passengers') || getList([])
+                paxList = paxList.push(p)
+                line = line.set('passengers', paxList)
+                line = line.set('name', name)
+                lines = lines.set(name, line)
+                hotel = hotel.set('lines', lines)
+                hotels = hotels.set(String(hotelId), hotel)
+              }
+              return true
+            })
             return true
           })
-          return true
-        })
-      }
-      return true
-    })
+        }
+        return true
+      })
+    }
 
     return hotels
   }
