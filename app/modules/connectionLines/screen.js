@@ -49,7 +49,7 @@ class ConnectionLines extends Component {
     const brand = trip.get('brand')
     const pax = getPaxById(trip, paxId)
     const isFlight = checkIfFlightTrip(trip)
-    navigation.navigate('PaxDetails', { brand, pax, departureId, isFlight })
+    if (pax) navigation.navigate('PaxDetails', { brand, pax, departureId, isFlight })
   }
 
   _getPaxIdsFromLines = (locations, list = getList([])) => {
@@ -153,12 +153,14 @@ class ConnectionLines extends Component {
         immutableData={hotels.valueSeq()}
         renderItem={this._renderHotel}
         keyExtractor={item => String(item.get('id'))}
+        renderEmpty=' '
       />
     )
   }
 
   render () {
     const { navigation, lines, hotels, currentTrip } = this.props
+
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
 
