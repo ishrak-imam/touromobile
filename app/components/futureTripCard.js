@@ -47,9 +47,9 @@ import {
   getTransferValue,
   getTransferCityValue,
   getAccommodationValue,
-  getBagValue,
+  getBagValue
 
-  getTransferOptions
+  // getTransferOptions
 } from '../utils/futureTrip'
 
 import _T from '../utils/translator'
@@ -59,7 +59,7 @@ const KEY_NAMES = getKeyNames()
 
 const DATE_FORMAT = 'DD/MM'
 
-const TRANSFER_OPTIONS = getTransferOptions()
+// const TRANSFER_OPTIONS = getTransferOptions()
 
 class FutureTripCard extends Component {
   constructor (props) {

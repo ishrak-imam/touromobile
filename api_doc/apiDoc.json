@@ -1,58 +1,58 @@
 [
 
   {
-    "type":"login",
-    "method":"POST",
-    "url":"/token",
-    "payload":{
-      "user":"ishrak@cefalo.com",
-      "password":"123456"
+    "type": "login",
+    "method": "POST",
+    "url": "/token",
+    "payload": {
+      "user": "ishrak@cefalo.com",
+      "password": "123456"
     }
   },
 
   {
-    "type":"getTrips",
-    "method":"GET",
-    "url":"/resources/guide/{guideId}/overview",
-    "payload":{}
+    "type": "getTrips",
+    "method": "GET",
+    "url": "/resources/guide/{guideId}/overview",
+    "payload": {}
   },
 
   {
-    "type":"getConnections",
-    "method":"GET",
-    "url":"/resources/connectionlocation",
-    "payload":{}
+    "type": "getConnections",
+    "method": "GET",
+    "url": "/resources/connectionlocation",
+    "payload": {}
   },
 
   {
-    "type":"acceptAssignment",
-    "method":"POST",
-    "url":"/resources/guide/{guideId}/departure/{departureId}/accept",
-    "payload":{
-      "transportId":"undefined",
-      "accept":true
+    "type": "acceptAssignment",
+    "method": "POST",
+    "url": "/resources/guide/{guideId}/departure/{departureId}/accept",
+    "payload": {
+      "transportId": "undefined",
+      "accept": true
     }
   },
 
   {
-    "type":"confirmReservations",
-    "method":"POST",
-    "url":"/resources/guide/{guideId}/departure/{departureId}/reservation",
-    "payload":{
-      "transportId":"undefined",
-      "out":{
-        "location":"OT",
-        "transfer":"D",
-        "transferCity":"201",
-        "accommodation":"NA",
-        "bag":"OT"
+    "type": "confirmReservations",
+    "method": "POST",
+    "url": "/resources/guide/{guideId}/departure/{departureId}/reservation",
+    "payload": {
+      "transportId": "undefined",
+      "out": {
+        "location": "OT",
+        "transfer": "D",
+        "transferCity": "201",
+        "accommodation": "NA",
+        "bag": "OT"
       },
-      "home":{
-        "location":"OT",
-        "transfer":"D",
-        "transferCity":"201",
-        "accommodation":"NA",
-        "bag":"OT"
+      "home": {
+        "location": "OT",
+        "transfer": "D",
+        "transferCity": "201",
+        "accommodation": "NA",
+        "bag": "OT"
       }
     }
   },
@@ -241,12 +241,11 @@
   },
 
   {
-    "type":"downloadAppData",
-    "method":"GET",
-    "url":"/resources/guide/{guideId}/appdata",
-    "payload":{}
+    "type": "downloadAppData",
+    "method": "GET",
+    "url": "/resources/guide/{guideId}/appdata",
+    "payload": {}
   },
-
   {
     "type": "syncData",
     "method": "POST",
@@ -288,9 +287,16 @@
       "phoneModel": "iPhone X - 2019",
       "os": "ios - 12.1",
       "mac": "2438D227-B87B-481C-8112-31B0CD37F96A",
-      "connectivity": 2,
+      "connectivity": "2 - wifi and 1 - cellular",
       "appVersion": "1.0.8"
     }
+  },
+
+  {
+    "type": "getConnectionLines",
+    "method": "GET",
+    "url": "resources/departure/{departureId}/connections",
+    "payload": {}
   }
 
 ]

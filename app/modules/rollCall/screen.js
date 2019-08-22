@@ -9,9 +9,8 @@ import Header from '../../components/header'
 import { connect } from 'react-redux'
 import _T from '../../utils/translator'
 import {
-  currentTripSelector, getPresents,
-  getPax, getSortedPax, getPaxDataGroup,
-  filterPaxBySearchText, checkIfFlightTrip
+  getPresents, getPaxDataGroup, getSortedPax,
+  filterPaxBySearchText
 } from '../../selectors'
 import isIphoneX from '../../utils/isIphoneX'
 import SearchBar from '../../components/searchBar'
@@ -145,20 +144,14 @@ class RollCallScreen extends Component {
     this.setState({ groupBy: option.key })
   }
 
-  _renderRight = () => {
-    const { currentTrip } = this.props
-    const trip = currentTrip.get('trip')
+  _renderRight = (isFlight, hotels) => {
+    const isHotels = !!hotels && !!hotels.size
 
     let options = [
       CONTEXT_OPTIONS.firstName,
       CONTEXT_OPTIONS.lastName,
       CONTEXT_OPTIONS.booking
     ]
-
-    const hotels = trip.get('hotels')
-    const isHotels = hotels && hotels.size
-
-    const isFlight = checkIfFlightTrip(trip)
 
     if (isHotels) options.push(CONTEXT_OPTIONS.hotel)
     if (isFlight) options.push(CONTEXT_OPTIONS.airport)
@@ -200,10 +193,8 @@ class RollCallScreen extends Component {
     }
   }
 
-  _renderPerson = (type, item) => {
-    const { currentTrip, presents } = this.props
-    const trip = currentTrip.get('trip')
-    const hotels = trip.get('hotels')
+  _renderPerson = hotels => (type, item) => {
+    const { presents } = this.props
 
     if (item.first) {
       const { groupBy } = this.state
@@ -231,10 +222,10 @@ class RollCallScreen extends Component {
     )
   }
 
-  _renderList = trip => {
+  _renderList = (pax, hotels) => {
     const { searchText, groupBy } = this.state
 
-    let sortedPax = getPax(trip)
+    let sortedPax = pax
     switch (groupBy) {
       case CONTEXT_OPTIONS.firstName.key:
         sortedPax = getSortedPax(sortedPax, CONTEXT_OPTIONS.firstName.text)
@@ -281,7 +272,7 @@ class RollCallScreen extends Component {
         ? <RecyclerListView
           contentContainerStyle={ss.listView}
           dataProvider={dataProvider.cloneWithRows(paxList.toJS())}
-          rowRenderer={this._renderPerson}
+          rowRenderer={this._renderPerson(hotels)}
           layoutProvider={layoutProvider}
         />
         : <NoData text='noMatch' textStyle={{ marginTop: 30 }} />
@@ -308,19 +299,19 @@ class RollCallScreen extends Component {
     )
   }
 
-  _renderCenter = trip => {
+  _renderCenter = paxList => {
     const { presents } = this.props
-    const pax = getPax(trip)
     return (
-      <Title style={ss.headerCenterText}>{`${presents.size}/${pax.size}`}</Title>
+      <Title style={ss.headerCenterText}>{`${presents.size}/${paxList.size}`}</Title>
     )
   }
 
   render () {
-    const { navigation, currentTrip } = this.props
-    const trip = currentTrip.get('trip')
-    const bookings = trip.get('bookings')
-    const brand = trip.get('brand')
+    const { navigation } = this.props
+    const brand = navigation.getParam('brand')
+    const paxList = navigation.getParam('paxList')
+    const isFlight = navigation.getParam('isFlight')
+    const hotels = navigation.getParam('hotels')
 
     return (
       <Container>
@@ -329,7 +320,7 @@ class RollCallScreen extends Component {
           title={_T('rollCall')}
           navigation={navigation}
           brand={brand}
-          center={this._renderCenter(trip)}
+          center={this._renderCenter(paxList)}
           right={this._renderHeaderRight()}
         />
         <View style={ss.container}>
@@ -337,9 +328,9 @@ class RollCallScreen extends Component {
             onSearch={this._onSearch}
             icon='people'
             placeholder={_T('search')}
-            right={this._renderRight()}
+            right={this._renderRight(isFlight, hotels)}
           />
-          {!!bookings && this._renderList(trip)}
+          {this._renderList(paxList, hotels)}
         </View>
       </Container>
     )
@@ -347,7 +338,6 @@ class RollCallScreen extends Component {
 }
 
 const stateToProps = state => ({
-  currentTrip: currentTripSelector(state),
   presents: getPresents(state)
 })
 

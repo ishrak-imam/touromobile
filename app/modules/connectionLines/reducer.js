@@ -8,9 +8,9 @@ import {
   CONNECTIONLINES_FAIL
 } from './action'
 
-import { CONNECTIONLINES_INITIAL_STATE } from './immutable'
+import { CONNECTION_LINES_INITIAL_STATE } from './immutable'
 
-export const connectionLine = createReducer(CONNECTIONLINES_INITIAL_STATE, {
+export const connectionLine = createReducer(CONNECTION_LINES_INITIAL_STATE, {
   [CONNECTIONLINES_REQ]: state => setIntoMap(state, 'loading', true),
   [CONNECTIONLINES_SUCS]: (state, payload) => {
     let newState = setIntoMap(state, 'loading', true)

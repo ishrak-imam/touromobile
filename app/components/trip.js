@@ -12,9 +12,9 @@ import { IonIcon, Colors } from '../theme'
 import _T from '../utils/translator'
 import { format, isSameDay } from 'date-fns'
 import {
-  getPax, getModifiedPax, checkIfFlightTrip, getPhoneNumbers,
+  getPax, getModifiedPax, checkIfFlightTrip,
   getFlightPax, getFlightPaxPhones, checkIfBusTrip,
-  getHideMyPhone
+  getHideMyPhone, getPhoneNumbers
 } from '../selectors'
 import { call, sms } from '../utils/comms'
 import Button from '../components/button'
@@ -103,19 +103,19 @@ class Trip extends Component {
     )
   }
 
-  _toRollCall = () => {
+  _toRollCall = (paxList, brand, isFlight, hotels) => () => {
     const { navigation } = this.props
-    navigation.navigate('RollCall')
+    navigation.navigate('RollCall', { paxList, brand, isFlight, hotels })
   }
 
-  _renderPaxCount = paxCount => {
+  _renderPaxCount = (paxList, brand, isFlight, hotels) => {
     return (
       <CardItem>
         <Body style={ss.paxCountBody}>
-          <Text style={ss.boldText}>{_T('pax')}: {paxCount}</Text>
+          <Text style={ss.boldText}>{_T('pax')}: {paxList.size}</Text>
         </Body>
         <Right style={ss.paxCountRight}>
-          <TouchableOpacity style={ss.rollCallButton} onPress={this._toRollCall}>
+          <TouchableOpacity style={ss.rollCallButton} onPress={this._toRollCall(paxList, brand, isFlight, hotels)}>
             <Text style={ss.rollCallText}>{_T('rollCall')}</Text>
           </TouchableOpacity>
         </Right>
@@ -184,7 +184,7 @@ class Trip extends Component {
   //   sms(numbers)
   // }
 
-  _renderFlight = (transport, pax, brand) => {
+  _renderFlight = (transport, pax, brand, isFlight, hotels) => {
     const { modifiedPax } = this.props
     const flights = transport.get('flights')
 
@@ -237,7 +237,9 @@ class Trip extends Component {
             </View>
             <View style={ss.cardBottom}>
               <View style={ss.bottomLeft}>
-                <Text>{_T('pax')}: {flightPax.size}</Text>
+                <TouchableOpacity onPress={this._toRollCall(flightPax, brand, isFlight, hotels)}>
+                  <Text style={ss.paxText}>{_T('pax')}: {flightPax.size}</Text>
+                </TouchableOpacity>
               </View>
               <View style={ss.bottomRight}>
                 {!!numbers.size && <IconButton name='sms' color={Colors.blue} onPress={this._smsFlightPax(numbers, brand)} />}
@@ -369,9 +371,9 @@ class Trip extends Component {
 
         {this._renderHeader(trip)}
         {!!image && this._renderImage(image, transportType)}
-        {this._renderPaxCount(pax.size)}
+        {this._renderPaxCount(pax, brand, isFlight, hotels)}
 
-        {isFlight && this._renderFlight(transport, pax, brand)}
+        {isFlight && this._renderFlight(transport, pax, brand, isFlight, hotels)}
 
         {isBus && this._renderBus(transport)}
 
@@ -553,5 +555,8 @@ const ss = StyleSheet.create({
   },
   left: {
     flex: 2
+  },
+  paxText: {
+    color: Colors.blue
   }
 })
