@@ -529,6 +529,15 @@ class FutureTripCard extends Component {
     }))
   }
 
+  _renderPaxCount = pax => {
+    return (
+      <View style={ss.bottomLeft}>
+        <IonIcon name='people' color={Colors.black} size={30} />
+        <Text style={[ss.brandText, { marginLeft: 10 }]}>{pax.size}</Text>
+      </View>
+    )
+  }
+
   render () {
     const { trip } = this.props
     const { dirty, isLoading, saveDisabled } = this.acceptData
@@ -587,10 +596,7 @@ class FutureTripCard extends Component {
               </View>
             }
             <View style={ss.cardBottom}>
-              <View style={ss.bottomLeft}>
-                <IonIcon name='people' color={Colors.black} size={30} />
-                <Text style={[ss.brandText, { marginLeft: 10 }]}>{pax.size}</Text>
-              </View>
+              {this.shouldLockTrip && this._renderPaxCount(pax)}
               <View style={ss.bottomRight}>
                 <FooterButtons
                   style={ss.footerButtons}
