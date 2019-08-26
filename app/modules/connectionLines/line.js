@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {
   View, Text, StyleSheet,
   Dimensions, TouchableOpacity
@@ -115,6 +115,9 @@ class LocationItem extends Component {
       })
     }
 
+    let onPress = this._togglePaxList
+    if (!paxCount) onPress = () => {}
+
     let leftItem = <View style={ss.circle}><View style={ss.inner} /></View>
     let leftLineTop = <View style={ss.leftLine} />
     let leftLineBottom = <View style={ss.leftLine} />
@@ -132,7 +135,7 @@ class LocationItem extends Component {
 
     return (
       <View style={ss.wrapper}>
-        <TouchableOpacity style={ss.location} onPress={this._togglePaxList}>
+        <TouchableOpacity style={ss.location} onPress={onPress}>
           <View style={ss.locationLeft}>
             {leftLineTop}
             {leftItem}
@@ -146,8 +149,13 @@ class LocationItem extends Component {
             }
           </View>
           <View style={ss.right}>
-            <Text style={ss.paxCountText}>{paxCount}</Text>
-            <IonIcon name='people' />
+            {
+              !!paxCount &&
+              <Fragment>
+                <Text style={ss.paxCountText}>{paxCount}</Text>
+                <IonIcon name='people' />
+              </Fragment>
+            }
           </View>
         </TouchableOpacity>
         {showPaxList && this._renderPaxList(location, true, isLast, false)}
@@ -180,6 +188,15 @@ export default class Line extends Component {
   _renderHeader = line => {
     const { onIconPress } = this.props
     const isOvernight = line.get('overnight')
+
+    let onPress = () => {}
+    let showPaxCount = !!line.get('paxCount')
+    let paxCount = 0
+    if (showPaxCount) {
+      onPress = onIconPress(line, 'lines')
+      paxCount = line.get('paxCount')
+    }
+
     return (
       <TouchableOpacity style={ss.header} onPress={this._toggleShowLocations}>
         <View style={ss.left}>
@@ -191,9 +208,14 @@ export default class Line extends Component {
           <Text style={ss.destinationText}>{line.get('destination')}</Text>
           {isOvernight && <IonIcon style={{ marginLeft: 10 }} name='sleep' />}
         </View>
-        <TouchableOpacity style={ss.right} onPress={onIconPress(line, 'lines')}>
-          <Text style={ss.paxCountText}>{line.get('paxCount')}</Text>
-          <IonIcon name='people' color={Colors.blue} />
+        <TouchableOpacity style={ss.right} onPress={onPress}>
+          {
+            showPaxCount &&
+            <Fragment>
+              <Text style={ss.paxCountText}>{paxCount}</Text>
+              <IonIcon name='people' color={Colors.blue} />
+            </Fragment>
+          }
         </TouchableOpacity>
       </TouchableOpacity>
     )
