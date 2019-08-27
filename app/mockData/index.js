@@ -168,6 +168,6 @@ export const mockSendAppStatus = () => new Promise(resolve => {
 
 export const mockConnectionLines = () => new Promise(resolve => {
   setTimeout(() => {
-    return resolve(require('./connectionLines.json'))
+    return resolve(require('./connectionLines_old.json'))
   }, 2000)
 })

@@ -32,20 +32,40 @@ const getTotalPaxCount = locations => {
 }
 
 const getParentConnections = (lines, name) => {
-  let connectFrom = '' // getList([])
+  let lineName = ''
+  let location = ''
+  let hasParent = false
   lines.every(line => {
     const locations = line.get('locations')
     locations.every(loc => {
       const connectTo = loc.get('connectTo')
       if (connectTo.includes(name)) {
-        connectFrom = line.get('name') // connectFrom.push(line.get('name'))
+        lineName = line.get('name')
+        location = loc.get('name')
+        hasParent = true
       }
       return true
     })
     return true
   })
-  return connectFrom
+  return getMap({ lineName, location, hasParent })
 }
+
+// const getParentConnections = (lines, name) => {
+//   let connectFrom = '' // getList([])
+//   lines.every(line => {
+//     const locations = line.get('locations')
+//     locations.every(loc => {
+//       const connectTo = loc.get('connectTo')
+//       if (connectTo.includes(name)) {
+//         connectFrom = line.get('name') // connectFrom.push(line.get('name'))
+//       }
+//       return true
+//     })
+//     return true
+//   })
+//   return connectFrom
+// }
 
 const formatLineData = (line, name, lines) => {
   let lineData = getMap({})
