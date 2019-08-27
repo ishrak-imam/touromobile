@@ -51,22 +51,6 @@ const getParentConnections = (lines, name) => {
   return getMap({ lineName, location, hasParent })
 }
 
-// const getParentConnections = (lines, name) => {
-//   let connectFrom = '' // getList([])
-//   lines.every(line => {
-//     const locations = line.get('locations')
-//     locations.every(loc => {
-//       const connectTo = loc.get('connectTo')
-//       if (connectTo.includes(name)) {
-//         connectFrom = line.get('name') // connectFrom.push(line.get('name'))
-//       }
-//       return true
-//     })
-//     return true
-//   })
-//   return connectFrom
-// }
-
 const formatLineData = (line, name, lines) => {
   let lineData = getMap({})
   lineData = lineData.set('name', name)
