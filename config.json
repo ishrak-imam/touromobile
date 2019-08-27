@@ -1,14 +1,14 @@
 {
   "DEV": {
     "SERVER_URL": "https://touro.scandorama.se/api/v1/",
-    "SENTRY_URL": "https://badca2b1dee34633ad9a4a1fbb1651ca@sentry.io/1324230"
+    "SENTRY_URL": "https://d7fe2e3cb6ee4bfa826915e351edb13e@sentry.io/1541621"
   },
   "STAGING": {
     "SERVER_URL": "https://touro.scandorama.se/api/v1/",
-    "SENTRY_URL": "https://badca2b1dee34633ad9a4a1fbb1651ca@sentry.io/1324230"
+    "SENTRY_URL": "https://d7fe2e3cb6ee4bfa826915e351edb13e@sentry.io/1541621"
   },
   "PRODUCTION": {
     "SERVER_URL": "https://touro.scandorama.se/api/v1/",
-    "SENTRY_URL": "https://badca2b1dee34633ad9a4a1fbb1651ca@sentry.io/1324230"
+    "SENTRY_URL": "https://d7fe2e3cb6ee4bfa826915e351edb13e@sentry.io/1541621"
   }
 }

@@ -39,9 +39,9 @@
         {
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
-            "organization": "ishrak",
-            "project": "touroguide-6l",
-            "authToken": "4d444177b0b44c2b9cbfb2d737525b9f41d383d4f9444de08cd28b3b4f40c9e3"
+            "organization": "maxli-travel-group-ab",
+            "project": "guideapp",
+            "authToken": "bf10c7f914aa47aea17f6c550aac794de0d67d3d2c004e14b5457c2674dbb7e4"
           }
         }
       ]

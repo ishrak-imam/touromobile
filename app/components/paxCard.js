@@ -280,8 +280,8 @@ class PaxCard extends Component {
     let lineInfo = { destination: '', eta: '' }
 
     const connectFrom = line.get('connectFrom')
-    if (connectFrom) {
-      const connectFromLine = lines.get(connectFrom)
+    if (connectFrom.get('hasParent')) {
+      const connectFromLine = lines.get(connectFrom.get('lineName'))
       if (paxId) {
         lineInfo = this._findLocationInfoByPaxId(line, paxId)
       } else {

@@ -189,5 +189,6 @@ export default {
   homeDate: 'Hem Datum',
   outDate: 'Ut Datum',
   transport: 'Transport',
-  brand: 'Brand'
+  brand: 'Brand',
+  connectedFromLine: 'Ansluter från linje'
 }

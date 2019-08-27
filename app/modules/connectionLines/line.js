@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {
   View, Text, StyleSheet,
   Dimensions, TouchableOpacity
@@ -11,7 +11,7 @@ import _T from '../../utils/translator'
 const ETA_FORMAT = 'HH:mm'
 const { width } = Dimensions.get('window')
 
-const ITEM_HEIGHT = 45
+const ITEM_HEIGHT = 50
 const LOCATION_HEIGHT = ITEM_HEIGHT - 10
 const PAX_ITEM_HEIGHT = LOCATION_HEIGHT - 5
 const LEFT_ICON_SIZE = 22
@@ -101,7 +101,10 @@ class LocationItem extends Component {
 
   render () {
     const { showPaxList } = this.state
-    const { type, location, connectFrom, isFirst, isLast, isOnePlus } = this.props
+    const {
+      type, location,
+      // connectFrom,
+      isFirst, isLast, isOnePlus } = this.props
 
     const name = location.get('name')
     const eta = location.get('eta')
@@ -114,6 +117,9 @@ class LocationItem extends Component {
         return true
       })
     }
+
+    let onPress = this._togglePaxList
+    if (!paxCount) onPress = () => {}
 
     let leftItem = <View style={ss.circle}><View style={ss.inner} /></View>
     let leftLineTop = <View style={ss.leftLine} />
@@ -132,7 +138,7 @@ class LocationItem extends Component {
 
     return (
       <View style={ss.wrapper}>
-        <TouchableOpacity style={ss.location} onPress={this._togglePaxList}>
+        <TouchableOpacity style={ss.location} onPress={onPress}>
           <View style={ss.locationLeft}>
             {leftLineTop}
             {leftItem}
@@ -140,14 +146,21 @@ class LocationItem extends Component {
           </View>
           <View style={ss.locationMiddle}>
             <Text style={[ss.locationText, { marginLeft: 5 }]}>{format(eta, ETA_FORMAT)}  {name}</Text>
-            {
-              isFirst && connectFrom.size > 0 &&
-              <Text style={[ss.connectFrom, { marginLeft: 5 }]}>Connected from line {connectFrom.join(', ')}</Text>
-            }
+            {/* {
+              isFirst && !!connectFrom.get('hasParent') &&
+              <Text style={[ss.connectFrom, { marginLeft: 5 }]}>
+                {_T('connectedFromLine')} {connectFrom.get('lineName')} i {connectFrom.get('location')}
+              </Text>
+            } */}
           </View>
           <View style={ss.right}>
-            <Text style={ss.paxCountText}>{paxCount}</Text>
-            <IonIcon name='people' />
+            {
+              !!paxCount &&
+              <Fragment>
+                <Text style={ss.paxCountText}>{paxCount}</Text>
+                <IonIcon name='people' />
+              </Fragment>
+            }
           </View>
         </TouchableOpacity>
         {showPaxList && this._renderPaxList(location, true, isLast, false)}
@@ -180,6 +193,17 @@ export default class Line extends Component {
   _renderHeader = line => {
     const { onIconPress } = this.props
     const isOvernight = line.get('overnight')
+
+    let onPress = () => {}
+    let showPaxCount = !!line.get('paxCount')
+    let paxCount = 0
+    if (showPaxCount) {
+      onPress = onIconPress(line, 'lines')
+      paxCount = line.get('paxCount')
+    }
+
+    const connectFrom = line.get('connectFrom')
+
     return (
       <TouchableOpacity style={ss.header} onPress={this._toggleShowLocations}>
         <View style={ss.left}>
@@ -187,13 +211,26 @@ export default class Line extends Component {
             <Text style={ss.nameText}>{line.get('name')}</Text>
           </View>
         </View>
-        <View style={ss.middle}>
-          <Text style={ss.destinationText}>{line.get('destination')}</Text>
-          {isOvernight && <IonIcon style={{ marginLeft: 10 }} name='sleep' />}
+        <View style={ss.headerMiddle}>
+          <View style={ss.destinationName}>
+            <Text style={ss.destinationText}>{line.get('destination')}</Text>
+            {isOvernight && <IonIcon style={{ marginLeft: 10, marginTop: 5 }} name='sleep' />}
+          </View>
+          {
+            !!connectFrom.get('hasParent') &&
+            <Text style={ss.connectedFrom} >
+              {_T('connectedFromLine')} {connectFrom.get('lineName')} i {connectFrom.get('location')}
+            </Text>
+          }
         </View>
-        <TouchableOpacity style={ss.right} onPress={onIconPress(line, 'lines')}>
-          <Text style={ss.paxCountText}>{line.get('paxCount')}</Text>
-          <IonIcon name='people' color={Colors.blue} />
+        <TouchableOpacity style={ss.right} onPress={onPress}>
+          {
+            showPaxCount &&
+            <Fragment>
+              <Text style={ss.paxCountText}>{paxCount}</Text>
+              <IonIcon name='people' color={Colors.blue} />
+            </Fragment>
+          }
         </TouchableOpacity>
       </TouchableOpacity>
     )
@@ -346,6 +383,20 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center'
+  },
+  headerMiddle: {
+    flex: 4.5,
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  destinationName: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  connectedFrom: {
+    fontSize: 12,
+    fontStyle: 'italic',
+    color: Colors.coal
   },
   locationMiddle: {
     flex: 4.5,
