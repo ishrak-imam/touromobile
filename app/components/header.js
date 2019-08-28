@@ -44,7 +44,7 @@ export default class TMHeader extends Component {
     const { title, center } = this.props
     return (
       <Body style={ss.body}>
-        {title && <Title style={ss.title}>{title}</Title>}
+        {!!title && <Title style={ss.title}>{title}</Title>}
         <View style={ss.center}>
           {!!center && center}
         </View>
