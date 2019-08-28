@@ -209,7 +209,7 @@ class FutureTripCard extends Component {
 
     if (items && items.length === 1) {
       disabled = true
-      if (!selected) {
+      if (!selected || !selected.get('key')) {
         const item = items[0]
         setTimeout(() => {
           this._onSelect({ key: config.key, value: item, direction })
