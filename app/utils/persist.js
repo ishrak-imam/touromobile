@@ -1,4 +1,4 @@
-import { SecureStore } from 'expo'
+import * as SecureStore from 'expo-secure-store'
 
 export const JWT_TOKEN = 'JWT_TOKEN'
 export const USER = 'USER'

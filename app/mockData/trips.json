@@ -683,8 +683,8 @@
 
   {
     "departureId": 48763,
-    "outDate": "2019-06-10T00:00:00",
-    "homeDate": "2019-07-10T00:00:00",
+    "outDate": "2020-06-10T00:00:00",
+    "homeDate": "2020-07-10T00:00:00",
     "name": "Indien / Indien med LAND",
     "image": "https://picsum.photos/id/222/4096/2106",
     "description": "Indien / Indien med LAND",
@@ -1195,7 +1195,7 @@
   {
     "departureId": 47672,
     "outDate": "2019-07-14T00:00:00",
-    "homeDate": "2019-08-29T00:00:00",
+    "homeDate": "2019-09-10T00:00:00",
     "name": "Julmarknad i Berlin",
     "image": "https://picsum.photos/id/648/4096/2106",
     "description": "Julmarknad i Berlin",
@@ -2229,7 +2229,7 @@
   {
     "departureId": 44727,
     "outDate": "2019-09-20T00:00:00",
-    "homeDate": "2019-09-20T00:00:00",
+    "homeDate": "2019-10-20T00:00:00",
     "name": "Julmarknad i Hamburg 3 dagar mitt-i-veckan",
     "image": "https://picsum.photos/id/666/4096/2106",
     "description": "Julmarknad i Hamburg 3 dagar mitt-i-veckan",

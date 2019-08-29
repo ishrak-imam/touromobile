@@ -5,16 +5,17 @@ import {
   toggleAcceptSave
 } from '../modules/modifiedData/action'
 import { getAccept } from '../selectors'
-import { getKeyNames, getTransferOptions } from '../utils/futureTrip'
+import { getKeyNames, getTransferOptions, getBagOptions } from '../utils/futureTrip'
 
 const KEY_NAMES = getKeyNames()
 const TRANSFER_OPTIONS = getTransferOptions()
+const BAG_OPTIONS = getBagOptions()
 
-const shouldSaveDisabled = (accept) => {
+const shouldSaveDisabled = (accept, other) => {
   let gotLocation = false
   let gotTransfer = false
   let gotBag = false
-  if (accept) {
+  if (accept && other) {
     const location = accept.get(KEY_NAMES.LOCATION)
     gotLocation = location && location.get('key')
 
@@ -32,7 +33,8 @@ const shouldSaveDisabled = (accept) => {
     }
 
     const bag = accept.get(KEY_NAMES.BAG)
-    gotBag = bag && bag.get('key')
+    const otherBag = other.get(KEY_NAMES.BAG)
+    gotBag = (bag && bag.get('key')) || (otherBag && (otherBag.get('key') === BAG_OPTIONS.ET.key))
   }
   return !(gotLocation && gotTransfer && gotBag)
 }
@@ -46,7 +48,9 @@ const toggleHandler = store => next => action => {
     const state = store.getState()
     const { departureId } = action.payload
     const accept = getAccept(state, departureId)
-    const saveDisabled = shouldSaveDisabled(accept.get('out')) || shouldSaveDisabled(accept.get('home'))
+    const out = accept.get('out')
+    const home = accept.get('home')
+    const saveDisabled = shouldSaveDisabled(out, home) || shouldSaveDisabled(home, out)
     store.dispatch(toggleAcceptSave({
       departureId,
       saveDisabled

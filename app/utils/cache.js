@@ -37,6 +37,7 @@ const Cache = resolver => {
 
   return (value, extra = null) => {
     if (_shouldHitCache(value, extra)) {
+      if (resolver.name === 'formatMealsData') console.log('cache hit')
       return computed
     }
 

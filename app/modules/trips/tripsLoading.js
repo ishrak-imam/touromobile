@@ -16,6 +16,7 @@ import {
 import Header from '../../components/header'
 // import startSyncDataWorker from '../../utils/modifiedDataSync'
 // import { connectionLinesReq } from '../connectionLines/action'
+import { resolvePendingRequests } from '../../requestmanager/service'
 
 class TripsLoading extends Component {
   constructor (props) {
@@ -29,6 +30,7 @@ class TripsLoading extends Component {
   }
 
   componentDidMount () {
+    resolvePendingRequests()
     const { trips } = this.props
     const hasLocalData = trips.get('data').size > 0
     if (!hasLocalData) {
