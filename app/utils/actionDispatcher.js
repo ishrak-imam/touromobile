@@ -4,7 +4,7 @@ import { readValue } from '../utils/immutable'
 import { store } from '../store'
 import { getConnection } from '../selectors'
 import { trackRequest } from '../requestmanager/action'
-import { Localization } from 'expo'
+import * as Localization from 'expo-localization'
 
 let locale = Localization.locale
 locale = locale ? locale.split('-')[0] : ''

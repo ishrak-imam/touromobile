@@ -1,7 +1,7 @@
 
 /* eslint-disable */
 
-import { FileSystem } from 'expo'
+import * as FileSystem from 'expo-file-system'
 
 const BASE_DIR = FileSystem.documentDirectory
 

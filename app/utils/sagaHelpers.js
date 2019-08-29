@@ -14,3 +14,15 @@ export const eventEmitterChannel = (emitter, listeners, eventName) => {
     return () => emitter[listeners.off](eventName, notifier)
   })
 }
+
+/**
+ * As @react-native-community/netinfo package
+ * changed subscription process (without event name)
+ * this method is exclusive for this scenario only
+ */
+export const EECforNetInfo = (emitter, listeners) => {
+  return eventChannel(notifier => {
+    const unsubscribe = emitter[listeners.on](notifier)
+    return () => unsubscribe()
+  })
+}
