@@ -159,7 +159,22 @@ class ConnectionLines extends Component {
   }
 
   render () {
-    const { navigation, lines, hotels, currentTrip } = this.props
+    let { navigation, lines, hotels, currentTrip } = this.props
+
+    lines = lines.reduce((map, item, name) => {
+      const connectFrom = item.get('connectFrom')
+      if (connectFrom.get('hasParent')) {
+        let wParent = map.get('wParent')
+        wParent = wParent.set(name, item)
+        map = map.set('wParent', wParent)
+      } else {
+        let woParent = map.get('woParent')
+        woParent = woParent.set(name, item)
+        map = map.set('woParent', woParent)
+      }
+      return map
+    }, getMap({ wParent: getMap({}), woParent: getMap({}) }))
+    lines = lines.get('woParent').concat(lines.get('wParent'))
 
     const trip = currentTrip.get('trip')
     const brand = trip.get('brand')
