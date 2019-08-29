@@ -19,6 +19,8 @@ import * as rollCallReducer from '../modules/rollCall/reducer'
 import * as smsReducer from '../modules/sms/reducer'
 import * as connectionLines from '../modules/connectionLines/reducer'
 
+import * as requestsReducer from '../requestmanager/reducer'
+
 const allReducers = combineReducers({
   ...navReducers,
   ...appReducers,
@@ -32,7 +34,8 @@ const allReducers = combineReducers({
   ...profileReducer,
   ...rollCallReducer,
   ...smsReducer,
-  ...connectionLines
+  ...connectionLines,
+  ...requestsReducer
 })
 
 const rootReducer = (state, action) => {

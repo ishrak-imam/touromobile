@@ -8,10 +8,11 @@ import SyncData from './syncData'
 import AddItemsToBucket from './addItemsToBucket'
 import InvoiceeMonitor from './invoiceeMonitor'
 import ToggleAcceptSave from './toggleAcceptSave'
+import RequestManager from './requestManager'
 
 export default [
   AttachJwt, Toast, ClearTransferCity,
   ClearBag, SetSentryUser, SyncData,
   AddItemsToBucket, InvoiceeMonitor,
-  ToggleAcceptSave
+  ToggleAcceptSave, RequestManager
 ]

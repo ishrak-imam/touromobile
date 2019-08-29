@@ -3,6 +3,7 @@ import { showToast } from '../toast/action'
 import { readValue } from '../utils/immutable'
 import { store } from '../store'
 import { getConnection } from '../selectors'
+import { trackRequest } from '../requestmanager/action'
 import { Localization } from 'expo'
 
 let locale = Localization.locale
@@ -16,7 +17,12 @@ const notOnline = showToast({
 export const networkActionDispatcher = action => {
   const connection = getConnection(store.getState())
   const isOnline = readValue('online', connection)
-  isOnline ? dispatch(action) : dispatch(notOnline)
+  if (isOnline) {
+    dispatch(action)
+    dispatch(trackRequest(action))
+  } else {
+    dispatch(notOnline)
+  }
   // dispatch(action)
 }
 

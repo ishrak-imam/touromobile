@@ -63,5 +63,5 @@ export const sms = createReducer(SMS_INITIAL_STATE, {
   [HIDE_MY_NUMBER_TOGGLE]: (state, payload) => {
     const toggle = readValue('hideMyPhone', state)
     return setIntoMap(state, 'hideMyPhone', !toggle)
-  } // setIntoMap(state, 'hideMyPhone', payload)
+  }
 })
