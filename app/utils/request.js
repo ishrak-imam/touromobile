@@ -41,8 +41,12 @@ const responseHandler = (method, endPoint, payload = {}) => response => {
   logResponse(method, endPoint, payload, response)
 
   if (response.status === 200 || response.status === 201) {
-    if(!response._bodyText) return Promise.resolve()
-    return response.json()
+    try {
+      const promis = response.json()
+      return promis
+    } catch {
+      return Promise.resolve()
+    }
   }
   
   if(response.status === 204) return Promise.resolve()
