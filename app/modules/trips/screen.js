@@ -46,7 +46,9 @@ class TripScreen extends Component {
       text: _T('autoUpdateInSeconds')
     }
     refreshWorker(config)
-    this._requestConnectionLines()
+    setTimeout(() => {
+      this._requestConnectionLines()
+    }, 10)
   }
 
   // componentWillUnmount () {
@@ -103,7 +105,7 @@ class TripScreen extends Component {
     const { trips } = this.props
     const currentTrip = trips.get('current')
     const departureId = String(currentTrip.getIn(['trip', 'departureId']))
-    networkActionDispatcher(connectionLinesReq({ departureId }))
+    networkActionDispatcher(connectionLinesReq({ departureId, isNeedJwt: true }))
   }
 
   _onRefresh = () => {
