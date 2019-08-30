@@ -52,10 +52,10 @@ class LocationItem extends Component {
               {/* <Text style={ss.switchText}>Switching to line {name}</Text> */}
             </View>
           }
-          {locations.toArray().map(location => {
+          {locations.toArray().map((location, index) => {
             const eta = location.get('eta')
             return (
-              <View key={eta}>
+              <View key={`${index}-${eta}`}>
                 {this._renderPaxList(location, false, isLast, true)}
               </View>
             )
@@ -248,9 +248,10 @@ export default class Line extends Component {
             const isFirst = index === 0
             const isLast = index === (locations.size - 1)
             const isOnePlus = locations.size > 1
+            const eta = loc.get('eta')
             return (
               <LocationItem
-                key={loc.get('eta')}
+                key={`${index}-${eta}`}
                 type={type}
                 location={loc}
                 isFirst={isFirst}
