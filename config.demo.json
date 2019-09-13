@@ -1,0 +1,14 @@
+{
+  "DEV": {
+    "SERVER_URL": "",
+    "SENTRY_URL": ""
+  },
+  "STAGING": {
+    "SERVER_URL": "",
+    "SENTRY_URL": ""
+  },
+  "PRODUCTION": {
+    "SERVER_URL": "",
+    "SENTRY_URL": ""
+  }
+}
