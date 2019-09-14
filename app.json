@@ -39,9 +39,9 @@
         {
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
-            "organization": "maxli-travel-group-ab",
-            "project": "guideapp",
-            "authToken": "bf10c7f914aa47aea17f6c550aac794de0d67d3d2c004e14b5457c2674dbb7e4"
+            "organization": "",
+            "project": "",
+            "authToken": ""
           }
         }
       ]
